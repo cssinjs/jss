@@ -1,6 +1,6 @@
 ## Stylesheets written in javascript.
 
-Features:
+### Features:
 
     - Namespaces for free.
     - Direct access to values and variables from javascript.
