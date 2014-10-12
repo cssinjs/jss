@@ -2,7 +2,7 @@
 
 ### Features:
 
-- Namespaces for free.
+- Truly namespaces.
 - Direct access to values and variables from javascript.
 - Decide whether to inject a style element or to apply styles directly on element.
 - Detach styles from render tree when not used - increases performance.
