@@ -1,3 +1,5 @@
+(function() {
+
 var rules = {}
 
 rules['.square'] = {
@@ -14,3 +16,5 @@ var style = jss.createStyle(rules).attach()
 document.getElementsByTagName('button')[0].addEventListener('click', function() {
     style.detach()
 })
+
+}())
