@@ -3,7 +3,7 @@
 ### Features:
 
 - Truly namespaces.
-- Direct access to values and variables from javascript.
+- Direct access to values and variables from javascript allows to avoid DOM round trip.
 - Decide whether to inject a style element or to apply styles directly on element.
 - Detach styles from render tree when not used - increases performance.
 - All the features you might know from [stylus](http://learnboost.github.io/stylus/) or [sass](http://sass-lang.com/) and much more.
