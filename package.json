@@ -1,0 +1,5 @@
+{
+    "dependencies": {
+        "browserify": "6.0.3"
+    }
+}
