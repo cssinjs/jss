@@ -163,6 +163,7 @@ var mainStyle = new Style()
  * Create a stylesheet.
  *
  * @param {Object} rules
+ * @param {Object} [attributes] style element attributes
  * @return {Style}
  * @api public
  */
