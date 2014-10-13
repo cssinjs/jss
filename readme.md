@@ -10,7 +10,7 @@
 - No need to learn any new syntax.
 - No need to precompile, only if you want to.
 
-Take a look at examples directory.
+Take a look at [examples](http://kof.github.io/jss/examples/index.html) directory.
 
 ## API
 
