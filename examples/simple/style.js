@@ -1,8 +1,8 @@
 (function() {
 
-var style = {}
+var rules = {}
 
-style['.square'] = {
+rules['.square'] = {
     float: 'left',
     width: 100,
     height: 100,

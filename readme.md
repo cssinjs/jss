@@ -8,7 +8,7 @@
 - Detach styles from render tree when not used - increases performance.
 - All the features you might know from [stylus](http://learnboost.github.io/stylus/) or [sass](http://sass-lang.com/) and much more.
 - No need to learn any new syntax.
-- No need to precompile, but you can.
+- No need to precompile, only if you want to.
 
 Take a look at examples directory.
 
@@ -26,7 +26,7 @@ var jss = require('jss')
 
 ### Create stylesheet `jss.createStyle(rules, [attributes])`
 
-Optionally style element attributes can be set, returns a Style instance.
+Create stylesheet, optionally pass stylesheet attributes, returns a style object.
 
 ```javascript
 var style = jss.createStyle({
