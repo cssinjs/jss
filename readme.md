@@ -26,7 +26,7 @@ var jss = require('jss')
 
 ### Create stylesheet `jss.createStyle([rules], [attributes])`
 
-Create stylesheet, optionally pass stylesheet attributes, returns a style object.
+Create stylesheet, optionally pass stylesheet attributes, returns a Style instance.
 
 ```javascript
 var style = jss.createStyle({
