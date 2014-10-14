@@ -4,7 +4,6 @@
 
 - [True namespaces.](./examples/namespace)
 - [Direct access](./examples/commonjs) to values and variables from javascript allows to avoid DOM round trip.
-- [Easy selectors scoping](./examples/scoped)
 - Decide whether to inject a style element or to apply styles directly on element.
 - [Detach styles](./examples/simple) from render tree when not used - increases performance.
 - All the features you might know from [stylus](http://learnboost.github.io/stylus/) or [sass](http://sass-lang.com/) and much more.
@@ -37,7 +36,8 @@ Numeric values will get 'px' suffix.
 
 ### Scoped selectors
 
-Put a space before a selector within a rule and it will be converted to a separate rule with a scoped selector.
+Put a space before a selector within a rule and it will be converted to a separate rule with a [scoped selector.](http://kof.github.io/jss/examples/scoped/index.html)
+
 
 ```javascript
 {
@@ -60,7 +60,7 @@ Put a space before a selector within a rule and it will be converted to a separa
 
 ## API
 
-### Access the namespace
+### Access the jss namespace
 
 ```javascript
 // Pure js
