@@ -23,16 +23,16 @@ Numeric values will get 'px' suffix.
 
 
 ```javascript
-    {
-        '.container': {
-            padding: 20
-        }
+{
+    '.container': {
+        padding: 20
     }
+}
 ```
 ```css
-    .container {
-        padding: 20px;
-    }
+.container {
+    padding: 20px;
+}
 ```
 
 ### Scoped selectors
@@ -40,22 +40,22 @@ Numeric values will get 'px' suffix.
 Put a space before a selector within a rule and it will be converted to a separate rule with a scoped selector.
 
 ```javascript
-    {
-        '.container': {
-            padding: 20,
-            ' .button': {
-                background: 'red'
-            }
+{
+    '.container': {
+        padding: 20,
+        ' .button': {
+            background: 'red'
         }
     }
+}
 ```
 ```css
-    .container {
-        padding: 20px;
-    }
-    .container .button {
-        background: red;
-    }
+.container {
+    padding: 20px;
+}
+.container .button {
+    background: red;
+}
 ```
 
 ## API
