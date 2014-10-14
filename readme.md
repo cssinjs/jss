@@ -126,3 +126,16 @@ document.body.innerHTML = '<button class="' + button.className + '">Button</butt
 ```javascript
 var rule = style.getRule('.my-button')
 ```
+
+### Create a rule `jss.createRule([selector], rule)`
+
+In case you want to create a rule without to add it to a stylesheet.
+
+```javascript
+var rule = jss.createRule({
+    padding: 20,
+    background: 'blue'
+})
+
+$('.container').css(rule.style)
+```
