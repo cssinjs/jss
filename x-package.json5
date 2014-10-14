@@ -1,0 +1,28 @@
+{
+    name: 'jss',
+    description: 'Stylesheets written in javascript.',
+    version: '0.1.0',
+    author: {
+        name: 'Oleg Slobodskoi',
+        email: 'oleg008@gmail.com'
+    },
+    repository: {
+        type: 'git',
+        url: 'git@github.com:kof/jss.git'
+    },
+    keywords: ['style', 'css', 'stylesheet'],
+    engines: {},
+    devDependencies: {
+        browserify: '6.0.3'
+    },
+    scripts: {},
+    licenses: [
+        {
+           type: 'MIT',
+           url: 'http://www.opensource.org/licenses/mit-license.php'
+        }
+    ],
+    overlay: {
+        bower: true
+    }
+}
