@@ -60,8 +60,8 @@ var Rule = require('./Rule')
 /**
  * Creates style element, contains rules, injects style into dom.
  *
- * @param {Object} rules object with selectors and declarations
- * @param {Object} style element attributes
+ * @param {Object} [rules] object with selectors and declarations
+ * @param {Object} [attributes] style element attributes
  * @api public
  */
 function Style(rules, attributes) {
@@ -76,6 +76,7 @@ function Style(rules, attributes) {
         this.rules[selector] = new Rule(selector, rules[selector])
     }
     this.text = this.toString()
+    this.attached = false
 }
 
 module.exports = Style
@@ -87,9 +88,12 @@ module.exports = Style
  * @return {Style}
  */
 Style.prototype.attach = function () {
+    if (this.attached) return this
+
     if (!this.element) this.element = this.createElement()
     this.element.innerHTML = this.text
     if (!this.element.parentNode) document.head.appendChild(this.element)
+    this.attached = true
 
     return this
 }
@@ -101,24 +105,39 @@ Style.prototype.attach = function () {
  * @api public
  */
 Style.prototype.detach = function () {
+    if (!this.attached) return this
+
     this.element.parentNode.removeChild(this.element)
+    this.attached = false
 
     return this
 }
 
 /**
- * Add a rule to style.
+ * Add a rule.
  *
- * @param {Rule} rule
+ * @param {Object} [selector] if you don't pass selector - it will be generated
+ * @param {Object} style property/value hash
  * @return {Style}
  * @api public
  */
-Style.prototype.addRule = function (rule) {
-    this.rules[rule.selector] = rule
+Style.prototype.addRule = function (selector, style) {
+    var rule = new Rule(selector, style)
     var sheet = this.element.sheet
     sheet.insertRule(rule.text, sheet.cssRules.length)
+    this.rules[rule.selector] = rule
+    return rule
+}
 
-    return this
+/**
+ * Get a rule.
+ *
+ * @param {String} selector
+ * @return {Rule}
+ * @api public
+ */
+Style.prototype.getRule = function (selector) {
+    return this.rules[selector]
 }
 
 /**
@@ -157,7 +176,9 @@ Style.prototype.createElement = function () {
 var Style = require('./Style')
 var Rule = require('./Rule')
 
-var mainStyle = new Style()
+exports.Style = Style
+
+exports.Rule = Rule
 
 /**
  * Create a stylesheet.
@@ -169,19 +190,6 @@ var mainStyle = new Style()
  */
 exports.createStyle = function (rules) {
     return new Style(rules)
-}
-
-/**
- * Create a namespaced css rule.
- *
- * @param {Object} style
- * @return
- * @api public
- */
-exports.createRule = function (style) {
-    var rule = new Rule(style)
-    mainStyle.attach().addRule(rule)
-    return rule
 }
 
 },{"./Rule":2,"./Style":3}]},{},[1])(1)

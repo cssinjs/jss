@@ -24,7 +24,7 @@ var jss = window.jss
 var jss = require('jss')
 ```
 
-### Create stylesheet `jss.createStyle(rules, [attributes])`
+### Create stylesheet `jss.createStyle([rules], [attributes])`
 
 Create stylesheet, optionally pass stylesheet attributes, returns a style object.
 
@@ -52,15 +52,31 @@ Remove stylesheet from render tree for performance optimization.
 style.detach()
 ```
 
-### Create a namespaced rule `jss.createRule(style)`
+### Add a rule `style.addRule([selector], rule)`
+
+#### You might want to add rules dynamically.
+
+```javascript
+var button = style.addRule('.my-button', {
+    padding: 20,
+    background: 'blue'
+})
+```
+#### Generated namespace.
 
 In case you have an element reference or you create elements in javascript you might want to write styles and attach them later to the element using a generated class name.
 
 ```javascript
-var button = jss.createRule({
+var button = style.addRule({
     padding: 20,
     background: 'blue'
 })
 
 document.body.innerHTML = '<button class="' + button.className + '">Button</button>'
+```
+
+### Get a rule `style.getRule(selector)`
+
+```javascript
+var rule = style.getRule('.my-button')
 ```
