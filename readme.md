@@ -28,6 +28,8 @@ var jss = require('jss')
 
 Create stylesheet, optionally pass stylesheet attributes, returns a Style instance.
 
+Numeric values will get 'px' suffix.
+
 ```javascript
 var style = jss.createStyle({
     '.selector': {
