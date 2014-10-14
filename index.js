@@ -1,1 +1,1 @@
-module.exports = require('./lib/jss')
+module.exports = require('./lib/index')

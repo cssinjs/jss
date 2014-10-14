@@ -1,7 +1,7 @@
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.jss=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-module.exports = require('./lib/jss')
+module.exports = require('./lib/index')
 
-},{"./lib/jss":4}],2:[function(require,module,exports){
+},{"./lib/index":4}],2:[function(require,module,exports){
 'use strict'
 
 var uid = 0
@@ -11,7 +11,7 @@ var uid = 0
  *
  * @param {String} [selector]
  * @param {Object} style
- * @api private
+ * @api public
  */
 function Rule(selector, style) {
     if (typeof selector == 'object') {
@@ -23,7 +23,6 @@ function Rule(selector, style) {
 
     this.selector = selector || ('.' + this.className)
     this.style = style
-    this.scopedRules = this.extractScopedRules()
     this.text = this.toString()
 }
 
@@ -31,6 +30,12 @@ module.exports = Rule
 
 Rule.NAMESPACE_PREFIX = 'jss'
 
+/**
+ * Extract scoped rules from the current rule.
+ *
+ * @return {Array}
+ * @api private
+ */
 Rule.prototype.extractScopedRules = function () {
     var rules = []
     var style = this.style
@@ -58,19 +63,13 @@ Rule.prototype.toString = function () {
     for (var prop in style) {
         var value = style[prop]
         if (typeof value == 'number') value += 'px'
-        str += prop + ':' + value + ';'
+        if (prop[0] != ' ') str += prop + ':' + value + ';'
     }
 
     str += '}'
 
-    this.scopedRules.forEach(function(rule) {
-        str += '\n' + rule.text
-    })
-
     return str
 }
-
-
 
 },{}],3:[function(require,module,exports){
 'use strict'
@@ -94,7 +93,11 @@ function Style(rules, attributes) {
 
     for (var selector in rules) {
         this.rules[selector] = new Rule(selector, rules[selector])
+        this.rules[selector].extractScopedRules().forEach(function (rule) {
+            this.rules[rule.selector] = rule
+        }, this)
     }
+
     this.text = this.toString()
     this.attached = false
 }
@@ -171,7 +174,7 @@ Style.prototype.toString = function () {
     var rules = this.rules
 
     for (var selector in rules) {
-        str += rules[selector].text
+        str += rules[selector].text + '\n'
     }
 
     return str
@@ -210,6 +213,18 @@ exports.Rule = Rule
  */
 exports.createStyle = function (rules) {
     return new Style(rules)
+}
+
+/**
+ * Create a stylesheet.
+ *
+ * @param {String} [selector]
+ * @param {Object} style
+ * @return {Rule}
+ * @api public
+ */
+exports.createRule = function (selector, style) {
+    return new Rule(selector, style)
 }
 
 },{"./Rule":2,"./Style":3}]},{},[1])(1)
