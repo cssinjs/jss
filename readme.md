@@ -4,7 +4,7 @@
 
 - [True namespaces.](./examples/namespace)
 - [Direct access](./examples/commonjs) to values and variables from javascript allows to avoid DOM round trip.
-- Decide whether to inject a style element or to apply styles directly on element.
+- Decide whether to inject a style element or to [apply styles directly](./examples/jquery) on element.
 - [Detach styles](./examples/simple) from render tree when not used - increases performance.
 - All the features you might know from [stylus](http://learnboost.github.io/stylus/) or [sass](http://sass-lang.com/) and much more.
 - Its just plain javascript objects, declarative syntax.
