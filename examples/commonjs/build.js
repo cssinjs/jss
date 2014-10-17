@@ -69,8 +69,9 @@ Rule.prototype.extractScopedRules = function () {
     var style = this.style
 
     for (var prop in style) {
-        if (prop[0] == ' ') {
-            rules.push(new Rule(this.selector + prop, style[prop]))
+        if (prop[0] == '&') {
+            var newProp = prop.substr(1)
+            rules.push(new Rule(this.selector + newProp, style[prop]))
             delete style[prop]
         }
     }
@@ -244,7 +245,7 @@ exports.createStyle = function (rules) {
 }
 
 /**
- * Create a stylesheet.
+ * Create a rule.
  *
  * @param {String} [selector]
  * @param {Object} style

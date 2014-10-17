@@ -6,10 +6,12 @@ rules['.square'] = {
     float: 'left',
     width: 100,
     height: 100,
-    background: 'red',
-    ' button': {
+    '& button': {
         padding: 20,
         background: 'blue'
+    },
+    '&.red': {
+        background: 'red'
     }
 }
 

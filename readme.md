@@ -43,8 +43,11 @@ Put a space before a selector within a rule and it will be converted to a separa
 {
     '.container': {
         padding: 20,
-        ' .button': {
+        '& .button': {
             background: 'red'
+        },
+        '&.clear': {
+            clear: 'both'
         }
     }
 }
@@ -55,6 +58,9 @@ Put a space before a selector within a rule and it will be converted to a separa
 }
 .container .button {
     background: red;
+}
+.container.clear {
+    clear: both;
 }
 ```
 
