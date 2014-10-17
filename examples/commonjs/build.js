@@ -223,6 +223,14 @@ Style.prototype.createElement = function () {
 }
 
 },{"./Rule":4}],6:[function(require,module,exports){
+/**
+ * Stylesheets written in javascript.
+ *
+ * @copyright Oleg Slobodskoi 2014
+ * @website https://github.com/kof/jss
+ * @license MIT
+ */
+
 'use strict'
 
 var Style = require('./Style')

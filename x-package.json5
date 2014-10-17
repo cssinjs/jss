@@ -13,7 +13,8 @@
     keywords: ['style', 'css', 'stylesheet'],
     engines: {},
     devDependencies: {
-        browserify: '6.0.3'
+        browserify: '6.0.3',
+        'uglify-js': '2.4.15'
     },
     scripts: {},
     licenses: [
@@ -23,6 +24,7 @@
         }
     ],
     overlay: {
-        bower: true
+        bower: true,
+        npm: true
     }
 }
