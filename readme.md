@@ -34,20 +34,22 @@ Numeric values will get 'px' suffix.
 }
 ```
 
-### Scoped selectors
+### Nested Rules
 
-Put a space before a selector within a rule and it will be converted to a separate rule with a [scoped selector.](http://kof.github.io/jss/examples/scoped/index.html)
+Put an ampersand before a selector within a rule and it will be converted to a separate rule with a [scoped selector.](http://kof.github.io/jss/examples/scoped/index.html)
 
 
 ```javascript
 {
     '.container': {
         padding: 20,
-        '& .button': {
-            background: 'red'
-        },
+        // Will result in .container.clear
         '&.clear': {
             clear: 'both'
+        },
+        // Will result in .container .button
+        '& .button': {
+            background: 'red'
         }
     }
 }
