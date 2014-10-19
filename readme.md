@@ -58,11 +58,11 @@ Put an ampersand before a selector within a rule and it will be converted to a s
 .container {
     padding: 20px;
 }
-.container .button {
-    background: red;
-}
 .container.clear {
     clear: both;
+}
+.container .button {
+    background: red;
 }
 ```
 
