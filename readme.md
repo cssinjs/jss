@@ -1,14 +1,22 @@
-## Stylesheets written in javascript.
+## Dynamic stylesheets for web components.
 
-### Features:
+Modern web applications need expressive language for styles description. This project takes a fresh look at the idea of writing stylesheets in javascript. It project solves some major problems:
 
-- [True namespaces.](./examples/namespace)
-- [Direct access](./examples/commonjs) to values and variables from javascript allows to avoid DOM round trip.
-- Decide whether to inject a style element or to [apply styles directly](./examples/jquery) on element.
-- [Detach styles](./examples/simple) from render tree when not used - increases performance.
-- All the features you might know from [stylus](http://learnboost.github.io/stylus/) or [sass](http://sass-lang.com/) and much more.
-- Its just plain javascript objects, declarative syntax.
-- No need to precompile, but you can if you want to.
+1. Cascading style sheets do not scale. There are some solutions like [bem](http://bem.info/) which solve this problem, however they introduce an overhead of writing long class names.
+
+Here is how [true namespaces](http://kof.github.io/jss/examples/namespace/index.html) can look like in jss.
+
+1. We often need to calculate layouts in javascript. For this we often need to access properties defined in stylessheets. Jss allows us to do it easy and without DOM round trip by giving us a [direct access](http://kof.github.io/jss/examples/commonjs/index.html) to values and variables from javascript allows
+
+1. Its up to you whether to put some styles via stylesheet or to [apply them directly](http://kof.github.io/jss/examples/jquery/index.html) to the element.
+
+1. Optimize your app performance by [detaching](http://kof.github.io/jss/examples/simple/index.html) unused stylesheets from render tree.
+
+1. Use full power of expressive full featured language. Any features you might know from [stylus](http://learnboost.github.io/stylus/) or [sass](http://sass-lang.com/) and some more are already available.
+
+1. Evil mixins are not a problem any more.
+
+1. No need to precompile, but you can if you want to.
 
 Take a look at [examples](http://kof.github.io/jss/examples/index.html) directory.
 
