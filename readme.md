@@ -2,9 +2,7 @@
 
 Modern web applications need expressive language for styles description. This project takes a fresh look at the idea of writing stylesheets in javascript. It project solves some major problems:
 
-1. Cascading style sheets do not scale. There are some solutions like [bem](http://bem.info/) which solve this problem, however they introduce an overhead of writing long class names.
-
-Here is how [true namespaces](http://kof.github.io/jss/examples/namespace/index.html) can look like in jss.
+1. Cascading style sheets do not scale. There are some solutions like [bem](http://bem.info/) which solve this problem, however they introduce an overhead of writing long class names. Here is how [true namespaces](http://kof.github.io/jss/examples/namespace/index.html) can look like in jss.
 
 1. We often need to calculate layouts in javascript. For this we often need to access properties defined in stylessheets. Jss allows us to do it easy and without DOM round trip by giving us a [direct access](http://kof.github.io/jss/examples/commonjs/index.html) to values and variables from javascript allows
 
