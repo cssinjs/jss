@@ -1,11 +1,13 @@
 var rules = exports.rules = {}
 
-exports.square = {
-    float: 'left',
+var square = exports.square = {
     width: 100,
-    height: 100,
-    background: 'red'
+    height: 100
 }
 
-rules['.square'] = exports.square
-
+rules['.square'] = {
+    float: 'left',
+    background: 'red',
+    width: square.width,
+    height: square.height
+}

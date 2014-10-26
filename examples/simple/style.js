@@ -11,16 +11,16 @@ rules['.square'] = {
 
 
 // Application
-var style = jss.createStyle(rules).attach()
+var stylesheet = jss.createStylesheet(rules).attach()
 
 var buttons = document.getElementsByTagName('button')
 
 buttons[0].addEventListener('click', function() {
-    style.detach()
+    stylesheet.detach()
 })
 
 buttons[1].addEventListener('click', function() {
-    style.attach()
+    stylesheet.attach()
 })
 
 }())

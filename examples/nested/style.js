@@ -16,7 +16,7 @@ var rules = {
 }
 
 // Application
-console.log(jss.createStyle(rules).attach())
+console.log(jss.createStylesheet(rules).attach())
 
 
 }())

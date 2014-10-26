@@ -78,40 +78,40 @@ var jss = window.jss
 var jss = require('jss')
 ```
 
-### Create stylesheet `jss.createStyle([rules], [attributes])`
+### Create stylesheet `jss.createStylesheet([rules], [attributes])`
 
-Create stylesheet, optionally pass stylesheet attributes, returns a Style instance.
+Create stylesheet, optionally pass style element attributes, returns a Stylesheet instance.
 
 ```javascript
-var style = jss.createStyle({
+var stylesheet = jss.createStylesheet({
     '.selector': {
         width: 100
     }
 }, {media: 'print'})
 ```
 
-### Attach stylesheet `style.attach()`
+### Attach stylesheet `stylesheet.attach()`
 
 Insert stylesheet into render tree.
 
 ```javascript
-style.attach()
+stylesheet.attach()
 ```
 
-### Detach stylesheet `style.detach()`
+### Detach stylesheet `stylesheet.detach()`
 
 Remove stylesheet from render tree for performance optimization.
 
 ```javascript
-style.detach()
+stylesheet.detach()
 ```
 
-### Add a rule `style.addRule([selector], rule)`
+### Add a rule `stylesheet.addRule([selector], rule)`
 
 #### You might want to add rules dynamically.
 
 ```javascript
-var button = style.addRule('.my-button', {
+var button = stylesheet.addRule('.my-button', {
     padding: 20,
     background: 'blue'
 })
@@ -121,7 +121,7 @@ var button = style.addRule('.my-button', {
 In case you have an element reference or you create elements in javascript you might want to write styles and attach them later to the element using a generated class name.
 
 ```javascript
-var button = style.addRule({
+var button = stylesheet.addRule({
     padding: 20,
     background: 'blue'
 })
@@ -129,10 +129,10 @@ var button = style.addRule({
 document.body.innerHTML = '<button class="' + button.className + '">Button</button>'
 ```
 
-### Get a rule `style.getRule(selector)`
+### Get a rule `stylesheet.getRule(selector)`
 
 ```javascript
-var rule = style.getRule('.my-button')
+var rule = stylesheet.getRule('.my-button')
 ```
 
 ### Create a rule `jss.createRule([selector], rule)`

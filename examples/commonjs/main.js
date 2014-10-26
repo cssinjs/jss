@@ -1,7 +1,7 @@
 var jss = require('../..')
 var style = require('./style')
 
-jss.createStyle(style.rules).attach()
+jss.createStylesheet(style.rules).attach()
 
 var button = document.getElementsByTagName('button')[0]
 var div = document.getElementsByTagName('div')[0]
