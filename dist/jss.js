@@ -113,9 +113,12 @@ module.exports = Stylesheet
 Stylesheet.prototype.attach = function () {
     if (this.attached) return this
 
-    if (!this.element) this.element = this.createElement()
-    this.element.innerHTML = this.toString()
-    if (!this.element.parentNode) document.head.appendChild(this.element)
+    if (!this.element) {
+        this.element = this.createElement()
+        this.element.innerHTML = this.toString()
+    }
+
+    document.head.appendChild(this.element)
     this.attached = true
 
     return this
