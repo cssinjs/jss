@@ -36,7 +36,7 @@ Numeric values will get 'px' suffix.
 
 ### Nested Rules
 
-Put an ampersand before a selector within a rule and it will be converted to a separate rule with a [scoped selector.](http://kof.github.io/jss/examples/scoped/index.html)
+Put an ampersand before a selector within a rule and it will be converted to a separate rule with a [nested selector.](http://kof.github.io/jss/examples/nested/index.html)
 
 
 ```javascript
