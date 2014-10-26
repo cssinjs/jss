@@ -80,8 +80,7 @@ rules['.button-1'] = {
 
 rules['.button-2'] = {
     extend: rules['.button-1'],
-    margin: 20,
-    background: 'red'
+    padding: 30
 }
 ```
 ```css
