@@ -59,12 +59,12 @@ module.exports = Rule
 Rule.NAMESPACE_PREFIX = 'jss'
 
 /**
- * Extract scoped rules from the current rule.
+ * Extract nested rules from the current rule.
  *
  * @return {Array}
  * @api private
  */
-Rule.prototype.extractScopedRules = function () {
+Rule.prototype.extractNestedRules = function () {
     var rules = []
     var style = this.style
 
@@ -122,7 +122,7 @@ function Style(rules, attributes) {
 
     for (var selector in rules) {
         this.rules[selector] = new Rule(selector, rules[selector])
-        this.rules[selector].extractScopedRules().forEach(function (rule) {
+        this.rules[selector].extractNestedRules().forEach(function (rule) {
             this.rules[rule.selector] = rule
         }, this)
     }
