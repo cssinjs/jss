@@ -4,7 +4,7 @@ Modern web applications need expressive language for styles description. This pr
 
 1. Cascading style sheets [do not scale](http://www.phase2technology.com/blog/used-and-abused-css-inheritance-and-our-misuse-of-the-cascade/). There are some solutions like [bem](http://bem.info/) which solve this problem, however they introduce an overhead of writing long class names. Here is how [true namespaces](http://kof.github.io/jss/examples/namespace/index.html) can look like in jss.
 
-1. We often need to calculate layouts in javascript. For this we often need to access properties defined in stylessheets. Jss allows us to do it easy and without DOM round trip by giving us a [direct access](http://kof.github.io/jss/examples/commonjs/index.html) to values and variables from javascript allows
+1. We often need to calculate layouts in javascript and we need to access properties defined in stylessheets. Jss allows us to do it easy and without DOM round trip by giving us a [direct access](http://kof.github.io/jss/examples/commonjs/index.html) to css values.
 
 1. Its up to you whether to put some styles via stylesheet or to [apply them directly](http://kof.github.io/jss/examples/jquery/index.html) to the element.
 
