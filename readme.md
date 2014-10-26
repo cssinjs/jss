@@ -1,6 +1,6 @@
 ## Dynamic stylesheets for web components.
 
-Modern web applications need expressive language for styles description. This project takes a fresh look at the idea of writing stylesheets in javascript. It project solves some major problems:
+Modern web applications need expressive language for styles description. This project takes a fresh look at the idea of writing stylesheets in javascript. It solves some major problems with css:
 
 1. Cascading style sheets do not scale. There are some solutions like [bem](http://bem.info/) which solve this problem, however they introduce an overhead of writing long class names. Here is how [true namespaces](http://kof.github.io/jss/examples/namespace/index.html) can look like in jss.
 
