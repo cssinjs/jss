@@ -12,14 +12,13 @@
 
 Take a look at [examples](http://kof.github.io/jss/examples/index.html) directory.
 
-## Syntax
+## Built in preprocessors
 
-Jss styles are just plain javascript objects. They map almost 1:1 to css rules.
+Jss styles are just plain javascript objects. They map 1:1 to css rules, except of those modified by preprocessors.
 
 ### Numeric values
 
 Numeric values will get 'px' suffix.
-
 
 ```javascript
 {
@@ -63,6 +62,37 @@ Put an ampersand before a selector within a rule and it will be converted to a s
 }
 .container .button {
     background: red;
+}
+```
+
+### Extend keyword
+
+Add `extend` keyword to a rule and set any style as value to extend some style definition with the current style object. [See example.](http://kof.github.io/jss/examples/extend/index.html)
+
+
+```javascript
+var rules = {}
+
+rules['.button-1'] = {
+    padding: 20,
+    background: 'blue'
+}
+
+rules['.button-2'] = {
+    extend: rules['.button-1'],
+    margin: 20,
+    background: 'red'
+}
+```
+```css
+.button-1 {
+    padding: 20px;
+    background: blue;
+}
+
+.button-2 {
+    padding: 30px;
+    background: blue;
 }
 ```
 

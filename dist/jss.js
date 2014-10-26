@@ -1,37 +1,7 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var jss = require('../..')
-var style = require('./style')
-
-jss.createStylesheet(style.rules).attach()
-
-var button = document.getElementsByTagName('button')[0]
-var div = document.getElementsByTagName('div')[0]
-
-button.addEventListener('click', function () {
-    div.style.width = style.square.width + 50 + 'px'
-    div.style.height = style.square.height + 50 + 'px'
-})
-
-
-},{"../..":3,"./style":2}],2:[function(require,module,exports){
-var rules = exports.rules = {}
-
-var square = exports.square = {
-    width: 100,
-    height: 100
-}
-
-rules['.square'] = {
-    float: 'left',
-    background: 'red',
-    width: square.width,
-    height: square.height
-}
-
-},{}],3:[function(require,module,exports){
+!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.jss=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 module.exports = require('./lib/index')
 
-},{"./lib/index":6}],4:[function(require,module,exports){
+},{"./lib/index":4}],2:[function(require,module,exports){
 'use strict'
 
 var uid = 0
@@ -108,7 +78,7 @@ Rule.prototype.toString = function () {
     return str
 }
 
-},{}],5:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 'use strict'
 
 var Rule = require('./Rule')
@@ -241,7 +211,7 @@ Stylesheet.prototype.createElement = function () {
     return el
 }
 
-},{"./Rule":4}],6:[function(require,module,exports){
+},{"./Rule":2}],4:[function(require,module,exports){
 /**
  * Stylesheets written in javascript.
  *
@@ -290,7 +260,7 @@ exports.createRule = function (selector, style) {
     return new Rule(selector, style)
 }
 
-},{"./Rule":4,"./Stylesheet":5,"./processors/extend":7,"./processors/nested":8,"./processors/px":9}],7:[function(require,module,exports){
+},{"./Rule":2,"./Stylesheet":3,"./processors/extend":5,"./processors/nested":6,"./processors/px":7}],5:[function(require,module,exports){
 'use strict'
 
 /**
@@ -321,7 +291,7 @@ module.exports = function (rule) {
     rule.style = newStyle
 }
 
-},{}],8:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict'
 
 var Rule = require('../Rule')
@@ -345,7 +315,7 @@ module.exports = function (rule) {
     }
 }
 
-},{"../Rule":4}],9:[function(require,module,exports){
+},{"../Rule":2}],7:[function(require,module,exports){
 'use strict'
 
 /**
@@ -363,4 +333,5 @@ module.exports = function (rule) {
     }
 }
 
-},{}]},{},[1]);
+},{}]},{},[1])(1)
+});
