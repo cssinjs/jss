@@ -138,6 +138,8 @@ var stylesheet = jss.createStylesheet({
 </style>
 ```
 
+Create a stylesheet with namespaced rules.
+
 ```javascript
 var stylesheet = jss.createStylesheet({
     myButton: {
