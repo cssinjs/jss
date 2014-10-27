@@ -1,18 +1,17 @@
 (function() {
 
-var rules = {}
+var styles = window.styles = {}
 
-rules['.button-1'] = {
+var button1 = {
     padding: 20,
     background: 'blue'
 }
 
-rules['.button-2'] = {
-    extend: rules['.button-1'],
+styles['.button-1'] = button1
+
+styles['.button-2'] = {
+    extend: button1,
     padding: 30
 }
-
-// Application
-jss.createStylesheet(rules).attach()
 
 }())

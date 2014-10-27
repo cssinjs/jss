@@ -1,6 +1,4 @@
-(function() {
-
-var rules = {
+window.styles = {
     '.square': {
         float: 'left',
         width: 100,
@@ -14,9 +12,3 @@ var rules = {
         }
     }
 }
-
-// Application
-console.log(jss.createStylesheet(rules).attach())
-
-
-}())
