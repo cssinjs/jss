@@ -245,7 +245,6 @@ var Rule = require('./Rule')
 
 // Register default processors.
 ;[
-    require('./processors/px'),
     require('./processors/nested'),
     require('./processors/extend')
 ].forEach(Rule.addPreprocessor)
@@ -279,7 +278,7 @@ exports.createRule = function (selector, style) {
     return new Rule(selector, style)
 }
 
-},{"./Rule":2,"./Stylesheet":3,"./processors/extend":5,"./processors/nested":6,"./processors/px":7}],5:[function(require,module,exports){
+},{"./Rule":2,"./Stylesheet":3,"./processors/extend":5,"./processors/nested":6}],5:[function(require,module,exports){
 'use strict'
 
 /**
@@ -334,23 +333,5 @@ module.exports = function (rule) {
     }
 }
 
-},{"../Rule":2}],7:[function(require,module,exports){
-'use strict'
-
-/**
- * Add px to all numeric values.
- *
- * @param {Rule} rule
- * @api private
- */
-module.exports = function (rule) {
-    var style = rule.style
-
-    for (var prop in style) {
-        var value = style[prop]
-        if (typeof value == 'number') style[prop] = value + 'px'
-    }
-}
-
-},{}]},{},[1])(1)
+},{"../Rule":2}]},{},[1])(1)
 });

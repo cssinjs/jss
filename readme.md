@@ -22,23 +22,6 @@ Take a look at [examples](http://kof.github.io/jss/examples/index.html) director
 
 Jss styles are just plain javascript objects. They map 1:1 to css rules, except of those modified by preprocessors.
 
-### Numeric values
-
-Numeric values will get 'px' suffix.
-
-```javascript
-{
-    '.container': {
-        padding: 20
-    }
-}
-```
-```css
-.container {
-    padding: 20px;
-}
-```
-
 ### Nested Rules
 
 Put an ampersand before a selector within a rule and it will be converted to a separate rule with a [nested selector.](http://kof.github.io/jss/examples/nested/index.html)

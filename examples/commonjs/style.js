@@ -8,6 +8,6 @@ var square = exports.square = {
 rules['.square'] = {
     float: 'left',
     background: 'red',
-    width: square.width,
-    height: square.height
+    width: square.width + 'px',
+    height: square.height + 'px'
 }

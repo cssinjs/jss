@@ -24,8 +24,8 @@ var square = exports.square = {
 rules['.square'] = {
     float: 'left',
     background: 'red',
-    width: square.width,
-    height: square.height
+    width: square.width + 'px',
+    height: square.height + 'px'
 }
 
 },{}],3:[function(require,module,exports){
@@ -275,7 +275,6 @@ var Rule = require('./Rule')
 
 // Register default processors.
 ;[
-    require('./processors/px'),
     require('./processors/nested'),
     require('./processors/extend')
 ].forEach(Rule.addPreprocessor)
@@ -309,7 +308,7 @@ exports.createRule = function (selector, style) {
     return new Rule(selector, style)
 }
 
-},{"./Rule":4,"./Stylesheet":5,"./processors/extend":7,"./processors/nested":8,"./processors/px":9}],7:[function(require,module,exports){
+},{"./Rule":4,"./Stylesheet":5,"./processors/extend":7,"./processors/nested":8}],7:[function(require,module,exports){
 'use strict'
 
 /**
@@ -364,22 +363,4 @@ module.exports = function (rule) {
     }
 }
 
-},{"../Rule":4}],9:[function(require,module,exports){
-'use strict'
-
-/**
- * Add px to all numeric values.
- *
- * @param {Rule} rule
- * @api private
- */
-module.exports = function (rule) {
-    var style = rule.style
-
-    for (var prop in style) {
-        var value = style[prop]
-        if (typeof value == 'number') style[prop] = value + 'px'
-    }
-}
-
-},{}]},{},[1]);
+},{"../Rule":4}]},{},[1]);
