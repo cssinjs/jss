@@ -128,7 +128,7 @@ Create a stylesheet with namespaced rules.
 ```javascript
 var stylesheet = jss.createStylesheet({
     myButton: {
-        width: '100px'
+        width: '100px',
         height: '100px'
     }
 }, true).attach()
