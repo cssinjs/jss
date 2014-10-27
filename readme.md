@@ -30,7 +30,7 @@ Put an ampersand before a selector within a rule and it will be converted to a s
 ```javascript
 {
     '.container': {
-        padding: 20,
+        padding: '20px',
         // Will result in .container.clear
         '&.clear': {
             clear: 'both'
@@ -62,14 +62,16 @@ Add `extend` keyword to a rule and set any style as value to extend some style d
 ```javascript
 var rules = {}
 
-rules['.button-1'] = {
-    padding: 20,
+var button1 = {
+    padding: '20px',
     background: 'blue'
 }
 
+rules['.button-1'] = button1
+
 rules['.button-2'] = {
-    extend: rules['.button-1'],
-    padding: 30
+    extend: button1,
+    padding: '30px'
 }
 ```
 ```css
@@ -108,7 +110,7 @@ var jss = require('jss')
 ```javascript
 var stylesheet = jss.createStylesheet({
     '.selector': {
-        width: 100
+        width: '100px'
     }
 }, {media: 'print'}).attach()
 ```
@@ -126,8 +128,8 @@ Create a stylesheet with namespaced rules.
 ```javascript
 var stylesheet = jss.createStylesheet({
     myButton: {
-        width: 100
-        height: 100
+        width: '100px'
+        height: '100px'
     }
 }, true).attach()
 
@@ -171,7 +173,7 @@ stylesheet.detach()
 
 ```javascript
 var button = stylesheet.addRule('.my-button', {
-    padding: 20,
+    padding: '20px',
     background: 'blue'
 })
 ```
@@ -181,7 +183,7 @@ In case you have an element reference or you create elements in javascript you m
 
 ```javascript
 var button = stylesheet.addRule({
-    padding: 20,
+    padding: '20px',
     background: 'blue'
 })
 
@@ -202,7 +204,7 @@ var rule = stylesheet.getRule('.my-button')
 
 ```javascript
 var rule = jss.createRule({
-    padding: 20,
+    padding: '20px',
     background: 'blue'
 })
 
