@@ -6,7 +6,7 @@ Modern web applications need expressive language for styles description. This pr
 
 1. We often need to calculate layouts in javascript and we need to access properties defined in stylessheets. Jss allows us to do it easy and without DOM round trip by giving us a [direct access](http://kof.github.io/jss/examples/commonjs/index.html) to css values.
 
-1. Its up to you whether to put some styles via <style> or to [apply them directly](http://kof.github.io/jss/examples/jquery/index.html) to the element.
+1. Its up to you whether to put some styles via style tag or to [apply them directly](http://kof.github.io/jss/examples/jquery/index.html) to the element.
 
 1. Optimize your app performance by [detaching](http://kof.github.io/jss/examples/simple/index.html) unused stylesheets from render tree.
 
