@@ -212,6 +212,11 @@ var rule = jss.createRule({
 $('.container').css(rule.style)
 ```
 
+## Run tests
+
+    npm i
+    open test/index.html in browser
+
 ## License
 
 MIT
