@@ -102,13 +102,13 @@ Rule.prototype.runPreprocessors = function () {
  */
 Rule.prototype.toString = function () {
     var style = this.style
-    var str = this.selector + '{'
+    var str = '\n' + this.selector + ' {'
 
     for (var prop in style) {
-        str += prop + ':' + style[prop] + ';'
+        str += '\n  ' + prop + ': ' + style[prop] + ';'
     }
 
-    str += '}'
+    str += '\n}'
 
     return str
 }
@@ -319,6 +319,9 @@ exports.createRule = function (selector, style) {
  */
 module.exports = function (rule) {
     var style = rule.style
+
+    if (!style) return
+
     var extend = style.extend
 
     if (!extend) return
