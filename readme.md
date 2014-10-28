@@ -215,7 +215,7 @@ $('.container').css(rule.style)
 ## Run tests
 
     npm i
-    open test/index.html in browser
+    open test/index.html
 
 ## License
 
