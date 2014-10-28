@@ -72,7 +72,7 @@ Rule.prototype.runPreprocessors = function () {
  */
 Rule.prototype.toString = function () {
     var style = this.style
-    var str = '\n' + this.selector + ' {'
+    var str = this.selector + ' {'
 
     for (var prop in style) {
         str += '\n  ' + prop + ': ' + style[prop] + ';'
@@ -97,7 +97,7 @@ var Rule = require('./Rule')
  * @api public
  */
 function Stylesheet(rules, generateClasses, attributes) {
-    if (typeof namespace == 'object') {
+    if (typeof generateClasses == 'object') {
         attributes = generateClasses
         generateClasses = false
     }
@@ -169,6 +169,17 @@ Stylesheet.prototype.addRule = function (selector, style) {
 }
 
 /**
+ * Get a rule.
+ *
+ * @param {String} selector
+ * @return {Rule}
+ * @api public
+ */
+Stylesheet.prototype.getRule = function (selector) {
+    return this.rules[selector]
+}
+
+/**
  * Add rules to the current stylesheet.
  *
  * @param {Object} rules selector:style hash.
@@ -189,17 +200,6 @@ Stylesheet.prototype.addRules = function (rules) {
 }
 
 /**
- * Get a rule.
- *
- * @param {String} selector
- * @return {Rule}
- * @api public
- */
-Stylesheet.prototype.getRule = function (selector) {
-    return this.rules[selector]
-}
-
-/**
  * Convert rules to a css string.
  *
  * @api public
@@ -210,7 +210,8 @@ Stylesheet.prototype.toString = function () {
     var rules = this.rules
 
     for (var selector in rules) {
-        str += rules[selector].toString() + '\n'
+        if (str) str += '\n'
+        str += rules[selector].toString()
     }
 
     return str
@@ -300,9 +301,14 @@ module.exports = function (rule) {
     var prop
 
     // Copy extend style.
-    for (prop in extend) {
-        newStyle[prop] = extend[prop]
+    if ('length' in extend) {
+        for (var i = 0; i < extend.length; i++) {
+            for (prop in extend[i]) newStyle[prop] = extend[i][prop]
+        }
+    } else {
+        for (prop in extend) newStyle[prop] = extend[prop]
     }
+
 
     // Copy original style.
     for (prop in style) {

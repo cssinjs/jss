@@ -62,7 +62,7 @@ test('run preprocessors', function () {
 })
 
 test('toString', function () {
-    var rule = new jss.Rule('a', {float: 'left', width: '10px'})
-    equal(rule.toString(), '\na {\n  float: left;\n  width: 10px;\n}')
+    var rule = new jss.Rule('a', {float: 'left', width: '1px'})
+    equal(rule.toString(), 'a {\n  float: left;\n  width: 1px;\n}')
 })
 

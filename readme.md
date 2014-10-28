@@ -56,7 +56,7 @@ Put an ampersand before a selector within a rule and it will be converted to a s
 
 ### Extend keyword
 
-Add `extend` keyword to a rule and set any style as value to extend some style definition with the current style object. [See example.](http://kof.github.io/jss/examples/extend/index.html)
+Add `extend` keyword to a rule and set any style or array of styles as value to extend some style definition with the current style object. [See example.](http://kof.github.io/jss/examples/extend/index.html)
 
 
 ```javascript
@@ -70,7 +70,7 @@ var button1 = {
 rules['.button-1'] = button1
 
 rules['.button-2'] = {
-    extend: button1,
+    extend: button1, // can be an array of styles
     padding: '30px'
 }
 ```
