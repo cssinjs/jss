@@ -1,7 +1,7 @@
 {
     name: 'jss',
-    description: 'Stylesheets written in javascript.',
-    version: '0.1.0',
+    description: 'Dynamic stylesheets for web components.',
+    version: '0.2.1',
     author: {
         name: 'Oleg Slobodskoi',
         email: 'oleg008@gmail.com'
