@@ -212,10 +212,18 @@ var rule = jss.createRule({
 $('.container').css(rule.style)
 ```
 
+## Install
+
+```bash
+npm i jss
+```
+
 ## Run tests
 
-    npm i
-    open test/index.html
+```bash
+npm i
+open test/index.html
+```
 
 ## License
 
