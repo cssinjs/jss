@@ -5,7 +5,7 @@ build:
 	node_modules/.bin/uglifyjs < dist/jss.js > dist/jss.min.js --comments license
 
 push:
-	git push
+	git push origin master
 	git push origin master:gh-pages
 	git push --tags
 
