@@ -1,3 +1,7 @@
+## 0.2.3 / 2014-11-01
+
+- fix test failing in firefox #14
+
 ## 0.2.2 / 2014-11-01
 
 - Rename param "generateClasses" to "named" in createStylesheet
