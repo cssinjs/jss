@@ -100,10 +100,10 @@ var jss = require('jss')
 
 ### Create stylesheet
 
-`jss.createStylesheet([rules], [generateClasses], [attributes])`
+`jss.createStylesheet([rules], [named], [attributes])`
 
-- `rules` is an object, where keys are selectors if `generateClasses` is not true
-- `generateClasses` will cause auto generated class names for rules as selectors. It will also make class names accessible via `stylesheet.classes`.
+- `rules` is an object, where keys are selectors if `named` is not true
+- `named` rule keys are not used as selectors, but as names, will cause auto generated class names and selectors. It will also make class names accessible via `stylesheet.classes`.
 - `attributes` allows to set any attributes on style element.
 
 
@@ -195,7 +195,29 @@ document.body.innerHTML = '<button class="' + button.className + '">Button</butt
 `stylesheet.getRule(selector)`
 
 ```javascript
+// Using selector
 var rule = stylesheet.getRule('.my-button')
+
+// Using name, if named rule was added.
+var rule = stylesheet.getRule('myButton')
+
+```
+
+### Add a rules
+
+`stylesheet.addRules(rules)`
+
+Add a list of rules.
+
+```javascript
+stylesheet.addRules({
+    '.my-button': {
+        float: 'left',
+    },
+    '.something': {
+        display: 'none'
+    }
+})
 ```
 
 ### Create a rule without a stylesheet.
