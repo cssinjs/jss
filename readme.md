@@ -240,6 +240,16 @@ $('.container').css(rule.style)
 npm i jss
 ```
 
+## Convert CSS to JSS
+
+
+```bash
+# print help
+jss
+# convert css
+jss source.css -p > source.jss
+```
+
 ## Run tests
 
 ### Locally
