@@ -9,4 +9,7 @@ push:
 	git push origin master:gh-pages
 	git push --tags
 
-.PHONY: build push
+publish: push
+	npm pu
+
+.PHONY: build push publish
