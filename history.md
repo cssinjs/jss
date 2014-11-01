@@ -1,5 +1,9 @@
 ## 0.2.3 / 2014-11-01
 
+- make tests runnable from githubs gh-pages http://kof.github.io/jss/test/
+
+## 0.2.3 / 2014-11-01
+
 - fix test failing in firefox #14
 
 ## 0.2.2 / 2014-11-01
