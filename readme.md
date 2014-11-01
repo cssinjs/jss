@@ -242,10 +242,14 @@ npm i jss
 
 ## Run tests
 
+### Locally
 ```bash
 npm i
-open test/index.html
+open test/local.html
 ```
+### From github
+
+[Tests](https://kof.github.com/jss/test)
 
 ## License
 
