@@ -1,4 +1,4 @@
-## 0.2.5 / 2014-11-02
+## 0.2.6 / 2014-11-02
 
 - create perf comparence for bootstrap #13
 
