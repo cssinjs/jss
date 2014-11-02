@@ -1,6 +1,6 @@
 QUnit.module('Stylesheet')
 
-test('create empty instance', function () {
+test('create empty instance', function () {
     var ss = new jss.Stylesheet()
     equal(ss.attached, false)
     deepEqual(ss.attributes, {
@@ -14,26 +14,26 @@ test('create empty instance', function () {
     deepEqual(ss.classes, {})
 })
 
-test('create instance with rules', function () {
+test('create instance with rules', function () {
     var ss = new jss.Stylesheet({a: {float: 'left'}})
     ok(ss.rules.a instanceof jss.Rule)
 })
 
-test('create instance with rules and generated classes', function () {
+test('create instance with rules and generated classes', function () {
     var ss = new jss.Stylesheet({a: {float: 'left'}}, true)
     equal(typeof ss.classes.a, 'string')
     ok(ss.rules.a instanceof jss.Rule)
     ok(ss.named)
 })
 
-test('create instance with rules and attributes', function () {
+test('create instance with rules and attributes', function () {
     var ss = new jss.Stylesheet({a: {float: 'left'}}, {test: 1})
     ok(ss.rules.a instanceof jss.Rule)
     equal(ss.named, false)
     equal(ss.attributes.test, 1)
 })
 
-test('create instance with all params', function () {
+test('create instance with all params', function () {
     var ss = new jss.Stylesheet({a: {float: 'left'}}, true, {test: 1})
     equal(typeof ss.classes.a, 'string')
     ok(ss.rules.a instanceof jss.Rule)
@@ -41,7 +41,7 @@ test('create instance with all params', function () {
     equal(ss.attributes.test, 1)
 })
 
-test('attach/detach', function () {
+test('attach/detach', function () {
     var ss = new jss.Stylesheet({abc: {float: 'left'}}).attach()
     var style = document.getElementsByTagName('style')[0]
     ok(ss.attached)
@@ -52,7 +52,7 @@ test('attach/detach', function () {
     equal(document.getElementsByTagName('style').length, 0)
 })
 
-test('addRule/getRule', function () {
+test('addRule/getRule', function () {
     var ss = new jss.Stylesheet().attach()
     var rule = ss.addRule('aa', {float: 'left'})
     equal(ss.element.sheet.cssRules.length, 1)
@@ -63,14 +63,14 @@ test('addRule/getRule', function () {
     ss.detach()
 })
 
-test('addRules', function () {
+test('addRules', function () {
     var ss = new jss.Stylesheet().attach()
     ss.addRules({aa: {float: 'left'}})
     ok(ss.rules.aa instanceof jss.Rule)
     ss.detach()
 })
 
-test('toString', function () {
+test('toString', function () {
     var ss = new jss.Stylesheet({a: {float: 'left', width: '1px'}})
     equal(ss.toString(), 'a {\n  float: left;\n  width: 1px;\n}')
 })

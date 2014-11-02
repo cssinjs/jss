@@ -1,6 +1,6 @@
 QUnit.module('Rule')
 
-test('create empty instance', function () {
+test('create empty instance', function () {
     var rule = new jss.Rule()
     equal(rule.className, 'jss-0')
     equal(rule.selector, '.jss-0')
@@ -11,14 +11,14 @@ test('create empty instance', function () {
     equal(rule.stylesheet, undefined)
 })
 
-test('create instance with selector only', function () {
+test('create instance with selector only', function () {
     var rule = new jss.Rule('a')
     equal(rule.selector, 'a')
     equal(rule.style, undefined)
     equal(rule.stylesheet, undefined)
 })
 
-test('create instance with styles only', function () {
+test('create instance with styles only', function () {
     var rule = new jss.Rule({float: 'left'})
     equal(rule.stylesheet, undefined)
     deepEqual(rule.style, {float: 'left'})
@@ -26,7 +26,7 @@ test('create instance with styles only', function () {
     equal(rule.selector.substr(0, 4), '.jss')
 })
 
-test('create instance with styles and stylesheet', function () {
+test('create instance with styles and stylesheet', function () {
     var ss = {}
     var rule = new jss.Rule({float: 'left'}, ss)
     deepEqual(rule.style, {float: 'left'})
@@ -35,7 +35,7 @@ test('create instance with styles and stylesheet', function () {
     strictEqual(rule.stylesheet, ss)
 })
 
-test('create instance with all params', function () {
+test('create instance with all params', function () {
     var ss = {}
     var rule = new jss.Rule('a', {float: 'left'}, ss)
     deepEqual(rule.style, {float: 'left'})
@@ -44,14 +44,14 @@ test('create instance with all params', function () {
     strictEqual(rule.stylesheet, ss)
 })
 
-test('add preprocessor', function () {
+test('add preprocessor', function () {
     var preprocessor = function () {}
     var preprocessors = jss.Rule.addPreprocessor(preprocessor)
     equal(preprocessors.length, 3)
     strictEqual(preprocessors[2], preprocessor)
 })
 
-test('run preprocessors', function () {
+test('run preprocessors', function () {
     var executed = false
     function preprocessor() {
         executed = true
@@ -61,7 +61,7 @@ test('run preprocessors', function () {
     ok(executed)
 })
 
-test('toString', function () {
+test('toString', function () {
     var rule = new jss.Rule('a', {float: 'left', width: '1px'})
     equal(rule.toString(), 'a {\n  float: left;\n  width: 1px;\n}')
 })

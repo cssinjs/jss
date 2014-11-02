@@ -1,6 +1,6 @@
 QUnit.module('Extend preprocessor')
 
-test('simple extend', function () {
+test('simple extend', function () {
     var a = {float: 'left'}
     var ss = new jss.Stylesheet({
         a: a,
@@ -14,7 +14,7 @@ test('simple extend', function () {
     equal(ss.toString(), 'a {\n  float: left;\n}\nb {\n  float: left;\n  width: 1px;\n}')
 })
 
-test('multi extend', function () {
+test('multi extend', function () {
     var a = {float: 'left'}
     var b = {position: 'absolute'}
     var ss = new jss.Stylesheet({

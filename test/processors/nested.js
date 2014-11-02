@@ -1,6 +1,6 @@
 QUnit.module('Nested preprocessor')
 
-test('nesting extend', function () {
+test('nesting extend', function () {
     var ss = new jss.Stylesheet({
         a: {
             float: 'left',
