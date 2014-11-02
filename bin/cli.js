@@ -36,6 +36,26 @@ function toJss(cssRules) {
                 })
                 jssRules[key] = value
                 break
+            case 'font-face':
+                var key = '@' + rule.type
+                var value = {}
+                rule.declarations.forEach(function (decl) {
+                    value[decl.property] = decl.value
+                })
+                jssRules[key] = value
+                break
+            case 'keyframes':
+                var key = '@' + rule.type + ' ' + rule.name
+                var value = {}
+                rule.keyframes.forEach(function (keyframe) {
+                    var frameKey = keyframe.values.join(', ')
+                    var frameValue = {}
+                    keyframe.declarations.forEach(function (decl) {
+                        frameValue[decl.property] = decl.value
+                    })
+                    value[frameKey] = frameValue
+                })
+                jssRules[key] = value
         }
     })
 

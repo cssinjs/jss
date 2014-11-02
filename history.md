@@ -1,3 +1,8 @@
+## 0.2.7 / 2014-11-02
+
+- add @font-face to cli converter
+- add @keyframes to cli converter
+
 ## 0.2.6 / 2014-11-02
 
 - create perf comparence for bootstrap #13
