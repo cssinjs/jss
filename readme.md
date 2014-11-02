@@ -14,6 +14,8 @@ Modern web applications need expressive language for styles description. This pr
 
 1. Evil mixins are not a problem any more.
 
+1. Smaller footprint because of better code reuse and no vendor specific declarations.
+
 1. No need to precompile, but you can if you want to.
 
 Take a look at [examples](http://kof.github.io/jss/examples/index.html) directory.
