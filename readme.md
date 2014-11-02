@@ -1,22 +1,13 @@
 ## Dynamic stylesheets for web components.
 
-Modern web applications need expressive language for styles description. This project takes a fresh look at the idea of writing stylesheets in javascript. It solves some major problems with css:
+By writing styles in javascript, we get dynamic language without the need for transpilers like [sass](http://sass-lang.com/) or [stylus](http://learnboost.github.io/stylus/).
 
-1. Cascading style sheets [do not scale](http://www.phase2technology.com/blog/used-and-abused-css-inheritance-and-our-misuse-of-the-cascade/). There are some solutions like [bem](http://bem.info/) which solve this problem, however they introduce an overhead of writing long class names. Here is how [true namespaces](http://kof.github.io/jss/examples/namespace/index.html) can look like in jss.
 
-1. We often need to calculate layouts in javascript and we need to access properties defined in stylessheets. Jss allows us to do it easy and without DOM round trip by giving us a [direct access](http://kof.github.io/jss/examples/commonjs/index.html) to css values.
+By leveraging [namespaces](http://kof.github.io/jss/examples/namespace/index.html) we can solve the [cascading](http://www.phase2technology.com/blog/used-and-abused-css-inheritance-and-our-misuse-of-the-cascade/) problem better than [bem](http://bem.info/) and make our components truly reusable and composable.
 
-1. Its up to you whether to put some styles via style tag or to [apply them directly](http://kof.github.io/jss/examples/jquery/index.html) to the element.
+[Access css](http://kof.github.io/jss/examples/commonjs/index.html) declarations and values from js without DOM round trip.
 
-1. Optimize your app performance by [detaching](http://kof.github.io/jss/examples/simple/index.html) unused stylesheets from render tree.
-
-1. Use full power of expressive full featured language. Any features you might know from [stylus](http://learnboost.github.io/stylus/) or [sass](http://sass-lang.com/) and some more are already available.
-
-1. Evil mixins are not a problem any more.
-
-1. Smaller footprint because of better code reuse and no vendor specific declarations.
-
-1. No need to precompile, but you can if you want to.
+Smaller footprint because of code reuse and no vendor specific declarations
 
 Take a look at [examples](http://kof.github.io/jss/examples/index.html) directory.
 
@@ -26,7 +17,7 @@ Jss styles are just plain javascript objects. They map 1:1 to css rules, except 
 
 ### Nested Rules
 
-Put an ampersand before a selector within a rule and it will be replaced by the parent selector and extracted to a separate rule with a [nested selector.](http://kof.github.io/jss/examples/nested/index.html)
+Put an `&` before a selector within a rule and it will be replaced by the parent selector and extracted to a [separate rule](http://kof.github.io/jss/examples/nested/index.html).
 
 
 ```javascript
@@ -111,7 +102,7 @@ var jss = require('jss')
 `jss.createStylesheet([rules], [named], [attributes])`
 
 - `rules` is an object, where keys are selectors if `named` is not true
-- `named` rule keys are not used as selectors, but as names, will cause auto generated class names and selectors. It will also make class names accessible via `stylesheet.classes`.
+- `named` rules keys are not used as selectors, but as names, will cause auto generated class names and selectors. It will also make class names accessible via `stylesheet.classes`.
 - `attributes` allows to set any attributes on style element.
 
 
@@ -131,7 +122,7 @@ var stylesheet = jss.createStylesheet({
 </style>
 ```
 
-Create a stylesheet with namespaced rules.
+Create a stylesheet with [namespaced](http://kof.github.io/jss/examples/namespace/index.html) rules.
 
 ```javascript
 var stylesheet = jss.createStylesheet({
@@ -167,7 +158,7 @@ stylesheet.attach()
 
 `stylesheet.detach()`
 
-Remove stylesheet from render tree for performance optimization.
+Remove stylesheet from render tree to increase runtime performance.
 
 ```javascript
 stylesheet.detach()
