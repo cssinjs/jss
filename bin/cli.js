@@ -71,26 +71,24 @@ program
 program
     .command('*')
     .description('path to the source file')
-    .action(function (path) {
-        program.sourcePath = path
+    .action(function (source) {
+        if (source[0] != '/') source = path.resolve(process.cwd(), source)
+        program.sourcePath = source
     })
 
 program.parse(process.argv)
 
 if (!program.args.length) return program.help()
 
-var source = {
-    path: program.sourcePath
-}
-if (source.path[0] != '/') source.path = path.resolve(process.cwd(), source.path)
+;(function convert() {
+    var code = fs.readFileSync(program.sourcePath, 'utf-8')
+    var ast = css.parse(code)
 
-source.code = fs.readFileSync(source.path, 'utf-8')
-source.ast = css.parse(source.code)
-if (source.ast && source.ast.stylesheet && source.ast.stylesheet && source.ast.stylesheet.rules) {
-    var jss = toJss(source.ast.stylesheet.rules)
-    var space = program.pretty ? '  ' : ''
-    var output = JSON.stringify(jss, null, space)
-    output = program.export + output + ';'
-    console.log(output)
-}
-
+    if (ast.stylesheet && ast.stylesheet.rules) {
+        var jss = toJss(ast.stylesheet.rules)
+        var spaces = program.pretty ? '  ' : ''
+        var output = JSON.stringify(jss, null, spaces)
+        output = program.export + output + ';'
+        console.log(output)
+    }
+}())
