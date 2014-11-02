@@ -86,7 +86,7 @@ Rule.addPreprocessor = function (fn) {
  *
  * @api private
  */
-Rule.prototype.runPreprocessors = function () {
+Rule.prototype.runPreprocessors = function () {
     for (var i = 0; i < processors.length; i++) {
         processors[i](this)
     }
@@ -156,7 +156,7 @@ module.exports = Stylesheet
  * @api public
  * @return {Stylesheet}
  */
-Stylesheet.prototype.attach = function () {
+Stylesheet.prototype.attach = function () {
     if (this.attached) return this
 
     if (!this.text) {
@@ -176,7 +176,7 @@ Stylesheet.prototype.attach = function () {
  * @return {Stylesheet}
  * @api public
  */
-Stylesheet.prototype.detach = function () {
+Stylesheet.prototype.detach = function () {
     if (!this.attached) return this
 
     this.element.parentNode.removeChild(this.element)
@@ -234,7 +234,7 @@ Stylesheet.prototype.getRule = function (key) {
  * @return {String}
  * @api public
  */
-Stylesheet.prototype.toString = function () {
+Stylesheet.prototype.toString = function () {
     var str = ''
     var rules = this.rules
 
@@ -287,7 +287,7 @@ Stylesheet.prototype.createRules = function (rules) {
  * @api private
  * @return {Element}
  */
-Stylesheet.prototype.createElement = function () {
+Stylesheet.prototype.createElement = function () {
     var el = document.createElement('style')
     for (var name in this.attributes) el.setAttribute(name, this.attributes[name])
 
@@ -387,6 +387,8 @@ module.exports = function (rule) {
 
 var Rule = require('../Rule')
 
+var regExpr = /&/gi
+
 /**
  * Convert nested rules to separate, remove them from original styles.
  *
@@ -399,7 +401,7 @@ module.exports = function (rule) {
 
     for (var prop in style) {
         if (prop[0] == '&') {
-            var selector = rule.selector + prop.substr(1)
+            var selector = prop.replace(regExpr, rule.selector)
             stylesheet.rules[selector] = new Rule(selector, style[prop], stylesheet)
             delete style[prop]
         }
