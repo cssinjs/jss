@@ -1,3 +1,7 @@
+## 0.2.8 / 2014-11-02
+
+- add possibility write multi nested selector in one line #18
+
 ## 0.2.7 / 2014-11-02
 
 - add @font-face to cli converter

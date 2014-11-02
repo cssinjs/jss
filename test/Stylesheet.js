@@ -72,5 +72,8 @@ test('addRules', function () {
 
 test('toString', function () {
     var ss = new jss.Stylesheet({a: {float: 'left', width: '1px'}})
+    ss.attach()
     equal(ss.toString(), 'a {\n  float: left;\n  width: 1px;\n}')
+    equal(ss.element.innerHTML, '\na {\n  float: left;\n  width: 1px;\n}\n')
+    ss.detach()
 })

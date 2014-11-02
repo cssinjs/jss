@@ -24,7 +24,7 @@ Jss styles are just plain javascript objects. They map 1:1 to css rules, except 
 
 ### Nested Rules
 
-Put an ampersand before a selector within a rule and it will be converted to a separate rule with a [nested selector.](http://kof.github.io/jss/examples/nested/index.html)
+Put an ampersand before a selector within a rule and it will be replaced by the parent selector and extracted to a separate rule with a [nested selector.](http://kof.github.io/jss/examples/nested/index.html)
 
 
 ```javascript
@@ -38,6 +38,9 @@ Put an ampersand before a selector within a rule and it will be converted to a s
         // Will result in .container .button
         '& .button': {
             background: 'red'
+        },
+        '&.selected, &.active': {
+            border: '1px solid red'
         }
     }
 }
@@ -51,6 +54,9 @@ Put an ampersand before a selector within a rule and it will be converted to a s
 }
 .container .button {
     background: red;
+}
+.container.selected, .container.active {
+    border: 1px solid red;
 }
 ```
 

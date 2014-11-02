@@ -387,8 +387,6 @@ module.exports = function (rule) {
 
 var Rule = require('../Rule')
 
-var regExpr = /&/gi
-
 /**
  * Convert nested rules to separate, remove them from original styles.
  *
@@ -401,7 +399,7 @@ module.exports = function (rule) {
 
     for (var prop in style) {
         if (prop[0] == '&') {
-            var selector = prop.replace(regExpr, rule.selector)
+            var selector = prop.replace(/&/gi, rule.selector)
             stylesheet.rules[selector] = new Rule(selector, style[prop], stylesheet)
             delete style[prop]
         }
