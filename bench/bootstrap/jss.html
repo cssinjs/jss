@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>JSS</title>
+    <script>
+        var now = Date.now()
+        window.onload = function() {
+            document.body.innerHTML = 'domcontentloaded: ' + (Date.now() - now) + 'ms'
+        }
+    </script>
+    <script src="../../dist/jss.js"></script>
+    <script src="./bootstrap.jss"></script>
+    <script>
+        jss.createStylesheet(window.bootstrap).attach()
+    </script>
+</head>
+<body>
+</body>
+</html>

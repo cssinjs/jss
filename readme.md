@@ -250,6 +250,12 @@ jss
 jss source.css -p > source.jss
 ```
 
+## Benchmarks
+
+To make some realistic assumptions about performance overhead, I have converted bootstraps css to jss. In `bench/bootstrap` folder you will find [jss](http://kof.github.io/jss/bench/bootstrap/jss.html) and [css](http://kof.github.io/jss/bench/bootstrap/css.html) files. You need to try more than once to have some average value.
+
+In my tests overhead is 10-15ms.
+
 ## Run tests
 
 ### Locally
