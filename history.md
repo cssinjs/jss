@@ -1,3 +1,7 @@
+## 0.2.9 / 2014-11-03
+
+- add @keyframes and @media support #16
+
 ## 0.2.8 / 2014-11-02
 
 - add possibility write multi nested selector in one line #18

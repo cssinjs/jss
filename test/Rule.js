@@ -66,3 +66,18 @@ test('toString', function () {
     equal(rule.toString(), 'a {\n  float: left;\n  width: 1px;\n}')
 })
 
+test('@media', function () {
+    var rule = new jss.Rule('@media print', {button: {display: 'none'}})
+    equal(rule.selector, '@media print')
+    equal(rule.toString(), '@media print {\n  button: {\n    display: none;\n  }\n}')
+})
+
+test('@keyframes', function () {
+    var rule = new jss.Rule('@keyframes a', {
+        from: {top: 0},
+        '30%': {top: 30},
+        '60%, 70%': {top: 80}
+    })
+    equal(rule.selector, '@keyframes a')
+    equal(rule.toString(), '@keyframes a {\n  from {\n    top: 0;\n  }\n  30% {\n    top: 30;\n  }\n  60%, 70% {\n    top: 80;\n  }\n}')
+})
