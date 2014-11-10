@@ -1,3 +1,8 @@
+## 0.2.10 / 2014-11-10
+
+- support nested extend
+- add more complex topcoat example
+
 ## 0.2.9 / 2014-11-03
 
 - add @keyframes and @media support #16
