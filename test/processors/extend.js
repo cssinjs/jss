@@ -26,3 +26,16 @@ test('multi extend', function () {
     ok(ss.rules.c instanceof jss.Rule)
     equal(ss.toString(), 'c {\n  float: left;\n  position: absolute;\n  width: 1px;\n}')
 })
+
+test('nested extend', function () {
+    var c = {float: 'left'}
+    var b = {extend: c, display: 'none'}
+    var ss = new jss.Stylesheet({
+        a: {
+            extend: b,
+            width: '1px'
+        }
+    })
+    ok(ss.rules.a instanceof jss.Rule)
+    equal(ss.toString(), 'a {\n  float: left;\n  display: none;\n  width: 1px;\n}')
+})

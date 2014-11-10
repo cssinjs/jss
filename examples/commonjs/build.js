@@ -360,6 +360,8 @@ exports.createRule = function (selector, style) {
 },{"./Rule":4,"./Stylesheet":5,"./processors/extend":7,"./processors/nested":8}],7:[function(require,module,exports){
 'use strict'
 
+var toString = Object.prototype.toString
+
 /**
  * Handle `extend` property.
  *
@@ -369,29 +371,28 @@ exports.createRule = function (selector, style) {
 module.exports = function (rule) {
     var style = rule.style
 
-    if (!style) return
-
-    var extend = style.extend
-
-    if (!extend) return
+    if (!style || !style.extend) return
 
     var newStyle = {}
-    var prop
 
-    // Copy extend style.
-    if ('length' in extend) {
-        for (var i = 0; i < extend.length; i++) {
-            for (prop in extend[i]) newStyle[prop] = extend[i][prop]
+    ;(function extend(style) {
+        if (toString.call(style.extend) == '[object Array]') {
+            for (var i = 0; i < style.extend.length; i++) {
+                extend(style.extend[i])
+            }
+        } else {
+            for (var prop in style.extend) {
+                if (prop == 'extend') extend(style.extend.extend)
+                else newStyle[prop] = style.extend[prop]
+            }
         }
-    } else {
-        for (prop in extend) newStyle[prop] = extend[prop]
-    }
 
+        // Copy base style.
+        for (var prop in style) {
+            if (prop != 'extend') newStyle[prop] = style[prop]
+        }
+    }(style))
 
-    // Copy original style.
-    for (prop in style) {
-        if (prop != 'extend') newStyle[prop] = style[prop]
-    }
 
     rule.style = newStyle
 }
