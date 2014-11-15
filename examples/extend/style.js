@@ -9,9 +9,13 @@ var button1 = {
 
 styles['.button-1'] = button1
 
+var redButton = {
+    background: 'red'
+}
+
 styles['.button-2'] = {
-    extend: button1,
-    padding: '30px'
+    extend: [button1, redButton],
+    'font-size': '20px'
 }
 
 }())

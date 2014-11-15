@@ -52,9 +52,9 @@ Put an `&` before a selector within a rule and it will be replaced by the parent
 }
 ```
 
-### Extend keyword
+### Inheritance
 
-Add `extend` keyword to a rule and set any style or array of styles as value to extend some style definition with the current style object. [See example.](http://kof.github.io/jss/examples/extend/index.html)
+Inherit a rule(s) by using `extend` keyword. This makes it easy to reuse code. [See example.](http://kof.github.io/jss/examples/extend/index.html)
 
 
 ```javascript
