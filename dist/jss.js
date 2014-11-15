@@ -118,17 +118,13 @@ function Stylesheet(rules, named, attributes) {
     this.element = null
     this.attached = false
     this.named = named || false
+    this.attributes = attributes
     this.rules = {}
-    this.attributes = attributes || {}
     this.classes = {}
     this.text = ''
-    if (!this.attributes.type) this.attributes.type = 'text/css'
-    if (!this.attributes.media) this.attributes.media = 'screen'
     this.element = this.createElement()
 
     if (rules) this.createRules(rules)
-
-
 }
 
 module.exports = Stylesheet
@@ -272,7 +268,12 @@ Stylesheet.prototype.createRules = function (rules) {
  */
 Stylesheet.prototype.createElement = function () {
     var el = document.createElement('style')
-    for (var name in this.attributes) el.setAttribute(name, this.attributes[name])
+
+    if (this.attributes) {
+        for (var name in this.attributes) {
+            el.setAttribute(name, this.attributes[name])
+        }
+    }
 
     return el
 }

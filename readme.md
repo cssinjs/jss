@@ -114,7 +114,7 @@ var stylesheet = jss.createStylesheet({
 ```
 
 ```css
-<style type="text/css" media="print">
+<style media="print">
     .selector {
         width: 100px;
     }
@@ -135,7 +135,7 @@ console.log(stylesheet.classes.myButton) // .jss-0
 ```
 
 ```css
-<style type="text/css" media="screen">
+<style>
     .jss-0 {
         width: 100px;
         height: 100px;
