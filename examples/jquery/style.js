@@ -1,10 +1,6 @@
-(function() {
-
-var rule = jss.createRule({
-    padding: '20px',
-    background: 'blue'
-})
-
-$('button').css(rule.style)
-
-}())
+window.styles = {
+    button: {
+        padding: '20px',
+        background: 'blue'
+    }
+}
