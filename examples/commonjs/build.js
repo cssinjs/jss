@@ -469,7 +469,6 @@ var camelize = (function () {
  * @api private
  */
 module.exports = function (rule) {
-    var stylesheet = rule.stylesheet
     var style = rule.style
 
     for (var prop in style) {
