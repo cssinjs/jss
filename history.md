@@ -1,3 +1,7 @@
+## 0.3.0 / 2014-19-10
+
+- add vendor prefixes preprocessor for properties #21
+
 ## 0.2.10 / 2014-11-10
 
 - support nested extend

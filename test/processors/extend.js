@@ -1,3 +1,5 @@
+'use strict'
+
 QUnit.module('Extend preprocessor')
 
 test('simple extend', function () {

@@ -1,3 +1,5 @@
+'use strict'
+
 QUnit.module('Stylesheet')
 
 test('create empty instance', function () {
