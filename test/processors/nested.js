@@ -1,3 +1,5 @@
+'use strict'
+
 QUnit.module('Nested preprocessor')
 
 test('nesting with space', function () {

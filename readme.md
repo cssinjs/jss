@@ -84,6 +84,24 @@ rules['.button-2'] = {
 }
 ```
 
+### Vendor prefixes
+
+Vendor prefixes are handled automatically using a smart check which results are cached. [See example.](http://kof.github.io/jss/examples/vendor-prefixer/index.html)
+
+
+```javascript
+{
+    '.container': {
+        transform: 'translateX(100px)'
+    }
+}
+```
+```css
+.container {
+    transform: -webkit-translateX(100px);
+}
+```
+
 ## API
 
 ### Access the jss namespace

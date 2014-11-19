@@ -587,12 +587,15 @@ var Rule = require('./Rule')
 // Register default processors.
 ;[
     require('./processors/nested'),
-    require('./processors/extend')
+    require('./processors/extend'),
+    require('./processors/vendorPrefixer')
 ].forEach(Rule.addPreprocessor)
 
 exports.Stylesheet = Stylesheet
 
 exports.Rule = Rule
+
+exports.vendorPrefix = require('./vendorPrefix')
 
 /**
  * Create a stylesheet.
@@ -619,7 +622,7 @@ exports.createRule = function (selector, style) {
     return new Rule(selector, style)
 }
 
-},{"./Rule":9,"./Stylesheet":10,"./processors/extend":12,"./processors/nested":13}],12:[function(require,module,exports){
+},{"./Rule":9,"./Stylesheet":10,"./processors/extend":12,"./processors/nested":13,"./processors/vendorPrefixer":14,"./vendorPrefix":15}],12:[function(require,module,exports){
 'use strict'
 
 var toString = Object.prototype.toString
@@ -655,7 +658,6 @@ module.exports = function (rule) {
         }
     }(style))
 
-
     rule.style = newStyle
 }
 
@@ -683,4 +685,66 @@ module.exports = function (rule) {
     }
 }
 
-},{"../Rule":9}]},{},[1]);
+},{"../Rule":9}],14:[function(require,module,exports){
+'use strict'
+
+var jss = require('..')
+
+/**
+ * We test every property on vendor prefix requirement.
+ * Once tested, result is cached. It gives us up to 70% perf boost.
+ * http://jsperf.com/element-style-object-access-vs-plain-object
+ */
+var cache = {}
+
+var p = document.createElement('p')
+
+/**
+ * Add vendor prefix to a property name when needed.
+ * It doesn't covers cases where vendor prefix needs to be added to the property
+ * value.
+ *
+ * @param {Rule} rule
+ * @api private
+ */
+module.exports = function (rule) {
+    var stylesheet = rule.stylesheet
+    var style = rule.style
+
+    for (var prop in style) {
+        // We have not tested this prop yet, lets do the test.
+        if (cache[prop] == null) {
+            var prefixedProp = jss.vendorPrefix + prop
+            // Use vendor prefixed version if known, otherwise use original.
+            cache[prop] = prefixedProp in p.style ? prefixedProp : false
+        }
+
+        if (cache[prop]) {
+            style[cache[prop]] = style[prop]
+            delete style[prop]
+        }
+    }
+}
+
+},{"..":11}],15:[function(require,module,exports){
+'use strict'
+
+var prefixes = {
+    Webkit: '-webkit-',
+    Moz: '-moz-',
+    // IE did it wrong again ...
+    ms: '-ms-',
+    O: '-o-'
+}
+
+var style = document.createElement('p').style
+var testProp = 'Transform'
+
+for (var jsName in prefixes) {
+    if ((jsName + testProp) in style) {
+        module.exports = prefixes[jsName]
+        break
+    }
+}
+
+},{}]},{},[1]);

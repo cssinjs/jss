@@ -1,3 +1,5 @@
+'use strict'
+
 QUnit.module('Rule')
 
 test('create empty instance', function () {
@@ -47,8 +49,8 @@ test('create instance with all params', function () {
 test('add preprocessor', function () {
     var preprocessor = function () {}
     var preprocessors = jss.Rule.addPreprocessor(preprocessor)
-    equal(preprocessors.length, 3)
-    strictEqual(preprocessors[2], preprocessor)
+    equal(preprocessors.length, 4)
+    strictEqual(preprocessors[3], preprocessor)
 })
 
 test('run preprocessors', function () {
