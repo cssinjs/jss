@@ -699,6 +699,29 @@ var cache = {}
 
 var p = document.createElement('p')
 
+// Prefill cache with known css properties to reduce amount of
+// properties we need to feature test.
+// http://davidwalsh.name/vendor-prefix
+;(function() {
+    var computed = window.getComputedStyle(document.documentElement, '')
+    for (var key in computed) {
+        cache[computed[key]] = false
+    }
+}())
+
+console.log(cache)
+
+// Convert dash separated strings to camel cased.
+var camelize = (function () {
+    function toUpper(match, c) {
+        return c ? c.toUpperCase() : ''
+    }
+
+    return function(str) {
+        return str.replace(/[-\s]+(.)?/g, toUpper)
+    }
+}())
+
 /**
  * Add vendor prefix to a property name when needed.
  * It doesn't covers cases where vendor prefix needs to be added to the property
@@ -714,9 +737,12 @@ module.exports = function (rule) {
     for (var prop in style) {
         // We have not tested this prop yet, lets do the test.
         if (cache[prop] == null) {
-            var prefixedProp = jss.vendorPrefix + prop
-            // Use vendor prefixed version if known, otherwise use original.
-            cache[prop] = prefixedProp in p.style ? prefixedProp : false
+            var camelized = jss.vendorPrefix.js + camelize('-' + prop)
+            var dasherized = jss.vendorPrefix.css + prop
+            // Test if property is supported.
+            // Camelization is required because we can't test using
+            // css syntax for e.g. in ff.
+            cache[prop] = camelized in p.style ? dasherized : false
         }
 
         if (cache[prop]) {
@@ -729,7 +755,7 @@ module.exports = function (rule) {
 },{"..":11}],15:[function(require,module,exports){
 'use strict'
 
-var prefixes = {
+var jsCssMap = {
     Webkit: '-webkit-',
     Moz: '-moz-',
     // IE did it wrong again ...
@@ -740,9 +766,10 @@ var prefixes = {
 var style = document.createElement('p').style
 var testProp = 'Transform'
 
-for (var jsName in prefixes) {
-    if ((jsName + testProp) in style) {
-        module.exports = prefixes[jsName]
+for (var js in jsCssMap) {
+    if ((js + testProp) in style) {
+        exports.js = js
+        exports.css = jsCssMap[js]
         break
     }
 }

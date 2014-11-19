@@ -1,3 +1,7 @@
+## 0.3.2 / 2014-19-10
+
+- rewrite prefixer for feature testing using camel cased version because of firefox
+
 ## 0.3.0 / 2014-19-10
 
 - add vendor prefixes preprocessor for properties #21
