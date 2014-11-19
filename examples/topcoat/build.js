@@ -709,16 +709,16 @@ var p = document.createElement('p')
     }
 }())
 
-console.log(cache)
-
 // Convert dash separated strings to camel cased.
 var camelize = (function () {
+    var regexp = /[-\s]+(.)?/g
+
     function toUpper(match, c) {
         return c ? c.toUpperCase() : ''
     }
 
     return function(str) {
-        return str.replace(/[-\s]+(.)?/g, toUpper)
+        return str.replace(regexp, toUpper)
     }
 }())
 
