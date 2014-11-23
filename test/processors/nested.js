@@ -51,3 +51,25 @@ test('multi nesting in one selector', function () {
     ok(ss.rules['ab, ac'] instanceof jss.Rule)
     equal(ss.toString(), 'a {\n  float: left;\n}\nab, ac {\n  float: left;\n}')
 })
+
+test('addRules', function () {
+    var ss = new jss.Stylesheet({
+        a: {
+            height: '1px'
+        }
+    }).attach()
+
+    ss.addRules({
+        b: {
+            height: '2px',
+            '& c': {
+                height: '3px'
+            }
+        }
+    })
+
+    equal(ss.element.sheet.rules[0].cssText, 'a { height: 1px; }')
+    equal(ss.element.sheet.rules[1].cssText, 'b { height: 2px; }')
+    equal(ss.element.sheet.rules[2].cssText, 'b c { height: 3px; }')
+    ss.detach()
+})

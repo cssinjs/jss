@@ -58,11 +58,11 @@ test('attach/detach', function () {
 
 test('addRule/getRule', function () {
     var ss = new jss.Stylesheet().attach()
-    var rule = ss.addRule('aa', {float: 'left'})
+    var rules = ss.addRule('aa', {float: 'left'})
     equal(ss.element.sheet.cssRules.length, 1)
     equal(ss.element.sheet.cssRules[0].cssText, 'aa { float: left; }')
-    strictEqual(ss.rules.aa, rule)
-    strictEqual(ss.getRule('aa'), rule)
+    strictEqual(ss.rules.aa, rules[0])
+    strictEqual(ss.getRule('aa'), rules[0])
     strictEqual(ss.rules.aa.stylesheet, ss)
     ss.detach()
 })

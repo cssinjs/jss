@@ -38,6 +38,8 @@ var uid = 0
 
 var processors = []
 
+var hasKeyframes = /@keyframes/
+
 /**
  * Rule is selector + style hash.
  *
@@ -84,6 +86,7 @@ Rule.addPreprocessor = function (fn) {
 /**
  * Execute all registered preprocessors.
  *
+ * @return {Rule}
  * @api private
  */
 Rule.prototype.runPreprocessors = function () {
@@ -94,7 +97,19 @@ Rule.prototype.runPreprocessors = function () {
     return this
 }
 
-var hasKeyframes = /@keyframes/
+/**
+ * Add child rule. Used by "nested" preprocessor.
+ * Stylesheet will render them separately.
+ *
+ * @return {Rule}
+ * @api private
+ */
+Rule.prototype.addChild = function (selector, style) {
+    if (!this.children) this.children = {}
+    this.children[selector] = style
+
+    return this
+}
 
 /**
  * Converts the rule to css string.
@@ -154,7 +169,9 @@ function Stylesheet(rules, named, attributes) {
     this.text = ''
     this.element = this.createElement()
 
-    if (rules) this.createRules(rules)
+    for (var key in rules) {
+        this.createRules(key, rules[key])
+    }
 }
 
 module.exports = Stylesheet
@@ -168,13 +185,23 @@ module.exports = Stylesheet
 Stylesheet.prototype.attach = function () {
     if (this.attached) return this
 
-    if (!this.text) {
-        this.text = this.toString()
-        this.element.innerHTML = '\n' + this.text + '\n'
-    }
+    if (!this.text) this.deploy()
 
     document.head.appendChild(this.element)
     this.attached = true
+
+    return this
+}
+
+/**
+ * Stringify and inject the rules.
+ *
+ * @return {Stylesheet}
+ * @api private
+ */
+Stylesheet.prototype.deploy = function () {
+    this.text = this.toString()
+    this.element.innerHTML = '\n' + this.text + '\n'
 
     return this
 }
@@ -204,11 +231,20 @@ Stylesheet.prototype.detach = function () {
  * @api public
  */
 Stylesheet.prototype.addRule = function (key, style) {
-    var rule = this.createRule(key, style)
-    var sheet = this.element.sheet
-    sheet.insertRule(rule.toString(), sheet.cssRules.length)
+    var rules = this.createRules(key, style)
 
-    return rule
+    // Don't insert rule directly if there is no stringified version yet.
+    // It will be inserted all together when .attach is called.
+    if (this.text) {
+        var sheet = this.element.sheet
+        for (var i = 0; i < rules.length; i++) {
+            sheet.insertRule(rules[i].toString(), sheet.cssRules.length)
+        }
+    } else {
+        this.deploy()
+    }
+
+    return rules
 }
 
 /**
@@ -260,34 +296,27 @@ Stylesheet.prototype.toString = function () {
  *
  * @param {Object} [selector] if you don't pass selector - it will be generated
  * @param {Object} style property/value hash
- * @return {Rule}
+ * @return {Array} rule can contain child rules
  * @api private
  */
-Stylesheet.prototype.createRule = function (key, style) {
+Stylesheet.prototype.createRules = function (key, style) {
+    var rules = []
     var selector, name
+
     if (this.named) name = key
     else selector = key
+
     var rule = new Rule(selector, style, this)
+    rules.push(rule)
     this.rules[name || rule.selector] = rule
     if (this.named) this.classes[name] = rule.className
     rule.runPreprocessors()
 
-    return rule
-}
-
-/**
- * Create rules, will not render after stylesheet was rendered the first time.
- *
- * @param {Object} rules key:style hash.
- * @return {Stylesheet} this
- * @api private
- */
-Stylesheet.prototype.createRules = function (rules) {
-    for (var key in rules) {
-        this.createRule(key, rules[key])
+    for (key in rule.children) {
+        rules.push(this.createRules(key, rule.children[key]))
     }
 
-    return this
+    return rules
 }
 
 /**
@@ -357,7 +386,7 @@ exports.createStylesheet = function (rules, named, attributes) {
  * @api public
  */
 exports.createRule = function (selector, style) {
-    return new Rule(selector, style)
+    return new Rule(selector, style).runPreprocessors()
 }
 
 },{"./Rule":4,"./Stylesheet":5,"./processors/extend":7,"./processors/nested":8,"./processors/vendorPrefixer":9,"./vendorPrefix":10}],7:[function(require,module,exports){
@@ -402,7 +431,7 @@ module.exports = function (rule) {
 },{}],8:[function(require,module,exports){
 'use strict'
 
-var Rule = require('../Rule')
+var regExp = /&/gi
 
 /**
  * Convert nested rules to separate, remove them from original styles.
@@ -416,14 +445,14 @@ module.exports = function (rule) {
 
     for (var prop in style) {
         if (prop[0] == '&') {
-            var selector = prop.replace(/&/gi, rule.selector)
-            stylesheet.rules[selector] = new Rule(selector, style[prop], stylesheet)
+            var selector = prop.replace(regExp, rule.selector)
+            rule.addChild(selector, style[prop])
             delete style[prop]
         }
     }
 }
 
-},{"../Rule":4}],9:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict'
 
 var jss = require('..')
@@ -449,14 +478,14 @@ var p = document.createElement('p')
 
 // Convert dash separated strings to camel cased.
 var camelize = (function () {
-    var regexp = /[-\s]+(.)?/g
+    var regExp = /[-\s]+(.)?/g
 
     function toUpper(match, c) {
         return c ? c.toUpperCase() : ''
     }
 
     return function(str) {
-        return str.replace(regexp, toUpper)
+        return str.replace(regExp, toUpper)
     }
 }())
 

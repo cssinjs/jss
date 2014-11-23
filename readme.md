@@ -139,7 +139,9 @@ var stylesheet = jss.createStylesheet({
 </style>
 ```
 
-Create a stylesheet with [namespaced](http://kof.github.io/jss/examples/namespace/index.html) rules.
+### Create namespaced stylesheet.
+
+Create a stylesheet with [namespaced](http://kof.github.io/jss/examples/namespace/index.html) rules. For this set second parameter to `true`.
 
 ```javascript
 var stylesheet = jss.createStylesheet({
@@ -185,25 +187,25 @@ stylesheet.detach()
 
 `stylesheet.addRule([selector], rule)`
 
+Returns an array of rules, because you might have a nested rule in your style.
+
+
 #### You might want to add rules dynamically.
 
 ```javascript
-var button = stylesheet.addRule('.my-button', {
+var rules = stylesheet.addRule('.my-button', {
     padding: '20px',
     background: 'blue'
 })
 ```
-#### Generated namespace.
-
-In case you have an element reference or you create elements in javascript you might want to write styles and attach them later to the element using a generated class name.
+#### Add rule with generated class name.
 
 ```javascript
-var button = stylesheet.addRule({
+var rules = stylesheet.addRule({
     padding: '20px',
     background: 'blue'
 })
-
-document.body.innerHTML = '<button class="' + button.className + '">Button</button>'
+document.body.innerHTML = '<button class="' + rules[0].className + '">Button</button>'
 ```
 
 ### Get a rule
