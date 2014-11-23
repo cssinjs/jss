@@ -1,8 +1,12 @@
-## 0.3.2 / 2014-19-10
+## 0.4.0 / 2014-11-23
+
+- support nested rules when using .addRule method #20
+
+## 0.3.2 / 2014-11-19
 
 - rewrite prefixer for feature testing using camel cased version because of firefox
 
-## 0.3.0 / 2014-19-10
+## 0.3.0 / 2014-11-19
 
 - add vendor prefixes preprocessor for properties #21
 
