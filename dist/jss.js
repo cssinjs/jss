@@ -10,6 +10,8 @@ var processors = []
 
 var hasKeyframes = /@keyframes/
 
+var toString = Object.prototype.toString
+
 /**
  * Rule is selector + style hash.
  *
@@ -95,16 +97,25 @@ Rule.prototype.toString = function () {
     for (var prop in style) {
         var value = style[prop]
         if (typeof value == 'object') {
-            var valueStr = '{'
-            for (var prop2 in value) {
-                valueStr += '\n    ' + prop2 + ': ' + value[prop2] + ';'
+            var type = toString.call(value)
+            // We are in a sub block e.g. @media, @keyframes
+            if (type == '[object Object]') {
+                var valueStr = '{'
+                for (var prop2 in value) {
+                    valueStr += '\n    ' + prop2 + ': ' + value[prop2] + ';'
+                }
+                valueStr += '\n  }'
+                value = valueStr
+                str += '\n  ' + prop + (isKeyframe ? ' ' : ': ') + value
+            // We want to generate multiple declarations with identical property names.
+            } else if (type == '[object Array]') {
+                for (var i = 0; i < value.length; i++) {
+                    str += '\n  ' + prop + ': ' + value[i] + ';'
+                }
             }
-            valueStr += '\n  }'
-            value = valueStr
         } else {
-            value += ';'
+            str += '\n  ' + prop + ': ' + value + ';'
         }
-        str += '\n  ' + prop + (isKeyframe ? ' ' : ': ') + value
     }
 
     str += '\n}'

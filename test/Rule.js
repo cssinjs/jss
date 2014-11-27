@@ -68,6 +68,11 @@ test('toString', function () {
     equal(rule.toString(), 'a {\n  float: left;\n  width: 1px;\n}')
 })
 
+test('multiple declarations with identical property names', function () {
+    var rule = new jss.Rule('a', {display: ['inline', 'run-in']})
+    equal(rule.toString(), 'a {\n  display: inline;\n  display: run-in;\n}')
+})
+
 test('@media', function () {
     var rule = new jss.Rule('@media print', {button: {display: 'none'}})
     equal(rule.selector, '@media print')

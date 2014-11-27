@@ -10,7 +10,7 @@ Smaller footprint because of code reuse and no vendor specific declarations
 
 Take a look at [examples](http://kof.github.io/jss/examples/index.html) directory.
 
-## Built in preprocessors
+## Syntactic differences compared to CSS
 
 Jss styles are just plain javascript objects. They map 1:1 to css rules, except of those modified by preprocessors.
 
@@ -99,6 +99,38 @@ Vendor prefixes are handled automatically using a smart check which results are 
 ```css
 .container {
     transform: -webkit-translateX(100px);
+}
+```
+
+### Multiple declarations with identical property names
+
+I recommend to not to use this if you use jss on the client. Instead you should write a function, which makes a test for this feature support and generates just one final declaration.
+
+In case you are using jss as a server side precompiler, you might want to have more than one property with identical name. This is not possible in js, so you can use an array.
+
+```js
+{
+    '.container': {
+        background: [
+            'red',
+            '-moz-linear-gradient(left, red 0%, green 100%)',
+            '-webkit-linear-gradient(left, red 0%, green 100%)',
+            '-o-linear-gradient(left, red 0%, green 100%)',
+            '-ms-linear-gradient(left, red 0%, green 100%)',
+            'linear-gradient(to right, red 0%, green 100%)'
+        ]
+    }
+}
+```
+
+```css
+.container {
+    background: red;
+    background: -moz-linear-gradient(left, red 0%, green 100%);
+    background: -webkit-linear-gradient(left, red 0%, green 100%);
+    background: -o-linear-gradient(left, red 0%, green 100%);
+    background: -ms-linear-gradient(left, red 0%, green 100%);
+    background: linear-gradient(to right, red 0%, green 100%);
 }
 ```
 

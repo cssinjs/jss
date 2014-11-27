@@ -1,3 +1,7 @@
+## 0.5.0 / 2014-11-27
+
+- support multiple declarations with identical property names #22
+
 ## 0.4.0 / 2014-11-23
 
 - support nested rules when using .addRule method #20
