@@ -25,7 +25,6 @@
             devDependencies: {
                 browserify: '6.0.3',
                 'uglify-js': '2.4.15',
-                qunit: '0.7.5',
                 qunitjs: '1.15.0',
                 xpkg: '0.2.0'
             },
