@@ -1,6 +1,6 @@
 'use strict'
 
-QUnit.module('Vendor prefixes preprocessor')
+QUnit.module('Vendor prefixes plugin')
 
 test('known property', function () {
     var ss = new jss.Stylesheet({

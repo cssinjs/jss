@@ -12,7 +12,7 @@ Take a look at [examples](http://kof.github.io/jss/examples/index.html) director
 
 ## Syntactic differences compared to CSS
 
-Jss styles are just plain javascript objects. They map 1:1 to css rules, except of those modified by preprocessors.
+Jss styles are just plain javascript objects. They map 1:1 to css rules, except of those modified by plugins.
 
 ### Nested Rules
 
@@ -107,6 +107,7 @@ Vendor prefixes are handled automatically using a smart check which results are 
 I recommend to not to use this if you use jss on the client. Instead you should write a function, which makes a test for this feature support and generates just one final declaration.
 
 In case you are using jss as a server side precompiler, you might want to have more than one property with identical name. This is not possible in js, so you can use an array.
+
 
 ```js
 {
@@ -282,6 +283,18 @@ var rule = jss.createRule({
 
 // Apply styles directly using jquery.
 $('.container').css(rule.style)
+```
+
+### Register plugin.
+
+`jss.use(fn)`
+
+Passed function will be invoked with Rule instance. Take a look at plugins `extend`, `nested` or `vendorPrefixer`.
+
+```javascript
+jss.use(function(rule) {
+    // Do something with the rule.
+})
 ```
 
 ## Install

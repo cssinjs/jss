@@ -6,8 +6,6 @@ module.exports = require('./lib/index')
 
 var uid = 0
 
-var processors = []
-
 var hasKeyframes = /@keyframes/
 
 var toString = Object.prototype.toString
@@ -44,37 +42,13 @@ module.exports = Rule
 Rule.NAMESPACE_PREFIX = 'jss'
 
 /**
- * Add a preprocessor.
+ * Add child rule. Required for plugins like "nested".
+ * Stylesheet will render them as a separate rule.
  *
- * @param {Function} fn
- * @return {Array}
+ * @param {String} selector
+ * @param {Object} style
+ * @return {Rule}
  * @api public
- */
-Rule.addPreprocessor = function (fn) {
-    processors.push(fn)
-    return processors
-}
-
-/**
- * Execute all registered preprocessors.
- *
- * @return {Rule}
- * @api private
- */
-Rule.prototype.runPreprocessors = function () {
-    for (var i = 0; i < processors.length; i++) {
-        processors[i](this)
-    }
-
-    return this
-}
-
-/**
- * Add child rule. Used by "nested" preprocessor.
- * Stylesheet will render them separately.
- *
- * @return {Rule}
- * @api private
  */
 Rule.prototype.addChild = function (selector, style) {
     if (!this.children) this.children = {}
@@ -127,6 +101,7 @@ Rule.prototype.toString = function () {
 'use strict'
 
 var Rule = require('./Rule')
+var plugins = require('./plugins')
 
 /**
  * Stylesheet abstraction, contains rules, injects stylesheet into dom.
@@ -291,7 +266,7 @@ Stylesheet.prototype.createRules = function (key, style) {
     rules.push(rule)
     this.rules[name || rule.selector] = rule
     if (this.named) this.classes[name] = rule.className
-    rule.runPreprocessors()
+    plugins.run(rule)
 
     for (key in rule.children) {
         rules.push(this.createRules(key, rule.children[key]))
@@ -318,7 +293,7 @@ Stylesheet.prototype.createElement = function () {
     return el
 }
 
-},{"./Rule":2}],4:[function(require,module,exports){
+},{"./Rule":2,"./plugins":5}],4:[function(require,module,exports){
 /**
  * Stylesheets written in javascript.
  *
@@ -332,13 +307,6 @@ Stylesheet.prototype.createElement = function () {
 var Stylesheet = require('./Stylesheet')
 var Rule = require('./Rule')
 
-// Register default processors.
-;[
-    require('./processors/nested'),
-    require('./processors/extend'),
-    require('./processors/vendorPrefixer')
-].forEach(Rule.addPreprocessor)
-
 exports.Stylesheet = Stylesheet
 
 exports.Rule = Rule
@@ -346,6 +314,8 @@ exports.Rule = Rule
 exports.vendorPrefix = require('./vendorPrefix')
 
 exports.support = require('./support')
+
+exports.plugins = require('./plugins')
 
 /**
  * Create a stylesheet.
@@ -369,10 +339,57 @@ exports.createStylesheet = function (rules, named, attributes) {
  * @api public
  */
 exports.createRule = function (selector, style) {
-    return new Rule(selector, style).runPreprocessors()
+    var rule = new Rule(selector, style)
+    exports.plugins.run(rule)
+    return rule
 }
 
-},{"./Rule":2,"./Stylesheet":3,"./processors/extend":5,"./processors/nested":6,"./processors/vendorPrefixer":7,"./support":8,"./vendorPrefix":9}],5:[function(require,module,exports){
+/**
+ * Register plugin. Passed function will be invoked with a rule instance.
+ *
+ * @param {Function} fn
+ * @api public
+ */
+exports.use = exports.plugins.use
+
+},{"./Rule":2,"./Stylesheet":3,"./plugins":5,"./support":9,"./vendorPrefix":10}],5:[function(require,module,exports){
+'use strict'
+
+/**
+ * Registered plugins.
+ *
+ * @type {Array}
+ * @api public
+ */
+exports.registry = [
+    require('./plugins/nested'),
+    require('./plugins/extend'),
+    require('./plugins/vendorPrefixer')
+]
+
+/**
+ * Register plugin. Passed function will be invoked with a rule instance.
+ *
+ * @param {Function} fn
+ * @api public
+ */
+exports.use = function (fn) {
+    exports.registry.push(fn)
+}
+
+/**
+ * Execute all registered plugins.
+ *
+ * @param {Rule} rule
+ * @api private
+ */
+exports.run = function (rule) {
+    for (var i = 0; i < exports.registry.length; i++) {
+        exports.registry[i](rule)
+    }
+}
+
+},{"./plugins/extend":6,"./plugins/nested":7,"./plugins/vendorPrefixer":8}],6:[function(require,module,exports){
 'use strict'
 
 var toString = Object.prototype.toString
@@ -411,7 +428,7 @@ module.exports = function (rule) {
     rule.style = newStyle
 }
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict'
 
 var regExp = /&/gi
@@ -435,7 +452,7 @@ module.exports = function (rule) {
     }
 }
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict'
 
 var jss = require('..')
@@ -458,7 +475,7 @@ module.exports = function (rule) {
     }
 }
 
-},{"..":4}],8:[function(require,module,exports){
+},{"..":4}],9:[function(require,module,exports){
 'use strict'
 
 var vendorPrefix = require('./vendorPrefix')
@@ -517,7 +534,7 @@ exports.getProp = function (prop) {
     return cache[prop]
 }
 
-},{"./vendorPrefix":9}],9:[function(require,module,exports){
+},{"./vendorPrefix":10}],10:[function(require,module,exports){
 'use strict'
 
 var jsCssMap = {

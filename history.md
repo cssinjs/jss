@@ -1,3 +1,8 @@
+## 0.6.0 / 2014-11-28
+
+- rename processors to plugins
+- add public .use function for registering plugins
+
 ## 0.5.0 / 2014-11-27
 
 - support multiple declarations with identical property names #22
@@ -12,7 +17,7 @@
 
 ## 0.3.0 / 2014-11-19
 
-- add vendor prefixes preprocessor for properties #21
+- add vendor prefixes plugin for properties #21
 
 ## 0.2.10 / 2014-11-10
 

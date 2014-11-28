@@ -1,6 +1,6 @@
 'use strict'
 
-QUnit.module('Nested preprocessor')
+QUnit.module('Nested plugin')
 
 test('nesting with space', function () {
     var ss = new jss.Stylesheet({

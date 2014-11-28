@@ -1,6 +1,6 @@
 'use strict'
 
-QUnit.module('Extend preprocessor')
+QUnit.module('Extend plugin')
 
 test('simple extend', function () {
     var a = {float: 'left'}

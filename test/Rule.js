@@ -46,20 +46,20 @@ test('create instance with all params', function () {
     strictEqual(rule.stylesheet, ss)
 })
 
-test('add preprocessor', function () {
-    var preprocessor = function () {}
-    var preprocessors = jss.Rule.addPreprocessor(preprocessor)
-    equal(preprocessors.length, 4)
-    strictEqual(preprocessors[3], preprocessor)
+test('add plugin', function () {
+    var plugin = function () {}
+    jss.use(plugin)
+    equal(jss.plugins.registry.length, 4)
+    strictEqual(jss.plugins.registry[3], plugin)
 })
 
-test('run preprocessors', function () {
+test('run plugins', function () {
     var executed = false
-    function preprocessor() {
+    function plugin() {
         executed = true
     }
-    jss.Rule.addPreprocessor(preprocessor)
-    new jss.Rule().runPreprocessors()
+    jss.use(plugin)
+    jss.plugins.run(new jss.Rule())
     ok(executed)
 })
 
