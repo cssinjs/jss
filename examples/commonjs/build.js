@@ -375,6 +375,8 @@ exports.Rule = Rule
 
 exports.vendorPrefix = require('./vendorPrefix')
 
+exports.support = require('./support')
+
 /**
  * Create a stylesheet.
  *
@@ -400,7 +402,7 @@ exports.createRule = function (selector, style) {
     return new Rule(selector, style).runPreprocessors()
 }
 
-},{"./Rule":4,"./Stylesheet":5,"./processors/extend":7,"./processors/nested":8,"./processors/vendorPrefixer":9,"./vendorPrefix":10}],7:[function(require,module,exports){
+},{"./Rule":4,"./Stylesheet":5,"./processors/extend":7,"./processors/nested":8,"./processors/vendorPrefixer":9,"./support":10,"./vendorPrefix":11}],7:[function(require,module,exports){
 'use strict'
 
 var toString = Object.prototype.toString
@@ -469,6 +471,29 @@ module.exports = function (rule) {
 var jss = require('..')
 
 /**
+ * Add vendor prefix to a property name when needed.
+ *
+ * @param {Rule} rule
+ * @api private
+ */
+module.exports = function (rule) {
+    var style = rule.style
+
+    for (var prop in style) {
+        var supportedProp = jss.support.getProp(prop)
+        if (supportedProp) {
+            style[supportedProp] = style[prop]
+            delete style[prop]
+        }
+    }
+}
+
+},{"..":6}],10:[function(require,module,exports){
+'use strict'
+
+var vendorPrefix = require('./vendorPrefix')
+
+/**
  * We test every property on vendor prefix requirement.
  * Once tested, result is cached. It gives us up to 70% perf boost.
  * http://jsperf.com/element-style-object-access-vs-plain-object
@@ -501,35 +526,28 @@ var camelize = (function () {
 }())
 
 /**
- * Add vendor prefix to a property name when needed.
- * It doesn't covers cases where vendor prefix needs to be added to the property
- * value.
+ * Test if a property is supported, returns property with vendor
+ * prefix if required, otherwise `false`.
  *
- * @param {Rule} rule
+ * @param {String} prop
+ * @return {String|Boolean}
  * @api private
  */
-module.exports = function (rule) {
-    var style = rule.style
-
-    for (var prop in style) {
-        // We have not tested this prop yet, lets do the test.
-        if (cache[prop] == null) {
-            var camelized = jss.vendorPrefix.js + camelize('-' + prop)
-            var dasherized = jss.vendorPrefix.css + prop
-            // Test if property is supported.
-            // Camelization is required because we can't test using
-            // css syntax for e.g. in ff.
-            cache[prop] = camelized in p.style ? dasherized : false
-        }
-
-        if (cache[prop]) {
-            style[cache[prop]] = style[prop]
-            delete style[prop]
-        }
+exports.getProp = function (prop) {
+    // We have not tested this prop yet, lets do the test.
+    if (cache[prop] == null) {
+        var camelized = vendorPrefix.js + camelize('-' + prop)
+        var dasherized = vendorPrefix.css + prop
+        // Test if property is supported.
+        // Camelization is required because we can't test using
+        // css syntax e.g. in ff.
+        cache[prop] = camelized in p.style ? dasherized : false
     }
+
+    return cache[prop]
 }
 
-},{"..":6}],10:[function(require,module,exports){
+},{"./vendorPrefix":11}],11:[function(require,module,exports){
 'use strict'
 
 var jsCssMap = {
