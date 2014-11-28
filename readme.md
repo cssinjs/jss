@@ -300,7 +300,9 @@ jss.use(function(rule) {
 ## Install
 
 ```bash
-npm i jss
+npm install jss
+#or
+bower install jsstyles
 ```
 
 ## Convert CSS to JSS
