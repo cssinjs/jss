@@ -1,3 +1,7 @@
+## 0.8.0 / 2014-11-29
+
+- renamed Stylesheet to StyleSheet because its wrong.
+
 ## 0.7.0 / 2014-11-29
 
 - moved jss to separate github organization
@@ -60,7 +64,7 @@
 
 ## 0.2.2 / 2014-11-01
 
-- Rename param "generateClasses" to "named" in createStylesheet
+- Rename param "generateClasses" to "named" in createStyleSheet
 - If `named` is true, ss.rules[name] is accessible using the name.
 - ss.addRules will render new rules after style element has been rendered too.
 - document ss.addRules

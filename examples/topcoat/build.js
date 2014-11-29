@@ -1,6 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var jss = require('../..')
-var normalize = jss.createStylesheet(require('./normalize')).attach()
+var normalize = jss.createStyleSheet(require('./normalize')).attach()
 var hogan = window.Hogan;
 
 function $(selector) {
@@ -8,8 +8,8 @@ function $(selector) {
 }
 
 (function () {
-    var buttonBar = jss.createStylesheet(require('./topcoat-button-bar'), true).attach()
-    var button = jss.createStylesheet(require('./topcoat-button'), true).attach()
+    var buttonBar = jss.createStyleSheet(require('./topcoat-button-bar'), true).attach()
+    var button = jss.createStyleSheet(require('./topcoat-button'), true).attach()
     var tplEl = $('.button-bar-tpl')[0]
     var buttonBarTpl = Hogan.compile(tplEl.innerHTML)
 
@@ -292,7 +292,7 @@ module.exports = {
 
 },{}],8:[function(require,module,exports){
 /**
- * Stylesheets written in javascript.
+ * StyleSheets written in javascript.
  *
  * @copyright Oleg Slobodskoi 2014
  * @website https://github.com/jsstyles/jss
@@ -343,7 +343,7 @@ Rule.NAMESPACE_PREFIX = 'jss'
 
 /**
  * Add child rule. Required for plugins like "nested".
- * Stylesheet will render them as a separate rule.
+ * StyleSheet will render them as a separate rule.
  *
  * @param {String} selector
  * @param {Object} style
@@ -404,14 +404,14 @@ var Rule = require('./Rule')
 var plugins = require('./plugins')
 
 /**
- * Stylesheet abstraction, contains rules, injects stylesheet into dom.
+ * StyleSheet abstraction, contains rules, injects stylesheet into dom.
  *
  * @param {Object} [rules] object with selectors and declarations
  * @param {Boolean} [named] rules have names if true, class names will be generated.
  * @param {Object} [attributes] stylesheet element attributes
  * @api public
  */
-function Stylesheet(rules, named, attributes) {
+function StyleSheet(rules, named, attributes) {
     if (typeof named == 'object') {
         attributes = named
         named = false
@@ -430,15 +430,15 @@ function Stylesheet(rules, named, attributes) {
     }
 }
 
-module.exports = Stylesheet
+module.exports = StyleSheet
 
 /**
  * Insert stylesheet element to render tree.
  *
  * @api public
- * @return {Stylesheet}
+ * @return {StyleSheet}
  */
-Stylesheet.prototype.attach = function () {
+StyleSheet.prototype.attach = function () {
     if (this.attached) return this
 
     if (!this.text) this.deploy()
@@ -452,10 +452,10 @@ Stylesheet.prototype.attach = function () {
 /**
  * Stringify and inject the rules.
  *
- * @return {Stylesheet}
+ * @return {StyleSheet}
  * @api private
  */
-Stylesheet.prototype.deploy = function () {
+StyleSheet.prototype.deploy = function () {
     this.text = this.toString()
     this.element.innerHTML = '\n' + this.text + '\n'
 
@@ -465,10 +465,10 @@ Stylesheet.prototype.deploy = function () {
 /**
  * Remove stylesheet element from render tree.
  *
- * @return {Stylesheet}
+ * @return {StyleSheet}
  * @api public
  */
-Stylesheet.prototype.detach = function () {
+StyleSheet.prototype.detach = function () {
     if (!this.attached) return this
 
     this.element.parentNode.removeChild(this.element)
@@ -486,7 +486,7 @@ Stylesheet.prototype.detach = function () {
  * @return {Rule}
  * @api public
  */
-Stylesheet.prototype.addRule = function (key, style) {
+StyleSheet.prototype.addRule = function (key, style) {
     var rules = this.createRules(key, style)
 
     // Don't insert rule directly if there is no stringified version yet.
@@ -507,10 +507,10 @@ Stylesheet.prototype.addRule = function (key, style) {
  * Create rules, will render also after stylesheet was rendered the first time.
  *
  * @param {Object} rules key:style hash.
- * @return {Stylesheet} this
+ * @return {StyleSheet} this
  * @api public
  */
-Stylesheet.prototype.addRules = function (rules) {
+StyleSheet.prototype.addRules = function (rules) {
     for (var key in rules) {
         this.addRule(key, rules[key])
     }
@@ -525,7 +525,7 @@ Stylesheet.prototype.addRules = function (rules) {
  * @return {Rule}
  * @api public
  */
-Stylesheet.prototype.getRule = function (key) {
+StyleSheet.prototype.getRule = function (key) {
     return this.rules[key]
 }
 
@@ -535,7 +535,7 @@ Stylesheet.prototype.getRule = function (key) {
  * @return {String}
  * @api public
  */
-Stylesheet.prototype.toString = function () {
+StyleSheet.prototype.toString = function () {
     var str = ''
     var rules = this.rules
 
@@ -555,7 +555,7 @@ Stylesheet.prototype.toString = function () {
  * @return {Array} rule can contain child rules
  * @api private
  */
-Stylesheet.prototype.createRules = function (key, style) {
+StyleSheet.prototype.createRules = function (key, style) {
     var rules = []
     var selector, name
 
@@ -581,7 +581,7 @@ Stylesheet.prototype.createRules = function (key, style) {
  * @api private
  * @return {Element}
  */
-Stylesheet.prototype.createElement = function () {
+StyleSheet.prototype.createElement = function () {
     var el = document.createElement('style')
 
     if (this.attributes) {
@@ -596,10 +596,10 @@ Stylesheet.prototype.createElement = function () {
 },{"./Rule":9,"./plugins":12}],11:[function(require,module,exports){
 'use strict'
 
-var Stylesheet = require('./Stylesheet')
+var StyleSheet = require('./StyleSheet')
 var Rule = require('./Rule')
 
-exports.Stylesheet = Stylesheet
+exports.StyleSheet = StyleSheet
 
 exports.Rule = Rule
 
@@ -611,11 +611,11 @@ exports.plugins = require('./plugins')
  * @param {Object} rules is selector:style hash.
  * @param {Object} [named] rules have names if true, class names will be generated.
  * @param {Object} [attributes] stylesheet element attributes.
- * @return {Stylesheet}
+ * @return {StyleSheet}
  * @api public
  */
-exports.createStylesheet = function (rules, named, attributes) {
-    return new Stylesheet(rules, named, attributes)
+exports.createStyleSheet = function (rules, named, attributes) {
+    return new StyleSheet(rules, named, attributes)
 }
 
 /**
@@ -640,7 +640,7 @@ exports.createRule = function (selector, style) {
  */
 exports.use = exports.plugins.use
 
-},{"./Rule":9,"./Stylesheet":10,"./plugins":12}],12:[function(require,module,exports){
+},{"./Rule":9,"./StyleSheet":10,"./plugins":12}],12:[function(require,module,exports){
 'use strict'
 
 /**

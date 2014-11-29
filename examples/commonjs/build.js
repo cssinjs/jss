@@ -2,7 +2,7 @@
 var jss = require('../..')
 var style = require('./style')
 
-jss.createStylesheet(style.rules).attach()
+jss.createStyleSheet(style.rules).attach()
 
 var button = document.getElementsByTagName('button')[0]
 var div = document.getElementsByTagName('div')[0]
@@ -30,7 +30,7 @@ rules['.square'] = {
 
 },{}],3:[function(require,module,exports){
 /**
- * Stylesheets written in javascript.
+ * StyleSheets written in javascript.
  *
  * @copyright Oleg Slobodskoi 2014
  * @website https://github.com/jsstyles/jss
@@ -81,7 +81,7 @@ Rule.NAMESPACE_PREFIX = 'jss'
 
 /**
  * Add child rule. Required for plugins like "nested".
- * Stylesheet will render them as a separate rule.
+ * StyleSheet will render them as a separate rule.
  *
  * @param {String} selector
  * @param {Object} style
@@ -142,14 +142,14 @@ var Rule = require('./Rule')
 var plugins = require('./plugins')
 
 /**
- * Stylesheet abstraction, contains rules, injects stylesheet into dom.
+ * StyleSheet abstraction, contains rules, injects stylesheet into dom.
  *
  * @param {Object} [rules] object with selectors and declarations
  * @param {Boolean} [named] rules have names if true, class names will be generated.
  * @param {Object} [attributes] stylesheet element attributes
  * @api public
  */
-function Stylesheet(rules, named, attributes) {
+function StyleSheet(rules, named, attributes) {
     if (typeof named == 'object') {
         attributes = named
         named = false
@@ -168,15 +168,15 @@ function Stylesheet(rules, named, attributes) {
     }
 }
 
-module.exports = Stylesheet
+module.exports = StyleSheet
 
 /**
  * Insert stylesheet element to render tree.
  *
  * @api public
- * @return {Stylesheet}
+ * @return {StyleSheet}
  */
-Stylesheet.prototype.attach = function () {
+StyleSheet.prototype.attach = function () {
     if (this.attached) return this
 
     if (!this.text) this.deploy()
@@ -190,10 +190,10 @@ Stylesheet.prototype.attach = function () {
 /**
  * Stringify and inject the rules.
  *
- * @return {Stylesheet}
+ * @return {StyleSheet}
  * @api private
  */
-Stylesheet.prototype.deploy = function () {
+StyleSheet.prototype.deploy = function () {
     this.text = this.toString()
     this.element.innerHTML = '\n' + this.text + '\n'
 
@@ -203,10 +203,10 @@ Stylesheet.prototype.deploy = function () {
 /**
  * Remove stylesheet element from render tree.
  *
- * @return {Stylesheet}
+ * @return {StyleSheet}
  * @api public
  */
-Stylesheet.prototype.detach = function () {
+StyleSheet.prototype.detach = function () {
     if (!this.attached) return this
 
     this.element.parentNode.removeChild(this.element)
@@ -224,7 +224,7 @@ Stylesheet.prototype.detach = function () {
  * @return {Rule}
  * @api public
  */
-Stylesheet.prototype.addRule = function (key, style) {
+StyleSheet.prototype.addRule = function (key, style) {
     var rules = this.createRules(key, style)
 
     // Don't insert rule directly if there is no stringified version yet.
@@ -245,10 +245,10 @@ Stylesheet.prototype.addRule = function (key, style) {
  * Create rules, will render also after stylesheet was rendered the first time.
  *
  * @param {Object} rules key:style hash.
- * @return {Stylesheet} this
+ * @return {StyleSheet} this
  * @api public
  */
-Stylesheet.prototype.addRules = function (rules) {
+StyleSheet.prototype.addRules = function (rules) {
     for (var key in rules) {
         this.addRule(key, rules[key])
     }
@@ -263,7 +263,7 @@ Stylesheet.prototype.addRules = function (rules) {
  * @return {Rule}
  * @api public
  */
-Stylesheet.prototype.getRule = function (key) {
+StyleSheet.prototype.getRule = function (key) {
     return this.rules[key]
 }
 
@@ -273,7 +273,7 @@ Stylesheet.prototype.getRule = function (key) {
  * @return {String}
  * @api public
  */
-Stylesheet.prototype.toString = function () {
+StyleSheet.prototype.toString = function () {
     var str = ''
     var rules = this.rules
 
@@ -293,7 +293,7 @@ Stylesheet.prototype.toString = function () {
  * @return {Array} rule can contain child rules
  * @api private
  */
-Stylesheet.prototype.createRules = function (key, style) {
+StyleSheet.prototype.createRules = function (key, style) {
     var rules = []
     var selector, name
 
@@ -319,7 +319,7 @@ Stylesheet.prototype.createRules = function (key, style) {
  * @api private
  * @return {Element}
  */
-Stylesheet.prototype.createElement = function () {
+StyleSheet.prototype.createElement = function () {
     var el = document.createElement('style')
 
     if (this.attributes) {
@@ -334,10 +334,10 @@ Stylesheet.prototype.createElement = function () {
 },{"./Rule":4,"./plugins":7}],6:[function(require,module,exports){
 'use strict'
 
-var Stylesheet = require('./Stylesheet')
+var StyleSheet = require('./StyleSheet')
 var Rule = require('./Rule')
 
-exports.Stylesheet = Stylesheet
+exports.StyleSheet = StyleSheet
 
 exports.Rule = Rule
 
@@ -349,11 +349,11 @@ exports.plugins = require('./plugins')
  * @param {Object} rules is selector:style hash.
  * @param {Object} [named] rules have names if true, class names will be generated.
  * @param {Object} [attributes] stylesheet element attributes.
- * @return {Stylesheet}
+ * @return {StyleSheet}
  * @api public
  */
-exports.createStylesheet = function (rules, named, attributes) {
-    return new Stylesheet(rules, named, attributes)
+exports.createStyleSheet = function (rules, named, attributes) {
+    return new StyleSheet(rules, named, attributes)
 }
 
 /**
@@ -378,7 +378,7 @@ exports.createRule = function (selector, style) {
  */
 exports.use = exports.plugins.use
 
-},{"./Rule":4,"./Stylesheet":5,"./plugins":7}],7:[function(require,module,exports){
+},{"./Rule":4,"./StyleSheet":5,"./plugins":7}],7:[function(require,module,exports){
 'use strict'
 
 /**

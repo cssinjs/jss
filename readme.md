@@ -86,7 +86,7 @@ var jss = require('jss')
 
 ### Create stylesheet
 
-`jss.createStylesheet([rules], [named], [attributes])`
+`jss.createStyleSheet([rules], [named], [attributes])`
 
 - `rules` is an object, where keys are selectors if `named` is not true
 - `named` rules keys are not used as selectors, but as names, will cause auto generated class names and selectors. It will also make class names accessible via `stylesheet.classes`.
@@ -94,7 +94,7 @@ var jss = require('jss')
 
 
 ```javascript
-var stylesheet = jss.createStylesheet({
+var stylesheet = jss.createStyleSheet({
     '.selector': {
         width: '100px'
     }
@@ -114,7 +114,7 @@ var stylesheet = jss.createStylesheet({
 Create a stylesheet with [namespaced](http://jsstyles.github.io/jss/examples/namespace/index.html) rules. For this set second parameter to `true`.
 
 ```javascript
-var stylesheet = jss.createStylesheet({
+var stylesheet = jss.createStyleSheet({
     myButton: {
         width: '100px',
         height: '100px'

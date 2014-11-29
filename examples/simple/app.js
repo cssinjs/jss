@@ -1,5 +1,5 @@
 (function () {
-    var ss = jss.createStylesheet(window.styles).attach()
+    var ss = jss.createStyleSheet(window.styles).attach()
 
     var buttons = document.getElementsByTagName('button')
 
