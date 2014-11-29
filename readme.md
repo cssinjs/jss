@@ -42,9 +42,9 @@ Jss styles are just plain javascript objects. They map 1:1 to css rules, except 
 
 ### Multiple declarations with identical property names
 
-I recommend to not to use this if you use jss on the client. Instead you should write a function, which makes a test for this feature support and generates just one final declaration.
+I recommend to not to use this if you use jss on the client. Instead you should write a function, which makes a [test](https://github.com/jsstyles/css-vendor) for this feature support and generates just one final declaration.
 
-In case you are using jss as a server side precompiler, you might want to have more than one property with identical name. This is not possible in js, so you can use an array.
+In case you are using jss as a server side precompiler, you might want to have more than one property with identical name. This is not possible in js, but you can use an array.
 
 ```js
 {
@@ -226,7 +226,7 @@ $('.container').css(rule.style)
 
 `jss.use(fn)`
 
-Passed function will be invoked with Rule instance. Take a look at plugins `extend`, `nested` or `vendorPrefixer`.
+Passed function will be invoked with Rule instance. Take a look at [plugins](https://github.com/jsstyles?query=jss-) like `extend`, `nested` or `vendorPrefixer`.
 
 ```javascript
 jss.use(function(rule) {
