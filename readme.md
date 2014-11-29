@@ -235,6 +235,31 @@ jss.use(function(rule) {
 })
 ```
 
+### Convert to CSS
+
+`styleSheet.toString()`
+
+If you want to get a pure CSS string from jss e.g. for preprocessing jss on the server.
+
+```javascript
+
+var jss = require('jss')
+
+var styleSheet = jss.createStyleSheet({
+    '.my-button': {
+        float: 'left',
+    }
+})
+
+console.log(styleSheet.toString())
+```
+
+```css
+.my-button {
+  float: left;
+}
+```
+
 ## Plugins
 
 Things you know from stylus like @extend, nested selectors, vendor prefixer are separate plugins.
