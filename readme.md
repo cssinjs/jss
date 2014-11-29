@@ -230,7 +230,7 @@ Passed function will be invoked with Rule instance. Take a look at [plugins](htt
 
 ```javascript
 jss.use(function(rule) {
-    // Do something with the rule.
+    // Your modifier.
 })
 ```
 
