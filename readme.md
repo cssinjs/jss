@@ -10,95 +10,33 @@ Smaller footprint because of code reuse and no vendor specific declarations
 
 Take a look at [examples](http://kof.github.io/jss/examples/index.html) directory.
 
-## Syntactic differences compared to CSS
+### Syntactic differences compared to CSS
 
 Jss styles are just plain javascript objects. They map 1:1 to css rules, except of those modified by plugins.
 
-### Nested Rules
-
-Put an `&` before a selector within a rule and it will be replaced by the parent selector and extracted to a [separate rule](http://kof.github.io/jss/examples/nested/index.html).
-
-
 ```javascript
+// Some random jss code example
 {
-    '.container': {
-        padding: '20px',
-        // Will result in .container.clear
-        '&.clear': {
-            clear: 'both'
-        },
-        // Will result in .container .button
-        '& .button': {
-            background: 'red'
-        },
-        '&.selected, &.active': {
-            border: '1px solid red'
-        }
+  '.carousel-caption': {
+    'position': 'absolute',
+    'z-index': '10',
+  },
+  'hr': {
+    'border': '0',
+    'border-top': '1px solid #eee'
+  },
+  '@media (min-width: 768px)': {
+    '.modal-dialog': {
+      'width': '600px',
+      'margin': '30px auto'
+    },
+    '.modal-content': {
+      'box-shadow': '0 5px 15px rgba(0, 0, 0, .5)'
+    },
+    '.modal-sm': {
+      'width': '300px'
     }
-}
-```
-```css
-.container {
-    padding: 20px;
-}
-.container.clear {
-    clear: both;
-}
-.container .button {
-    background: red;
-}
-.container.selected, .container.active {
-    border: 1px solid red;
-}
-```
-
-### Inheritance
-
-Inherit a rule(s) by using `extend` keyword. This makes it easy to reuse code. [See example.](http://kof.github.io/jss/examples/extend/index.html)
-
-
-```javascript
-var rules = {}
-
-var button1 = {
-    padding: '20px',
-    background: 'blue'
-}
-
-rules['.button-1'] = button1
-
-rules['.button-2'] = {
-    extend: button1, // can be an array of styles
-    padding: '30px'
-}
-```
-```css
-.button-1 {
-    padding: 20px;
-    background: blue;
-}
-
-.button-2 {
-    padding: 30px;
-    background: blue;
-}
-```
-
-### Vendor prefixes
-
-Vendor prefixes are handled automatically using a smart check which results are cached. [See example.](http://kof.github.io/jss/examples/vendor-prefixer/index.html)
-
-
-```javascript
-{
-    '.container': {
-        transform: 'translateX(100px)'
-    }
-}
-```
-```css
-.container {
-    transform: -webkit-translateX(100px);
+  }
 }
 ```
 
@@ -107,7 +45,6 @@ Vendor prefixes are handled automatically using a smart check which results are 
 I recommend to not to use this if you use jss on the client. Instead you should write a function, which makes a test for this feature support and generates just one final declaration.
 
 In case you are using jss as a server side precompiler, you might want to have more than one property with identical name. This is not possible in js, so you can use an array.
-
 
 ```js
 {
@@ -296,6 +233,15 @@ jss.use(function(rule) {
     // Do something with the rule.
 })
 ```
+
+## Plugins
+
+Things you know from stylus like @extend, nested selectors, vendor prefixer are separate plugins.
+
+[Full list of available plugins](https://github.com/jsstyles?query=jss-)
+
+###
+
 
 ## Install
 

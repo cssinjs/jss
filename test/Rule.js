@@ -49,8 +49,8 @@ test('create instance with all params', function () {
 test('add plugin', function () {
     var plugin = function () {}
     jss.use(plugin)
-    equal(jss.plugins.registry.length, 4)
-    strictEqual(jss.plugins.registry[3], plugin)
+    equal(jss.plugins.registry.length, 1)
+    strictEqual(jss.plugins.registry[0], plugin)
 })
 
 test('run plugins', function () {

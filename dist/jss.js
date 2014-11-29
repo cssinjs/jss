@@ -1,4 +1,12 @@
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.jss=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/**
+ * Stylesheets written in javascript.
+ *
+ * @copyright Oleg Slobodskoi 2014
+ * @website https://github.com/jsstyles/jss
+ * @license MIT
+ */
+
 module.exports = require('./lib/index')
 
 },{"./lib/index":4}],2:[function(require,module,exports){
@@ -311,10 +319,6 @@ exports.Stylesheet = Stylesheet
 
 exports.Rule = Rule
 
-exports.vendorPrefix = require('./vendorPrefix')
-
-exports.support = require('./support')
-
 exports.plugins = require('./plugins')
 
 /**
@@ -352,7 +356,7 @@ exports.createRule = function (selector, style) {
  */
 exports.use = exports.plugins.use
 
-},{"./Rule":2,"./Stylesheet":3,"./plugins":5,"./support":9,"./vendorPrefix":10}],5:[function(require,module,exports){
+},{"./Rule":2,"./Stylesheet":3,"./plugins":5}],5:[function(require,module,exports){
 'use strict'
 
 /**
@@ -361,11 +365,7 @@ exports.use = exports.plugins.use
  * @type {Array}
  * @api public
  */
-exports.registry = [
-    require('./plugins/nested'),
-    require('./plugins/extend'),
-    require('./plugins/vendorPrefixer')
-]
+exports.registry = []
 
 /**
  * Register plugin. Passed function will be invoked with a rule instance.
@@ -386,173 +386,6 @@ exports.use = function (fn) {
 exports.run = function (rule) {
     for (var i = 0; i < exports.registry.length; i++) {
         exports.registry[i](rule)
-    }
-}
-
-},{"./plugins/extend":6,"./plugins/nested":7,"./plugins/vendorPrefixer":8}],6:[function(require,module,exports){
-'use strict'
-
-var toString = Object.prototype.toString
-
-/**
- * Handle `extend` property.
- *
- * @param {Rule} rule
- * @api private
- */
-module.exports = function (rule) {
-    var style = rule.style
-
-    if (!style || !style.extend) return
-
-    var newStyle = {}
-
-    ;(function extend(style) {
-        if (toString.call(style.extend) == '[object Array]') {
-            for (var i = 0; i < style.extend.length; i++) {
-                extend(style.extend[i])
-            }
-        } else {
-            for (var prop in style.extend) {
-                if (prop == 'extend') extend(style.extend.extend)
-                else newStyle[prop] = style.extend[prop]
-            }
-        }
-
-        // Copy base style.
-        for (var prop in style) {
-            if (prop != 'extend') newStyle[prop] = style[prop]
-        }
-    }(style))
-
-    rule.style = newStyle
-}
-
-},{}],7:[function(require,module,exports){
-'use strict'
-
-var regExp = /&/gi
-
-/**
- * Convert nested rules to separate, remove them from original styles.
- *
- * @param {Rule} rule
- * @api private
- */
-module.exports = function (rule) {
-    var stylesheet = rule.stylesheet
-    var style = rule.style
-
-    for (var prop in style) {
-        if (prop[0] == '&') {
-            var selector = prop.replace(regExp, rule.selector)
-            rule.addChild(selector, style[prop])
-            delete style[prop]
-        }
-    }
-}
-
-},{}],8:[function(require,module,exports){
-'use strict'
-
-var jss = require('..')
-
-/**
- * Add vendor prefix to a property name when needed.
- *
- * @param {Rule} rule
- * @api private
- */
-module.exports = function (rule) {
-    var style = rule.style
-
-    for (var prop in style) {
-        var supportedProp = jss.support.getProp(prop)
-        if (supportedProp) {
-            style[supportedProp] = style[prop]
-            delete style[prop]
-        }
-    }
-}
-
-},{"..":4}],9:[function(require,module,exports){
-'use strict'
-
-var vendorPrefix = require('./vendorPrefix')
-
-/**
- * We test every property on vendor prefix requirement.
- * Once tested, result is cached. It gives us up to 70% perf boost.
- * http://jsperf.com/element-style-object-access-vs-plain-object
- */
-var cache = {}
-
-var p = document.createElement('p')
-
-// Prefill cache with known css properties to reduce amount of
-// properties we need to feature test.
-// http://davidwalsh.name/vendor-prefix
-;(function() {
-    var computed = window.getComputedStyle(document.documentElement, '')
-    for (var key in computed) {
-        cache[computed[key]] = false
-    }
-}())
-
-// Convert dash separated strings to camel cased.
-var camelize = (function () {
-    var regExp = /[-\s]+(.)?/g
-
-    function toUpper(match, c) {
-        return c ? c.toUpperCase() : ''
-    }
-
-    return function(str) {
-        return str.replace(regExp, toUpper)
-    }
-}())
-
-/**
- * Test if a property is supported, returns property with vendor
- * prefix if required, otherwise `false`.
- *
- * @param {String} prop
- * @return {String|Boolean}
- * @api private
- */
-exports.getProp = function (prop) {
-    // We have not tested this prop yet, lets do the test.
-    if (cache[prop] == null) {
-        var camelized = vendorPrefix.js + camelize('-' + prop)
-        var dasherized = vendorPrefix.css + prop
-        // Test if property is supported.
-        // Camelization is required because we can't test using
-        // css syntax e.g. in ff.
-        cache[prop] = camelized in p.style ? dasherized : false
-    }
-
-    return cache[prop]
-}
-
-},{"./vendorPrefix":10}],10:[function(require,module,exports){
-'use strict'
-
-var jsCssMap = {
-    Webkit: '-webkit-',
-    Moz: '-moz-',
-    // IE did it wrong again ...
-    ms: '-ms-',
-    O: '-o-'
-}
-
-var style = document.createElement('p').style
-var testProp = 'Transform'
-
-for (var js in jsCssMap) {
-    if ((js + testProp) in style) {
-        exports.js = js
-        exports.css = jsCssMap[js]
-        break
     }
 }
 

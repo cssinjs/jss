@@ -1,3 +1,8 @@
+## 0.7.0 / 2014-11-29
+
+- moved jss to separate github organization
+- moved all plugins to separate repositories (don't force people use plugins they don't need)
+
 ## 0.6.0 / 2014-11-28
 
 - rename processors to plugins
