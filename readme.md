@@ -267,11 +267,11 @@ jss source.css -p > source.jss
 1. How fast would bootstrap css lib render?
 I have converted bootstraps css to jss. In `bench/bootstrap` folder you will find [jss](http://jsstyles.github.io/jss/bench/bootstrap/jss.html) and [css](http://jsstyles.github.io/jss/bench/bootstrap/css.html) files. You need to try more than once to have some average value.
 
-On my machine overhead is about 10-15ms.
+    On my machine overhead is about 10-15ms.
 
 2. How much slower is to convert jss to css and then render it vs. rendering css string directly?
 
-[Here is jsperf bench](http://jsperf.com/jss-vs-css/3)
+[jsperf bench](http://jsperf.com/jss-vs-css/3)
 
 ## Run tests
 
