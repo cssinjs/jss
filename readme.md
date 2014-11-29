@@ -12,7 +12,7 @@ Take a look at [examples](http://jsstyles.github.io/jss/examples/index.html) dir
 
 ### Syntactic differences compared to CSS
 
-Jss styles are just plain javascript objects. They map 1:1 to css rules, except of those modified by plugins.
+Jss styles are just plain javascript objects. They map 1:1 to css rules, except of those modified by plugins. Additional syntactic sugar is available through [plugins](https://github.com/jsstyles?query=jss-).
 
 ```javascript
 // Some random jss code example
