@@ -269,9 +269,7 @@ I have converted bootstraps css to jss. In `bench/bootstrap` folder you will fin
 
     On my machine overhead is about 10-15ms.
 
-2. How much slower is to convert jss to css and then render it vs. rendering css string directly?
-
-[jsperf bench](http://jsperf.com/jss-vs-css/3)
+1. Rendering jss vs. css (same styles) [jsperf bench](http://jsperf.com/jss-vs-css/3).
 
 ## Run tests
 
