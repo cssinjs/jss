@@ -1,4 +1,4 @@
-## Dynamic stylesheets for web components.
+## Dynamic style sheets for web components.
 
 Why do we need transpilers like [sass](http://sass-lang.com/) or [stylus](http://learnboost.github.io/stylus/) when we can use javascript to do the same and much more?
 
@@ -84,17 +84,17 @@ var jss = window.jss
 var jss = require('jss')
 ```
 
-### Create stylesheet
+### Create style sheet
 
 `jss.createStyleSheet([rules], [named], [attributes])`
 
 - `rules` is an object, where keys are selectors if `named` is not true
-- `named` rules keys are not used as selectors, but as names, will cause auto generated class names and selectors. It will also make class names accessible via `stylesheet.classes`.
+- `named` rules keys are not used as selectors, but as names, will cause auto generated class names and selectors. It will also make class names accessible via `styleSheet.classes`.
 - `attributes` allows to set any attributes on style element.
 
 
 ```javascript
-var stylesheet = jss.createStyleSheet({
+var styleSheet = jss.createStyleSheet({
     '.selector': {
         width: '100px'
     }
@@ -109,19 +109,19 @@ var stylesheet = jss.createStyleSheet({
 </style>
 ```
 
-### Create namespaced stylesheet.
+### Create namespaced style sheet.
 
-Create a stylesheet with [namespaced](http://jsstyles.github.io/jss/examples/namespace/index.html) rules. For this set second parameter to `true`.
+Create a style sheet with [namespaced](http://jsstyles.github.io/jss/examples/namespace/index.html) rules. For this set second parameter to `true`.
 
 ```javascript
-var stylesheet = jss.createStyleSheet({
+var styleSheet = jss.createStyleSheet({
     myButton: {
         width: '100px',
         height: '100px'
     }
 }, true).attach()
 
-console.log(stylesheet.classes.myButton) // .jss-0
+console.log(styleSheet.classes.myButton) // .jss-0
 ```
 
 ```css
@@ -133,29 +133,29 @@ console.log(stylesheet.classes.myButton) // .jss-0
 </style>
 ```
 
-### Attach stylesheet
+### Attach style sheet
 
-`stylesheet.attach()`
+`styleSheet.attach()`
 
-Insert stylesheet into render tree.
+Insert style sheet into render tree.
 
 ```javascript
-stylesheet.attach()
+styleSheet.attach()
 ```
 
-### Detach stylesheet
+### Detach style sheet
 
-`stylesheet.detach()`
+`styleSheet.detach()`
 
-Remove stylesheet from render tree to increase runtime performance.
+Remove style sheet from render tree to increase runtime performance.
 
 ```javascript
-stylesheet.detach()
+styleSheet.detach()
 ```
 
 ### Add a rule
 
-`stylesheet.addRule([selector], rule)`
+`styleSheet.addRule([selector], rule)`
 
 Returns an array of rules, because you might have a nested rule in your style.
 
@@ -163,7 +163,7 @@ Returns an array of rules, because you might have a nested rule in your style.
 #### You might want to add rules dynamically.
 
 ```javascript
-var rules = stylesheet.addRule('.my-button', {
+var rules = styleSheet.addRule('.my-button', {
     padding: '20px',
     background: 'blue'
 })
@@ -171,7 +171,7 @@ var rules = stylesheet.addRule('.my-button', {
 #### Add rule with generated class name.
 
 ```javascript
-var rules = stylesheet.addRule({
+var rules = styleSheet.addRule({
     padding: '20px',
     background: 'blue'
 })
@@ -180,25 +180,25 @@ document.body.innerHTML = '<button class="' + rules[0].className + '">Button</bu
 
 ### Get a rule
 
-`stylesheet.getRule(selector)`
+`styleSheet.getRule(selector)`
 
 ```javascript
 // Using selector
-var rule = stylesheet.getRule('.my-button')
+var rule = styleSheet.getRule('.my-button')
 
 // Using name, if named rule was added.
-var rule = stylesheet.getRule('myButton')
+var rule = styleSheet.getRule('myButton')
 
 ```
 
 ### Add a rules
 
-`stylesheet.addRules(rules)`
+`styleSheet.addRules(rules)`
 
 Add a list of rules.
 
 ```javascript
-stylesheet.addRules({
+styleSheet.addRules({
     '.my-button': {
         float: 'left',
     },
@@ -208,7 +208,7 @@ stylesheet.addRules({
 })
 ```
 
-### Create a rule without a stylesheet.
+### Create a rule without a style sheet.
 
 `jss.createRule([selector], rule)`
 
