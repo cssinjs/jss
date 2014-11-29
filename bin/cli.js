@@ -22,15 +22,12 @@ program.parse(process.argv)
 
 if (!program.args.length) return program.help()
 
-var cssToJss = require('./cssToJss')
+var converters = {
+    '.css': require('./cssToJss')
+}
 
 ;(function convert() {
     var code = fs.readFileSync(program.sourcePath, 'utf-8')
     var ext = path.extname(program.sourcePath)
-
-    switch (ext) {
-        case '.css':
-            console.log(cssToJss(code, program))
-            break
-    }
+    console.log(converters[ext](code, program))
 }())

@@ -1,3 +1,7 @@
+## 0.8.1 / 2014-11-29
+
+- support non browser env #12
+
 ## 0.8.0 / 2014-11-29
 
 - renamed Stylesheet to StyleSheet because its wrong.
