@@ -302,14 +302,6 @@ Stylesheet.prototype.createElement = function () {
 }
 
 },{"./Rule":2,"./plugins":5}],4:[function(require,module,exports){
-/**
- * Stylesheets written in javascript.
- *
- * @copyright Oleg Slobodskoi 2014
- * @website https://github.com/kof/jss
- * @license MIT
- */
-
 'use strict'
 
 var Stylesheet = require('./Stylesheet')

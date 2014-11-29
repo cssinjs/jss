@@ -1,14 +1,14 @@
 {
   "name": "jss",
   "description": "Dynamic stylesheets for web components.",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:kof/jss.git"
+    "url": "git@github.com:jsstyles/jss.git"
   },
   "keywords": [
     "style",

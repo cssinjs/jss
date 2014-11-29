@@ -2,13 +2,13 @@
 
 Why do we need transpilers like [sass](http://sass-lang.com/) or [stylus](http://learnboost.github.io/stylus/) when we can use javascript to do the same and much more?
 
-By leveraging [namespaces](http://kof.github.io/jss/examples/namespace/index.html) we can solve the [cascading](http://www.phase2technology.com/blog/used-and-abused-css-inheritance-and-our-misuse-of-the-cascade/) problem better than [bem](http://bem.info/) and make our components truly reusable and composable.
+By leveraging [namespaces](http://jsstyles.github.io/jss/examples/namespace/index.html) we can solve the [cascading](http://www.phase2technology.com/blog/used-and-abused-css-inheritance-and-our-misuse-of-the-cascade/) problem better than [bem](http://bem.info/) and make our components truly reusable and composable.
 
-[Access css](http://kof.github.io/jss/examples/commonjs/index.html) declarations and values from js without DOM round trip.
+[Access css](http://jsstyles.github.io/jss/examples/commonjs/index.html) declarations and values from js without DOM round trip.
 
 Smaller footprint because of code reuse and no vendor specific declarations
 
-Take a look at [examples](http://kof.github.io/jss/examples/index.html) directory.
+Take a look at [examples](http://jsstyles.github.io/jss/examples/index.html) directory.
 
 ### Syntactic differences compared to CSS
 
@@ -111,7 +111,7 @@ var stylesheet = jss.createStylesheet({
 
 ### Create namespaced stylesheet.
 
-Create a stylesheet with [namespaced](http://kof.github.io/jss/examples/namespace/index.html) rules. For this set second parameter to `true`.
+Create a stylesheet with [namespaced](http://jsstyles.github.io/jss/examples/namespace/index.html) rules. For this set second parameter to `true`.
 
 ```javascript
 var stylesheet = jss.createStylesheet({
@@ -263,7 +263,7 @@ jss source.css -p > source.jss
 
 ## Benchmarks
 
-To make some realistic assumptions about performance overhead, I have converted bootstraps css to jss. In `bench/bootstrap` folder you will find [jss](http://kof.github.io/jss/bench/bootstrap/jss.html) and [css](http://kof.github.io/jss/bench/bootstrap/css.html) files. You need to try more than once to have some average value.
+To make some realistic assumptions about performance overhead, I have converted bootstraps css to jss. In `bench/bootstrap` folder you will find [jss](http://jsstyles.github.io/jss/bench/bootstrap/jss.html) and [css](http://jsstyles.github.io/jss/bench/bootstrap/css.html) files. You need to try more than once to have some average value.
 
 In my tests overhead is 10-15ms.
 
@@ -276,7 +276,7 @@ open test/local.html
 ```
 ### From github
 
-[Tests](https://kof.github.com/jss/test)
+[Tests](https://jsstyles.github.com/jss/test)
 
 ## License
 

@@ -52,7 +52,7 @@
 
 ## 0.2.4 / 2014-11-01
 
-- make tests runnable from githubs gh-pages http://kof.github.io/jss/test/
+- make tests runnable from githubs gh-pages http://jsstyles.github.io/jss/test/
 
 ## 0.2.3 / 2014-11-01
 
