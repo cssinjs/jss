@@ -34,26 +34,39 @@
 
     var attachButton = new Surface({
       size: [200, 40],
-      content: 'Attach Stylesheet',
+      content: 'Attach style sheet',
       classes: [buttonsSheet.classes.attach]
     })
     attachButton.on('click', function () {
       baseSheet.attach()
     })
     mainContext
-        .add(new Modifier({transform: Transform.translate(40, 10)}))
+        .add(new Modifier({transform: Transform.translate(10, 10)}))
         .add(attachButton)
 
 
     var detachButton = new Surface({
       size: [200, 40],
-      content: 'Detach Stylesheet',
+      content: 'Detach style sheet',
       classes: [buttonsSheet.classes.detach]
     })
     detachButton.on('click', function () {
       baseSheet.detach()
     })
     mainContext
-        .add(new Modifier({transform: Transform.translate(40, 60)}))
+        .add(new Modifier({transform: Transform.translate(10, 60)}))
         .add(detachButton)
+
+    var sourceButton = new Surface({
+      size: [200, 40],
+      content: 'View source',
+      classes: [buttonsSheet.classes.source]
+    })
+    sourceButton.on('click', function () {
+      location.href = 'http://github.com/jsstyles/jss/tree/master/examples/famous'
+    })
+    mainContext
+        .add(new Modifier({transform: Transform.translate(10, 110)}))
+        .add(sourceButton)
+
 }())
