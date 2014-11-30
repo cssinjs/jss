@@ -60,7 +60,8 @@
     var sourceButton = new Surface({
       size: [200, 40],
       content: 'View source',
-      classes: [buttonsSheet.classes.source]
+      // Using style declarations inline.
+      properties: buttonsSheet.rules.source.style
     })
     sourceButton.on('click', function () {
       location.href = 'http://github.com/jsstyles/jss/tree/master/examples/famous'
