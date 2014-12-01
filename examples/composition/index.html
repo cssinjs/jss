@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Simple jss example</title>
+    </head>
+    <body>
+        <script id="template" type="text">
+            <component-a>
+                <button class="{button-a}">Button A</button>
+                <component-b>
+                    <button class="{button-b}">Button B</button>
+                </component-b>
+            </component-a>
+        </script>
+
+        <script src="../../dist/jss.js"></script>
+        <script src="./component-a-style.js"></script>
+        <script src="./component-b-style.js"></script>
+        <script src="./app.js"></script>
+    </body>
+</html>
