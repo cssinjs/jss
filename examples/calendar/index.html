@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Calendar</title>
+        <meta charset="utf-8" />
+    </head>
+    <body>
+        <script src="./dist/index.js"></script>
+        <script>
+            (function () {
+                var calendar = window.calendar.createCalendar()
+                document.body.appendChild(calendar.element)
+                calendar.renderDay([
+                    {
+                        start: 30,
+                        end: 150
+                    },
+                    {
+                        start: 540,
+                        end: 600
+                    },
+                    {
+                        start: 560,
+                        end: 620
+                    },
+                    {
+                        start: 610,
+                        end: 670
+                    }
+                ])
+            }())
+        </script>
+    </body>
+</html>

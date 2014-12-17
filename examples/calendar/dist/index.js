@@ -1,0 +1,1071 @@
+!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.calendar=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict'
+
+var jss = require('../jss')
+var utils = require('../utils')
+var Canvas = require('../canvas')
+var Timeline = require('../timeline')
+var EventsManager = require('../events-manager')
+
+var sheet = jss.createStyleSheet(require('./styles'), true)
+
+/**
+ * Creates a new calendar view.
+ */
+function Calendar(options) {
+    this.timeline = new Timeline(options.timeline)
+    this.canvas = new Canvas()
+    this.manager = new EventsManager(this.canvas)
+    this.element = null
+}
+
+module.exports = Calendar
+
+/**
+ * Renders layout.
+ *
+ * @return {Calendar}
+ */
+Calendar.prototype.create = function () {
+    sheet.attach()
+    this.element = utils.element('div', {
+        class: sheet.classes.container
+    })
+
+    this.timeline.create()
+    this.canvas.create()
+
+    this.element.appendChild(this.timeline.element)
+    this.element.appendChild(this.canvas.element)
+
+    return this
+}
+
+
+/**
+ * Render main container.
+ *
+ * @param {Array} events
+ * @return {Calendar}
+ */
+Calendar.prototype.renderDay = function (events) {
+    this.manager
+        .destroy()
+        .set(events)
+        .render()
+
+    return this
+}
+
+},{"../canvas":3,"../events-manager":10,"../jss":11,"../timeline":12,"../utils":15,"./styles":2}],2:[function(require,module,exports){
+'use strict'
+
+var conf = require('../conf')
+
+module.exports = {
+    container: {
+        'font-size': conf.fontSize + 'px',
+        color: '#686868',
+        width: conf.timeline.width + conf.canvas.width + 'px'
+    }
+}
+
+},{"../conf":5}],3:[function(require,module,exports){
+'use strict'
+
+var jss = require('../jss')
+var utils = require('../utils')
+var styles = require('./styles')
+
+var sheet = jss.createStyleSheet(styles.rules, true)
+
+/**
+ * Canvas is a container view events can be added to.
+ */
+function Canvas() {
+    this.element = null
+    this.contentElement = null
+}
+
+module.exports = Canvas
+
+/**
+ * Create canvas elements.
+ *
+ * @return {Canvas}
+ */
+Canvas.prototype.create = function () {
+    sheet.attach()
+
+    this.element = utils.element('div', {
+        class: sheet.classes.canvas
+    })
+    this.contentElement = utils.element('div', {
+        class: sheet.classes.content
+    })
+    this.element.appendChild(this.contentElement)
+
+    return this
+}
+
+/**
+ * Add event.
+ *
+ * @param {Event} event
+ * @return {Canvas}
+ */
+Canvas.prototype.add = function (event) {
+    this.contentElement.appendChild(event.element)
+
+    return this
+}
+
+/**
+ * Get content width.
+ *
+ * @return {Number}
+ */
+Canvas.prototype.getContentWidth = function () {
+    return styles.contentWidth;
+}
+
+},{"../jss":11,"../utils":15,"./styles":4}],4:[function(require,module,exports){
+'use strict'
+
+var conf = require('../conf')
+
+exports.width = conf.canvas.width
+exports.height = conf.height
+exports.padding = 10
+exports.contentWidth = exports.width - exports.padding * 2
+
+exports.rules = {
+    canvas: {
+        position: 'relative',
+        float: 'left',
+        width: exports.width + 'px',
+        height: exports.height + 'px',
+        background: '#ececec',
+        'border-left': '1px solid #d5d5d5',
+        'box-sizing': 'border-box'
+    },
+    content: {
+        position: 'absolute',
+        left: exports.padding + 'px',
+        width: exports.contentWidth + 'px',
+        height: exports.height + 'px'
+    }
+}
+
+},{"../conf":5}],5:[function(require,module,exports){
+'use strict'
+
+/**
+ * Configuration shared between all components.
+ *
+ * @type {Object}
+ */
+module.exports = {
+    fontSize: 16,
+    height: 720,
+    timeline: {
+        width: 75,
+        start: 540,
+        end: 1290
+    },
+    canvas: {
+        width: 620,
+        padding: 10
+    }
+}
+
+},{}],6:[function(require,module,exports){
+'use strict'
+
+/**
+ * Returns compiled html for event content.
+ *
+ * @param {Object} data
+ * @return {String}
+ */
+exports.compile = function (data) {
+    return '' +
+        '<div class="' + data.classes.content + '">' +
+            '<h3 class="' + data.classes.title + '">' + data.title + '</h3>' +
+            '<div class="' + data.classes.location + '">' + data.location + '</div>' +
+        '</div>'
+}
+
+},{}],7:[function(require,module,exports){
+'use strict'
+
+var jss = require('../jss')
+var utils = require('../utils')
+var contentTpl = require('./content-tpl')
+
+var sheet = jss.createStyleSheet(require('./styles'), true)
+
+var uid = 0
+
+/**
+ * Event view constructor.
+ * @param {Object} options
+ */
+function Event(options) {
+    this.id = ++uid
+    this.start = options.start
+    this.end = options.end
+    this.title = options.title || 'Sample Item'
+    this.location = options.location || 'Sample Location'
+    this.element = null
+    this.style = null
+}
+
+module.exports = Event
+
+/**
+ * Create elements.
+ *
+ * @return {Event}
+ */
+Event.prototype.create = function () {
+    sheet.attach()
+    this.element = utils.element('div', {
+        class: sheet.classes.container
+    })
+    this.element.innerHTML = contentTpl.compile({
+        classes: sheet.classes,
+        title: this.title,
+        location: this.location
+    })
+
+    for (var key in this.style) {
+        this.element.style[key] = this.style[key]
+    }
+
+    return this
+}
+
+/**
+ * Destroy event.
+ *
+ * @return {Event}
+ */
+Event.prototype.destroy = function () {
+    this.element.parentNode.removeChild(this.element)
+
+    return this
+}
+
+/**
+ * Set inline styles.
+ *
+ * @return {Event}
+ */
+Event.prototype.setStyle = function (style) {
+    this.style = style
+
+    return this
+}
+
+},{"../jss":11,"../utils":15,"./content-tpl":6,"./styles":8}],8:[function(require,module,exports){
+'use strict'
+
+module.exports = {
+    container: {
+        position: 'absolute',
+        background: '#fff',
+        'border-left': '4px solid #4b6ea8',
+        'box-sizing': 'border-box'
+    },
+    content: {
+        padding: '7px',
+        overflow: 'hidden',
+        height: '100%',
+        border: '1px solid #d5d5d5',
+        'border-left': 'none',
+        'box-sizing': 'border-box'
+    },
+    title: {
+        color: '#4b6ea8',
+        margin: 0,
+        'font-size': '1em'
+    },
+    location: {
+        'font-size': '0.8em'
+    }
+}
+
+},{}],9:[function(require,module,exports){
+'use strict'
+
+var utils = require('../utils')
+
+/**
+ * Distribute events within canvas.
+ *
+ * - No events may visually overlap.
+ * - If two events collide in time, they MUST have the same width.
+ *   This is an invariant. Call this width W.
+ * - W should be the maximum value possible without breaking the previous invariant.
+ *
+ * @param {Array} events
+ * @param {Canvas} canvas
+ * @return {Array} events
+ */
+module.exports = function (events, canvas) {
+    function setStyle(column, nr, columns) {
+        var width = canvas.getContentWidth() / columns.length
+
+        column.forEach(function (event) {
+            var top = utils.minToY(event.start)
+            var height = utils.minToY(event.end) - top
+
+            event.setStyle({
+                width: width + 'px',
+                height: height + 'px',
+                top: top + 'px',
+                left: nr * width + 'px'
+            })
+        })
+    }
+
+    createGroups(events).forEach(function (group) {
+        createColumns(group).forEach(setStyle)
+    })
+
+    return events
+}
+
+/**
+ * Create groups of events which do not overlap. Events within this groups
+ * will be rendered in columns if they overlap.
+ *
+ * @param {Array} events
+ * @return {Array}
+ */
+function createGroups(events) {
+    var groups = []
+    var eventGroupMap = {}
+
+    events.forEach(function createGroup(event) {
+        var group = eventGroupMap[event.id]
+        if (!group) {
+            group = eventGroupMap[event.id] = [event]
+            groups.push(group)
+        }
+
+        events.forEach(function addToGroup(_event) {
+            if (_event === event) return
+            if (collide(event, _event)) {
+                if (!eventGroupMap[_event.id]) {
+                    eventGroupMap[_event.id] = group
+                    group.push(_event)
+                }
+            }
+        })
+    })
+
+    return groups
+}
+
+/**
+ * Create columns within a group. To avoid visual overlap.
+ *
+ * @param {Array} events
+ * @return {Array}
+ */
+function createColumns(group) {
+    var columns = []
+    var eventStackMap = {}
+
+    group.forEach(function createColumn(event) {
+        var column = eventStackMap[event.id]
+        if (!column) {
+            column = eventStackMap[event.id] = [event]
+            columns.push(column)
+        }
+
+        group.forEach(function addToColumn(_event) {
+            if (_event === event) return
+            if (!collide(event, _event)) {
+                if (!eventStackMap[_event.id]) {
+                    eventStackMap[_event.id] = column
+                    column.push(_event)
+                }
+            }
+        })
+    })
+
+    return columns
+}
+
+/**
+ * Check if 2 events collide in time.
+ *
+ * @param {Event} event1
+ * @param {Event} event2
+ * @return {Boolean}
+ */
+function collide(event1, event2) {
+    var startInside = event1.start >= event2.start && event1.start <= event2.end
+    var endInside = event1.end <= event2.end && event1.end > event2.start
+    return startInside || endInside
+}
+
+},{"../utils":15}],10:[function(require,module,exports){
+'use strict'
+
+var Event = require('../event')
+var distribute = require('./distribute')
+
+/**
+ * Handles events creation and distribution.
+ */
+function EventsManager(canvas) {
+    this.canvas = canvas
+    this.events = []
+}
+
+module.exports = EventsManager
+
+/**
+ * Destroy previously rendered events.
+ *
+ * @return {EventsManager}
+ */
+EventsManager.prototype.destroy = function () {
+    this.events.forEach(function (event) {
+        event.destroy()
+    })
+
+    return this
+}
+
+/**
+ * Render events at the right position and the right size.
+ *
+ * @param {Array} events
+ * @return {EventsManager}
+ */
+EventsManager.prototype.set = function (events) {
+    this.events = events.map(function (options) {
+        return new Event(options)
+    })
+
+    return this
+}
+
+/**
+ * Render events at the right position and the right size.
+ *
+ * @return {EventsManager}
+ */
+EventsManager.prototype.render = function () {
+    distribute(this.events, this.canvas).forEach(function (event) {
+        event.create()
+        this.canvas.add(event)
+    }, this)
+
+    return this
+}
+
+
+},{"../event":7,"./distribute":9}],11:[function(require,module,exports){
+'use strict'
+
+module.exports = require('../../..')
+
+},{"../../..":17}],12:[function(require,module,exports){
+'use strict'
+
+var jss = require('../jss')
+var utils = require('../utils')
+var markerTpl = require('./marker-tpl')
+
+var sheet = jss.createStyleSheet(require('./styles'), true)
+
+/**
+ * Creates a timeline view.
+ */
+function Timeline(options) {
+    this.element = null
+    this.start = options.start
+    this.end = options.end
+}
+
+module.exports = Timeline
+
+/**
+ * Creates timeline elements.
+ *
+ * @return {Timeline}
+ */
+Timeline.prototype.create = function () {
+    sheet.attach()
+    this.element = utils.element('div', {
+        class: sheet.classes.timeline
+    })
+
+    var fragment = document.createDocumentFragment()
+    for (var min = this.start; min < this.end; min += 30) {
+        fragment.appendChild(this.createMarker({
+            suffix: getSuffix(min),
+            time: formatTime(min),
+            min: min
+        }))
+    }
+    this.element.appendChild(fragment)
+
+    return this
+}
+
+/**
+ * Create time marker element.
+ *
+ * @param {Obejct} options
+ * @return {Element}
+ */
+Timeline.prototype.createMarker = function(options) {
+    var element = utils.element('div', {
+        class: sheet.classes.timeContainer
+    })
+    element.style.top = utils.minToY(options.min - this.start) + 'px'
+    element.innerHTML = markerTpl.compile({
+        time: options.time,
+        classes: sheet.classes,
+        suffix: options.suffix
+    })
+
+    return element
+}
+
+/**
+ * Get PM/AM suffix.
+ *
+ * @param {Number} min
+ * @return {String}
+ */
+function getSuffix(min) {
+    var h = min / 60
+    if (!isInt(h)) return false
+    if (h < 12) return 'AM'
+    return 'PM'
+}
+
+/**
+ * Returns true if integer.
+ *
+ * @param {Number} n
+ * @return {Boolean}
+ */
+function isInt(n) {
+   return n % 1 === 0
+}
+
+/**
+ * Format time according the layout.
+ *
+ * @param {Number} min
+ * @return {String}
+ */
+function formatTime(min) {
+    var h = min / 60
+    if (h > 12.5) h -= 12
+
+    return isInt(h) ? h + ':00' : Math.floor(h) + ':30'
+}
+
+},{"../jss":11,"../utils":15,"./marker-tpl":13,"./styles":14}],13:[function(require,module,exports){
+'use strict'
+
+/**
+ * Returns compiled template. Some template engine should be used in production
+ * use case.
+ *
+ * @param {Object} data
+ * @return {String}
+ */
+exports.compile = function (data) {
+    var timeClass = data.classes[data.suffix ? 'timeWithSuffix' : 'time']
+    var html = '<span class="' + timeClass + '">' + data.time + '</span>'
+    if (data.suffix) {
+        html += '<span class="' + data.classes.suffix + '">' + data.suffix + '</span>'
+    }
+
+    return html
+}
+
+},{}],14:[function(require,module,exports){
+'use strict'
+
+var conf = require('../conf')
+
+module.exports = {
+    timeline: {
+        position: 'relative',
+        float: 'left',
+        width: conf.timeline.width + 'px',
+        height: conf.height + 'px',
+        padding: '0 7px 0 0',
+        'box-sizing': 'border-box',
+        // Middle of the number should be the start.
+        'margin-top': -conf.fontSize / 2 + 'px'
+    },
+    timeContainer: {
+        position: 'absolute',
+        width: '100%',
+        'padding-right': '10px',
+        'text-align': 'right',
+        'box-sizing': 'border-box'
+    },
+    time: {
+        'font-size': '10px',
+        color: '#999'
+    },
+    timeWithSuffix: {
+        'font-size': '13px',
+        'font-weight': 'bold',
+        'margin-right': '5px'
+    },
+    suffix: {
+        'font-size': '10px',
+        color: '#999'
+    }
+}
+
+},{"../conf":5}],15:[function(require,module,exports){
+'use strict'
+
+var conf = require('../conf')
+
+/**
+ * Create DOM node, set attributes.
+ *
+ * @param {String} name
+ * @param {Object} [attrs]
+ * @return Element
+ */
+exports.element = function (name, attrs) {
+    var element = document.createElement(name)
+
+    for (var name in attrs) {
+        element.setAttribute(name, attrs[name])
+    }
+
+    return element
+}
+
+var MIN_IN_DAY = 12 * 60
+
+/**
+ * Converts minutes to Y offset in px.
+ *
+ * @param {Number} min
+ * @return {Number}
+ */
+exports.minToY = function (min) {
+    return conf.height * min / MIN_IN_DAY
+}
+
+},{"../conf":5}],16:[function(require,module,exports){
+'use strict'
+
+var Calendar = require('./components/calendar')
+var conf = require('./components/conf')
+
+exports.Calendar = Calendar
+
+exports.createCalendar = function () {
+    return new Calendar(conf).create()
+}
+
+},{"./components/calendar":1,"./components/conf":5}],17:[function(require,module,exports){
+/**
+ * StyleSheets written in javascript.
+ *
+ * @copyright Oleg Slobodskoi 2014
+ * @website https://github.com/jsstyles/jss
+ * @license MIT
+ */
+
+module.exports = require('./lib/index')
+
+},{"./lib/index":20}],18:[function(require,module,exports){
+'use strict'
+
+var uid = 0
+
+var hasKeyframes = /@keyframes/
+
+var toString = Object.prototype.toString
+
+/**
+ * Rule is selector + style hash.
+ *
+ * @param {String} [selector]
+ * @param {Object} style is property:value hash.
+ * @param {Object} [stylesheet]
+ * @api public
+ */
+function Rule(selector, style, stylesheet) {
+    if (typeof selector == 'object') {
+        stylesheet = style
+        style = selector
+        selector = null
+    }
+
+    if (selector) {
+        this.selector = selector
+    } else {
+        this.className = Rule.NAMESPACE_PREFIX + '-' + uid
+        uid++
+        this.selector = '.' + this.className
+    }
+
+    this.stylesheet = stylesheet
+    this.style = style
+}
+
+module.exports = Rule
+
+Rule.NAMESPACE_PREFIX = 'jss'
+
+/**
+ * Add child rule. Required for plugins like "nested".
+ * StyleSheet will render them as a separate rule.
+ *
+ * @param {String} selector
+ * @param {Object} style
+ * @return {Rule}
+ * @api public
+ */
+Rule.prototype.addChild = function (selector, style) {
+    if (!this.children) this.children = {}
+    this.children[selector] = style
+
+    return this
+}
+
+/**
+ * Converts the rule to css string.
+ *
+ * @return {String}
+ * @api public
+ */
+Rule.prototype.toString = function () {
+    var isKeyframe = hasKeyframes.test(this.selector)
+    var style = this.style
+    var str = this.selector + ' {'
+
+    for (var prop in style) {
+        var value = style[prop]
+        if (typeof value == 'object') {
+            var type = toString.call(value)
+            // We are in a sub block e.g. @media, @keyframes
+            if (type == '[object Object]') {
+                var valueStr = '{'
+                for (var prop2 in value) {
+                    valueStr += '\n    ' + prop2 + ': ' + value[prop2] + ';'
+                }
+                valueStr += '\n  }'
+                value = valueStr
+                str += '\n  ' + prop + (isKeyframe ? ' ' : ': ') + value
+            // We want to generate multiple declarations with identical property names.
+            } else if (type == '[object Array]') {
+                for (var i = 0; i < value.length; i++) {
+                    str += '\n  ' + prop + ': ' + value[i] + ';'
+                }
+            }
+        } else {
+            str += '\n  ' + prop + ': ' + value + ';'
+        }
+    }
+
+    str += '\n}'
+
+    return str
+}
+
+},{}],19:[function(require,module,exports){
+'use strict'
+
+var Rule = require('./Rule')
+var plugins = require('./plugins')
+
+/**
+ * StyleSheet abstraction, contains rules, injects stylesheet into dom.
+ *
+ * @param {Object} [rules] object with selectors and declarations
+ * @param {Boolean} [named] rules have names if true, class names will be generated.
+ * @param {Object} [attributes] stylesheet element attributes
+ * @api public
+ */
+function StyleSheet(rules, named, attributes) {
+    if (typeof named == 'object') {
+        attributes = named
+        named = false
+    }
+    this.element = null
+    this.attached = false
+    this.named = named || false
+    this.attributes = attributes
+    this.rules = {}
+    this.classes = {}
+    this.text = ''
+
+    // Don't create element if we are not in a browser environment.
+    if (typeof document != 'undefined') {
+        this.element = this.createElement()
+    }
+
+    for (var key in rules) {
+        this.createRules(key, rules[key])
+    }
+}
+
+module.exports = StyleSheet
+
+/**
+ * Insert stylesheet element to render tree.
+ *
+ * @api public
+ * @return {StyleSheet}
+ */
+StyleSheet.prototype.attach = function () {
+    if (this.attached) return this
+
+    if (!this.text) this.deploy()
+
+    document.head.appendChild(this.element)
+    this.attached = true
+
+    return this
+}
+
+/**
+ * Stringify and inject the rules.
+ *
+ * @return {StyleSheet}
+ * @api private
+ */
+StyleSheet.prototype.deploy = function () {
+    this.text = this.toString()
+    this.element.innerHTML = '\n' + this.text + '\n'
+
+    return this
+}
+
+/**
+ * Remove stylesheet element from render tree.
+ *
+ * @return {StyleSheet}
+ * @api public
+ */
+StyleSheet.prototype.detach = function () {
+    if (!this.attached) return this
+
+    this.element.parentNode.removeChild(this.element)
+    this.attached = false
+
+    return this
+}
+
+/**
+ * Add a rule to the current stylesheet. Will insert a rule also after the stylesheet
+ * has been rendered first time.
+ *
+ * @param {Object} [key] can be selector or name if `this.named` is true
+ * @param {Object} style property/value hash
+ * @return {Rule}
+ * @api public
+ */
+StyleSheet.prototype.addRule = function (key, style) {
+    var rules = this.createRules(key, style)
+
+    // Don't insert rule directly if there is no stringified version yet.
+    // It will be inserted all together when .attach is called.
+    if (this.text) {
+        var sheet = this.element.sheet
+        for (var i = 0; i < rules.length; i++) {
+            sheet.insertRule(rules[i].toString(), sheet.cssRules.length)
+        }
+    } else {
+        this.deploy()
+    }
+
+    return rules
+}
+
+/**
+ * Create rules, will render also after stylesheet was rendered the first time.
+ *
+ * @param {Object} rules key:style hash.
+ * @return {StyleSheet} this
+ * @api public
+ */
+StyleSheet.prototype.addRules = function (rules) {
+    for (var key in rules) {
+        this.addRule(key, rules[key])
+    }
+
+    return this
+}
+
+/**
+ * Get a rule.
+ *
+ * @param {String} key can be selector or name if `named` is true.
+ * @return {Rule}
+ * @api public
+ */
+StyleSheet.prototype.getRule = function (key) {
+    return this.rules[key]
+}
+
+/**
+ * Convert rules to a css string.
+ *
+ * @return {String}
+ * @api public
+ */
+StyleSheet.prototype.toString = function () {
+    var str = ''
+    var rules = this.rules
+
+    for (var key in rules) {
+        if (str) str += '\n'
+        str += rules[key].toString()
+    }
+
+    return str
+}
+
+/**
+ * Create a rule, will not render after stylesheet was rendered the first time.
+ *
+ * @param {Object} [selector] if you don't pass selector - it will be generated
+ * @param {Object} style property/value hash
+ * @return {Array} rule can contain child rules
+ * @api private
+ */
+StyleSheet.prototype.createRules = function (key, style) {
+    var rules = []
+    var selector, name
+
+    if (this.named) name = key
+    else selector = key
+
+    var rule = new Rule(selector, style, this)
+    rules.push(rule)
+    this.rules[name || rule.selector] = rule
+    if (this.named) this.classes[name] = rule.className
+    plugins.run(rule)
+
+    for (key in rule.children) {
+        rules.push(this.createRules(key, rule.children[key]))
+    }
+
+    return rules
+}
+
+/**
+ * Create stylesheet element.
+ *
+ * @api private
+ * @return {Element}
+ */
+StyleSheet.prototype.createElement = function () {
+    var el = document.createElement('style')
+
+    if (this.attributes) {
+        for (var name in this.attributes) {
+            el.setAttribute(name, this.attributes[name])
+        }
+    }
+
+    return el
+}
+
+},{"./Rule":18,"./plugins":21}],20:[function(require,module,exports){
+'use strict'
+
+var StyleSheet = require('./StyleSheet')
+var Rule = require('./Rule')
+
+exports.StyleSheet = StyleSheet
+
+exports.Rule = Rule
+
+exports.plugins = require('./plugins')
+
+/**
+ * Create a stylesheet.
+ *
+ * @param {Object} rules is selector:style hash.
+ * @param {Object} [named] rules have names if true, class names will be generated.
+ * @param {Object} [attributes] stylesheet element attributes.
+ * @return {StyleSheet}
+ * @api public
+ */
+exports.createStyleSheet = function (rules, named, attributes) {
+    return new StyleSheet(rules, named, attributes)
+}
+
+/**
+ * Create a rule.
+ *
+ * @param {String} [selector]
+ * @param {Object} style is property:value hash.
+ * @return {Rule}
+ * @api public
+ */
+exports.createRule = function (selector, style) {
+    var rule = new Rule(selector, style)
+    exports.plugins.run(rule)
+    return rule
+}
+
+/**
+ * Register plugin. Passed function will be invoked with a rule instance.
+ *
+ * @param {Function} fn
+ * @api public
+ */
+exports.use = exports.plugins.use
+
+},{"./Rule":18,"./StyleSheet":19,"./plugins":21}],21:[function(require,module,exports){
+'use strict'
+
+/**
+ * Registered plugins.
+ *
+ * @type {Array}
+ * @api public
+ */
+exports.registry = []
+
+/**
+ * Register plugin. Passed function will be invoked with a rule instance.
+ *
+ * @param {Function} fn
+ * @api public
+ */
+exports.use = function (fn) {
+    exports.registry.push(fn)
+}
+
+/**
+ * Execute all registered plugins.
+ *
+ * @param {Rule} rule
+ * @api private
+ */
+exports.run = function (rule) {
+    for (var i = 0; i < exports.registry.length; i++) {
+        exports.registry[i](rule)
+    }
+}
+
+},{}]},{},[16])(16)
+});
