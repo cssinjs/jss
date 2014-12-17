@@ -1,3 +1,8 @@
+## 0.8.2 / 2014-12-17
+
+- add build for "support non browser env #12"
+- add calendar example
+
 ## 0.8.1 / 2014-11-29
 
 - support non browser env #12
