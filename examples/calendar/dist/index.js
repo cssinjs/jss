@@ -756,7 +756,14 @@ Rule.prototype.addChild = function (selector, style) {
  */
 Rule.prototype.applyTo = function (element) {
     for (var prop in this.style) {
-        element.style[prop] = this.style[prop]
+        var value = this.style[prop]
+        if (toString.call(value) == '[object Array]') {
+            for (var i = 0; i < value.length; i++) {
+                element.style[prop] = value[i]
+            }
+        } else {
+            element.style[prop] = value
+        }
     }
 
     return this

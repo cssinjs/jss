@@ -94,4 +94,9 @@ test('applyTo', function () {
         float: 'left'
     }).applyTo(document.body)
     equal(document.body.style.float, 'left')
+
+    new jss.Rule({
+        display: ['inline', 'run-in']
+    }).applyTo(document.body)
+    equal(document.body.style.display, 'inline')
 })
