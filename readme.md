@@ -225,6 +225,17 @@ var rule = jss.createRule({
 $('.container').css(rule.style)
 ```
 
+### Apply a rule to an element inline.
+
+`rule.applyTo(element)`
+
+```javascript
+jss.createRule({
+    background: 'blue'
+}).applyTo(document.body)
+
+```
+
 ### Register plugin.
 
 `jss.use(fn)`

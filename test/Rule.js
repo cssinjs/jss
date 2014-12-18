@@ -88,3 +88,10 @@ test('@keyframes', function () {
     equal(rule.selector, '@keyframes a')
     equal(rule.toString(), '@keyframes a {\n  from {\n    top: 0;\n  }\n  30% {\n    top: 30;\n  }\n  60%, 70% {\n    top: 80;\n  }\n}')
 })
+
+test('applyTo', function () {
+    new jss.Rule({
+        float: 'left'
+    }).applyTo(document.body)
+    equal(document.body.style.float, 'left')
+})

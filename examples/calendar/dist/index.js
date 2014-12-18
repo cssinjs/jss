@@ -748,6 +748,21 @@ Rule.prototype.addChild = function (selector, style) {
 }
 
 /**
+ * Apply rule to an element inline.
+ *
+ * @param {Element} element
+ * @return {Rule}
+ * @api public
+ */
+Rule.prototype.applyTo = function (element) {
+    for (var prop in this.style) {
+        element.style[prop] = this.style[prop]
+    }
+
+    return this
+}
+
+/**
  * Converts the rule to css string.
  *
  * @return {String}
