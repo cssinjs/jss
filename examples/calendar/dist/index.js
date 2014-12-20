@@ -696,8 +696,6 @@ module.exports = require('./lib/index')
 
 var uid = 0
 
-var hasKeyframes = /@keyframes/
-
 var toString = Object.prototype.toString
 
 /**
@@ -776,7 +774,8 @@ Rule.prototype.applyTo = function (element) {
  * @api public
  */
 Rule.prototype.toString = function () {
-    var isKeyframe = hasKeyframes.test(this.selector)
+    // http://jsperf.com/match-string-at-the-beginning
+    var isKeyframe = this.selector.substr(0, 9) == '@keyframe'
     var style = this.style
     var str = this.selector + ' {'
 
