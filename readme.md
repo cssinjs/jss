@@ -89,15 +89,18 @@ var jss = require('jss')
 
 ### Create style sheet
 
-`jss.createStyleSheet([rules], [named], [attributes])`
+`jss.createStyleSheet([rules], [named], [options])`
 
-- `rules` is an object, where keys are selectors if `named` is not true
-- `named` rules keys are not used as selectors, but as names, will cause auto generated class names and selectors. It will also make class names accessible via `styleSheet.classes`.
-- `attributes` allows to set any attributes on style element.
+Options:
 
+- `media` style element attribute
+- `title` style element attribute
+- `type` style element attribute
+- `named` if true - keys are names, selectors will be generated
+- `link` link jss `Rule` instances with DOM `CSSRule instances so that styles, can be modified dynamically, false by default because it has some performance cost.
 
 ```javascript
-var styleSheet = jss.createStyleSheet({
+var sheet = jss.createStyleSheet({
     '.selector': {
         width: '100px'
     }
@@ -117,14 +120,14 @@ var styleSheet = jss.createStyleSheet({
 Create a style sheet with [namespaced](http://jsstyles.github.io/jss/examples/namespace/index.html) rules. For this set second parameter to `true`.
 
 ```javascript
-var styleSheet = jss.createStyleSheet({
+var sheet = jss.createStyleSheet({
     myButton: {
         width: '100px',
         height: '100px'
     }
 }, true).attach()
 
-console.log(styleSheet.classes.myButton) // .jss-0
+console.log(sheet.classes.myButton) // .jss-0
 ```
 
 ```css
@@ -138,70 +141,64 @@ console.log(styleSheet.classes.myButton) // .jss-0
 
 ### Attach style sheet
 
-`styleSheet.attach()`
+`sheet.attach()`
 
-Insert style sheet into render tree.
-
-```javascript
-styleSheet.attach()
-```
+Insert style sheet into the render tree. You need to call it in order to make your style sheet visible for the layout.
 
 ### Detach style sheet
 
-`styleSheet.detach()`
+`sheet.detach()`
 
-Remove style sheet from render tree to increase runtime performance.
-
-```javascript
-styleSheet.detach()
-```
+Detaching unsused style sheets will speedup every DOM node insertion and manipulation as the browser will have to do less lookups for css rules potentially to be applied to the element.
 
 ### Add a rule
 
-`styleSheet.addRule([selector], rule)`
+`sheet.addRule([selector], rule)`
 
-Returns an array of rules, because you might have a nested rule in your style.
-
+Returns an array of rules, because you might have a [nested](https://github.com/jsstyles/jss-nested) rule in your style.
 
 #### You might want to add rules dynamically.
 
 ```javascript
-var rules = styleSheet.addRule('.my-button', {
+var rules = sheet.addRule('.my-button', {
     padding: '20px',
     background: 'blue'
 })
 ```
+
 #### Add rule with generated class name.
 
 ```javascript
-var rules = styleSheet.addRule({
+var rules = sheet.addRule({
     padding: '20px',
     background: 'blue'
 })
 document.body.innerHTML = '<button class="' + rules[0].className + '">Button</button>'
 ```
 
-### Get a rule
+### Get a rule.
 
-`styleSheet.getRule(selector)`
+`sheet.getRule(selector)`
+
+Access a rule within sheet by selector or name.
 
 ```javascript
 // Using selector
-var rule = styleSheet.getRule('.my-button')
+var rule = sheet.getRule('.my-button')
 
 // Using name, if named rule was added.
-var rule = styleSheet.getRule('myButton')
+var rule = sheet.getRule('myButton')
 
 ```
 
-### Add a rules
+### Add multiple rules.
 
-`styleSheet.addRules(rules)`
+`sheet.addRules(rules)`
 
-Add a list of rules.
+In case you want to add rules to the sheet separately or even at runtime.
 
 ```javascript
-styleSheet.addRules({
+sheet.addRules({
     '.my-button': {
         float: 'left',
     },
@@ -215,25 +212,47 @@ styleSheet.addRules({
 
 `jss.createRule([selector], rule)`
 
+In order to apply styles directly to the element butt still be able to use jss plugins.
+
 ```javascript
 var rule = jss.createRule({
     padding: '20px',
     background: 'blue'
 })
 
-// Apply styles directly using jquery.
-$('.container').css(rule.style)
+rule.applyTo(element)
 ```
 
 ### Apply a rule to an element inline.
 
 `rule.applyTo(element)`
 
+This is equivalent to `element.style.background = 'blue'` except of that you could use a rule from sheet which is already defined and can apply plugins to it. [Example.](http://jsstyles.github.io/jss/examples/apply-to/index.html)
+
 ```javascript
 jss.createRule({
     background: 'blue'
-}).applyTo(document.body)
+}).applyTo(element)
+```
 
+### Set or get a rule property dynamically.
+
+`rule.prop(name, [value])`
+
+When option `link` is true, after stylesheet is attached, linker saves references to `CSSRule` instances so that you are able to set rules properties at any time. [Example.](http://jsstyles.github.io/jss/examples/dynamic-props/index.html)
+
+```javascript
+var sheet = jss.createStyleSheet({
+    a: {
+        color: 'red'
+    }
+}, {link: true})
+
+// Get the color.
+sheet.getRule('a').prop('color') // red
+
+// Set the color.
+sheet.getRule('a').prop('color', 'green')
 ```
 
 ### Register plugin.
@@ -250,7 +269,7 @@ jss.use(function(rule) {
 
 ### Convert to CSS
 
-`styleSheet.toString()`
+`sheet.toString()`
 
 If you want to get a pure CSS string from jss e.g. for preprocessing jss on the server.
 
@@ -258,13 +277,13 @@ If you want to get a pure CSS string from jss e.g. for preprocessing jss on the 
 
 var jss = require('jss')
 
-var styleSheet = jss.createStyleSheet({
+var sheet = jss.createStyleSheet({
     '.my-button': {
         float: 'left',
     }
 })
 
-console.log(styleSheet.toString())
+console.log(sheet.toString())
 ```
 
 ```css

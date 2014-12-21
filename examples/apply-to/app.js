@@ -3,7 +3,7 @@
 
     // Apply from stylesheet rule.
     var sheet = jss.createStyleSheet(window.styles, true).attach()
-    sheet.rules.button1.applyTo(buttons[0])
+    sheet.getRule('button1').applyTo(buttons[0])
 
     // Apply from separate rule.
     var button2 = jss.createRule({

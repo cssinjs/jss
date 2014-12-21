@@ -9,14 +9,14 @@ test('create empty instance', function () {
     rule = new jss.Rule()
     equal(rule.className, 'jss-1')
     equal(rule.selector, '.jss-1')
-    equal(rule.style, undefined)
+    deepEqual(rule.style, {})
     equal(rule.stylesheet, undefined)
 })
 
 test('create instance with selector only', function () {
     var rule = new jss.Rule('a')
     equal(rule.selector, 'a')
-    equal(rule.style, undefined)
+    deepEqual(rule.style, {})
     equal(rule.stylesheet, undefined)
 })
 
@@ -100,3 +100,30 @@ test('applyTo', function () {
     }).applyTo(document.body)
     equal(document.body.style.display, 'inline')
 })
+
+test('set/get rules virtual prop', function () {
+    var rule = new jss.Rule()
+    rule.prop('float', 'left')
+    equal(rule.prop('float'), 'left')
+})
+
+test('set/get rules dom prop', function () {
+    var ss = jss.createStyleSheet({a: {float: 'left'}}, {link: true})
+    var rule = ss.rules.a
+    ss.attach()
+    rule.prop('color', 'red')
+    equal(rule.style.color, 'red', 'new prop is cached')
+    equal(rule.prop('color'), 'red', 'new prop is returned')
+    equal(rule.CSSRule.style.color, 'red', 'new rule is set to the DOM')
+    ss.detach()
+})
+
+test('get rules prop from the dom and cache it', function () {
+    var ss = jss.createStyleSheet({a: {float: 'left'}}, {link: true})
+    var rule = ss.rules.a
+    ss.attach()
+    equal(rule.prop('color'), '', 'color is empty')
+    ok('color' in rule.style, 'value is cached')
+    ss.detach()
+})
+

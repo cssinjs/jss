@@ -702,7 +702,7 @@ var toString = Object.prototype.toString
  * Rule is selector + style hash.
  *
  * @param {String} [selector]
- * @param {Object} style is property:value hash.
+ * @param {Object} [style] is property:value hash.
  * @param {Object} [stylesheet]
  * @api public
  */
@@ -722,12 +722,44 @@ function Rule(selector, style, stylesheet) {
     }
 
     this.stylesheet = stylesheet
-    this.style = style
+    this.style = style || {}
+    // Will be set by StyleSheet#link if link option is true.
+    this.CSSRule = null
 }
 
 module.exports = Rule
 
 Rule.NAMESPACE_PREFIX = 'jss'
+
+/**
+ * Get or set a style property.
+ *
+ * @param {String} name
+ * @param {String|Number} [value]
+ * @return {Rule|String|Number}
+ * @api public
+ */
+Rule.prototype.prop = function (name, value) {
+    // Its a setter.
+    if (value) {
+        this.style[name] = value
+        // If linked option in StyleSheet is not passed, CSSRule is not defined.
+        if (this.CSSRule) this.CSSRule.style[name] = value
+        return this
+    }
+
+    // Its a getter.
+    value = this.style[name]
+
+    // Read the value from the DOM if its not cached.
+    if (value == null && this.CSSRule) {
+        value = this.CSSRule.style[name]
+        // Cache the value after we have got it from the DOM once.
+        this.style[name] = value
+    }
+
+    return value
+}
 
 /**
  * Add child rule. Required for plugins like "nested".
@@ -817,23 +849,37 @@ var plugins = require('./plugins')
 /**
  * StyleSheet abstraction, contains rules, injects stylesheet into dom.
  *
+ * Options:
+ *
+ *  - `media` style element attribute
+ *  - `title` style element attribute
+ *  - `type` style element attribute
+ *  - `named` if true - keys are names, selectors will be generated
+ *  - `link` link jss Rule instances with DOM CSSRule instances so that styles,
+ *  can be modified dynamically, false by default because it has some performance cost.
+ *
  * @param {Object} [rules] object with selectors and declarations
- * @param {Boolean} [named] rules have names if true, class names will be generated.
- * @param {Object} [attributes] stylesheet element attributes
+ * @param {Boolean} [named] if true - keys are names, selectors will be generated
+ * @param {Object} [options]
  * @api public
  */
-function StyleSheet(rules, named, attributes) {
+function StyleSheet(rules, named, options) {
     if (typeof named == 'object') {
-        attributes = named
-        named = false
+        options = named
+        named = null
     }
+    this.options = options || {}
+    if (this.options.named == null) this.options.named = Boolean(named)
     this.element = null
     this.attached = false
-    this.named = named || false
-    this.attributes = attributes
+    this.media = this.options.media
+    this.type = this.options.type
+    this.title = this.options.title
     this.rules = {}
+    // Only when options.named: true.
     this.classes = {}
-    this.text = ''
+    this.deployed = false
+    this.linked = false
 
     // Don't create element if we are not in a browser environment.
     if (typeof document != 'undefined') {
@@ -844,6 +890,8 @@ function StyleSheet(rules, named, attributes) {
         this.createRules(key, rules[key])
     }
 }
+
+StyleSheet.ATTRIBUTES = ['title', 'type', 'media']
 
 module.exports = StyleSheet
 
@@ -856,23 +904,20 @@ module.exports = StyleSheet
 StyleSheet.prototype.attach = function () {
     if (this.attached) return this
 
-    if (!this.text) this.deploy()
+    if (!this.deployed) {
+        this.deploy()
+        this.deployed = true
+    }
 
     document.head.appendChild(this.element)
+
+    // Before element is attached to the dom rules are not created.
+    if (!this.linked && this.options.link) {
+        this.link()
+        this.linked = true
+    }
+
     this.attached = true
-
-    return this
-}
-
-/**
- * Stringify and inject the rules.
- *
- * @return {StyleSheet}
- * @api private
- */
-StyleSheet.prototype.deploy = function () {
-    this.text = this.toString()
-    this.element.innerHTML = '\n' + this.text + '\n'
 
     return this
 }
@@ -893,10 +938,42 @@ StyleSheet.prototype.detach = function () {
 }
 
 /**
+ * Deploy styles to the element.
+ *
+ * @return {StyleSheet}
+ * @api private
+ */
+StyleSheet.prototype.deploy = function () {
+    this.element.innerHTML = '\n' + this.toString() + '\n'
+
+    return this
+}
+
+/**
+ * Find CSSRule objects in the DOM and link them in the corresponding Rule instance.
+ *
+ * @return {StyleSheet}
+ * @api private
+ */
+StyleSheet.prototype.link = function () {
+    var CSSRuleList = this.element.sheet.rules
+    var rules = this.rules
+
+
+    for (var i = 0; i < CSSRuleList.length; i++) {
+        var CSSRule = CSSRuleList[i]
+        var rule = rules[CSSRule.selectorText]
+        if (rule) rule.CSSRule = CSSRule
+    }
+
+    return this
+}
+
+/**
  * Add a rule to the current stylesheet. Will insert a rule also after the stylesheet
  * has been rendered first time.
  *
- * @param {Object} [key] can be selector or name if `this.named` is true
+ * @param {Object} [key] can be selector or name if `options.named` is true
  * @param {Object} style property/value hash
  * @return {Rule}
  * @api public
@@ -906,10 +983,13 @@ StyleSheet.prototype.addRule = function (key, style) {
 
     // Don't insert rule directly if there is no stringified version yet.
     // It will be inserted all together when .attach is called.
-    if (this.text) {
+    if (this.deployed) {
         var sheet = this.element.sheet
         for (var i = 0; i < rules.length; i++) {
-            sheet.insertRule(rules[i].toString(), sheet.cssRules.length)
+            var nextIndex = sheet.cssRules.length
+            var rule = rules[i]
+            sheet.insertRule(rule.toString(), nextIndex)
+            if (this.options.link) rule.CSSRule = sheet.cssRules[nextIndex]
         }
     } else {
         this.deploy()
@@ -974,13 +1054,18 @@ StyleSheet.prototype.createRules = function (key, style) {
     var rules = []
     var selector, name
 
-    if (this.named) name = key
+    if (this.options.named) name = key
     else selector = key
 
     var rule = new Rule(selector, style, this)
     rules.push(rule)
-    this.rules[name || rule.selector] = rule
-    if (this.named) this.classes[name] = rule.className
+
+    this.rules[rule.selector] = rule
+    if (name) {
+        this.rules[name] = rule
+        this.classes[name] = rule.className
+    }
+
     plugins.run(rule)
 
     for (key in rule.children) {
@@ -997,15 +1082,13 @@ StyleSheet.prototype.createRules = function (key, style) {
  * @return {Element}
  */
 StyleSheet.prototype.createElement = function () {
-    var el = document.createElement('style')
+    var element = document.createElement('style')
 
-    if (this.attributes) {
-        for (var name in this.attributes) {
-            el.setAttribute(name, this.attributes[name])
-        }
-    }
+    StyleSheet.ATTRIBUTES.forEach(function (name) {
+        if (this[name]) element.setAttribute(name, this[name])
+    }, this)
 
-    return el
+    return element
 }
 
 },{"./Rule":18,"./plugins":21}],20:[function(require,module,exports){

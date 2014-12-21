@@ -4,12 +4,16 @@ QUnit.module('StyleSheet')
 
 test('create empty instance', function () {
     var ss = new jss.StyleSheet()
+    equal(ss.deployed, false)
     equal(ss.attached, false)
     equal(ss.attributes, null)
     ok(ss.element instanceof Element)
-    equal(ss.named, false)
+    deepEqual(ss.options, {named: false})
     deepEqual(ss.rules, {})
     deepEqual(ss.classes, {})
+    ok('media' in ss)
+    ok('type' in ss)
+    ok('title' in ss)
 })
 
 test('attach with attribtues', function () {
@@ -27,22 +31,45 @@ test('create instance with rules and generated classes', function () {
     var ss = new jss.StyleSheet({a: {float: 'left'}}, true)
     equal(typeof ss.classes.a, 'string')
     ok(ss.rules.a instanceof jss.Rule)
-    ok(ss.named)
+    ok(ss.options.named)
+})
+
+test('create instance with option named: true', function () {
+    var ss = new jss.StyleSheet(null, {named: true})
+    ok(ss.options.named)
+})
+
+test('accesible rule via selector even if named: true', function () {
+    var ss = new jss.StyleSheet({bla: {float: 'left'}}, {named: true})
+    ok(ss.rules.bla instanceof jss.Rule)
+    ok(ss.rules[ss.rules.bla.selector] instanceof jss.Rule)
 })
 
 test('create instance with rules and attributes', function () {
-    var ss = new jss.StyleSheet({a: {float: 'left'}}, {test: 1})
+    var ss = new jss.StyleSheet(
+        {a: {float: 'left'}},
+        {
+            media: 'screen',
+            type: 'text/css',
+            title: 'test'
+        }
+    )
     ok(ss.rules.a instanceof jss.Rule)
-    equal(ss.named, false)
-    equal(ss.attributes.test, 1)
+    equal(ss.options.named, false)
+    equal(ss.options.media, 'screen')
+    equal(ss.options.type, 'text/css')
+    equal(ss.options.title, 'test')
+    equal(ss.element.getAttribute('media'), 'screen')
+    equal(ss.element.getAttribute('type'), 'text/css')
+    equal(ss.element.getAttribute('title'), 'test')
 })
 
 test('create instance with all params', function () {
-    var ss = new jss.StyleSheet({a: {float: 'left'}}, true, {test: 1})
+    var ss = new jss.StyleSheet({a: {float: 'left'}}, true, {media: 'screen'})
     equal(typeof ss.classes.a, 'string')
     ok(ss.rules.a instanceof jss.Rule)
-    ok(ss.named)
-    equal(ss.attributes.test, 1)
+    ok(ss.options.named)
+    equal(ss.options.media, 'screen')
 })
 
 test('attach/detach', function () {
@@ -79,5 +106,14 @@ test('toString', function () {
     ss.attach()
     equal(ss.toString(), 'a {\n  float: left;\n  width: 1px;\n}')
     equal(ss.element.innerHTML, '\na {\n  float: left;\n  width: 1px;\n}\n')
+    ss.detach()
+})
+
+test('link', function () {
+    var ss = new jss.StyleSheet({a: {float: 'left'}}, {link: true})
+    ss.attach()
+    ok(ss.rules.a.CSSRule instanceof CSSStyleRule)
+    ss.addRule('b', {color: 'red'})
+    ok(ss.rules.b.CSSRule instanceof CSSStyleRule)
     ss.detach()
 })
