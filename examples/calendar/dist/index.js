@@ -956,9 +956,8 @@ StyleSheet.prototype.deploy = function () {
  * @api private
  */
 StyleSheet.prototype.link = function () {
-    var CSSRuleList = this.element.sheet.rules
+    var CSSRuleList = this.element.sheet.cssRules
     var rules = this.rules
-
 
     for (var i = 0; i < CSSRuleList.length; i++) {
         var CSSRule = CSSRuleList[i]

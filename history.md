@@ -1,3 +1,7 @@
+## 0.9.1 / 2014-12-21
+
+- fix firefox issues
+
 ## 0.9.0 / 2014-12-21
 
 - added Rule#prop() for setting and getting rule props dynamically

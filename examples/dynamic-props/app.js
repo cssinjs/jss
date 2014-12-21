@@ -18,6 +18,6 @@
     })
 
     function setColor(e) {
-        sheet.getRule('box').prop('backgroundColor', e.target.innerText)
+        sheet.getRule('box').prop('background', e.target.innerHTML)
     }
 }())
