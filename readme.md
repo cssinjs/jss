@@ -298,8 +298,6 @@ Things you know from stylus like @extend, nested selectors, vendor prefixer are 
 
 [Full list of available plugins](https://github.com/jsstyles?query=jss-)
 
-###
-
 
 ## Install
 
