@@ -1,6 +1,10 @@
-## 0.9.1 / 2014-12-21
+## 0.10.1 / 2014-12-21
 
 - fix firefox issues
+
+## 0.10.0 / 2014-12-21
+
+- added rule.prop() for dynamic rule properties #15
 
 ## 0.9.0 / 2014-12-21
 
