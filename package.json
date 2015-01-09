@@ -1,6 +1,6 @@
 {
   "name": "jss",
-  "description": "Dynamic stylesheets for web components.",
+  "description": "Dynamic style sheets for web components.",
   "version": "0.10.1",
   "author": {
     "name": "Oleg Slobodskoi",
