@@ -3,7 +3,7 @@
 
 JSS is a _very_ thin layer which compiles JSON structures to CSS.
 
-Take a look at "[The important parts](https://medium.com/@oleg008/the-important-parts-131dda7f6f6f)" and [slides](http://slides.com/kof/jss#/17).
+Take a look at "[The important parts](https://medium.com/@oleg008/the-important-parts-131dda7f6f6f)" and [slides](http://slides.com/kof/jss).
 
 By leveraging [namespaces](http://jsstyles.github.io/jss/examples/namespace/index.html) we can solve the [cascading](http://www.phase2technology.com/blog/used-and-abused-css-inheritance-and-our-misuse-of-the-cascade/) problem better than [bem](http://bem.info/) and make our components truly reusable and composable.
 
