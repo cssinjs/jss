@@ -3,9 +3,11 @@
 
 JSS is a _very_ thin layer which compiles JSON structures to CSS.
 
-Why do we need transpilers like [sass](http://sass-lang.com/) or [stylus](http://learnboost.github.io/stylus/) when we can use javascript to do the same and much more?
+Take a look at "[The important parts](https://medium.com/@oleg008/the-important-parts-131dda7f6f6f)" and [slides](http://slides.com/kof/jss#/17).
 
 By leveraging [namespaces](http://jsstyles.github.io/jss/examples/namespace/index.html) we can solve the [cascading](http://www.phase2technology.com/blog/used-and-abused-css-inheritance-and-our-misuse-of-the-cascade/) problem better than [bem](http://bem.info/) and make our components truly reusable and composable.
+
+Why do we need transpilers like [sass](http://sass-lang.com/) or [stylus](http://learnboost.github.io/stylus/) when we can use javascript to do the same and much more?
 
 [Access css](http://jsstyles.github.io/jss/examples/commonjs/index.html) declarations and values from js without DOM round trip.
 
