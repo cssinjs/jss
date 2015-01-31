@@ -22,24 +22,24 @@ Jss styles are just plain javascript objects. They map 1:1 to css rules, except 
 ```javascript
 // Some random jss code example
 {
-  '.carousel-caption': {
-    'position': 'absolute',
-    'z-index': '10',
+  carouselCaption: {
+    position: 'absolute',
+    'z-index': 10,
   },
-  'hr': {
-    'border': '0',
+  hr: {
+    border: 0,
     'border-top': '1px solid #eee'
   },
   '@media (min-width: 768px)': {
-    '.modal-dialog': {
-      'width': '600px',
-      'margin': '30px auto'
+    modalDialog: {
+      width: '600px',
+      margin: '30px auto'
     },
-    '.modal-content': {
+    modelContent: {
       'box-shadow': '0 5px 15px rgba(0, 0, 0, .5)'
     },
-    '.modal-sm': {
-      'width': '300px'
+    modalSm: {
+      width: '300px'
     }
   }
 }
@@ -89,37 +89,21 @@ var jss = window.jss
 var jss = require('jss')
 ```
 
-### Create style sheet
 
-`jss.createStyleSheet([rules], [named], [options])`
+### Create style sheet with namespaces enabled.
+
+Create a style sheet with [namespaced](http://jsstyles.github.io/jss/examples/namespace/index.html) rules.
+
+`jss.createStyleSheet([rules], [options])`
 
 Options:
 
 - `media` style element attribute
 - `title` style element attribute
 - `type` style element attribute
-- `named` if true - keys are names, selectors will be generated
+- `named` true by default - keys are names, selectors will be generated,
+    if false - keys are global selectors.
 - `link` link jss `Rule` instances with DOM `CSSRule instances so that styles, can be modified dynamically, false by default because it has some performance cost.
-
-```javascript
-var sheet = jss.createStyleSheet({
-    '.selector': {
-        width: '100px'
-    }
-}, {media: 'print'}).attach()
-```
-
-```css
-<style media="print">
-    .selector {
-        width: 100px;
-    }
-</style>
-```
-
-### Create namespaced style sheet.
-
-Create a style sheet with [namespaced](http://jsstyles.github.io/jss/examples/namespace/index.html) rules. For this set second parameter to `true`.
 
 ```javascript
 var sheet = jss.createStyleSheet({
@@ -127,14 +111,34 @@ var sheet = jss.createStyleSheet({
         width: '100px',
         height: '100px'
     }
-}, true).attach()
+}, {media: 'print'}).attach()
 
 console.log(sheet.classes.myButton) // .jss-0
 ```
 
 ```css
-<style>
+<style media="print">
     .jss-0 {
+        width: 100px;
+        height: 100px;
+    }
+</style>
+```
+
+### Create regular style sheet with global selectors.
+
+```javascript
+var sheet = jss.createStyleSheet({
+    '.something': {
+        width: '100px',
+        height: '100px'
+    }
+}, {named: false}).attach()
+```
+
+```css
+<style>
+    .something {
         width: 100px;
         height: 100px;
     }
@@ -159,16 +163,7 @@ Detaching unsused style sheets will speedup every DOM node insertion and manipul
 
 Returns an array of rules, because you might have a [nested](https://github.com/jsstyles/jss-nested) rule in your style.
 
-#### You might want to add rules dynamically.
-
-```javascript
-var rules = sheet.addRule('.my-button', {
-    padding: '20px',
-    background: 'blue'
-})
-```
-
-#### Add rule with generated class name.
+#### Add a rule dynamically with a generated class name.
 
 ```javascript
 var rules = sheet.addRule({
@@ -178,19 +173,27 @@ var rules = sheet.addRule({
 document.body.innerHTML = '<button class="' + rules[0].className + '">Button</button>'
 ```
 
+#### Add a rule with global class name.
+
+```javascript
+var rules = sheet.addRule('.my-button', {
+    padding: '20px',
+    background: 'blue'
+})
+```
+
 ### Get a rule.
 
-`sheet.getRule(selector)`
+`sheet.getRule(name)`
 
 Access a rule within sheet by selector or name.
 
 ```javascript
-// Using selector
-var rule = sheet.getRule('.my-button')
-
 // Using name, if named rule was added.
 var rule = sheet.getRule('myButton')
 
+// Using selector
+var rule = sheet.getRule('.my-button')
 ```
 
 ### Add multiple rules.
@@ -201,10 +204,10 @@ In case you want to add rules to the sheet separately or even at runtime.
 
 ```javascript
 sheet.addRules({
-    '.my-button': {
+    myButton: {
         float: 'left',
     },
-    '.something': {
+    something: {
         display: 'none'
     }
 })
@@ -280,7 +283,7 @@ If you want to get a pure CSS string from jss e.g. for preprocessing jss on the 
 var jss = require('jss')
 
 var sheet = jss.createStyleSheet({
-    '.my-button': {
+    myButton: {
         float: 'left',
     }
 })
@@ -289,7 +292,7 @@ console.log(sheet.toString())
 ```
 
 ```css
-.my-button {
+.jss-0 {
   float: left;
 }
 ```

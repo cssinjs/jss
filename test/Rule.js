@@ -9,41 +9,41 @@ test('create empty instance', function () {
     rule = new jss.Rule()
     equal(rule.className, 'jss-1')
     equal(rule.selector, '.jss-1')
-    deepEqual(rule.style, {})
-    equal(rule.stylesheet, undefined)
+    strictEqual(rule.style, undefined)
+    strictEqual(rule.styleSheet, undefined)
 })
 
 test('create instance with selector only', function () {
     var rule = new jss.Rule('a')
     equal(rule.selector, 'a')
-    deepEqual(rule.style, {})
-    equal(rule.stylesheet, undefined)
+    deepEqual(rule.style, undefined)
+    strictEqual(rule.styleSheet, undefined)
 })
 
 test('create instance with styles only', function () {
     var rule = new jss.Rule({float: 'left'})
-    equal(rule.stylesheet, undefined)
+    strictEqual(rule.styleSheet, undefined)
     deepEqual(rule.style, {float: 'left'})
     equal(rule.className.substr(0, 3), 'jss')
     equal(rule.selector.substr(0, 4), '.jss')
 })
 
-test('create instance with styles and stylesheet', function () {
-    var ss = {}
-    var rule = new jss.Rule({float: 'left'}, ss)
+test('create instance with styles and options', function () {
+    var options = {}
+    var rule = new jss.Rule({float: 'left'}, options)
     deepEqual(rule.style, {float: 'left'})
     equal(rule.className.substr(0, 3), 'jss')
     equal(rule.selector.substr(0, 4), '.jss')
-    strictEqual(rule.stylesheet, ss)
+    strictEqual(rule.options, options)
 })
 
 test('create instance with all params', function () {
-    var ss = {}
-    var rule = new jss.Rule('a', {float: 'left'}, ss)
+    var options = {}
+    var rule = new jss.Rule('a', {float: 'left'}, options)
     deepEqual(rule.style, {float: 'left'})
     equal(rule.className, undefined)
     equal(rule.selector, 'a')
-    strictEqual(rule.stylesheet, ss)
+    strictEqual(rule.options, options)
 })
 
 test('add plugin', function () {
@@ -74,9 +74,20 @@ test('multiple declarations with identical property names', function () {
 })
 
 test('@media', function () {
-    var rule = new jss.Rule('@media print', {button: {display: 'none'}})
+    var rule = new jss.Rule('@media print', {button: {display: 'none'}}, {named: false})
     equal(rule.selector, '@media print')
     equal(rule.toString(), '@media print {\n  button {\n    display: none;\n  }\n}')
+})
+
+test('@media named', function () {
+    jss.Rule.uid = 0
+    var rule = new jss.Rule('@media print', {
+        button: {
+            display: 'none'
+        }
+    })
+    equal(rule.selector, '@media print')
+    equal(rule.toString(), '@media print {\n  .jss-0 {\n    display: none;\n  }\n}')
 })
 
 test('@keyframes', function () {
@@ -84,9 +95,15 @@ test('@keyframes', function () {
         from: {top: 0},
         '30%': {top: 30},
         '60%, 70%': {top: 80}
-    })
+    }, {named: false})
     equal(rule.selector, '@keyframes a')
     equal(rule.toString(), '@keyframes a {\n  from {\n    top: 0;\n  }\n  30% {\n    top: 30;\n  }\n  60%, 70% {\n    top: 80;\n  }\n}')
+})
+
+test('@charset', function () {
+    var rule = new jss.Rule('@charset "UTF-8"')
+    equal(rule.selector, '@charset "UTF-8"')
+    equal(rule.toString(), '@charset "UTF-8";')
 })
 
 test('@font-face', function () {

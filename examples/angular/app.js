@@ -1,5 +1,5 @@
 (function () {
-    var ss = jss.createStyleSheet(window.styles, true).attach()
+    var ss = jss.createStyleSheet(window.styles).attach()
 
     angular
         .module('myApp', [])

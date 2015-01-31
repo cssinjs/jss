@@ -1,7 +1,7 @@
 {
     name: 'jss',
-    description: 'Dynamic style sheets for web components.',
-    version: '0.10.2',
+    description: 'Composable and reusable style sheets.',
+    version: '1.0.0',
     author: {
         name: 'Oleg Slobodskoi',
         email: 'oleg008@gmail.com'
@@ -10,18 +10,12 @@
         type: 'git',
         url: 'git@github.com:jsstyles/jss.git'
     },
-    keywords: ['style', 'css', 'stylesheet'],
-    engines: {},
+    keywords: ['jss', 'style', 'sheet', 'stylesheet', 'css', 'components', 'composable'],
     scripts: {},
-    licenses: [
-        {
-           type: 'MIT',
-           url: 'http://www.opensource.org/licenses/mit-license.php'
-        }
-    ],
     overlay: {
         bower: true,
         npm: {
+            engines: {node: '0.8.0'},
             devDependencies: {
                 browserify: '6.0.3',
                 'uglify-js': '2.4.15',
@@ -36,5 +30,11 @@
                 jss: './bin/cli.js'
             }
         }
-    }
+    },
+    licenses: [
+        {
+           type: 'MIT',
+           url: 'http://www.opensource.org/licenses/mit-license.php'
+        }
+    ]
 }

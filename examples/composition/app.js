@@ -1,6 +1,6 @@
 (function () {
-    var sheetA = jss.createStyleSheet(window.componentA, true).attach()
-    var sheetB = jss.createStyleSheet(window.componentB, true).attach()
+    var sheetA = jss.createStyleSheet(window.componentA).attach()
+    var sheetB = jss.createStyleSheet(window.componentB).attach()
 
     var tpl = document.getElementById('template').innerHTML
 

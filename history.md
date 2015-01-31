@@ -1,3 +1,8 @@
+## 1.0.0 / 2014-01-31
+
+- styles have named: true option by default, this is backwards incompatible
+- at-rules like @media can now also have named rules
+
 ## 0.10.2 / 2014-01-31
 
 - fixed #40 there is no colons in all at-rules with nested declarations

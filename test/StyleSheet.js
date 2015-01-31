@@ -8,7 +8,7 @@ test('create empty instance', function () {
     equal(ss.attached, false)
     equal(ss.attributes, null)
     ok(ss.element instanceof Element)
-    deepEqual(ss.options, {named: false})
+    deepEqual(ss.options, {named: true})
     deepEqual(ss.rules, {})
     deepEqual(ss.classes, {})
     ok('media' in ss)
@@ -22,21 +22,18 @@ test('attach with attribtues', function () {
     ss.detach()
 })
 
-test('create instance with rules', function () {
+test('create instance with rules and generated classes', function () {
     var ss = new jss.StyleSheet({a: {float: 'left'}})
     ok(ss.rules.a instanceof jss.Rule)
-})
-
-test('create instance with rules and generated classes', function () {
-    var ss = new jss.StyleSheet({a: {float: 'left'}}, true)
     equal(typeof ss.classes.a, 'string')
-    ok(ss.rules.a instanceof jss.Rule)
     ok(ss.options.named)
 })
 
-test('create instance with option named: true', function () {
-    var ss = new jss.StyleSheet(null, {named: true})
-    ok(ss.options.named)
+test('create instance with rules where selector is a global class', function () {
+    var ss = new jss.StyleSheet({a: {float: 'left'}}, {named: false})
+    ok(ss.rules.a instanceof jss.Rule)
+    equal(ss.classes.a, null)
+    ok(!ss.options.named)
 })
 
 test('accesible rule via selector even if named: true', function () {
@@ -55,21 +52,12 @@ test('create instance with rules and attributes', function () {
         }
     )
     ok(ss.rules.a instanceof jss.Rule)
-    equal(ss.options.named, false)
     equal(ss.options.media, 'screen')
     equal(ss.options.type, 'text/css')
     equal(ss.options.title, 'test')
     equal(ss.element.getAttribute('media'), 'screen')
     equal(ss.element.getAttribute('type'), 'text/css')
     equal(ss.element.getAttribute('title'), 'test')
-})
-
-test('create instance with all params', function () {
-    var ss = new jss.StyleSheet({a: {float: 'left'}}, true, {media: 'screen'})
-    equal(typeof ss.classes.a, 'string')
-    ok(ss.rules.a instanceof jss.Rule)
-    ok(ss.options.named)
-    equal(ss.options.media, 'screen')
 })
 
 test('attach/detach', function () {
@@ -84,13 +72,13 @@ test('attach/detach', function () {
 })
 
 test('addRule/getRule', function () {
-    var ss = new jss.StyleSheet().attach()
+    var ss = new jss.StyleSheet(null, {named: false}).attach()
     var rules = ss.addRule('aa', {float: 'left'})
     equal(ss.element.sheet.cssRules.length, 1)
     equal(ss.element.sheet.cssRules[0].cssText, 'aa { float: left; }')
     strictEqual(ss.rules.aa, rules[0])
     strictEqual(ss.getRule('aa'), rules[0])
-    strictEqual(ss.rules.aa.stylesheet, ss)
+    strictEqual(ss.rules.aa.options.sheet, ss)
     ss.detach()
 })
 
@@ -102,7 +90,7 @@ test('addRules', function () {
 })
 
 test('toString', function () {
-    var ss = new jss.StyleSheet({a: {float: 'left', width: '1px'}})
+    var ss = new jss.StyleSheet({a: {float: 'left', width: '1px'}}, {named: false})
     ss.attach()
     equal(ss.toString(), 'a {\n  float: left;\n  width: 1px;\n}')
     equal(ss.element.innerHTML, '\na {\n  float: left;\n  width: 1px;\n}\n')

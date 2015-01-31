@@ -4,8 +4,8 @@
     jss.use(jssVendorPrefixer)
 
     // Render Styles
-    var baseSheet = jss.createStyleSheet(base).attach()
-    var buttonsSheet = jss.createStyleSheet(buttons, true).attach()
+    var baseSheet = jss.createStyleSheet(base, {named: false}).attach()
+    var buttonsSheet = jss.createStyleSheet(buttons).attach()
 
     var Engine = famous.core.Engine
     var Modifier = famous.core.Modifier

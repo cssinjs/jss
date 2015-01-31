@@ -1,6 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var jss = require('../..')
-var normalize = jss.createStyleSheet(require('./normalize')).attach()
+var normalize = jss.createStyleSheet(require('./normalize'), {named: false}).attach()
 var hogan = window.Hogan;
 
 function $(selector) {
@@ -8,8 +8,8 @@ function $(selector) {
 }
 
 (function () {
-    var buttonBar = jss.createStyleSheet(require('./topcoat-button-bar'), true).attach()
-    var button = jss.createStyleSheet(require('./topcoat-button'), true).attach()
+    var buttonBar = jss.createStyleSheet(require('./topcoat-button-bar')).attach()
+    var button = jss.createStyleSheet(require('./topcoat-button')).attach()
     var tplEl = $('.button-bar-tpl')[0]
     var buttonBarTpl = Hogan.compile(tplEl.innerHTML)
 
@@ -312,34 +312,63 @@ var toString = Object.prototype.toString
  * Rule is selector + style hash.
  *
  * @param {String} [selector]
- * @param {Object} [style] is property:value hash.
- * @param {Object} [stylesheet]
+ * @param {Object} [style] declarations block
+ * @param {Object} [options]
  * @api public
  */
-function Rule(selector, style, stylesheet) {
+function Rule(selector, style, options) {
     if (typeof selector == 'object') {
-        stylesheet = style
+        options = style
         style = selector
         selector = null
     }
 
+    this.options = options || {}
+    if (this.options.named == null) this.options.named = true
+
     if (selector) {
         this.selector = selector
+        this.isAtRule = selector[0] == '@'
     } else {
-        this.className = Rule.NAMESPACE_PREFIX + '-' + uid
-        uid++
+        this.isAtRule = false
+        this.className = Rule.NAMESPACE_PREFIX + '-' + Rule.uid
+        Rule.uid++
         this.selector = '.' + this.className
     }
 
-    this.stylesheet = stylesheet
-    this.style = style || {}
+    this.style = style
     // Will be set by StyleSheet#link if link option is true.
     this.CSSRule = null
+    // When at-rule has sub rules.
+    this.rules = null
+    if (this.isAtRule && this.style) this.extractAtRules()
 }
 
 module.exports = Rule
 
+/**
+ * Class name prefix when generated.
+ *
+ * @type {String}
+ * @api private
+ */
 Rule.NAMESPACE_PREFIX = 'jss'
+
+/**
+ * Indentation string for formatting toString output.
+ *
+ * @type {String}
+ * @api private
+ */
+Rule.INDENTATION = '  '
+
+/**
+ * Unique id, right now just a counter, because there is no need for better uid.
+ *
+ * @type {Number}
+ * @api private
+ */
+Rule.uid = 0
 
 /**
  * Get or set a style property.
@@ -352,6 +381,7 @@ Rule.NAMESPACE_PREFIX = 'jss'
 Rule.prototype.prop = function (name, value) {
     // Its a setter.
     if (value) {
+        if (!this.style) this.style = {}
         this.style[name] = value
         // If linked option in StyleSheet is not passed, CSSRule is not defined.
         if (this.CSSRule) this.CSSRule.style[name] = value
@@ -359,7 +389,7 @@ Rule.prototype.prop = function (name, value) {
     }
 
     // Its a getter.
-    value = this.style[name]
+    if (this.style) value = this.style[name]
 
     // Read the value from the DOM if its not cached.
     if (value == null && this.CSSRule) {
@@ -383,6 +413,30 @@ Rule.prototype.prop = function (name, value) {
 Rule.prototype.addChild = function (selector, style) {
     if (!this.children) this.children = {}
     this.children[selector] = style
+
+    return this
+}
+
+/**
+ * Add child rule. Required for plugins like "nested".
+ * StyleSheet will render them as a separate rule.
+ *
+ * @param {String} selector
+ * @param {Object} style
+ * @return {Rule}
+ * @api public
+ */
+Rule.prototype.extractAtRules = function () {
+    if (!this.rules) this.rules = {}
+
+    for (var name in this.style) {
+        var style = this.style[name]
+        // Not a nested rule.
+        if (typeof style == 'string') break
+        var selector = this.options.named ? undefined : name
+        this.rules[name] = new Rule(selector, style, this.options)
+        delete this.style[name]
+    }
 
     return this
 }
@@ -415,39 +469,54 @@ Rule.prototype.applyTo = function (element) {
  * @return {String}
  * @api public
  */
-Rule.prototype.toString = function () {
-    var isAtRule = this.selector[0] == '@'
+Rule.prototype.toString = function (options) {
     var style = this.style
-    var str = this.selector + ' {'
+
+    // At rules like @charset
+    if (this.isAtRule && !this.style && !this.rules) return this.selector + ';'
+
+    if (!options) options = {}
+    if (options.indentationLevel == null) options.indentationLevel = 0
+
+    var str = indent(options.indentationLevel, this.selector + ' {')
 
     for (var prop in style) {
         var value = style[prop]
-        if (typeof value == 'object') {
-            var type = toString.call(value)
-            // We are in an at-rule with nested statements.
-            // https://developer.mozilla.org/en-US/docs/Web/CSS/At-rule
-            if (type == '[object Object]') {
-                var valueStr = '{'
-                for (var prop2 in value) {
-                    valueStr += '\n    ' + prop2 + ': ' + value[prop2] + ';'
-                }
-                valueStr += '\n  }'
-                value = valueStr
-                str += '\n  ' + prop + (isAtRule ? ' ' : ': ') + value
-            // We want to generate multiple declarations with identical property names.
-            } else if (type == '[object Array]') {
-                for (var i = 0; i < value.length; i++) {
-                    str += '\n  ' + prop + ': ' + value[i] + ';'
-                }
+        // We want to generate multiple style with identical property names.
+        if (toString.call(value) == '[object Array]') {
+            for (var i = 0; i < value.length; i++) {
+                str += '\n' + indent(options.indentationLevel + 1, prop + ': ' + value[i] + ';')
             }
         } else {
-            str += '\n  ' + prop + ': ' + value + ';'
+            str += '\n' + indent(options.indentationLevel + 1, prop + ': ' + value + ';')
         }
     }
 
-    str += '\n}'
+    // We are have an at-rule with nested statements.
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/At-rule
+    for (var name in this.rules) {
+        var ruleStr = this.rules[name].toString({
+            indentationLevel: options.indentationLevel + 1
+        })
+        str += '\n' + indent(options.indentationLevel, ruleStr)
+    }
+
+    str += '\n' + indent(options.indentationLevel, '}')
 
     return str
+}
+
+/**
+ * Indent a string.
+ *
+ * @param {Number} level
+ * @param {String} str
+ * @return {String}
+ */
+function indent(level, str) {
+    var indentStr = ''
+    for (var i = 0; i < level; i++) indentStr += Rule.INDENTATION
+    return indentStr + str
 }
 
 },{}],10:[function(require,module,exports){
@@ -464,22 +533,18 @@ var plugins = require('./plugins')
  *  - `media` style element attribute
  *  - `title` style element attribute
  *  - `type` style element attribute
- *  - `named` if true - keys are names, selectors will be generated
+ *  - `named` true by default - keys are names, selectors will be generated,
+ *    if false - keys are global selectors.
  *  - `link` link jss Rule instances with DOM CSSRule instances so that styles,
  *  can be modified dynamically, false by default because it has some performance cost.
  *
  * @param {Object} [rules] object with selectors and declarations
- * @param {Boolean} [named] if true - keys are names, selectors will be generated
  * @param {Object} [options]
  * @api public
  */
-function StyleSheet(rules, named, options) {
-    if (typeof named == 'object') {
-        options = named
-        named = null
-    }
+function StyleSheet(rules, options) {
     this.options = options || {}
-    if (this.options.named == null) this.options.named = Boolean(named)
+    if (this.options.named == null) this.options.named = true
     this.element = null
     this.attached = false
     this.media = this.options.media
@@ -655,7 +720,7 @@ StyleSheet.prototype.toString = function () {
  * Create a rule, will not render after stylesheet was rendered the first time.
  *
  * @param {Object} [selector] if you don't pass selector - it will be generated
- * @param {Object} style property/value hash
+ * @param {Object} [style] declarations block
  * @return {Array} rule can contain child rules
  * @api private
  */
@@ -666,7 +731,7 @@ StyleSheet.prototype.createRules = function (key, style) {
     if (this.options.named) name = key
     else selector = key
 
-    var rule = new Rule(selector, style, this)
+    var rule = new Rule(selector, style, {sheet: this, named: this.options.named})
     rules.push(rule)
 
     this.rules[rule.selector] = rule
@@ -685,7 +750,7 @@ StyleSheet.prototype.createRules = function (key, style) {
 }
 
 /**
- * Create stylesheet element.
+ * Create style sheet element.
  *
  * @api private
  * @return {Element}
