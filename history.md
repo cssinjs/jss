@@ -1,3 +1,7 @@
+## 1.0.2 / 2014-01-31
+
+- fix duplicated rule rendering
+
 ## 1.0.1 / 2014-01-31
 
 - run plugins on inner rules of at-rules
