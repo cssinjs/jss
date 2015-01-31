@@ -76,7 +76,7 @@ test('multiple declarations with identical property names', function () {
 test('@media', function () {
     var rule = new jss.Rule('@media print', {button: {display: 'none'}})
     equal(rule.selector, '@media print')
-    equal(rule.toString(), '@media print {\n  button: {\n    display: none;\n  }\n}')
+    equal(rule.toString(), '@media print {\n  button {\n    display: none;\n  }\n}')
 })
 
 test('@keyframes', function () {
@@ -87,6 +87,15 @@ test('@keyframes', function () {
     })
     equal(rule.selector, '@keyframes a')
     equal(rule.toString(), '@keyframes a {\n  from {\n    top: 0;\n  }\n  30% {\n    top: 30;\n  }\n  60%, 70% {\n    top: 80;\n  }\n}')
+})
+
+test('@font-face', function () {
+    var rule = new jss.Rule('@font-face', {
+        'font-family': 'MyHelvetica',
+        src: 'local("Helvetica")'
+    })
+    equal(rule.selector, '@font-face')
+    equal(rule.toString(), '@font-face {\n  font-family: MyHelvetica;\n  src: local("Helvetica");\n}')
 })
 
 test('applyTo', function () {

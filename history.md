@@ -1,6 +1,10 @@
+## 0.10.2 / 2014-01-31
+
+- fixed #40 there is no colons in all at-rules with nested declarations
+
 ## 0.10.1 / 2014-12-21
 
-- fix firefox issues
+- fixed firefox issues
 
 ## 0.10.0 / 2014-12-21
 

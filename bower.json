@@ -1,7 +1,7 @@
 {
   "name": "jss",
   "description": "Dynamic style sheets for web components.",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
