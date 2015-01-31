@@ -89,11 +89,20 @@ test('addRules', function () {
     ss.detach()
 })
 
-test('toString', function () {
+test('toString unnamed', function () {
     var ss = new jss.StyleSheet({a: {float: 'left', width: '1px'}}, {named: false})
     ss.attach()
     equal(ss.toString(), 'a {\n  float: left;\n  width: 1px;\n}')
     equal(ss.element.innerHTML, '\na {\n  float: left;\n  width: 1px;\n}\n')
+    ss.detach()
+})
+
+test('toString named', function () {
+    jss.Rule.uid = 0
+    var ss = new jss.StyleSheet({a: {float: 'left', width: '1px'}})
+    ss.attach()
+    equal(ss.toString(), '.jss-0 {\n  float: left;\n  width: 1px;\n}')
+    equal(ss.element.innerHTML, '\n.jss-0 {\n  float: left;\n  width: 1px;\n}\n')
     ss.detach()
 })
 

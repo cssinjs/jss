@@ -325,6 +325,7 @@ function Rule(selector, style, options) {
         selector = null
     }
 
+    this.id = Rule.uid++
     this.options = options || {}
     if (this.options.named == null) this.options.named = true
 
@@ -333,8 +334,7 @@ function Rule(selector, style, options) {
         this.isAtRule = selector[0] == '@'
     } else {
         this.isAtRule = false
-        this.className = Rule.NAMESPACE_PREFIX + '-' + Rule.uid
-        Rule.uid++
+        this.className = Rule.NAMESPACE_PREFIX + '-' + this.id
         this.selector = '.' + this.className
     }
 
@@ -710,10 +710,15 @@ StyleSheet.prototype.getRule = function (key) {
 StyleSheet.prototype.toString = function () {
     var str = ''
     var rules = this.rules
-
+    var stringified = {}
     for (var key in rules) {
+        var rule = rules[key]
+        // We have the same rule referenced twice if using named urles.
+        // By name and by selector.
+        if (stringified[rule.id]) continue
         if (str) str += '\n'
         str += rules[key].toString()
+        stringified[rule.id] = true
     }
 
     return str
@@ -734,7 +739,10 @@ StyleSheet.prototype.createRules = function (key, style) {
     if (this.options.named) name = key
     else selector = key
 
-    var rule = new Rule(selector, style, {sheet: this, named: this.options.named})
+    var rule = new Rule(selector, style, {
+        sheet: this,
+        named: this.options.named
+    })
     rules.push(rule)
 
     this.rules[rule.selector] = rule

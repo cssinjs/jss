@@ -3,6 +3,7 @@
 QUnit.module('Rule')
 
 test('create empty instance', function () {
+    jss.Rule.uid = 0
     var rule = new jss.Rule()
     equal(rule.className, 'jss-0')
     equal(rule.selector, '.jss-0')
@@ -10,19 +11,16 @@ test('create empty instance', function () {
     equal(rule.className, 'jss-1')
     equal(rule.selector, '.jss-1')
     strictEqual(rule.style, undefined)
-    strictEqual(rule.styleSheet, undefined)
 })
 
 test('create instance with selector only', function () {
     var rule = new jss.Rule('a')
     equal(rule.selector, 'a')
     deepEqual(rule.style, undefined)
-    strictEqual(rule.styleSheet, undefined)
 })
 
 test('create instance with styles only', function () {
     var rule = new jss.Rule({float: 'left'})
-    strictEqual(rule.styleSheet, undefined)
     deepEqual(rule.style, {float: 'left'})
     equal(rule.className.substr(0, 3), 'jss')
     equal(rule.selector.substr(0, 4), '.jss')
@@ -100,7 +98,7 @@ test('@media named', function () {
         }
     })
     equal(rule.selector, '@media print')
-    equal(rule.toString(), '@media print {\n  .jss-0 {\n    display: none;\n  }\n}')
+    equal(rule.toString(), '@media print {\n  .jss-1 {\n    display: none;\n  }\n}')
 })
 
 test('@keyframes', function () {
