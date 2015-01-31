@@ -1,3 +1,7 @@
+## 1.0.3 / 2014-01-31
+
+- pass rule name to make debug plugin possible
+
 ## 1.0.2 / 2014-01-31
 
 - fix duplicated rule rendering

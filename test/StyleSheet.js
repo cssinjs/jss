@@ -27,6 +27,7 @@ test('create instance with rules and generated classes', function () {
     ok(ss.rules.a instanceof jss.Rule)
     equal(typeof ss.classes.a, 'string')
     ok(ss.options.named)
+    equal(ss.rules.a.options.name, 'a', 'name has been passed to the rule')
 })
 
 test('create instance with rules where selector is a global class', function () {
@@ -36,7 +37,7 @@ test('create instance with rules where selector is a global class', function () 
     ok(!ss.options.named)
 })
 
-test('accesible rule via selector even if named: true', function () {
+test('accessible rule via selector even if named: true', function () {
     var ss = new jss.StyleSheet({bla: {float: 'left'}}, {named: true})
     ok(ss.rules.bla instanceof jss.Rule)
     ok(ss.rules[ss.rules.bla.selector] instanceof jss.Rule)

@@ -741,7 +741,8 @@ StyleSheet.prototype.createRules = function (key, style) {
 
     var rule = new Rule(selector, style, {
         sheet: this,
-        named: this.options.named
+        named: this.options.named,
+        name: name
     })
     rules.push(rule)
 
