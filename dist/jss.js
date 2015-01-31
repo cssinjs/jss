@@ -12,6 +12,8 @@ module.exports = require('./lib/index')
 },{"./lib/index":4}],2:[function(require,module,exports){
 'use strict'
 
+var plugins = require('./plugins')
+
 var uid = 0
 
 var toString = Object.prototype.toString
@@ -142,7 +144,8 @@ Rule.prototype.extractAtRules = function () {
         // Not a nested rule.
         if (typeof style == 'string') break
         var selector = this.options.named ? undefined : name
-        this.rules[name] = new Rule(selector, style, this.options)
+        var rule = this.rules[name] = new Rule(selector, style, this.options)
+        plugins.run(rule)
         delete this.style[name]
     }
 
@@ -227,7 +230,7 @@ function indent(level, str) {
     return indentStr + str
 }
 
-},{}],3:[function(require,module,exports){
+},{"./plugins":5}],3:[function(require,module,exports){
 'use strict'
 
 var Rule = require('./Rule')

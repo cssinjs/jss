@@ -1,3 +1,7 @@
+## 1.0.1 / 2014-01-31
+
+- run plugins on inner rules of at-rules
+
 ## 1.0.0 / 2014-01-31
 
 - styles have named: true option by default, this is backwards incompatible

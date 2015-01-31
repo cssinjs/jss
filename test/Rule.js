@@ -63,6 +63,19 @@ test('run plugins', function () {
     ok(executed)
 })
 
+test('run plugins on inner rules of an at-rule', function () {
+    var executed = 0
+    function plugin() {
+        executed++
+    }
+    jss.use(plugin)
+    var rule = new jss.Rule('@media', {
+        button: {float: 'left'}
+    })
+    jss.plugins.run(rule)
+    equal(executed, 2)
+})
+
 test('toString', function () {
     var rule = new jss.Rule('a', {float: 'left', width: '1px'})
     equal(rule.toString(), 'a {\n  float: left;\n  width: 1px;\n}')
