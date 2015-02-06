@@ -49,6 +49,7 @@ test('add plugin', function () {
     jss.use(plugin)
     equal(jss.plugins.registry.length, 1)
     strictEqual(jss.plugins.registry[0], plugin)
+    jss.plugins.registry = []
 })
 
 test('run plugins', function () {
@@ -59,6 +60,7 @@ test('run plugins', function () {
     jss.use(plugin)
     jss.plugins.run(new jss.Rule())
     ok(executed)
+    jss.plugins.registry = []
 })
 
 test('run plugins on inner rules of an at-rule', function () {

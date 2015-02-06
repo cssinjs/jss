@@ -1,7 +1,7 @@
 {
   "name": "jss",
   "description": "Composable and reusable style sheets.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"

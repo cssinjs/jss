@@ -1,3 +1,7 @@
+## 1.0.4 / 2014-02-6
+
+- allow rule options to be passed in internal rule#addRule method to allow nested rules to have different options than parent one (for now just "named")
+
 ## 1.0.3 / 2014-01-31
 
 - pass rule name to make debug plugin possible

@@ -115,3 +115,16 @@ test('link', function () {
     ok(ss.rules.b.CSSRule instanceof CSSStyleRule)
     ss.detach()
 })
+
+test('named rules with unnamed child rules', function () {
+    jss.Rule.uid = 0
+    var added
+    jss.use(function (rule) {
+        if (added) return
+        rule.addChild('b', {color: 'red'}, {named: false})
+        added = true
+    })
+    var ss = new jss.StyleSheet({a: {float: 'left'}})
+    jss.plugins.registry = []
+    equal(ss.toString(), '.jss-0 {\n  float: left;\n}\nb {\n  color: red;\n}')
+})

@@ -409,12 +409,16 @@ Rule.prototype.prop = function (name, value) {
  *
  * @param {String} selector
  * @param {Object} style
+ * @param {Object} [options] rule options
  * @return {Rule}
- * @api public
+ * @api private
  */
-Rule.prototype.addChild = function (selector, style) {
+Rule.prototype.addChild = function (selector, style, options) {
     if (!this.children) this.children = {}
-    this.children[selector] = style
+    this.children[selector] = {
+        style: style,
+        options: options
+    }
 
     return this
 }
@@ -729,19 +733,25 @@ StyleSheet.prototype.toString = function () {
  *
  * @param {Object} [selector] if you don't pass selector - it will be generated
  * @param {Object} [style] declarations block
+ * @param {Object} [options] rule options
  * @return {Array} rule can contain child rules
  * @api private
  */
-StyleSheet.prototype.createRules = function (key, style) {
+StyleSheet.prototype.createRules = function (key, style, options) {
     var rules = []
     var selector, name
 
-    if (this.options.named) name = key
+    if (!options) options = {}
+    var named = this.options.named
+    // Scope options overwrite instance options.
+    if (options.named != null) named = options.named
+
+    if (named) name = key
     else selector = key
 
     var rule = new Rule(selector, style, {
         sheet: this,
-        named: this.options.named,
+        named: named,
         name: name
     })
     rules.push(rule)
@@ -755,7 +765,11 @@ StyleSheet.prototype.createRules = function (key, style) {
     plugins.run(rule)
 
     for (key in rule.children) {
-        rules.push(this.createRules(key, rule.children[key]))
+        rules.push(this.createRules(
+            key,
+            rule.children[key].style,
+            rule.children[key].options
+        ))
     }
 
     return rules
