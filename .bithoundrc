@@ -1,0 +1,7 @@
+{
+  "ignore": [
+    "examples/**",
+    "dist/**",
+    "test/**"
+  ]
+}

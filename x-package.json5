@@ -15,16 +15,16 @@
     overlay: {
         bower: true,
         npm: {
-            engines: {node: '0.8.0'},
+            engines: {node: '^0.8.0'},
             devDependencies: {
-                browserify: '6.0.3',
-                'uglify-js': '2.4.15',
-                qunitjs: '1.15.0',
-                xpkg: '0.2.0'
+                browserify: '^8.1.3',
+                'uglify-js': '^2.4.15',
+                qunitjs: '^1.15.0',
+                xpkg: '^0.2.0'
             },
             dependencies: {
-                css: '2.1.0',
-                commander: '2.5.0'
+                css: '^2.1.0',
+                commander: '^2.5.0'
             },
             bin: {
                 jss: './bin/cli.js'
