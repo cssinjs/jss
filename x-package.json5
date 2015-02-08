@@ -24,7 +24,7 @@
             },
             dependencies: {
                 css: '^2.1.0',
-                commander: '^2.5.0'
+                commander: '^2.6.0'
             },
             bin: {
                 jss: './bin/cli.js'
