@@ -107,12 +107,15 @@ test('toString named', function () {
     ss.detach()
 })
 
-test('toString named with media query', function () {
+test('toString unnamed with media query', function () {
     jss.Rule.uid = 0
-    var ss = new jss.StyleSheet({a: {color: 'red'}, '@media (min-width: 1024px)': {a: {color: 'blue'}}})
+    var ss = new jss.StyleSheet({
+        a: {color: 'red'},
+        '@media (min-width: 1024px)': {a: {color: 'blue'}}
+    }, {named: false})
     ss.attach()
-    equal(ss.toString(), '.jss-0 {\n  color: red;\n}\n@media (min-width: 1024px) {\n  .jss-0 {\n    color: blue;\n  }\n}')
-    equal(ss.element.innerHTML, '\n.jss-0 {\n  color: red;\n}\n@media (min-width: 1024px) {\n  .jss-0 {\n    color: blue;\n  }\n}\n')
+    equal(ss.toString(), 'a {\n  color: red;\n}\n@media (min-width: 1024px) {\n  a {\n    color: blue;\n  }\n}')
+    equal(ss.element.innerHTML, '\na {\n  color: red;\n}\n@media (min-width: 1024px) {\n  a {\n    color: blue;\n  }\n}\n')
     ss.detach()
 })
 
