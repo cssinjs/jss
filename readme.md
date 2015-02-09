@@ -26,23 +26,11 @@ Jss styles are just plain javascript objects. They map 1:1 to css rules, except 
 {
   carouselCaption: {
     position: 'absolute',
-    'z-index': 10,
+    'z-index': 10
   },
   hr: {
     border: 0,
     'border-top': '1px solid #eee'
-  },
-  '@media (min-width: 768px)': {
-    modalDialog: {
-      width: '600px',
-      margin: '30px auto'
-    },
-    modelContent: {
-      'box-shadow': '0 5px 15px rgba(0, 0, 0, .5)'
-    },
-    modalSm: {
-      width: '300px'
-    }
   }
 }
 ```
