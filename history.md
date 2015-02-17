@@ -1,3 +1,7 @@
+## 1.0.5 / 2014-02-17
+
+- support any node version above 0.8
+
 ## 1.0.4 / 2014-02-6
 
 - allow rule options to be passed in internal rule#addRule method to allow nested rules to have different options than parent one (for now just "named")
