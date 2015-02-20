@@ -207,7 +207,7 @@ sheet.addRules({
 
 `jss.createRule([selector], rule)`
 
-In order to apply styles directly to the element butt still be able to use jss plugins.
+In order to apply styles directly to the element but still be able to use jss plugins.
 
 ```javascript
 var rule = jss.createRule({
