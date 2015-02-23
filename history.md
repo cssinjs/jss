@@ -1,3 +1,7 @@
+## 1.0.6 / 2014-02-24
+
+- add rule.toJSON()
+
 ## 1.0.5 / 2014-02-17
 
 - support any node version above 0.8
