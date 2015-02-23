@@ -250,6 +250,12 @@ sheet.getRule('a').prop('color') // red
 sheet.getRule('a').prop('color', 'green')
 ```
 
+### Get JSON.
+
+`rule.toJSON()`
+
+Returns JSON representation of the rule. Nested rules, at-rules and array values are not supported.
+
 ### Register plugin.
 
 `jss.use(fn)`

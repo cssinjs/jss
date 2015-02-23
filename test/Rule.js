@@ -140,6 +140,25 @@ test('applyTo', function () {
     equal(document.body.style.display, 'inline')
 })
 
+test('applyTo with array value', function () {
+    new jss.Rule({
+        display: ['inline', 'run-in']
+    }).applyTo(document.body)
+    equal(document.body.style.display, 'inline')
+})
+
+test('toJSON', function () {
+    var decl = {color: 'red'}
+    var rule = new jss.Rule(decl)
+    deepEqual(rule.toJSON(), decl, 'declarations are correct')
+})
+
+test('toJSON with nested rules', function () {
+    var decl = {color: 'red', '&:hover': {color: 'blue'}}
+    var rule = new jss.Rule(decl)
+    deepEqual(rule.toJSON(), {color: 'red'}, 'nested rules removed')
+})
+
 test('set/get rules virtual prop', function () {
     var rule = new jss.Rule()
     rule.prop('float', 'left')

@@ -514,6 +514,27 @@ Rule.prototype.toString = function (options) {
 }
 
 /**
+ * Returns JSON representation of the rule.
+ * Nested rules, at-rules and array values are not supported.
+ *
+ * @return {Object}
+ * @api public
+ */
+Rule.prototype.toJSON = function () {
+    var style = {}
+
+    for (var prop in this.style) {
+        var value = this.style[prop]
+        var type = typeof value
+        if (type == 'string' || type == 'number') {
+            style[prop] = value
+        }
+    }
+
+    return style
+}
+
+/**
  * Indent a string.
  *
  * @param {Number} level
