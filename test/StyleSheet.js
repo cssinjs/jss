@@ -119,11 +119,11 @@ test('toString unnamed with media query', function () {
     ss.detach()
 })
 
-test('link', function () {
+test('link', function () {
     var ss = new jss.StyleSheet({a: {float: 'left'}}, {link: true})
     ss.attach()
     ok(ss.rules.a.CSSRule instanceof CSSStyleRule)
-    ss.addRule('b', {color: 'red'})
+    ss.addRule('b', {color: 'red'})
     ok(ss.rules.b.CSSRule instanceof CSSStyleRule)
     ss.detach()
 })
@@ -131,7 +131,7 @@ test('link', function () {
 test('named rules with unnamed child rules', function () {
     jss.Rule.uid = 0
     var added
-    jss.use(function (rule) {
+    jss.use(function (rule) {
         if (added) return
         rule.addChild('b', {color: 'red'}, {named: false})
         added = true

@@ -1,4 +1,4 @@
-(function () {
+(function () {
     // Setup plugins
     jss.use(jssExtend)
     jss.use(jssVendorPrefixer)

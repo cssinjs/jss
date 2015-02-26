@@ -9,7 +9,7 @@ var conf = require('../conf')
  * @param {Object} [attrs]
  * @return Element
  */
-exports.element = function (name, attrs) {
+exports.element = function (name, attrs) {
     var element = document.createElement(name)
 
     for (var name in attrs) {

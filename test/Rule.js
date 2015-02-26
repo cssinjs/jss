@@ -128,7 +128,7 @@ test('@font-face', function () {
     equal(rule.toString(), '@font-face {\n  font-family: MyHelvetica;\n  src: local("Helvetica");\n}')
 })
 
-test('applyTo', function () {
+test('applyTo', function () {
     new jss.Rule({
         float: 'left'
     }).applyTo(document.body)
@@ -140,7 +140,7 @@ test('applyTo', function () {
     equal(document.body.style.display, 'inline')
 })
 
-test('applyTo with array value', function () {
+test('applyTo with array value', function () {
     new jss.Rule({
         display: ['inline', 'run-in']
     }).applyTo(document.body)

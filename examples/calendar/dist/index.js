@@ -26,9 +26,9 @@ module.exports = Calendar
  *
  * @return {Calendar}
  */
-Calendar.prototype.create = function () {
+Calendar.prototype.create = function () {
     sheet.attach()
-    this.element = utils.element('div', {
+    this.element = utils.element('div', {
         class: sheet.classes.container
     })
 
@@ -48,7 +48,7 @@ Calendar.prototype.create = function () {
  * @param {Array} events
  * @return {Calendar}
  */
-Calendar.prototype.renderDay = function (events) {
+Calendar.prototype.renderDay = function (events) {
     this.manager
         .destroy()
         .set(events)
@@ -94,7 +94,7 @@ module.exports = Canvas
  *
  * @return {Canvas}
  */
-Canvas.prototype.create = function () {
+Canvas.prototype.create = function () {
     sheet.attach()
 
     this.element = utils.element('div', {
@@ -114,7 +114,7 @@ Canvas.prototype.create = function () {
  * @param {Event} event
  * @return {Canvas}
  */
-Canvas.prototype.add = function (event) {
+Canvas.prototype.add = function (event) {
     this.contentElement.appendChild(event.element)
 
     return this
@@ -125,7 +125,7 @@ Canvas.prototype.add = function (event) {
  *
  * @return {Number}
  */
-Canvas.prototype.getContentWidth = function () {
+Canvas.prototype.getContentWidth = function () {
     return styles.contentWidth;
 }
 
@@ -188,7 +188,7 @@ module.exports = {
  * @param {Object} data
  * @return {String}
  */
-exports.compile = function (data) {
+exports.compile = function (data) {
     return '' +
         '<div class="' + data.classes.content + '">' +
             '<h3 class="' + data.classes.title + '">' + data.title + '</h3>' +
@@ -239,7 +239,7 @@ Event.prototype.create = function () {
         location: this.location
     })
 
-    for (var key in this.style) {
+    for (var key in this.style) {
         this.element.style[key] = this.style[key]
     }
 
@@ -251,7 +251,7 @@ Event.prototype.create = function () {
  *
  * @return {Event}
  */
-Event.prototype.destroy = function () {
+Event.prototype.destroy = function () {
     this.element.parentNode.removeChild(this.element)
 
     return this
@@ -262,7 +262,7 @@ Event.prototype.destroy = function () {
  *
  * @return {Event}
  */
-Event.prototype.setStyle = function (style) {
+Event.prototype.setStyle = function (style) {
     this.style = style
 
     return this
@@ -313,8 +313,8 @@ var utils = require('../utils')
  * @param {Canvas} canvas
  * @return {Array} events
  */
-module.exports = function (events, canvas) {
-    function setStyle(column, nr, columns) {
+module.exports = function (events, canvas) {
+    function setStyle(column, nr, columns) {
         var width = canvas.getContentWidth() / columns.length
 
         column.forEach(function (event) {
@@ -344,18 +344,18 @@ module.exports = function (events, canvas) {
  * @param {Array} events
  * @return {Array}
  */
-function createGroups(events) {
+function createGroups(events) {
     var groups = []
     var eventGroupMap = {}
 
-    events.forEach(function createGroup(event) {
+    events.forEach(function createGroup(event) {
         var group = eventGroupMap[event.id]
         if (!group) {
             group = eventGroupMap[event.id] = [event]
             groups.push(group)
         }
 
-        events.forEach(function addToGroup(_event) {
+        events.forEach(function addToGroup(_event) {
             if (_event === event) return
             if (collide(event, _event)) {
                 if (!eventGroupMap[_event.id]) {
@@ -386,7 +386,7 @@ function createColumns(group) {
             columns.push(column)
         }
 
-        group.forEach(function addToColumn(_event) {
+        group.forEach(function addToColumn(_event) {
             if (_event === event) return
             if (!collide(event, _event)) {
                 if (!eventStackMap[_event.id]) {
@@ -435,7 +435,7 @@ module.exports = EventsManager
  * @return {EventsManager}
  */
 EventsManager.prototype.destroy = function () {
-    this.events.forEach(function (event) {
+    this.events.forEach(function (event) {
         event.destroy()
     })
 
@@ -449,7 +449,7 @@ EventsManager.prototype.destroy = function () {
  * @return {EventsManager}
  */
 EventsManager.prototype.set = function (events) {
-    this.events = events.map(function (options) {
+    this.events = events.map(function (options) {
         return new Event(options)
     })
 
@@ -488,7 +488,7 @@ var sheet = jss.createStyleSheet(require('./styles'))
 /**
  * Creates a timeline view.
  */
-function Timeline(options) {
+function Timeline(options) {
     this.element = null
     this.start = options.start
     this.end = options.end
@@ -501,7 +501,7 @@ module.exports = Timeline
  *
  * @return {Timeline}
  */
-Timeline.prototype.create = function () {
+Timeline.prototype.create = function () {
     sheet.attach()
     this.element = utils.element('div', {
         class: sheet.classes.timeline
@@ -586,7 +586,7 @@ function formatTime(min) {
  * @param {Object} data
  * @return {String}
  */
-exports.compile = function (data) {
+exports.compile = function (data) {
     var timeClass = data.classes[data.suffix ? 'timeWithSuffix' : 'time']
     var html = '<span class="' + timeClass + '">' + data.time + '</span>'
     if (data.suffix) {
@@ -646,7 +646,7 @@ var conf = require('../conf')
  * @param {Object} [attrs]
  * @return Element
  */
-exports.element = function (name, attrs) {
+exports.element = function (name, attrs) {
     var element = document.createElement(name)
 
     for (var name in attrs) {
@@ -770,7 +770,7 @@ Rule.uid = 0
  * @return {Rule|String|Number}
  * @api public
  */
-Rule.prototype.prop = function (name, value) {
+Rule.prototype.prop = function (name, value) {
     // Its a setter.
     if (value) {
         if (!this.style) this.style = {}
@@ -845,7 +845,7 @@ Rule.prototype.extractAtRules = function () {
  * @return {Rule}
  * @api public
  */
-Rule.prototype.applyTo = function (element) {
+Rule.prototype.applyTo = function (element) {
     for (var prop in this.style) {
         var value = this.style[prop]
         if (toString.call(value) == '[object Array]') {
@@ -910,7 +910,7 @@ Rule.prototype.toString = function (options) {
  * @return {Object}
  * @api public
  */
-Rule.prototype.toJSON = function () {
+Rule.prototype.toJSON = function () {
     var style = {}
 
     for (var prop in this.style) {
@@ -931,7 +931,7 @@ Rule.prototype.toJSON = function () {
  * @param {String} str
  * @return {String}
  */
-function indent(level, str) {
+function indent(level, str) {
     var indentStr = ''
     for (var i = 0; i < level; i++) indentStr += Rule.INDENTATION
     return indentStr + str
@@ -1195,7 +1195,7 @@ StyleSheet.prototype.createRules = function (key, style, options) {
 StyleSheet.prototype.createElement = function () {
     var element = document.createElement('style')
 
-    StyleSheet.ATTRIBUTES.forEach(function (name) {
+    StyleSheet.ATTRIBUTES.forEach(function (name) {
         if (this[name]) element.setAttribute(name, this[name])
     }, this)
 
@@ -1266,7 +1266,7 @@ exports.registry = []
  * @param {Function} fn
  * @api public
  */
-exports.use = function (fn) {
+exports.use = function (fn) {
     exports.registry.push(fn)
 }
 

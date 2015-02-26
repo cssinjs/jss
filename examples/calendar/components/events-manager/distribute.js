@@ -14,8 +14,8 @@ var utils = require('../utils')
  * @param {Canvas} canvas
  * @return {Array} events
  */
-module.exports = function (events, canvas) {
-    function setStyle(column, nr, columns) {
+module.exports = function (events, canvas) {
+    function setStyle(column, nr, columns) {
         var width = canvas.getContentWidth() / columns.length
 
         column.forEach(function (event) {
@@ -45,18 +45,18 @@ module.exports = function (events, canvas) {
  * @param {Array} events
  * @return {Array}
  */
-function createGroups(events) {
+function createGroups(events) {
     var groups = []
     var eventGroupMap = {}
 
-    events.forEach(function createGroup(event) {
+    events.forEach(function createGroup(event) {
         var group = eventGroupMap[event.id]
         if (!group) {
             group = eventGroupMap[event.id] = [event]
             groups.push(group)
         }
 
-        events.forEach(function addToGroup(_event) {
+        events.forEach(function addToGroup(_event) {
             if (_event === event) return
             if (collide(event, _event)) {
                 if (!eventGroupMap[_event.id]) {
@@ -87,7 +87,7 @@ function createColumns(group) {
             columns.push(column)
         }
 
-        group.forEach(function addToColumn(_event) {
+        group.forEach(function addToColumn(_event) {
             if (_event === event) return
             if (!collide(event, _event)) {
                 if (!eventStackMap[_event.id]) {

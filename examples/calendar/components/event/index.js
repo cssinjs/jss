@@ -40,7 +40,7 @@ Event.prototype.create = function () {
         location: this.location
     })
 
-    for (var key in this.style) {
+    for (var key in this.style) {
         this.element.style[key] = this.style[key]
     }
 
@@ -52,7 +52,7 @@ Event.prototype.create = function () {
  *
  * @return {Event}
  */
-Event.prototype.destroy = function () {
+Event.prototype.destroy = function () {
     this.element.parentNode.removeChild(this.element)
 
     return this
@@ -63,7 +63,7 @@ Event.prototype.destroy = function () {
  *
  * @return {Event}
  */
-Event.prototype.setStyle = function (style) {
+Event.prototype.setStyle = function (style) {
     this.style = style
 
     return this

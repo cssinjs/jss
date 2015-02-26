@@ -9,7 +9,7 @@ var sheet = jss.createStyleSheet(require('./styles'))
 /**
  * Creates a timeline view.
  */
-function Timeline(options) {
+function Timeline(options) {
     this.element = null
     this.start = options.start
     this.end = options.end
@@ -22,7 +22,7 @@ module.exports = Timeline
  *
  * @return {Timeline}
  */
-Timeline.prototype.create = function () {
+Timeline.prototype.create = function () {
     sheet.attach()
     this.element = utils.element('div', {
         class: sheet.classes.timeline
