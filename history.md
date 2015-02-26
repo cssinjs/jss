@@ -1,3 +1,7 @@
+## 1.0.7 / 2014-02-26
+
+- remove NO-BREAK SPACE chars
+
 ## 1.0.6 / 2014-02-24
 
 - add rule.toJSON()
