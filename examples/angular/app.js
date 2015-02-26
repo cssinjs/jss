@@ -5,7 +5,7 @@
         .module('myApp', [])
         .controller('myController', function MyController($scope) {
             $scope.classes = ss.classes
-            $scope.showSource = function () {
+            $scope.showSource = function () {
               location.href = 'http://github.com/jsstyles/jss/tree/master/examples/angular'
             }
         })

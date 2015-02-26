@@ -6,7 +6,7 @@
  * @param {Object} data
  * @return {String}
  */
-exports.compile = function (data) {
+exports.compile = function (data) {
     return '' +
         '<div class="' + data.classes.content + '">' +
             '<h3 class="' + data.classes.title + '">' + data.title + '</h3>' +

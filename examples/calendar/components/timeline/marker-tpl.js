@@ -7,7 +7,7 @@
  * @param {Object} data
  * @return {String}
  */
-exports.compile = function (data) {
+exports.compile = function (data) {
     var timeClass = data.classes[data.suffix ? 'timeWithSuffix' : 'time']
     var html = '<span class="' + timeClass + '">' + data.time + '</span>'
     if (data.suffix) {

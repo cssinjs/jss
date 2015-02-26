@@ -19,7 +19,7 @@ module.exports = EventsManager
  * @return {EventsManager}
  */
 EventsManager.prototype.destroy = function () {
-    this.events.forEach(function (event) {
+    this.events.forEach(function (event) {
         event.destroy()
     })
 
@@ -33,7 +33,7 @@ EventsManager.prototype.destroy = function () {
  * @return {EventsManager}
  */
 EventsManager.prototype.set = function (events) {
-    this.events = events.map(function (options) {
+    this.events = events.map(function (options) {
         return new Event(options)
     })
 

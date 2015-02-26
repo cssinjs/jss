@@ -14,7 +14,7 @@ var css = require('css')
  * @return {String}
  * @api public
  */
-module.exports = function (code, options) {
+module.exports = function (code, options) {
     var ast = css.parse(code)
 
     if (ast.stylesheet && ast.stylesheet.rules) {

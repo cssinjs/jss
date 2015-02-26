@@ -25,9 +25,9 @@ module.exports = Calendar
  *
  * @return {Calendar}
  */
-Calendar.prototype.create = function () {
+Calendar.prototype.create = function () {
     sheet.attach()
-    this.element = utils.element('div', {
+    this.element = utils.element('div', {
         class: sheet.classes.container
     })
 
@@ -47,7 +47,7 @@ Calendar.prototype.create = function () {
  * @param {Array} events
  * @return {Calendar}
  */
-Calendar.prototype.renderDay = function (events) {
+Calendar.prototype.renderDay = function (events) {
     this.manager
         .destroy()
         .set(events)

@@ -21,7 +21,7 @@ module.exports = Canvas
  *
  * @return {Canvas}
  */
-Canvas.prototype.create = function () {
+Canvas.prototype.create = function () {
     sheet.attach()
 
     this.element = utils.element('div', {
@@ -41,7 +41,7 @@ Canvas.prototype.create = function () {
  * @param {Event} event
  * @return {Canvas}
  */
-Canvas.prototype.add = function (event) {
+Canvas.prototype.add = function (event) {
     this.contentElement.appendChild(event.element)
 
     return this
@@ -52,6 +52,6 @@ Canvas.prototype.add = function (event) {
  *
  * @return {Number}
  */
-Canvas.prototype.getContentWidth = function () {
+Canvas.prototype.getContentWidth = function () {
     return styles.contentWidth;
 }

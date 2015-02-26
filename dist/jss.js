@@ -88,7 +88,7 @@ Rule.uid = 0
  * @return {Rule|String|Number}
  * @api public
  */
-Rule.prototype.prop = function (name, value) {
+Rule.prototype.prop = function (name, value) {
     // Its a setter.
     if (value) {
         if (!this.style) this.style = {}
@@ -163,7 +163,7 @@ Rule.prototype.extractAtRules = function () {
  * @return {Rule}
  * @api public
  */
-Rule.prototype.applyTo = function (element) {
+Rule.prototype.applyTo = function (element) {
     for (var prop in this.style) {
         var value = this.style[prop]
         if (toString.call(value) == '[object Array]') {
@@ -228,7 +228,7 @@ Rule.prototype.toString = function (options) {
  * @return {Object}
  * @api public
  */
-Rule.prototype.toJSON = function () {
+Rule.prototype.toJSON = function () {
     var style = {}
 
     for (var prop in this.style) {
@@ -249,7 +249,7 @@ Rule.prototype.toJSON = function () {
  * @param {String} str
  * @return {String}
  */
-function indent(level, str) {
+function indent(level, str) {
     var indentStr = ''
     for (var i = 0; i < level; i++) indentStr += Rule.INDENTATION
     return indentStr + str
@@ -513,7 +513,7 @@ StyleSheet.prototype.createRules = function (key, style, options) {
 StyleSheet.prototype.createElement = function () {
     var element = document.createElement('style')
 
-    StyleSheet.ATTRIBUTES.forEach(function (name) {
+    StyleSheet.ATTRIBUTES.forEach(function (name) {
         if (this[name]) element.setAttribute(name, this[name])
     }, this)
 
@@ -584,7 +584,7 @@ exports.registry = []
  * @param {Function} fn
  * @api public
  */
-exports.use = function (fn) {
+exports.use = function (fn) {
     exports.registry.push(fn)
 }
 
