@@ -165,6 +165,12 @@ test('set/get rules virtual prop', function () {
     equal(rule.prop('float'), 'left')
 })
 
+test('set/get rules virtual prop with value 0', function () {
+    var rule = new jss.Rule()
+    rule.prop('width', 0)
+    equal(rule.prop('width'), 0)
+})
+
 test('set/get rules dom prop', function () {
     var ss = jss.createStyleSheet({a: {float: 'left'}}, {link: true})
     var rule = ss.rules.a
