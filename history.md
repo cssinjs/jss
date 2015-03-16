@@ -1,3 +1,8 @@
+## 1.0.8 / 2014-03-16
+
+- fix bower package name
+- make change condition to include any non-null value in Rule#prop (Stephen Saunders)
+
 ## 1.0.7 / 2014-02-26
 
 - remove NO-BREAK SPACE chars
