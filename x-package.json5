@@ -1,7 +1,7 @@
 {
     name: 'jss',
     description: 'Composable and reusable style sheets.',
-    version: '1.0.7',
+    version: '1.0.8',
     author: {
         name: 'Oleg Slobodskoi',
         email: 'oleg008@gmail.com'
@@ -13,7 +13,9 @@
     keywords: ['jss', 'style', 'sheet', 'stylesheet', 'css', 'components', 'composable'],
     scripts: {},
     overlay: {
-        bower: true,
+        bower: {
+            name: 'jsstyles'
+        },
         npm: {
             engines: {node: '>=0.8.0'},
             devDependencies: {
