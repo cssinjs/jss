@@ -34,6 +34,5 @@
     "uglify-js": "^2.4.15",
     "qunitjs": "^1.15.0",
     "xpkg": "^0.2.0"
-  },
-  "dependencies": {}
+  }
 }
