@@ -25,5 +25,6 @@
       "type": "MIT",
       "url": "http://www.opensource.org/licenses/mit-license.php"
     }
-  ]
+  ],
+  "main": "dist/jss.js"
 }

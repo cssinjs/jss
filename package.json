@@ -6,6 +6,7 @@
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
   },
+  "main": "dist/jss.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:jsstyles/jss.git"
@@ -26,6 +27,8 @@
       "url": "http://www.opensource.org/licenses/mit-license.php"
     }
   ],
+  "main": "index.js",
+  "browser": "dist/jss.js",
   "engines": {
     "node": ">=0.8.0"
   },

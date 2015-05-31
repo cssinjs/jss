@@ -14,9 +14,12 @@
     scripts: {},
     overlay: {
         bower: {
-            name: 'jsstyles'
+            name: 'jsstyles',
+            main: 'dist/jss.js'
         },
         npm: {
+            main: 'index.js',
+            browser: 'dist/jss.js',
             engines: {node: '>=0.8.0'},
             devDependencies: {
                 browserify: '^8.1.3',
