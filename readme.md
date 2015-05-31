@@ -308,6 +308,14 @@ npm install jss
 bower install jsstyles
 ```
 
+A command line interface for JSS is also available:
+
+```bash
+npm install jss-cli -g
+```
+
+For more information regarding the CLI see: https://github.com/jsstyles/jss-cli
+
 ## Benchmarks
 
 1. How fast would bootstrap css lib render?
