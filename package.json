@@ -35,11 +35,5 @@
     "qunitjs": "^1.15.0",
     "xpkg": "^0.2.0"
   },
-  "dependencies": {
-    "css": "^2.1.0",
-    "commander": "^2.6.0"
-  },
-  "bin": {
-    "jss": "./bin/cli.js"
-  }
+  "dependencies": {}
 }

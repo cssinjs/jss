@@ -308,15 +308,13 @@ npm install jss
 bower install jsstyles
 ```
 
-## Convert CSS to JSS
-
+A command line interface for JSS is also available:
 
 ```bash
-# print help
-jss
-# convert css
-jss source.css -p > source.jss
+npm install jss-cli -g
 ```
+
+For more information regarding the CLI see: https://github.com/jsstyles/jss-cli
 
 ## Benchmarks
 
