@@ -314,7 +314,7 @@ A command line interface for JSS is also available:
 npm install jss-cli -g
 ```
 
-For more information regarding the CLI see: https://github.com/jsstyles/jss-cli
+For more information regarding see [CLI](https://github.com/jsstyles/jss-cli).
 
 ## Benchmarks
 
