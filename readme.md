@@ -308,16 +308,6 @@ npm install jss
 bower install jsstyles
 ```
 
-## Convert CSS to JSS
-
-
-```bash
-# print help
-jss
-# convert css
-jss source.css -p > source.jss
-```
-
 ## Benchmarks
 
 1. How fast would bootstrap css lib render?
