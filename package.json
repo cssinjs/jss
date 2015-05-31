@@ -6,6 +6,7 @@
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
   },
+  "main": "dist/jss.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:jsstyles/jss.git"
