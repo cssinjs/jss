@@ -17,20 +17,32 @@ Smaller footprint because of code reuse and no vendor specific declarations
 
 Take a look at [examples](http://jsstyles.github.io/jss/examples/index.html) directory.
 
-### Syntactic differences compared to CSS
+### Basics
 
 Jss styles are just plain javascript objects. They map 1:1 to css rules, except of those modified by [plugins](https://github.com/jsstyles?query=jss-).
+
+Some of those plugins:
+
+- Nested rules is implemented through [jss-nested](https://github.com/jsstyles/jss-nested) plugin. Also you can do pseudo selectors like `:hover` via nested rules.
+- Use `extend` property to inherit from some plain rule object, via [jss-extend](https://github.com/jsstyles/jss-extend)
+- Vendor prefixes are automatically added through [jss-vendor-prefixer](https://github.com/jsstyles/jss-vendor-prefixer) plugin. 
+- You can use camel cased css property names through [jss-camel-case](https://github.com/jsstyles/jss-camel-case) plugin.
+- Add 'px' automatically to non numeric values using [jss-px](https://github.com/jsstyles/jss-px)
 
 ```javascript
 // Some random jss code example
 {
   carouselCaption: {
+    extend: something,
     position: 'absolute',
-    'z-index': 10
+    zIndex: 10,
+    '&:hover': {
+      background: 'red'
+    }
   },
   hr: {
     border: 0,
-    'border-top': '1px solid #eee'
+    borderTop: '1px solid #eee'
   }
 }
 ```
@@ -292,14 +304,6 @@ console.log(sheet.toString())
   float: left;
 }
 ```
-
-## Plugins
-
-Things you know from stylus like @extend, nested selectors, vendor prefixer are separate plugins.
-
-[Full list of available plugins](https://github.com/jsstyles?query=jss-)
-
-
 ## Install
 
 ```bash
