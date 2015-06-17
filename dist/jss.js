@@ -90,7 +90,7 @@ Rule.uid = 0
  */
 Rule.prototype.prop = function (name, value) {
     // Its a setter.
-    if (value) {
+    if (value != null) {
         if (!this.style) this.style = {}
         this.style[name] = value
         // If linked option in StyleSheet is not passed, CSSRule is not defined.

@@ -1,42 +1,46 @@
-## 1.0.8 / 2014-03-16
+## 2.0.0 / 2015-06-17
+
+- create jss-cli package, remove bin script from jss
+
+## 1.0.8 / 2015-03-16
 
 - fix bower package name
 - make change condition to include any non-null value in Rule#prop (Stephen Saunders)
 
-## 1.0.7 / 2014-02-26
+## 1.0.7 / 2015-02-26
 
 - remove NO-BREAK SPACE chars
 
-## 1.0.6 / 2014-02-24
+## 1.0.6 / 2015-02-24
 
 - add rule.toJSON()
 
-## 1.0.5 / 2014-02-17
+## 1.0.5 / 2015-02-17
 
 - support any node version above 0.8
 
-## 1.0.4 / 2014-02-6
+## 1.0.4 / 2015-02-6
 
 - allow rule options to be passed in internal rule#addRule method to allow nested rules to have different options than parent one (for now just "named")
 
-## 1.0.3 / 2014-01-31
+## 1.0.3 / 2015-01-31
 
 - pass rule name to make debug plugin possible
 
-## 1.0.2 / 2014-01-31
+## 1.0.2 / 2015-01-31
 
 - fix duplicated rule rendering
 
-## 1.0.1 / 2014-01-31
+## 1.0.1 / 2015-01-31
 
 - run plugins on inner rules of at-rules
 
-## 1.0.0 / 2014-01-31
+## 1.0.0 / 2015-01-31
 
 - styles have named: true option by default, this is backwards incompatible
 - at-rules like @media can now also have named rules
 
-## 0.10.2 / 2014-01-31
+## 0.10.2 / 2015-01-31
 
 - fixed #40 there is no colons in all at-rules with nested declarations
 

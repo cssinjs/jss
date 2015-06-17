@@ -108,7 +108,9 @@ Options:
 - `link` link jss `Rule` instances with DOM `CSSRule instances so that styles, can be modified dynamically, false by default because it has some performance cost.
 
 ```javascript
+
 var sheet = jss.createStyleSheet({
+    // Namespaced style sheet with generated selectors.
     myButton: {
         width: '100px',
         height: '100px'
