@@ -1,3 +1,7 @@
+## 2.1.1 / 2015-07-20
+
+- remove browser field from package.json, it makes webpack use dist version instead of src.
+
 ## 2.1.0 / 2015-07-18
 
 - create Jss constructor so that we can have multiple jss instances with different plugins, needed when you want to reuse jss lib from different standalone components which have own jss configuration and should not clash.

@@ -1,7 +1,7 @@
 {
   "name": "jss",
   "description": "Composable and reusable style sheets.",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
@@ -26,8 +26,7 @@
       "url": "http://www.opensource.org/licenses/mit-license.php"
     }
   ],
-  "main": "index.js",
-  "browser": "dist/jss.js",
+  "main": "./lib/index.js",
   "engines": {
     "node": ">=0.8.0"
   },
