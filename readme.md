@@ -25,7 +25,7 @@ Some of those plugins:
 
 - Nested rules is implemented through [jss-nested](https://github.com/jsstyles/jss-nested) plugin. Also you can do pseudo selectors like `:hover` via nested rules.
 - Use `extend` property to inherit from some plain rule object, via [jss-extend](https://github.com/jsstyles/jss-extend)
-- Vendor prefixes are automatically added through [jss-vendor-prefixer](https://github.com/jsstyles/jss-vendor-prefixer) plugin. 
+- Vendor prefixes are automatically added through [jss-vendor-prefixer](https://github.com/jsstyles/jss-vendor-prefixer) plugin.
 - You can use camel cased css property names through [jss-camel-case](https://github.com/jsstyles/jss-camel-case) plugin.
 - Add 'px' automatically to non numeric values using [jss-px](https://github.com/jsstyles/jss-px)
 
@@ -91,6 +91,17 @@ var jss = window.jss
 var jss = require('jss')
 ```
 
+### Create an own instance of JSS
+
+Use an own instance if the component you build should be reusable within a different project with a probably different JSS setup.
+
+`jss.create()`
+
+```javascript
+    var jss = require('jss').create()
+    jss.use(somePlugin)
+    jss.createStyleSheet(...)
+```
 
 ### Create style sheet with namespaces enabled.
 

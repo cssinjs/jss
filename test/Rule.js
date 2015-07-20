@@ -4,23 +4,23 @@ QUnit.module('Rule')
 
 test('create empty instance', function () {
     jss.Rule.uid = 0
-    var rule = new jss.Rule()
+    var rule = jss.createRule()
     equal(rule.className, 'jss-0')
     equal(rule.selector, '.jss-0')
-    rule = new jss.Rule()
+    rule = jss.createRule()
     equal(rule.className, 'jss-1')
     equal(rule.selector, '.jss-1')
     strictEqual(rule.style, undefined)
 })
 
 test('create instance with selector only', function () {
-    var rule = new jss.Rule('a')
+    var rule = jss.createRule('a')
     equal(rule.selector, 'a')
     deepEqual(rule.style, undefined)
 })
 
 test('create instance with styles only', function () {
-    var rule = new jss.Rule({float: 'left'})
+    var rule = jss.createRule({float: 'left'})
     deepEqual(rule.style, {float: 'left'})
     equal(rule.className.substr(0, 3), 'jss')
     equal(rule.selector.substr(0, 4), '.jss')
@@ -28,7 +28,7 @@ test('create instance with styles only', function () {
 
 test('create instance with styles and options', function () {
     var options = {}
-    var rule = new jss.Rule({float: 'left'}, options)
+    var rule = jss.createRule({float: 'left'}, options)
     deepEqual(rule.style, {float: 'left'})
     equal(rule.className.substr(0, 3), 'jss')
     equal(rule.selector.substr(0, 4), '.jss')
@@ -37,7 +37,7 @@ test('create instance with styles and options', function () {
 
 test('create instance with all params', function () {
     var options = {}
-    var rule = new jss.Rule('a', {float: 'left'}, options)
+    var rule = jss.createRule('a', {float: 'left'}, options)
     deepEqual(rule.style, {float: 'left'})
     equal(rule.className, undefined)
     equal(rule.selector, 'a')
@@ -58,7 +58,7 @@ test('run plugins', function () {
         executed = true
     }
     jss.use(plugin)
-    jss.plugins.run(new jss.Rule())
+    jss.plugins.run(jss.createRule())
     ok(executed)
     jss.plugins.registry = []
 })
@@ -69,32 +69,32 @@ test('run plugins on inner rules of an at-rule', function () {
         executed++
     }
     jss.use(plugin)
-    var rule = new jss.Rule('@media', {
+    console.log(jss.createRule)
+    jss.createRule('@media', {
         button: {float: 'left'}
     })
-    jss.plugins.run(rule)
     equal(executed, 2)
 })
 
 test('toString', function () {
-    var rule = new jss.Rule('a', {float: 'left', width: '1px'})
+    var rule = jss.createRule('a', {float: 'left', width: '1px'})
     equal(rule.toString(), 'a {\n  float: left;\n  width: 1px;\n}')
 })
 
 test('multiple declarations with identical property names', function () {
-    var rule = new jss.Rule('a', {display: ['inline', 'run-in']})
+    var rule = jss.createRule('a', {display: ['inline', 'run-in']})
     equal(rule.toString(), 'a {\n  display: inline;\n  display: run-in;\n}')
 })
 
 test('@media', function () {
-    var rule = new jss.Rule('@media print', {button: {display: 'none'}}, {named: false})
+    var rule = jss.createRule('@media print', {button: {display: 'none'}}, {named: false})
     equal(rule.selector, '@media print')
     equal(rule.toString(), '@media print {\n  button {\n    display: none;\n  }\n}')
 })
 
 test('@media named', function () {
     jss.Rule.uid = 0
-    var rule = new jss.Rule('@media print', {
+    var rule = jss.createRule('@media print', {
         button: {
             display: 'none'
         }
@@ -104,7 +104,7 @@ test('@media named', function () {
 })
 
 test('@keyframes', function () {
-    var rule = new jss.Rule('@keyframes a', {
+    var rule = jss.createRule('@keyframes a', {
         from: {top: 0},
         '30%': {top: 30},
         '60%, 70%': {top: 80}
@@ -114,13 +114,13 @@ test('@keyframes', function () {
 })
 
 test('@charset', function () {
-    var rule = new jss.Rule('@charset "UTF-8"')
+    var rule = jss.createRule('@charset "UTF-8"')
     equal(rule.selector, '@charset "UTF-8"')
     equal(rule.toString(), '@charset "UTF-8";')
 })
 
 test('@font-face', function () {
-    var rule = new jss.Rule('@font-face', {
+    var rule = jss.createRule('@font-face', {
         'font-family': 'MyHelvetica',
         src: 'local("Helvetica")'
     })
@@ -129,19 +129,19 @@ test('@font-face', function () {
 })
 
 test('applyTo', function () {
-    new jss.Rule({
+    jss.createRule({
         float: 'left'
     }).applyTo(document.body)
     equal(document.body.style.float, 'left')
 
-    new jss.Rule({
+    jss.createRule({
         display: ['inline', 'run-in']
     }).applyTo(document.body)
     equal(document.body.style.display, 'inline')
 })
 
 test('applyTo with array value', function () {
-    new jss.Rule({
+    jss.createRule({
         display: ['inline', 'run-in']
     }).applyTo(document.body)
     equal(document.body.style.display, 'inline')
@@ -149,24 +149,24 @@ test('applyTo with array value', function () {
 
 test('toJSON', function () {
     var decl = {color: 'red'}
-    var rule = new jss.Rule(decl)
+    var rule = jss.createRule(decl)
     deepEqual(rule.toJSON(), decl, 'declarations are correct')
 })
 
 test('toJSON with nested rules', function () {
     var decl = {color: 'red', '&:hover': {color: 'blue'}}
-    var rule = new jss.Rule(decl)
+    var rule = jss.createRule(decl)
     deepEqual(rule.toJSON(), {color: 'red'}, 'nested rules removed')
 })
 
 test('set/get rules virtual prop', function () {
-    var rule = new jss.Rule()
+    var rule = jss.createRule()
     rule.prop('float', 'left')
     equal(rule.prop('float'), 'left')
 })
 
 test('set/get rules virtual prop with value 0', function () {
-    var rule = new jss.Rule()
+    var rule = jss.createRule()
     rule.prop('width', 0)
     equal(rule.prop('width'), 0)
 })
