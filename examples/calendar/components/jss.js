@@ -1,3 +1,3 @@
 'use strict'
 
-module.exports = require('../../..')
+module.exports = require('../../../lib')

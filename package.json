@@ -32,7 +32,7 @@
     "node": ">=0.8.0"
   },
   "devDependencies": {
-    "browserify": "^8.1.3",
+    "browserify": "^11.0.0",
     "uglify-js": "^2.4.15",
     "qunitjs": "^1.15.0",
     "xpkg": "^0.2.0"

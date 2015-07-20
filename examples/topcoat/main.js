@@ -1,4 +1,4 @@
-var jss = require('../..')
+var jss = require('../../lib')
 var normalize = jss.createStyleSheet(require('./normalize'), {named: false}).attach()
 var hogan = window.Hogan;
 
