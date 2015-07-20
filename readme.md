@@ -98,9 +98,9 @@ Use an own instance if the component you build should be reusable within a diffe
 `jss.create()`
 
 ```javascript
-    var jss = require('jss').create()
-    jss.use(somePlugin)
-    jss.createStyleSheet(...)
+var jss = require('jss').create()
+jss.use(somePlugin)
+jss.createStyleSheet(...)
 ```
 
 ### Create style sheet with namespaces enabled.
