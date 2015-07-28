@@ -395,7 +395,7 @@ PluginsRegistry.prototype.run = function (rule) {
 },{}],10:[function(require,module,exports){
 'use strict'
 
-var uid = 0
+var uid = require('./uid')
 
 var toString = Object.prototype.toString
 
@@ -408,7 +408,7 @@ var toString = Object.prototype.toString
  * @api public
  */
 function Rule(selector, style, options) {
-    this.id = Rule.uid++
+    this.id = uid.get()
     this.options = options || {}
     if (this.options.named == null) this.options.named = true
 
@@ -447,14 +447,6 @@ Rule.NAMESPACE_PREFIX = 'jss'
  * @api private
  */
 Rule.INDENTATION = '  '
-
-/**
- * Unique id, right now just a counter, because there is no need for better uid.
- *
- * @type {Number}
- * @api private
- */
-Rule.uid = 0
 
 /**
  * Get or set a style property.
@@ -626,7 +618,7 @@ function indent(level, str) {
     return indentStr + str
 }
 
-},{}],11:[function(require,module,exports){
+},{"./uid":13}],11:[function(require,module,exports){
 'use strict'
 
 var Rule = require('./Rule')
@@ -903,11 +895,33 @@ StyleSheet.prototype.createElement = function () {
 var StyleSheet = require('./StyleSheet')
 var Rule = require('./Rule')
 var Jss = require('./Jss')
+var uid = require('./uid')
 
 module.exports = exports = new Jss()
 
 exports.StyleSheet = StyleSheet
 exports.Rule = Rule
 exports.Jss = Jss
+exports.uid = uid
+},{"./Jss":8,"./Rule":10,"./StyleSheet":11,"./uid":13}],13:[function(require,module,exports){
+'use strict'
 
-},{"./Jss":8,"./Rule":10,"./StyleSheet":11}]},{},[1]);
+var global = typeof window === 'undefined' ? global : window
+var namespace = '__JSS_UID_PREFIX__'
+if (global[namespace] == null) global[namespace] = 0
+
+var prefix = global[namespace]++
+
+var counter = 0
+
+/**
+ * Returns a uid.
+ * Ensures uniqueness if more than 1 jss version is used.
+ *
+ * @api private
+ * @return {String}
+ */
+exports.get = function() {
+    return prefix + '-' + counter++
+}
+},{}]},{},[1]);

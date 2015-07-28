@@ -3,7 +3,6 @@
 QUnit.module('Rule')
 
 test('create empty instance', function () {
-    jss.Rule.uid = 0
     var rule = jss.createRule()
     equal(rule.className, 'jss-0')
     equal(rule.selector, '.jss-0')
@@ -93,7 +92,7 @@ test('@media', function () {
 })
 
 test('@media named', function () {
-    jss.Rule.uid = 0
+    jss.uid.reset()
     var rule = jss.createRule('@media print', {
         button: {
             display: 'none'

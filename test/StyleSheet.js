@@ -99,7 +99,7 @@ test('toString unnamed', function () {
 })
 
 test('toString named', function () {
-    jss.Rule.uid = 0
+    jss.uid.reset()
     var ss = jss.createStyleSheet({a: {float: 'left', width: '1px'}})
     ss.attach()
     equal(ss.toString(), '.jss-0 {\n  float: left;\n  width: 1px;\n}')
@@ -108,7 +108,7 @@ test('toString named', function () {
 })
 
 test('toString unnamed with media query', function () {
-    jss.Rule.uid = 0
+    jss.uid.reset()
     var ss = jss.createStyleSheet({
         a: {color: 'red'},
         '@media (min-width: 1024px)': {a: {color: 'blue'}}
@@ -129,7 +129,7 @@ test('link', function () {
 })
 
 test('named rules with unnamed child rules', function () {
-    jss.Rule.uid = 0
+    jss.uid.reset()
     var added
     jss.use(function (rule) {
         if (added) return

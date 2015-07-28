@@ -1,3 +1,7 @@
+## 2.1.2 / 2015-07-28
+
+- avoid conflicts of jss ids when multiple jss versions are used on the same page
+
 ## 2.1.1 / 2015-07-20
 
 - remove browser field from package.json, it makes webpack use dist version instead of src.
