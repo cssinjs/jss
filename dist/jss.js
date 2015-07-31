@@ -612,13 +612,14 @@ exports.Rule = Rule
 exports.Jss = Jss
 exports.uid = uid
 },{"./Jss":1,"./Rule":3,"./StyleSheet":4,"./uid":6}],6:[function(require,module,exports){
+(function (global){
 'use strict'
 
-var global = typeof window === 'undefined' ? global : window
+var globalReference = typeof window === 'undefined' ? global : window
 var namespace = '__JSS_UID_PREFIX__'
-if (global[namespace] == null) global[namespace] = 0
+if (globalReference[namespace] == null) globalReference[namespace] = 0
 
-var prefix = global[namespace]++
+var prefix = globalReference[namespace]++
 
 var counter = 0
 
@@ -632,5 +633,7 @@ var counter = 0
 exports.get = function() {
     return prefix + '-' + counter++
 }
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}]},{},[5])(5)
 });
