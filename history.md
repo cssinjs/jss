@@ -1,3 +1,11 @@
+## 2.1.4 / 2015-07-31
+
+- add internal method uid.reset() for testing
+
+## 2.1.3 / 2015-07-31
+
+- rename global reference to globalReference
+
 ## 2.1.2 / 2015-07-28
 
 - avoid conflicts of jss ids when multiple jss versions are used on the same page

@@ -4,11 +4,11 @@ QUnit.module('Rule')
 
 test('create empty instance', function () {
     var rule = jss.createRule()
-    equal(rule.className, 'jss-0')
-    equal(rule.selector, '.jss-0')
+    equal(rule.className, 'jss-0-0')
+    equal(rule.selector, '.jss-0-0')
     rule = jss.createRule()
-    equal(rule.className, 'jss-1')
-    equal(rule.selector, '.jss-1')
+    equal(rule.className, 'jss-0-1')
+    equal(rule.selector, '.jss-0-1')
     strictEqual(rule.style, undefined)
 })
 
@@ -68,7 +68,6 @@ test('run plugins on inner rules of an at-rule', function () {
         executed++
     }
     jss.use(plugin)
-    console.log(jss.createRule)
     jss.createRule('@media', {
         button: {float: 'left'}
     })
@@ -99,7 +98,7 @@ test('@media named', function () {
         }
     })
     equal(rule.selector, '@media print')
-    equal(rule.toString(), '@media print {\n  .jss-1 {\n    display: none;\n  }\n}')
+    equal(rule.toString(), '@media print {\n  .jss-0-1 {\n    display: none;\n  }\n}')
 })
 
 test('@keyframes', function () {

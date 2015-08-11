@@ -926,5 +926,13 @@ exports.get = function() {
     return prefix + '-' + counter++
 }
 
+/**
+ * Resets the counter.
+ *
+ * @api private
+ */
+exports.reset = function() {
+    counter = 0
+}
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}]},{},[1]);

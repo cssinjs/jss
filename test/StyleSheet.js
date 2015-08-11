@@ -102,8 +102,8 @@ test('toString named', function () {
     jss.uid.reset()
     var ss = jss.createStyleSheet({a: {float: 'left', width: '1px'}})
     ss.attach()
-    equal(ss.toString(), '.jss-0 {\n  float: left;\n  width: 1px;\n}')
-    equal(ss.element.innerHTML, '\n.jss-0 {\n  float: left;\n  width: 1px;\n}\n')
+    equal(ss.toString(), '.jss-0-0 {\n  float: left;\n  width: 1px;\n}')
+    equal(ss.element.innerHTML, '\n.jss-0-0 {\n  float: left;\n  width: 1px;\n}\n')
     ss.detach()
 })
 
@@ -138,5 +138,5 @@ test('named rules with unnamed child rules', function () {
     })
     var ss = jss.createStyleSheet({a: {float: 'left'}})
     jss.plugins.registry = []
-    equal(ss.toString(), '.jss-0 {\n  float: left;\n}\nb {\n  color: red;\n}')
+    equal(ss.toString(), '.jss-0-0 {\n  float: left;\n}\nb {\n  color: red;\n}')
 })
