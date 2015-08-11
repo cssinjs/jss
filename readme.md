@@ -17,7 +17,7 @@ Smaller footprint because of code reuse and no vendor specific declarations
 
 Take a look at [examples](http://jsstyles.github.io/jss/examples/index.html) directory.
 
-### Basics
+### Plugins
 
 Jss styles are just plain javascript objects. They map 1:1 to css rules, except of those modified by [plugins](https://github.com/jsstyles?query=jss-).
 
@@ -45,6 +45,28 @@ Some of those plugins:
     borderTop: '1px solid #eee'
   }
 }
+```
+
+#### Order does matter! Here is the right one:
+  - jss-nested
+  - jss-extend
+  - jss-vendor-prefixer
+  - jss-camel-case
+  - jss-props-sort
+  - jss-px
+
+#### Authoring plugins is easy.
+
+Register plugin.
+
+`jss.use(fn)`
+
+Passed function will be invoked with Rule instance. Take a look at [plugins](https://github.com/jsstyles?query=jss-) like `extend`, `nested` or `vendorPrefixer`.
+
+```javascript
+jss.use(function(rule) {
+    // Your modifier.
+})
 ```
 
 ### Multiple declarations with identical property names
@@ -280,18 +302,6 @@ sheet.getRule('a').prop('color', 'green')
 `rule.toJSON()`
 
 Returns JSON representation of the rule. Nested rules, at-rules and array values are not supported.
-
-### Register plugin.
-
-`jss.use(fn)`
-
-Passed function will be invoked with Rule instance. Take a look at [plugins](https://github.com/jsstyles?query=jss-) like `extend`, `nested` or `vendorPrefixer`.
-
-```javascript
-jss.use(function(rule) {
-    // Your modifier.
-})
-```
 
 ### Convert to CSS
 
