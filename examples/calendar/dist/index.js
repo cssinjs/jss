@@ -749,6 +749,7 @@ Jss.prototype.createRule = function (selector, style, options) {
  */
 Jss.prototype.use = function (fn) {
 	this.plugins.use(fn)
+	return this
 }
 
 },{"./PluginsRegistry":18,"./Rule":19,"./StyleSheet":20}],18:[function(require,module,exports){
@@ -1165,15 +1166,17 @@ StyleSheet.prototype.addRule = function (key, style) {
  * Create rules, will render also after stylesheet was rendered the first time.
  *
  * @param {Object} rules key:style hash.
- * @return {StyleSheet} this
+ * @return {Array} array of added rules
  * @api public
  */
 StyleSheet.prototype.addRules = function (rules) {
+    var added = []
+    
     for (var key in rules) {
-        this.addRule(key, rules[key])
+        added.push.apply(added, this.addRule(key, rules[key]))
     }
 
-    return this
+    return added
 }
 
 /**
