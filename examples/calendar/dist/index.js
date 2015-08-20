@@ -476,7 +476,7 @@ EventsManager.prototype.render = function () {
 
 module.exports = require('../../../lib')
 
-},{"../../../lib":21}],12:[function(require,module,exports){
+},{"../../../lib":22}],12:[function(require,module,exports){
 'use strict'
 
 var jss = require('../jss')
@@ -787,6 +787,7 @@ PluginsRegistry.prototype.run = function (rule) {
 'use strict'
 
 var uid = require('./uid')
+var clone = require('./clone')
 
 var toString = Object.prototype.toString
 
@@ -812,7 +813,9 @@ function Rule(selector, style, options) {
         this.selector = '.' + this.className
     }
 
-    this.style = style
+    // We expect style to be plain object.
+    if (style) this.style = clone(style)
+
     // Will be set by StyleSheet#link if link option is true.
     this.CSSRule = null
     // When at-rule has sub rules.
@@ -1009,7 +1012,7 @@ function indent(level, str) {
     return indentStr + str
 }
 
-},{"./uid":22}],20:[function(require,module,exports){
+},{"./clone":21,"./uid":23}],20:[function(require,module,exports){
 'use strict'
 
 var Rule = require('./Rule')
@@ -1277,6 +1280,22 @@ StyleSheet.prototype.createElement = function () {
 },{"./Rule":19}],21:[function(require,module,exports){
 'use strict'
 
+var stringify = JSON.stringify
+var parse = JSON.parse
+
+/**
+ * Deeply clone object over serialization.
+ * Expects object to be without cyclic dependencies.
+ *
+ * @type {Object} obj
+ * @return {Object}
+ */
+module.exports = function clone(obj) {
+    return parse(stringify(obj))
+}
+},{}],22:[function(require,module,exports){
+'use strict'
+
 /**
  * StyleSheets written in javascript.
  *
@@ -1296,7 +1315,7 @@ exports.StyleSheet = StyleSheet
 exports.Rule = Rule
 exports.Jss = Jss
 exports.uid = uid
-},{"./Jss":17,"./Rule":19,"./StyleSheet":20,"./uid":22}],22:[function(require,module,exports){
+},{"./Jss":17,"./Rule":19,"./StyleSheet":20,"./uid":23}],23:[function(require,module,exports){
 (function (global){
 'use strict'
 

@@ -19,7 +19,7 @@ function $(selector) {
     })
 }())
 
-},{"../../lib":12,"./normalize":2,"./topcoat-button":4,"./topcoat-button-bar":3}],2:[function(require,module,exports){
+},{"../../lib":13,"./normalize":2,"./topcoat-button":4,"./topcoat-button-bar":3}],2:[function(require,module,exports){
 module.exports = {
   'html': {
     'font-family': 'sans-serif',
@@ -397,6 +397,7 @@ PluginsRegistry.prototype.run = function (rule) {
 'use strict'
 
 var uid = require('./uid')
+var clone = require('./clone')
 
 var toString = Object.prototype.toString
 
@@ -422,7 +423,9 @@ function Rule(selector, style, options) {
         this.selector = '.' + this.className
     }
 
-    this.style = style
+    // We expect style to be plain object.
+    if (style) this.style = clone(style)
+
     // Will be set by StyleSheet#link if link option is true.
     this.CSSRule = null
     // When at-rule has sub rules.
@@ -619,7 +622,7 @@ function indent(level, str) {
     return indentStr + str
 }
 
-},{"./uid":13}],11:[function(require,module,exports){
+},{"./clone":12,"./uid":14}],11:[function(require,module,exports){
 'use strict'
 
 var Rule = require('./Rule')
@@ -887,6 +890,22 @@ StyleSheet.prototype.createElement = function () {
 },{"./Rule":10}],12:[function(require,module,exports){
 'use strict'
 
+var stringify = JSON.stringify
+var parse = JSON.parse
+
+/**
+ * Deeply clone object over serialization.
+ * Expects object to be without cyclic dependencies.
+ *
+ * @type {Object} obj
+ * @return {Object}
+ */
+module.exports = function clone(obj) {
+    return parse(stringify(obj))
+}
+},{}],13:[function(require,module,exports){
+'use strict'
+
 /**
  * StyleSheets written in javascript.
  *
@@ -906,7 +925,7 @@ exports.StyleSheet = StyleSheet
 exports.Rule = Rule
 exports.Jss = Jss
 exports.uid = uid
-},{"./Jss":8,"./Rule":10,"./StyleSheet":11,"./uid":13}],13:[function(require,module,exports){
+},{"./Jss":8,"./Rule":10,"./StyleSheet":11,"./uid":14}],14:[function(require,module,exports){
 (function (global){
 'use strict'
 

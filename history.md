@@ -1,3 +1,7 @@
+## 2.1.5 / 2015-08-20
+
+- stop mutating original rules passed by user. expecting style to be a plaing object.
+
 ## 2.1.4 / 2015-07-31
 
 - add internal method uid.reset() for testing

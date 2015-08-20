@@ -105,6 +105,7 @@ PluginsRegistry.prototype.run = function (rule) {
 'use strict'
 
 var uid = require('./uid')
+var clone = require('./clone')
 
 var toString = Object.prototype.toString
 
@@ -130,7 +131,9 @@ function Rule(selector, style, options) {
         this.selector = '.' + this.className
     }
 
-    this.style = style
+    // We expect style to be plain object.
+    if (style) this.style = clone(style)
+
     // Will be set by StyleSheet#link if link option is true.
     this.CSSRule = null
     // When at-rule has sub rules.
@@ -327,7 +330,7 @@ function indent(level, str) {
     return indentStr + str
 }
 
-},{"./uid":6}],4:[function(require,module,exports){
+},{"./clone":5,"./uid":7}],4:[function(require,module,exports){
 'use strict'
 
 var Rule = require('./Rule')
@@ -595,6 +598,22 @@ StyleSheet.prototype.createElement = function () {
 },{"./Rule":3}],5:[function(require,module,exports){
 'use strict'
 
+var stringify = JSON.stringify
+var parse = JSON.parse
+
+/**
+ * Deeply clone object over serialization.
+ * Expects object to be without cyclic dependencies.
+ *
+ * @type {Object} obj
+ * @return {Object}
+ */
+module.exports = function clone(obj) {
+    return parse(stringify(obj))
+}
+},{}],6:[function(require,module,exports){
+'use strict'
+
 /**
  * StyleSheets written in javascript.
  *
@@ -614,7 +633,7 @@ exports.StyleSheet = StyleSheet
 exports.Rule = Rule
 exports.Jss = Jss
 exports.uid = uid
-},{"./Jss":1,"./Rule":3,"./StyleSheet":4,"./uid":6}],6:[function(require,module,exports){
+},{"./Jss":1,"./Rule":3,"./StyleSheet":4,"./uid":7}],7:[function(require,module,exports){
 (function (global){
 'use strict'
 
@@ -646,5 +665,5 @@ exports.reset = function() {
     counter = 0
 }
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}]},{},[5])(5)
+},{}]},{},[6])(6)
 });
