@@ -1287,6 +1287,8 @@ var parse = JSON.parse
  * Deeply clone object over serialization.
  * Expects object to be without cyclic dependencies.
  *
+ * http://jsperf.com/lodash-deepclone-vs-jquery-extend-deep/6
+ *
  * @type {Object} obj
  * @return {Object}
  */
@@ -1343,9 +1345,10 @@ exports.get = function() {
  *
  * @api private
  */
-exports.reset = function() {
+exports.reset = function() {
     counter = 0
 }
+
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}]},{},[16])(16)
 });

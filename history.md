@@ -1,3 +1,7 @@
+## 2.1.6 / 2015-09-2
+
+- removed invalid characters
+
 ## 2.1.5 / 2015-08-20
 
 - stop mutating original rules passed by user. expecting style to be a plaing object.
