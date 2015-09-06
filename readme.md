@@ -155,7 +155,7 @@ Options:
 - `type` style element attribute
 - `named` true by default - keys are names, selectors will be generated,
     if false - keys are global selectors.
-- `link` link jss `Rule` instances with DOM `CSSRule instances so that styles, can be modified dynamically, false by default because it has some performance cost.
+- `link` link jss `Rule` instances with DOM `CSSRule` instances so that styles, can be modified dynamically, false by default because it has some performance cost.
 
 ```javascript
 
