@@ -15,7 +15,42 @@ Why do we need transpilers like [sass](http://sass-lang.com/) or [stylus](http:/
 
 Smaller footprint because of code reuse and no vendor specific declarations
 
-Take a look at [examples](http://jsstyles.github.io/jss/examples/index.html) directory.
+### Examples
+
+Working [examples](http://jsstyles.github.io/jss/examples/index.html) directory.
+
+#### Example with extend, nesting auto px
+```javascript
+{
+  carouselCaption: {
+    extend: something,
+    position: 'absolute',
+    zIndex: 10,
+    '&:hover': {
+      background: 'red'
+    }
+  },
+  hr: {
+    height: 1,
+    border: 0,
+    borderTop: '1px solid #eee'
+  }
+}
+```
+
+#### Example with @media
+```javascript
+{
+  button: {
+    width: 100
+  },
+  '@media (min-width: 1024px)': {
+    button: {
+      width: 200
+    }
+  }
+}
+```
 
 ### Plugins
 
@@ -28,24 +63,6 @@ Some of those plugins:
 - Vendor prefixes are automatically added through [jss-vendor-prefixer](https://github.com/jsstyles/jss-vendor-prefixer) plugin.
 - You can use camel cased css property names through [jss-camel-case](https://github.com/jsstyles/jss-camel-case) plugin.
 - Add 'px' automatically to non numeric values using [jss-px](https://github.com/jsstyles/jss-px)
-
-```javascript
-// Some random jss code example
-{
-  carouselCaption: {
-    extend: something,
-    position: 'absolute',
-    zIndex: 10,
-    '&:hover': {
-      background: 'red'
-    }
-  },
-  hr: {
-    border: 0,
-    borderTop: '1px solid #eee'
-  }
-}
-```
 
 #### Order does matter! Here is the right one:
   - jss-nested

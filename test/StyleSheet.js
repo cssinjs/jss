@@ -27,7 +27,6 @@ test('create instance with rules and generated classes', function () {
     ok(ss.rules.a instanceof jss.Rule)
     equal(typeof ss.classes.a, 'string')
     ok(ss.options.named)
-    equal(ss.rules.a.options.name, 'a', 'name has been passed to the rule')
 })
 
 test('create instance with rules where selector is a global class', function () {
@@ -108,7 +107,6 @@ test('toString named', function () {
 })
 
 test('toString unnamed with media query', function () {
-    jss.uid.reset()
     var ss = jss.createStyleSheet({
         a: {color: 'red'},
         '@media (min-width: 1024px)': {a: {color: 'blue'}}
@@ -116,6 +114,20 @@ test('toString unnamed with media query', function () {
     ss.attach()
     equal(ss.toString(), 'a {\n  color: red;\n}\n@media (min-width: 1024px) {\n  a {\n    color: blue;\n  }\n}')
     equal(ss.element.innerHTML, '\na {\n  color: red;\n}\n@media (min-width: 1024px) {\n  a {\n    color: blue;\n  }\n}\n')
+    ss.detach()
+})
+
+test('toString named with media query', function () {
+    jss.uid.reset()
+    var ss = jss.createStyleSheet({
+        a: {color: 'red'},
+        '@media (min-width: 1024px)': {
+            a: {color: 'blue'},
+            b: {color: 'white'}
+        }
+    })
+    ss.attach()
+    equal(ss.toString(), '.jss-0-0 {\n  color: red;\n}\n@media (min-width: 1024px) {\n  .jss-0-0 {\n    color: blue;\n  }\n  .jss-0-3 {\n    color: white;\n  }\n}')
     ss.detach()
 })
 

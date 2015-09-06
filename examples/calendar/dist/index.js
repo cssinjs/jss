@@ -476,7 +476,7 @@ EventsManager.prototype.render = function () {
 
 module.exports = require('../../../lib')
 
-},{"../../../lib":22}],12:[function(require,module,exports){
+},{"../../../lib":23}],12:[function(require,module,exports){
 'use strict'
 
 var jss = require('../jss')
@@ -788,13 +788,14 @@ PluginsRegistry.prototype.run = function (rule) {
 
 var uid = require('./uid')
 var clone = require('./clone')
+var defaults = require('./defaults')
 
 var toString = Object.prototype.toString
 
 /**
  * Rule is selector + style hash.
  *
- * @param {String} [selector]
+ * @param {String} [selector] can be selector, rule name, @media etc.
  * @param {Object} [style] declarations block
  * @param {Object} [options]
  * @api public
@@ -803,14 +804,17 @@ function Rule(selector, style, options) {
     this.id = uid.get()
     this.options = options || {}
     if (this.options.named == null) this.options.named = true
+    this.isAtRule = (selector || '')[0] == '@'
 
-    if (selector) {
-        this.selector = selector
-        this.isAtRule = selector[0] == '@'
+    if (this.options.named) {
+        if (this.isAtRule) {
+            this.selector = selector
+        } else {
+            this.className = Rule.NAMESPACE_PREFIX + '-' + this.id
+            this.selector = '.' + this.className
+        }
     } else {
-        this.isAtRule = false
-        this.className = Rule.NAMESPACE_PREFIX + '-' + this.id
-        this.selector = '.' + this.className
+        this.selector = selector
     }
 
     // We expect style to be plain object.
@@ -819,9 +823,9 @@ function Rule(selector, style, options) {
     // Will be set by StyleSheet#link if link option is true.
     this.CSSRule = null
     // When at-rule has sub rules.
-    this.rules = null
+    this.subrules = null
     this.jss = this.options.jss
-    this.extractAtRules()
+    this.extractSubrules()
 }
 
 module.exports = Rule
@@ -899,16 +903,26 @@ Rule.prototype.addChild = function (selector, style, options) {
  * @return {Rule}
  * @api private
  */
-Rule.prototype.extractAtRules = function () {
+Rule.prototype.extractSubrules = function () {
     if (!this.isAtRule || !this.style) return
-    if (!this.rules) this.rules = {}
-
+    if (!this.subrules) this.subrules = {}
+    var sheet = this.options.sheet
     for (var name in this.style) {
+        var options = this.options
         var style = this.style[name]
         // Not a nested rule.
         if (typeof style == 'string') break
-        var selector = this.options.named ? undefined : name
-        this.rules[name] = this.jss.createRule(selector, style, this.options)
+        var selector
+        // We are going to overwrite some rule within the same sheet when
+        // @media query matches conditions.
+        if (options.named) {
+            var prevRule = sheet && sheet.rules[name]
+            if (prevRule) {
+                selector = prevRule.selector
+                options = defaults({named: false}, options)
+            }
+        } else selector = name
+        this.subrules[name] = this.jss.createRule(selector, style, options)
         delete this.style[name]
     }
 }
@@ -945,7 +959,7 @@ Rule.prototype.toString = function (options) {
     var style = this.style
 
     // At rules like @charset
-    if (this.isAtRule && !this.style && !this.rules) return this.selector + ';'
+    if (this.isAtRule && !this.style && !this.subrules) return this.selector + ';'
 
     if (!options) options = {}
     if (options.indentationLevel == null) options.indentationLevel = 0
@@ -964,13 +978,14 @@ Rule.prototype.toString = function (options) {
         }
     }
 
-    // We are have an at-rule with nested statements.
+    // We have an at-rule with nested statements.
     // https://developer.mozilla.org/en-US/docs/Web/CSS/At-rule
-    for (var name in this.rules) {
-        var ruleStr = this.rules[name].toString({
-            indentationLevel: options.indentationLevel + 1
-        })
-        str += '\n' + indent(options.indentationLevel, ruleStr)
+    var toStringOptions = {indentationLevel: options.indentationLevel + 1}
+    for (var name in this.subrules) {
+        str += '\n' + indent(
+            options.indentationLevel,
+            this.subrules[name].toString(toStringOptions)
+        )
     }
 
     str += '\n' + indent(options.indentationLevel, '}')
@@ -1002,6 +1017,8 @@ Rule.prototype.toJSON = function () {
 /**
  * Indent a string.
  *
+ * http://jsperf.com/array-join-vs-for
+ *
  * @param {Number} level
  * @param {String} str
  * @return {String}
@@ -1012,7 +1029,7 @@ function indent(level, str) {
     return indentStr + str
 }
 
-},{"./clone":21,"./uid":23}],20:[function(require,module,exports){
+},{"./clone":21,"./defaults":22,"./uid":24}],20:[function(require,module,exports){
 'use strict'
 
 var Rule = require('./Rule')
@@ -1174,7 +1191,7 @@ StyleSheet.prototype.addRule = function (key, style) {
  */
 StyleSheet.prototype.addRules = function (rules) {
     var added = []
-    
+
     for (var key in rules) {
         added.push.apply(added, this.addRule(key, rules[key]))
     }
@@ -1227,27 +1244,21 @@ StyleSheet.prototype.toString = function () {
  */
 StyleSheet.prototype.createRules = function (key, style, options) {
     var rules = []
-    var selector, name
-
     if (!options) options = {}
     var named = this.options.named
     // Scope options overwrite instance options.
     if (options.named != null) named = options.named
 
-    if (named) name = key
-    else selector = key
-
-    var rule = this.jss.createRule(selector, style, {
+    var rule = this.jss.createRule(key, style, {
         sheet: this,
-        named: named,
-        name: name
+        named: named
     })
     rules.push(rule)
 
     this.rules[rule.selector] = rule
-    if (name) {
-        this.rules[name] = rule
-        this.classes[name] = rule.className
+    if (named) {
+        this.rules[key] = rule
+        this.classes[key] = rule.className
     }
 
     for (key in rule.children) {
@@ -1284,8 +1295,8 @@ var stringify = JSON.stringify
 var parse = JSON.parse
 
 /**
- * Deeply clone object over serialization.
- * Expects object to be without cyclic dependencies.
+ * Deeply clone object using serialization.
+ * Expects object to be plain and without cyclic dependencies.
  *
  * http://jsperf.com/lodash-deepclone-vs-jquery-extend-deep/6
  *
@@ -1296,6 +1307,25 @@ module.exports = function clone(obj) {
     return parse(stringify(obj))
 }
 },{}],22:[function(require,module,exports){
+'use strict'
+
+/**
+ * Merges second object with first one only if value is undefined.
+ * It expects both objects to be plain.
+ *
+ * @param {Object} obj1
+ * @param {Object} obj2
+ * @return {Object} obj1
+ */
+module.exports = function(obj1, obj2) {
+    for (var key in obj2) {
+        if (obj1[key] === undefined) obj1[key] = obj2[key]
+    }
+    return obj1
+}
+
+
+},{}],23:[function(require,module,exports){
 'use strict'
 
 /**
@@ -1317,7 +1347,7 @@ exports.StyleSheet = StyleSheet
 exports.Rule = Rule
 exports.Jss = Jss
 exports.uid = uid
-},{"./Jss":17,"./Rule":19,"./StyleSheet":20,"./uid":23}],23:[function(require,module,exports){
+},{"./Jss":17,"./Rule":19,"./StyleSheet":20,"./uid":24}],24:[function(require,module,exports){
 (function (global){
 'use strict'
 

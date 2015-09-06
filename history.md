@@ -1,3 +1,7 @@
+## 2.2.0 / 2015-09-6
+
+- added support for named at-rules e.g. @media
+
 ## 2.1.6 / 2015-09-2
 
 - removed invalid characters

@@ -3,6 +3,7 @@
 QUnit.module('Rule')
 
 test('create empty instance', function () {
+    jss.uid.reset()
     var rule = jss.createRule()
     equal(rule.className, 'jss-0-0')
     equal(rule.selector, '.jss-0-0')
@@ -13,8 +14,10 @@ test('create empty instance', function () {
 })
 
 test('create instance with selector only', function () {
+    jss.uid.reset()
     var rule = jss.createRule('a')
-    equal(rule.selector, 'a')
+    equal(rule.selector, '.jss-0-0')
+    equal(rule.className, 'jss-0-0')
     deepEqual(rule.style, undefined)
 })
 
@@ -35,7 +38,7 @@ test('create instance with styles and options', function () {
 })
 
 test('create instance with all params', function () {
-    var options = {}
+    var options = {named: false}
     var rule = jss.createRule('a', {float: 'left'}, options)
     deepEqual(rule.style, {float: 'left'})
     equal(rule.className, undefined)
@@ -75,12 +78,12 @@ test('run plugins on inner rules of an at-rule', function () {
 })
 
 test('toString', function () {
-    var rule = jss.createRule('a', {float: 'left', width: '1px'})
+    var rule = jss.createRule('a', {float: 'left', width: '1px'}, {named: false})
     equal(rule.toString(), 'a {\n  float: left;\n  width: 1px;\n}')
 })
 
 test('multiple declarations with identical property names', function () {
-    var rule = jss.createRule('a', {display: ['inline', 'run-in']})
+    var rule = jss.createRule('a', {display: ['inline', 'run-in']}, {named: false})
     equal(rule.toString(), 'a {\n  display: inline;\n  display: run-in;\n}')
 })
 
