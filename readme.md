@@ -19,7 +19,7 @@ Smaller footprint because of code reuse and no vendor specific declarations
 
 Working [examples](http://jsstyles.github.io/jss/examples/index.html) directory.
 
-#### Example with extend, nesting auto px
+#### Example with extend, nesting, auto px
 ```javascript
 {
   carouselCaption: {
