@@ -866,7 +866,7 @@ StyleSheet.prototype.createRules = function (key, style, options) {
     rules.push(rule)
 
     this.rules[rule.selector] = rule
-    if (named) {
+    if (named && !rule.isAtRule) {
         this.rules[key] = rule
         this.classes[key] = rule.className
     }

@@ -1,3 +1,7 @@
+## 2.2.1 / 2015-09-6
+
+- remove @media from classes hash
+
 ## 2.2.0 / 2015-09-6
 
 - added support for named at-rules e.g. @media
