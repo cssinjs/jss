@@ -1,7 +1,7 @@
 {
   "name": "jsstyles",
   "description": "Composable and reusable style sheets.",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
@@ -19,12 +19,6 @@
     "components",
     "composable"
   ],
-  "scripts": {},
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://www.opensource.org/licenses/mit-license.php"
-    }
-  ],
+  "license": "MIT",
   "main": "dist/jss.js"
 }

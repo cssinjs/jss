@@ -7,17 +7,17 @@ JSS is a _very_ thin layer which compiles JSON structures to CSS.
 
 Take a look at "[The important parts](https://medium.com/@oleg008/the-important-parts-131dda7f6f6f)" and [slides](http://slides.com/kof/jss).
 
-By leveraging [namespaces](http://jsstyles.github.io/jss/examples/namespace/index.html) we can solve the [cascading](http://www.phase2technology.com/blog/used-and-abused-css-inheritance-and-our-misuse-of-the-cascade/) problem better than [bem](http://bem.info/) and make our components truly reusable and composable.
+By leveraging [namespaces](http://jsstyles.github.io/jss-examples/namespace/index.html) we can solve the [cascading](http://www.phase2technology.com/blog/used-and-abused-css-inheritance-and-our-misuse-of-the-cascade/) problem better than [bem](http://bem.info/) and make our components truly reusable and composable.
 
 Why do we need transpilers like [sass](http://sass-lang.com/) or [stylus](http://learnboost.github.io/stylus/) when we can use javascript to do the same and much more?
 
-[Access css](http://jsstyles.github.io/jss/examples/commonjs/index.html) declarations and values from js without DOM round trip.
+[Access css](http://jsstyles.github.io/jss-examples/commonjs/index.html) declarations and values from js without DOM round trip.
 
 Smaller footprint because of code reuse and no vendor specific declarations
 
 ### Examples
 
-Working [examples](http://jsstyles.github.io/jss/examples/index.html) directory.
+Working [examples](http://jsstyles.github.io/jss-examples/index.html) directory.
 
 #### Example with extend, nesting, auto px
 ```javascript
@@ -144,7 +144,7 @@ jss.createStyleSheet(...)
 
 ### Create style sheet with namespaces enabled.
 
-Create a style sheet with [namespaced](http://jsstyles.github.io/jss/examples/namespace/index.html) rules.
+Create a style sheet with [namespaced](http://jsstyles.github.io/jss-examples/namespace/index.html) rules.
 
 `jss.createStyleSheet([rules], [options])`
 
@@ -286,7 +286,7 @@ rule.applyTo(element)
 
 `rule.applyTo(element)`
 
-This is equivalent to `element.style.background = 'blue'` except of that you could use a rule from sheet which is already defined and can apply plugins to it. [Example.](http://jsstyles.github.io/jss/examples/apply-to/index.html)
+This is equivalent to `element.style.background = 'blue'` except of that you could use a rule from sheet which is already defined and can apply plugins to it. [Example.](http://jsstyles.github.io/jss-examples/apply-to/index.html)
 
 ```javascript
 jss.createRule({
@@ -298,7 +298,7 @@ jss.createRule({
 
 `rule.prop(name, [value])`
 
-When option `link` is true, after stylesheet is attached, linker saves references to `CSSRule` instances so that you are able to set rules properties at any time. [Example.](http://jsstyles.github.io/jss/examples/dynamic-props/index.html)
+When option `link` is true, after stylesheet is attached, linker saves references to `CSSRule` instances so that you are able to set rules properties at any time. [Example.](http://jsstyles.github.io/jss-examples/dynamic-props/index.html)
 
 ```javascript
 var sheet = jss.createStyleSheet({

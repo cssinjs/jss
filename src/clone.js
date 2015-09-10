@@ -1,9 +1,5 @@
-"use strict";
-
-exports.__esModule = true;
-exports["default"] = clone;
-var stringify = JSON.stringify;
-var parse = JSON.parse;
+let stringify = JSON.stringify
+let parse = JSON.parse
 
 /**
  * Deeply clone object using serialization.
@@ -14,9 +10,6 @@ var parse = JSON.parse;
  * @type {Object} obj
  * @return {Object}
  */
-
-function clone(obj) {
-  return parse(stringify(obj));
+export default function clone(obj) {
+  return parse(stringify(obj))
 }
-
-module.exports = exports["default"];

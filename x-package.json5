@@ -1,7 +1,7 @@
 {
     name: 'jss',
     description: 'Composable and reusable style sheets.',
-    version: '2.2.1',
+    version: '2.3.0',
     author: {
         name: 'Oleg Slobodskoi',
         email: 'oleg008@gmail.com'
@@ -11,7 +11,6 @@
         url: 'git@github.com:jsstyles/jss.git'
     },
     keywords: ['jss', 'style', 'sheet', 'stylesheet', 'css', 'components', 'composable'],
-    scripts: {},
     overlay: {
         bower: {
             name: 'jsstyles',
@@ -21,17 +20,28 @@
             main: './lib/index.js',
             engines: {node: '>=0.8.0'},
             devDependencies: {
-                browserify: '^11.0.0',
-                'uglify-js': '^2.4.15',
                 qunitjs: '^1.15.0',
-                xpkg: '^0.2.0'
+                xpkg: '^0.2.0',
+                eslint: '^0.24.1',
+                'eslint-config-airbnb': '^0.0.6',
+                'eslint-config-ubergrape': '^0.1.1',
+                'eslint-plugin-react': '^2.7.0',
+                babel: '^5.6.14',
+                'babel-core': '^5.6.20',
+                'babel-eslint': '^3.1.23',
+                'babel-loader': '^5.3.1',
+                webpack: '^1.11.0'
+            },
+            scripts: {
+                all: 'npm run lint && npm run test && npm run build',
+                build: 'npm run clean && npm run build:lib && npm run build:max && npm run build:min',
+                clean: 'rm -fr ./lib/*',
+                'build:lib': 'babel src --out-dir lib',
+                'build:max': 'NODE_ENV=development webpack src/index.js dist/jss.js',
+                'build:min': 'NODE_ENV=production webpack src/index.js dist/jss.min.js',
+                lint: 'eslint ./src'
             }
         }
     },
-    licenses: [
-        {
-           type: 'MIT',
-           url: 'http://www.opensource.org/licenses/mit-license.php'
-        }
-    ]
+    license: 'MIT'
 }

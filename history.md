@@ -1,3 +1,8 @@
+## 2.3.0 / 2015-09-10
+
+- migrate to es6
+- move examples to jss-examples repository
+
 ## 2.2.1 / 2015-09-6
 
 - remove @media from classes hash

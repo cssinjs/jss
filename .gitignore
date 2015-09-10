@@ -8,3 +8,4 @@ tmp
 *.log
 *.pid
 *.swo
+lib

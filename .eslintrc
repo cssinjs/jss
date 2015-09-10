@@ -1,0 +1,7 @@
+{
+  "extends": "eslint-config-ubergrape",
+  "rules": {
+    "no-param-reassign": 0,
+    "guard-for-in": 0
+  }
+}
