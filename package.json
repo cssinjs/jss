@@ -45,6 +45,6 @@
     "build:max": "NODE_ENV=development webpack src/index.js dist/jss.js",
     "build:min": "NODE_ENV=production webpack src/index.js dist/jss.min.js",
     "lint": "eslint ./src",
-    "prepublish": "npm run all"
+    "prepublish": "npm run all && git push --tags"
   }
 }
