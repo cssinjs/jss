@@ -67,10 +67,10 @@ Some of those plugins:
 #### Order does matter! Here is the right one:
   - jss-nested
   - jss-extend
+  - jss-px
   - jss-vendor-prefixer
   - jss-camel-case
   - jss-props-sort
-  - jss-px
 
 #### Authoring plugins is easy.
 
