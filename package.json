@@ -1,7 +1,7 @@
 {
   "name": "jss",
   "description": "Composable and reusable style sheets.",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
@@ -29,7 +29,7 @@
     "xpkg": "^0.2.0",
     "eslint": "^0.24.1",
     "eslint-config-airbnb": "^0.0.6",
-    "eslint-config-ubergrape": "^0.1.1",
+    "eslint-config-jss": "^0.1.0",
     "eslint-plugin-react": "^2.7.0",
     "babel": "^5.6.14",
     "babel-core": "^5.6.20",
@@ -38,7 +38,7 @@
     "webpack": "^1.11.0"
   },
   "scripts": {
-    "all": "npm run lint && npm run test && npm run build",
+    "all": "xpkg . && npm run lint && npm run test && npm run build",
     "build": "npm run clean && npm run build:lib && npm run build:max && npm run build:min",
     "clean": "rm -fr ./lib/*",
     "build:lib": "babel src --out-dir lib",

@@ -1,3 +1,7 @@
+## 2.3.0 / 2015-09-15
+
+- use eslint-config-jss
+
 ## 2.3.0 / 2015-09-10
 
 - migrate to es6
