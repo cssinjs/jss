@@ -68,8 +68,8 @@ Some of those plugins:
   - jss-nested
   - jss-extend
   - jss-px
-  - jss-vendor-prefixer
   - jss-camel-case
+  - jss-vendor-prefixer
   - jss-props-sort
 
 #### Authoring plugins is easy.
