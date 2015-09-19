@@ -537,6 +537,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (this.isAtRule) {
 	        this.selector = selector;
 	      } else {
+	        // Selector is a rule name, we need to ref it for e.g. for jss-debug.
+	        this.name = selector;
 	        this.className = Rule.NAMESPACE_PREFIX + '-' + this.id;
 	        this.selector = '.' + this.className;
 	      }
