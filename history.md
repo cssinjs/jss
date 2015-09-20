@@ -1,4 +1,12 @@
-## 2.3.0 / 2015-09-15
+## 2.3.3 / 2015-09-20
+
+- remove xpkg, update npmignore and ingore list for bower
+
+## 2.3.2 / 2015-09-19
+
+- reference rule name on the rule instance to fix jss-debug
+
+## 2.3.1 / 2015-09-15
 
 - use eslint-config-jss
 

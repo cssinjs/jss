@@ -1,24 +1,12 @@
 {
   "name": "jsstyles",
-  "description": "Composable and reusable style sheets.",
-  "version": "2.3.2",
-  "author": {
-    "name": "Oleg Slobodskoi",
-    "email": "oleg008@gmail.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:jsstyles/jss.git"
-  },
-  "keywords": [
-    "jss",
-    "style",
-    "sheet",
-    "stylesheet",
-    "css",
-    "components",
-    "composable"
-  ],
   "license": "MIT",
-  "main": "dist/jss.js"
+  "main": "dist/jss.js",
+  "ignore": [
+    "src",
+    "bench",
+    "tmp",
+    "test",
+    "node_modules
+  ]
 }
