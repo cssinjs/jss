@@ -11,7 +11,7 @@ By leveraging [namespaces](http://jsstyles.github.io/jss-examples/namespace/inde
 
 Why do we need transpilers like [sass](http://sass-lang.com/) or [stylus](http://learnboost.github.io/stylus/) when we can use javascript to do the same and much more?
 
-[Access css](http://jsstyles.github.io/jss-examples/commonjs/index.html) declarations and values from js without DOM round trip.
+Access css declarations and values from js without DOM round trip.
 
 Smaller footprint because of code reuse and no vendor specific declarations
 
