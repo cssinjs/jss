@@ -1,3 +1,10 @@
+## 2.3.4 / 2015-09-21
+
+- remove bower.json
+- remove dist from repository
+- add dist to npm package
+- add cdnjs support
+
 ## 2.3.3 / 2015-09-20
 
 - remove xpkg, update npmignore and ingore list for bower
