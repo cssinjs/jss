@@ -65,8 +65,8 @@ Some of those plugins:
 - Add 'px' automatically to non numeric values using [jss-px](https://github.com/jsstyles/jss-px)
 
 #### Order does matter! Here is the right one:
-  - jss-nested
   - jss-extend
+  - jss-nested
   - jss-px
   - jss-camel-case
   - jss-vendor-prefixer
