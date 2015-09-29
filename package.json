@@ -27,7 +27,7 @@
   "devDependencies": {
     "qunitjs": "1.19.0",
     "eslint": "0.24.1",
-    "eslint-config-airbnb": "0.0.6",
+    "eslint-config-airbnb": "0.1.0",
     "eslint-config-jss": "0.1.2",
     "eslint-plugin-react": "2.7.1",
     "babel": "5.8.23",
