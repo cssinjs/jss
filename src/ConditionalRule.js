@@ -19,7 +19,7 @@ export default class ConditionalRule {
    * @api private
    */
   createChildRules(styles) {
-    let rules = []
+    let rules = {}
     let options = {...this.options, parent: this}
     for (let name in styles) {
       let localOptions = options
@@ -28,8 +28,7 @@ export default class ConditionalRule {
       // to ensure it will have the same className/selector.
       let ruleToOverwrite = options.sheet && options.sheet.getRule(name)
       if (ruleToOverwrite) localOptions = {...options, className: ruleToOverwrite.className}
-      let rule = this.createRule(name, styles[name], localOptions)
-      rules.push(rule)
+      rules[name] = this.createRule(name, styles[name], localOptions)
     }
     return rules
   }
@@ -54,8 +53,8 @@ export default class ConditionalRule {
    */
   toString() {
     let str = `${this.selector} {\n`
-    for (let i = 0; i < this.rules.length; i++) {
-      let ruleStr = this.rules[i].toString({indentationLevel: 1})
+    for (let name in this.rules) {
+      let ruleStr = this.rules[name].toString({indentationLevel: 1})
       str += `${ruleStr}\n`
     }
     str += `}`
