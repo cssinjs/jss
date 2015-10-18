@@ -1,60 +1,41 @@
 import * as uid from './uid'
 import clone from './clone'
-import defaults from './defaults'
 
 /**
- * Rule is selector + style hash.
+ * Class name prefix when generated.
  *
- * @param {String} [selector] can be selector, rule name, @media etc.
- * @param {Object} [style] declarations block
- * @param {Object} [options]
- * @api public
+ * @type {String}
+ * @api private
+ */
+const namespacePrefix = 'jss'
+
+/**
+ * Indentation string for formatting toString output.
+ *
+ * @type {String}
+ * @api private
+ */
+const indentWith = '  '
+
+/**
+ * Regular rule.
+ *
+ * @api private
  */
 export default class Rule {
-  /**
-   * Class name prefix when generated.
-   *
-   * @type {String}
-   * @api private
-   */
-  static NAMESPACE_PREFIX = 'jss'
-
-  /**
-   * Indentation string for formatting toString output.
-   *
-   * @type {String}
-   * @api private
-   */
-  static INDENTATION = '  '
-
-  constructor(selector, style, options = {}) {
-    if (options.named == null) options.named = true
+  constructor(selector, style, options) {
+    this.type = 'regular'
     this.id = uid.get()
     this.options = options
-    this.isAtRule = (selector || '')[0] === '@'
-
+    this.selector = selector
     if (options.named) {
-      if (this.isAtRule) {
-        this.selector = selector
-      }
-      else {
-        // Selector is a rule name, we need to ref it for e.g. for jss-debug.
-        this.name = selector
-        this.className = `${Rule.NAMESPACE_PREFIX}-${this.id}`
-        this.selector = '.' + this.className
-      }
+      // Selector is a rule name, we need to ref it for e.g. for jss-debug.
+      this.name = selector
+      this.className = options.className || `${namespacePrefix}-${this.id}`
+      this.selector = `.${this.className}`
     }
-    else this.selector = selector
-
     // We expect style to be plain object.
-    if (style) this.style = clone(style)
-
-    // Will be set by StyleSheet#link if link option is true.
-    this.CSSRule = null
-    // When at-rule has sub rules.
-    this.subrules = null
-    this.jss = this.options.jss
-    this.extractSubrules()
+    this.style = clone(style)
   }
 
   /**
@@ -68,70 +49,17 @@ export default class Rule {
   prop(name, value) {
     // Its a setter.
     if (value != null) {
-      if (!this.style) this.style = {}
       this.style[name] = value
-      // If linked option in StyleSheet is not passed, CSSRule is not defined.
-      if (this.CSSRule) this.CSSRule.style[name] = value
+      // If linked option in StyleSheet is not passed, DOMRule is not defined.
+      if (this.DOMRule) this.DOMRule.style[name] = value
       return this
     }
-
-    // Its a getter.
-    if (this.style) value = this.style[name]
-
-    // Read the value from the DOM if its not cached.
-    if (value == null && this.CSSRule) {
-      value = this.CSSRule.style[name]
+    // Its a getter, read the value from the DOM if its not cached.
+    if (this.DOMRule && this.style[name] == null) {
       // Cache the value after we have got it from the DOM once.
-      this.style[name] = value
+      this.style[name] = this.DOMRule.style[name]
     }
-    return value
-  }
-
-  /**
-   * Add child rule. Required for plugins like "nested".
-   * StyleSheet will render them as a separate rule.
-   *
-   * @param {String} selector
-   * @param {Object} style
-   * @param {Object} [options] rule options
-   * @return {Rule}
-   * @api private
-   */
-  addChild(selector, style, options) {
-    if (!this.children) this.children = {}
-    this.children[selector] = {style, options}
-    return this
-  }
-
-  /**
-   * Extract @ rules into separate rules.
-   *
-   * @return {Rule}
-   * @api private
-   */
-  extractSubrules() {
-    if (!this.isAtRule || !this.style) return
-    if (!this.subrules) this.subrules = {}
-    let sheet = this.options.sheet
-    for (let name in this.style) {
-      let options = this.options
-      let style = this.style[name]
-      // Not a nested rule.
-      if (typeof style == 'string') break
-      let selector
-      // We are going to overwrite some rule within the same sheet when
-      // @media query matches conditions.
-      if (options.named) {
-        let prevRule = sheet && sheet.rules[name]
-        if (prevRule) {
-          selector = prevRule.selector
-          options = defaults({named: false}, options)
-        }
-      }
-      else selector = name
-      this.subrules[name] = this.jss.createRule(selector, style, options)
-      delete this.style[name]
-    }
+    return this.style[name]
   }
 
   /**
@@ -155,46 +83,6 @@ export default class Rule {
   }
 
   /**
-   * Converts the rule to css string.
-   *
-   * @return {String}
-   * @api public
-   */
-  toString(options = {}) {
-    let style = this.style
-    // At rules like @charset
-    if (this.isAtRule && !this.style && !this.subrules) return this.selector + ';'
-    if (options.indentationLevel == null) options.indentationLevel = 0
-    let str = indent(options.indentationLevel, this.selector + ' {')
-
-    for (let prop in style) {
-      let value = style[prop]
-      // We want to generate multiple style with identical property names.
-      if (Array.isArray(value)) {
-        for (let i = 0; i < value.length; i++) {
-          str += '\n' + indent(options.indentationLevel + 1, prop + ': ' + value[i] + ';')
-        }
-      }
-      else {
-        str += '\n' + indent(options.indentationLevel + 1, prop + ': ' + value + ';')
-      }
-    }
-
-    // We have an at-rule with nested statements.
-    // https://developer.mozilla.org/en-US/docs/Web/CSS/At-rule
-    let toStringOptions = {indentationLevel: options.indentationLevel + 1}
-    for (let name in this.subrules) {
-      str += '\n' + indent(
-        options.indentationLevel,
-        this.subrules[name].toString(toStringOptions)
-      )
-    }
-
-    str += '\n' + indent(options.indentationLevel, '}')
-    return str
-  }
-
-  /**
    * Returns JSON representation of the rule.
    * Nested rules, at-rules and array values are not supported.
    *
@@ -204,13 +92,34 @@ export default class Rule {
   toJSON() {
     let style = {}
     for (let prop in this.style) {
-      let value = this.style[prop]
-      let type = typeof value
-      if (type === 'string' || type === 'number') {
-        style[prop] = value
+      if (typeof this.style[prop] != `object`) {
+        style[prop] = this.style[prop]
       }
     }
     return style
+  }
+
+  /**
+   * Generates a CSS string.
+   *
+   * @return {String}
+   * @api private
+   */
+  toString({indentationLevel} = {indentationLevel: 0}) {
+    let str = indent(indentationLevel, `${this.selector} {`)
+    indentationLevel++
+    for (let prop in this.style) {
+      let value = this.style[prop]
+      // We want to generate multiple style with identical property names.
+      if (Array.isArray(value)) {
+        for (let i = 0; i < value.length; i++) {
+          str += '\n' + indent(indentationLevel, `${prop}: ${value[i]};`)
+        }
+      }
+      else str += '\n' + indent(indentationLevel, `${prop}: ${value};`)
+    }
+    str += '\n' + indent(--indentationLevel, '}')
+    return str
   }
 }
 
@@ -222,9 +131,10 @@ export default class Rule {
  * @param {Number} level
  * @param {String} str
  * @return {String}
+ * @api private
  */
 function indent(level, str) {
   let indentStr = ''
-  for (let i = 0; i < level; i++) indentStr += Rule.INDENTATION
+  for (let i = 0; i < level; i++) indentStr += indentWith
   return indentStr + str
 }

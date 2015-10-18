@@ -5,20 +5,13 @@ QUnit.module('Rule')
 test('create empty instance', function () {
     jss.uid.reset()
     var rule = jss.createRule()
+    equal(rule.type, 'regular')
     equal(rule.className, 'jss-0-0')
     equal(rule.selector, '.jss-0-0')
     rule = jss.createRule()
     equal(rule.className, 'jss-0-1')
     equal(rule.selector, '.jss-0-1')
-    strictEqual(rule.style, undefined)
-})
-
-test('create instance with selector only', function () {
-    jss.uid.reset()
-    var rule = jss.createRule('a')
-    equal(rule.selector, '.jss-0-0')
-    equal(rule.className, 'jss-0-0')
-    deepEqual(rule.style, undefined)
+    deepEqual(rule.style, {})
 })
 
 test('create instance with styles only', function () {
@@ -46,37 +39,6 @@ test('create instance with all params', function () {
     strictEqual(rule.options, options)
 })
 
-test('add plugin', function () {
-    var plugin = function () {}
-    jss.use(plugin)
-    equal(jss.plugins.registry.length, 1)
-    strictEqual(jss.plugins.registry[0], plugin)
-    jss.plugins.registry = []
-})
-
-test('run plugins', function () {
-    var executed = false
-    function plugin() {
-        executed = true
-    }
-    jss.use(plugin)
-    jss.plugins.run(jss.createRule())
-    ok(executed)
-    jss.plugins.registry = []
-})
-
-test('run plugins on inner rules of an at-rule', function () {
-    var executed = 0
-    function plugin() {
-        executed++
-    }
-    jss.use(plugin)
-    jss.createRule('@media', {
-        button: {float: 'left'}
-    })
-    equal(executed, 2)
-})
-
 test('toString', function () {
     var rule = jss.createRule('a', {float: 'left', width: '1px'}, {named: false})
     equal(rule.toString(), 'a {\n  float: left;\n  width: 1px;\n}')
@@ -87,8 +49,42 @@ test('multiple declarations with identical property names', function () {
     equal(rule.toString(), 'a {\n  display: inline;\n  display: run-in;\n}')
 })
 
+test('@charset', function () {
+    var rule = jss.createRule('@charset', '"utf-8"')
+    equal(rule.type, 'simple')
+    equal(rule.name, '@charset')
+    equal(rule.value, '"utf-8"')
+    equal(rule.toString(), '@charset "utf-8";')
+})
+
+test('@import', function () {
+    var rule = jss.createRule('@import', '"something"')
+    equal(rule.type, 'simple')
+    equal(rule.toString(), '@import "something";')
+    rule = jss.createRule('@import', 'url("something") print')
+    equal(rule.toString(), '@import url("something") print;')
+})
+
+test('@namespace', function () {
+    var rule = jss.createRule('@namespace', 'svg url(http://www.w3.org/2000/svg)')
+    equal(rule.type, 'simple')
+    equal(rule.toString(), '@namespace svg url(http://www.w3.org/2000/svg);')
+})
+
+test('@keyframes', function () {
+    var rule = jss.createRule('@keyframes id', {
+        from: {top: 0},
+        '30%': {top: 30},
+        '60%, 70%': {top: 80}
+    })
+    equal(rule.type, 'keyframe')
+    equal(rule.selector, '@keyframes id')
+    equal(rule.toString(), '@keyframes id {\n  from {\n    top: 0;\n  }\n  30% {\n    top: 30;\n  }\n  60%, 70% {\n    top: 80;\n  }\n}')
+})
+
 test('@media', function () {
     var rule = jss.createRule('@media print', {button: {display: 'none'}}, {named: false})
+    equal(rule.type, 'conditional')
     equal(rule.selector, '@media print')
     equal(rule.toString(), '@media print {\n  button {\n    display: none;\n  }\n}')
 })
@@ -100,24 +96,9 @@ test('@media named', function () {
             display: 'none'
         }
     })
+    equal(rule.type, 'conditional')
     equal(rule.selector, '@media print')
-    equal(rule.toString(), '@media print {\n  .jss-0-1 {\n    display: none;\n  }\n}')
-})
-
-test('@keyframes', function () {
-    var rule = jss.createRule('@keyframes a', {
-        from: {top: 0},
-        '30%': {top: 30},
-        '60%, 70%': {top: 80}
-    }, {named: false})
-    equal(rule.selector, '@keyframes a')
-    equal(rule.toString(), '@keyframes a {\n  from {\n    top: 0;\n  }\n  30% {\n    top: 30;\n  }\n  60%, 70% {\n    top: 80;\n  }\n}')
-})
-
-test('@charset', function () {
-    var rule = jss.createRule('@charset "UTF-8"')
-    equal(rule.selector, '@charset "UTF-8"')
-    equal(rule.toString(), '@charset "UTF-8";')
+    equal(rule.toString(), '@media print {\n  .jss-0-0 {\n    display: none;\n  }\n}')
 })
 
 test('@font-face', function () {
@@ -125,8 +106,26 @@ test('@font-face', function () {
         'font-family': 'MyHelvetica',
         src: 'local("Helvetica")'
     })
+    equal(rule.type, 'regular')
     equal(rule.selector, '@font-face')
     equal(rule.toString(), '@font-face {\n  font-family: MyHelvetica;\n  src: local("Helvetica");\n}')
+    rule = jss.createRule('@font-face', {
+        'font-family': 'MyHelvetica',
+        src: 'local("Helvetica")'
+    }, {named: true})
+    equal(rule.toString(), '@font-face {\n  font-family: MyHelvetica;\n  src: local("Helvetica");\n}')
+})
+
+test('@supports', function () {
+    jss.uid.reset()
+    var rule = jss.createRule('@supports ( display: flexbox )', {
+        button: {
+            display: 'none'
+        }
+    })
+    equal(rule.type, 'conditional')
+    equal(rule.selector, '@supports ( display: flexbox )')
+    equal(rule.toString(), '@supports ( display: flexbox ) {\n  .jss-0-0 {\n    display: none;\n  }\n}')
 })
 
 test('applyTo', function () {
@@ -179,7 +178,7 @@ test('set/get rules dom prop', function () {
     rule.prop('color', 'red')
     equal(rule.style.color, 'red', 'new prop is cached')
     equal(rule.prop('color'), 'red', 'new prop is returned')
-    equal(rule.CSSRule.style.color, 'red', 'new rule is set to the DOM')
+    equal(rule.DOMRule.style.color, 'red', 'new rule is set to the DOM')
     ss.detach()
 })
 
@@ -192,3 +191,46 @@ test('get rules prop from the dom and cache it', function () {
     ss.detach()
 })
 
+test('add plugin', function () {
+    var plugin = function () {}
+    jss.use(plugin)
+    equal(jss.plugins.registry.length, 1)
+    strictEqual(jss.plugins.registry[0], plugin)
+    jss.plugins.registry = []
+})
+
+test('run plugins', function () {
+    var executed = false
+    function plugin() {
+        executed = true
+    }
+    jss.use(plugin)
+    jss.plugins.run(jss.createRule())
+    ok(executed)
+    jss.plugins.registry = []
+})
+
+test('run plugins on inner rules of an conditional rule', function () {
+    var executed = 0
+    function plugin() {
+        executed++
+    }
+    jss.use(plugin)
+    jss.createRule('@media', {
+        button: {float: 'left'}
+    })
+    equal(executed, 2)
+})
+
+test('run plugins on inner rules of a keyframe rule', function () {
+    var executed = 0
+    function plugin(rule) {
+        executed++
+    }
+    jss.use(plugin)
+    jss.createRule('@keyframes', {
+        from: {top: 0},
+        to: {top: 10}
+    })
+    equal(executed, 3)
+})

@@ -1,5 +1,5 @@
-let globalReference = typeof window === 'undefined' ? global : window
-let namespace = '__JSS_UID_PREFIX__'
+let globalReference = typeof window === `undefined` ? global : window
+let namespace = `__JSS_UID_PREFIX__`
 if (globalReference[namespace] == null) globalReference[namespace] = 0
 
 let prefix = globalReference[namespace]++
@@ -13,7 +13,7 @@ let counter = 0
  * @return {String}
  */
 export function get() {
-  return prefix + '-' + counter++
+  return `${prefix}-${counter++}`
 }
 
 /**
