@@ -15,13 +15,13 @@ Access css declarations and values from js without DOM round trip.
 
 Smaller footprint because of code reuse and no vendor specific declarations
 
-### Examples
+### Examples.
 
 Working [examples](http://jsstyles.github.io/jss-examples/index.html) directory.
 
-#### Example with extend, nesting, auto px
+#### Example with extend, nesting, auto px.
 ```javascript
-{
+export default {
   carouselCaption: {
     extend: something,
     position: 'absolute',
@@ -38,9 +38,9 @@ Working [examples](http://jsstyles.github.io/jss-examples/index.html) directory.
 }
 ```
 
-#### Example with @media
+#### Example with @media.
 ```javascript
-{
+export default {
   button: {
     width: 100
   },
@@ -52,7 +52,7 @@ Working [examples](http://jsstyles.github.io/jss-examples/index.html) directory.
 }
 ```
 
-### Plugins
+### Plugins.
 
 Jss styles are just plain javascript objects. They map 1:1 to css rules, except of those modified by [plugins](https://github.com/jsstyles?query=jss-).
 
@@ -82,45 +82,45 @@ Passed function will be invoked with Rule instance. Take a look at [plugins](htt
 
 ```javascript
 jss.use(function(rule) {
-    // Your modifier.
+  // Your modifier.
 })
 ```
 
-### Multiple declarations with identical property names
+### Multiple declarations with identical property names.
 
 I recommend to not to use this if you use jss on the client. Instead you should write a function, which makes a [test](https://github.com/jsstyles/css-vendor) for this feature support and generates just one final declaration.
 
 In case you are using jss as a server side precompiler, you might want to have more than one property with identical name. This is not possible in js, but you can use an array.
 
-```js
-{
-    '.container': {
-        background: [
-            'red',
-            '-moz-linear-gradient(left, red 0%, green 100%)',
-            '-webkit-linear-gradient(left, red 0%, green 100%)',
-            '-o-linear-gradient(left, red 0%, green 100%)',
-            '-ms-linear-gradient(left, red 0%, green 100%)',
-            'linear-gradient(to right, red 0%, green 100%)'
-        ]
-    }
+```javascript
+export default {
+  container: {
+    background: [
+      'red',
+      '-moz-linear-gradient(left, red 0%, green 100%)',
+      '-webkit-linear-gradient(left, red 0%, green 100%)',
+      '-o-linear-gradient(left, red 0%, green 100%)',
+      '-ms-linear-gradient(left, red 0%, green 100%)',
+      'linear-gradient(to right, red 0%, green 100%)'
+    ]
+  }
 }
 ```
 
 ```css
-.container {
-    background: red;
-    background: -moz-linear-gradient(left, red 0%, green 100%);
-    background: -webkit-linear-gradient(left, red 0%, green 100%);
-    background: -o-linear-gradient(left, red 0%, green 100%);
-    background: -ms-linear-gradient(left, red 0%, green 100%);
-    background: linear-gradient(to right, red 0%, green 100%);
+.jss-0-0 {
+  background: red;
+  background: -moz-linear-gradient(left, red 0%, green 100%);
+  background: -webkit-linear-gradient(left, red 0%, green 100%);
+  background: -o-linear-gradient(left, red 0%, green 100%);
+  background: -ms-linear-gradient(left, red 0%, green 100%);
+  background: linear-gradient(to right, red 0%, green 100%);
 }
 ```
 
 ## API
 
-### Access the jss namespace
+### Access the jss namespace.
 
 ```javascript
 // Pure js
@@ -128,16 +128,27 @@ var jss = window.jss
 
 // Commonjs
 var jss = require('jss')
+
+// ES6
+import jss from 'jss'
 ```
 
-### Create an own instance of JSS
+### Create an own instance of JSS.
 
 Use an own instance if the component you build should be reusable within a different project with a probably different JSS setup.
 
 `jss.create()`
 
-```javascript
+```js
+
+// ES3
 var jss = require('jss').create()
+jss.use(somePlugin)
+jss.createStyleSheet(...)
+
+// ES6
+import {create} from 'jss'
+let jss = create()
 jss.use(somePlugin)
 jss.createStyleSheet(...)
 ```
@@ -158,82 +169,79 @@ Options:
 - `link` link jss `Rule` instances with DOM `CSSRule` instances so that styles, can be modified dynamically, false by default because it has some performance cost.
 
 ```javascript
-
-var sheet = jss.createStyleSheet({
-    // Namespaced style sheet with generated selectors.
-    myButton: {
-        width: '100px',
-        height: '100px'
-    }
+// Namespaced style sheet with generated selectors.
+let sheet = jss.createStyleSheet({
+  myButton: {
+    width: 100,
+    height: 100
+  }
 }, {media: 'print'}).attach()
 
-console.log(sheet.classes.myButton) // .jss-0
+console.log(sheet.classes.myButton) // .jss-0-0
 ```
 
 ```css
 <style media="print">
-    .jss-0 {
-        width: 100px;
-        height: 100px;
-    }
+  .jss-0-0 {
+    width: 100px;
+    height: 100px;
+  }
 </style>
 ```
 
 ### Create regular style sheet with global selectors.
 
 ```javascript
-var sheet = jss.createStyleSheet({
-    '.something': {
-        width: '100px',
-        height: '100px'
-    }
+let sheet = jss.createStyleSheet({
+  '.something': {
+    width: 100,
+    height: 100
+  }
 }, {named: false}).attach()
 ```
 
 ```css
 <style>
-    .something {
-        width: 100px;
-        height: 100px;
-    }
+  .something {
+    width: 100px;
+    height: 100px;
+  }
 </style>
 ```
 
-### Attach style sheet
+### Attach style sheet.
 
 `sheet.attach()`
 
 Insert style sheet into the render tree. You need to call it in order to make your style sheet visible for the layout.
 
-### Detach style sheet
+### Detach style sheet.
 
 `sheet.detach()`
 
 Detaching unsused style sheets will speedup every DOM node insertion and manipulation as the browser will have to do less lookups for css rules potentially to be applied to the element.
 
-### Add a rule
+### Add a rule to an existing style sheet.
 
 `sheet.addRule([selector], rule)`
-
-Returns an array of rules, because you might have a [nested](https://github.com/jsstyles/jss-nested) rule in your style.
 
 #### Add a rule dynamically with a generated class name.
 
 ```javascript
-var rules = sheet.addRule({
-    padding: '20px',
-    background: 'blue'
+let rule = sheet.addRule({
+  padding: 20,
+  background: 'blue'
 })
-document.body.innerHTML = '<button class="' + rules[0].className + '">Button</button>'
+document.body.innerHTML = '<button class="' + rule.className + '">Button</button>'
 ```
 
 #### Add a rule with global class name.
 
 ```javascript
-var rules = sheet.addRule('.my-button', {
-    padding: '20px',
-    background: 'blue'
-})
+let rule = sheet.addRule('.my-button', {
+  padding: 20,
+  background: 'blue'
+}, {named: false})
 ```
 
 ### Get a rule.
@@ -244,10 +252,10 @@ Access a rule within sheet by selector or name.
 
 ```javascript
 // Using name, if named rule was added.
-var rule = sheet.getRule('myButton')
+let rule = sheet.getRule('myButton')
 
 // Using selector
-var rule = sheet.getRule('.my-button')
+let rule = sheet.getRule('.my-button')
 ```
 
 ### Add multiple rules.
@@ -258,12 +266,12 @@ In case you want to add rules to the sheet separately or even at runtime.
 
 ```javascript
 sheet.addRules({
-    myButton: {
-        float: 'left',
-    },
-    something: {
-        display: 'none'
-    }
+  myButton: {
+    float: 'left',
+  },
+  something: {
+    display: 'none'
+  }
 })
 ```
 
@@ -274,12 +282,10 @@ sheet.addRules({
 In order to apply styles directly to the element but still be able to use jss plugins.
 
 ```javascript
-var rule = jss.createRule({
-    padding: '20px',
-    background: 'blue'
+let rule = jss.createRule({
+  padding: 20,
+  background: 'blue'
 })
-
-rule.applyTo(element)
 ```
 
 ### Apply a rule to an element inline.
@@ -290,7 +296,7 @@ This is equivalent to `element.style.background = 'blue'` except of that you cou
 
 ```javascript
 jss.createRule({
-    background: 'blue'
+  background: 'blue'
 }).applyTo(element)
 ```
 
@@ -301,10 +307,10 @@ jss.createRule({
 When option `link` is true, after stylesheet is attached, linker saves references to `CSSRule` instances so that you are able to set rules properties at any time. [Example.](http://jsstyles.github.io/jss-examples/dynamic-props/index.html)
 
 ```javascript
-var sheet = jss.createStyleSheet({
-    a: {
-        color: 'red'
-    }
+let sheet = jss.createStyleSheet({
+  a: {
+    color: 'red'
+  }
 }, {link: true})
 
 // Get the color.
@@ -314,48 +320,48 @@ sheet.getRule('a').prop('color') // red
 sheet.getRule('a').prop('color', 'green')
 ```
 
-### Get JSON.
+### Convert rule to a JSON.
 
 `rule.toJSON()`
 
-Returns JSON representation of the rule. Nested rules, at-rules and array values are not supported.
+Returns JSON representation of a rule. Only regular rules are supported,
+no nested, conditionals, keyframes or array values.
+
+Result of toJSON call can be used later to apply styles inline to the element.
 
 ### Convert to CSS
 
 `sheet.toString()`
 
-If you want to get a pure CSS string from jss e.g. for preprocessing jss on the server.
+If you want to get a pure CSS string from JSS for e.g. when preprocessing server side.
 
 ```javascript
+import jss from 'jss'
 
-var jss = require('jss')
-
-var sheet = jss.createStyleSheet({
-    myButton: {
-        float: 'left',
-    }
+let sheet = jss.createStyleSheet({
+  myButton: {
+    float: 'left',
+  }
 })
 
 console.log(sheet.toString())
 ```
 
 ```css
-.jss-0 {
+.jss-0-0 {
   float: left;
 }
 ```
 ## Install
 
 ```bash
-npm install jss
-#or
-bower install jsstyles
+npm i jss
 ```
 
 A command line interface for JSS is also available:
 
 ```bash
-npm install jss-cli -g
+npm i jss-cli -g
 ```
 
 For more information see [CLI](https://github.com/jsstyles/jss-cli).
