@@ -1,4 +1,5 @@
 import * as dom from './dom'
+import createRule from './createRule'
 
 /**
  * StyleSheet abstraction, contains rules, injects stylesheet into dom.
@@ -148,9 +149,8 @@ export default class StyleSheet {
     // Scope options overwrite instance options.
     if (options.named == null) options.named = this.options.named
     options.sheet = this
-
-    let rule = this.options.jss.createRule(name, style, options)
-
+    options.jss = this.options.jss
+    let rule = createRule(name, style, options)
     // Register conditional rule, it will stringify it's child rules properly.
     if (rule.type === 'conditional') {
       this.rules[rule.selector] = rule
@@ -168,6 +168,7 @@ export default class StyleSheet {
         this.classes[name] = rule.className
       }
     }
+    options.jss.plugins.run(rule)
     return rule
   }
 
