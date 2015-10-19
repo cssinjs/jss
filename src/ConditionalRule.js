@@ -21,6 +21,7 @@ export default class ConditionalRule {
   createChildRules(styles) {
     let rules = {}
     let options = {...this.options, parent: this}
+    let {sheet, jss} = options
     for (let name in styles) {
       let localOptions = options
       // We have already a rule in the current style sheet with this name,
@@ -28,21 +29,9 @@ export default class ConditionalRule {
       // to ensure it will have the same className/selector.
       let ruleToOverwrite = options.sheet && options.sheet.getRule(name)
       if (ruleToOverwrite) localOptions = {...options, className: ruleToOverwrite.className}
-      rules[name] = this.createRule(name, styles[name], localOptions)
+      rules[name] = (sheet || jss).createRule(name, styles[name], localOptions)
     }
     return rules
-  }
-
-  /**
-   * Create rule independant if this rule is part of a sheet or not.
-   *
-   * @see createRule
-   * @api private
-   */
-  createRule(name, style, options) {
-    let {sheet, jss} = this.options
-    if (sheet) return sheet.createRule(name, style, options)
-    return jss.createRule(name, style, options)
   }
 
   /**
