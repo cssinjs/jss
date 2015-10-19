@@ -205,7 +205,6 @@ export default class StyleSheet {
         this.classes[name] = rule.className
       }
     }
-
     return rule
   }
 
