@@ -107,7 +107,7 @@ export default class StyleSheet {
    * Add a rule to the current stylesheet. Will insert a rule also after the stylesheet
    * has been rendered first time.
    *
-   * @param {Object} [name] can be selector or name if 'options.named' is true
+   * @param {Object} [name] can be selector or name if ´options.named is true
    * @param {Object} style property/value hash
    * @return {Rule}
    * @api public
@@ -120,7 +120,6 @@ export default class StyleSheet {
       let DOMRule = dom.insertCssRule(this.element, rule.toString())
       if (this.options.link) rule.DOMRule = DOMRule
     }
-    else this.deploy()
     return rule
   }
 
