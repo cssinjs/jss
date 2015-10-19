@@ -31,7 +31,7 @@ export default class StyleSheet {
     this.classes = {}
     this.deployed = false
     this.linked = false
-    this.element = this.createElement()
+    this.element = dom.createStyle(this)
     for (let name in rules) {
       this.createRule(name, rules[name])
     }
@@ -45,18 +45,10 @@ export default class StyleSheet {
    */
   attach() {
     if (this.attached) return this
-    if (!this.deployed) {
-      this.deploy()
-      this.deployed = true
-    }
-
+    if (!this.deployed) this.deploy()
     dom.appendStyle(this.element)
-
     // Before element is attached to the dom rules are not created.
-    if (!this.linked && this.options.link) {
-      this.link()
-      this.linked = true
-    }
+    if (!this.linked && this.options.link) this.link()
     this.attached = true
     return this
   }
@@ -71,35 +63,6 @@ export default class StyleSheet {
     if (!this.attached) return this
     dom.removeElement(this.element)
     this.attached = false
-    return this
-  }
-
-  /**
-   * Deploy styles to the element.
-   *
-   * @return {StyleSheet}
-   * @api private
-   */
-  deploy() {
-    if (!this.element) return this
-    this.element.innerHTML = `\n${this.toString()}\n`
-    return this
-  }
-
-  /**
-   * Find CSSRule objects in the DOM and link them in the corresponding Rule instance.
-   *
-   * @return {StyleSheet}
-   * @api private
-   */
-  link() {
-    let cssRules = dom.getCssRules(this.element)
-    if (!cssRules) return this
-    for (let i = 0; i < cssRules.length; i++) {
-      let DOMRule = cssRules[i]
-      let rule = this.rules[DOMRule.selectorText]
-      if (rule) rule.DOMRule = DOMRule
-    }
     return this
   }
 
@@ -209,12 +172,33 @@ export default class StyleSheet {
   }
 
   /**
-   * Create style sheet element.
+   * Deploy styles to the element.
    *
-   * @return {Element}
+   * @return {StyleSheet}
    * @api private
    */
-  createElement() {
-    return dom.createStyle(this)
+  deploy() {
+    if (!this.element) return this
+    this.element.innerHTML = `\n${this.toString()}\n`
+    this.deployed = true
+    return this
+  }
+
+  /**
+   * Find CSSRule objects in the DOM and link them in the corresponding Rule instance.
+   *
+   * @return {StyleSheet}
+   * @api private
+   */
+  link() {
+    let cssRules = dom.getCssRules(this.element)
+    if (!cssRules) return this
+    for (let i = 0; i < cssRules.length; i++) {
+      let DOMRule = cssRules[i]
+      let rule = this.rules[DOMRule.selectorText]
+      if (rule) rule.DOMRule = DOMRule
+    }
+    this.linked = true
+    return this
   }
 }
