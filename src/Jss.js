@@ -11,8 +11,6 @@ import createRule from './createRule'
 export default class Jss {
   constructor() {
     this.plugins = new PluginsRegistry()
-    this.Jss = Jss
-    this.StyleSheet = StyleSheet
     this.uid = uid
   }
 

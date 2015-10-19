@@ -1,5 +1,5 @@
 /**
- * Conditional rule for @media, @supports, @font-face
+ * Conditional rule for @media, @supports
  *
  * @api private
  */
@@ -61,5 +61,3 @@ export default class ConditionalRule {
     return str
   }
 }
-
-

@@ -61,9 +61,9 @@ export function removeElement(element) {
   element.parentNode.removeChild(element)
 }
 
+function noDOM() {}
 // For serverside rendering all functions will return undefined.
 if (typeof document == 'undefined') {
-  function noDOM() {}
   for (let name in exports) {
     if (typeof exports[name] == 'function') {
       exports[name] = noDOM

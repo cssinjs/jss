@@ -1,3 +1,15 @@
+## 3.0.0 / 2015-10-19
+- internal rewrite for cleaner code (ConditionalRule, KeyframeRule, SimpleRule)
+- moved all DOM related methods to dom.js module
+- now child rules exist only in ConditionalRule, simplified Rule and StyleSheet logic
+- fixed Named rules not generating when using @media only #81
+- added support for @charset, @import, @namespace,  @supports
+- removed jss.Rule from public access, use jss.createRule() instead
+- removed jss.Jss from public access, use jss.create() instead
+- removed jss.StyleSheet from public access, use jss.createStyleSheet() instead
+
+
+
 ## 2.3.4 / 2015-09-21
 
 - remove bower.json
