@@ -141,7 +141,7 @@ Use an own instance if the component you build should be reusable within a diffe
 
 ```js
 
-// ES3
+// ES5
 var jss = require('jss').create()
 jss.use(somePlugin)
 jss.createStyleSheet(...)
