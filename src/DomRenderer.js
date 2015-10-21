@@ -33,22 +33,22 @@ export default class DomRenderer {
    * @param {String} cssStr
    * @api private
    */
-  deploy(cssStr) {
-    this.element.innerHTML = `\n${cssStr}\n`
+  deploy(sheet) {
+    this.element.innerHTML = `\n${sheet.toString()}\n`
   }
 
   /**
    * Insert a rule into style node.
    *
-   * @param {String} ruleStr
+   * @param {Rule} rule
    * @return {CSSStyleRule}
    * @api private
    */
-  insertRule(ruleStr) {
+  insertRule(rule) {
     const {sheet} = this.element
     const {cssRules} = sheet
     const nextIndex = cssRules.length
-    sheet.insertRule(ruleStr, nextIndex)
+    sheet.insertRule(rule.toString(), nextIndex)
     return cssRules[nextIndex]
   }
 
