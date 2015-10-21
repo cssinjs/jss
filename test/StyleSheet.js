@@ -128,3 +128,9 @@ test('link', function () {
     ok(sheet.rules.b.renderable instanceof CSSStyleRule)
     sheet.detach()
 })
+
+test('virtual rendering', function () {
+    var sheet = jss.createStyleSheet({a: {float: 'left'}}, {virtual: true})
+    sheet.attach()
+    equal(document.getElementsByTagName('style').length, 0)
+})

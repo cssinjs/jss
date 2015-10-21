@@ -1,5 +1,5 @@
 import createRule from './createRule'
-import DomRenderer from './DomRenderer'
+import findRenderer from './findRenderer'
 
 /**
  * StyleSheet model.
@@ -27,7 +27,7 @@ export default class StyleSheet {
     this.classes = Object.create(null)
     this.deployed = false
     this.linked = false
-    const Renderer = this.options.Renderer || DomRenderer
+    const Renderer = findRenderer(this.options)
     this.renderer = new Renderer({
       media: this.options.media,
       type: this.options.type,
