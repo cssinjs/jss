@@ -50,14 +50,14 @@ export default class Rule {
     // Its a setter.
     if (value != null) {
       this.style[name] = value
-      // If linked option in StyleSheet is not passed, DOMRule is not defined.
-      if (this.DOMRule) this.DOMRule.style[name] = value
+      // If linked option in StyleSheet is not passed, renderable is not defined.
+      if (this.renderable) this.renderable.style[name] = value
       return this
     }
     // Its a getter, read the value from the DOM if its not cached.
-    if (this.DOMRule && this.style[name] == null) {
+    if (this.renderable && this.style[name] == null) {
       // Cache the value after we have got it from the DOM once.
-      this.style[name] = this.DOMRule.style[name]
+      this.style[name] = this.renderable.style[name]
     }
     return this.style[name]
   }

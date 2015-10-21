@@ -1,72 +1,71 @@
+/**
+ * DOM rendering backend for StyleSheet.
+ */
 export default class DomRenderer {
   constructor(options) {
-    this.element = createStyle(options)
+    this.element = document.createElement('style')
+    for (let attr in options) {
+      if (options[attr]) this.element.setAttribute(attr, options[attr])
+    }
   }
 
+  /**
+   * Insert style element into render tree.
+   *
+   * @api private
+   */
   attach() {
     document.head.appendChild(this.element)
   }
 
+  /**
+   * Remove style element from render tree.
+   *
+   * @api private
+   */
   detach() {
     this.element.parentNode.removeChild(this.element)
   }
 
-  insertRule(rule, options) {
-    const DOMRule = insertCssRule(this.element, rule.toString())
-    if (options.link) rule.DOMRule = DOMRule
-  }
-
+  /**
+   * Inject CSS string into style element.
+   *
+   * @param {String} cssStr
+   * @api private
+   */
   deploy(cssStr) {
     this.element.innerHTML = `\n${cssStr}\n`
   }
 
-  link(rules) {
-    const cssRules = getCssRules(this.element)
+  /**
+   * Insert a rule into style node.
+   *
+   * @param {String} ruleStr
+   * @return {CSSStyleRule}
+   * @api private
+   */
+  insertRule(ruleStr) {
+    const {sheet} = this.element
+    const {cssRules} = sheet
+    const nextIndex = cssRules.length
+    sheet.insertRule(ruleStr, nextIndex)
+    return cssRules[nextIndex]
+  }
+
+  /**
+   * Link all DOM Rule nodes with corresponding models.
+   *
+   * @return {Object} rules map, where key is selector, CSSStyleRule is value.
+   * @api private
+   */
+  getRules() {
+    const {cssRules} = this.element.sheet
+    let rules = Object.create(null)
     for (let i = 0; i < cssRules.length; i++) {
-      const DOMRule = cssRules[i]
-      let rule = rules[DOMRule.selectorText]
-      if (rule) rule.DOMRule = DOMRule
+      const CSSRule = cssRules[i]
+      rules[CSSRule.selectorText] = CSSRule
     }
+    return rules
   }
 }
 
-/**
- * Create style element, add attributes.
- *
- * @param {StyleSheet} sheet
- * @return {Element}
- * @api private
- */
-function createStyle(attrs) {
-  const element = document.createElement('style')
-  for (let attr in attrs) {
-    if (attrs[attr]) element.setAttribute(attr, attrs[attr])
-  }
-  return element
-}
-
-/**
- * Get cssRules collection from a sheet
- *
- * @param {Element} element
- * @return {CSSRules}
- * @api private
- */
-function getCssRules(element) {
-  return element && element.sheet && element.sheet.cssRules
-}
-
-/**
- * Insert a rule string into a style element.
- *
- * @param {Element} element
- * @param {String} ruleStr
- * @return {CSSRule}
- * @api private
- */
-function insertCssRule(element, ruleStr) {
-  const rules = getCssRules(element)
-  const nextIndex = rules.length
-  element.sheet.insertRule(ruleStr, nextIndex)
-  return rules[nextIndex]
-}

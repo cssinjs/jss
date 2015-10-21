@@ -180,7 +180,7 @@ test('set/get rules dom prop', function () {
     rule.prop('color', 'red')
     equal(rule.style.color, 'red', 'new prop is cached')
     equal(rule.prop('color'), 'red', 'new prop is returned')
-    equal(rule.DOMRule.style.color, 'red', 'new rule is set to the DOM')
+    equal(rule.renderable.style.color, 'red', 'new rule is set to the DOM')
     sheet.detach()
 })
 

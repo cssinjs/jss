@@ -123,8 +123,8 @@ test('toString named with media query', function () {
 test('link', function () {
     var sheet = jss.createStyleSheet({a: {float: 'left'}}, {link: true})
     sheet.attach()
-    ok(sheet.rules.a.DOMRule instanceof CSSStyleRule)
+    ok(sheet.rules.a.renderable instanceof CSSStyleRule)
     sheet.addRule('b', {color: 'red'})
-    ok(sheet.rules.b.DOMRule instanceof CSSStyleRule)
+    ok(sheet.rules.b.renderable instanceof CSSStyleRule)
     sheet.detach()
 })

@@ -79,7 +79,10 @@ export default class StyleSheet {
     let rule = this.createRule(name, style)
     // Don't insert rule directly if there is no stringified version yet.
     // It will be inserted all together when .attach is called.
-    if (this.deployed) this.renderer.insertRule(rule, this.options)
+    if (this.deployed) {
+      const renderable = this.renderer.insertRule(rule.toString())
+      if (this.options.link) rule.renderable = renderable
+    }
     return rule
   }
 
@@ -190,7 +193,11 @@ export default class StyleSheet {
    * @api private
    */
   link() {
-    this.renderer.link(this.rules)
+    let renderables = this.renderer.getRules()
+    for (let selector in renderables) {
+      const rule = this.rules[selector]
+      if (rule) rule.renderable = renderables[selector]
+    }
     this.linked = true
     return this
   }
