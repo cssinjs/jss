@@ -1,8 +1,8 @@
-import * as dom from './dom'
 import createRule from './createRule'
+import DomRenderer from './DomRenderer'
 
 /**
- * StyleSheet abstraction, contains rules, injects stylesheet into dom.
+ * StyleSheet model.
  *
  * Options:
  *
@@ -10,9 +10,9 @@ import createRule from './createRule'
  *  - 'title' style element attribute
  *  - 'type' style element attribute
  *  - 'named' true by default - keys are names, selectors will be generated,
- *    if false - keys are global selectors.
- *  - 'link' link jss Rule instances with DOM CSSRule instances so that styles,
- *  can be modified dynamically, false by default because it has some performance cost.
+ *    if false - keys are global selectors
+ *  - 'link' link renderable CSS rules with their corresponding models, false
+ *    by default because fast by default
  *
  * @param {Object} [rules] object with selectors and declarations
  * @param {Object} [options]
@@ -22,22 +22,24 @@ export default class StyleSheet {
   constructor(rules, options) {
     this.options = {...options}
     if (this.options.named == null) this.options.named = true
-    this.media = this.options.media
-    this.type = this.options.type
-    this.title = this.options.title
     this.attached = false
     this.rules = Object.create(null)
     this.classes = Object.create(null)
     this.deployed = false
     this.linked = false
-    this.element = dom.createStyle(this)
+    const Renderer = this.options.Renderer || DomRenderer
+    this.renderer = new Renderer({
+      media: this.options.media,
+      type: this.options.type,
+      title: this.options.title
+    })
     for (let name in rules) {
       this.createRule(name, rules[name])
     }
   }
 
   /**
-   * Insert stylesheet element to render tree.
+   * Attach renderable to the render tree.
    *
    * @api public
    * @return {StyleSheet}
@@ -45,22 +47,21 @@ export default class StyleSheet {
   attach() {
     if (this.attached) return this
     if (!this.deployed) this.deploy()
-    dom.appendStyle(this.element)
-    // Before element is attached to the dom rules are not created.
+    this.renderer.attach()
     if (!this.linked && this.options.link) this.link()
     this.attached = true
     return this
   }
 
   /**
-   * Remove stylesheet element from render tree.
+   * Remove renderable from render tree.
    *
    * @return {StyleSheet}
    * @api public
    */
   detach() {
     if (!this.attached) return this
-    dom.removeElement(this.element)
+    this.renderer.detach()
     this.attached = false
     return this
   }
@@ -78,10 +79,7 @@ export default class StyleSheet {
     let rule = this.createRule(name, style)
     // Don't insert rule directly if there is no stringified version yet.
     // It will be inserted all together when .attach is called.
-    if (this.deployed) {
-      const DOMRule = dom.insertCssRule(this.element, rule.toString())
-      if (this.options.link) rule.DOMRule = DOMRule
-    }
+    if (this.deployed) this.renderer.insertRule(rule, this.options)
     return rule
   }
 
@@ -112,7 +110,7 @@ export default class StyleSheet {
   }
 
   /**
-   * Convert rules to a css string.
+   * Convert rules to a CSS string.
    *
    * @param {Object} options
    * @return {String}
@@ -174,32 +172,25 @@ export default class StyleSheet {
   }
 
   /**
-   * Deploy styles to the element.
+   * Deploy pure CSS string to a renderable.
    *
    * @return {StyleSheet}
    * @api private
    */
   deploy() {
-    if (!this.element) return this
-    this.element.innerHTML = `\n${this.toString()}\n`
+    this.renderer.deploy(this.toString())
     this.deployed = true
     return this
   }
 
   /**
-   * Find CSSRule objects in the DOM and link them in the corresponding Rule instance.
+   * Link renderable CSS rules with their corresponding models.
    *
    * @return {StyleSheet}
    * @api private
    */
   link() {
-    const cssRules = dom.getCssRules(this.element)
-    if (!cssRules) return this
-    for (let i = 0; i < cssRules.length; i++) {
-      const DOMRule = cssRules[i]
-      let rule = this.rules[DOMRule.selectorText]
-      if (rule) rule.DOMRule = DOMRule
-    }
+    this.renderer.link(this.rules)
     this.linked = true
     return this
   }

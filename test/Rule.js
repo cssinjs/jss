@@ -174,23 +174,23 @@ test('set/get rules virtual prop with value 0', function () {
 })
 
 test('set/get rules dom prop', function () {
-    var ss = jss.createStyleSheet({a: {float: 'left'}}, {link: true})
-    var rule = ss.rules.a
-    ss.attach()
+    var sheet = jss.createStyleSheet({a: {float: 'left'}}, {link: true})
+    var rule = sheet.rules.a
+    sheet.attach()
     rule.prop('color', 'red')
     equal(rule.style.color, 'red', 'new prop is cached')
     equal(rule.prop('color'), 'red', 'new prop is returned')
     equal(rule.DOMRule.style.color, 'red', 'new rule is set to the DOM')
-    ss.detach()
+    sheet.detach()
 })
 
 test('get rules prop from the dom and cache it', function () {
-    var ss = jss.createStyleSheet({a: {float: 'left'}}, {link: true})
-    var rule = ss.rules.a
-    ss.attach()
+    var sheet = jss.createStyleSheet({a: {float: 'left'}}, {link: true})
+    var rule = sheet.rules.a
+    sheet.attach()
     equal(rule.prop('color'), '', 'color is empty')
     ok('color' in rule.style, 'value is cached')
-    ss.detach()
+    sheet.detach()
 })
 
 test('add plugin', function () {
