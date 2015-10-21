@@ -1,3 +1,6 @@
+/**
+ * Register a plugin, run a plugin.
+ */
 export default class PluginsRegistry {
   constructor() {
     this.registry = []

@@ -1,7 +1,7 @@
 import StyleSheet from './StyleSheet'
-import Rule from './Rule'
 import PluginsRegistry from './PluginsRegistry'
 import * as uid from './uid'
+import createRule from './createRule'
 
 /**
  * Main Jss class.
@@ -11,9 +11,6 @@ import * as uid from './uid'
 export default class Jss {
   constructor() {
     this.plugins = new PluginsRegistry()
-    this.Jss = Jss
-    this.StyleSheet = StyleSheet
-    this.Rule = Rule
     this.uid = uid
   }
 
@@ -41,11 +38,11 @@ export default class Jss {
   /**
    * Create a rule.
    *
-   * @see Rule
-   * @return {Rule}
+   * @see createRule
    * @api public
    */
   createRule(selector, style, options) {
+    // Enable rule without selector.
     if (typeof selector == 'object') {
       options = style
       style = selector
@@ -53,7 +50,7 @@ export default class Jss {
     }
     if (!options) options = {}
     options.jss = this
-    let rule = new Rule(selector, style, options)
+    let rule = createRule(selector, style, options)
     this.plugins.run(rule)
     return rule
   }

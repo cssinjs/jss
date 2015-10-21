@@ -1,14 +1,17 @@
+import * as dom from './dom'
+import createRule from './createRule'
+
 /**
  * StyleSheet abstraction, contains rules, injects stylesheet into dom.
  *
  * Options:
  *
- *  - `media` style element attribute
- *  - `title` style element attribute
- *  - `type` style element attribute
- *  - `named` true by default - keys are names, selectors will be generated,
+ *  - 'media' style element attribute
+ *  - 'title' style element attribute
+ *  - 'type' style element attribute
+ *  - 'named' true by default - keys are names, selectors will be generated,
  *    if false - keys are global selectors.
- *  - `link` link jss Rule instances with DOM CSSRule instances so that styles,
+ *  - 'link' link jss Rule instances with DOM CSSRule instances so that styles,
  *  can be modified dynamically, false by default because it has some performance cost.
  *
  * @param {Object} [rules] object with selectors and declarations
@@ -16,8 +19,6 @@
  * @api public
  */
 export default class StyleSheet {
-  static ATTRIBUTES = ['title', 'type', 'media']
-
   constructor(rules, options = {}) {
     if (options.named == null) options.named = true
     this.options = options
@@ -31,15 +32,9 @@ export default class StyleSheet {
     this.classes = {}
     this.deployed = false
     this.linked = false
-    this.jss = this.options.jss
-
-    // Don't create element if we are not in a browser environment.
-    if (typeof document != 'undefined') {
-      this.element = this.createElement()
-    }
-
-    for (let key in rules) {
-      this.createRules(key, rules[key])
+    this.element = dom.createStyle(this)
+    for (let name in rules) {
+      this.createRule(name, rules[name])
     }
   }
 
@@ -51,18 +46,10 @@ export default class StyleSheet {
    */
   attach() {
     if (this.attached) return this
-    if (!this.deployed) {
-      this.deploy()
-      this.deployed = true
-    }
-
-    document.head.appendChild(this.element)
-
+    if (!this.deployed) this.deploy()
+    dom.appendStyle(this.element)
     // Before element is attached to the dom rules are not created.
-    if (!this.linked && this.options.link) {
-      this.link()
-      this.linked = true
-    }
+    if (!this.linked && this.options.link) this.link()
     this.attached = true
     return this
   }
@@ -75,9 +62,114 @@ export default class StyleSheet {
    */
   detach() {
     if (!this.attached) return this
-    this.element.parentNode.removeChild(this.element)
+    dom.removeElement(this.element)
     this.attached = false
     return this
+  }
+
+  /**
+   * Add a rule to the current stylesheet. Will insert a rule also after the stylesheet
+   * has been rendered first time.
+   *
+   * @param {Object} [name] can be selector or name if ´options.named is true
+   * @param {Object} style property/value hash
+   * @return {Rule}
+   * @api public
+   */
+  addRule(name, style) {
+    let rule = this.createRule(name, style)
+    // Don't insert rule directly if there is no stringified version yet.
+    // It will be inserted all together when .attach is called.
+    if (this.deployed) {
+      let DOMRule = dom.insertCssRule(this.element, rule.toString())
+      if (this.options.link) rule.DOMRule = DOMRule
+    }
+    return rule
+  }
+
+  /**
+   * Create rules, will render also after stylesheet was rendered the first time.
+   *
+   * @param {Object} rules name:style hash.
+   * @return {Array} array of added rules
+   * @api public
+   */
+  addRules(rules) {
+    let added = []
+    for (let name in rules) {
+      added.push(this.addRule(name, rules[name]))
+    }
+    return added
+  }
+
+  /**
+   * Get a rule.
+   *
+   * @param {String} name can be selector or name if `named` option is true.
+   * @return {Rule}
+   * @api public
+   */
+  getRule(name) {
+    return this.rules[name]
+  }
+
+  /**
+   * Convert rules to a css string.
+   *
+   * @param {Object} options
+   * @return {String}
+   * @api public
+   */
+  toString(options) {
+    let str = ''
+    let {rules} = this
+    let stringified = {}
+    for (let name in rules) {
+      let rule = rules[name]
+      // We have the same rule referenced twice if using named rules.
+      // By name and by selector.
+      if (stringified[rule.id]) {
+        continue
+      }
+      if (str) str += '\n'
+      str += rules[name].toString(options)
+      stringified[rule.id] = true
+    }
+    return str
+  }
+
+  /**
+   * Create a rule, will not render after stylesheet was rendered the first time.
+   * Will link the rule in `this.rules`.
+   *
+   * @see createRule
+   * @api private
+   */
+  createRule(name, style, options = {}) {
+    // Scope options overwrite instance options.
+    if (options.named == null) options.named = this.options.named
+    options.sheet = this
+    options.jss = this.options.jss
+    let rule = createRule(name, style, options)
+    // Register conditional rule, it will stringify it's child rules properly.
+    if (rule.type === 'conditional') {
+      this.rules[rule.selector] = rule
+    }
+    // This is a rule which is a child of a condtional rule.
+    // We need to register its class name only.
+    else if (rule.options.parent && rule.options.parent.type === 'conditional') {
+      // Only named rules should be referenced in `classes`.
+      if (rule.options.named) this.classes[name] = rule.className
+    }
+    else {
+      this.rules[rule.selector] = rule
+      if (options.named) {
+        this.rules[name] = rule
+        this.classes[name] = rule.className
+      }
+    }
+    options.jss.plugins.run(rule)
+    return rule
   }
 
   /**
@@ -87,7 +179,9 @@ export default class StyleSheet {
    * @api private
    */
   deploy() {
-    this.element.innerHTML = '\n' + this.toString() + '\n'
+    if (!this.element) return this
+    this.element.innerHTML = `\n${this.toString()}\n`
+    this.deployed = true
     return this
   }
 
@@ -98,139 +192,14 @@ export default class StyleSheet {
    * @api private
    */
   link() {
-    let CSSRuleList = this.element.sheet.cssRules
-    let {rules} = this
-    for (let i = 0; i < CSSRuleList.length; i++) {
-      let CSSRule = CSSRuleList[i]
-      let rule = rules[CSSRule.selectorText]
-      if (rule) rule.CSSRule = CSSRule
+    let cssRules = dom.getCssRules(this.element)
+    if (!cssRules) return this
+    for (let i = 0; i < cssRules.length; i++) {
+      let DOMRule = cssRules[i]
+      let rule = this.rules[DOMRule.selectorText]
+      if (rule) rule.DOMRule = DOMRule
     }
+    this.linked = true
     return this
-  }
-
-  /**
-   * Add a rule to the current stylesheet. Will insert a rule also after the stylesheet
-   * has been rendered first time.
-   *
-   * @param {Object} [key] can be selector or name if `options.named` is true
-   * @param {Object} style property/value hash
-   * @return {Rule}
-   * @api public
-   */
-  addRule(key, style) {
-    let rules = this.createRules(key, style)
-
-    // Don't insert rule directly if there is no stringified version yet.
-    // It will be inserted all together when .attach is called.
-    if (this.deployed) {
-      let {sheet} = this.element
-      for (let i = 0; i < rules.length; i++) {
-        let nextIndex = sheet.cssRules.length
-        let rule = rules[i]
-        sheet.insertRule(rule.toString(), nextIndex)
-        if (this.options.link) rule.CSSRule = sheet.cssRules[nextIndex]
-      }
-    }
-    else this.deploy()
-    return rules
-  }
-
-  /**
-   * Create rules, will render also after stylesheet was rendered the first time.
-   *
-   * @param {Object} rules key:style hash.
-   * @return {Array} array of added rules
-   * @api public
-   */
-  addRules(rules) {
-    let added = []
-    for (let key in rules) {
-      added.push.apply(added, this.addRule(key, rules[key]))
-    }
-    return added
-  }
-
-  /**
-   * Get a rule.
-   *
-   * @param {String} key can be selector or name if `named` is true.
-   * @return {Rule}
-   * @api public
-   */
-  getRule(key) {
-    return this.rules[key]
-  }
-
-  /**
-   * Convert rules to a css string.
-   *
-   * @return {String}
-   * @api public
-   */
-  toString() {
-    let str = ''
-    let {rules} = this
-    let stringified = {}
-    for (let key in rules) {
-      let rule = rules[key]
-      // We have the same rule referenced twice if using named urles.
-      // By name and by selector.
-      if (stringified[rule.id]) continue
-      if (str) str += '\n'
-      str += rules[key].toString()
-      stringified[rule.id] = true
-    }
-    return str
-  }
-
-  /**
-   * Create a rule, will not render after stylesheet was rendered the first time.
-   *
-   * @param {Object} [selector] if you don't pass selector - it will be generated
-   * @param {Object} [style] declarations block
-   * @param {Object} [options] rule options
-   * @return {Array} rule can contain child rules
-   * @api private
-   */
-  createRules(key, style, options = {}) {
-    let rules = []
-    let {named} = this.options
-    // Scope options overwrite instance options.
-    if (options.named != null) named = options.named
-
-    let rule = this.jss.createRule(key, style, {
-      sheet: this,
-      named
-    })
-    rules.push(rule)
-
-    this.rules[rule.selector] = rule
-    if (named && !rule.isAtRule) {
-      this.rules[key] = rule
-      this.classes[key] = rule.className
-    }
-
-    for (key in rule.children) {
-      rules.push(this.createRules(
-        key,
-        rule.children[key].style,
-        rule.children[key].options
-      ))
-    }
-    return rules
-  }
-
-  /**
-   * Create style sheet element.
-   *
-   * @return {Element}
-   * @api private
-   */
-  createElement() {
-    let element = document.createElement('style')
-    StyleSheet.ATTRIBUTES.forEach(name => {
-      if (this[name]) element.setAttribute(name, this[name])
-    })
-    return element
   }
 }
