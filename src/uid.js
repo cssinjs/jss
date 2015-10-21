@@ -1,5 +1,5 @@
-let globalReference = typeof window == 'undefined' ? global : window
-let namespace = '__JSS_UID_PREFIX__'
+const globalReference = typeof window == 'undefined' ? global : window
+const namespace = '__JSS_UID_PREFIX__'
 if (globalReference[namespace] == null) globalReference[namespace] = 0
 
 let prefix = globalReference[namespace]++

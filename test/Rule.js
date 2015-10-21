@@ -27,7 +27,8 @@ test('create instance with styles and options', function () {
     deepEqual(rule.style, {float: 'left'})
     equal(rule.className.substr(0, 3), 'jss')
     equal(rule.selector.substr(0, 4), '.jss')
-    strictEqual(rule.options, options)
+    ok(rule.options.named)
+    strictEqual(rule.options.jss, jss)
 })
 
 test('create instance with all params', function () {
@@ -36,7 +37,8 @@ test('create instance with all params', function () {
     deepEqual(rule.style, {float: 'left'})
     equal(rule.className, undefined)
     equal(rule.selector, 'a')
-    strictEqual(rule.options, options)
+    ok(!rule.options.named)
+    strictEqual(rule.options.jss, jss)
 })
 
 test('toString', function () {

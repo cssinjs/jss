@@ -19,17 +19,15 @@ import createRule from './createRule'
  * @api public
  */
 export default class StyleSheet {
-  constructor(rules, options = {}) {
-    if (options.named == null) options.named = true
-    this.options = options
-    this.element = null
+  constructor(rules, options) {
+    this.options = {...options}
+    if (this.options.named == null) this.options.named = true
+    this.media = this.options.media
+    this.type = this.options.type
+    this.title = this.options.title
     this.attached = false
-    this.media = options.media
-    this.type = options.type
-    this.title = options.title
-    this.rules = {}
-    // Only when options.named: true.
-    this.classes = {}
+    this.rules = Object.create(null)
+    this.classes = Object.create(null)
     this.deployed = false
     this.linked = false
     this.element = dom.createStyle(this)
@@ -81,7 +79,7 @@ export default class StyleSheet {
     // Don't insert rule directly if there is no stringified version yet.
     // It will be inserted all together when .attach is called.
     if (this.deployed) {
-      let DOMRule = dom.insertCssRule(this.element, rule.toString())
+      const DOMRule = dom.insertCssRule(this.element, rule.toString())
       if (this.options.link) rule.DOMRule = DOMRule
     }
     return rule
@@ -121,11 +119,11 @@ export default class StyleSheet {
    * @api public
    */
   toString(options) {
-    let str = ''
-    let {rules} = this
+    const {rules} = this
     let stringified = {}
+    let str = ''
     for (let name in rules) {
-      let rule = rules[name]
+      const rule = rules[name]
       // We have the same rule referenced twice if using named rules.
       // By name and by selector.
       if (stringified[rule.id]) {
@@ -145,12 +143,15 @@ export default class StyleSheet {
    * @see createRule
    * @api private
    */
-  createRule(name, style, options = {}) {
+  createRule(name, style, options) {
+    options = {
+      ...options,
+      sheet: this,
+      jss: this.options.jss
+    }
     // Scope options overwrite instance options.
     if (options.named == null) options.named = this.options.named
-    options.sheet = this
-    options.jss = this.options.jss
-    let rule = createRule(name, style, options)
+    const rule = createRule(name, style, options)
     // Register conditional rule, it will stringify it's child rules properly.
     if (rule.type === 'conditional') {
       this.rules[rule.selector] = rule
@@ -192,10 +193,10 @@ export default class StyleSheet {
    * @api private
    */
   link() {
-    let cssRules = dom.getCssRules(this.element)
+    const cssRules = dom.getCssRules(this.element)
     if (!cssRules) return this
     for (let i = 0; i < cssRules.length; i++) {
-      let DOMRule = cssRules[i]
+      const DOMRule = cssRules[i]
       let rule = this.rules[DOMRule.selectorText]
       if (rule) rule.DOMRule = DOMRule
     }

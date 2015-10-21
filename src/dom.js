@@ -8,7 +8,7 @@ const sheetAttrs = ['title', 'type', 'media']
  * @api private
  */
 export function createStyle(sheet) {
-  let element = document.createElement('style')
+  const element = document.createElement('style')
   sheetAttrs.forEach(name => {
     if (sheet[name]) element.setAttribute(name, sheet[name])
   })
@@ -45,8 +45,8 @@ export function getCssRules(element) {
  * @api private
  */
 export function insertCssRule(element, ruleStr) {
-  let rules = getCssRules(element)
-  let nextIndex = rules.length
+  const rules = getCssRules(element)
+  const nextIndex = rules.length
   element.sheet.insertRule(ruleStr, nextIndex)
   return rules[nextIndex]
 }

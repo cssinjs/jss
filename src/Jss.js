@@ -30,9 +30,8 @@ export default class Jss {
    * @see StyleSheet
    * @api public
    */
-  createStyleSheet(rules, options = {}) {
-    options.jss = this
-    return new StyleSheet(rules, options)
+  createStyleSheet(rules, options) {
+    return new StyleSheet(rules, {...options, jss: this})
   }
 
   /**
@@ -48,9 +47,7 @@ export default class Jss {
       style = selector
       selector = null
     }
-    if (!options) options = {}
-    options.jss = this
-    let rule = createRule(selector, style, options)
+    const rule = createRule(selector, style, {...options, jss: this})
     this.plugins.run(rule)
     return rule
   }

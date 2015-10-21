@@ -1,5 +1,5 @@
-let stringify = JSON.stringify
-let parse = JSON.parse
+const stringify = JSON.stringify
+const parse = JSON.parse
 
 /**
  * Deeply clone object using serialization.
