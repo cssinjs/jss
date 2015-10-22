@@ -1,5 +1,7 @@
 /**
  * DOM rendering backend for StyleSheet.
+ *
+ * @api private
  */
 export default class DomRenderer {
   constructor(options) {
@@ -28,7 +30,7 @@ export default class DomRenderer {
   }
 
   /**
-   * Inject CSS string into style element.
+   * Inject CSS string into element.
    *
    * @param {String} cssStr
    * @api private
@@ -38,7 +40,7 @@ export default class DomRenderer {
   }
 
   /**
-   * Insert a rule into style node.
+   * Insert a rule into element.
    *
    * @param {Rule} rule
    * @return {CSSStyleRule}
@@ -53,7 +55,7 @@ export default class DomRenderer {
   }
 
   /**
-   * Link all DOM Rule nodes with corresponding models.
+   * Get all rules elements.
    *
    * @return {Object} rules map, where key is selector, CSSStyleRule is value.
    * @api private
