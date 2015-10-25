@@ -70,11 +70,11 @@ export default class Rule {
    * @api public
    */
   applyTo(element) {
-    for (let prop in this.style) {
+    for (const prop in this.style) {
       const value = this.style[prop]
       if (Array.isArray(value)) {
-        for (let i = 0; i < value.length; i++) {
-          element.style[prop] = value[i]
+        for (const index = 0; index < value.length; index++) {
+          element.style[prop] = value[index]
         }
       }
       else element.style[prop] = value
@@ -90,8 +90,8 @@ export default class Rule {
    * @api public
    */
   toJSON() {
-    let style = Object.create(null)
-    for (let prop in this.style) {
+    const style = Object.create(null)
+    for (const prop in this.style) {
       if (typeof this.style[prop] != 'object') {
         style[prop] = this.style[prop]
       }
@@ -108,12 +108,12 @@ export default class Rule {
   toString({indentationLevel} = {indentationLevel: 0}) {
     let str = indent(indentationLevel, `${this.selector} {`)
     indentationLevel++
-    for (let prop in this.style) {
+    for (const prop in this.style) {
       const value = this.style[prop]
       // We want to generate multiple style with identical property names.
       if (Array.isArray(value)) {
-        for (let i = 0; i < value.length; i++) {
-          str += '\n' + indent(indentationLevel, `${prop}: ${value[i]};`)
+        for (let index = 0; index < value.length; index++) {
+          str += '\n' + indent(indentationLevel, `${prop}: ${value[index]};`)
         }
       }
       else str += '\n' + indent(indentationLevel, `${prop}: ${value};`)
@@ -135,6 +135,6 @@ export default class Rule {
  */
 function indent(level, str) {
   let indentStr = ''
-  for (let i = 0; i < level; i++) indentStr += indentWith
+  for (let index = 0; index < level; index++) indentStr += indentWith
   return indentStr + str
 }

@@ -33,7 +33,7 @@ export default class StyleSheet {
       type: this.options.type,
       title: this.options.title
     })
-    for (let name in rules) {
+    for (const name in rules) {
       this.createRule(name, rules[name])
     }
   }
@@ -76,7 +76,7 @@ export default class StyleSheet {
    * @api public
    */
   addRule(name, style) {
-    let rule = this.createRule(name, style)
+    const rule = this.createRule(name, style)
     // Don't insert rule directly if there is no stringified version yet.
     // It will be inserted all together when .attach is called.
     if (this.deployed) {
@@ -94,8 +94,8 @@ export default class StyleSheet {
    * @api public
    */
   addRules(rules) {
-    let added = []
-    for (let name in rules) {
+    const added = []
+    for (const name in rules) {
       added.push(this.addRule(name, rules[name]))
     }
     return added
@@ -121,9 +121,9 @@ export default class StyleSheet {
    */
   toString(options) {
     const {rules} = this
-    let stringified = Object.create(null)
-    let str = ''
-    for (let name in rules) {
+    const stringified = Object.create(null)
+    const str = ''
+    for (const name in rules) {
       const rule = rules[name]
       // We have the same rule referenced twice if using named rules.
       // By name and by selector.
@@ -193,8 +193,8 @@ export default class StyleSheet {
    * @api private
    */
   link() {
-    let renderables = this.renderer.getRules()
-    for (let selector in renderables) {
+    const renderables = this.renderer.getRules()
+    for (const selector in renderables) {
       const rule = this.rules[selector]
       if (rule) rule.renderable = renderables[selector]
     }

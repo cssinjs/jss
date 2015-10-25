@@ -19,14 +19,14 @@ export default class ConditionalRule {
    * @api private
    */
   createChildRules(styles) {
-    let rules = Object.create(null)
+    const rules = Object.create(null)
     const {sheet, jss} = this.options
-    for (let name in styles) {
+    for (const name in styles) {
       let localOptions = this.options
       // We have already a rule in the current style sheet with this name,
       // This new rule is supposed to overwrite the first one, for this we need
       // to ensure it will have the same className/selector.
-      let ruleToOverwrite = this.options.sheet && this.options.sheet.getRule(name)
+      const ruleToOverwrite = this.options.sheet && this.options.sheet.getRule(name)
       if (ruleToOverwrite) localOptions = {...this.options, className: ruleToOverwrite.className}
       rules[name] = (sheet || jss).createRule(name, styles[name], localOptions)
     }
@@ -41,8 +41,8 @@ export default class ConditionalRule {
    */
   toString() {
     let str = `${this.selector} {\n`
-    for (let name in this.rules) {
-      let ruleStr = this.rules[name].toString({indentationLevel: 1})
+    for (const name in this.rules) {
+      const ruleStr = this.rules[name].toString({indentationLevel: 1})
       str += `${ruleStr}\n`
     }
     str += `}`
