@@ -22,9 +22,9 @@ export default class StyleSheet {
   constructor(rules, options) {
     this.options = {...options}
     if (this.options.named == null) this.options.named = true
-    this.attached = false
     this.rules = Object.create(null)
     this.classes = Object.create(null)
+    this.attached = false
     this.deployed = false
     this.linked = false
     const Renderer = findRenderer(this.options)
