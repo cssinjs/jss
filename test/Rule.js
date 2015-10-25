@@ -4,7 +4,7 @@ QUnit.module('Rule')
 
 test('create empty instance', () => {
   jss.uid.reset()
-  const rule = jss.createRule()
+  let rule = jss.createRule()
   equal(rule.type, 'regular')
   equal(rule.className, 'jss-0-0')
   equal(rule.selector, '.jss-0-0')
@@ -60,7 +60,7 @@ test('@charset', () => {
 })
 
 test('@import', () => {
-  const rule = jss.createRule('@import', '"something"')
+  let rule = jss.createRule('@import', '"something"')
   equal(rule.type, 'simple')
   equal(rule.toString(), '@import "something";')
   rule = jss.createRule('@import', 'url("something") print')
@@ -81,14 +81,14 @@ test('@keyframes', () => {
   })
   equal(rule.type, 'keyframe')
   equal(rule.selector, '@keyframes id')
-  equal(rule.toString(), '@keyframes id {\n  from {\n  top: 0;\n  }\n  30% {\n  top: 30;\n  }\n  60%, 70% {\n  top: 80;\n  }\n}')
+  equal(rule.toString(), '@keyframes id {\n  from {\n    top: 0;\n  }\n  30% {\n    top: 30;\n  }\n  60%, 70% {\n    top: 80;\n  }\n}')
 })
 
 test('@media', () => {
   const rule = jss.createRule('@media print', {button: {display: 'none'}}, {named: false})
   equal(rule.type, 'conditional')
   equal(rule.selector, '@media print')
-  equal(rule.toString(), '@media print {\n  button {\n  display: none;\n  }\n}')
+  equal(rule.toString(), '@media print {\n  button {\n    display: none;\n  }\n}')
 })
 
 test('@media named', () => {
@@ -100,11 +100,11 @@ test('@media named', () => {
   })
   equal(rule.type, 'conditional')
   equal(rule.selector, '@media print')
-  equal(rule.toString(), '@media print {\n  .jss-0-0 {\n  display: none;\n  }\n}')
+  equal(rule.toString(), '@media print {\n  .jss-0-0 {\n    display: none;\n  }\n}')
 })
 
 test('@font-face', () => {
-  const rule = jss.createRule('@font-face', {
+  let rule = jss.createRule('@font-face', {
     'font-family': 'MyHelvetica',
     src: 'local("Helvetica")'
   })
@@ -127,7 +127,7 @@ test('@supports', () => {
   })
   equal(rule.type, 'conditional')
   equal(rule.selector, '@supports ( display: flexbox )')
-  equal(rule.toString(), '@supports ( display: flexbox ) {\n  .jss-0-0 {\n  display: none;\n  }\n}')
+  equal(rule.toString(), '@supports ( display: flexbox ) {\n  .jss-0-0 {\n    display: none;\n  }\n}')
 })
 
 test('applyTo', () => {
@@ -202,7 +202,7 @@ test('add plugin', () => {
 })
 
 test('run plugins', () => {
-  const executed = false
+  let executed = false
   function plugin() {
     executed = true
   }
@@ -213,7 +213,7 @@ test('run plugins', () => {
 })
 
 test('run plugins on inner rules of an conditional rule', () => {
-  const executed = 0
+  let executed = 0
   function plugin() {
     executed++
   }
@@ -225,7 +225,7 @@ test('run plugins on inner rules of an conditional rule', () => {
 })
 
 test('run plugins on inner rules of a keyframe rule', () => {
-  const executed = 0
+  let executed = 0
   function plugin() {
     executed++
   }

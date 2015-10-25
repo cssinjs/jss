@@ -101,8 +101,8 @@ test('toString unnamed with media query', () => {
   }, {named: false})
   sheet.attach()
   deepEqual(sheet.classes, {})
-  equal(sheet.toString(), 'a {\n  color: red;\n}\n@media (min-width: 1024px) {\n  a {\n  color: blue;\n  }\n}')
-  equal(sheet.renderer.element.innerHTML, '\na {\n  color: red;\n}\n@media (min-width: 1024px) {\n  a {\n  color: blue;\n  }\n}\n')
+  equal(sheet.toString(), 'a {\n  color: red;\n}\n@media (min-width: 1024px) {\n  a {\n    color: blue;\n  }\n}')
+  equal(sheet.renderer.element.innerHTML, '\na {\n  color: red;\n}\n@media (min-width: 1024px) {\n  a {\n    color: blue;\n  }\n}\n')
   sheet.detach()
 })
 
@@ -116,7 +116,7 @@ test('toString named with media query', () => {
     }
   })
   sheet.attach()
-  equal(sheet.toString(), '.jss-0-0 {\n  color: red;\n}\n@media (min-width: 1024px) {\n  .jss-0-0 {\n  color: blue;\n  }\n  .jss-0-2 {\n  color: white;\n  }\n}')
+  equal(sheet.toString(), '.jss-0-0 {\n  color: red;\n}\n@media (min-width: 1024px) {\n  .jss-0-0 {\n    color: blue;\n  }\n  .jss-0-2 {\n    color: white;\n  }\n}')
   sheet.detach()
 })
 
