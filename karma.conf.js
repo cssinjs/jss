@@ -5,27 +5,22 @@ var browsers = require('./browsers')
 
 module.exports = function (config) {
   config.set({
+    singleRun: true,
     customLaunchers: browsers,
-
-    browsers: [ 'Chrome' ],
-    frameworks: [ 'qunit' ],
-
+    browsers: ['Chrome'],
+    frameworks: ['qunit'],
     files: [
       'tests.webpack.js'
     ],
-
     preprocessors: {
       'tests.webpack.js': [ 'webpack', 'sourcemap' ]
     },
-
     webpack: assign(webpackConfig, {
       devtool: 'inline-source-map'
     }),
-
     webpackServer: {
       noInfo: true
     },
-
     coverageReporter: {
       reporters: [
         { type: 'html', subdir: 'html' },
@@ -55,7 +50,8 @@ module.exports = function (config) {
       }
 
       config.singleRun = true
-    } else {
+    }
+    else {
       config.browserStack = {
         username: process.env.BROWSER_STACK_USERNAME,
         accessKey: process.env.BROWSER_STACK_ACCESS_KEY,
