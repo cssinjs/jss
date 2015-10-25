@@ -2,7 +2,7 @@ const globalReference = typeof window == 'undefined' ? global : window
 const namespace = '__JSS_UID_PREFIX__'
 if (globalReference[namespace] == null) globalReference[namespace] = 0
 
-let prefix = globalReference[namespace]++
+const prefix = globalReference[namespace]++
 let counter = 0
 
 /**

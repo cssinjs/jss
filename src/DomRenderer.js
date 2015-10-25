@@ -6,7 +6,7 @@
 export default class DomRenderer {
   constructor(options) {
     this.element = document.createElement('style')
-    for (let attr in options) {
+    for (const attr in options) {
       if (options[attr]) this.element.setAttribute(attr, options[attr])
     }
   }
@@ -62,9 +62,9 @@ export default class DomRenderer {
    */
   getRules() {
     const {cssRules} = this.element.sheet
-    let rules = Object.create(null)
-    for (let i = 0; i < cssRules.length; i++) {
-      const CSSRule = cssRules[i]
+    const rules = Object.create(null)
+    for (let index = 0; index < cssRules.length; index++) {
+      const CSSRule = cssRules[index]
       rules[CSSRule.selectorText] = CSSRule
     }
     return rules

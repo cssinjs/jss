@@ -17,8 +17,8 @@ export default class KeyframeRule {
    * @api private
    */
   formatFrames(frames) {
-    let newFrames = Object.create(null)
-    for (let name in frames) {
+    const newFrames = Object.create(null)
+    for (const name in frames) {
       const options = {...this.options, named: false, parent: this}
       newFrames[name] = this.options.jss.createRule(name, frames[name], options)
     }
@@ -31,10 +31,10 @@ export default class KeyframeRule {
    * @return {String}
    * @api private
    */
-   toString() {
+  toString() {
     let str = `${this.selector} {\n`
     const options = {indentationLevel: 1}
-    for (let name in this.frames) {
+    for (const name in this.frames) {
       str += `${this.frames[name].toString(options)}\n`
     }
     str += `}`
