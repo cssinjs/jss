@@ -63,7 +63,7 @@ export default class DomRenderer {
   getRules() {
     const {cssRules} = this.element.sheet
     const rules = Object.create(null)
-    for (const index = 0; index < cssRules.length; index++) {
+    for (let index = 0; index < cssRules.length; index++) {
       const CSSRule = cssRules[index]
       rules[CSSRule.selectorText] = CSSRule
     }

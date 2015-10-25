@@ -122,7 +122,7 @@ export default class StyleSheet {
   toString(options) {
     const {rules} = this
     const stringified = Object.create(null)
-    const str = ''
+    let str = ''
     for (const name in rules) {
       const rule = rules[name]
       // We have the same rule referenced twice if using named rules.

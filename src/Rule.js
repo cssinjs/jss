@@ -73,7 +73,7 @@ export default class Rule {
     for (const prop in this.style) {
       const value = this.style[prop]
       if (Array.isArray(value)) {
-        for (const index = 0; index < value.length; index++) {
+        for (let index = 0; index < value.length; index++) {
           element.style[prop] = value[index]
         }
       }
