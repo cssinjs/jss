@@ -391,3 +391,7 @@ open test/local.html
 ## License
 
 MIT
+
+## Thanks
+
+Thanks to [BrowserStack](https://www.browserstack.com) for providing the infrastructure that allows us to run our build in real browsers.
