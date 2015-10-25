@@ -121,7 +121,7 @@ export default class StyleSheet {
    */
   toString(options) {
     const {rules} = this
-    let stringified = {}
+    let stringified = Object.create(null)
     let str = ''
     for (let name in rules) {
       const rule = rules[name]
