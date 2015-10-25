@@ -1,4 +1,5 @@
 ## Composable and reusable style sheets.
+[![Codeship](https://codeship.com/projects/a63ccb40-5d57-0133-fdca-6a352dca42a3/status?branch=master)]
 
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/jsstyles/jss?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![bitHound Score](https://www.bithound.io/jsstyles/jss/badges/score.svg)](https://www.bithound.io/jsstyles/jss)
