@@ -380,14 +380,10 @@ I have converted bootstraps css to jss. In `bench/bootstrap` folder you will fin
 
 ## Run tests
 
-### Locally
 ```bash
 npm i
-open test/local.html
+npm test
 ```
-### From github
-
-[Tests](https://jsstyles.github.com/jss/test)
 
 ## License
 
