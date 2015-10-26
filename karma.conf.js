@@ -7,7 +7,7 @@ module.exports = function (config) {
   config.set({
     singleRun: true,
     customLaunchers: browsers,
-    browsers: ['Chrome'],
+    browsers: ['Chrome', 'Firefox', 'Safari'],
     frameworks: ['qunit'],
     files: [
       'tests.webpack.js'
