@@ -18,6 +18,17 @@ Access css declarations and values from js without DOM round trip.
 
 Smaller footprint because of code reuse and no vendor specific declarations
 
+### When should I use it?
+
+This project fits best when:
+
+- you are building your app out of components
+- you are building a reusable UI lib
+- your app is not a trivial landing page
+- robustness and code reuse is very important to you
+- code sharing between js and css is important to you
+- typing speed doesn't matter
+
 ### Examples.
 
 Working [examples](http://jsstyles.github.io/jss-examples/index.html) directory.
