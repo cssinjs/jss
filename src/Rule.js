@@ -74,7 +74,11 @@ export default class Rule {
       const value = this.style[prop]
       if (Array.isArray(value)) {
         for (let index = 0; index < value.length; index++) {
-          element.style[prop] = value[index]
+          if (index === 0) {
+            element.style[prop] = value[index]
+          } else {
+            element.style[prop] = element.style[prop] + ';' + value[index]
+          }
         }
       }
       else element.style[prop] = value
