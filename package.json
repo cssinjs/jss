@@ -43,7 +43,7 @@
     "karma-sourcemap-loader": "0.3.5",
     "karma-webpack": "1.7.0",
     "lodash": "3.10.1",
-    "webpack": "1.12.2"
+    "webpack": "1.12.4"
   },
   "scripts": {
     "all": "npm run lint && npm run test && npm run build",
