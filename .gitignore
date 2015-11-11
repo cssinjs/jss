@@ -6,4 +6,3 @@ tmp
 lib
 dist
 .env
-test/build.js

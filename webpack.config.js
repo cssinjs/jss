@@ -28,7 +28,8 @@ module.exports = {
         exclude: /node_modules/
       }
     ]
-  }
+  },
+  devtool: 'source-map'
 }
 
 if (process.env.NODE_ENV === 'test') {
