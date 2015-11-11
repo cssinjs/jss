@@ -43,15 +43,17 @@
     "karma-sourcemap-loader": "0.3.5",
     "karma-webpack": "1.7.0",
     "lodash": "3.10.1",
+    "qunitjs": "^1.20.0",
     "webpack": "1.12.2"
   },
   "scripts": {
     "all": "npm run lint && npm run test && npm run build",
     "clean": "rm -fr ./lib/*",
-    "build": "npm run clean && npm run build:lib && npm run build:max && npm run build:min",
+    "build": "npm run clean && npm run build:lib && npm run build:max && npm run build:min && npm run build:test",
     "build:lib": "babel src --out-dir lib",
     "build:max": "NODE_ENV=development webpack src/index.js dist/jss.js",
     "build:min": "NODE_ENV=production webpack src/index.js dist/jss.min.js",
+    "build:test": "NODE_ENV=test webpack test/index.js test/build.js",
     "lint": "eslint ./src ./test",
     "prepublish": "npm run all && git push --tags",
     "test": "karma start"

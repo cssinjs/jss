@@ -30,3 +30,7 @@ module.exports = {
     ]
   }
 }
+
+if (process.env.NODE_ENV === 'test') {
+  module.exports.externals = {'../src': 'jss'}
+}
