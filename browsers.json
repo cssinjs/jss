@@ -30,14 +30,14 @@
   "BS_InternetExplorer8": {
     "base": "BrowserStack",
     "os": "Windows",
-    "os_version": "8.1",
+    "os_version": "7",
     "browser": "ie",
     "browser_version": "8.0"
   },
   "BS_InternetExplorer9": {
     "base": "BrowserStack",
     "os": "Windows",
-    "os_version": "8.1",
+    "os_version": "7",
     "browser": "ie",
     "browser_version": "9.0"
   },
@@ -46,7 +46,7 @@
     "os": "Windows",
     "os_version": "8",
     "browser": "ie",
-    "browser_version": "10.0"
+    "browser_version": "10"
   },
   "BS_InternetExplorer11": {
     "base": "BrowserStack",
