@@ -74,7 +74,7 @@ test('addRule/getRule on attached sheet', () => {
   equal(rules.length, 1)
   const expected = 'a{float:left}'
   // IE8 returns css from innerHTML even when inserted using addRule.
-  const cssText = sheet.renderer.element.innerHTML.trim() || sheet.renderer.element.sheet.rules[0].cssText
+  const cssText = sheet.renderer.element.innerHTML.trim() || sheet.renderer.element.sheet.cssRules[0].cssText
   equal(utils.normalizeCssText(cssText), expected)
   strictEqual(sheet.rules.a, rule)
   strictEqual(sheet.getRule('a'), rule)

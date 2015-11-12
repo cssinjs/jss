@@ -51,9 +51,9 @@ export default class DomRenderer {
    */
   deploy(sheet) {
     const css = `\n${sheet.toString()}\n`
+    if ('sheet' in this.element) this.element.innerHTML = css
     // On IE8 the only way to render is `styleSheet.cssText`
-    if (this.element.styleSheet) this.element.styleSheet.cssText = css
-    else this.element.innerHTML = css
+    else if ('styleSheet' in this.element) this.element.styleSheet.cssText = css
   }
 
   /**
@@ -66,7 +66,7 @@ export default class DomRenderer {
   insertRule(rule) {
     // IE8 has only `styleSheet` and `styleSheet.rules`
     const sheet = this.element.sheet || this.element.styleSheet
-    const cssRules = sheet.rules || sheet.cssRules
+    const cssRules = sheet.cssRules || sheet.rules
     const nextIndex = cssRules.length
     if (sheet.insertRule) sheet.insertRule(rule.toString(), nextIndex)
     else sheet.addRule(rule.selector, rule.toString({selector: false}), nextIndex)
