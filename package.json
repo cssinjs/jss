@@ -22,7 +22,7 @@
   "license": "MIT",
   "main": "./lib/index.js",
   "engines": {
-    "node": ">=2.4.0"
+    "node": ">=2.4.0 < 4"
   },
   "devDependencies": {
     "babel": "5.8.23",
@@ -45,7 +45,6 @@
     "karma-webpack": "1.7.0",
     "lodash": "3.10.1",
     "qunitjs": "1.20.0",
-    "respond.js": "^1.4.2",
     "webpack": "1.12.2"
   },
   "scripts": {
