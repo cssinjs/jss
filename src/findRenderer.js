@@ -10,7 +10,7 @@ import VirtualRenderer from './VirtualRenderer'
  * @return {Renderer}
  * @api private
  */
-export default function findRenderer(options) {
+export default function findRenderer(options = {}) {
   if (options.Renderer) return options.Renderer
   return options.virtual || typeof document == 'undefined' ? VirtualRenderer : DomRenderer
 }

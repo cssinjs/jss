@@ -1,4 +1,5 @@
 import jss from '../src'
+import * as utils from './utils'
 
 QUnit.module('StyleSheet')
 
@@ -60,7 +61,7 @@ test('attach/detach', () => {
   const style = document.getElementsByTagName('style')[0]
   ok(sheet.attached)
   strictEqual(style, sheet.renderer.element)
-  equal(style.innerHTML.trim(), sheet.toString())
+  equal(utils.normalizeCssText(style.innerHTML), utils.normalizeCssText(sheet.toString()))
   sheet.detach()
   equal(sheet.attached, false)
   equal(document.getElementsByTagName('style').length, 0)
@@ -68,29 +69,35 @@ test('attach/detach', () => {
 
 test('addRule/getRule on attached sheet', () => {
   const sheet = jss.createStyleSheet(null, {named: false}).attach()
-  const rule = sheet.addRule('aa', {float: 'left'})
-  equal(sheet.renderer.element.sheet.cssRules.length, 1)
-  equal(sheet.renderer.element.sheet.cssRules[0].cssText, 'aa { float: left; }')
-  strictEqual(sheet.rules.aa, rule)
-  strictEqual(sheet.getRule('aa'), rule)
-  strictEqual(sheet.rules.aa.options.sheet, sheet)
+  const rule = sheet.addRule('a', {float: 'left'})
+  const rules = utils.getRules(sheet.renderer.element)
+  equal(rules.length, 1)
+  const expected = 'a{float:left}'
+  // IE8 returns css from innerHTML even when inserted using addRule.
+  const cssText = sheet.renderer.element.innerHTML.trim() || sheet.renderer.element.sheet.rules[0].cssText
+  equal(utils.normalizeCssText(cssText), expected)
+  strictEqual(sheet.rules.a, rule)
+  strictEqual(sheet.getRule('a'), rule)
+  strictEqual(sheet.rules.a.options.sheet, sheet)
   sheet.detach()
 })
 
 test('toString unnamed', () => {
-  const sheet = jss.createStyleSheet({a: {float: 'left', width: '1px'}}, {named: false})
+  const sheet = jss.createStyleSheet({a: {width: '1px', float: 'left'}}, {named: false})
   sheet.attach()
-  equal(sheet.toString(), 'a {\n  float: left;\n  width: 1px;\n}')
-  equal(sheet.renderer.element.innerHTML, '\na {\n  float: left;\n  width: 1px;\n}\n')
+  const expected = 'a {\n  width: 1px;\n  float: left;\n}'
+  equal(sheet.toString(), expected)
+  equal(utils.normalizeCssText(sheet.renderer.element.innerHTML), utils.normalizeCssText(expected))
   sheet.detach()
 })
 
 test('toString named', () => {
   jss.uid.reset()
-  const sheet = jss.createStyleSheet({a: {float: 'left', width: '1px'}})
+  const sheet = jss.createStyleSheet({a: {width: '1px', float: 'left'}})
   sheet.attach()
-  equal(sheet.toString(), '.jss-0-0 {\n  float: left;\n  width: 1px;\n}')
-  equal(sheet.renderer.element.innerHTML, '\n.jss-0-0 {\n  float: left;\n  width: 1px;\n}\n')
+  const expected = '.jss-0-0 {\n  width: 1px;\n  float: left;\n}'
+  equal(sheet.toString(), expected)
+  equal(utils.normalizeCssText(sheet.renderer.element.innerHTML), utils.normalizeCssText(expected))
   sheet.detach()
 })
 
@@ -102,7 +109,9 @@ test('toString unnamed with media query', () => {
   sheet.attach()
   deepEqual(sheet.classes, {})
   equal(sheet.toString(), 'a {\n  color: red;\n}\n@media (min-width: 1024px) {\n  a {\n    color: blue;\n  }\n}')
-  equal(sheet.renderer.element.innerHTML, '\na {\n  color: red;\n}\n@media (min-width: 1024px) {\n  a {\n    color: blue;\n  }\n}\n')
+  if (utils.mediaQueriesSupported) {
+    equal(sheet.renderer.element.innerHTML, '\na {\n  color: red;\n}\n@media (min-width: 1024px) {\n  a {\n    color: blue;\n  }\n}\n')
+  }
   sheet.detach()
 })
 

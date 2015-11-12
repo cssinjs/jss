@@ -47,17 +47,18 @@ export default class Rule {
    * @api public
    */
   prop(name, value) {
+    const {style} = this.options.Renderer
     // Its a setter.
     if (value != null) {
       this.style[name] = value
       // If linked option in StyleSheet is not passed, renderable is not defined.
-      if (this.renderable) this.renderable.style[name] = value
+      if (this.renderable) style(this.renderable, name, value)
       return this
     }
     // Its a getter, read the value from the DOM if its not cached.
     if (this.renderable && this.style[name] == null) {
       // Cache the value after we have got it from the DOM once.
-      this.style[name] = this.renderable.style[name]
+      this.style[name] = style(this.renderable, name)
     }
     return this.style[name]
   }
@@ -65,19 +66,20 @@ export default class Rule {
   /**
    * Apply rule to an element inline.
    *
-   * @param {Element} element
+   * @param {Element} renderable
    * @return {Rule}
    * @api public
    */
-  applyTo(element) {
+  applyTo(renderable) {
     for (const prop in this.style) {
       const value = this.style[prop]
+      const {style} = this.options.Renderer
       if (Array.isArray(value)) {
         for (let index = 0; index < value.length; index++) {
-          element.style[prop] = value[index]
+          style(renderable, prop, value[index])
         }
       }
-      else element.style[prop] = value
+      else style(renderable, prop, value)
     }
     return this
   }
@@ -102,12 +104,18 @@ export default class Rule {
   /**
    * Generates a CSS string.
    *
+   * @param {Object} options
    * @return {String}
    * @api private
    */
-  toString({indentationLevel} = {indentationLevel: 0}) {
-    let str = indent(indentationLevel, `${this.selector} {`)
-    indentationLevel++
+  toString(options = {}) {
+    const selector = options.selector == null ? true : options.selector
+    let indentationLevel = options.indentationLevel || 0
+    let str = ''
+    if (selector) {
+      str += indent(indentationLevel, `${this.selector} {`)
+      indentationLevel++
+    }
     for (const prop in this.style) {
       const value = this.style[prop]
       // We want to generate multiple style with identical property names.
@@ -118,7 +126,7 @@ export default class Rule {
       }
       else str += '\n' + indent(indentationLevel, `${prop}: ${value};`)
     }
-    str += '\n' + indent(--indentationLevel, '}')
+    if (selector) str += '\n' + indent(--indentationLevel, '}')
     return str
   }
 }

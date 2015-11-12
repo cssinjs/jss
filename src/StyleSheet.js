@@ -27,12 +27,15 @@ export default class StyleSheet {
     this.attached = false
     this.deployed = false
     this.linked = false
+
     const Renderer = findRenderer(this.options)
+    this.options.Renderer = Renderer
     this.renderer = new Renderer({
       media: this.options.media,
       type: this.options.type,
       title: this.options.title
     })
+
     for (const name in rules) {
       this.createRule(name, rules[name])
     }
@@ -148,7 +151,8 @@ export default class StyleSheet {
     options = {
       ...options,
       sheet: this,
-      jss: this.options.jss
+      jss: this.options.jss,
+      Renderer: this.options.Renderer
     }
     // Scope options overwrite instance options.
     if (options.named == null) options.named = this.options.named

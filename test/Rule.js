@@ -1,4 +1,5 @@
 import jss from '../src'
+import * as utils from './utils'
 
 QUnit.module('Rule')
 
@@ -131,22 +132,16 @@ test('@supports', () => {
 })
 
 test('applyTo', () => {
+  const div = document.createElement('div')
   jss.createRule({
     float: 'left'
-  }).applyTo(document.body)
-  equal(document.body.style.float, 'left')
+  }).applyTo(div)
+  equal(div.style.float, 'left')
 
   jss.createRule({
-    display: ['inline', 'run-in']
-  }).applyTo(document.body)
-  equal(document.body.style.display, 'inline')
-})
-
-test('applyTo with array value', () => {
-  jss.createRule({
-    display: ['inline', 'run-in']
-  }).applyTo(document.body)
-  equal(document.body.style.display, 'inline')
+    display: ['inline', 'something-unsupported']
+  }).applyTo(div)
+  equal(div.style.display, 'inline')
 })
 
 test('toJSON', () => {

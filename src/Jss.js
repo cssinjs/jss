@@ -2,6 +2,7 @@ import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import * as uid from './uid'
 import createRule from './createRule'
+import findRenderer from './findRenderer'
 
 /**
  * Main Jss class.
@@ -47,7 +48,11 @@ export default class Jss {
       style = selector
       selector = null
     }
-    const rule = createRule(selector, style, {...options, jss: this})
+    const rule = createRule(selector, style, {
+      ...options,
+      jss: this,
+      Renderer: findRenderer(options)
+    })
     this.plugins.run(rule)
     return rule
   }

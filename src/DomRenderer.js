@@ -4,10 +4,22 @@
  * @api private
  */
 export default class DomRenderer {
-  constructor(options) {
+  static style(element, name, value) {
+    // IE8 may throw if property is unknown.
+    try {
+      if (value == null) return element.style[name]
+      element.style[name] = value
+    } catch (err) {}
+  }
+
+  constructor(attrs) {
+    this.head =  document.head || document.getElementsByTagName('head')[0]
     this.element = document.createElement('style')
-    for (const attr in options) {
-      if (options[attr]) this.element.setAttribute(attr, options[attr])
+    // IE8 will not have `styleSheet` prop without `type and `styleSheet.cssText`
+    // is the only way to render on IE8.
+    this.element.type = 'text/css'
+    for (const name in attrs) {
+      if (attrs[name]) this.element.setAttribute(name, attrs[name])
     }
   }
 
@@ -17,7 +29,7 @@ export default class DomRenderer {
    * @api private
    */
   attach() {
-    document.head.appendChild(this.element)
+    this.head.appendChild(this.element)
   }
 
   /**
@@ -36,7 +48,10 @@ export default class DomRenderer {
    * @api private
    */
   deploy(sheet) {
-    this.element.innerHTML = `\n${sheet.toString()}\n`
+    const css = `\n${sheet.toString()}\n`
+    // On IE8 the only way to render is `styleSheet.cssText`
+    if (this.element.styleSheet) this.element.styleSheet.cssText = css
+    else this.element.innerHTML = css
   }
 
   /**
@@ -47,10 +62,12 @@ export default class DomRenderer {
    * @api private
    */
   insertRule(rule) {
-    const {sheet} = this.element
-    const {cssRules} = sheet
+    // IE8 has only `styleSheet` and `styleSheet.rules`
+    const sheet = this.element.sheet || this.element.styleSheet
+    const cssRules = sheet.rules || sheet.cssRules
     const nextIndex = cssRules.length
-    sheet.insertRule(rule.toString(), nextIndex)
+    if (sheet.insertRule) sheet.insertRule(rule.toString(), nextIndex)
+    else sheet.addRule(rule.selector, rule.toString({selector: false}), nextIndex)
     return cssRules[nextIndex]
   }
 
@@ -61,7 +78,9 @@ export default class DomRenderer {
    * @api private
    */
   getRules() {
-    const {cssRules} = this.element.sheet
+    // IE8 has only `styleSheet` and `styleSheet.rules`
+    const sheet = this.element.sheet || this.element.styleSheet
+    const cssRules = sheet.rules || sheet.cssRules
     const rules = Object.create(null)
     for (let index = 0; index < cssRules.length; index++) {
       const CSSRule = cssRules[index]

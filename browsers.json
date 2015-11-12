@@ -1,18 +1,4 @@
 {
-  "BS_Chrome": {
-    "base": "BrowserStack",
-    "os": "Windows",
-    "os_version": "8.1",
-    "browser": "chrome",
-    "browser_version": "39.0"
-  },
-  "BS_Firefox": {
-    "base": "BrowserStack",
-    "os": "Windows",
-    "os_version": "8.1",
-    "browser": "firefox",
-    "browser_version": "32.0"
-  },
   "BS_Safari": {
     "base": "BrowserStack",
     "os": "OS X",
@@ -27,10 +13,31 @@
     "browser": "iphone",
     "real_mobile": false
   },
+  "BS_Chrome": {
+    "base": "BrowserStack",
+    "os": "Windows",
+    "os_version": "8.1",
+    "browser": "chrome",
+    "browser_version": "39.0"
+  },
+  "BS_Firefox": {
+    "base": "BrowserStack",
+    "os": "Windows",
+    "os_version": "8.1",
+    "browser": "firefox",
+    "browser_version": "32.0"
+  },
+  "BS_InternetExplorer8": {
+    "base": "BrowserStack",
+    "os": "Windows",
+    "os_version": "8.1",
+    "browser": "ie",
+    "browser_version": "8.0"
+  },
   "BS_InternetExplorer9": {
     "base": "BrowserStack",
     "os": "Windows",
-    "os_version": "7",
+    "os_version": "8.1",
     "browser": "ie",
     "browser_version": "9.0"
   },
