@@ -1,5 +1,4 @@
 import jss from '../src'
-import * as utils from './utils'
 
 QUnit.module('Rule')
 

@@ -5,15 +5,17 @@
  */
 export default class DomRenderer {
   static style(element, name, value) {
-    // IE8 may throw if property is unknown.
     try {
       if (value == null) return element.style[name]
       element.style[name] = value
-    } catch (err) {}
+    }
+    catch (err) {
+      // IE8 may throw if property is unknown.
+    }
   }
 
   constructor(attrs) {
-    this.head =  document.head || document.getElementsByTagName('head')[0]
+    this.head = document.head || document.getElementsByTagName('head')[0]
     this.element = document.createElement('style')
     // IE8 will not have `styleSheet` prop without `type and `styleSheet.cssText`
     // is the only way to render on IE8.
