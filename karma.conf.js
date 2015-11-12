@@ -10,6 +10,8 @@ module.exports = function (config) {
     browsers: ['Chrome', 'Firefox', 'Safari'],
     frameworks: ['qunit'],
     files: [
+      'node_modules/es5-shim/es5-shim.js',
+      'node_modules/es5-shim/es5-sham.js',
       'tests.webpack.js'
     ],
     preprocessors: {
