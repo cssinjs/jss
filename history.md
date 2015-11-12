@@ -1,4 +1,9 @@
+## 3.1.0 / 2015-11-12
+
+- new testing infrastructure with browserstack and codeship
+
 ## 3.0.0 / 2015-10-19
+
 - internal rewrite for cleaner code (ConditionalRule, KeyframeRule, SimpleRule)
 - moved all DOM related methods to dom.js module
 - now child rules exist only in ConditionalRule, simplified Rule and StyleSheet logic
@@ -7,8 +12,6 @@
 - removed jss.Rule from public access, use jss.createRule() instead
 - removed jss.Jss from public access, use jss.create() instead
 - removed jss.StyleSheet from public access, use jss.createStyleSheet() instead
-
-
 
 ## 2.3.4 / 2015-09-21
 
