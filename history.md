@@ -1,4 +1,4 @@
-## 3.1.0 / 2015-11-14
+## 3.1.1 / 2015-11-14
 
 - added Rule#originalStyle property to access original style object from a plugin
 
