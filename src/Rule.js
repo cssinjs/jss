@@ -34,6 +34,7 @@ export default class Rule {
       this.className = options.className || `${namespacePrefix}-${this.id}`
       this.selector = `.${this.className}`
     }
+    this.originalStyle = style
     // We expect style to be plain object.
     this.style = clone(style)
   }
