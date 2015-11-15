@@ -2,22 +2,6 @@ import * as uid from './uid'
 import clone from './clone'
 
 /**
- * Class name prefix when generated.
- *
- * @type {String}
- * @api private
- */
-const namespacePrefix = 'jss'
-
-/**
- * Indentation string for formatting toString output.
- *
- * @type {String}
- * @api private
- */
-const indentWith = '  '
-
-/**
  * Regular rule.
  *
  * @api private
@@ -29,9 +13,8 @@ export default class Rule {
     this.options = options
     this.selector = selector
     if (options.named) {
-      // Selector is a rule name, we need to ref it for e.g. for jss-debug.
       this.name = selector
-      this.className = options.className || `${namespacePrefix}-${this.id}`
+      this.className = options.className || (this.name ? `${this.name}--${this.id}` : this.id)
       this.selector = `.${this.className}`
     }
     this.originalStyle = style
@@ -144,6 +127,6 @@ export default class Rule {
  */
 function indent(level, str) {
   let indentStr = ''
-  for (let index = 0; index < level; index++) indentStr += indentWith
+  for (let index = 0; index < level; index++) indentStr += '  '
   return indentStr + str
 }

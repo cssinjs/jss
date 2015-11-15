@@ -100,7 +100,7 @@ test('@media named', () => {
   })
   equal(rule.type, 'conditional')
   equal(rule.selector, '@media print')
-  equal(rule.toString(), '@media print {\n  .jss-0-0 {\n    display: none;\n  }\n}')
+  equal(rule.toString(), '@media print {\n  .button--jss-0-0 {\n    display: none;\n  }\n}')
 })
 
 test('@font-face', () => {
@@ -127,7 +127,7 @@ test('@supports', () => {
   })
   equal(rule.type, 'conditional')
   equal(rule.selector, '@supports ( display: flexbox )')
-  equal(rule.toString(), '@supports ( display: flexbox ) {\n  .jss-0-0 {\n    display: none;\n  }\n}')
+  equal(rule.toString(), '@supports ( display: flexbox ) {\n  .button--jss-0-0 {\n    display: none;\n  }\n}')
 })
 
 test('applyTo', () => {

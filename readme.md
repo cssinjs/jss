@@ -121,7 +121,7 @@ export default {
 ```
 
 ```css
-.jss-0-0 {
+.container--jss-0-0 {
   background: red;
   background: -moz-linear-gradient(left, red 0%, green 100%);
   background: -webkit-linear-gradient(left, red 0%, green 100%);
@@ -182,18 +182,18 @@ Options:
 ```javascript
 // Namespaced style sheet with generated selectors.
 let sheet = jss.createStyleSheet({
-  myButton: {
+  button: {
     width: 100,
     height: 100
   }
 }, {media: 'print'}).attach()
 
-console.log(sheet.classes.myButton) // .jss-0-0
+console.log(sheet.classes.button) // .button--jss-0-0
 ```
 
 ```css
 <style media="print">
-  .jss-0-0 {
+  .button--jss-0-0 {
     width: 100px;
     height: 100px;
   }
@@ -350,7 +350,7 @@ If you want to get a pure CSS string from JSS for e.g. when preprocessing server
 import jss from 'jss'
 
 let sheet = jss.createStyleSheet({
-  myButton: {
+  button: {
     float: 'left',
   }
 })
@@ -359,7 +359,7 @@ console.log(sheet.toString())
 ```
 
 ```css
-.jss-0-0 {
+.button--jss-0-0 {
   float: left;
 }
 ```

@@ -1,9 +1,10 @@
 const globalReference = typeof window == 'undefined' ? global : window
-const namespace = '__JSS_UID_PREFIX__'
+const namespace = '__JSS_VERSION_COUNTER__'
 if (globalReference[namespace] == null) globalReference[namespace] = 0
 
-const prefix = globalReference[namespace]++
-let counter = 0
+// In case we have more than one jss version.
+const versionCounter = globalReference[namespace]++
+let ruleCounter = 0
 
 /**
  * Returns a uid.
@@ -13,7 +14,7 @@ let counter = 0
  * @return {String}
  */
 export function get() {
-  return `${prefix}-${counter++}`
+  return `jss-${versionCounter}-${ruleCounter++}`
 }
 
 /**
@@ -22,5 +23,5 @@ export function get() {
  * @api private
  */
 export function reset() {
-  counter = 0
+  ruleCounter = 0
 }

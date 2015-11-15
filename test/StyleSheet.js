@@ -93,7 +93,7 @@ test('toString named', () => {
   jss.uid.reset()
   const sheet = jss.createStyleSheet({a: {width: '1px', float: 'left'}})
   sheet.attach()
-  const expected = '.jss-0-0 {\n  width: 1px;\n  float: left;\n}'
+  const expected = '.a--jss-0-0 {\n  width: 1px;\n  float: left;\n}'
   equal(sheet.toString(), expected)
   equal(utils.normalizeCssText(sheet.renderer.element.innerHTML), utils.normalizeCssText(expected))
   sheet.detach()
@@ -123,7 +123,7 @@ test('toString named with media query', () => {
     }
   })
   sheet.attach()
-  equal(sheet.toString(), '.jss-0-0 {\n  color: red;\n}\n@media (min-width: 1024px) {\n  .jss-0-0 {\n    color: blue;\n  }\n  .jss-0-2 {\n    color: white;\n  }\n}')
+  equal(sheet.toString(), '.a--jss-0-0 {\n  color: red;\n}\n@media (min-width: 1024px) {\n  .a--jss-0-0 {\n    color: blue;\n  }\n  .b--jss-0-2 {\n    color: white;\n  }\n}')
   sheet.detach()
 })
 
