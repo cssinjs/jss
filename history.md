@@ -1,3 +1,9 @@
+## 3.2.0 / 2015-11-15
+
+- no more "type" option for style sheet, its always set to text/css
+- no more "title" option for style sheet, its not a part of the spec http://www.w3.org/TR/html-markup/style.html
+- added meta option, now you can for e.g. set the name of your component and find it on style element.
+
 ## 3.1.1 / 2015-11-14
 
 - added Rule#originalStyle property to access original style object from a plugin

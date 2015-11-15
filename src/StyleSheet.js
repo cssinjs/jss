@@ -30,11 +30,7 @@ export default class StyleSheet {
 
     const Renderer = findRenderer(this.options)
     this.options.Renderer = Renderer
-    this.renderer = new Renderer({
-      media: this.options.media,
-      type: this.options.type,
-      title: this.options.title
-    })
+    this.renderer = new Renderer(this.options)
 
     for (const name in rules) {
       this.createRule(name, rules[name])

@@ -14,15 +14,14 @@ export default class DomRenderer {
     }
   }
 
-  constructor(attrs) {
+  constructor(options) {
     this.head = document.head || document.getElementsByTagName('head')[0]
     this.element = document.createElement('style')
     // IE8 will not have `styleSheet` prop without `type and `styleSheet.cssText`
     // is the only way to render on IE8.
     this.element.type = 'text/css'
-    for (const name in attrs) {
-      if (attrs[name]) this.element.setAttribute(name, attrs[name])
-    }
+    if (options.media) this.element.setAttribute('media', options.media)
+    if (options.meta) this.element.setAttribute('data-meta', options.meta)
   }
 
   /**

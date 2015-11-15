@@ -13,8 +13,9 @@ test('create empty instance', () => {
 })
 
 test('attach with attribtues', () => {
-  const sheet = jss.createStyleSheet(null, {media: 'screen'}).attach()
+  const sheet = jss.createStyleSheet(null, {media: 'screen', meta: 'test'}).attach()
   equal(sheet.renderer.element.getAttribute('media'), 'screen')
+  equal(sheet.renderer.element.getAttribute('data-meta'), 'test')
   sheet.detach()
 })
 
@@ -43,17 +44,14 @@ test('create instance with rules and attributes', () => {
     {a: {float: 'left'}},
     {
       media: 'screen',
-      type: 'text/css',
-      title: 'test'
+      meta: 'test'
     }
   )
   ok(sheet.rules.a)
   equal(sheet.options.media, 'screen')
-  equal(sheet.options.type, 'text/css')
-  equal(sheet.options.title, 'test')
+  equal(sheet.options.meta, 'test')
   equal(sheet.renderer.element.getAttribute('media'), 'screen')
-  equal(sheet.renderer.element.getAttribute('type'), 'text/css')
-  equal(sheet.renderer.element.getAttribute('title'), 'test')
+  equal(sheet.renderer.element.getAttribute('data-meta'), 'test')
 })
 
 test('attach/detach', () => {
