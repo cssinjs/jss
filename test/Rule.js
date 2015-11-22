@@ -91,6 +91,44 @@ test('@media', () => {
   equal(rule.toString(), '@media print {\n  button {\n    display: none;\n  }\n}')
 })
 
+test('mixed rule types', () => {
+  const sheet = jss.createStyleSheet({
+    '@keyframes id': {
+      from: {top: 0},
+      '30%': {top: 30},
+      '60%, 70%': {top: 80}
+    },
+    '@media print': {
+      button: {display: 'none'}
+    },
+    a: {
+      float: 'left'
+    }
+  }, {named: false})
+  const keyframeRule = sheet.rules['@keyframes id']
+  const mediaRule = sheet.rules['@media print']
+  const regularRule = sheet.rules.a
+
+  sheet.attach()
+  equal(keyframeRule.type, 'keyframe')
+  equal(keyframeRule.selector, '@keyframes id')
+
+  equal(mediaRule.type, 'conditional')
+  equal(mediaRule.selector, '@media print')
+
+  deepEqual(regularRule.style, {float: 'left'})
+  equal(regularRule.selector, 'a')
+
+  equal(
+    sheet.toString(),
+    '@keyframes id {\n  from {\n    top: 0;\n  }\n  30% {\n    top: 30;\n  }\n  60%, 70% {\n    top: 80;\n  }\n}\n' +
+    '@media print {\n  button {\n    display: none;\n  }\n}\n' +
+    'a {\n  float: left;\n}'
+  )
+  sheet.detach()
+})
+
+
 test('@media named', () => {
   jss.uid.reset()
   const rule = jss.createRule('@media print', {
