@@ -126,12 +126,15 @@ export default class StyleSheet {
       const rule = rules[name]
       // We have the same rule referenced twice if using named rules.
       // By name and by selector.
-      if (stringified[rule.id]) {
+      if (rule.type === 'regular' && stringified[rule.id]) {
         continue
       }
       if (str) str += '\n'
       str += rules[name].toString(options)
-      stringified[rule.id] = true
+
+      if (rule.type === 'regular') {
+        stringified[rule.id] = true
+      }
     }
     return str
   }
