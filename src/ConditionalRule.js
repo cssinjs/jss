@@ -1,3 +1,5 @@
+import * as uid from './uid'
+
 /**
  * Conditional rule for @media, @supports
  *
@@ -5,6 +7,7 @@
  */
 export default class ConditionalRule {
   constructor(selector, styles, options) {
+    this.id = uid.get()
     this.type = 'conditional'
     this.selector = selector
     this.options = {...options, parent: this}

@@ -1,3 +1,5 @@
+import * as uid from './uid'
+
 /**
  * Keyframe rule.
  *
@@ -5,6 +7,7 @@
  */
 export default class KeyframeRule {
   constructor(selector, frames, options) {
+    this.id = uid.get()
     this.type = 'keyframe'
     this.selector = selector
     this.options = options

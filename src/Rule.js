@@ -2,14 +2,14 @@ import * as uid from './uid'
 import clone from './clone'
 
 /**
- * Regular rule.
+ * Regular rules and font-face.
  *
  * @api private
  */
 export default class Rule {
   constructor(selector, style, options) {
-    this.type = 'regular'
     this.id = uid.get()
+    this.type = 'regular'
     this.options = options
     this.selector = selector
     if (options.named) {

@@ -126,15 +126,12 @@ export default class StyleSheet {
       const rule = rules[name]
       // We have the same rule referenced twice if using named rules.
       // By name and by selector.
-      if (rule.type === 'regular' && stringified[rule.id]) {
+      if (stringified[rule.id]) {
         continue
       }
       if (str) str += '\n'
       str += rules[name].toString(options)
-
-      if (rule.type === 'regular') {
-        stringified[rule.id] = true
-      }
+      stringified[rule.id] = true
     }
     return str
   }
@@ -159,6 +156,9 @@ export default class StyleSheet {
     // Register conditional rule, it will stringify it's child rules properly.
     if (rule.type === 'conditional') {
       this.rules[rule.selector] = rule
+    }
+    else if (rule.type === 'simple') {
+      this.rules[rule.name] = rule
     }
     // This is a rule which is a child of a condtional rule.
     // We need to register its class name only.

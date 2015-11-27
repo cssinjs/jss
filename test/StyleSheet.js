@@ -123,8 +123,46 @@ test('toString named with media query', () => {
     }
   })
   sheet.attach()
-  equal(sheet.toString(), '.a--jss-0-0 {\n  color: red;\n}\n@media (min-width: 1024px) {\n  .a--jss-0-0 {\n    color: blue;\n  }\n  .b--jss-0-2 {\n    color: white;\n  }\n}')
+  equal(sheet.toString(), '.a--jss-0-0 {\n  color: red;\n}\n@media (min-width: 1024px) {\n  .a--jss-0-0 {\n    color: blue;\n  }\n  .b--jss-0-3 {\n    color: white;\n  }\n}')
   sheet.detach()
+})
+
+test('mixed rule types', () => {
+  const sheet = jss.createStyleSheet({
+    '@charset': '"utf-8"',
+    '@import': 'bla',
+    '@namespace': 'bla',
+    a: {
+      float: 'left'
+    },
+    '@font-face': {
+      'font-family': 'MyHelvetica',
+      src: 'local("Helvetica")'
+    },
+    '@keyframes id': {
+      from: {top: 0}
+    },
+    '@media print': {
+      button: {display: 'none'}
+    },
+    '@supports ( display: flexbox )': {
+      button: {
+        display: 'none'
+      }
+    }
+  }, {named: false})
+
+  equal(
+    sheet.toString(),
+    '@charset "utf-8";\n' +
+    '@import bla;\n' +
+    '@namespace bla;\n' +
+    'a {\n  float: left;\n}\n' +
+    '@font-face {\n  font-family: MyHelvetica;\n  src: local("Helvetica");\n}\n' +
+    '@keyframes id {\n  from {\n    top: 0;\n  }\n}\n' +
+    '@media print {\n  button {\n    display: none;\n  }\n}\n' +
+    '@supports ( display: flexbox ) {\n  button {\n    display: none;\n  }\n}'
+  )
 })
 
 test('link', () => {
