@@ -195,6 +195,16 @@ test('add plugin', () => {
   jss.plugins.registry = []
 })
 
+test('add multiple plugins', () => {
+  const plugin = () => {}
+  const plugin2 = () => {}
+  jss.use(plugin, plugin2)
+  equal(jss.plugins.registry.length, 2)
+  strictEqual(jss.plugins.registry[0], plugin)
+  strictEqual(jss.plugins.registry[1], plugin2)
+  jss.plugins.registry = []
+})
+
 test('run plugins', () => {
   let executed = false
   function plugin() {
@@ -205,6 +215,7 @@ test('run plugins', () => {
   ok(executed)
   jss.plugins.registry = []
 })
+
 
 test('run plugins on inner rules of an conditional rule', () => {
   let executed = 0
