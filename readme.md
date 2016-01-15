@@ -75,13 +75,13 @@ Some of those plugins:
 - Use `extend` property to inherit from some plain rule object, via [jss-extend](https://github.com/jsstyles/jss-extend)
 - Vendor prefixes are automatically added through [jss-vendor-prefixer](https://github.com/jsstyles/jss-vendor-prefixer) plugin.
 - You can use camel cased css property names through [jss-camel-case](https://github.com/jsstyles/jss-camel-case) plugin.
-- Add 'px' automatically to non numeric values using [jss-px](https://github.com/jsstyles/jss-px)
+- Add 'px' automatically to non numeric values using [jss-default-unit](https://github.com/jsstyles/jss-default-unit)
 
 #### Order does matter! Here is the right one:
   - jss-extend
   - jss-nested
   - jss-camel-case
-  - jss-px
+  - jss-default-unit
   - jss-vendor-prefixer
   - jss-props-sort
 
