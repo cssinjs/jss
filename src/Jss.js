@@ -60,11 +60,11 @@ export default class Jss {
   /**
    * Register plugin. Passed function will be invoked with a rule instance.
    *
-   * @param {Function} fn
+   * @param {Function} plugins
    * @api public
    */
-  use(fn) {
-    this.plugins.use(fn)
+  use(...plugins) {
+    plugins.forEach(plugin => this.plugins.use(plugin))
     return this
   }
 }
