@@ -1,5 +1,22 @@
 ## API
 
+1. [Access the jss namespace.](#access-the-jss-namespace)
+1. [Create an own instance of JSS.](#create-an-own-instance-of-jss)
+1. [Create style sheet with namespaces enabled.](#create-style-sheet-with-namespaces-enabled)
+1. [Create regular style sheet with global selectors.](#create-regular-style-sheet-with-global-selectors)
+1. [Attach style sheet.](#attach-style-sheet)
+1. [Detach style sheet.](#detach-style-sheet)
+1. [Add a rule to an existing style sheet.](#add-a-rule-to-an-existing-style-sheet)
+1. [Add a rule dynamically with a generated class name.](#add-a-rule-dynamically-with-a-generated-class-name)
+1. [Add a rule with global class name.](#add-a-rule-with-global-class-name)
+1. [Get a rule.](#get-a-rule)
+1. [Add multiple rules.](#add-multiple-rules)
+1. [Create a rule without a style sheet.](#create-a-rule-without-a-style-sheet)
+1. [Apply a rule to an element inline.](#apply-a-rule-to-an-element-inline)
+1. [Set or get a rule property dynamically.](#set-or-get-a-rule-property-dynamically)
+1. [Convert rule to a JSON.](#convert-rule-to-a-json)
+1. [Convert to CSS](#convert-to-css)
+
 ### Access the jss namespace.
 
 ```javascript

@@ -4,7 +4,7 @@
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/jsstyles/jss?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![bitHound Score](https://www.bithound.io/jsstyles/jss/badges/score.svg)](https://www.bithound.io/jsstyles/jss)
 
-[JSS is a higher level abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It allows you to describe styles in JSON and leverage the [power of JavaScript](./docs/javascript.md). It generates style sheets at runtime or [server-side](./docs/server-side.md) and solves a [number of CSS issues](./docs/css-issues.md).
+[JSS is a higher level abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It allows you to describe styles in JSON and leverage the [power of JavaScript](./docs/vs.md). It generates style sheets at runtime or [server-side](./docs/server-side.md) and solves a [number of CSS issues](./docs/solved-issues.md).
 
 You can use JSS with React, or with any other js library. It is small, modular and extensible via plugins API.
 

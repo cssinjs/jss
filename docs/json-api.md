@@ -33,3 +33,33 @@ export default {
   background: linear-gradient(to right, red 0%, green 100%);
 }
 ```
+
+### Using constants in prop names
+
+Thanks to ES6 we can do it.
+
+```javascript
+const minWidth = 1024
+
+export default {
+  button: {
+    width: 100
+  },
+  [`@media (min-width: ${minWidth}px)`]: {
+    button: {
+      width: 200
+    }
+  }
+}
+```
+
+```css
+.button-jss-0 {
+  width: 100px;
+}
+@media (min-width: 1024px): {
+  .button-jss-0 {
+    width: 200px;
+  }
+}
+```

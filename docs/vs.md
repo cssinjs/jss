@@ -2,9 +2,14 @@
 
 1. JavaScript vs. preprocessors (stylus/less/sass)?
 
-Those languages introduce a non-trivial amount of specific knowledge one needs to learn. They all come with their own syntaxes for variables, functions, mixings, extends and other helper function. At the same time there is nothing they can do, but JavaScript can't.
+Those languages introduce a non-trivial amount of specific knowledge one needs to learn. They all come with their own syntaxes for variables, functions, mixins, extends and other helper functions. At the same time there is nothing they can do JavaScript can't.
 
-Preprocessors generate plain CSS on the server, which means they have a bunch of disadvantages: generated code size, inability to access constants.
+Preprocessors generate plain CSS on the server, which means they have a bunch of disadvantages:
+
+- generated code size
+- no easy access to constants
+- no easy way to modify styles according the environment requirements at runtime
+- no easy way to generate styles at runtime based on existing once
 
 1. JavaScript vs. css-modules
 

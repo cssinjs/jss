@@ -8,17 +8,17 @@ JSS generates unique class names by default when it compiles JSON representation
 
 1. Slow selectors.
 
-Because JSS rules are collision free, there is no need to write deeply netsted selectors. This leads to stable performance at scale.
+Because JSS rules are collision free, there is no need to write deeply netsted selectors. This leads to stable [performance](./performance.md) at scale.
 
 1. Code reuse.
 
 CSS is limited to applying multiple selectors to the same node in its code reuse capabilities.
-JSS allows you can to compose rules from multiple sources. You can reuse existing rules, you can use functions to generate rules and to calculate values. This way we can avoid repeatitions and reduce download size.
+JSS allows you can to compose rules from multiple sources. You can reuse existing rules, you can use functions to generate rules and to calculate values. This way we can avoid repeatitions in a very explicit way and reduce download size.
 
 1. Vendor Prefixing.
 
 Using plain CSS you need to download all the vendor prefixed properties and values. This increases overall CSS size.
-Using JSS vendor-prefixer plugin, prefixes added at runtime very efficiently, only for the required browser and do not increase download size.
+Using JSS vendor-prefixer plugin, prefixes added at runtime very efficiently, only for the required browser and do *not* increase download size.
 
 1. Refactoring
 

@@ -11,6 +11,7 @@ Some of those plugins:
 - Add unit automatically to non numeric values using [jss-default-unit](https://github.com/jsstyles/jss-default-unit)
 
 #### Order does matter! Here is the right one:
+
   1. jss-extend
   1. jss-nested
   1. jss-camel-case
