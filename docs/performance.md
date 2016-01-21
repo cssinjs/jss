@@ -15,6 +15,10 @@ As an experiment, I have converted bootstraps css to jss. In `bench/bootstrap` f
 
     On my machine overhead is about 10-15ms.
 
-### JSPerf
+### JSPerf JSS vs. CSS
 
 [JSperf bench](http://jsperf.com/jss-vs-css/3).
+
+### JSPerf simple class selectors
+
+[JSperf bench](http://jsperf.com/css-selectors-amount-influences-dom-performance/3).
