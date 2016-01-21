@@ -6,7 +6,7 @@
 
 [JSS is a higher level abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It allows you to describe styles in JSON and leverage the [power of JavaScript](./docs/vs.md). It generates style sheets at runtime or [server-side](./docs/server-side.md) and solves a [number of CSS issues](./docs/solved-issues.md).
 
-You can use JSS with React, or with any other js library. It is small, modular and extensible via plugins API.
+You can use [JSS with React](https://github.com/jsstyles/react-jss), or with any other js library. It is small, modular and extensible via plugins API.
 
 [**Full documentation**](./docs/index.md)
 
