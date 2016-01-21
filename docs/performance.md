@@ -11,7 +11,7 @@ JSS has a number of performance advantages.
 
 ### Bootstrap bench experiment
 
-As an experiment, I have converted bootstraps css to jss. In `bench/bootstrap` folder you will find[jss](http://jsstyles.github.io/jss/bench/bootstrap/jss.html) and [css](http://jsstyles.github.io/jss/bench/bootstrap/css.html) files. You need to try more than once to have some average result.
+As an experiment, I have converted bootstraps css to jss. In `bench/bootstrap` folder you will find [jss](http://jsstyles.github.io/jss/bench/bootstrap/jss.html) and [css](http://jsstyles.github.io/jss/bench/bootstrap/css.html) files. You need to try more than once to have some average result.
 
 On my machine overhead is about 10-15ms. However the difference in real application will be much lower because of the advantages named before.
 
