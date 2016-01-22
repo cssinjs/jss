@@ -22,7 +22,8 @@
   "license": "MIT",
   "main": "./lib/index.js",
   "engines": {
-    "node": "4.0.0"
+    "node": ">=4.0.0 <6.0.0"
+    
   },
   "devDependencies": {
     "babel": "5.8.23",
