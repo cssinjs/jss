@@ -23,7 +23,7 @@ You can use [JSS with React](https://github.com/jsstyles/react-jss), or with any
 
 ### Example.
 
-[Online examples](http://jsstyles.github.io/jss-examples/index.html).
+[Online examples](http://jsstyles.github.io/examples/index.html).
 
 - style.js
 ```javascript
