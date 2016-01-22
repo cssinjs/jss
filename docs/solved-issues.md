@@ -13,7 +13,7 @@
 1. Code reuse.
 
   CSS is limited to applying multiple selectors to the same node in its code reuse capabilities.
-  JSS allows you can to compose rules from multiple sources. You can reuse existing rules, you can use functions to generate rules and to calculate values. This way we can avoid repeatitions in a very explicit way and reduce download size.
+  JSS allows you to compose rules from multiple sources. You can reuse existing rules, you can use functions to generate rules and to calculate values. This way we can avoid repeatitions in a very explicit way and reduce download size.
 
 1. Vendor Prefixing.
 
