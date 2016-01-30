@@ -46,6 +46,11 @@ test('toString', () => {
   equal(rule.toString(), 'a {\n  float: left;\n  width: 1px;\n}')
 })
 
+test('toString without selector', () => {
+  const rule = jss.createRule('a', {float: 'left', width: 1}, {named: false})
+  equal(rule.toString({selector: false}), '\nfloat: left;\nwidth: 1;')
+})
+
 test('multiple declarations with identical property names', () => {
   const rule = jss.createRule('a', {display: ['inline', 'run-in']}, {named: false})
   equal(rule.toString(), 'a {\n  display: inline;\n  display: run-in;\n}')
