@@ -1,6 +1,6 @@
 ## JSS Plugins.
 
-Plugins API allows to modify every rule at creation time. It's design is similar to connect's middleware. A plugin can for e.g. add new style properties or modify values.
+Plugins API allows to modify every rule at creation time. It's design is similar to connect's middleware. A plugin can for e.g. add new style properties, modify values or even add new rules.
 
 A number of [plugins](https://github.com/jsstyles?query=jss-) do exist already. We are happy to add more.
 
