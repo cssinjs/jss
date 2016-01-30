@@ -1,4 +1,4 @@
-import isEmptyObject from './empty-object'
+import {isEmptyObject} from './utils'
 import createRule from './createRule'
 import findRenderer from './findRenderer'
 
