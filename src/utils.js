@@ -10,6 +10,16 @@ const parse = JSON.parse
  * @type {Object} obj
  * @return {Object}
  */
-export default function clone(obj) {
+export function clone(obj) {
   return parse(stringify(obj))
+}
+
+/*
+ * Determine whether an object is empty or not.
+ * More performant than a `Object.keys(obj).length > 0`
+ */
+export function isEmptyObject(obj) {
+  for (const key in obj) return false // eslint-disable-line no-unused-vars
+
+  return true
 }

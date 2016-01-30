@@ -1,5 +1,5 @@
 import * as uid from './uid'
-import clone from './clone'
+import {clone} from './utils'
 
 /**
  * Regular rules and font-face.

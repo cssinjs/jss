@@ -1,3 +1,4 @@
+import {isEmptyObject} from './utils'
 import createRule from './createRule'
 import findRenderer from './findRenderer'
 
@@ -129,8 +130,14 @@ export default class StyleSheet {
       if (stringified[rule.id]) {
         continue
       }
+
+      if (rule.style && isEmptyObject(rule.style)) {
+        continue
+      }
+
       if (str) str += '\n'
-      str += rules[name].toString(options)
+
+      str += rule.toString(options)
       stringified[rule.id] = true
     }
     return str
