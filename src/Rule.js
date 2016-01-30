@@ -88,6 +88,10 @@ export default class Rule {
   /**
    * Generates a CSS string.
    *
+   * Options:
+   * - `selector` to get a rule without selector
+   * - `indentationLevel` level of indentation
+   *
    * @param {Object} options
    * @return {String}
    * @api private
