@@ -1,3 +1,4 @@
+import isEmptyObject from './empty-object'
 import createRule from './createRule'
 import findRenderer from './findRenderer'
 
@@ -130,7 +131,7 @@ export default class StyleSheet {
         continue
       }
 
-      if (rule.style && Object.keys(rule.style).length === 0) {
+      if (rule.style && isEmptyObject(rule.style)) {
         continue
       }
 

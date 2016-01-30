@@ -23,8 +23,8 @@ export default class PluginsRegistry {
    * @api private
    */
   run(rule) {
-    this.registry.forEach(plugin => {
-      plugin(rule)
-    })
+    for (let index = 0; index < this.registry.length; index++) {
+      this.registry[index](rule)
+    }
   }
 }
