@@ -129,8 +129,14 @@ export default class StyleSheet {
       if (stringified[rule.id]) {
         continue
       }
+
+      if (rule.style && Object.keys(rule.style).length === 0) {
+        continue
+      }
+
       if (str) str += '\n'
-      str += rules[name].toString(options)
+
+      str += rule.toString(options)
       stringified[rule.id] = true
     }
     return str
