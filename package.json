@@ -1,7 +1,7 @@
 {
   "name": "jss",
   "description": "Composable and reusable style sheets.",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
@@ -23,7 +23,6 @@
   "main": "./lib/index.js",
   "engines": {
     "node": ">=4.0.0 <6.0.0"
-    
   },
   "devDependencies": {
     "babel": "5.8.23",

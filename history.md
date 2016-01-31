@@ -1,3 +1,10 @@
+## 3.3.0 / 2016-01-31
+
+- fixed bug: nested rule inside of a @media conditional
+- new docs
+- trim empty rules (@wldcordeiro)
+- support node 5 (@nikgraf)
+
 ## 3.2.0 / 2015-11-27
 
 - jss-debug is deprecated, rule name is inside of generated class name now
