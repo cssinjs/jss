@@ -1,5 +1,5 @@
-import DomRenderer from './DomRenderer'
-import VirtualRenderer from './VirtualRenderer'
+import DomRenderer from './backends/DomRenderer'
+import VirtualRenderer from './backends/VirtualRenderer'
 
 /**
  * Find proper renderer.

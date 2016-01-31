@@ -1,6 +1,6 @@
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
-import * as uid from './uid'
+import {uid} from './utils'
 import createRule from './createRule'
 import findRenderer from './findRenderer'
 

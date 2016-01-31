@@ -1,5 +1,4 @@
-import * as uid from './uid'
-import {clone} from './utils'
+import {clone, uid} from '../utils'
 
 /**
  * Regular rules and font-face.

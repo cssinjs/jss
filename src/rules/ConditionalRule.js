@@ -1,5 +1,4 @@
-import {isEmptyObject} from './utils'
-import * as uid from './uid'
+import {isEmptyObject, uid} from '../utils'
 
 /**
  * Conditional rule for @media, @supports

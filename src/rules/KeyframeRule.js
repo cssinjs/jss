@@ -1,4 +1,4 @@
-import * as uid from './uid'
+import {uid} from '../utils'
 
 /**
  * Keyframe rule.

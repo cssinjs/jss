@@ -1,7 +1,7 @@
-import Rule from './Rule'
-import SimpleRule from './SimpleRule'
-import KeyframeRule from './KeyframeRule'
-import ConditionalRule from './ConditionalRule'
+import Rule from './rules/Rule'
+import SimpleRule from './rules/SimpleRule'
+import KeyframeRule from './rules/KeyframeRule'
+import ConditionalRule from './rules/ConditionalRule'
 
 /**
  * Map of at rules to corresponding implementation class.
