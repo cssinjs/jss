@@ -108,6 +108,14 @@ test('@media named', () => {
   equal(rule.toString(), '@media print {\n  .button--jss-0-1 {\n    display: none;\n  }\n}')
 })
 
+test('@media named with an empty rule', () => {
+  jss.uid.reset()
+  const rule = jss.createRule('@media print', {
+    button: {}
+  })
+  equal(rule.toString(), '@media print {\n}')
+})
+
 test('@font-face', () => {
   let rule = jss.createRule('@font-face', {
     'font-family': 'MyHelvetica',

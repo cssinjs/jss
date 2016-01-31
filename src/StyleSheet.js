@@ -135,6 +135,10 @@ export default class StyleSheet {
         continue
       }
 
+      if (rule.rules && isEmptyObject(rule.rules)) {
+        continue
+      }
+
       if (str) str += '\n'
 
       str += rule.toString(options)

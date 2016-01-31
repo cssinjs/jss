@@ -3,7 +3,7 @@ import * as uid from './uid'
 /**
  * Rule like @charset, @import, @namespace.
  *
- * @api private
+ * @api public
  */
 export default class SimpleRule {
   constructor(name, value, options) {
@@ -18,7 +18,7 @@ export default class SimpleRule {
    * Generates a CSS string.
    *
    * @return {String}
-   * @api private
+   * @api public
    */
   toString() {
     return `${this.name} ${this.value};`

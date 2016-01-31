@@ -1,9 +1,10 @@
+import {isEmptyObject} from './utils'
 import * as uid from './uid'
 
 /**
  * Conditional rule for @media, @supports
  *
- * @api private
+ * @api public
  */
 export default class ConditionalRule {
   constructor(selector, styles, options) {
@@ -11,7 +12,10 @@ export default class ConditionalRule {
     this.type = 'conditional'
     this.selector = selector
     this.options = {...options, parent: this}
-    this.rules = this.createChildRules(styles)
+    this.rules = Object.create(null)
+    for (const name in styles) {
+      this.createRule(name, styles[name])
+    }
   }
 
   /**
@@ -19,33 +23,38 @@ export default class ConditionalRule {
    *
    * @param {Object} styles
    * @return {Array} rules
-   * @api private
+   * @api public
    */
-  createChildRules(styles) {
-    const rules = Object.create(null)
-    const {sheet, jss} = this.options
-    for (const name in styles) {
-      let localOptions = this.options
-      // We have already a rule in the current style sheet with this name,
-      // This new rule is supposed to overwrite the first one, for this we need
-      // to ensure it will have the same className/selector.
-      const ruleToOverwrite = this.options.sheet && this.options.sheet.getRule(name)
-      if (ruleToOverwrite) localOptions = {...this.options, className: ruleToOverwrite.className}
-      rules[name] = (sheet || jss).createRule(name, styles[name], localOptions)
+  createRule(name, style, options) {
+    let newOptions = this.options
+    const {sheet, jss} = newOptions
+    // We have already a rule in the current style sheet with this name,
+    // This new rule is supposed to overwrite the first one, for this we need
+    // to ensure it will have the same className/selector.
+    const existingRule = sheet && sheet.getRule(name)
+    const className = existingRule ? existingRule.className : null
+    if (className || options) {
+      newOptions = {...newOptions, className, ...options}
     }
-    return rules
+    const rule = (sheet || jss).createRule(name, style, newOptions)
+    this.rules[name] = rule
+    return rule
   }
 
   /**
    * Generates a CSS string.
    *
    * @return {String}
-   * @api private
+   * @api public
    */
   toString() {
     let str = `${this.selector} {\n`
     for (const name in this.rules) {
-      const ruleStr = this.rules[name].toString({indentationLevel: 1})
+      const rule = this.rules[name]
+      if (rule.style && isEmptyObject(rule.style)) {
+        continue
+      }
+      const ruleStr = rule.toString({indentationLevel: 1})
       str += `${ruleStr}\n`
     }
     str += `}`

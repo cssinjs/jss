@@ -4,7 +4,7 @@ import {clone} from './utils'
 /**
  * Regular rules and font-face.
  *
- * @api private
+ * @api public
  */
 export default class Rule {
   constructor(selector, style, options) {
@@ -94,7 +94,7 @@ export default class Rule {
    *
    * @param {Object} options
    * @return {String}
-   * @api private
+   * @api public
    */
   toString(options = {}) {
     const selector = options.selector == null ? true : options.selector

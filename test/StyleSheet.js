@@ -153,6 +153,17 @@ test('toString empty mixed rule trim', () => {
   sheet.detach()
 })
 
+test('toString empty conditional rule trim', () => {
+  jss.uid.reset()
+  const sheet = jss.createStyleSheet({
+    a: {color: 'red'},
+    '@media print': {}
+  })
+  sheet.attach()
+  equal(sheet.toString(), '.a--jss-0-0 {\n  color: red;\n}')
+  sheet.detach()
+})
+
 test('mixed rule types', () => {
   const sheet = jss.createStyleSheet({
     '@charset': '"utf-8"',
