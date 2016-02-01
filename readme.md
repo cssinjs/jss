@@ -9,6 +9,7 @@
 You can use [JSS with React](https://github.com/jsstyles/react-jss), or with any other js library. It is small, modular and extensible via plugins API.
 
 [**Full documentation**](./docs/index.md)
+
 [**Try it out**](http://jsstyles.github.io/repl/)
 
 ### When should I use it?
