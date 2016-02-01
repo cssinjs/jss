@@ -2,7 +2,7 @@
 
 1. Global namespace.
 
-  CSS has just one global namespace. It is inpossible to avoid selector collisions in non-trivial applications. Naming conventions like BEM might help within one project, but will not when integrating third-party code.
+  CSS has just one global namespace. It is impossible to avoid selector collisions in non-trivial applications. Naming conventions like BEM might help within one project, but will not when integrating third-party code.
   
   JSS generates unique class names by default when it compiles JSON representation to CSS.
 
