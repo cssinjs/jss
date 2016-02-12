@@ -60,4 +60,4 @@ export const uid = (() => {
   }
 
   return {get, reset}
-}())
+})()
