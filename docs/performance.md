@@ -17,8 +17,12 @@ On my machine overhead is about 10-15ms. However the difference in real applicat
 
 ### JSPerf JSS vs. CSS
 
-[JSperf bench](http://jsperf.com/jss-vs-css/3).
+[JSPerf bench](http://jsperf.com/jss-vs-css/3).
 
 ### JSPerf simple class selectors
 
-[JSperf bench](http://jsperf.com/css-selectors-amount-influences-dom-performance/3).
+[JSPerf bench](http://jsperf.com/css-selectors-amount-influences-dom-performance/3).
+
+### JSPerf inline styles vs. classes
+
+[JSPerf bench](http://jsperf.com/classes-vs-inline-styles/4)
