@@ -51,7 +51,7 @@ jss.createStyleSheet(...)
 
 ### Create style sheet with namespaces enabled.
 
-Create a style sheet with [namespaced](http://jsstyles.github.io/jss-examples/namespace/index.html) rules.
+Create a style sheet with [namespaced](http://jsstyles.github.io/examples/namespace/index.html) rules.
 
 `jss.createStyleSheet([rules], [options])`
 
@@ -186,7 +186,7 @@ let rule = jss.createRule({
 
 `rule.applyTo(element)`
 
-This is equivalent to `element.style.background = 'blue'` except of that you could use a rule from sheet which is already defined and can apply plugins to it. [Example.](http://jsstyles.github.io/jss-examples/apply-to/index.html)
+This is equivalent to `element.style.background = 'blue'` except of that you could use a rule from sheet which is already defined and can apply plugins to it. [Example.](http://jsstyles.github.io/examples/apply-to/index.html)
 
 ```javascript
 jss.createRule({
@@ -198,7 +198,7 @@ jss.createRule({
 
 `rule.prop(name, [value])`
 
-When option `link` is true, after stylesheet is attached, linker saves references to `CSSRule` instances so that you are able to set rules properties at any time. [Example.](http://jsstyles.github.io/jss-examples/dynamic-props/index.html)
+When option `link` is true, after stylesheet is attached, linker saves references to `CSSRule` instances so that you are able to set rules properties at any time. [Example.](http://jsstyles.github.io/examples/dynamic-props/index.html)
 
 ```javascript
 let sheet = jss.createStyleSheet({
