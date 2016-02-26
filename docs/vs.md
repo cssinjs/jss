@@ -17,5 +17,11 @@
 
 1. Style sheets vs. inline styles
 
-  Style sheets independent of how they have been generated have one advantage: they are static and easily cachable, while inline styles are a good fit for dynamic style changes like animations.
+  Style sheets independent of how they have been generated have one advantage: they are static and easily cachable, while inline styles are a good fit for dynamic style changes like animations. Inline styles miss a number of features: media queries, keyframes, pseudo classes, fallback props. They are also [slower](./performance.md) than style sheets and require even more computational power when created at render time. 
+  
+Related articles:
+
+https://byjoeybaker.com/react-inline-styles
+
+https://medium.com/@dbow1234/component-style-b2b8be6931d3#.uw7vpbssl
 
