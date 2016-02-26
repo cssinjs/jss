@@ -23,5 +23,5 @@ Related articles:
 
 https://byjoeybaker.com/react-inline-styles
 
-https://medium.com/@dbow1234/component-style-b2b8be6931d3#.uw7vpbssl
+https://medium.com/@dbow1234/component-style-b2b8be6931d3
 
