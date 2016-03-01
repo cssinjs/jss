@@ -27,7 +27,8 @@ You can use [JSS with React](https://github.com/jsstyles/react-jss), or with any
 
 [Online examples](http://jsstyles.github.io/examples/index.html).
 
-- style.js
+[**Setup docs**](./docs/setup.md)
+
 ```javascript
 export default {
   headline: {
@@ -52,61 +53,28 @@ export default {
 }
 ```
 
-- app.js
-```javascript
-import jss from 'jss'
-import style from './style.js'
-
-// Creates the style element and inserts it into DOM if DomRenderer is used.
-jss.createStyleSheet(style).attach()
-```
-
-Generated style:
+Results in:
 
 ```css
-<style>
-  .headline-jss-0 {
-    font-size: 20px;
-  }
-  .title-jss-1 {
-    font-size: 20px;
-    position: absolute;
-    z-index: 10;
-  }
-  .title-jss-1:hover {
-    background: red;
-  }
+.headline-jss-0 {
+  font-size: 20px;
+}
+.title-jss-1 {
+  font-size: 20px;
+  position: absolute;
+  z-index: 10;
+}
+.title-jss-1:hover {
+  background: red;
+}
+.button-jss-2 {
+  width: 100px;
+}
+@media (min-width: 1024px): {
   .button-jss-2 {
-    width: 100px;
+    width: 200px;
   }
-  @media (min-width: 1024px): {
-    .button-jss-2 {
-      width: 200px;
-    }
-  }
-</style>
-```
-
-## Install
-
-```bash
-npm i jss
-```
-
-## CLI
-
-For more information see [CLI](https://github.com/jsstyles/jss-cli).
-
-```bash
-npm i jss-cli -g
-jss --help
-```
-
-## Run tests
-
-```bash
-npm i
-npm test
+}
 ```
 
 ## License
