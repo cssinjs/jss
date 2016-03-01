@@ -9,7 +9,9 @@
 You can use [JSS with React](https://github.com/jsstyles/react-jss), or with any other js library. It is small, modular and extensible via [plugins](./docs/plugins.md) API.
 
 
-Further links:
+### Links
+
+[Installation and setup](./docs/setup.md)
 
 [Full documentation](./docs/index.md)
 
@@ -17,7 +19,9 @@ Further links:
 
 [Online examples](http://jsstyles.github.io/examples/index.html).
 
-[Installation and setup](./docs/setup.md)
+[Official plugins](https://github.com/jsstyles?query=jss-)
+
+[External projects](./docs/external-projects.md)
 
 
 ### When should I use it?
