@@ -6,7 +6,7 @@ Using npm
 npm i jss
 ```
 
-For bower or direct script injection use [npmcdn](npmcdn.com):
+For bower or direct script injection use [npmcdn](https://npmcdn.com):
 
 For e.g.:
 
