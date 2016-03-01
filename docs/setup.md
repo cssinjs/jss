@@ -1,6 +1,6 @@
 ## Setup
 
-## Install
+### Install
 
 Using npm
 
@@ -8,11 +8,9 @@ Using npm
 npm i jss
 ```
 
-Using bower or direct script injection.
+For bower or direct script injection use [npmcdn](npmcdn.com):
 
-Use npmcdn.com for jss and any plugin:
-
-For e.g.
+For e.g.:
 
 Full:
 https://npmcdn.com/jss/dist/jss.js
@@ -20,7 +18,7 @@ https://npmcdn.com/jss/dist/jss.js
 Minified:
 https://npmcdn.com/jss/dist/jss.min.js
 
-## Setup with plugins
+### Setup with plugins
 
 You can use jss with or without plugins.
 
@@ -49,7 +47,7 @@ sheet.attach()
 sheet.toString()
 ```
 
-## CLI
+### CLI
 
 For more information see [CLI](https://github.com/jsstyles/jss-cli).
 
@@ -58,7 +56,7 @@ npm i jss-cli -g
 jss --help
 ```
 
-## Run tests
+### Run tests
 
 ```bash
 npm i

@@ -13,7 +13,7 @@ A number of [plugins](https://github.com/jsstyles?query=jss-) do exist already. 
   1. jss-vendor-prefixer
   1. jss-props-sort
 
-#### Authoring plugins is easy.
+#### Authoring plugins.
 
 You need to register a plugin only once per JSS instance and it will be applied to every rule.
 

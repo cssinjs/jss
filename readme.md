@@ -6,7 +6,7 @@
 
 [JSS is a higher level abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It allows you to describe styles in JSON and leverage the [power of JavaScript](./docs/vs.md). It generates style sheets at runtime or [server-side](./docs/server-side.md) and solves a [number of CSS issues](./docs/solved-issues.md).
 
-You can use [JSS with React](https://github.com/jsstyles/react-jss), or with any other js library. It is small, modular and extensible via plugins API.
+You can use [JSS with React](https://github.com/jsstyles/react-jss), or with any other js library. It is small, modular and extensible via [plugins](./docs/plugins.md) API.
 
 [**Full documentation**](./docs/index.md)
 
@@ -23,11 +23,11 @@ You can use [JSS with React](https://github.com/jsstyles/react-jss), or with any
 - Robustness and code reuse is important to you.
 - Ease of maintenance is important to you.
 
-### Example.
+### Examples.
 
-[Online examples](http://jsstyles.github.io/examples/index.html).
+[Online](http://jsstyles.github.io/examples/index.html).
 
-[**Setup docs**](./docs/setup.md)
+[Setup](./docs/setup.md)
 
 ```javascript
 export default {
@@ -53,7 +53,7 @@ export default {
 }
 ```
 
-Results in:
+Converts to:
 
 ```css
 .headline-jss-0 {
