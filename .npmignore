@@ -2,3 +2,4 @@ src
 bench
 tmp
 test
+.env
