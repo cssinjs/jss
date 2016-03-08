@@ -8,8 +8,6 @@ npm i jss
 
 For bower or direct script injection use [npmcdn](https://npmcdn.com):
 
-For e.g.:
-
 Full:
 https://npmcdn.com/jss/dist/jss.js
 
