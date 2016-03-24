@@ -1,6 +1,6 @@
 {
   "name": "jss",
-  "description": "Composable and reusable style sheets.",
+  "description": "A lib for generating Style Sheets with JavaScript.",
   "version": "3.3.0",
   "author": {
     "name": "Oleg Slobodskoi",
