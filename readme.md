@@ -4,12 +4,14 @@
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/jsstyles/jss?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![bitHound Score](https://www.bithound.io/jsstyles/jss/badges/score.svg)](https://www.bithound.io/jsstyles/jss)
 
-[JSS is a higher level abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It allows you to describe styles in JSON and leverage the [power of JavaScript](./docs/vs.md). It generates style sheets at runtime or [server-side](./docs/server-side.md) and solves a [number of CSS issues](./docs/solved-issues.md).
+[JSS is a higher level abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It allows you to describe styles in JSON and leverage the power of JavaScript. It generates style sheets at runtime or [server-side](./docs/server-side.md) and has a number of [benefits](./docs/benefits.md).
 
 You can use [JSS with React](https://github.com/jsstyles/react-jss), or with any other js library. It is small, modular and extensible via [plugins](./docs/plugins.md) API.
 
 
 ### Links
+
+[Benefits](./docs/benefits.md)
 
 [Installation and setup](./docs/setup.md)
 
@@ -23,7 +25,6 @@ You can use [JSS with React](https://github.com/jsstyles/react-jss), or with any
 
 [External projects](./docs/external-projects.md)
 
-
 ### When should I use it?
 
 - You build a JavaScript heavy application.
@@ -34,6 +35,7 @@ You can use [JSS with React](https://github.com/jsstyles/react-jss), or with any
 - Minimal download size is important to you.
 - Robustness and code reuse is important to you.
 - Ease of maintenance is important to you.
+- You just want to use any of its [benefits](./docs/benefits.md)
 
 ### Example
 
