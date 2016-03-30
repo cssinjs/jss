@@ -69,7 +69,7 @@ Inline styles are more suitable for dynamic changes like animations.
   - Automatic vendor prefixing
 
 1. Performance
-Inline stles are [slower](./performance.md) than class names.
+Inline styles are [slower](./performance.md) than class names.
 
 ### Related articles:
 https://byjoeybaker.com/react-inline-styles
