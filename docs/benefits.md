@@ -6,6 +6,10 @@
 
   CSS has just one global namespace. It is impossible to avoid selector collisions in non-trivial applications. Naming conventions like BEM might help within one project, but will not when integrating third-party code. JSS generates unique class names by default when it compiles JSON representation to CSS.
 
+1. True rules isolation.
+
+  Scoped selectors are not enough. CSS has properties which are inherited automatically from the parent element, if not explicitely defined. Thanks to [jss-isolate](https://github.com/jsstyles/jss-isolate) plugin, JSS rules will not inherit properties.
+
 1. Avoids specificity conflicts.
 1. Source order independence.
 1. Slow selectors.
@@ -75,3 +79,5 @@ Inline styles are [slower](./performance.md) than class names.
 https://byjoeybaker.com/react-inline-styles
 
 https://medium.com/@dbow1234/component-style-b2b8be6931d3
+
+More articles are welcome.
