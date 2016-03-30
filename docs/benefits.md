@@ -32,7 +32,7 @@ JSS allows you to compose rules from multiple sources. You can reuse existing ru
 
 1. Download size.
 
-  JSS size is up to 50% smaller, you can save a bandwidth and increase site performance.
+  JSS styles size is up to 50% smaller, you can save a bandwidth and increase site performance.
 
 1. Code sharing
 
@@ -40,8 +40,7 @@ JSS allows you to compose rules from multiple sources. You can reuse existing ru
 
 1. Adoption to environment
 
-  You can generate styles according the environment requirements at runtime, for e.g. you can express any complex condition considering for e.g. pixel density, resolution and device type at the same time.
-You can compose new style sheets based on settings and environment out of existing once.
+  You can generate styles according the environment requirements at runtime, for e.g. you can express any complex condition considering for e.g. pixel density, resolution and device type at the same time. You can compose new style sheets based on settings and environment out of existing once.
 
 ### Compared to server-side preprocessing languages (stylus/less/sass and co.)
 
@@ -76,6 +75,12 @@ You can compose new style sheets based on settings and environment out of existi
 1. Performance
 
 Inline styles are [slower](./performance.md) than class names.
+
+### Compared to any other CSS in JS solution
+
+1. Extensible core architecture.
+
+  Small core, everything else is a plugin. It is similar to [postcss](http://postcss.org/) at this point. It allows you to create your own setup with selected plugins, which fix **your** problems. Also it allows you to create your very specific custom modifiers.
 
 ### Related articles:
 https://byjoeybaker.com/react-inline-styles
