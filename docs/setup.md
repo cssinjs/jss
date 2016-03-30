@@ -16,7 +16,7 @@ https://npmcdn.com/jss/dist/jss.min.js
 
 ## Setup with plugins
 
-You can use jss with or without plugins.
+You can use jss with or without [plugins](https://github.com/jsstyles?query=jss-).
 
 ```javascript
 
