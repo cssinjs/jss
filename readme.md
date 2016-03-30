@@ -29,7 +29,7 @@ You can use [JSS with React](https://github.com/jsstyles/react-jss), or with any
 - You build a JavaScript heavy application.
 - You use components based architecture.
 - You build a reusable UI library.
-- You need a conflict free CSS (external content, third-party UI components ...).
+- You need a collision free CSS (external content, third-party UI components ...).
 - You need code sharing between js and css.
 - Minimal download size is important to you.
 - Robustness and code reuse is important to you.
