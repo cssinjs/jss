@@ -34,28 +34,21 @@ JSS allows you to compose rules from multiple sources. You can reuse existing ru
 
   JSS styles size is up to 50% smaller, you can save a bandwidth and increase site performance.
 
-1. Code sharing
+1. Code sharing.
 
   You can easily share constants and functions between JS and CSS.
 
-1. Adoption to environment
+1. Adoption to environment.
 
   You can generate styles according the environment requirements at runtime, for e.g. you can express any complex condition considering for e.g. pixel density, resolution and device type at the same time. You can compose new style sheets based on settings and environment out of existing once.
 
-### Compared to server-side preprocessing languages (stylus/less/sass and co.)
+### Compared to server-side preprocessing languages (stylus/less/sass/css-modules and co.)
 
-1. Aforementioned benefits
-1. Just one language.
+1. Aforementioned benefits.
+1. Just one language, standartized by w3c.
 
   There is no need to learn new preprocessing languages. They all come with a burden of a new syntax for variables, functions, mixins, extends and others. At the same time there is nothing they can do JavaScript can't.
 
-
-### Compared to css-modules
-
-1. Aforementioned benefits
-1. Not yet another language
-
-  JavaScript has got a w3c standard for modules, variables, functions, constants etc., while css-modules defines its own preprocessing language.
 
 ### Compared to inline styles
 
@@ -72,7 +65,7 @@ JSS allows you to compose rules from multiple sources. You can reuse existing ru
   - Fallbacks: you can define the same property [multiple times](./json-api.md#multiple-declarations-with-identical-property-names), like you know it from CSS.
   - Automatic vendor prefixing
 
-1. Performance
+1. Performance.
 
 Inline styles are [slower](./performance.md) than class names.
 
