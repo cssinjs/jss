@@ -3,17 +3,17 @@
 ### Compared to regular CSS.
 
 1. Scoped selectors.
-  
+
   CSS has just one global namespace. It is impossible to avoid selector collisions in non-trivial applications. Naming conventions like BEM might help within one project, but will not when integrating third-party code. JSS generates unique class names by default when it compiles JSON representation to CSS.
 
 1. Avoids specificity conflicts.
 1. Source order independence.
 1. Slow selectors.
-  
+
   Because JSS rules are collision free, there is no need to write deeply netsted selectors. This leads to stable [performance](./performance.md) at scale.
 
 1. Code reuse, expressiveness.
-  
+
   CSS is limited to applying multiple selectors to the same node in its code reuse capabilities.
 JSS allows you to compose rules from multiple sources. You can reuse existing rules, you can use functions to generate rules and to calculate values. This way we can avoid repeatitions in a very explicit way.
 
@@ -22,7 +22,7 @@ Thanks to javascript modules and explicit code reuse, we can quickly locate depe
 
 1. Dead code elimination.
 1. Vendor Prefixing.
-  
+
   Using plain CSS you need to download all the vendor prefixed properties and values. This increases overall CSS size.
 Using JSS [vendor-prefixer](https://github.com/jsstyles/jss-vendor-prefixer) plugin, prefixes added at runtime very efficiently, only for the required browser and do *not* increase download size.
 
@@ -48,9 +48,9 @@ You can compose new style sheets based on settings and environment out of existi
 ### Compared to css-modules
 
 1. Aforementioned benefits
-1. Yet another language
-  
-  While css-modules can be a nice solution when you just want to have a better CSS, it doesn't give you the same abilities for code reuse and computation as JavaScript. Every feature added to css-modules separates it apart from CSS and makes it a separate preprocessing language.
+1. Not yet another language
+
+  JavaScript has got a w3c standard for modules, variables, functions, constants etc., while css-modules defines its own preprocessing language.
 
 ### Compared to inline styles
 
