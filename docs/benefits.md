@@ -36,7 +36,7 @@ JSS allows you to compose rules from multiple sources. You can reuse existing ru
 
 1. Code sharing
 
-You can easily share constants and functions between JS and CSS.
+  You can easily share constants and functions between JS and CSS.
 
 1. Adoption to environment
 
