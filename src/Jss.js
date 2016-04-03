@@ -1,5 +1,6 @@
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
+import SheetsRegistry from './SheetsRegistry'
 import {uid} from './utils'
 import createRule from './createRule'
 import findRenderer from './findRenderer'
@@ -11,6 +12,7 @@ import findRenderer from './findRenderer'
  */
 export default class Jss {
   constructor() {
+    this.sheets = new SheetsRegistry()
     this.plugins = new PluginsRegistry()
     this.uid = uid
   }
@@ -32,7 +34,9 @@ export default class Jss {
    * @api public
    */
   createStyleSheet(rules, options) {
-    return new StyleSheet(rules, {...options, jss: this})
+    const sheet = new StyleSheet(rules, {...options, jss: this})
+    this.sheets.add(sheet)
+    return sheet
   }
 
   /**

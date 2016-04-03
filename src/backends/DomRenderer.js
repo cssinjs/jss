@@ -51,7 +51,7 @@ export default class DomRenderer {
   deploy(sheet) {
     const css = `\n${sheet.toString()}\n`
     if ('sheet' in this.element) this.element.innerHTML = css
-    // On IE8 the only way to render is `styleSheet.cssText`
+    // On IE8 the only way to render is `styleSheet.cssText`.
     else if ('styleSheet' in this.element) this.element.styleSheet.cssText = css
   }
 

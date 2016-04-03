@@ -1,3 +1,7 @@
+## 3.4.0 / 2016-04-3
+
+- added style sheets registry accesible via jss.sheets
+
 ## 3.3.0 / 2016-01-31
 
 - fixed bug: nested rule inside of a @media conditional

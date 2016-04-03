@@ -200,36 +200,6 @@ test('get rules prop from the dom and cache it', () => {
   sheet.detach()
 })
 
-test('add plugin', () => {
-  const plugin = () => {}
-  jss.use(plugin)
-  equal(jss.plugins.registry.length, 1)
-  strictEqual(jss.plugins.registry[0], plugin)
-  jss.plugins.registry = []
-})
-
-test('add multiple plugins', () => {
-  const plugin = () => {}
-  const plugin2 = () => {}
-  jss.use(plugin, plugin2)
-  equal(jss.plugins.registry.length, 2)
-  strictEqual(jss.plugins.registry[0], plugin)
-  strictEqual(jss.plugins.registry[1], plugin2)
-  jss.plugins.registry = []
-})
-
-test('run plugins', () => {
-  let executed = false
-  function plugin() {
-    executed = true
-  }
-  jss.use(plugin)
-  jss.plugins.run(jss.createRule())
-  ok(executed)
-  jss.plugins.registry = []
-})
-
-
 test('run plugins on inner rules of an conditional rule', () => {
   let executed = 0
   function plugin() {
