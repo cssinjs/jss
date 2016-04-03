@@ -103,6 +103,15 @@ let sheet = jss.createStyleSheet({
 </style>
 ```
 
+### A style sheets registry.
+
+`jss.sheets`
+
+```javascript
+jss.sheets.registry // an array with all style sheets
+
+jss.sheets.toString() // Returns CSS of all style sheets together. Usefull for server-side rendering.
+
 ### Attach style sheet.
 
 `sheet.attach()`
@@ -223,7 +232,7 @@ no nested, conditionals, keyframes or array values.
 
 Result of toJSON call can be used later to apply styles inline to the element.
 
-### Convert to CSS
+### Convert to CSS.
 
 `sheet.toString()`
 

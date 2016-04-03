@@ -69,7 +69,7 @@ export default class Rule {
 
   /**
    * Returns JSON representation of the rule.
-   * Nested rules, at-rules and array values are not supported.
+   * Array of values is not supported.
    *
    * @return {Object}
    * @api public

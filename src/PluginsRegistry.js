@@ -1,5 +1,7 @@
 /**
  * Register a plugin, run a plugin.
+ *
+ * @api public
  */
 export default class PluginsRegistry {
   constructor() {
