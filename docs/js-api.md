@@ -111,6 +111,7 @@ let sheet = jss.createStyleSheet({
 jss.sheets.registry // an array with all style sheets
 
 jss.sheets.toString() // Returns CSS of all style sheets together. Usefull for server-side rendering.
+```
 
 ### Attach style sheet.
 
