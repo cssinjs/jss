@@ -1,4 +1,4 @@
-import jss from '../src'
+import jss, {Jss, StyleSheet, Rule} from '../src'
 
 QUnit.module('Jss', {
   teardown: () => {
@@ -8,16 +8,16 @@ QUnit.module('Jss', {
 })
 
 test('default export', () => {
-  equal(jss.constructor.name, 'Jss', 'is a Jss instance')
+  ok(jss instanceof Jss, 'is a Jss instance')
 })
 
 test('.create()', () => {
-  equal(jss.create().constructor.name, 'Jss', 'returns a Jss instance')
+  ok(jss.create() instanceof Jss, 'returns a Jss instance')
 })
 
 test('.createStyleSheet()', () => {
   const sheet = jss.createStyleSheet()
-  equal(sheet.constructor.name, 'StyleSheet', 'returns a StyleSheet instance')
+  ok(sheet instanceof StyleSheet, 'returns a StyleSheet instance')
   ok(jss.sheets.registry.indexOf(sheet) >= 0, 'adds sheet to sheets registry')
 })
 
@@ -36,7 +36,7 @@ test('.createRule()', () => {
     passedRule = rule
   })
   const rule = jss.createRule()
-  equal(rule.constructor.name, 'Rule', 'returns a Rule instance')
+  ok(rule instanceof Rule, 'returns a Rule instance')
   strictEqual(rule, passedRule, 'called plugins and passed the rule')
 })
 
