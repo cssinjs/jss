@@ -1,6 +1,7 @@
 ## 3.4.0 / 2016-04-3
 
 - added style sheets registry accesible via jss.sheets
+- updated babel to version 6
 
 ## 3.3.0 / 2016-01-31
 
