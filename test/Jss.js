@@ -1,6 +1,11 @@
 import jss from '../src'
 
-QUnit.module('Jss')
+QUnit.module('Jss', {
+  teardown: () => {
+    jss.plugins.registry = []
+    jss.sheets.registry = []
+  }
+})
 
 test('default export', () => {
   equal(jss.constructor.name, 'Jss', 'is a Jss instance')
@@ -33,8 +38,6 @@ test('.createRule()', () => {
   const rule = jss.createRule()
   equal(rule.constructor.name, 'Rule', 'returns a Rule instance')
   strictEqual(rule, passedRule, 'called plugins and passed the rule')
-
-  jss.plugins.registry = []
 })
 
 test('.use()', () => {
@@ -56,6 +59,4 @@ test('.use()', () => {
   strictEqual(jss.plugins.registry[1], plugin2, 'adds second plugin in the right order')
   strictEqual(executed1, rule, 'executed first plugin')
   strictEqual(executed2, rule, 'executed second plugin')
-
-  jss.plugins.registry = []
 })
