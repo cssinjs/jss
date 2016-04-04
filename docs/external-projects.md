@@ -30,3 +30,7 @@
 [css-modules-jss-demo](https://github.com/markdalgleish/css-modules-jss-demo) An experimental demo of CSS Modules, using JSS via jss-loader to compile JavaScript into locally scoped CSS.
 
 [perdido](http://jsstyles.github.io/examples/perdido/index.html) Demo of perdido fractional grid system.
+
+### UI libs
+
+[react-modal-dialog](https://github.com/qimingweng/react-modal-dialog) A modal dialog for ReactJS
