@@ -1,9 +1,9 @@
 import jss from '../src'
+import * as utils from './utils'
 
-QUnit.module('Rule')
+QUnit.module('Rule', utils.setup)
 
 test('create empty instance', () => {
-  jss.uid.reset()
   let rule = jss.createRule()
   equal(rule.type, 'regular')
   equal(rule.className, 'jss-0-0')
@@ -97,7 +97,6 @@ test('@media', () => {
 })
 
 test('@media named', () => {
-  jss.uid.reset()
   const rule = jss.createRule('@media print', {
     button: {
       display: 'none'
@@ -109,7 +108,6 @@ test('@media named', () => {
 })
 
 test('@media named with an empty rule', () => {
-  jss.uid.reset()
   const rule = jss.createRule('@media print', {
     button: {}
   })
@@ -132,7 +130,6 @@ test('@font-face', () => {
 })
 
 test('@supports', () => {
-  jss.uid.reset()
   const rule = jss.createRule('@supports ( display: flexbox )', {
     button: {
       display: 'none'

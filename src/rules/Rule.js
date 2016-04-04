@@ -1,7 +1,7 @@
 import {clone, uid, toCSS} from '../utils'
 
 /**
- * Regular rules and font-face.
+ * Regular rules.
  *
  * @api public
  */

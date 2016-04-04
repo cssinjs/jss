@@ -10,7 +10,16 @@ import Jss from './Jss'
 import StyleSheet from './StyleSheet'
 import Rule from './rules/Rule'
 
-// For testing only.
-export {Jss, StyleSheet, Rule}
+const jss = new Jss()
 
-export default new Jss()
+// Hotfix for babel 5 migration, will be removed in version 4.0.0
+module.exports = exports = jss
+
+// For testing only.
+export {
+  Jss,
+  StyleSheet,
+  Rule
+}
+
+export default jss

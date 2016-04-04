@@ -1,7 +1,8 @@
 import jss from '../src'
 import * as utils from './utils'
 
-QUnit.module('StyleSheet')
+QUnit.module('StyleSheet', utils.setup)
+
 
 test('create empty instance', () => {
   const sheet = jss.createStyleSheet()
@@ -90,7 +91,6 @@ test('toString unnamed', () => {
 })
 
 test('toString named', () => {
-  jss.uid.reset()
   const sheet = jss.createStyleSheet({a: {width: '1px', float: 'left'}})
   sheet.attach()
   const expected = '.a--jss-0-0 {\n  width: 1px;\n  float: left;\n}'
@@ -114,7 +114,6 @@ test('toString unnamed with media query', () => {
 })
 
 test('toString named with media query', () => {
-  jss.uid.reset()
   const sheet = jss.createStyleSheet({
     a: {color: 'red'},
     '@media (min-width: 1024px)': {
@@ -128,7 +127,6 @@ test('toString named with media query', () => {
 })
 
 test('toString empty rule trim', () => {
-  jss.uid.reset()
   const sheet = jss.createStyleSheet({
     a: {color: 'red'},
     b: {},
@@ -141,7 +139,6 @@ test('toString empty rule trim', () => {
 })
 
 test('toString empty mixed rule trim', () => {
-  jss.uid.reset()
   const sheet = jss.createStyleSheet({
     a: {color: 'red'},
     b: {},
@@ -154,7 +151,6 @@ test('toString empty mixed rule trim', () => {
 })
 
 test('toString empty conditional rule trim', () => {
-  jss.uid.reset()
   const sheet = jss.createStyleSheet({
     a: {color: 'red'},
     '@media print': {}
@@ -215,4 +211,5 @@ test('virtual rendering', () => {
   const sheet = jss.createStyleSheet({a: {float: 'left'}}, {virtual: true})
   sheet.attach()
   equal(document.getElementsByTagName('style').length, 0)
+  sheet.detach()
 })

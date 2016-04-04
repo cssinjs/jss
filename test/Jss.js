@@ -1,14 +1,11 @@
-import jss, {Jss, StyleSheet, Rule} from '../src'
+import jss, {create, Jss, StyleSheet, Rule} from '../src'
+import * as utils from './utils'
 
-QUnit.module('Jss', {
-  teardown: () => {
-    jss.plugins.registry = []
-    jss.sheets.registry = []
-  }
-})
+QUnit.module('Jss', utils.setup)
 
-test('default export', () => {
-  ok(jss instanceof Jss, 'is a Jss instance')
+test('exports', () => {
+  ok(jss instanceof Jss, 'default export is a Jss instance')
+  equal(typeof create, 'function', 'create function is exported')
 })
 
 test('.create()', () => {
@@ -26,7 +23,7 @@ test('.sheets', () => {
   const sheet2 = jss.createStyleSheet({a: {color: 'blue'}})
 
   ok(jss.sheets.registry.indexOf(sheet1) >= 0, 'adds sheet1 to sheets registry')
-  ok(jss.sheets.registry.indexOf(sheet2) >= 0, 'adds sheet1 to sheets registry')
+  ok(jss.sheets.registry.indexOf(sheet2) >= 0, 'adds sheet2 to sheets registry')
   equal(jss.sheets.toString(), '.a--jss-0-0 {\n  color: red;\n}\n.a--jss-0-1 {\n  color: blue;\n}', 'returns CSS of all sheets')
 })
 
