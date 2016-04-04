@@ -121,7 +121,7 @@ test('@font-face', () => {
     'font-family': 'MyHelvetica',
     src: 'local("Helvetica")'
   })
-  equal(rule.type, 'regular')
+  equal(rule.type, 'font-face')
   equal(rule.selector, '@font-face')
   equal(rule.toString(), '@font-face {\n  font-family: MyHelvetica;\n  src: local("Helvetica");\n}')
   rule = jss.createRule('@font-face', {

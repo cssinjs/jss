@@ -1,4 +1,4 @@
-import {clone, uid} from '../utils'
+import {clone, uid, toCSS} from '../utils'
 
 /**
  * Regular rules and font-face.
@@ -87,49 +87,10 @@ export default class Rule {
   /**
    * Generates a CSS string.
    *
-   * Options:
-   * - `selector` to get a rule without selector
-   * - `indentationLevel` level of indentation
-   *
-   * @param {Object} options
-   * @return {String}
+   * @see toCSS
    * @api public
    */
-  toString(options = {}) {
-    const selector = options.selector == null ? true : options.selector
-    let indentationLevel = options.indentationLevel || 0
-    let str = ''
-    if (selector) {
-      str += indent(indentationLevel, `${this.selector} {`)
-      indentationLevel++
-    }
-    for (const prop in this.style) {
-      const value = this.style[prop]
-      // We want to generate multiple style with identical property names.
-      if (Array.isArray(value)) {
-        for (let index = 0; index < value.length; index++) {
-          str += '\n' + indent(indentationLevel, `${prop}: ${value[index]};`)
-        }
-      }
-      else str += '\n' + indent(indentationLevel, `${prop}: ${value};`)
-    }
-    if (selector) str += '\n' + indent(--indentationLevel, '}')
-    return str
+  toString(options) {
+    return toCSS(this, options)
   }
-}
-
-/**
- * Indent a string.
- *
- * http://jsperf.com/array-join-vs-for
- *
- * @param {Number} level
- * @param {String} str
- * @return {String}
- * @api private
- */
-function indent(level, str) {
-  let indentStr = ''
-  for (let index = 0; index < level; index++) indentStr += '  '
-  return indentStr + str
 }

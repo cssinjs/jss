@@ -61,3 +61,54 @@ export const uid = (() => {
 
   return {get, reset}
 })()
+
+/**
+ * Converts a Rule to CSS string.
+ *
+ * Options:
+ * - `selector` use `false` to get a rule without selector
+ * - `indentationLevel` level of indentation
+ *
+ * @param {Rule|FontFaceRule} rule
+ * @param {Object} options
+ * @return {String}
+ */
+export function toCSS(rule, options = {}) {
+  let indentationLevel = options.indentationLevel || 0
+  let str = ''
+
+  if (options.selector !== false) {
+    str += indent(indentationLevel, `${rule.selector} {`)
+    indentationLevel++
+  }
+
+  for (const prop in rule.style) {
+    const value = rule.style[prop]
+    // We want to generate multiple style with identical property names.
+    if (Array.isArray(value)) {
+      for (let index = 0; index < value.length; index++) {
+        str += '\n' + indent(indentationLevel, `${prop}: ${value[index]};`)
+      }
+    }
+    else str += '\n' + indent(indentationLevel, `${prop}: ${value};`)
+  }
+
+  if (options.selector !== false) str += '\n' + indent(--indentationLevel, '}')
+
+  return str
+}
+
+/**
+ * Indent a string.
+ *
+ * http://jsperf.com/array-join-vs-for
+ *
+ * @param {Number} level
+ * @param {String} str
+ * @return {String}
+ */
+function indent(level, str) {
+  let indentStr = ''
+  for (let index = 0; index < level; index++) indentStr += '  '
+  return indentStr + str
+}

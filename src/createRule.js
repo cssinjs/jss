@@ -2,6 +2,7 @@ import Rule from './rules/Rule'
 import SimpleRule from './rules/SimpleRule'
 import KeyframeRule from './rules/KeyframeRule'
 import ConditionalRule from './rules/ConditionalRule'
+import FontFaceRule from './rules/FontFaceRule'
 
 /**
  * Map of at rules to corresponding implementation class.
@@ -15,7 +16,7 @@ const atRuleClassMap = {
   '@keyframes': KeyframeRule,
   '@media': ConditionalRule,
   '@supports': ConditionalRule,
-  '@font-face': Rule
+  '@font-face': FontFaceRule
 }
 
 const atRuleNameRegExp = /^@[^ ]+/
