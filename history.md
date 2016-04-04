@@ -1,3 +1,8 @@
+## 3.5.0 / 2016-04-4
+
+- fixed breaking change, which made exports of 3.4.0 incompatible with 3.3.0
+- fix font-face rule type
+
 ## 3.4.0 / 2016-04-3
 
 - added style sheets registry accesible via jss.sheets
