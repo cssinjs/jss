@@ -221,3 +221,14 @@ test('run plugins on inner rules of a keyframe rule', () => {
   })
   equal(executed, 3)
 })
+
+test('Rule#selector', () => {
+  const sheet = jss.createStyleSheet(
+    {a: {float: 'left'}},
+    {link: true}
+  ).attach()
+  const rule = sheet.getRule('a')
+  rule.selector = 'a'
+  equal(rule.selector, 'a', 'setter and getter work')
+  sheet.detach()
+})

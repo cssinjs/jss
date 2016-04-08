@@ -8,10 +8,21 @@ export default class DomRenderer {
     try {
       if (value == null) return element.style[name]
       element.style[name] = value
-    }
-    catch (err) {
+    } catch (err) {
       // IE8 may throw if property is unknown.
     }
+  }
+
+  static setSelector(cssRule, selector) {
+    cssRule.selectorText = selector
+
+    // Return false if setter was not successful.
+    // Currently works in chrome only.
+    return cssRule.selectorText === selector
+  }
+
+  static getSelector(cssRule) {
+    return cssRule.selectorText
   }
 
   constructor(options) {
@@ -84,8 +95,8 @@ export default class DomRenderer {
     const cssRules = sheet.rules || sheet.cssRules
     const rules = Object.create(null)
     for (let index = 0; index < cssRules.length; index++) {
-      const CSSRule = cssRules[index]
-      rules[CSSRule.selectorText] = CSSRule
+      const cssRule = cssRules[index]
+      rules[cssRule.selectorText] = cssRule
     }
     return rules
   }

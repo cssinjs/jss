@@ -22,6 +22,47 @@ export default class Rule {
   }
 
   /**
+   * Set selector string.
+   * Attenition: use this with caution. Most browser didn't implement selector
+   * text setter, so this will result in rerendering of entire style sheet.
+   *
+   * @param {String} selector
+   * @api public
+   */
+  set selector(selector) {
+    if (this.renderable) {
+      const {Renderer, sheet} = this.options
+      const setted = Renderer.setSelector(this.renderable, selector)
+      // If selector setter is not implemented, rerender the sheet.
+      if (!setted) {
+        this._selector = selector
+        // We need to delete renderable from the rule, because when sheet.deploy()
+        // calls rule.toString, it will get the old selector.
+        delete this.renderable
+        sheet
+          .deploy()
+          .link()
+      }
+    }
+
+    this._selector = selector
+  }
+
+  /**
+   * Get selector string.
+   *
+   * @return {String}
+   * @api public
+   */
+  get selector() {
+    if (this.renderable) {
+      return this.options.Renderer.getSelector(this.renderable)
+    }
+
+    return this._selector
+  }
+
+  /**
    * Get or set a style property.
    *
    * @param {String} name
@@ -34,7 +75,7 @@ export default class Rule {
     // Its a setter.
     if (value != null) {
       this.style[name] = value
-      // If linked option in StyleSheet is not passed, renderable is not defined.
+      // Only defined if option linked is true.
       if (this.renderable) style(this.renderable, name, value)
       return this
     }

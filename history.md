@@ -1,3 +1,7 @@
+## 3.6.0 / 2016-08-4
+
+- implement selector setter, now Rule#selector can be set, due to the fact not every browser implements selectorText setter, the entire sheet will be rerendered in such browsers. Should be used with caution.
+
 ## 3.5.0 / 2016-04-4
 
 - fixed breaking change, which made exports of 3.4.0 incompatible with 3.3.0

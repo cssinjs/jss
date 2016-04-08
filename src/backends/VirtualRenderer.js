@@ -3,6 +3,8 @@
  */
 export default class VirtualRenderer {
   static style() {}
+  static setSelector() {}
+  static getSelector() {}
   attach() {}
   detach() {}
   deploy() {}
