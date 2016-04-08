@@ -8,7 +8,8 @@ export default class DomRenderer {
     try {
       if (value == null) return element.style[name]
       element.style[name] = value
-    } catch (err) {
+    }
+    catch (err) {
       // IE8 may throw if property is unknown.
     }
   }
