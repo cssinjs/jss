@@ -8,34 +8,15 @@
 
 You can use [JSS with React](https://github.com/jsstyles/react-jss), or with any other js library. It is small, modular and extensible via [plugins](./docs/plugins.md) API.
 
-
 ### Links
 
-[Benefits](./docs/benefits.md)
-
-[Installation and setup](./docs/setup.md)
-
-[Full documentation](./docs/index.md)
-
-[Playground](http://jsstyles.github.io/repl/)
-
-[Online examples](http://jsstyles.github.io/examples/index.html).
-
-[Official plugins](https://github.com/jsstyles?query=jss-)
-
-[External projects](./docs/external-projects.md)
-
-### When should I use it?
-
-- You build a JavaScript heavy application.
-- You use components based architecture.
-- You build a reusable UI library.
-- You need a collision free CSS (external content, third-party UI components ...).
-- You need code sharing between js and css.
-- Minimal download size is important to you.
-- Robustness and code reuse is important to you.
-- Ease of maintenance is important to you.
-- You just want to use any of its [benefits](./docs/benefits.md)
+- [Benefits](./docs/benefits.md)
+- [Installation and setup](./docs/setup.md)
+- [Full documentation](./docs/index.md)
+- [Playground](http://jsstyles.github.io/repl/)
+- [Online examples](http://jsstyles.github.io/examples/index.html).
+- [Official plugins](https://github.com/jsstyles?query=jss-)
+- [External projects](./docs/external-projects.md)
 
 ### Example
 
@@ -86,6 +67,18 @@ Converts to:
   }
 }
 ```
+
+### When should I use it?
+
+- You build a JavaScript heavy application.
+- You use components based architecture.
+- You build a reusable UI library.
+- You need a collision free CSS (external content, third-party UI components ...).
+- You need code sharing between js and css.
+- Minimal download size is important to you.
+- Robustness and code reuse is important to you.
+- Ease of maintenance is important to you.
+- You just want to use any of its [benefits](./docs/benefits.md)
 
 ## License
 
