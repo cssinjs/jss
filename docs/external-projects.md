@@ -4,6 +4,8 @@
 
 [jss-vendor-prefixer-ie10](https://github.com/alexkuz/jss-vendor-prefixer-ie10) JSS plugin that handles vendor prefixes for the legacy browsers.
 
+[jss-legacy-browsers](https://github.com/moliver-bb/jss-legacy-browsers) JSS plugin that handles legacy browser support
+
 [jss-color-rebeccapurple](https://github.com/joshgillies/jss-color-rebeccapurple) JSS plugin to transform the W3C CSS rebeccapurple color to rgb.
 
 ### Convenience
