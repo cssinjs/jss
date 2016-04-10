@@ -25,6 +25,8 @@ On my machine overhead is about 10-15ms. However the difference in real applicat
 
 ### JSPerf inline styles vs. classes
 
+Inline styles are also slower because of a simple fact that same styled items (for e.g. in a list) don't share the same rule.
+
 [JSPerf bench 1](http://jsperf.com/classes-vs-inline-styles/4)
 
 [JSPerf bench 2](http://jsperf.com/class-vs-inline-styles/2)
