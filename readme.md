@@ -62,33 +62,19 @@ Converts to:
 }
 ```
 
-Setup plugins:
-
-```javascript
-import jss from 'jss'
-import extend from 'jss-extend'
-import nested from 'jss-nested'
-import camelCase from 'jss-camel-case'
-import defaultUnit from 'jss-default-unit'
-import vendorPrefixer from 'jss-vendor-prefixer'
-
-jss.use(
-  extend(),
-  nested(),
-  camelCase(),
-  defaultUnit(),
-  vendorPrefixer()
-)
-```
-
-Render styles to the DOM:
+Render styles to the DOM ([setup plugins](./docs/setup.md#setup-with-plugins) before):
 
 ```javascript
 import jss from 'jss'
 
-const sheet = jss.createStyleSheet(styles).attach()
+const {classes} = jss.createStyleSheet(styles).attach()
 
-sheet.classes // {button: '.button--jss-0-0 ', ctaButton: '.ctaButton--jss-0-2'}
+classes // {button: '.button--jss-0-0 ', ctaButton: '.ctaButton--jss-0-2'}
+
+document.body.innerHTML = `
+  <button class="${classes.button}">Button</button>
+  <button class="${classes.ctaButton}">CTA Button</button>
+`
 ```
 
 ### When should I use it?
