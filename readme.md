@@ -4,9 +4,7 @@
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/jsstyles/jss?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![bitHound Score](https://www.bithound.io/jsstyles/jss/badges/score.svg)](https://www.bithound.io/jsstyles/jss)
 
-[JSS is a higher level abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It allows you to describe styles in JSON and leverage the power of JavaScript. It generates style sheets at runtime or [server-side](./docs/server-side.md) and has a number of [benefits](./docs/benefits.md).
-
-You can use [JSS with React](https://github.com/jsstyles/react-jss), or with any other js library. It is small, modular and extensible via [plugins](./docs/plugins.md) API.
+[JSS is a higher level abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It uses JavaScript as a language to describe styles in a declarative and maintainable way. It compiles to CSS and is potentially more performant. You can use it with [React](https://github.com/jsstyles/react-jss) or with any other library. It is less than 4KB (minfied and gzipped) and is extensible via [plugins](./docs/plugins.md) API.
 
 ### Links
 
