@@ -24,6 +24,10 @@ JSS allows you to compose rules from multiple sources. You can reuse existing ru
 1. Refactoring.
 
   Thanks to javascript modules and explicit code reuse, we can quickly locate dependencies during refactoring.
+  
+1. Dead code elimination.
+
+  If you put your styles into a component where they are used and use closure compiler.
 
 1. Vendor Prefixing.
 
