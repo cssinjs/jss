@@ -52,9 +52,10 @@ JSS allows you to compose rules from multiple sources. You can reuse existing ru
 
 ### Compared to inline styles
 
-1. Easy rules caching.
+1. Rules caching.
 
-  While payload caching for JS is the same as for CSS, there is a benefit of caching CSS Rules against inline styles. CSS rules are generated only once, they are static. Inline styles may change frequently, it is hard to ensure caching for them. JSS is generating regular CSS which results in the same static CSS Rules after it is rendered. Inline styles are more suitable for dynamic changes like animations.
+  Inline styles are applied to every element directly and can not be shared between multiple elements. This becomes important when you have a list of items styled equally. In JSS a CSS rule is shared for all items.
+  Inline styles are a good fit for state dependent styles and animations.
 
 1. All CSS features included.
 
