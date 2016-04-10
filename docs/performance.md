@@ -25,4 +25,6 @@ On my machine overhead is about 10-15ms. However the difference in real applicat
 
 ### JSPerf inline styles vs. classes
 
-[JSPerf bench](http://jsperf.com/classes-vs-inline-styles/4)
+[JSPerf bench 1](http://jsperf.com/classes-vs-inline-styles/4)
+
+[JSPerf bench 2](http://jsperf.com/class-vs-inline-styles/2)
