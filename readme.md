@@ -22,23 +22,21 @@ You can use [JSS with React](https://github.com/jsstyles/react-jss), or with any
 
 ```javascript
 export default {
-  headline: {
-    fontSize: 20
+  button: {
+    fontSize: 12,
+    '&:hover': {
+      background: 'blue'
+    }
   },
-  title: {
-    extend: 'headline',
-    position: 'absolute',
-    zIndex: 10,
+  ctaButton: {
+    extend: 'button',
     '&:hover': {
       background: 'red'
     }
   },
-  button: {
-    width: 100
-  },
   '@media (min-width: 1024px)': {
     button: {
-      width: 200
+      minWidth: 200
     }
   }
 }
@@ -47,25 +45,52 @@ export default {
 Converts to:
 
 ```css
-.headline-jss-0 {
-  font-size: 20px;
+.button--jss-0-0 {
+  font-size: 12px;
 }
-.title-jss-1 {
-  font-size: 20px;
-  position: absolute;
-  z-index: 10;
+.button--jss-0-0:hover {
+  background: blue;
 }
-.title-jss-1:hover {
+.ctaButton--jss-0-2 {
+  font-size: 12px;
+}
+.ctaButton--jss-0-2:hover {
   background: red;
 }
-.button-jss-2 {
-  width: 100px;
-}
-@media (min-width: 1024px): {
-  .button-jss-2 {
-    width: 200px;
+@media (min-width: 1024px) {
+  .button--jss-0-0 {
+    min-width: 200px;
   }
 }
+```
+
+Setup plugins:
+
+```javascript
+import jss from 'jss'
+import extend from 'jss-extend'
+import nested from 'jss-nested'
+import camelCase from 'jss-camel-case'
+import defaultUnit from 'jss-default-unit'
+import vendorPrefixer from 'jss-vendor-prefixer'
+
+jss.use(
+  extend(),
+  nested(),
+  camelCase(),
+  defaultUnit(),
+  vendorPrefixer()
+)
+```
+
+Render styles to the DOM:
+
+```javascript
+import jss from 'jss'
+
+const sheet = jss.createStyleSheet(styles).attach()
+
+sheet.classes // {button: '.button--jss-0-0 ', ctaButton: '.ctaButton--jss-0-2'}
 ```
 
 ### When should I use it?
