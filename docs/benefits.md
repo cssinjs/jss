@@ -25,7 +25,6 @@ JSS allows you to compose rules from multiple sources. You can reuse existing ru
 
   Thanks to javascript modules and explicit code reuse, we can quickly locate dependencies during refactoring.
 
-1. Dead code elimination.
 1. Vendor Prefixing.
 
   Using JSS [vendor-prefixer](https://github.com/jsstyles/jss-vendor-prefixer) plugin, prefixes added at runtime very efficiently, only for the required browser and do *not* increase download size.
