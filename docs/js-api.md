@@ -39,13 +39,13 @@ Use an own instance if the component you build should be reusable within a diffe
 ```javascript
 // ES5
 var jss = require('jss').create()
-jss.use(somePlugin)
+jss.use(somePlugin())
 jss.createStyleSheet(...)
 
 // ES6
 import {create} from 'jss'
 let jss = create()
-jss.use(somePlugin)
+jss.use(somePlugin())
 jss.createStyleSheet(...)
 ```
 
@@ -183,7 +183,7 @@ sheet.addRules({
 
 `jss.createRule([selector], rule)`
 
-In order to apply styles directly to the element but still be able to use jss plugins.
+In order to apply styles directly to the element but still be able to use jss s.
 
 ```javascript
 let rule = jss.createRule({
@@ -196,7 +196,7 @@ let rule = jss.createRule({
 
 `rule.applyTo(element)`
 
-This is equivalent to `element.style.background = 'blue'` except of that you could use a rule from sheet which is already defined and can apply plugins to it. [Example.](http://jsstyles.github.io/examples/apply-to/index.html)
+This is equivalent to `element.style.background = 'blue'` except of that you could use a rule from sheet which is already defined and can apply s to it. [Example.](http://jsstyles.github.io/examples/apply-to/index.html)
 
 ```javascript
 jss.createRule({
