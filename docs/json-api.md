@@ -63,3 +63,24 @@ export default {
   }
 }
 ```
+
+### Writing global selectors
+
+When using option "named" `jss.createStyleSheet(styles, {named: false})` you can use keys as selectors instead of names. Be carefull, now you will be writing a regular style sheet with all the drawbacks of a single namespace.
+
+```javascript
+export default {
+  div: {
+    boxSizing: 'border-box'
+  }
+}
+```
+
+```css
+div {
+  box-sizing: border-box;
+}
+```
+
+
+
