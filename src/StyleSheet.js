@@ -164,28 +164,39 @@ export default class StyleSheet {
     // Scope options overwrite instance options.
     if (options.named == null) options.named = this.options.named
     const rule = createRule(name, style, options)
-    // Register conditional rule, it will stringify it's child rules properly.
-    if (rule.type === 'conditional') {
-      this.rules[rule.selector] = rule
-    }
-    else if (rule.type === 'simple') {
-      this.rules[rule.name] = rule
-    }
-    // This is a rule which is a child of a condtional rule.
-    // We need to register its class name only.
-    else if (rule.options.parent && rule.options.parent.type === 'conditional') {
-      // Only named rules should be referenced in `classes`.
-      if (rule.options.named) this.classes[name] = rule.className
-    }
-    else {
-      this.rules[rule.selector] = rule
-      if (options.named) {
-        this.rules[name] = rule
-        this.classes[name] = rule.className
-      }
-    }
+    this.registerRule(rule)
     options.jss.plugins.run(rule)
     return rule
+  }
+
+  /**
+   * Register a rule in `sheet.rules` and `sheet.classes` maps.
+   *
+   * @param {Rule} rule
+   * @api public
+   */
+  registerRule(rule) {
+    if (rule.name) {
+      if (!rule.options.parent) this.rules[rule.name] = rule
+      this.classes[rule.name] = rule.selector
+    }
+    if (rule.selector && !rule.options.parent) {
+      this.rules[rule.selector] = rule
+    }
+    return this
+  }
+
+  /**
+   * Unregister a rule.
+   *
+   * @param {Rule} rule
+   * @api public
+   */
+  unregisterRule(rule) {
+    delete this.rules[rule.name]
+    delete this.rules[rule.selector]
+    delete this.classes[rule.name]
+    return this
   }
 
   /**

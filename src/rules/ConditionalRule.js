@@ -10,7 +10,7 @@ export default class ConditionalRule {
     this.id = uid.get()
     this.type = 'conditional'
     this.selector = selector
-    this.options = {...options, parent: this}
+    this.options = options
     this.rules = Object.create(null)
     for (const name in styles) {
       this.createRule(name, styles[name])
@@ -25,7 +25,7 @@ export default class ConditionalRule {
    * @api public
    */
   createRule(name, style, options) {
-    let newOptions = this.options
+    let newOptions = {...this.options, parent: this}
     const {sheet, jss} = newOptions
     // We have already a rule in the current style sheet with this name,
     // This new rule is supposed to overwrite the first one, for this we need

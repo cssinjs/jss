@@ -1,3 +1,7 @@
+## 3.6.1 / 2016-11-4
+
+- Update StyleSheet#rules when modifying selector
+
 ## 3.6.0 / 2016-08-4
 
 - implement selector setter, now Rule#selector can be set, due to the fact not every browser implements selectorText setter, the entire sheet will be rerendered in such browsers. Should be used with caution.

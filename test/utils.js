@@ -20,6 +20,23 @@ export function getRules(el) {
   return sheet.rules || sheet.cssRules
 }
 
+export function computeStyle(className) {
+  const el = document.createElement('div')
+  el.className = className
+  document.body.appendChild(el)
+  const style = window.getComputedStyle ? getComputedStyle(el) : el.currentStyle
+
+  // This will work also for CSS2Properties from Firefox.
+  const styleCopy = {}
+  for (const key in style) styleCopy[key] = style[key]
+
+  setTimeout(() => {
+    document.body.removeChild(el)
+  })
+
+  return styleCopy
+}
+
 export const setup = {
   teardown: () => {
     jss.plugins.registry = []
@@ -27,3 +44,4 @@ export const setup = {
     jss.uid.reset()
   }
 }
+

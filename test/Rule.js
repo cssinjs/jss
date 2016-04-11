@@ -1,7 +1,7 @@
 import jss from '../src'
-import * as utils from './utils'
+import {setup, computeStyle} from './utils'
 
-QUnit.module('Rule', utils.setup)
+QUnit.module('Rule', setup)
 
 test('create empty instance', () => {
   let rule = jss.createRule()
@@ -224,11 +224,12 @@ test('run plugins on inner rules of a keyframe rule', () => {
 
 test('Rule#selector', () => {
   const sheet = jss.createStyleSheet(
-    {a: {float: 'left'}},
+    {a: {width: '1px'}},
     {link: true}
   ).attach()
   const rule = sheet.getRule('a')
-  rule.selector = 'a'
-  equal(rule.selector, 'a', 'setter and getter work')
+  rule.selector = '.test'
+  equal(rule.selector, '.test', 'setter and getter work')
+  equal(computeStyle('test').width, '1px', 'selector applied correctly')
   sheet.detach()
 })
