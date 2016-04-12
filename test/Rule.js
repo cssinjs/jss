@@ -227,7 +227,7 @@ test('Rule#selector', () => {
     {a: {width: '1px'}},
     {link: true}
   ).attach()
-  let rule = sheet.getRule('a')
+  const rule = sheet.getRule('a')
   rule.selector = '.test'
   equal(rule.selector, '.test', 'setter and getter work')
   equal(computeStyle('test').width, '1px', 'selector applied correctly')
