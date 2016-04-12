@@ -1,3 +1,7 @@
+## 3.6.2 / 2016-12-4
+
+- register rule when changed worked by setting selector
+
 ## 3.6.1 / 2016-11-4
 
 - Update StyleSheet#rules when modifying selector
