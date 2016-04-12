@@ -35,7 +35,7 @@ test('create instance with all params', () => {
   const options = {named: false}
   const rule = jss.createRule('a', {float: 'left'}, options)
   deepEqual(rule.style, {float: 'left'})
-  equal(rule.className, undefined)
+  equal(rule.className, '')
   equal(rule.selector, 'a')
   ok(!rule.options.named)
   strictEqual(rule.options.jss, jss)
@@ -227,9 +227,10 @@ test('Rule#selector', () => {
     {a: {width: '1px'}},
     {link: true}
   ).attach()
-  const rule = sheet.getRule('a')
+  let rule = sheet.getRule('a')
   rule.selector = '.test'
   equal(rule.selector, '.test', 'setter and getter work')
   equal(computeStyle('test').width, '1px', 'selector applied correctly')
+  equal(sheet.classes.a, 'test', 'classes map has been updated')
   sheet.detach()
 })

@@ -178,7 +178,7 @@ export default class StyleSheet {
   registerRule(rule) {
     if (rule.name) {
       if (!rule.options.parent) this.rules[rule.name] = rule
-      this.classes[rule.name] = rule.selector
+      if (rule.className) this.classes[rule.name] = rule.className
     }
     if (rule.selector && !rule.options.parent) {
       this.rules[rule.selector] = rule

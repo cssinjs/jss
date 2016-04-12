@@ -1,5 +1,8 @@
 import {clone, uid, toCSS} from '../utils'
 
+const dotsRegExp = /[.]/g
+const classesRegExp = /[.][^ ,]+/g
+
 /**
  * Regular rules.
  *
@@ -10,11 +13,12 @@ export default class Rule {
     this.id = uid.get()
     this.type = 'regular'
     this.options = options
-    this.selector = selector
+    this.selector = selector || ''
+    this.className = ''
     if (options.named) {
       this.name = selector
-      this.className = options.className || (this.name ? `${this.name}--${this.id}` : this.id)
-      this.selector = `.${this.className}`
+      const className = options.className || (this.name ? `${this.name}--${this.id}` : this.id)
+      this.selector = `.${className}`
     }
     this.originalStyle = style
     // We expect style to be plain object.
@@ -29,13 +33,17 @@ export default class Rule {
    * @param {String} selector
    * @api public
    */
-  set selector(selector) {
+  set selector(selector = '') {
     const {Renderer, sheet} = this.options
 
     // After we modify selector, ref by old selector needs to be removed.
     if (sheet) sheet.unregisterRule(this)
 
     this._selector = selector
+    const classes = selector.match(classesRegExp)
+    if (classes) {
+      this.className = classes.join(' ').replace(dotsRegExp, '')
+    }
 
     if (!this.renderable) {
       // Register the rule with new selector.

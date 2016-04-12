@@ -1,3 +1,7 @@
+## 3.6.3 / 2016-12-4
+
+- fix rule registration in style sheet, previous commits resulted in a selector instead of class nem within sheet.classes map.
+
 ## 3.6.2 / 2016-12-4
 
 - register rule when changed worked by setting selector

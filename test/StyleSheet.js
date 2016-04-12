@@ -23,7 +23,7 @@ test('attach with attribtues', () => {
 test('create instance with rules and generated classes', () => {
   const sheet = jss.createStyleSheet({a: {float: 'left'}})
   ok(sheet.rules.a)
-  equal(typeof sheet.classes.a, 'string')
+  equal(sheet.classes.a, sheet.rules.a.className)
   ok(sheet.options.named)
 })
 
