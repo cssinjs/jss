@@ -44,16 +44,20 @@ export default class Rule {
     }
 
     const changed = Renderer.setSelector(this.renderable, selector)
-    if (!changed) {
-      // If selector setter is not implemented, rerender the sheet.
-      // We need to delete renderable from the rule, because when sheet.deploy()
-      // calls rule.toString, it will get the old selector.
-      delete this.renderable
-      sheet
-        .registerRule(this)
-        .deploy()
-        .link()
+
+    if (changed) {
+      sheet.registerRule(this)
+      return
     }
+
+    // If selector setter is not implemented, rerender the sheet.
+    // We need to delete renderable from the rule, because when sheet.deploy()
+    // calls rule.toString, it will get the old selector.
+    delete this.renderable
+    sheet
+      .registerRule(this)
+      .deploy()
+      .link()
   }
 
   /**
