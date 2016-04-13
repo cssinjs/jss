@@ -12,7 +12,7 @@
 1. [Get a rule.](#get-a-rule)
 1. [Add multiple rules.](#add-multiple-rules)
 1. [Create a rule without a style sheet.](#create-a-rule-without-a-style-sheet)
-1. [Apply a rule to an element inline.](#apply-a-rule-to-an-element-inline)
+1. [Inline Style](#apply-a-rule-to-an-element-inline)
 1. [Set or get a rule property dynamically.](#set-or-get-a-rule-property-dynamically)
 1. [Convert rule to a JSON.](#convert-rule-to-a-json)
 1. [Convert to CSS](#convert-to-css)
@@ -196,7 +196,7 @@ let rule = jss.createRule({
 
 `rule.applyTo(element)`
 
-This is equivalent to `element.style.background = 'blue'` except of that you could use a rule from sheet which is already defined and can apply s to it. [Example.](http://jsstyles.github.io/examples/apply-to/index.html)
+This is equivalent to `element.style.background = 'blue'` except of that you could use a rule from sheet which is already defined and can apply s to it. [Example.](http://jsstyles.github.io/examples/inline/index.html)
 
 ```javascript
 jss.createRule({
