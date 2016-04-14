@@ -129,6 +129,52 @@ test('@font-face', () => {
   equal(rule.toString(), '@font-face {\n  font-family: MyHelvetica;\n  src: local("Helvetica");\n}')
 })
 
+test('@font-face with an array of styles', () => {
+  let rule = jss.createRule('@font-face', [
+    {
+      'font-family': 'MyHelvetica',
+      src: 'local("Helvetica")'
+    },
+    {
+      'font-family': 'MyComicSans',
+      src: 'local("ComicSans")'
+    },
+  ])
+  equal(rule.type, 'font-face')
+  equal(rule.selector, '@font-face')
+  equal(rule.toString(),
+        '@font-face {\n' +
+        '  font-family: MyHelvetica;\n' +
+        '  src: local("Helvetica");\n' +
+        '}\n' +
+        '@font-face {\n' +
+        '  font-family: MyComicSans;\n' +
+        '  src: local("ComicSans");\n' +
+        '}\n')
+
+  rule = jss.createRule('@font-face', [
+    {
+      'font-family': 'MyHelvetica',
+      src: 'local("Helvetica")'
+    },
+    {
+      'font-family': 'MyComicSans',
+      src: 'local("ComicSans")'
+    },
+  ], {named: true})
+  equal(rule.type, 'font-face')
+  equal(rule.selector, '@font-face')
+  equal(rule.toString(),
+        '@font-face {\n' +
+        '  font-family: MyHelvetica;\n' +
+        '  src: local("Helvetica");\n' +
+        '}\n' +
+        '@font-face {\n' +
+        '  font-family: MyComicSans;\n' +
+        '  src: local("ComicSans");\n' +
+        '}\n')
+})
+
 test('@supports', () => {
   const rule = jss.createRule('@supports ( display: flexbox )', {
     button: {

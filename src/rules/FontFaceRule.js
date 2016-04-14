@@ -21,6 +21,15 @@ export default class Rule {
    * @api public
    */
   toString(options) {
+    let str = ''
+    if (Array.isArray(this.style)) {
+      for (let index = 0; index < this.style.length; index++) {
+        str += toCSS({...this, style: this.style[index]}, options)
+        str += '\n'
+      }
+      return str
+    }
+
     return toCSS(this, options)
   }
 }
