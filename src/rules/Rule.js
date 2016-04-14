@@ -152,6 +152,6 @@ export default class Rule {
    * @api public
    */
   toString(options) {
-    return toCSS(this, options)
+    return toCSS(this.selector, this.style, options)
   }
 }

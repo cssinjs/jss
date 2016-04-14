@@ -24,12 +24,12 @@ export default class Rule {
     let str = ''
     if (Array.isArray(this.style)) {
       for (let index = 0; index < this.style.length; index++) {
-        str += toCSS({...this, style: this.style[index]}, options)
+        str += toCSS(this.selector, this.style[index], options)
         str += '\n'
       }
       return str
     }
 
-    return toCSS(this, options)
+    return toCSS(this.selector, this.style, options)
   }
 }
