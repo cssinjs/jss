@@ -1,7 +1,7 @@
 import {uid, toCSS} from '../utils'
 
 /**
- * Regular rules and font-face.
+ * Font-face rules.
  *
  * @api public
  */

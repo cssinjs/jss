@@ -35,13 +35,9 @@ export default function createRule(selector, style = {}, options = {}) {
   if (selector && selector[0] === '@') {
     const name = atRuleNameRegExp.exec(selector)[0]
     const AtRule = atRuleClassMap[name]
-    // We use regular rule class to handle font rule,
-    // font-face rule should not be named.
-    if (name === '@font-face' && options.named) {
-      options = {...options, named: false}
-    }
     return new AtRule(selector, style, options)
   }
+
   if (options.named == null) options.named = true
   return new Rule(selector, style, options)
 }
