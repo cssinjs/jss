@@ -98,6 +98,25 @@ export function toCSS(rule, options = {}) {
   return str
 }
 
+const dotsRegExp = /[.]/g
+const classesRegExp = /[.][^ ,]+/g
+
+/**
+ * Get class names from a selector.
+ *
+ * @param {String} selector
+ * @return {String}
+ */
+export function findClassNames(selector) {
+  const classes = selector.match(classesRegExp)
+
+  if (!classes) return ''
+
+  return classes
+    .join(' ')
+    .replace(dotsRegExp, '')
+}
+
 /**
  * Indent a string.
  *

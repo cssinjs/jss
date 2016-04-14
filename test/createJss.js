@@ -1,15 +1,15 @@
-import jss, {create, Jss, StyleSheet, Rule} from '../src'
+import jss, {create, StyleSheet} from '../src'
 import * as utils from './utils'
 
-QUnit.module('Jss', utils.setup)
+QUnit.module('createJss', utils.setup)
 
 test('exports', () => {
-  ok(jss instanceof Jss, 'default export is a Jss instance')
+  ok(jss.isJss, 'default export is a Jss instance')
   equal(typeof create, 'function', 'create function is exported')
 })
 
 test('.create()', () => {
-  ok(jss.create() instanceof Jss, 'returns a Jss instance')
+  ok(jss.create().isJss, 'returns a Jss instance')
 })
 
 test('.createStyleSheet()', () => {
@@ -33,7 +33,7 @@ test('.createRule()', () => {
     passedRule = rule
   })
   const rule = jss.createRule()
-  ok(rule instanceof Rule, 'returns a Rule instance')
+  ok(rule.isRule, 'returns a Rule instance')
   strictEqual(rule, passedRule, 'called plugins and passed the rule')
 })
 

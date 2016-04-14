@@ -3,5 +3,8 @@
   "parser": "babel-eslint",
   "env": {
     "qunit": true
+  },
+  "rules": {
+    "no-shadow": 0
   }
 }

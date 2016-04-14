@@ -122,7 +122,7 @@ export default class StyleSheet {
   toString(options) {
     const {rules} = this
     const stringified = Object.create(null)
-    let str = ''
+    let css = ''
     for (const name in rules) {
       const rule = rules[name]
       // We have the same rule referenced twice if using named rules.
@@ -135,16 +135,12 @@ export default class StyleSheet {
         continue
       }
 
-      if (rule.rules && isEmptyObject(rule.rules)) {
-        continue
-      }
-
-      if (str) str += '\n'
-
-      str += rule.toString(options)
+      const ruleStr = rule.toString(options)
+      if (css && ruleStr) css += '\n'
+      css += ruleStr
       stringified[rule.id] = true
     }
-    return str
+    return css
   }
 
   /**

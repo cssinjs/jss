@@ -6,20 +6,17 @@
  * @license MIT
  */
 
-import Jss from './Jss'
+import createJss from './createJss'
 import StyleSheet from './StyleSheet'
-import Rule from './rules/Rule'
 
-const jss = new Jss()
+const jss = createJss()
 
 // Hotfix for babel 5 migration, will be removed in version 4.0.0
 module.exports = exports = jss
 
 // For testing only.
 export {
-  Jss,
-  StyleSheet,
-  Rule
+  StyleSheet
 }
 
 export default jss
