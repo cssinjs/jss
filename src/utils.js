@@ -69,21 +69,22 @@ export const uid = (() => {
  * - `selector` use `false` to get a rule without selector
  * - `indentationLevel` level of indentation
  *
- * @param {Rule|FontFaceRule} rule
+ * @param {String} selector
+ * @param {Object} style
  * @param {Object} options
  * @return {String}
  */
-export function toCSS(rule, options = {}) {
+export function toCSS(selector, style, options = {}) {
   let indentationLevel = options.indentationLevel || 0
   let str = ''
 
   if (options.selector !== false) {
-    str += indent(indentationLevel, `${rule.selector} {`)
+    str += indent(indentationLevel, `${selector} {`)
     indentationLevel++
   }
 
-  for (const prop in rule.style) {
-    const value = rule.style[prop]
+  for (const prop in style) {
+    const value = style[prop]
     // We want to generate multiple style with identical property names.
     if (Array.isArray(value)) {
       for (let index = 0; index < value.length; index++) {
