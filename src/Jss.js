@@ -15,6 +15,11 @@ export default class Jss {
     this.sheets = new SheetsRegistry()
     this.plugins = new PluginsRegistry()
     this.uid = uid
+    if (__VERSION__) {
+      this.version = __VERSION__
+    } else {
+      this.version = require('../package.json').version
+    }
   }
 
   /**
