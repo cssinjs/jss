@@ -7,9 +7,7 @@ var plugins = [
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     __DEV__: process.env.NODE_ENV === 'development',
     __TEST__: process.env.NODE_ENV === 'test',
-    '__JSS_VERISON__': (function () {
-      return JSON.stringify(require('./package.json').version)
-    }())
+    '__VERSION__': JSON.stringify(require('./package.json').version)
   })
 ]
 

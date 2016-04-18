@@ -6,6 +6,9 @@
  * @license MIT
  */
 
+// Optimize for webpack UglifyJsPlugin
+global.__VERSION__ = global.__VERSION__ || false
+
 import Jss from './Jss'
 import StyleSheet from './StyleSheet'
 import Rule from './rules/Rule'
