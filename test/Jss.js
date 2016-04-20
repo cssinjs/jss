@@ -57,3 +57,8 @@ test('.use()', () => {
   strictEqual(executed1, rule, 'executed first plugin')
   strictEqual(executed2, rule, 'executed second plugin')
 })
+
+test('.version', () => {
+  const pkg = require('../package.json')
+  equal(jss.version, pkg.version, 'returns JSS version')
+})
