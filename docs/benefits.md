@@ -72,7 +72,7 @@ JSS allows you to compose rules from multiple sources. You can reuse existing ru
   - Keyframes animation
   - Font face
   - Pseudo selectors
-  - Fallbacks: you can define the same property [multiple times](./json-api.md#multiple-declarations-with-identical-property-names), like you know it from CSS.
+  - Fallbacks: you can define the same property [multiple times](./json-api.md#fallbacks), like you know it from CSS.
   - Automatic vendor prefixing
 
 1. Performance.
