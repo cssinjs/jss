@@ -2,41 +2,44 @@
 
 JSS is designed to stay as close as possible to the CSS syntax, however there are some exceptions.
 
-### Multiple declarations with identical property names.
+### Regular Rule, without plugins
 
-I recommend to not to use this if you use JSS on the client. Instead you should write a function, which makes a [vendor test](https://github.com/jsstyles/css-vendor) for this feature support and generates just one final declaration.
-
-In case you are are precompiling JSS on the server, you might want to have more than one property with identical name, but different values:
-
+#### JS
 ```javascript
 export default {
-  container: {
-    background: [
-      'red',
-      '-moz-linear-gradient(left, red 0%, green 100%)',
-      '-webkit-linear-gradient(left, red 0%, green 100%)',
-      '-o-linear-gradient(left, red 0%, green 100%)',
-      '-ms-linear-gradient(left, red 0%, green 100%)',
-      'linear-gradient(to right, red 0%, green 100%)'
-    ]
+  button: {
+    color: 'red',
+    'font-size': '12px'
   }
 }
 ```
 
+#### CSS
 ```css
-.container--jss-0-0 {
-  background: red;
-  background: -moz-linear-gradient(left, red 0%, green 100%);
-  background: -webkit-linear-gradient(left, red 0%, green 100%);
-  background: -o-linear-gradient(left, red 0%, green 100%);
-  background: -ms-linear-gradient(left, red 0%, green 100%);
-  background: linear-gradient(to right, red 0%, green 100%);
+.button-jss-0 {
+  color: red;
+  font-size: 12px;
 }
 ```
 
-### Using constants in prop names
+### Media Queries
 
-Thanks to ES6 we can do it.
+#### JS
+
+```javascript
+export default {
+  button: {
+    width: 100
+  },
+  '@media (min-width: 1024px)': {
+    button: {
+      width: 200
+    }
+  }
+}
+```
+
+#### ES6 with constants in prop names.
 
 ```javascript
 const minWidth = 1024
@@ -53,6 +56,8 @@ export default {
 }
 ```
 
+#### CSS
+
 ```css
 .button-jss-0 {
   width: 100px;
@@ -64,6 +69,95 @@ export default {
 }
 ```
 
+### Keyframes Animation
+
+#### JS
+
+```javascript
+export default {
+  '@keyframes my-animation': {
+    from: {opacity: 0},
+    to: {opacity: 1}
+  }
+}
+```
+
+#### ES6 with constants in prop names.
+
+Note, currently JSS doesn't fixes the keyframes identifier, which is global for the document in CSS, we can use a generated id though.
+
+```javascript
+const identifier = Math.random()
+export default {
+  [`@keyframes ${identifier}`]: {
+    from: {opacity: 0},
+    to {opacity: 1}
+  }
+}
+```
+
+#### CSS
+
+```css
+@keyframes my-animation {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+```
+
+### Font Face
+
+```javascript
+export default {
+  '@font-face': {
+    fontFamily: 'MyWebFont',
+    src: [
+      'url(webfont.eot)',
+      'url(webfont.eot?#iefix) format(embedded-opentype)',
+      'url(webfont.woff2) format(woff2)'
+    ]
+  }
+}
+```
+
+#### CSS
+
+```css
+@font-face {
+  font-family: 'MyWebFont';
+  src: url('webfont.eot'); 
+  src: url('webfont.eot?#iefix') format('embedded-opentype');
+  src: url('webfont.woff2') format('woff2');
+}       
+```
+
+### Fallbacks
+
+JavaScript Objects can't have identical property names, but we can use arrays. This is even more concise.
+
+```javascript
+export default {
+  container: {
+    background: [
+      'red',
+      '-moz-linear-gradient(left, red 0%, green 100%)',
+      '-webkit-linear-gradient(left, red 0%, green 100%)',
+      '-o-linear-gradient(left, red 0%, green 100%)',
+      '-ms-linear-gradient(left, red 0%, green 100%)',
+      'linear-gradient(to right, red 0%, green 100%)'
+    ]
+  }
+}
+```
+
+#### CSS
+
+```css
+.container--jss-0-0 {
+  background: red;
+  background: linear-gradient(to right, red 0%, green 100%);
+}
+```
 ### Writing global selectors
 
 When using option "named" `jss.createStyleSheet(styles, {named: false})` you can use keys as selectors instead of names. Be carefull, now you will be writing a regular style sheet with all the drawbacks of a single namespace.
@@ -76,11 +170,18 @@ export default {
 }
 ```
 
+#### CSS
+
 ```css
 div {
   box-sizing: border-box;
 }
 ```
 
+### Pseudo and Nested Selectors.
 
+Are supported through the [jss-nested](https://github.com/jsstyles/jss-nested) plugin.
 
+### Plugins
+
+JSS plugins give you even more features, [read about them](./plugins.md).
