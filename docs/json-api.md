@@ -125,7 +125,7 @@ export default {
 ```css
 @font-face {
   font-family: 'MyWebFont';
-  src: url('webfont.eot'); 
+  src: url('webfont.eot');
   src: url('webfont.eot?#iefix') format('embedded-opentype');
   src: url('webfont.woff2') format('woff2');
 }       
@@ -156,7 +156,7 @@ export default {
 ```
 ### Writing global selectors
 
-When using option "named" `jss.createStyleSheet(styles, {named: false})` you can use keys as selectors instead of names. Be carefull, now you will be writing a regular Style Sheet with global selectors.
+When using option "named" `jss.createStyleSheet(styles, {named: false})` you can use keys as selectors instead of names. Be careful, now you will be writing a regular Style Sheet with global selectors.
 
 ```javascript
 export default {

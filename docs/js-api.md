@@ -110,7 +110,7 @@ let sheet = jss.createStyleSheet({
 ```javascript
 jss.sheets.registry // an array with all style sheets
 
-jss.sheets.toString() // Returns CSS of all style sheets together. Usefull for server-side rendering.
+jss.sheets.toString() // Returns CSS of all style sheets together. Useful for server-side rendering.
 ```
 
 ### Attach style sheet.
@@ -123,7 +123,7 @@ Insert style sheet into the render tree. You need to call it in order to make yo
 
 `sheet.detach()`
 
-Detaching unsused style sheets will speedup every DOM node insertion and manipulation as the browser will have to do less lookups for css rules potentially to be applied to the element.
+Detaching unused style sheets will speedup every DOM node insertion and manipulation as the browser will have to do less lookups for css rules potentially to be applied to the element.
 
 ### Add a rule to an existing style sheet.
 
