@@ -140,10 +140,6 @@ export default {
   container: {
     background: [
       'red',
-      '-moz-linear-gradient(left, red 0%, green 100%)',
-      '-webkit-linear-gradient(left, red 0%, green 100%)',
-      '-o-linear-gradient(left, red 0%, green 100%)',
-      '-ms-linear-gradient(left, red 0%, green 100%)',
       'linear-gradient(to right, red 0%, green 100%)'
     ]
   }
@@ -160,7 +156,7 @@ export default {
 ```
 ### Writing global selectors
 
-When using option "named" `jss.createStyleSheet(styles, {named: false})` you can use keys as selectors instead of names. Be carefull, now you will be writing a regular style sheet with all the drawbacks of a single namespace.
+When using option "named" `jss.createStyleSheet(styles, {named: false})` you can use keys as selectors instead of names. Be carefull, now you will be writing a regular Style Sheet with global selectors.
 
 ```javascript
 export default {
