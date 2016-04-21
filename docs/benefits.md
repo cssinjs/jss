@@ -8,23 +8,23 @@
 
 1. True rules isolation.
 
-  Scoped selectors are not enough. CSS has properties which are inherited automatically from the parent element, if not explicitely defined. Thanks to [jss-isolate](https://github.com/jsstyles/jss-isolate) plugin, JSS rules will not inherit properties.
+  Scoped selectors are not enough. CSS has properties which are inherited automatically from the parent element, if not explicitly defined. Thanks to [jss-isolate](https://github.com/jsstyles/jss-isolate) plugin, JSS rules will not inherit properties.
 
 1. Avoids specificity conflicts.
 1. Source order independence.
 1. Slow selectors.
 
-  Because JSS rules are collision free, there is no need to write deeply netsted selectors. This leads to stable [performance](./performance.md) at scale.
+  Because JSS rules are collision free, there is no need to write deeply nested selectors. This leads to stable [performance](./performance.md) at scale.
 
 1. Code reuse, expressiveness.
 
   CSS is limited to applying multiple selectors to the same node in its code reuse capabilities.
-JSS allows you to compose rules from multiple sources. You can reuse existing rules, you can use functions to generate rules and to calculate values. This way we can avoid repeatitions in a very explicit way.
+JSS allows you to compose rules from multiple sources. You can reuse existing rules, you can use functions to generate rules and to calculate values. This way we can avoid repetitions in a very explicit way.
 
 1. Refactoring.
 
   Thanks to javascript modules and explicit code reuse, we can quickly locate dependencies during refactoring.
-  
+
 1. Dead code elimination.
 
   If you put your styles into a component where they are used and use closure compiler.
@@ -48,8 +48,8 @@ JSS allows you to compose rules from multiple sources. You can reuse existing ru
 ### Compared to server-side preprocessing languages (stylus/less/sass/css-modules and co.)
 
 1. Aforementioned benefits.
-1. There is no build step, as a result - no dependency to build tools at all. 
-1. Just one language, standartized by w3c.
+1. There is no build step, as a result - no dependency to build tools at all.
+1. Just one language, standardized by w3c.
 
   There is no need to learn new preprocessing languages. They all come with a burden of a new syntax for variables, functions, mixins, extends and others. At the same time there is nothing they can do JavaScript can't.
 
