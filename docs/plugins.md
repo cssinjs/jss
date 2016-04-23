@@ -12,6 +12,7 @@ A number of [plugins](https://github.com/jsstyles?query=jss-) do exist already. 
   1. jss-default-unit
   1. jss-vendor-prefixer
   1. jss-props-sort
+  1. jss-isolate 
 
 #### Authoring plugins.
 
