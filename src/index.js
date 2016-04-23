@@ -5,7 +5,6 @@
  * @website https://github.com/jsstyles/jss
  * @license MIT
  */
-
 import Jss from './Jss'
 import StyleSheet from './StyleSheet'
 import Rule from './rules/Rule'
