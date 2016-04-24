@@ -31,7 +31,12 @@ module.exports = function (config) {
     }
   })
 
-  if (process.env.USE_CLOUD) {
+  var nodeVersion = parseInt(process.version.substr(1), 10)
+  var nodeVersionBrowserStack = parseInt(process.env.NODE_VERSION_BROWSERSTACK, 10)
+
+  // We support multiple node versions in travis.
+  // To reduce load on browserstack, we only run tests in one node version.
+  if (process.env.USE_CLOUD && nodeVersion === nodeVersionBrowserStack) {
     config.browsers = Object.keys(browsers)
     config.browserDisconnectTimeout = 10000
     config.browserDisconnectTolerance = 3
