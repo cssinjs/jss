@@ -86,7 +86,20 @@ test('@keyframes', () => {
   })
   equal(rule.type, 'keyframe')
   equal(rule.selector, '@keyframes id')
-  equal(rule.toString(), '@keyframes id {\n  from {\n    top: 0;\n  }\n  30% {\n    top: 30;\n  }\n  60%, 70% {\n    top: 80;\n  }\n}')
+  const css = [
+    '@keyframes id {',
+    '  from {',
+    '    top: 0;',
+    '  }',
+    '  30% {',
+    '    top: 30;',
+    '  }',
+    '  60%, 70% {',
+    '    top: 80;',
+    '  }',
+    '}'
+  ].join('\n')
+  equal(rule.toString(), css)
 })
 
 test('@media', () => {
@@ -183,7 +196,14 @@ test('@supports', () => {
   })
   equal(rule.type, 'conditional')
   equal(rule.selector, '@supports ( display: flexbox )')
-  equal(rule.toString(), '@supports ( display: flexbox ) {\n  .button--jss-0-1 {\n    display: none;\n  }\n}')
+  const css = [
+    '@supports ( display: flexbox ) {',
+    '  .button--jss-0-1 {',
+    '    display: none;',
+    '  }',
+    '}'
+  ].join('\n')
+  equal(rule.toString(), css)
 })
 
 test('applyTo', () => {

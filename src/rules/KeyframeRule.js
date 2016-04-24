@@ -40,7 +40,7 @@ export default class KeyframeRule {
     for (const name in this.frames) {
       str += `${this.frames[name].toString(options)}\n`
     }
-    str += `}`
+    str += '}'
     return str
   }
 }

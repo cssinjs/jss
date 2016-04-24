@@ -88,13 +88,13 @@ export function toCSS(selector, style, options = {}) {
     // We want to generate multiple style with identical property names.
     if (Array.isArray(value)) {
       for (let index = 0; index < value.length; index++) {
-        str += '\n' + indent(indentationLevel, `${prop}: ${value[index]};`)
+        str += `\n${indent(indentationLevel, `${prop}: ${value[index]};`)}`
       }
     }
-    else str += '\n' + indent(indentationLevel, `${prop}: ${value};`)
+    else str += `\n${indent(indentationLevel, `${prop}: ${value};`)}`
   }
 
-  if (options.selector !== false) str += '\n' + indent(--indentationLevel, '}')
+  if (options.selector !== false) str += `\n${indent(--indentationLevel, '}')}`
 
   return str
 }

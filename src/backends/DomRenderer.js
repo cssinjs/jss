@@ -11,7 +11,9 @@ export default class DomRenderer {
     }
     catch (err) {
       // IE8 may throw if property is unknown.
+      return false
     }
+    return true
   }
 
   static setSelector(cssRule, selector) {

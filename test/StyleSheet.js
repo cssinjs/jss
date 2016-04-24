@@ -73,7 +73,8 @@ test('addRule/getRule on attached sheet', () => {
   equal(rules.length, 1)
   const expected = 'a{float:left}'
   // IE8 returns css from innerHTML even when inserted using addRule.
-  const cssText = sheet.renderer.element.innerHTML.trim() || sheet.renderer.element.sheet.cssRules[0].cssText
+  const cssText = sheet.renderer.element.innerHTML.trim() ||
+    sheet.renderer.element.sheet.cssRules[0].cssText
   equal(utils.normalizeCssText(cssText), expected)
   strictEqual(sheet.rules.a, rule)
   strictEqual(sheet.getRule('a'), rule)
@@ -106,9 +107,19 @@ test('toString unnamed with media query', () => {
   }, {named: false})
   sheet.attach()
   deepEqual(sheet.classes, {})
-  equal(sheet.toString(), 'a {\n  color: red;\n}\n@media (min-width: 1024px) {\n  a {\n    color: blue;\n  }\n}')
+  const css = [
+    'a {',
+    '  color: red;',
+    '}',
+    '@media (min-width: 1024px) {',
+    '  a {',
+    '    color: blue;',
+    '  }',
+    '}'
+  ].join('\n')
+  equal(sheet.toString(), css)
   if (utils.mediaQueriesSupported) {
-    equal(sheet.renderer.element.innerHTML, '\na {\n  color: red;\n}\n@media (min-width: 1024px) {\n  a {\n    color: blue;\n  }\n}\n')
+    equal(sheet.renderer.element.innerHTML, `\n${css}\n`)
   }
   sheet.detach()
 })
@@ -122,7 +133,20 @@ test('toString named with media query', () => {
     }
   })
   sheet.attach()
-  equal(sheet.toString(), '.a--jss-0-0 {\n  color: red;\n}\n@media (min-width: 1024px) {\n  .a--jss-0-0 {\n    color: blue;\n  }\n  .b--jss-0-3 {\n    color: white;\n  }\n}')
+  const css = [
+    '.a--jss-0-0 {',
+    '  color: red;',
+    '}',
+    '@media (min-width: 1024px) {',
+    '  .a--jss-0-0 {',
+    '    color: blue;',
+    '  }',
+    '  .b--jss-0-3 {',
+    '    color: white;',
+    '  }',
+    '}'
+  ].join('\n')
+  equal(sheet.toString(), css)
   sheet.detach()
 })
 

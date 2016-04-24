@@ -25,7 +25,15 @@ test('.sheets', () => {
 
   ok(jss.sheets.registry.indexOf(sheet1) >= 0, 'adds sheet1 to sheets registry')
   ok(jss.sheets.registry.indexOf(sheet2) >= 0, 'adds sheet2 to sheets registry')
-  equal(jss.sheets.toString(), '.a--jss-0-0 {\n  color: red;\n}\n.a--jss-0-1 {\n  color: blue;\n}', 'returns CSS of all sheets')
+  const css = [
+    '.a--jss-0-0 {',
+    '  color: red;',
+    '}',
+    '.a--jss-0-1 {',
+    '  color: blue;',
+    '}'
+  ].join('\n')
+  equal(jss.sheets.toString(), css, 'returns CSS of all sheets')
 })
 
 test('.createRule()', () => {

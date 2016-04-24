@@ -1,3 +1,7 @@
+## 3.9.0 / 2016-04-24
+
+- update linter eslint-config-jss@1.0.0
+
 ## 3.8.0 / 2016-04-24
 
 - added jss.version to the build (Daijiro Wachi)

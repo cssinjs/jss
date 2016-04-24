@@ -39,7 +39,7 @@ export default class Rule {
     // After we modify selector, ref by old selector needs to be removed.
     if (sheet) sheet.unregisterRule(this)
 
-    this._selector = selector
+    this.selectorText = selector
     const classes = selector.match(classesRegExp)
     if (classes) {
       this.className = classes.join(' ').replace(dotsRegExp, '')
@@ -79,7 +79,7 @@ export default class Rule {
       return this.options.Renderer.getSelector(this.renderable)
     }
 
-    return this._selector
+    return this.selectorText
   }
 
   /**

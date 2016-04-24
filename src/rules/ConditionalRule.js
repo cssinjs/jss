@@ -56,7 +56,7 @@ export default class ConditionalRule {
       const ruleStr = rule.toString({indentationLevel: 1})
       str += `${ruleStr}\n`
     }
-    str += `}`
+    str += '}'
     return str
   }
 }

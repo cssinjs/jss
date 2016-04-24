@@ -13,7 +13,9 @@ export function normalizeCssText(css) {
   return css.toLowerCase().replace(/\s|;/g, '')
 }
 
-export const mediaQueriesSupported = window.matchMedia && matchMedia('only all') !== null && matchMedia('only all').matches
+export const mediaQueriesSupported = window.matchMedia &&
+  matchMedia('only all') !== null &&
+  matchMedia('only all').matches
 
 export function getRules(el) {
   const sheet = el.sheet || el.styleSheet
