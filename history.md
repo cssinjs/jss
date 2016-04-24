@@ -1,25 +1,31 @@
-## 3.6.3 / 2016-12-4
+## 3.7.0 / 2016-04-21
+
+- docs
+- font-face rule can now handle array of font-faces (Ken Carpenter)
+
+
+## 3.6.3 / 2016-03-12
 
 - fix rule registration in style sheet, previous commits resulted in a selector instead of class nem within sheet.classes map.
 
-## 3.6.2 / 2016-12-4
+## 3.6.2 / 2016-04-12
 
 - register rule when changed worked by setting selector
 
-## 3.6.1 / 2016-11-4
+## 3.6.1 / 2016-03-11
 
 - Update StyleSheet#rules when modifying selector
 
-## 3.6.0 / 2016-08-4
+## 3.6.0 / 2016-04-08
 
 - implement selector setter, now Rule#selector can be set, due to the fact not every browser implements selectorText setter, the entire sheet will be rerendered in such browsers. Should be used with caution.
 
-## 3.5.0 / 2016-04-4
+## 3.5.0 / 2016-04-04
 
 - fixed breaking change, which made exports of 3.4.0 incompatible with 3.3.0
 - fix font-face rule type
 
-## 3.4.0 / 2016-04-3
+## 3.4.0 / 2016-04-03
 
 - added style sheets registry accesible via jss.sheets
 - updated babel to version 6
