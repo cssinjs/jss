@@ -2,8 +2,6 @@ language: node_js
 node_js:
   - "4"
   - "5"
-script:
-  - npm i
 branches:
   only:
     - master
