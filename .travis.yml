@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "4"
+  - "5"
+script:
+  - npm run i
+branches:
+  only:
+    - master
