@@ -31,17 +31,21 @@ module.exports = function (config) {
     }
   })
 
-  var nodeVersion = parseInt(process.version.substr(1), 10)
-  var nodeVersionBrowserStack = parseInt(process.env.NODE_VERSION_BROWSERSTACK, 10)
+  if (process.env.USE_CLOUD) {
+    // We support multiple node versions in travis.
+    // To reduce load on browserstack, we only run tests in one node version.
+    var nodeVersion = parseInt(process.version.substr(1), 10)
+    var nodeVersionBrowserStack = parseInt(process.env.NODE_VERSION_BROWSERSTACK, 10)
+    if (nodeVersion === nodeVersionBrowserStack) {
+      config.browsers = Object.keys(browsers)
+    } else {
+      config.browsers = ['PhantomJS']
+    }
 
-  // We support multiple node versions in travis.
-  // To reduce load on browserstack, we only run tests in one node version.
-  if (process.env.USE_CLOUD && nodeVersion === nodeVersionBrowserStack) {
-    config.browsers = Object.keys(browsers)
     config.browserDisconnectTimeout = 10000
     config.browserDisconnectTolerance = 3
     config.browserNoActivityTimeout = 30000
-    config.captureTimeout = 120000
+    config.captureTimeout = 200000
 
     if (process.env.TRAVIS) {
       var buildLabel = 'TRAVIS #' + process.env.TRAVIS_BUILD_NUMBER + ' (' + process.env.TRAVIS_BUILD_ID + ')'
