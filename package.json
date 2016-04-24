@@ -55,13 +55,13 @@
     "all": "npm run lint && npm run test && npm run build",
     "clean": "rm -fr ./lib/*",
     "build": "npm run clean && npm run build:lib && npm run build:max && npm run build:min && npm run build:test",
-    "build:lib": "V=`npm run v -s` && VERSION=$V babel src --out-dir lib",
+    "build:lib": "VERSION=`npm run get-version -s` babel src --out-dir lib",
     "build:max": "NODE_ENV=development webpack src/index.js dist/jss.js",
     "build:min": "NODE_ENV=production webpack src/index.js dist/jss.min.js",
     "build:test": "NODE_ENV=test webpack test/index.js tmp/tests.js",
     "lint": "eslint ./src ./test",
     "prepublish": "npm run all",
     "test": "karma start",
-    "v": "node -e \"console.log(require('./package.json').version)\""
+    "get-version": "node -e \"console.log(require('./package.json').version)\""
   }
 }
