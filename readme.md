@@ -1,6 +1,6 @@
 ## JSS
 
-[![Codeship](https://codeship.com/projects/a63ccb40-5d57-0133-fdca-6a352dca42a3/status?branch=master)](https://www.codeship.io/projects/111070)
+[![Build Status](https://travis-ci.org/jsstyles/jss.svg?branch=master)](https://travis-ci.org/jsstyles/jss)
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/jsstyles/jss?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![bitHound Score](https://www.bithound.io/jsstyles/jss/badges/score.svg)](https://www.bithound.io/jsstyles/jss)
 
