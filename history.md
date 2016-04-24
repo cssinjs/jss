@@ -1,3 +1,7 @@
+## 3.8.0 / 2016-04-24
+
+- added jss.version to the build (Daijiro Wachi)
+
 ## 3.7.0 / 2016-04-21
 
 - docs
