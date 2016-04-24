@@ -2,9 +2,12 @@
 
 var webpack = require('webpack')
 
+process.env.VERSION = require('./package.json').version
+
 var plugins = [
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+    'process.env.VERSION': JSON.stringify(process.env.VERSION),
     __DEV__: process.env.NODE_ENV === 'development',
     __TEST__: process.env.NODE_ENV === 'test'
   })
@@ -26,6 +29,10 @@ module.exports = {
         loader: 'babel-loader',
         test: /\.js$/,
         exclude: /node_modules/
+      },
+      {
+        loader: 'json-loader',
+        test: /\.json$/
       }
     ]
   },
