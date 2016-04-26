@@ -13,12 +13,13 @@ export default class Rule {
     this.id = uid.get()
     this.type = 'regular'
     this.options = options
-    this.selector = selector || ''
+    this.selectorText = selector || ''
     this.className = ''
     if (options.named) {
       this.name = selector
       const className = options.className || (this.name ? `${this.name}--${this.id}` : this.id)
-      this.selector = `.${className}`
+      this.selectorText = `.${className}`
+      this.className = className
     }
     this.originalStyle = style
     // We expect style to be plain object.
