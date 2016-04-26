@@ -1,3 +1,7 @@
+## 3.9.1 / 2016-04-26
+
+- fix multiple @media in one sheet
+
 ## 3.9.0 / 2016-04-24
 
 - update linter eslint-config-jss@1.0.0
