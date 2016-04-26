@@ -103,7 +103,8 @@ test('toString named', () => {
 test('toString unnamed with media query', () => {
   const sheet = jss.createStyleSheet({
     a: {color: 'red'},
-    '@media (min-width: 1024px)': {a: {color: 'blue'}}
+    '@media (min-width: 1024px)': {a: {color: 'blue'}},
+    '@media (min-width: 1000px)': {a: {color: 'green'}}
   }, {named: false})
   sheet.attach()
   deepEqual(sheet.classes, {})
@@ -115,7 +116,13 @@ test('toString unnamed with media query', () => {
     '  a {',
     '    color: blue;',
     '  }',
+    '}',
+    '@media (min-width: 1000px) {',
+    '  a {',
+    '    color: green;',
+    '  }',
     '}'
+
   ].join('\n')
   equal(sheet.toString(), css)
   if (utils.mediaQueriesSupported) {
@@ -130,6 +137,9 @@ test('toString named with media query', () => {
     '@media (min-width: 1024px)': {
       a: {color: 'blue'},
       b: {color: 'white'}
+    },
+    '@media (min-width: 100px)': {
+      a: {color: 'green'}
     }
   })
   sheet.attach()
@@ -143,6 +153,11 @@ test('toString named with media query', () => {
     '  }',
     '  .b--jss-0-3 {',
     '    color: white;',
+    '  }',
+    '}',
+    '@media (min-width: 100px) {',
+    '  .a--jss-0-0 {',
+    '    color: green;',
     '  }',
     '}'
   ].join('\n')

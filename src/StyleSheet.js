@@ -176,11 +176,14 @@ export default class StyleSheet {
    * @api public
    */
   registerRule(rule) {
+    // Children of container rules should not be registered.
+    if (rule.options.parent) return this
+
     if (rule.name) {
-      if (!rule.options.parent) this.rules[rule.name] = rule
+      this.rules[rule.name] = rule
       if (rule.className) this.classes[rule.name] = rule.className
     }
-    if (rule.selector && !rule.options.parent) {
+    if (rule.selector) {
       this.rules[rule.selector] = rule
     }
     return this
@@ -193,6 +196,8 @@ export default class StyleSheet {
    * @api public
    */
   unregisterRule(rule) {
+    // Children of container rules should not be unregistered.
+    if (rule.options.parent) return this
     delete this.rules[rule.name]
     delete this.rules[rule.selector]
     delete this.classes[rule.name]
