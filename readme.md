@@ -18,6 +18,9 @@
 
 ### Example
 
+You think writing CSS in JS is ugly? 
+Try [CSSX](https://github.com/krasimir/cssx), it compiles to JSS JSON and allows you to write  in CSSX language and render with JSS.
+
 ```javascript
 export default {
   button: {
