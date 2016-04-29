@@ -3,131 +3,149 @@ import * as utils from './utils'
 
 QUnit.module('StyleSheet', utils.setup)
 
-
-test('create empty instance', () => {
+test('.createStyleSheet() without args', () => {
   const sheet = jss.createStyleSheet()
-  equal(sheet.deployed, false)
-  equal(sheet.attached, false)
-  ok(sheet.options.named)
-  deepEqual(sheet.rules, {})
-  deepEqual(sheet.classes, {})
+  equal(sheet.deployed, false, '.deployed is false')
+  equal(sheet.attached, false, '.attached is false')
+  equal(sheet.options.named, true, '.options.named is true')
+  deepEqual(sheet.classes, {}, '.classes is an empty object')
 })
 
-test('attach with attribtues', () => {
-  const sheet = jss.createStyleSheet(null, {media: 'screen', meta: 'test'}).attach()
-  equal(sheet.renderer.element.getAttribute('media'), 'screen')
-  equal(sheet.renderer.element.getAttribute('data-meta'), 'test')
+test('sheet.attach() and sheet.detach()', () => {
+  const sheet = jss.createStyleSheet().attach()
+  const style = utils.getStyle()
+  ok(sheet.attached, '.attached is true')
+
+  // DOM Tests.
+  ok(style, 'style is rendered, meta attr is set')
+  equal(style.innerHTML.trim(), sheet.toString().trim(), 'style text in DOM is correct')
   sheet.detach()
+  equal(sheet.attached, false, '.attached is false')
+  equal(style.parentNode, undefined, 'style is removed')
 })
 
-test('create instance with rules and generated classes', () => {
+test('.createStyleSheet() with one rule', () => {
   const sheet = jss.createStyleSheet({a: {float: 'left'}})
-  ok(sheet.rules.a)
-  equal(sheet.classes.a, sheet.rules.a.className)
-  ok(sheet.options.named)
+  const rule = sheet.getRule('a')
+  ok(rule, 'rule a created')
+  equal(sheet.classes.a, 'a--jss-0-0', 'class is registered')
+  equal(rule.className, 'a--jss-0-0', 'rule.className is correct')
+  equal(rule.selector, '.a--jss-0-0', 'rule.selector is correct')
 })
 
-test('create instance with rules where selector is a global class', () => {
-  const sheet = jss.createStyleSheet({a: {float: 'left'}}, {named: false})
-  ok(sheet.rules.a)
-  ok(!('a' in sheet.classes))
-  ok(!sheet.options.named)
-})
+test('Options {media, meta}', () => {
+  const sheet = jss.createStyleSheet(null, {media: 'screen', meta: 'test'}).attach()
+  const style = utils.getStyle()
+  equal(sheet.options.media, 'screen', 'option media is defined')
+  equal(sheet.options.meta, 'test', 'opption meta is defined')
 
-test('accessible rule via selector even if named: true', () => {
-  const sheet = jss.createStyleSheet({bla: {float: 'left'}}, {named: true})
-  ok(sheet.rules.bla)
-  ok(sheet.rules[sheet.rules.bla.selector])
-})
-
-test('create instance with rules and attributes', () => {
-  const sheet = jss.createStyleSheet(
-    {a: {float: 'left'}},
-    {
-      media: 'screen',
-      meta: 'test'
-    }
-  )
-  ok(sheet.rules.a)
-  equal(sheet.options.media, 'screen')
-  equal(sheet.options.meta, 'test')
-  equal(sheet.renderer.element.getAttribute('media'), 'screen')
-  equal(sheet.renderer.element.getAttribute('data-meta'), 'test')
-})
-
-test('attach/detach', () => {
-  const sheet = jss.createStyleSheet({abc: {float: 'left'}}).attach()
-  const style = document.getElementsByTagName('style')[0]
-  ok(sheet.attached)
-  strictEqual(style, sheet.renderer.element)
-  equal(utils.normalizeCssText(style.innerHTML), utils.normalizeCssText(sheet.toString()))
+  // DOM Tests.
+  equal(style.getAttribute('media'), 'screen', 'media attr is set')
+  equal(style.getAttribute('data-meta'), 'test', 'meta attr is set')
   sheet.detach()
-  equal(sheet.attached, false)
+})
+
+test('Options {named: false}', () => {
+  const sheet = jss.createStyleSheet({'.a': {float: 'left'}}, {named: false})
+  const rule = sheet.getRule('.a')
+  ok(rule, 'rule is created')
+  equal(rule.options.named, false, 'rule should have named: false')
+  equal('.a' in sheet.classes, false, 'rule should not be in classes')
+  equal(sheet.options.named, false, 'sheet should have named: false')
+})
+
+test('Options {link: true}', () => {
+  const sheet = jss.createStyleSheet({a: {float: 'left'}}, {link: true}).attach()
+  ok(sheet.getRule('a').renderable instanceof CSSStyleRule, 'renderable added')
+  sheet.addRule('b', {color: 'red'})
+  ok(sheet.getRule('b').renderable instanceof CSSStyleRule, 'renderable added to an added rule')
+  sheet.detach()
+})
+
+test('Option virtual: true', () => {
+  const sheet = jss.createStyleSheet({a: {float: 'left'}}, {virtual: true})
+  sheet.attach()
   equal(document.getElementsByTagName('style').length, 0)
+  sheet.detach()
 })
 
-test('addRule/getRule on attached sheet', () => {
+test('sheet.getRule()', () => {
+  let sheet = jss.createStyleSheet({a: {float: 'left'}}, {named: true})
+  ok(sheet.getRule('a'), 'returns rule by name')
+  ok(sheet.getRule('.a--jss-0-0'), 'returns rule by selector')
+  sheet = jss.createStyleSheet({a: {float: 'left'}}, {named: false})
+  ok(sheet.getRule('a'), 'returns rule by a global selector')
+})
+
+test('.addRule() to attached unnamed sheet', () => {
   const sheet = jss.createStyleSheet(null, {named: false}).attach()
+  const rule = sheet.addRule('.a', {float: 'left'})
+  const style = utils.getStyle()
+  equal(utils.getRules(style).length, 1, 'rule inserted to DOM')
+  equal(utils.getCss(style), '.a { float: left; }', 'rendered CSS is ok')
+  strictEqual(sheet.getRule('.a'), rule, 'rule is correctly registered')
+  strictEqual(sheet.getRule('.a').options.sheet, sheet, 'rule has correct options.sheet')
+  sheet.detach()
+})
+
+test('.addRule() to attached named sheet', () => {
+  const sheet = jss.createStyleSheet(null).attach()
   const rule = sheet.addRule('a', {float: 'left'})
-  const rules = utils.getRules(sheet.renderer.element)
-  equal(rules.length, 1)
-  const expected = 'a{float:left}'
-  // IE8 returns css from innerHTML even when inserted using addRule.
-  const cssText = sheet.renderer.element.innerHTML.trim() ||
-    sheet.renderer.element.sheet.cssRules[0].cssText
-  equal(utils.normalizeCssText(cssText), expected)
-  strictEqual(sheet.rules.a, rule)
-  strictEqual(sheet.getRule('a'), rule)
-  strictEqual(sheet.rules.a.options.sheet, sheet)
+  const style = utils.getStyle()
+  equal(utils.getRules(style).length, 1, 'rule inserted to DOM')
+  equal(utils.getCss(style), '.a--jss-0-0 { float: left; }', 'rendered CSS is ok')
+  strictEqual(sheet.getRule('a'), rule, 'rule is correctly registered')
+  strictEqual(sheet.getRule('a').options.sheet, sheet, 'rule has correct options.sheet')
   sheet.detach()
 })
 
-test('toString unnamed', () => {
-  const sheet = jss.createStyleSheet({a: {width: '1px', float: 'left'}}, {named: false})
-  sheet.attach()
-  const expected = 'a {\n  width: 1px;\n  float: left;\n}'
-  equal(sheet.toString(), expected)
-  equal(utils.normalizeCssText(sheet.renderer.element.innerHTML), utils.normalizeCssText(expected))
+test('.toString() on unnamed sheet', () => {
+  const sheet = jss.createStyleSheet(
+    {'.a': {width: '1px', float: 'left'}},
+    {named: false}
+  ).attach()
+  const expected = '.a {\n  width: 1px;\n  float: left;\n}'
+  equal(sheet.toString(), expected, '.toString() returned correct CSS')
+  const style = utils.getStyle()
+  equal(utils.getCss(style), expected, 'correct CSS rendered in DOM')
   sheet.detach()
 })
 
-test('toString named', () => {
-  const sheet = jss.createStyleSheet({a: {width: '1px', float: 'left'}})
-  sheet.attach()
-  const expected = '.a--jss-0-0 {\n  width: 1px;\n  float: left;\n}'
-  equal(sheet.toString(), expected)
-  equal(utils.normalizeCssText(sheet.renderer.element.innerHTML), utils.normalizeCssText(expected))
-  sheet.detach()
-})
-
-test('toString unnamed with media query', () => {
+test('.toString() on named sheet', () => {
   const sheet = jss.createStyleSheet({
-    a: {color: 'red'},
-    '@media (min-width: 1024px)': {a: {color: 'blue'}},
-    '@media (min-width: 1000px)': {a: {color: 'green'}}
-  }, {named: false})
-  sheet.attach()
-  deepEqual(sheet.classes, {})
-  const css = [
-    'a {',
+    a: {width: '1px', float: 'left'}
+  }).attach()
+  const expected = '.a--jss-0-0 {\n  width: 1px;\n  float: left;\n}'
+  equal(sheet.toString(), expected, '.toString() returned correct CSS')
+  const style = utils.getStyle()
+  equal(utils.getCss(style), expected, 'correct CSS rendered in DOM')
+  sheet.detach()
+})
+
+test('.toString() unnamed sheet with media query', () => {
+  const sheet = jss.createStyleSheet({
+    '.a': {color: 'red'},
+    '@media (min-width: 1024px)': {'.a': {color: 'blue'}},
+    '@media (min-width: 1000px)': {'.a': {color: 'green'}}
+  }, {named: false}).attach()
+  const expected = [
+    '.a {',
     '  color: red;',
     '}',
     '@media (min-width: 1024px) {',
-    '  a {',
+    '  .a {',
     '    color: blue;',
     '  }',
     '}',
     '@media (min-width: 1000px) {',
-    '  a {',
+    '  .a {',
     '    color: green;',
     '  }',
     '}'
-
   ].join('\n')
-  equal(sheet.toString(), css)
-  if (utils.mediaQueriesSupported) {
-    equal(sheet.renderer.element.innerHTML, `\n${css}\n`)
-  }
+  equal(sheet.toString(), expected, '.toString returned expected css')
+  const style = utils.getStyle()
+  equal(utils.getCss(style), expected, 'correct CSS rendered in DOM')
   sheet.detach()
 })
 
@@ -141,9 +159,8 @@ test('toString named with media query', () => {
     '@media (min-width: 100px)': {
       a: {color: 'green'}
     }
-  })
-  sheet.attach()
-  const css = [
+  }).attach()
+  const expected = [
     '.a--jss-0-0 {',
     '  color: red;',
     '}',
@@ -161,11 +178,13 @@ test('toString named with media query', () => {
     '  }',
     '}'
   ].join('\n')
-  equal(sheet.toString(), css)
+  equal(sheet.toString(), expected, '.toString returned expected css')
+  const style = utils.getStyle()
+  equal(utils.getCss(style), expected, 'correct CSS rendered in DOM')
   sheet.detach()
 })
 
-test('toString empty rule trim', () => {
+test('.toString() empty rule trim', () => {
   const sheet = jss.createStyleSheet({
     a: {color: 'red'},
     b: {},
@@ -173,11 +192,15 @@ test('toString empty rule trim', () => {
     d: {}
   })
   sheet.attach()
-  equal(sheet.toString(), '.a--jss-0-0 {\n  color: red;\n}\n.c--jss-0-2 {\n  color: green;\n}')
+  equal(
+    sheet.toString(),
+    '.a--jss-0-0 {\n  color: red;\n}\n.c--jss-0-2 {\n  color: green;\n}',
+    'empty rule was removed'
+  )
   sheet.detach()
 })
 
-test('toString empty mixed rule trim', () => {
+test('.toString() empty font-face rule trim', () => {
   const sheet = jss.createStyleSheet({
     a: {color: 'red'},
     b: {},
@@ -185,26 +208,34 @@ test('toString empty mixed rule trim', () => {
     '@font-face': {}
   })
   sheet.attach()
-  equal(sheet.toString(), '.a--jss-0-0 {\n  color: red;\n}\n.c--jss-0-2 {\n  color: green;\n}')
+  equal(
+    sheet.toString(),
+    '.a--jss-0-0 {\n  color: red;\n}\n.c--jss-0-2 {\n  color: green;\n}',
+    'empty font face rule was removed '
+  )
   sheet.detach()
 })
 
-test('toString empty conditional rule trim', () => {
+test('.toString() empty conditional rule trim', () => {
   const sheet = jss.createStyleSheet({
     a: {color: 'red'},
     '@media print': {}
   })
   sheet.attach()
-  equal(sheet.toString(), '.a--jss-0-0 {\n  color: red;\n}')
+  equal(
+    sheet.toString(),
+    '.a--jss-0-0 {\n  color: red;\n}',
+    'empty media rule was removed'
+  )
   sheet.detach()
 })
 
-test('mixed rule types', () => {
+test('.toString() all rule types', () => {
   const sheet = jss.createStyleSheet({
     '@charset': '"utf-8"',
     '@import': 'bla',
     '@namespace': 'bla',
-    a: {
+    '.a': {
       float: 'left'
     },
     '@font-face': {
@@ -229,26 +260,11 @@ test('mixed rule types', () => {
     '@charset "utf-8";\n' +
     '@import bla;\n' +
     '@namespace bla;\n' +
-    'a {\n  float: left;\n}\n' +
+    '.a {\n  float: left;\n}\n' +
     '@font-face {\n  font-family: MyHelvetica;\n  src: local("Helvetica");\n}\n' +
     '@keyframes id {\n  from {\n    top: 0;\n  }\n}\n' +
     '@media print {\n  button {\n    display: none;\n  }\n}\n' +
-    '@supports ( display: flexbox ) {\n  button {\n    display: none;\n  }\n}'
+    '@supports ( display: flexbox ) {\n  button {\n    display: none;\n  }\n}',
+    'all rules are correct'
   )
-})
-
-test('link', () => {
-  const sheet = jss.createStyleSheet({a: {float: 'left'}}, {link: true})
-  sheet.attach()
-  ok(sheet.rules.a.renderable instanceof CSSStyleRule)
-  sheet.addRule('b', {color: 'red'})
-  ok(sheet.rules.b.renderable instanceof CSSStyleRule)
-  sheet.detach()
-})
-
-test('virtual rendering', () => {
-  const sheet = jss.createStyleSheet({a: {float: 'left'}}, {virtual: true})
-  sheet.attach()
-  equal(document.getElementsByTagName('style').length, 0)
-  sheet.detach()
 })
