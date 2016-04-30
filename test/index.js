@@ -1,3 +1,3 @@
-import './Jss'
-import './Rule'
-import './StyleSheet'
+import './integration/Jss'
+import './integration/Rule'
+import './integration/StyleSheet'

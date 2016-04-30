@@ -1,5 +1,5 @@
-import jss from '../src'
-import * as utils from './utils'
+import jss from 'jss'
+import * as utils from '../utils'
 
 QUnit.module('StyleSheet', utils.setup)
 

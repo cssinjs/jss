@@ -1,4 +1,4 @@
-import jss from '../src'
+import jss from 'jss'
 
 const {slice} = []
 

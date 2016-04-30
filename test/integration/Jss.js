@@ -1,6 +1,5 @@
-import jss, {create, Jss, StyleSheet, Rule} from '../src'
-import * as utils from './utils'
-import {version} from '../package.json'
+import jss, {create, Jss, StyleSheet, Rule} from 'jss'
+import * as utils from '../utils'
 
 QUnit.module('Jss', utils.setup)
 
@@ -68,5 +67,5 @@ test('.use()', () => {
 })
 
 test('.version', () => {
-  equal(jss.version, version, 'returns JSS version')
+  equal(typeof jss.version, 'string', 'returns JSS version')
 })

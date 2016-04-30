@@ -1,5 +1,5 @@
-import jss from '../src'
-import {setup, computeStyle} from './utils'
+import jss from 'jss'
+import {setup, computeStyle} from '../utils'
 
 QUnit.module('Rule', setup)
 

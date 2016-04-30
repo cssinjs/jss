@@ -1,6 +1,7 @@
 'use strict'
 
 var webpack = require('webpack')
+var path = require('path')
 
 process.env.VERSION = require('./package.json').version
 
@@ -36,9 +37,10 @@ module.exports = {
       }
     ]
   },
-  devtool: 'source-map'
-}
-
-if (process.env.NODE_ENV === 'test') {
-  module.exports.externals = {'../src': 'jss'}
+  devtool: 'source-map',
+  resolve: {
+    alias: {
+      'jss': path.join(__dirname, 'src')
+    }
+  }
 }

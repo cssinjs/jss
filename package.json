@@ -62,7 +62,7 @@
     "build:lib": "VERSION=`npm run get-version -s` babel src --out-dir lib",
     "build:max": "NODE_ENV=development webpack src/index.js dist/jss.js",
     "build:min": "NODE_ENV=production webpack src/index.js dist/jss.min.js",
-    "build:test": "NODE_ENV=test webpack test/index.js tmp/tests.js",
+    "build:test": "webpack test/index.js tmp/tests.js",
     "lint": "eslint ./src ./test",
     "prepublish": "npm run all",
     "test": "karma start",
