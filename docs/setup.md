@@ -21,10 +21,10 @@ You can use jss with or without [plugins](https://github.com/jsstyles?query=jss-
 ```javascript
 
 import jss from 'jss'
-import somePlugin from 'some-plugin'
+import camelCase from 'jss-camel-case'
 
 // Use plugins.
-jss.use(somePlugin())
+jss.use(camelCase())
 
 // Create your style.
 const style = {
@@ -54,7 +54,17 @@ jss --help
 
 ## Run tests
 
+Using karma (real browsers will be launched)
+
 ```bash
 npm i
 npm test
 ```
+
+Or manually
+
+```bash
+npm run build:test
+open tests/index.html
+```
+
