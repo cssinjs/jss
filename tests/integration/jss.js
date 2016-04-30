@@ -1,11 +1,15 @@
-import jss, {create, Jss, StyleSheet, Rule} from 'jss'
-import * as utils from '../utils'
+import jss, {create, Jss, StyleSheet} from 'jss'
+import {setup} from '../utils'
 
-QUnit.module('Jss', utils.setup)
+QUnit.module('Integration jss', setup)
 
 test('exports', () => {
   ok(jss instanceof Jss, 'default export is a Jss instance')
   equal(typeof create, 'function', 'create function is exported')
+})
+
+test('.version', () => {
+  equal(typeof jss.version, 'string', 'returns JSS version')
 })
 
 test('.create()', () => {
@@ -18,34 +22,58 @@ test('.createStyleSheet()', () => {
   ok(jss.sheets.registry.indexOf(sheet) >= 0, 'adds sheet to sheets registry')
 })
 
-test('.sheets', () => {
+test('sheets.toString()', () => {
   const sheet1 = jss.createStyleSheet({a: {color: 'red'}})
   const sheet2 = jss.createStyleSheet({a: {color: 'blue'}})
 
   ok(jss.sheets.registry.indexOf(sheet1) >= 0, 'adds sheet1 to sheets registry')
   ok(jss.sheets.registry.indexOf(sheet2) >= 0, 'adds sheet2 to sheets registry')
-  const css = [
-    '.a--jss-0-0 {',
-    '  color: red;',
-    '}',
-    '.a--jss-0-1 {',
-    '  color: blue;',
+  const css =
+    '.a--jss-0-0 {\n' +
+    '  color: red;\n' +
+    '}\n' +
+    '.a--jss-0-1 {\n' +
+    '  color: blue;\n' +
     '}'
-  ].join('\n')
   equal(jss.sheets.toString(), css, 'returns CSS of all sheets')
 })
 
-test('.createRule()', () => {
+
+test('.use() with @media', () => {
+  let executed = 0
+  function plugin() {
+    executed++
+  }
+  jss.use(plugin)
+  jss.createRule('@media', {
+    button: {float: 'left'}
+  })
+  equal(executed, 2)
+})
+
+test('.use() with @keyframes', () => {
+  let executed = 0
+  function plugin() {
+    executed++
+  }
+  jss.use(plugin)
+  jss.createRule('@keyframes', {
+    from: {top: 0},
+    to: {top: 10}
+  })
+  equal(executed, 3)
+})
+
+test('.use() verify rule', () => {
   let passedRule
   jss.use(rule => {
     passedRule = rule
   })
   const rule = jss.createRule()
-  ok(rule instanceof Rule, 'returns a Rule instance')
-  strictEqual(rule, passedRule, 'called plugins and passed the rule')
+  strictEqual(rule, passedRule, 'passed correct rule')
 })
 
-test('.use()', () => {
+test('.use() multiple plugins', () => {
   let executed1
   let executed2
 
@@ -64,8 +92,4 @@ test('.use()', () => {
   strictEqual(jss.plugins.registry[1], plugin2, 'adds second plugin in the right order')
   strictEqual(executed1, rule, 'executed first plugin')
   strictEqual(executed2, rule, 'executed second plugin')
-})
-
-test('.version', () => {
-  equal(typeof jss.version, 'string', 'returns JSS version')
 })

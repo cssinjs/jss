@@ -1,9 +1,9 @@
 import jss from 'jss'
-import {setup, computeStyle} from '../utils'
+import {setup} from '../utils'
 
-QUnit.module('Rule', setup)
+QUnit.module('Integration rules', setup)
 
-test('create empty instance', () => {
+test('empty instance', () => {
   let rule = jss.createRule()
   equal(rule.type, 'regular')
   equal(rule.className, 'jss-0-0')
@@ -86,19 +86,18 @@ test('@keyframes', () => {
   })
   equal(rule.type, 'keyframe')
   equal(rule.selector, '@keyframes id')
-  const css = [
-    '@keyframes id {',
-    '  from {',
-    '    top: 0;',
-    '  }',
-    '  30% {',
-    '    top: 30;',
-    '  }',
-    '  60%, 70% {',
-    '    top: 80;',
-    '  }',
+  const css =
+    '@keyframes id {\n' +
+    '  from {\n' +
+    '    top: 0;\n' +
+    '  }\n' +
+    '  30% {\n' +
+    '    top: 30;\n' +
+    '  }\n' +
+    '  60%, 70% {\n' +
+    '    top: 80;\n' +
+    '  }\n' +
     '}'
-  ].join('\n')
   equal(rule.toString(), css)
 })
 
@@ -155,16 +154,17 @@ test('@font-face with an array of styles', () => {
   ])
   equal(rule.type, 'font-face')
   equal(rule.selector, '@font-face')
-  equal(rule.toString(),
-        '@font-face {\n' +
-        '  font-family: MyHelvetica;\n' +
-        '  src: local("Helvetica");\n' +
-        '}\n' +
-        '@font-face {\n' +
-        '  font-family: MyComicSans;\n' +
-        '  src: local("ComicSans");\n' +
-        '}\n')
-
+  equal(
+    rule.toString(),
+    '@font-face {\n' +
+    '  font-family: MyHelvetica;\n' +
+    '  src: local("Helvetica");\n' +
+    '}\n' +
+    '@font-face {\n' +
+    '  font-family: MyComicSans;\n' +
+    '  src: local("ComicSans");\n' +
+    '}\n'
+  )
   rule = jss.createRule('@font-face', [
     {
       'font-family': 'MyHelvetica',
@@ -177,15 +177,17 @@ test('@font-face with an array of styles', () => {
   ], {named: true})
   equal(rule.type, 'font-face')
   equal(rule.selector, '@font-face')
-  equal(rule.toString(),
-        '@font-face {\n' +
-        '  font-family: MyHelvetica;\n' +
-        '  src: local("Helvetica");\n' +
-        '}\n' +
-        '@font-face {\n' +
-        '  font-family: MyComicSans;\n' +
-        '  src: local("ComicSans");\n' +
-        '}\n')
+  equal(
+    rule.toString(),
+    '@font-face {\n' +
+    '  font-family: MyHelvetica;\n' +
+    '  src: local("Helvetica");\n' +
+    '}\n' +
+    '@font-face {\n' +
+    '  font-family: MyComicSans;\n' +
+    '  src: local("ComicSans");\n' +
+    '}\n'
+  )
 })
 
 test('@supports', () => {
@@ -196,107 +198,31 @@ test('@supports', () => {
   })
   equal(rule.type, 'conditional')
   equal(rule.selector, '@supports ( display: flexbox )')
-  const css = [
-    '@supports ( display: flexbox ) {',
-    '  .button--jss-0-1 {',
-    '    display: none;',
-    '  }',
+  const css =
+    '@supports ( display: flexbox ) {\n' +
+    '  .button--jss-0-1 {\n' +
+    '    display: none;\n' +
+    '  }\n' +
     '}'
-  ].join('\n')
   equal(rule.toString(), css)
 })
 
-test('applyTo', () => {
-  const div = document.createElement('div')
-  jss.createRule({
-    float: 'left'
-  }).applyTo(div)
-  equal(div.style.float, 'left')
-
-  jss.createRule({
-    display: ['inline', 'something-unsupported']
-  }).applyTo(div)
-  equal(div.style.display, 'inline')
+test('.toJSON()', () => {
+  const style = {color: 'red'}
+  const rule = jss.createRule(style)
+  deepEqual(rule.toJSON(), style, 'declarations are correct')
 })
 
-test('toJSON', () => {
-  const decl = {color: 'red'}
-  const rule = jss.createRule(decl)
-  deepEqual(rule.toJSON(), decl, 'declarations are correct')
-})
-
-test('toJSON with nested rules', () => {
-  const decl = {color: 'red', '&:hover': {color: 'blue'}}
-  const rule = jss.createRule(decl)
+test('.toJSON() with nested rules', () => {
+  const style = {color: 'red', '&:hover': {color: 'blue'}}
+  const rule = jss.createRule(style)
   deepEqual(rule.toJSON(), {color: 'red'}, 'nested rules removed')
 })
 
-test('set/get rules virtual prop', () => {
+test('.prop() virtual', () => {
   const rule = jss.createRule()
   rule.prop('float', 'left')
   equal(rule.prop('float'), 'left')
-})
-
-test('set/get rules virtual prop with value 0', () => {
-  const rule = jss.createRule()
   rule.prop('width', 0)
   equal(rule.prop('width'), 0)
-})
-
-test('set/get rules dom prop', () => {
-  const sheet = jss.createStyleSheet({a: {float: 'left'}}, {link: true})
-  const rule = sheet.rules.a
-  sheet.attach()
-  rule.prop('color', 'red')
-  equal(rule.style.color, 'red', 'new prop is cached')
-  equal(rule.prop('color'), 'red', 'new prop is returned')
-  equal(rule.renderable.style.color, 'red', 'new rule is set to the DOM')
-  sheet.detach()
-})
-
-test('get rules prop from the dom and cache it', () => {
-  const sheet = jss.createStyleSheet({a: {float: 'left'}}, {link: true})
-  const rule = sheet.rules.a
-  sheet.attach()
-  equal(rule.prop('color'), '', 'color is empty')
-  ok('color' in rule.style, 'value is cached')
-  sheet.detach()
-})
-
-test('run plugins on inner rules of an conditional rule', () => {
-  let executed = 0
-  function plugin() {
-    executed++
-  }
-  jss.use(plugin)
-  jss.createRule('@media', {
-    button: {float: 'left'}
-  })
-  equal(executed, 2)
-})
-
-test('run plugins on inner rules of a keyframe rule', () => {
-  let executed = 0
-  function plugin() {
-    executed++
-  }
-  jss.use(plugin)
-  jss.createRule('@keyframes', {
-    from: {top: 0},
-    to: {top: 10}
-  })
-  equal(executed, 3)
-})
-
-test('Rule#selector', () => {
-  const sheet = jss.createStyleSheet(
-    {a: {width: '1px'}},
-    {link: true}
-  ).attach()
-  const rule = sheet.getRule('a')
-  rule.selector = '.test'
-  equal(rule.selector, '.test', 'setter and getter work')
-  equal(computeStyle('test').width, '1px', 'selector applied correctly')
-  equal(sheet.classes.a, 'test', 'classes map has been updated')
-  sheet.detach()
 })

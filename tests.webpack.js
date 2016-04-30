@@ -1,2 +1,2 @@
-var context = require.context('./test', true, /\.js$/)
+var context = require.context('./tests', true, /\.js$/)
 context.keys().forEach(context)
