@@ -18,7 +18,7 @@
 
 ### Example
 
-You think writing CSS in JS is ugly? 
+You think writing CSS in JS is ugly?
 Try [CSSX](https://github.com/krasimir/cssx), it compiles to JSS JSON and allows you to write  in CSSX language, but render with JSS.
 
 ```javascript
@@ -92,10 +92,14 @@ document.body.innerHTML = `
 - Ease of maintenance is important to you.
 - You just want to use any of its [benefits](./docs/benefits.md)
 
-## License
+### Support
+
+We have automated tests running in [real browsers](./browsers.json).
+
+### License
 
 MIT
 
-## Thanks
+### Thanks
 
 Thanks to [BrowserStack](https://www.browserstack.com) for providing the infrastructure that allows us to run our build in real browsers and to all awesome [contributors](https://github.com/jsstyles/jss/graphs/contributors).
