@@ -42,6 +42,8 @@
     "expect.js": "^0.3.1",
     "json-loader": "^0.5.4",
     "karma": "^0.13.19",
+    "karma-benchmark": "^0.4.0",
+    "karma-benchmark-reporter": "^0.1.1",
     "karma-browserstack-launcher": "^0.1.7",
     "karma-chrome-launcher": "^0.2.0",
     "karma-coverage": "^0.5.3",
@@ -69,6 +71,7 @@
     "prepublish": "npm run all",
     "test": "karma start --single-run",
     "test:watch": "karma start",
+    "bench": "BENCHMARK=true npm run test",
     "get-version": "node -e \"console.log(require('./package.json').version)\""
   }
 }

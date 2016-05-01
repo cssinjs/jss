@@ -1,0 +1,45 @@
+{
+  "modal": {
+    "position": "fixed",
+    "top": "0",
+    "right": "0",
+    "bottom": "0",
+    "left": "0",
+    "z-index": "1040",
+    "display": "none",
+    "overflow": "hidden",
+    "-webkit-overflow-scrolling": "touch",
+    "outline": "0"
+  },
+  "tooltip": {
+    "position": "absolute",
+    "z-index": "1070",
+    "display": "block",
+    "font-size": "12px",
+    "line-height": "1.4",
+    "visibility": "visible",
+    "filter": "alpha(opacity=0)",
+    "opacity": "0"
+  },
+  "popover": {
+    "position": "absolute",
+    "top": "0",
+    "left": "0",
+    "z-index": "1060",
+    "display": "none",
+    "max-width": "276px",
+    "padding": "1px",
+    "font-size": "14px",
+    "font-weight": "normal",
+    "line-height": "1.42857143",
+    "text-align": "left",
+    "white-space": "normal",
+    "background-color": "#fff",
+    "-webkit-background-clip": "padding-box",
+    "background-clip": "padding-box",
+    "border": "1px solid rgba(0, 0, 0, .2)",
+    "border-radius": "6px",
+    "-webkit-box-shadow": "0 5px 10px rgba(0, 0, 0, .2)",
+    "box-shadow": "0 5px 10px rgba(0, 0, 0, .2)"
+  }
+}

@@ -1,5 +1,5 @@
 src
-bench
+benchmark
 tmp
-test
+tests
 .env

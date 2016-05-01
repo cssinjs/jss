@@ -1,4 +1,4 @@
-window.bootstrap = {
+{
   "html": {
     "font-size": "10px",
     "-webkit-tap-highlight-color": "rgba(0, 0, 0, 0)"
@@ -4190,9 +4190,6 @@ window.bootstrap = {
   ".affix": {
     "position": "fixed"
   },
-  "@-ms-viewport": {
-    "width": "device-width"
-  },
   ".visible-xs, .visible-sm, .visible-md, .visible-lg": {
     "display": "none !important"
   },
@@ -4221,4 +4218,4 @@ window.bootstrap = {
   ".visible-print-inline-block": {
     "display": "none !important"
   }
-};
+}
