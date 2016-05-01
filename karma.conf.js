@@ -47,28 +47,17 @@ module.exports = function (config) {
     config.browserNoActivityTimeout = 30000
     config.captureTimeout = 200000
 
-    if (process.env.TRAVIS) {
-      var buildLabel = 'TRAVIS #' + process.env.TRAVIS_BUILD_NUMBER + ' (' + process.env.TRAVIS_BUILD_ID + ')'
-
-      config.browserStack = {
-        username: process.env.BROWSER_STACK_USERNAME,
-        accessKey: process.env.BROWSER_STACK_ACCESS_KEY,
-        pollingTimeout: 10000,
-        startTunnel: false,
-        project: 'jss',
-        build: buildLabel,
-        name: process.env.TRAVIS_JOB_NUMBER
-      }
-
-      config.singleRun = true
+    config.browserStack = {
+      username: process.env.BROWSER_STACK_USERNAME,
+      accessKey: process.env.BROWSER_STACK_ACCESS_KEY,
+      pollingTimeout: 10000
     }
-    else {
-      config.browserStack = {
-        username: process.env.BROWSER_STACK_USERNAME,
-        accessKey: process.env.BROWSER_STACK_ACCESS_KEY,
-        pollingTimeout: 10000,
-        startTunnel: true
-      }
+
+    if (process.env.TRAVIS) {
+      assign(config.browserStack, {
+        build: 'TRAVIS #' + process.env.TRAVIS_BUILD_NUMBER + ' (' + process.env.TRAVIS_BUILD_ID + ')',
+        name: process.env.TRAVIS_JOB_NUMBER
+      })
     }
   }
 }
