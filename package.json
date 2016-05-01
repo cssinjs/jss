@@ -39,20 +39,22 @@
     "eslint-plugin-import": "^1.5.0",
     "eslint-plugin-jsx-a11y": "^1.0.2",
     "eslint-plugin-react": "^5.0.1",
+    "expect.js": "^0.3.1",
     "json-loader": "^0.5.4",
     "karma": "^0.13.19",
     "karma-browserstack-launcher": "^0.1.7",
     "karma-chrome-launcher": "^0.2.0",
     "karma-coverage": "^0.5.3",
     "karma-firefox-launcher": "^0.1.7",
+    "karma-mocha": "^0.2.2",
+    "karma-mocha-reporter": "^2.0.2",
     "karma-phantomjs-launcher": "^1.0.0",
-    "karma-qunit": "^0.1.7",
     "karma-safari-launcher": "^0.1.1",
     "karma-sourcemap-loader": "^0.3.5",
     "karma-webpack": "^1.7.0",
     "lodash": "^3.10.1",
+    "mocha": "^2.4.5",
     "phantomjs-prebuilt": "^2.1.7",
-    "qunitjs": "^1.20.0",
     "webpack": "^1.12.2"
   },
   "scripts": {
@@ -65,7 +67,8 @@
     "build:test": "webpack tests/index.js tmp/tests.js",
     "lint": "eslint ./src ./tests",
     "prepublish": "npm run all",
-    "test": "karma start",
+    "test": "karma start --single-run",
+    "test:watch": "karma start",
     "get-version": "node -e \"console.log(require('./package.json').version)\""
   }
 }

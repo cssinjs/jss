@@ -1,95 +1,108 @@
+import expect from 'expect.js'
 import jss, {create, Jss, StyleSheet} from 'jss'
-import {setup} from '../utils'
+import {reset} from '../utils'
 
-QUnit.module('Integration jss', setup)
+afterEach(reset)
 
-test('exports', () => {
-  ok(jss instanceof Jss, 'default export is a Jss instance')
-  equal(typeof create, 'function', 'create function is exported')
-})
+describe('Integration: jss', () => {
+  describe('exports', () => {
+    it('should export default Jss instance', () => {
+      expect(jss).to.be.a(Jss)
+    })
 
-test('.version', () => {
-  equal(typeof jss.version, 'string', 'returns JSS version')
-})
+    it('should export create function', () => {
+      expect(create).to.be.a(Function)
+    })
 
-test('.create()', () => {
-  ok(jss.create() instanceof Jss, 'returns a Jss instance')
-})
-
-test('.createStyleSheet()', () => {
-  const sheet = jss.createStyleSheet()
-  ok(sheet instanceof StyleSheet, 'returns a StyleSheet instance')
-  ok(jss.sheets.registry.indexOf(sheet) >= 0, 'adds sheet to sheets registry')
-})
-
-test('sheets.toString()', () => {
-  const sheet1 = jss.createStyleSheet({a: {color: 'red'}})
-  const sheet2 = jss.createStyleSheet({a: {color: 'blue'}})
-
-  ok(jss.sheets.registry.indexOf(sheet1) >= 0, 'adds sheet1 to sheets registry')
-  ok(jss.sheets.registry.indexOf(sheet2) >= 0, 'adds sheet2 to sheets registry')
-  const css =
-    '.a--jss-0-0 {\n' +
-    '  color: red;\n' +
-    '}\n' +
-    '.a--jss-0-1 {\n' +
-    '  color: blue;\n' +
-    '}'
-  equal(jss.sheets.toString(), css, 'returns CSS of all sheets')
-})
-
-
-test('.use() with @media', () => {
-  let executed = 0
-  function plugin() {
-    executed++
-  }
-  jss.use(plugin)
-  jss.createRule('@media', {
-    button: {float: 'left'}
+    it('should provide .version prop', () => {
+      expect(jss.version).to.be.a('string')
+    })
   })
-  equal(executed, 2)
-})
 
-test('.use() with @keyframes', () => {
-  let executed = 0
-  function plugin() {
-    executed++
-  }
-  jss.use(plugin)
-  jss.createRule('@keyframes', {
-    from: {top: 0},
-    to: {top: 10}
+  describe('.create()', () => {
+    it('should create a Jss instance', () => {
+      expect(jss.create()).to.be.a(Jss)
+    })
   })
-  equal(executed, 3)
-})
 
-test('.use() verify rule', () => {
-  let passedRule
-  jss.use(rule => {
-    passedRule = rule
+  describe('.sheets registry', () => {
+    let sheet1
+    let sheet2
+
+    beforeEach(() => {
+      sheet1 = jss.createStyleSheet({a: {color: 'red'}})
+      sheet2 = jss.createStyleSheet({a: {color: 'blue'}})
+    })
+
+    it('should be StyleSheet instances', () => {
+      expect(sheet1).to.be.a(StyleSheet)
+      expect(sheet2).to.be.a(StyleSheet)
+    })
+
+    it('should register sheets in registry', () => {
+      expect(jss.sheets.registry.indexOf(sheet1)).to.not.be(-1)
+      expect(jss.sheets.registry.indexOf(sheet2)).to.not.be(-1)
+    })
+
+    it('should return CSS of all sheets from .sheets.toString()', () => {
+      const css =
+        '.a--jss-0-0 {\n' +
+        '  color: red;\n' +
+        '}\n' +
+        '.a--jss-0-1 {\n' +
+        '  color: blue;\n' +
+        '}'
+      expect(jss.sheets.toString()).to.be(css)
+    })
   })
-  const rule = jss.createRule()
-  strictEqual(rule, passedRule, 'passed correct rule')
-})
 
-test('.use() multiple plugins', () => {
-  let executed1
-  let executed2
+  describe('.use()', () => {
+    describe('.createRule()', () => {
+      it('should pass correct rule to the plugin', () => {
+        let receivedRule
+        jss.use(rule => {
+          receivedRule = rule
+        })
+        const rule = jss.createRule()
+        expect(rule).to.be(receivedRule)
+      })
 
-  const plugin1 = (rule) => {
-    executed1 = rule
-  }
-  const plugin2 = (rule) => {
-    executed2 = rule
-  }
-  jss.use(plugin1, plugin2)
-  const rule = jss.createRule()
-  jss.plugins.run(rule)
+      it('should run plugins on @media rule', () => {
+        let executed = 0
+        jss.use(() => executed++)
+        jss.createRule('@media', {
+          button: {float: 'left'}
+        })
+        expect(executed).to.be(2)
+      })
 
-  equal(jss.plugins.registry.length, 2, 'adds all plugins to the registry')
-  strictEqual(jss.plugins.registry[0], plugin1, 'adds first plugin in the right order')
-  strictEqual(jss.plugins.registry[1], plugin2, 'adds second plugin in the right order')
-  strictEqual(executed1, rule, 'executed first plugin')
-  strictEqual(executed2, rule, 'executed second plugin')
+      it('should run plugins on @keyframes rule', () => {
+        let executed = 0
+        jss.use(() => executed++)
+        jss.createRule('@keyframes', {
+          from: {top: 0},
+          to: {top: 10}
+        })
+        expect(executed).to.be(3)
+      })
+
+      it('should accept multiple plugins', () => {
+        let receivedRule1
+        let receivedRule2
+        const plugin1 = rule => {
+          receivedRule1 = rule
+        }
+        const plugin2 = rule => {
+          receivedRule2 = rule
+        }
+        jss.use(plugin1, plugin2)
+        const rule = jss.createRule()
+        expect(jss.plugins.registry.length).to.be(2)
+        expect(jss.plugins.registry[0]).to.be(plugin1)
+        expect(jss.plugins.registry[1]).to.be(plugin2)
+        expect(receivedRule1).to.be(rule)
+        expect(receivedRule2).to.be(rule)
+      })
+    })
+  })
 })

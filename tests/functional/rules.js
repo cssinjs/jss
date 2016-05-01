@@ -1,17 +1,25 @@
+import expect from 'expect.js'
 import jss from 'jss'
-import {setup} from '../utils'
+import {reset} from '../utils'
 
-QUnit.module('Functional rules', setup)
+afterEach(reset)
 
-test('.applyTo()', () => {
-  const div = document.createElement('div')
-  jss.createRule({
-    float: 'left'
-  }).applyTo(div)
-  equal(div.style.float, 'left')
+describe('Functional: rules', () => {
+  describe('rule.applyTo()', () => {
+    const div = document.createElement('div')
 
-  jss.createRule({
-    display: ['inline', 'something-unsupported']
-  }).applyTo(div)
-  equal(div.style.display, 'inline')
+    it('should apply float: left', () => {
+      jss.createRule({
+        float: 'left'
+      }).applyTo(div)
+      expect(div.style.float).to.be('left')
+    })
+
+    it('should apply display: inline', () => {
+      jss.createRule({
+        display: ['inline', 'something-unsupported']
+      }).applyTo(div)
+      expect(div.style.display).to.be('inline')
+    })
+  })
 })

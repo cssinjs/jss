@@ -1,228 +1,264 @@
+import expect from 'expect.js'
 import jss from 'jss'
-import {setup} from '../utils'
+import {reset} from '../utils'
 
-QUnit.module('Integration rules', setup)
+afterEach(reset)
 
-test('empty instance', () => {
-  let rule = jss.createRule()
-  equal(rule.type, 'regular')
-  equal(rule.className, 'jss-0-0')
-  equal(rule.selector, '.jss-0-0')
-  rule = jss.createRule()
-  equal(rule.className, 'jss-0-1')
-  equal(rule.selector, '.jss-0-1')
-  deepEqual(rule.style, {})
-})
+describe('Integration: rules', () => {
+  describe('.createRule()', () => {
+    it('should create a rule without args', () => {
+      let rule = jss.createRule()
+      expect(rule.type).to.be('regular')
+      expect(rule.className).to.be('jss-0-0')
+      expect(rule.selector).to.be('.jss-0-0')
+      rule = jss.createRule()
+      expect(rule.type).to.be('regular')
+      expect(rule.className).to.be('jss-0-1')
+      expect(rule.selector).to.be('.jss-0-1')
+    })
 
-test('create instance with styles only', () => {
-  const rule = jss.createRule({float: 'left'})
-  deepEqual(rule.style, {float: 'left'})
-  equal(rule.className.substr(0, 3), 'jss')
-  equal(rule.selector.substr(0, 4), '.jss')
-})
+    it('should accept styles only', () => {
+      const style = {float: 'left'}
+      const rule = jss.createRule(style)
+      expect(rule.style).to.eql(style)
+      expect(rule.type).to.be('regular')
+      expect(rule.className).to.be('jss-0-0')
+      expect(rule.selector).to.be('.jss-0-0')
+    })
 
-test('create instance with styles and options', () => {
-  const options = {}
-  const rule = jss.createRule({float: 'left'}, options)
-  deepEqual(rule.style, {float: 'left'})
-  equal(rule.className.substr(0, 3), 'jss')
-  equal(rule.selector.substr(0, 4), '.jss')
-  ok(rule.options.named)
-  strictEqual(rule.options.jss, jss)
-})
+    it('should accept styles and options', () => {
+      const style = {float: 'left'}
+      const options = {something: true}
+      const rule = jss.createRule(style, options)
+      expect(rule.style).to.eql(style)
+      expect(rule.type).to.be('regular')
+      expect(rule.className).to.be('jss-0-0')
+      expect(rule.selector).to.be('.jss-0-0')
+      expect(rule.options.named).to.be(true)
+      expect(rule.options.jss).to.be(jss)
+      expect(rule.options.something).to.be(true)
+    })
 
-test('create instance with all params', () => {
-  const options = {named: false}
-  const rule = jss.createRule('a', {float: 'left'}, options)
-  deepEqual(rule.style, {float: 'left'})
-  equal(rule.className, '')
-  equal(rule.selector, 'a')
-  ok(!rule.options.named)
-  strictEqual(rule.options.jss, jss)
-})
-
-test('toString', () => {
-  const rule = jss.createRule('a', {float: 'left', width: '1px'}, {named: false})
-  equal(rule.toString(), 'a {\n  float: left;\n  width: 1px;\n}')
-})
-
-test('toString without selector', () => {
-  const rule = jss.createRule('a', {float: 'left', width: 1}, {named: false})
-  equal(rule.toString({selector: false}), '\nfloat: left;\nwidth: 1;')
-})
-
-test('multiple declarations with identical property names', () => {
-  const rule = jss.createRule('a', {display: ['inline', 'run-in']}, {named: false})
-  equal(rule.toString(), 'a {\n  display: inline;\n  display: run-in;\n}')
-})
-
-test('@charset', () => {
-  const rule = jss.createRule('@charset', '"utf-8"')
-  equal(rule.type, 'simple')
-  equal(rule.name, '@charset')
-  equal(rule.value, '"utf-8"')
-  equal(rule.toString(), '@charset "utf-8";')
-})
-
-test('@import', () => {
-  let rule = jss.createRule('@import', '"something"')
-  equal(rule.type, 'simple')
-  equal(rule.toString(), '@import "something";')
-  rule = jss.createRule('@import', 'url("something") print')
-  equal(rule.toString(), '@import url("something") print;')
-})
-
-test('@namespace', () => {
-  const rule = jss.createRule('@namespace', 'svg url(http://www.w3.org/2000/svg)')
-  equal(rule.type, 'simple')
-  equal(rule.toString(), '@namespace svg url(http://www.w3.org/2000/svg);')
-})
-
-test('@keyframes', () => {
-  const rule = jss.createRule('@keyframes id', {
-    from: {top: 0},
-    '30%': {top: 30},
-    '60%, 70%': {top: 80}
+    it('should accept all params', () => {
+      const style = {float: 'left'}
+      const options = {named: false}
+      const rule = jss.createRule('.a', style, options)
+      expect(rule.style).to.eql(style)
+      expect(rule.type).to.be('regular')
+      expect(rule.className).to.be('')
+      expect(rule.selector).to.be('.a')
+      expect(rule.options.named).to.be(false)
+      expect(rule.options.jss).to.be(jss)
+    })
   })
-  equal(rule.type, 'keyframe')
-  equal(rule.selector, '@keyframes id')
-  const css =
-    '@keyframes id {\n' +
-    '  from {\n' +
-    '    top: 0;\n' +
-    '  }\n' +
-    '  30% {\n' +
-    '    top: 30;\n' +
-    '  }\n' +
-    '  60%, 70% {\n' +
-    '    top: 80;\n' +
-    '  }\n' +
-    '}'
-  equal(rule.toString(), css)
-})
 
-test('@media', () => {
-  const rule = jss.createRule('@media print', {button: {display: 'none'}}, {named: false})
-  equal(rule.type, 'conditional')
-  equal(rule.selector, '@media print')
-  equal(rule.toString(), '@media print {\n  button {\n    display: none;\n  }\n}')
-})
+  describe('rule.toString()', () => {
+    it('should return CSS from unnamed rule', () => {
+      const rule = jss.createRule('.a', {float: 'left', width: '1px'}, {named: false})
+      expect(rule.toString()).to.be('.a {\n  float: left;\n  width: 1px;\n}')
+    })
 
-test('@media named', () => {
-  const rule = jss.createRule('@media print', {
-    button: {
-      display: 'none'
-    }
+    it('should return CSS without selector from unnamed rule', () => {
+      const rule = jss.createRule('.a', {float: 'left'}, {named: false})
+      expect(rule.toString({selector: false})).to.be('\nfloat: left;')
+    })
+
+    it('shuld return CSS with fallbacks', () => {
+      const rule = jss.createRule('.a', {display: ['inline', 'run-in']}, {named: false})
+      expect(rule.toString()).to.be('.a {\n  display: inline;\n  display: run-in;\n}')
+    })
+
+    it('should return CSS from @charset rule', () => {
+      const rule = jss.createRule('@charset', '"utf-8"')
+      expect(rule.type).to.be('simple')
+      expect(rule.name).to.be('@charset')
+      expect(rule.value).to.be('"utf-8"')
+      expect(rule.toString()).to.be('@charset "utf-8";')
+    })
+
+    it('should return CSS from @import rule', () => {
+      let rule = jss.createRule('@import', '"something"')
+      expect(rule.type).to.be('simple')
+      expect(rule.name).to.be('@import')
+      expect(rule.value).to.be('"something"')
+      expect(rule.toString()).to.be('@import "something";')
+      rule = jss.createRule('@import', 'url("something") print')
+      expect(rule.toString()).to.be('@import url("something") print;')
+    })
+
+    it('should return CSS from @namespace rule', () => {
+      const rule = jss.createRule('@namespace', 'svg url(http://www.w3.org/2000/svg)')
+      expect(rule.type).to.be('simple')
+      expect(rule.name).to.be('@namespace')
+      expect(rule.value).to.be('svg url(http://www.w3.org/2000/svg)')
+      expect(rule.toString()).to.be('@namespace svg url(http://www.w3.org/2000/svg);')
+    })
+
+    it('should return CSS from @keyframes rule', () => {
+      const rule = jss.createRule('@keyframes id', {
+        from: {top: 0},
+        '30%': {top: 30},
+        '60%, 70%': {top: 80}
+      })
+      expect(rule.type).to.be('keyframe')
+      expect(rule.selector).to.be('@keyframes id')
+      const css =
+        '@keyframes id {\n' +
+        '  from {\n' +
+        '    top: 0;\n' +
+        '  }\n' +
+        '  30% {\n' +
+        '    top: 30;\n' +
+        '  }\n' +
+        '  60%, 70% {\n' +
+        '    top: 80;\n' +
+        '  }\n' +
+        '}'
+      expect(rule.toString()).to.be(css)
+    })
+
+    describe('@media rule', () => {
+      it('should return CSS from unnamed rule', () => {
+        const rule = jss.createRule(
+          '@media print',
+          {button: {display: 'none'}},
+          {named: false}
+        )
+        expect(rule.type).to.be('conditional')
+        expect(rule.selector).to.be('@media print')
+        expect(rule.toString()).to.be(
+          '@media print {\n' +
+          '  button {\n' +
+          '    display: none;\n' +
+          '  }\n' +
+          '}'
+        )
+      })
+
+      it('should return CSS from named rule', () => {
+        const rule = jss.createRule(
+          '@media print',
+          {button: {display: 'none'}}
+        )
+        expect(rule.type).to.be('conditional')
+        expect(rule.selector).to.be('@media print')
+        expect(rule.toString()).to.be(
+          '@media print {\n' +
+          '  .button--jss-0-1 {\n' +
+          '    display: none;\n' +
+          '  }\n' +
+          '}'
+        )
+      })
+
+      it('should return CSS from named rule without empty rule', () => {
+        const rule = jss.createRule(
+          '@media print',
+          {button: {}}
+        )
+        expect(rule.type).to.be('conditional')
+        expect(rule.selector).to.be('@media print')
+        expect(rule.toString()).to.be('@media print {\n}')
+      })
+    })
+
+    describe('@font-face rule', () => {
+      function checkSingle(options) {
+        const rule = jss.createRule('@font-face', {
+          'font-family': 'MyHelvetica',
+          src: 'local("Helvetica")'
+        }, options)
+        expect(rule.type).to.be('font-face')
+        expect(rule.selector).to.be('@font-face')
+        expect(rule.toString()).to.be(
+          '@font-face {\n' +
+          '  font-family: MyHelvetica;\n' +
+          '  src: local("Helvetica");\n' +
+          '}'
+        )
+      }
+
+      function checkMulti(options) {
+        const rule = jss.createRule('@font-face', [
+          {
+            'font-family': 'MyHelvetica',
+            src: 'local("Helvetica")'
+          },
+          {
+            'font-family': 'MyComicSans',
+            src: 'local("ComicSans")'
+          },
+        ], options)
+        expect(rule.type).to.be('font-face')
+        expect(rule.selector).to.be('@font-face')
+        expect(rule.toString()).to.be(
+          '@font-face {\n' +
+          '  font-family: MyHelvetica;\n' +
+          '  src: local("Helvetica");\n' +
+          '}\n' +
+          '@font-face {\n' +
+          '  font-family: MyComicSans;\n' +
+          '  src: local("ComicSans");\n' +
+          '}\n'
+        )
+      }
+
+      it('should return CSS from named rule', () => {
+        checkSingle()
+      })
+
+      it('should return CSS from unnamed rule', () => {
+        checkSingle({named: false})
+      })
+
+      it('should handle multiple font-faces from named rule', () => {
+        checkMulti()
+      })
+
+      it('should handle multiple font-faces from unnamed rule', () => {
+        checkMulti({named: false})
+      })
+    })
+
+    it('should return CSS from @supports rule', () => {
+      const rule = jss.createRule('@supports ( display: flexbox )', {
+        button: {
+          display: 'none'
+        }
+      })
+      expect(rule.type).to.be('conditional')
+      expect(rule.selector).to.be('@supports ( display: flexbox )')
+      const css =
+        '@supports ( display: flexbox ) {\n' +
+        '  .button--jss-0-1 {\n' +
+        '    display: none;\n' +
+        '  }\n' +
+        '}'
+      expect(rule.toString()).to.be(css)
+    })
   })
-  equal(rule.type, 'conditional')
-  equal(rule.selector, '@media print')
-  equal(rule.toString(), '@media print {\n  .button--jss-0-1 {\n    display: none;\n  }\n}')
-})
 
-test('@media named with an empty rule', () => {
-  const rule = jss.createRule('@media print', {
-    button: {}
+  describe('rule.toJSON()', () => {
+    it('should return style', () => {
+      const style = {color: 'red'}
+      const rule = jss.createRule(style)
+      expect(rule.toJSON()).to.eql(style)
+    })
+
+    it('should skip nested rules', () => {
+      const style = {color: 'red', '&:hover': {color: 'blue'}}
+      const rule = jss.createRule(style)
+      expect(rule.toJSON()).to.eql({color: 'red'})
+    })
   })
-  equal(rule.toString(), '@media print {\n}')
-})
 
-test('@font-face', () => {
-  let rule = jss.createRule('@font-face', {
-    'font-family': 'MyHelvetica',
-    src: 'local("Helvetica")'
+  describe('rule.prop()', () => {
+    it('should get and set prop', () => {
+      const rule = jss.createRule()
+      rule.prop('float', 'left')
+      expect(rule.prop('float')).to.be('left')
+      rule.prop('width', 0)
+      expect(rule.prop('width')).to.be(0)
+    })
   })
-  equal(rule.type, 'font-face')
-  equal(rule.selector, '@font-face')
-  equal(rule.toString(), '@font-face {\n  font-family: MyHelvetica;\n  src: local("Helvetica");\n}')
-  rule = jss.createRule('@font-face', {
-    'font-family': 'MyHelvetica',
-    src: 'local("Helvetica")'
-  }, {named: true})
-  equal(rule.toString(), '@font-face {\n  font-family: MyHelvetica;\n  src: local("Helvetica");\n}')
-})
-
-test('@font-face with an array of styles', () => {
-  let rule = jss.createRule('@font-face', [
-    {
-      'font-family': 'MyHelvetica',
-      src: 'local("Helvetica")'
-    },
-    {
-      'font-family': 'MyComicSans',
-      src: 'local("ComicSans")'
-    },
-  ])
-  equal(rule.type, 'font-face')
-  equal(rule.selector, '@font-face')
-  equal(
-    rule.toString(),
-    '@font-face {\n' +
-    '  font-family: MyHelvetica;\n' +
-    '  src: local("Helvetica");\n' +
-    '}\n' +
-    '@font-face {\n' +
-    '  font-family: MyComicSans;\n' +
-    '  src: local("ComicSans");\n' +
-    '}\n'
-  )
-  rule = jss.createRule('@font-face', [
-    {
-      'font-family': 'MyHelvetica',
-      src: 'local("Helvetica")'
-    },
-    {
-      'font-family': 'MyComicSans',
-      src: 'local("ComicSans")'
-    },
-  ], {named: true})
-  equal(rule.type, 'font-face')
-  equal(rule.selector, '@font-face')
-  equal(
-    rule.toString(),
-    '@font-face {\n' +
-    '  font-family: MyHelvetica;\n' +
-    '  src: local("Helvetica");\n' +
-    '}\n' +
-    '@font-face {\n' +
-    '  font-family: MyComicSans;\n' +
-    '  src: local("ComicSans");\n' +
-    '}\n'
-  )
-})
-
-test('@supports', () => {
-  const rule = jss.createRule('@supports ( display: flexbox )', {
-    button: {
-      display: 'none'
-    }
-  })
-  equal(rule.type, 'conditional')
-  equal(rule.selector, '@supports ( display: flexbox )')
-  const css =
-    '@supports ( display: flexbox ) {\n' +
-    '  .button--jss-0-1 {\n' +
-    '    display: none;\n' +
-    '  }\n' +
-    '}'
-  equal(rule.toString(), css)
-})
-
-test('.toJSON()', () => {
-  const style = {color: 'red'}
-  const rule = jss.createRule(style)
-  deepEqual(rule.toJSON(), style, 'declarations are correct')
-})
-
-test('.toJSON() with nested rules', () => {
-  const style = {color: 'red', '&:hover': {color: 'blue'}}
-  const rule = jss.createRule(style)
-  deepEqual(rule.toJSON(), {color: 'red'}, 'nested rules removed')
-})
-
-test('.prop() virtual', () => {
-  const rule = jss.createRule()
-  rule.prop('float', 'left')
-  equal(rule.prop('float'), 'left')
-  rule.prop('width', 0)
-  equal(rule.prop('width'), 0)
 })

@@ -1,16 +1,22 @@
-<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>JSS</title>
-    <link rel="stylesheet" href="../node_modules/qunitjs/qunit/qunit.css">
+  <meta charset="utf-8">
+  <title>JSS Tests</title>
+  <link href="../node_modules/mocha/mocha.css" rel="stylesheet" />
 </head>
 <body>
-    <div id="qunit"></div>
-    <div id="qunit-fixture"></div>
-    <script src="../node_modules/es5-shim/es5-shim.js"></script>
-    <script src="../node_modules/es5-shim/es5-sham.js"></script>
-    <script src="../node_modules/qunitjs/qunit/qunit.js"></script>
-    <script src="../tmp/tests.js"></script>
+  <div id="mocha"></div>
+  <script src="../node_modules/es5-shim/es5-shim.js"></script>
+  <script src="../node_modules/es5-shim/es5-sham.js"></script>
+
+  <script src="../node_modules/expect.js/index.js"></script>
+  <script src="../node_modules/mocha/mocha.js"></script>
+
+  <script>mocha.setup('bdd')</script>
+  <script src="../tmp/tests.js"></script>
+  <script>
+    mocha.checkLeaks();
+    mocha.run();
+  </script>
 </body>
 </html>

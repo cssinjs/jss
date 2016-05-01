@@ -1,117 +1,135 @@
-import jss from 'jss'
-import {setup} from '../utils'
+import expect from 'expect.js'
+import jss, {Rule} from 'jss'
+import {reset} from '../utils'
 
-QUnit.module('Integration sheet', setup)
+afterEach(reset)
 
-test('without args', () => {
-  const sheet = jss.createStyleSheet()
-  equal(sheet.deployed, false, '.deployed is false')
-  equal(sheet.attached, false, '.attached is false')
-  equal(sheet.options.named, true, '.options.named is true')
-  deepEqual(sheet.classes, {}, '.classes is an empty object')
-})
+describe('Integration: sheet', () => {
+  describe('.createStyleSheet()', () => {
+    it('should create a sheet without args', () => {
+      const sheet = jss.createStyleSheet()
+      expect(sheet.deployed).to.be(false)
+      expect(sheet.attached).to.be(false)
+      expect(sheet.options.named).to.be(true)
+      expect(sheet.classes).to.eql({})
+    })
 
-test('.toString() empty rule trim', () => {
-  const sheet = jss.createStyleSheet({
-    a: {color: 'red'},
-    b: {},
-    c: {color: 'green'},
-    d: {}
+    it('should create a sheet with one rule', () => {
+      const sheet = jss.createStyleSheet({a: {float: 'left'}})
+      const rule = sheet.getRule('a')
+      expect(rule).to.be.a(Rule)
+      expect(sheet.classes.a).to.be('a--jss-0-0')
+      expect(rule.className).to.be('a--jss-0-0')
+      expect(rule.selector).to.be('.a--jss-0-0')
+    })
+
+    it('should create an unnamed sheet', () => {
+      const sheet = jss.createStyleSheet({'.a': {float: 'left'}}, {named: false})
+      const rule = sheet.getRule('.a')
+      expect(rule).to.be.a(Rule)
+      expect(rule.options.named).to.be(false)
+      expect(sheet.options.named).to.be(false)
+      expect('.a' in sheet.classes).to.be(false)
+    })
   })
-  equal(
-    sheet.toString(),
-    '.a--jss-0-0 {\n  color: red;\n}\n.c--jss-0-2 {\n  color: green;\n}',
-    'empty rule was removed'
-  )
-})
 
-test('.toString() empty font-face rule trim', () => {
-  const sheet = jss.createStyleSheet({
-    a: {color: 'red'},
-    b: {},
-    c: {color: 'green'},
-    '@font-face': {}
+  describe('sheet.getRule()', () => {
+    it('should return a rule by name and selector from named sheet', () => {
+      const sheet = jss.createStyleSheet({a: {float: 'left'}})
+      expect(sheet.getRule('a')).to.be.a(Rule)
+      expect(sheet.getRule('.a--jss-0-0')).to.be.a(Rule)
+    })
+
+    it('should return a rule by selector from unnamed sheet', () => {
+      const sheet = jss.createStyleSheet({a: {float: 'left'}}, {named: false})
+      expect(sheet.getRule('a')).to.be.a(Rule)
+    })
   })
-  equal(
-    sheet.toString(),
-    '.a--jss-0-0 {\n  color: red;\n}\n.c--jss-0-2 {\n  color: green;\n}',
-    'empty font face rule was removed '
-  )
-})
 
-test('.toString() empty conditional rule trim', () => {
-  const sheet = jss.createStyleSheet({
-    a: {color: 'red'},
-    '@media print': {}
+  describe('sheet.toString()', () => {
+    it('should compile all rule types to CSS', () => {
+      const sheet = jss.createStyleSheet({
+        '@charset': '"utf-8"',
+        '@import': 'bla',
+        '@namespace': 'bla',
+        '.a': {
+          float: 'left'
+        },
+        '@font-face': {
+          'font-family': 'MyHelvetica',
+          src: 'local("Helvetica")'
+        },
+        '@keyframes id': {
+          from: {top: 0}
+        },
+        '@media print': {
+          button: {display: 'none'}
+        },
+        '@supports ( display: flexbox )': {
+          button: {
+            display: 'none'
+          }
+        }
+      }, {named: false})
+
+      expect(sheet.toString()).to.be(
+        '@charset "utf-8";\n' +
+        '@import bla;\n' +
+        '@namespace bla;\n' +
+        '.a {\n  float: left;\n}\n' +
+        '@font-face {\n  font-family: MyHelvetica;\n  src: local("Helvetica");\n}\n' +
+        '@keyframes id {\n  from {\n    top: 0;\n  }\n}\n' +
+        '@media print {\n  button {\n    display: none;\n  }\n}\n' +
+        '@supports ( display: flexbox ) {\n  button {\n    display: none;\n  }\n}'
+      )
+    })
   })
-  equal(
-    sheet.toString(),
-    '.a--jss-0-0 {\n  color: red;\n}',
-    'empty media rule was removed'
-  )
-})
 
-test('.toString() all rule types', () => {
-  const sheet = jss.createStyleSheet({
-    '@charset': '"utf-8"',
-    '@import': 'bla',
-    '@namespace': 'bla',
-    '.a': {
-      float: 'left'
-    },
-    '@font-face': {
-      'font-family': 'MyHelvetica',
-      src: 'local("Helvetica")'
-    },
-    '@keyframes id': {
-      from: {top: 0}
-    },
-    '@media print': {
-      button: {display: 'none'}
-    },
-    '@supports ( display: flexbox )': {
-      button: {
-        display: 'none'
-      }
-    }
-  }, {named: false})
+  describe('sheet.toString() should compile to CSS and skip empty rules', () => {
+    it('should skip empty rules', () => {
+      const sheet = jss.createStyleSheet({
+        a: {color: 'red'},
+        b: {},
+        c: {color: 'green'},
+        d: {}
+      })
+      expect(sheet.toString()).to.be(
+        '.a--jss-0-0 {\n' +
+        '  color: red;\n' +
+        '}\n' +
+        '.c--jss-0-2 {\n' +
+        '  color: green;\n' +
+        '}'
+      )
+    })
 
-  equal(
-    sheet.toString(),
-    '@charset "utf-8";\n' +
-    '@import bla;\n' +
-    '@namespace bla;\n' +
-    '.a {\n  float: left;\n}\n' +
-    '@font-face {\n  font-family: MyHelvetica;\n  src: local("Helvetica");\n}\n' +
-    '@keyframes id {\n  from {\n    top: 0;\n  }\n}\n' +
-    '@media print {\n  button {\n    display: none;\n  }\n}\n' +
-    '@supports ( display: flexbox ) {\n  button {\n    display: none;\n  }\n}',
-    'all rules are correct'
-  )
-})
+    it('should skip empty font-face rule', () => {
+      const sheet = jss.createStyleSheet({
+        a: {color: 'red'},
+        b: {},
+        c: {color: 'green'},
+        '@font-face': {}
+      })
+      expect(sheet.toString()).to.be(
+        '.a--jss-0-0 {\n' +
+        '  color: red;\n' +
+        '}\n' +
+        '.c--jss-0-2 {\n' +
+        '  color: green;\n' +
+        '}'
+      )
+    })
 
-test('.createStyleSheet() with one rule', () => {
-  const sheet = jss.createStyleSheet({a: {float: 'left'}})
-  const rule = sheet.getRule('a')
-  ok(rule, 'rule a created')
-  equal(sheet.classes.a, 'a--jss-0-0', 'class is registered')
-  equal(rule.className, 'a--jss-0-0', 'rule.className is correct')
-  equal(rule.selector, '.a--jss-0-0', 'rule.selector is correct')
-})
-
-test('Options {named: false}', () => {
-  const sheet = jss.createStyleSheet({'.a': {float: 'left'}}, {named: false})
-  const rule = sheet.getRule('.a')
-  ok(rule, 'rule is created')
-  equal(rule.options.named, false, 'rule should have named: false')
-  equal('.a' in sheet.classes, false, 'rule should not be in classes')
-  equal(sheet.options.named, false, 'sheet should have named: false')
-})
-
-test('.getRule()', () => {
-  let sheet = jss.createStyleSheet({a: {float: 'left'}}, {named: true})
-  ok(sheet.getRule('a'), 'returns rule by name')
-  ok(sheet.getRule('.a--jss-0-0'), 'returns rule by selector')
-  sheet = jss.createStyleSheet({a: {float: 'left'}}, {named: false})
-  ok(sheet.getRule('a'), 'returns rule by a global selector')
+    it('should skip empty conditional rule', () => {
+      const sheet = jss.createStyleSheet({
+        a: {color: 'red'},
+        '@media print': {}
+      })
+      expect(sheet.toString()).to.be(
+        '.a--jss-0-0 {\n' +
+        '  color: red;\n' +
+        '}'
+      )
+    })
+  })
 })

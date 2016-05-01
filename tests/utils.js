@@ -35,11 +35,8 @@ export function computeStyle(className) {
   return styleCopy
 }
 
-export const setup = {
-  teardown: () => {
-    jss.plugins.registry = []
-    jss.sheets.registry = []
-    jss.uid.reset()
-  }
+export function reset() {
+  jss.plugins.registry = []
+  jss.sheets.registry = []
+  jss.uid.reset()
 }
-

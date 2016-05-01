@@ -5,10 +5,9 @@ var browsers = require('./browsers')
 
 module.exports = function (config) {
   config.set({
-    singleRun: true,
     customLaunchers: browsers,
     browsers: ['Chrome', 'Firefox', 'Safari'],
-    frameworks: ['qunit'],
+    frameworks: ['mocha'],
     files: [
       'node_modules/es5-shim/es5-shim.js',
       'node_modules/es5-shim/es5-sham.js',
@@ -28,7 +27,8 @@ module.exports = function (config) {
         { type: 'html', subdir: 'html' },
         { type: 'lcovonly', subdir: '.' }
       ]
-    }
+    },
+    reporters: ['mocha']
   })
 
   if (process.env.USE_CLOUD) {
