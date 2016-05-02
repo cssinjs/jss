@@ -1,3 +1,9 @@
+## 3.10.0 / 2016-05-02
+
+- fix multiple @imports
+- added benchmarks
+- rewrote all tests with mocha
+
 ## 3.9.1 / 2016-04-26
 
 - fix multiple @media in one sheet
