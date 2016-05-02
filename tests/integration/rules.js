@@ -76,14 +76,31 @@ describe('Integration: rules', () => {
       expect(rule.toString()).to.be('@charset "utf-8";')
     })
 
-    it('should return CSS from @import rule', () => {
-      let rule = jss.createRule('@import', '"something"')
-      expect(rule.type).to.be('simple')
-      expect(rule.name).to.be('@import')
-      expect(rule.value).to.be('"something"')
-      expect(rule.toString()).to.be('@import "something";')
-      rule = jss.createRule('@import', 'url("something") print')
-      expect(rule.toString()).to.be('@import url("something") print;')
+    describe('@import rule', () => {
+      it('should return CSS from @import with single value', () => {
+        let rule = jss.createRule('@import', '"something"')
+        expect(rule.type).to.be('simple')
+        expect(rule.name).to.be('@import')
+        expect(rule.value).to.be('"something"')
+        expect(rule.toString()).to.be('@import "something";')
+        rule = jss.createRule('@import', 'url("something") print')
+        expect(rule.toString()).to.be('@import url("something") print;')
+      })
+
+      it('should return CSS from @import with array value', () => {
+        const value = [
+          'url("something") print',
+          'url("something") screen'
+        ]
+        const rule = jss.createRule('@import', value)
+        expect(rule.type).to.be('simple')
+        expect(rule.name).to.be('@import')
+        expect(rule.value).to.eql(value)
+        expect(rule.toString()).to.be(
+          '@import url("something") print;\n' +
+          '@import url("something") screen;'
+        )
+      })
     })
 
     it('should return CSS from @namespace rule', () => {
@@ -199,7 +216,7 @@ describe('Integration: rules', () => {
           '@font-face {\n' +
           '  font-family: MyComicSans;\n' +
           '  src: local("ComicSans");\n' +
-          '}\n'
+          '}'
         )
       }
 

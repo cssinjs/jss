@@ -21,6 +21,15 @@ export default class SimpleRule {
    * @api public
    */
   toString() {
+    if (Array.isArray(this.value)) {
+      let str = ''
+      for (let index = 0; index < this.value.length; index++) {
+        str += `${this.name} ${this.value[index]};`
+        if (this.value[index + 1]) str += '\n'
+      }
+      return str
+    }
+
     return `${this.name} ${this.value};`
   }
 }

@@ -21,11 +21,11 @@ export default class Rule {
    * @api public
    */
   toString(options) {
-    let str = ''
     if (Array.isArray(this.style)) {
+      let str = ''
       for (let index = 0; index < this.style.length; index++) {
         str += toCSS(this.selector, this.style[index], options)
-        str += '\n'
+        if (this.style[index + 1]) str += '\n'
       }
       return str
     }
