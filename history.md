@@ -1,3 +1,7 @@
+## 3.11.0 / 2016-05-06
+
+- added option element to .createStyleSheet #231
+
 ## 3.10.0 / 2016-05-02
 
 - fix multiple @imports

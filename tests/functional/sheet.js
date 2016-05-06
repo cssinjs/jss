@@ -93,7 +93,7 @@ describe('Functional: sheet', () => {
     })
   })
 
-  describe('Options: {link: true}', () => {
+  describe('Option: {link: true}', () => {
     let sheet
     before(() => {
       sheet = jss.createStyleSheet({a: {float: 'left'}}, {link: true}).attach()
@@ -118,6 +118,17 @@ describe('Functional: sheet', () => {
       const sheet = jss.createStyleSheet({a: {float: 'left'}}, {virtual: true})
       sheet.attach()
       expect(getStyle()).to.be(undefined)
+      sheet.detach()
+    })
+  })
+
+  describe('Option {element}', () => {
+    it('should render style using provided element', () => {
+      const element = document.createElement('style')
+      element.type = 'text/css'
+      const sheet = jss.createStyleSheet({a: {float: 'left'}}, {element})
+      sheet.attach()
+      expect(getCss(element)).to.be(sheet.toString())
       sheet.detach()
     })
   })

@@ -30,7 +30,7 @@ export default class DomRenderer {
 
   constructor(options) {
     this.head = document.head || document.getElementsByTagName('head')[0]
-    this.element = document.createElement('style')
+    this.element = options.element || document.createElement('style')
     // IE8 will not have `styleSheet` prop without `type and `styleSheet.cssText`
     // is the only way to render on IE8.
     this.element.type = 'text/css'
@@ -44,6 +44,7 @@ export default class DomRenderer {
    * @api private
    */
   attach() {
+    if (this.element.parendNode) return
     this.head.appendChild(this.element)
   }
 

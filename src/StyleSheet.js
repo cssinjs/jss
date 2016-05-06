@@ -7,13 +7,14 @@ import findRenderer from './findRenderer'
  *
  * Options:
  *
- *  - 'media' style element attribute
- *  - 'title' style element attribute
- *  - 'type' style element attribute
- *  - 'named' true by default - keys are names, selectors will be generated,
- *    if false - keys are global selectors
- *  - 'link' link renderable CSS rules with their corresponding models, false
- *    by default because fast by default
+ * - `media` media query - attribute of style element.
+ * - `meta` meta information about this style - attribute of style element, for e.g. you could pass
+ * component name for easier debugging.
+ * - `named` true by default - keys are names, selectors will be generated, if false - keys are
+ * global selectors.
+ * - `link` link jss `Rule` instances with DOM `CSSRule` instances so that styles, can be modified
+ * dynamically, false by default because it has some performance cost.
+ * - `element` style element, will create one by default
  *
  * @param {Object} [rules] object with selectors and declarations
  * @param {Object} [options]
