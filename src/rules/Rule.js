@@ -11,16 +11,17 @@ export default class Rule {
     this.type = 'regular'
     this.options = options
     this.selectorText = selector || ''
-    this.className = ''
-    if (options.named) {
-      this.name = selector
-      const className = options.className || (this.name ? `${this.name}--${this.id}` : this.id)
-      this.selectorText = `.${className}`
-      this.className = className
-    }
+    this.className = options.className || ''
     this.originalStyle = style
     // We expect style to be plain object.
     this.style = clone(style)
+    if (options.named) {
+      this.name = selector
+      if (!this.className) {
+        this.className = this.name ? `${this.name}--${this.id}` : this.id
+      }
+      this.selectorText = `.${this.className}`
+    }
   }
 
   /**
