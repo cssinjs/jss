@@ -1,7 +1,4 @@
-import {clone, uid, toCSS} from '../utils'
-
-const dotsRegExp = /[.]/g
-const classesRegExp = /[.][^ ,]+/g
+import {clone, uid, toCSS, findClassNames} from '../utils'
 
 /**
  * Regular rules.
@@ -41,10 +38,7 @@ export default class Rule {
     if (sheet) sheet.unregisterRule(this)
 
     this.selectorText = selector
-    const classes = selector.match(classesRegExp)
-    if (classes) {
-      this.className = classes.join(' ').replace(dotsRegExp, '')
-    }
+    this.className = findClassNames(selector)
 
     if (!this.renderable) {
       // Register the rule with new selector.

@@ -63,6 +63,21 @@ export const uid = (() => {
 })()
 
 /**
+ * Indent a string.
+ *
+ * http://jsperf.com/array-join-vs-for
+ *
+ * @param {Number} level
+ * @param {String} str
+ * @return {String}
+ */
+function indent(level, str) {
+  let indentStr = ''
+  for (let index = 0; index < level; index++) indentStr += '  '
+  return indentStr + str
+}
+
+/**
  * Converts a Rule to CSS string.
  *
  * Options:
@@ -100,16 +115,23 @@ export function toCSS(selector, style, options = {}) {
 }
 
 /**
- * Indent a string.
+ * Get class names from a selector.
  *
- * http://jsperf.com/array-join-vs-for
- *
- * @param {Number} level
- * @param {String} str
+ * @param {String} selector
  * @return {String}
  */
-function indent(level, str) {
-  let indentStr = ''
-  for (let index = 0; index < level; index++) indentStr += '  '
-  return indentStr + str
-}
+export const findClassNames = (() => {
+  const dotsRegExp = /[.]/g
+  const classesRegExp = /[.][^ ,]+/g
+
+  return (selector) => {
+    const classes = selector.match(classesRegExp)
+
+    if (!classes) return ''
+
+    return classes
+      .join(' ')
+      .replace(dotsRegExp, '')
+  }
+})()
+
