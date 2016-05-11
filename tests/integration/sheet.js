@@ -31,6 +31,15 @@ describe('Integration: sheet', () => {
       expect(sheet.options.named).to.be(false)
       expect('.a' in sheet.classes).to.be(false)
     })
+
+    it('should register a conditional child rule in classes', () => {
+      const sheet = jss.createStyleSheet({
+        '@media print': {
+          a: {float: 'left'}
+        }
+      })
+      expect(sheet.classes.a).to.be('a--jss-0-1')
+    })
   })
 
   describe('sheet.getRule()', () => {
@@ -83,53 +92,53 @@ describe('Integration: sheet', () => {
         '@supports ( display: flexbox ) {\n  button {\n    display: none;\n  }\n}'
       )
     })
-  })
 
-  describe('sheet.toString() should compile to CSS and skip empty rules', () => {
-    it('should skip empty rules', () => {
-      const sheet = jss.createStyleSheet({
-        a: {color: 'red'},
-        b: {},
-        c: {color: 'green'},
-        d: {}
+    describe('skip empty rules', () => {
+      it('should skip empty rules', () => {
+        const sheet = jss.createStyleSheet({
+          a: {color: 'red'},
+          b: {},
+          c: {color: 'green'},
+          d: {}
+        })
+        expect(sheet.toString()).to.be(
+          '.a--jss-0-0 {\n' +
+          '  color: red;\n' +
+          '}\n' +
+          '.c--jss-0-2 {\n' +
+          '  color: green;\n' +
+          '}'
+        )
       })
-      expect(sheet.toString()).to.be(
-        '.a--jss-0-0 {\n' +
-        '  color: red;\n' +
-        '}\n' +
-        '.c--jss-0-2 {\n' +
-        '  color: green;\n' +
-        '}'
-      )
-    })
 
-    it('should skip empty font-face rule', () => {
-      const sheet = jss.createStyleSheet({
-        a: {color: 'red'},
-        b: {},
-        c: {color: 'green'},
-        '@font-face': {}
+      it('should skip empty font-face rule', () => {
+        const sheet = jss.createStyleSheet({
+          a: {color: 'red'},
+          b: {},
+          c: {color: 'green'},
+          '@font-face': {}
+        })
+        expect(sheet.toString()).to.be(
+          '.a--jss-0-0 {\n' +
+          '  color: red;\n' +
+          '}\n' +
+          '.c--jss-0-2 {\n' +
+          '  color: green;\n' +
+          '}'
+        )
       })
-      expect(sheet.toString()).to.be(
-        '.a--jss-0-0 {\n' +
-        '  color: red;\n' +
-        '}\n' +
-        '.c--jss-0-2 {\n' +
-        '  color: green;\n' +
-        '}'
-      )
-    })
 
-    it('should skip empty conditional rule', () => {
-      const sheet = jss.createStyleSheet({
-        a: {color: 'red'},
-        '@media print': {}
+      it('should skip empty conditional rule', () => {
+        const sheet = jss.createStyleSheet({
+          a: {color: 'red'},
+          '@media print': {}
+        })
+        expect(sheet.toString()).to.be(
+          '.a--jss-0-0 {\n' +
+          '  color: red;\n' +
+          '}'
+        )
       })
-      expect(sheet.toString()).to.be(
-        '.a--jss-0-0 {\n' +
-        '  color: red;\n' +
-        '}'
-      )
     })
   })
 })

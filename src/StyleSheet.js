@@ -178,7 +178,15 @@ export default class StyleSheet {
    */
   registerRule(rule) {
     // Children of container rules should not be registered.
-    if (rule.options.parent) return this
+    if (rule.options.parent) {
+      // We need to register child rules of conditionals in classes, otherwise
+      // user can't access generated class name if it doesn't overrides
+      // a regular rule.
+      if (rule.name && rule.className) {
+        this.classes[rule.name] = rule.className
+      }
+      return this
+    }
 
     if (rule.name) {
       this.rules[rule.name] = rule
@@ -197,10 +205,11 @@ export default class StyleSheet {
    * @api public
    */
   unregisterRule(rule) {
-    // Children of container rules should not be unregistered.
-    if (rule.options.parent) return this
-    delete this.rules[rule.name]
-    delete this.rules[rule.selector]
+    // Children of a conditional rule are not registered.
+    if (!rule.options.parent) {
+      delete this.rules[rule.name]
+      delete this.rules[rule.selector]
+    }
     delete this.classes[rule.name]
     return this
   }

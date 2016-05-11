@@ -1,3 +1,7 @@
+## 3.11.1 / 2016-05-11
+
+- register children of a conditional in sheet.classes #81
+
 ## 3.11.0 / 2016-05-06
 
 - added option element to .createStyleSheet #231
