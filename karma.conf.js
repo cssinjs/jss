@@ -1,5 +1,5 @@
 var webpack = require('webpack')
-var assign = require('lodash/object/assign')
+var assign = require('lodash.assign')
 var webpackConfig = require('./webpack.config')
 var browsers = require('./browsers')
 
