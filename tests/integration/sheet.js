@@ -93,6 +93,52 @@ describe('Integration: sheet', () => {
       )
     })
 
+    it('should compile multiple media queries in unnamed sheet', () => {
+      const sheet = jss.createStyleSheet({
+        '.a': {color: 'red'},
+        '@media (min-width: 1024px)': {'.a': {color: 'blue'}},
+        '@media (min-width: 1000px)': {'.a': {color: 'green'}}
+      }, {named: false})
+      expect(sheet.toString()).to.be(
+        '.a {\n' +
+        '  color: red;\n' +
+        '}\n' +
+        '@media (min-width: 1024px) {\n' +
+        '  .a {\n' +
+        '    color: blue;\n' +
+        '  }\n' +
+        '}\n' +
+        '@media (min-width: 1000px) {\n' +
+        '  .a {\n' +
+        '    color: green;\n' +
+        '  }\n' +
+        '}'
+      )
+    })
+
+    it('should compile multiple media queries in named sheet', () => {
+      const sheet = jss.createStyleSheet({
+        a: {color: 'red'},
+        '@media (min-width: 1024px)': {a: {color: 'blue'}},
+        '@media (min-width: 1000px)': {a: {color: 'green'}}
+      })
+      expect(sheet.toString()).to.be(
+        '.a--jss-0-0 {\n' +
+        '  color: red;\n' +
+        '}\n' +
+        '@media (min-width: 1024px) {\n' +
+        '  .a--jss-0-0 {\n' +
+        '    color: blue;\n' +
+        '  }\n' +
+        '}\n' +
+        '@media (min-width: 1000px) {\n' +
+        '  .a--jss-0-0 {\n' +
+        '    color: green;\n' +
+        '  }\n' +
+        '}'
+      )
+    })
+
     describe('skip empty rules', () => {
       it('should skip empty rules', () => {
         const sheet = jss.createStyleSheet({
