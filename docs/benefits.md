@@ -10,7 +10,6 @@
 
   Scoped selectors are not enough. CSS has properties which are inherited automatically from the parent element, if not explicitly defined. Thanks to [jss-isolate](https://github.com/jsstyles/jss-isolate) plugin, JSS rules will not inherit properties.
 
-1. Avoids specificity conflicts.
 1. Source order independence.
 1. Slow selectors.
 
