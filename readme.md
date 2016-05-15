@@ -6,15 +6,18 @@
 
 [JSS is a better abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It uses JavaScript as a language to describe styles in a declarative and maintainable way. It compiles to CSS at runtime or server-side and is potentially more performant. You can use it with [React](https://github.com/jsstyles/react-jss) or with any other library. It is less than 4KB (minfied and gzipped) and is extensible via [plugins](./docs/plugins.md) API.
 
-### Links
+### TOC
 
-- [Benefits](./docs/benefits.md)
-- [Installation and setup](./docs/setup.md)
-- [Full documentation](./docs/index.md)
-- [Playground](http://jsstyles.github.io/repl/)
-- [Online examples](http://jsstyles.github.io/examples/index.html).
-- [Official plugins](https://github.com/jsstyles?query=jss-)
-- [External projects](./docs/external-projects.md)
+1. [Live examples](http://jsstyles.github.io/examples/index.html).
+1. [Benefits](./docs/benefits.md)
+1. [Setup](./docs/setup.md)
+1. [JSON API](./docs/json-api.md)
+1. [JavaScript API](./docs/js-api.md)
+1. [Plugins](./docs/plugins.md)
+1. [Server-side rendering](./server-side.md)
+1. [Performance](./docs/performance.md)
+1. [Official plugins](https://github.com/jsstyles?query=jss-)
+1. [External projects](./docs/external-projects.md)
 
 ### Example
 
