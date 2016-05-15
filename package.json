@@ -50,20 +50,18 @@
     "karma-firefox-launcher": "^1.0.0",
     "karma-mocha": "^1.0.1",
     "karma-mocha-reporter": "^2.0.2",
-    "karma-phantomjs-launcher": "^1.0.0",
     "karma-safari-launcher": "^1.0.0",
     "karma-sourcemap-loader": "^0.3.5",
     "karma-webpack": "^1.7.0",
     "lodash.assign": "^4.0.9",
     "mocha": "^2.4.5",
-    "phantomjs-prebuilt": "^2.1.7",
     "webpack": "^1.12.2"
   },
   "scripts": {
     "all": "npm run lint && npm run test && npm run build",
     "clean": "rm -fr ./lib/*",
     "build": "npm run clean && npm run build:lib && npm run build:max && npm run build:min && npm run build:test",
-    "build:lib": "VERSION=`npm run get-version -s` babel src --out-dir lib",
+    "build:lib": "VERSION=`npm view jss version` babel src --out-dir lib",
     "build:max": "NODE_ENV=development webpack src/index.js dist/jss.js",
     "build:min": "NODE_ENV=production webpack src/index.js dist/jss.min.js",
     "build:test": "webpack tests/index.js tmp/tests.js",
@@ -71,7 +69,6 @@
     "prepublish": "npm run all",
     "test": "karma start --single-run",
     "test:watch": "karma start",
-    "bench": "BENCHMARK=true npm run test",
-    "get-version": "node -e \"console.log(require('./package.json').version)\""
+    "bench": "BENCHMARK=true npm run test"
   }
 }

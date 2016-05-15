@@ -5,7 +5,6 @@ var browsers = require('./browsers')
 
 var isBench = process.env.BENCHMARK === 'true'
 var useCloud = process.env.USE_CLOUD === 'true'
-var nodeVersionBrowserStack = parseInt(process.env.NODE_VERSION_BROWSERSTACK, 10)
 var browserStackUserName = process.env.BROWSER_STACK_USERNAME
 var browserStackAccessKey = process.env.BROWSER_STACK_ACCESS_KEY
 var isTravis = process.env.TRAVIS
@@ -46,16 +45,8 @@ module.exports = function (config) {
   }
 
   if (useCloud) {
-    // We support multiple node versions in travis.
-    // To reduce load on browserstack, we only run real browsers in one node version.
-    var useRealBrowsers = parseInt(process.version.substr(1), 10) === nodeVersionBrowserStack
-    if (useRealBrowsers) {
-      config.browsers = Object.keys(browsers)
-    } else {
-      config.browsers = ['PhantomJS']
-    }
-
     assign(config, {
+      browsers: Object.keys(browsers),
       browserDisconnectTimeout: 10000,
       browserDisconnectTolerance: 3,
       browserNoActivityTimeout: 30000,
