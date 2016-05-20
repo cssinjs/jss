@@ -6,3 +6,4 @@ tmp
 lib
 dist
 .env
+coverage

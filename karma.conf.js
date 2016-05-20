@@ -30,9 +30,13 @@ module.exports = (config) => {
     webpackServer: {
       noInfo: true
     },
-    reporters: ['mocha']
+    reporters: ['mocha', 'coverage'],
+    coverageReporter: {
+      dir: 'coverage',
+      file: 'coverage.json',
+      type: 'json'
+    }
   })
-
   if (isBench) {
     assign(config, {
       browsers: ['Chrome'],

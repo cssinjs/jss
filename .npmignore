@@ -3,3 +3,4 @@ benchmark
 tmp
 tests
 .env
+coverage
