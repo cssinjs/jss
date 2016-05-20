@@ -1,18 +1,17 @@
-var webpack = require('webpack')
-var assign = require('lodash.assign')
-var webpackConfig = require('./webpack.config')
-var browsers = require('./browsers')
+const assign = require('lodash.assign')
+const webpackConfig = require('./webpack.config')
+const browsers = require('./browsers')
 
-var isBench = process.env.BENCHMARK === 'true'
-var useCloud = process.env.USE_CLOUD === 'true'
-var browserStackUserName = process.env.BROWSER_STACK_USERNAME
-var browserStackAccessKey = process.env.BROWSER_STACK_ACCESS_KEY
-var isTravis = process.env.TRAVIS
-var travisBuildNumber = process.env.TRAVIS_BUILD_NUMBER
-var travisBuildId = process.env.TRAVIS_BUILD_ID
-var travisJobNumber = process.env.TRAVIS_JOB_NUMBER
+const isBench = process.env.BENCHMARK === 'true'
+const useCloud = process.env.USE_CLOUD === 'true'
+const browserStackUserName = process.env.BROWSER_STACK_USERNAME
+const browserStackAccessKey = process.env.BROWSER_STACK_ACCESS_KEY
+const isTravis = process.env.TRAVIS
+const travisBuildNumber = process.env.TRAVIS_BUILD_NUMBER
+const travisBuildId = process.env.TRAVIS_BUILD_ID
+const travisJobNumber = process.env.TRAVIS_JOB_NUMBER
 
-module.exports = function (config) {
+module.exports = (config) => {
   config.set({
     customLaunchers: browsers,
     browsers: ['Chrome', 'Firefox', 'Safari'],
@@ -61,7 +60,7 @@ module.exports = function (config) {
 
     if (isTravis) {
       assign(config.browserStack, {
-        build: 'TRAVIS #' + travisBuildNumber + ' (' + travisBuildId + ')',
+        build: `TRAVIS #${travisBuildNumber} (${travisBuildId})`,
         name: travisJobNumber
       })
     }

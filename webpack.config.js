@@ -1,11 +1,9 @@
-'use strict'
-
-var webpack = require('webpack')
-var path = require('path')
+const webpack = require('webpack')
+const path = require('path')
 
 process.env.VERSION = require('./package.json').version
 
-var plugins = [
+const plugins = [
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     'process.env.VERSION': JSON.stringify(process.env.VERSION),
@@ -27,7 +25,7 @@ module.exports = {
     library: 'jss',
     libraryTarget: 'umd'
   },
-  plugins: plugins,
+  plugins,
   module: {
     loaders: [
       {
@@ -44,7 +42,7 @@ module.exports = {
   devtool: 'source-map',
   resolve: {
     alias: {
-      'jss': path.join(__dirname, 'src')
+      jss: path.join(__dirname, 'src')
     }
   }
 }

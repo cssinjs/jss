@@ -65,7 +65,7 @@
     "build:max": "NODE_ENV=development webpack src/index.js dist/jss.js",
     "build:min": "NODE_ENV=production webpack src/index.js dist/jss.min.js",
     "build:test": "webpack tests/index.js tmp/tests.js",
-    "lint": "eslint ./src ./tests",
+    "lint": "eslint ./src ./tests ./*.js",
     "prepublish": "npm run all",
     "test": "karma start --single-run",
     "test:watch": "karma start",
