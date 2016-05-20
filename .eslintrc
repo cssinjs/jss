@@ -1,9 +1,6 @@
 {
   "extends": "eslint-config-jss",
   "parser": "babel-eslint",
-  "env": {
-    "qunit": true
-  },
   "rules": {
     "import/no-unresolved": 0
   }
