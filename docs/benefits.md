@@ -33,7 +33,11 @@ JSS allows you to compose rules from multiple sources. You can reuse existing ru
 
 1. Download size.
 
-  JSS styles size is up to 50% smaller, you can save a bandwidth and increase site performance.
+  JSS styles size is up to 50% smaller, you can save a bandwidth and increase site performance if you generate CSS at runtime:
+    - No pregenerated vendor prefixes
+    - No selectors
+    - JavaScript Compressors like [Closure Compiler](https://closure-compiler.appspot.com)
+    - Other at-runtime optimizations provided by plugins
 
 1. Code sharing.
 
