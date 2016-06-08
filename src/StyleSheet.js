@@ -35,7 +35,10 @@ export default class StyleSheet {
     this.renderer = new Renderer(this.options)
 
     for (const name in rules) {
-      this.createRule(name, rules[name])
+      this.createAndRegisterRule(name, rules[name])
+    }
+    for (const name in this.rules) {
+      this.options.jss.plugins.run(this.rules[name])
     }
   }
 
@@ -149,13 +152,12 @@ export default class StyleSheet {
   }
 
   /**
-   * Create a rule, will not render after stylesheet was rendered the first time.
-   * Will link the rule in `this.rules`.
+   * Create and register a rule.
    *
    * @see createRule
    * @api private
    */
-  createRule(name, style, options) {
+  createAndRegisterRule(name, style, options) {
     options = {
       ...options,
       sheet: this,
@@ -166,7 +168,21 @@ export default class StyleSheet {
     if (options.named == null) options.named = this.options.named
     const rule = createRule(name, style, options)
     this.registerRule(rule)
-    options.jss.plugins.run(rule)
+    return rule
+  }
+
+  /**
+   * Create and register rule, run plugins.
+   *
+   * Will not render after stylesheet was rendered the first time.
+   * Will link the rule in `this.rules`.
+   *
+   * @see createRule
+   * @api public
+   */
+  createRule(name, style, options) {
+    const rule = this.createAndRegisterRule(name, style, options)
+    this.options.jss.plugins.run(rule)
     return rule
   }
 
