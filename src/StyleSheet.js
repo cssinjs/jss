@@ -125,13 +125,13 @@ export default class StyleSheet {
    */
   toString(options) {
     const {rules} = this
-    const stringified = Object.create(null)
+    const stringified = []
     let str = ''
     for (const name in rules) {
       const rule = rules[name]
       // We have the same rule referenced twice if using named rules.
       // By name and by selector.
-      if (stringified[rule.id]) {
+      if (stringified.indexOf(rule) !== -1) {
         continue
       }
 
@@ -146,7 +146,7 @@ export default class StyleSheet {
       if (str) str += '\n'
 
       str += rule.toString(options)
-      stringified[rule.id] = true
+      stringified.push(rule)
     }
     return str
   }

@@ -181,7 +181,7 @@ describe('Functional: sheet', () => {
     })
 
     it('should render correct CSS', () => {
-      expect(getCss(style)).to.be('.a--jss-0-0 { float: left; }')
+      expect(getCss(style)).to.be('.a-id { float: left; }')
     })
 
     it('should register the rule', () => {

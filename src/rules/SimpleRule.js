@@ -1,5 +1,3 @@
-import {uid} from '../utils'
-
 /**
  * Rule like @charset, @import, @namespace.
  *
@@ -7,7 +5,6 @@ import {uid} from '../utils'
  */
 export default class SimpleRule {
   constructor(name, value, options) {
-    this.id = uid.get()
     this.type = 'simple'
     this.name = name
     this.value = value

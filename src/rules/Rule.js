@@ -1,4 +1,6 @@
-import {clone, uid, toCSS, findClassNames} from '../utils'
+import {toCSS, findClassNames} from '../utils'
+const {parse, stringify} = JSON
+
 
 /**
  * Regular rules.
@@ -7,18 +9,23 @@ import {clone, uid, toCSS, findClassNames} from '../utils'
  */
 export default class Rule {
   constructor(selector, style, options) {
-    this.id = uid.get()
+    // We expect style to be plain object.
+    // To avoid original style object mutations, we clone it and hash it
+    // along the way.
+    // It is also the fastetst way.
+    // http://jsperf.com/lodash-deepclone-vs-jquery-extend-deep/6
+    const styleStr = stringify(style)
+    const hash = options.jss.hash(styleStr)
+    this.style = parse(styleStr)
     this.type = 'regular'
     this.options = options
     this.selectorText = selector || ''
     this.className = options.className || ''
     this.originalStyle = style
-    // We expect style to be plain object.
-    this.style = clone(style)
     if (options.named) {
       this.name = selector
       if (!this.className) {
-        this.className = this.name ? `${this.name}--${this.id}` : this.id
+        this.className = this.name ? `${this.name}-${hash}` : hash
       }
       this.selectorText = `.${this.className}`
     }

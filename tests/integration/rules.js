@@ -7,14 +7,10 @@ afterEach(reset)
 describe('Integration: rules', () => {
   describe('.createRule()', () => {
     it('should create a rule without args', () => {
-      let rule = jss.createRule()
+      const rule = jss.createRule()
       expect(rule.type).to.be('regular')
-      expect(rule.className).to.be('jss-0-0')
-      expect(rule.selector).to.be('.jss-0-0')
-      rule = jss.createRule()
-      expect(rule.type).to.be('regular')
-      expect(rule.className).to.be('jss-0-1')
-      expect(rule.selector).to.be('.jss-0-1')
+      expect(rule.className).to.be('id')
+      expect(rule.selector).to.be('.id')
     })
 
     it('should accept styles only', () => {
@@ -22,8 +18,8 @@ describe('Integration: rules', () => {
       const rule = jss.createRule(style)
       expect(rule.style).to.eql(style)
       expect(rule.type).to.be('regular')
-      expect(rule.className).to.be('jss-0-0')
-      expect(rule.selector).to.be('.jss-0-0')
+      expect(rule.className).to.be('id')
+      expect(rule.selector).to.be('.id')
     })
 
     it('should accept styles and options', () => {
@@ -32,8 +28,8 @@ describe('Integration: rules', () => {
       const rule = jss.createRule(style, options)
       expect(rule.style).to.eql(style)
       expect(rule.type).to.be('regular')
-      expect(rule.className).to.be('jss-0-0')
-      expect(rule.selector).to.be('.jss-0-0')
+      expect(rule.className).to.be('id')
+      expect(rule.selector).to.be('.id')
       expect(rule.options.named).to.be(true)
       expect(rule.options.jss).to.be(jss)
       expect(rule.options.something).to.be(true)
@@ -161,7 +157,7 @@ describe('Integration: rules', () => {
         expect(rule.selector).to.be('@media print')
         expect(rule.toString()).to.be(
           '@media print {\n' +
-          '  .button--jss-0-1 {\n' +
+          '  .button-id {\n' +
           '    display: none;\n' +
           '  }\n' +
           '}'
@@ -247,7 +243,7 @@ describe('Integration: rules', () => {
       expect(rule.selector).to.be('@supports ( display: flexbox )')
       const css =
         '@supports ( display: flexbox ) {\n' +
-        '  .button--jss-0-1 {\n' +
+        '  .button-id {\n' +
         '    display: none;\n' +
         '  }\n' +
         '}'

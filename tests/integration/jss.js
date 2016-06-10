@@ -46,10 +46,10 @@ describe('Integration: jss', () => {
 
     it('should return CSS of all sheets from .sheets.toString()', () => {
       const css =
-        '.a--jss-0-0 {\n' +
+        '.a-id {\n' +
         '  color: red;\n' +
         '}\n' +
-        '.a--jss-0-1 {\n' +
+        '.a-id {\n' +
         '  color: blue;\n' +
         '}'
       expect(jss.sheets.toString()).to.be(css)

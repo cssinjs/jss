@@ -1,4 +1,4 @@
-import {isEmptyObject, uid} from '../utils'
+import {isEmptyObject} from '../utils'
 
 /**
  * Conditional rule for @media, @supports
@@ -7,7 +7,6 @@ import {isEmptyObject, uid} from '../utils'
  */
 export default class ConditionalRule {
   constructor(selector, styles, options) {
-    this.id = uid.get()
     this.type = 'conditional'
     this.selector = selector
     this.options = options

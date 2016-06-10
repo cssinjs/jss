@@ -1,7 +1,7 @@
+import hash from 'murmurhash-js/murmurhash3_gc'
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import SheetsRegistry from './SheetsRegistry'
-import {uid} from './utils'
 import createRule from './createRule'
 import findRenderer from './findRenderer'
 
@@ -11,11 +11,11 @@ import findRenderer from './findRenderer'
  * @api public
  */
 export default class Jss {
-  constructor() {
+  constructor(options = {}) {
     this.sheets = new SheetsRegistry()
     this.plugins = new PluginsRegistry()
-    this.uid = uid
     this.version = process.env.VERSION
+    this.hash = options.hash || hash
   }
 
   /**
@@ -24,8 +24,8 @@ export default class Jss {
    * @see Jss
    * @api public
    */
-  create() {
-    return new Jss()
+  create(options) {
+    return new Jss(options)
   }
 
   /**

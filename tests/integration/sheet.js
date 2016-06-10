@@ -18,9 +18,9 @@ describe('Integration: sheet', () => {
       const sheet = jss.createStyleSheet({a: {float: 'left'}})
       const rule = sheet.getRule('a')
       expect(rule).to.be.a(Rule)
-      expect(sheet.classes.a).to.be('a--jss-0-0')
-      expect(rule.className).to.be('a--jss-0-0')
-      expect(rule.selector).to.be('.a--jss-0-0')
+      expect(sheet.classes.a).to.be('a-id')
+      expect(rule.className).to.be('a-id')
+      expect(rule.selector).to.be('.a-id')
     })
 
     it('should create an unnamed sheet', () => {
@@ -38,7 +38,7 @@ describe('Integration: sheet', () => {
           a: {float: 'left'}
         }
       })
-      expect(sheet.classes.a).to.be('a--jss-0-1')
+      expect(sheet.classes.a).to.be('a-id')
     })
   })
 
@@ -46,7 +46,7 @@ describe('Integration: sheet', () => {
     it('should return a rule by name and selector from named sheet', () => {
       const sheet = jss.createStyleSheet({a: {float: 'left'}})
       expect(sheet.getRule('a')).to.be.a(Rule)
-      expect(sheet.getRule('.a--jss-0-0')).to.be.a(Rule)
+      expect(sheet.getRule('.a-id')).to.be.a(Rule)
     })
 
     it('should return a rule by selector from unnamed sheet', () => {
@@ -123,16 +123,16 @@ describe('Integration: sheet', () => {
         '@media (min-width: 1000px)': {a: {color: 'green'}}
       })
       expect(sheet.toString()).to.be(
-        '.a--jss-0-0 {\n' +
+        '.a-id {\n' +
         '  color: red;\n' +
         '}\n' +
         '@media (min-width: 1024px) {\n' +
-        '  .a--jss-0-0 {\n' +
+        '  .a-id {\n' +
         '    color: blue;\n' +
         '  }\n' +
         '}\n' +
         '@media (min-width: 1000px) {\n' +
-        '  .a--jss-0-0 {\n' +
+        '  .a-id {\n' +
         '    color: green;\n' +
         '  }\n' +
         '}'
@@ -148,10 +148,10 @@ describe('Integration: sheet', () => {
           d: {}
         })
         expect(sheet.toString()).to.be(
-          '.a--jss-0-0 {\n' +
+          '.a-id {\n' +
           '  color: red;\n' +
           '}\n' +
-          '.c--jss-0-2 {\n' +
+          '.c-id {\n' +
           '  color: green;\n' +
           '}'
         )
@@ -165,10 +165,10 @@ describe('Integration: sheet', () => {
           '@font-face': {}
         })
         expect(sheet.toString()).to.be(
-          '.a--jss-0-0 {\n' +
+          '.a-id {\n' +
           '  color: red;\n' +
           '}\n' +
-          '.c--jss-0-2 {\n' +
+          '.c-id {\n' +
           '  color: green;\n' +
           '}'
         )
@@ -180,7 +180,7 @@ describe('Integration: sheet', () => {
           '@media print': {}
         })
         expect(sheet.toString()).to.be(
-          '.a--jss-0-0 {\n' +
+          '.a-id {\n' +
           '  color: red;\n' +
           '}'
         )

@@ -1,4 +1,4 @@
-import {uid, toCSS} from '../utils'
+import {toCSS} from '../utils'
 
 /**
  * Font-face rules.
@@ -7,7 +7,6 @@ import {uid, toCSS} from '../utils'
  */
 export default class Rule {
   constructor(selector, style, options) {
-    this.id = uid.get()
     this.type = 'font-face'
     this.options = options
     this.selector = selector

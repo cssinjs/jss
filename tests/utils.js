@@ -38,5 +38,7 @@ export function computeStyle(className) {
 export function reset() {
   jss.plugins.registry = []
   jss.sheets.registry = []
-  jss.uid.reset()
 }
+
+// Mock the hash function.
+jss.hash = () => 'id'
