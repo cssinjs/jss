@@ -198,6 +198,7 @@ export default {
 .button-jss-0-1:after {
   content: "JSS"
 }
+```
 
 ### Plugins
 
