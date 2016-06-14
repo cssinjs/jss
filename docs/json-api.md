@@ -178,6 +178,27 @@ div {
 
 Are supported through the [jss-nested](https://github.com/jsstyles/jss-nested) plugin.
 
+### Property "content".
+
+When assigning a string to the content property it requires double or single quotes in CSS. Therefore you also have to provide the quotes within the value string for content to match how it will be represented in CSS.
+
+```javascript
+export default {
+  button: {
+    '&:after': {
+      content: '"JSS"'
+    }
+  }
+}
+```
+
+#### CSS
+
+```css
+.button-jss-0-1:after {
+  content: "JSS"
+}
+
 ### Plugins
 
 JSS plugins give you even more features, [read about them](./plugins.md).
