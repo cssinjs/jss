@@ -15,7 +15,6 @@ export default class Rule {
     // It is also the fastetst way.
     // http://jsperf.com/lodash-deepclone-vs-jquery-extend-deep/6
     const styleStr = stringify(style)
-    const hash = options.jss.hash(styleStr)
     this.style = parse(styleStr)
     this.type = 'regular'
     this.options = options
@@ -25,7 +24,7 @@ export default class Rule {
     if (options.named) {
       this.name = selector
       if (!this.className) {
-        this.className = this.name ? `${this.name}-${hash}` : hash
+        this.className = options.jss.generateClassName(styleStr, this)
       }
       this.selectorText = `.${this.className}`
     }

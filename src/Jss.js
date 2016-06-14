@@ -1,9 +1,9 @@
-import hash from 'murmurhash-js/murmurhash3_gc'
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import SheetsRegistry from './SheetsRegistry'
 import createRule from './createRule'
 import findRenderer from './findRenderer'
+import {generateClassName} from './utils'
 
 /**
  * Main Jss class.
@@ -15,7 +15,7 @@ export default class Jss {
     this.sheets = new SheetsRegistry()
     this.plugins = new PluginsRegistry()
     this.version = process.env.VERSION
-    this.hash = options.hash || hash
+    this.generateClassName = options.generateClassName || generateClassName
   }
 
   /**

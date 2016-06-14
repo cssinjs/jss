@@ -1,8 +1,22 @@
+import createHash from 'murmurhash-js/murmurhash3_gc'
+
+/**
+ * Generates a class name using murmurhash.
+ *
+ * @param {String} str
+ * @param {Rule} rule
+ * @return {String}
+ */
+export function generateClassName(str, rule) {
+  const hash = createHash(str)
+  return rule.name ? `${rule.name}-${hash}` : hash
+}
+
 /**
  * Determine whether an object is empty or not.
  * More performant than a `Object.keys(obj).length > 0`
  *
- * @type {Object} obj
+ * @param {Object} obj
  * @return {Boolean}
  */
 export function isEmptyObject(obj) {
@@ -83,4 +97,3 @@ export const findClassNames = (() => {
       .replace(dotsRegExp, '')
   }
 })()
-
