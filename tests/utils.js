@@ -41,4 +41,4 @@ export function reset() {
 }
 
 // Mock the hash function.
-jss.generateClassName = (str, rule) => rule.name ? `${rule.name}-id` : 'id'
+jss.generateClassName = (str, rule) => (rule.name ? `${rule.name}-id` : 'id')

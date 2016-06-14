@@ -7,7 +7,7 @@ import createHash from 'murmurhash-js/murmurhash3_gc'
  * @param {Rule} rule
  * @return {String}
  */
-export function generateClassName(str, rule) {
+export function generateClassName(str, rule) {
   const hash = createHash(str)
   return rule.name ? `${rule.name}-${hash}` : hash
 }
