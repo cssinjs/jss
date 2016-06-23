@@ -1,7 +1,7 @@
 {
   "name": "jss",
   "description": "A lib for generating Style Sheets with JavaScript.",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
@@ -62,7 +62,8 @@
     "all": "npm run lint && npm run test && npm run build",
     "clean": "rm -fr ./lib/*",
     "build": "npm run clean && npm run build:lib && npm run build:max && npm run build:min && npm run build:test",
-    "build:lib": "VERSION=`npm view jss version` babel src --out-dir lib",
+    "build:lib": "VERSION=`npm run version` babel src --out-dir lib",
+    "build:lib": "VERSION=`npm run version -s` && VERSION=$VERSION babel src --out-dir lib",
     "build:max": "NODE_ENV=development webpack src/index.js dist/jss.js",
     "build:min": "NODE_ENV=production webpack src/index.js dist/jss.min.js",
     "build:test": "webpack tests/index.js tmp/tests.js",
@@ -72,7 +73,8 @@
     "test:watch": "karma start",
     "posttest": "[ -z \"$TRAVIS\" ] || codecov",
     "codecov": "codecov",
-    "bench": "BENCHMARK=true npm run test"
+    "bench": "BENCHMARK=true npm run test",
+    "version": "node -e \"console.log(require('./package.json').version)\""
   },
   "dependencies": {
     "murmurhash-js": "^1.0.0"

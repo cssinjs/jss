@@ -1,3 +1,7 @@
+## 4.0.1 / 2016-06-23
+
+- fix jss.version in lib
+
 ## 4.0.0 / 2016-06-23
 
 - user defined classname generation function
