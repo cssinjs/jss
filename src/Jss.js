@@ -11,6 +11,10 @@ import {generateClassName} from './utils'
  * @api public
  */
 export default class Jss {
+  /**
+   * Options:
+   * - `generateClassName` accepts a styles string and a Rule instance.
+   */
   constructor(options = {}) {
     this.sheets = new SheetsRegistry()
     this.plugins = new PluginsRegistry()

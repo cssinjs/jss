@@ -1,3 +1,9 @@
+## 4.0.0 / 2016-06-23
+
+- user defined classname generation function
+- deterministic class names generation
+- run plugins separately when creating rules in a batch
+
 ## 3.11.1 / 2016-05-11
 
 - register children of a conditional in sheet.classes #81

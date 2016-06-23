@@ -34,7 +34,11 @@ import jss from 'jss'
 
 Use an own instance if the component you build should be reusable within a different project with a probably different JSS setup.
 
-`jss.create()`
+`jss.create([options])`
+
+Options:
+
+ - `generateClassName` accepts a styles string and a Rule instance.
 
 ```javascript
 // ES5
@@ -62,6 +66,14 @@ Options:
 - `named` true by default - keys are names, selectors will be generated, if false - keys are global selectors.
 - `link` link jss `Rule` instances with DOM `CSSRule` instances so that styles, can be modified dynamically, false by default because it has some performance cost.
 - `element` style element, will create one by default
+
+ - `media` media query - attribute of style element.
+ - `meta` meta information about this style - attribute of style element, for e.g. you could pass component name for easier debugging.
+ - `named` true by default - keys are names, selectors will be generated, if false - keys are global selectors.
+ - `link` link jss `Rule` instances with DOM `CSSRule` instances so that styles, can be modified
+ dynamically, false by default because it has some performance cost.
+ - `element` style element, will create one by default
+
 
 ```javascript
 // Namespaced style sheet with generated selectors.
@@ -243,9 +255,9 @@ If you want to get a pure CSS string from JSS for e.g. when preprocessing server
 ```javascript
 import jss from 'jss'
 
-let sheet = jss.createStyleSheet({
+const sheet = jss.createStyleSheet({
   button: {
-    float: 'left',
+    float: 'left'
   }
 })
 
@@ -254,6 +266,32 @@ console.log(sheet.toString())
 
 ```css
 .button--jss-0-0 {
+  float: left;
+}
+```
+
+### Generate your own class names
+
+```javascript
+import {create} from 'jss'
+
+const jss = create({
+  generateClassName: (styles, rule) => {
+    return 'my-fancy-id'
+  }
+})
+
+const sheet = jss.createStyleSheet({
+  button: {
+    float: 'left'
+  }
+})
+
+console.log(sheet.toString())
+```
+
+```css
+.my-fancy-id {
   float: left;
 }
 ```
