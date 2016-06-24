@@ -14,7 +14,7 @@
 1. [Setup](./docs/setup.md)
 1. [JSON API](./docs/json-api.md)
 1. [JavaScript API](./docs/js-api.md)
-1. [Server-side rendering](./docs/server-side.md)
+1. [Server-side rendering](./docs/ssr.md)
 1. [Performance](./docs/performance.md)
 1. [Plugins API](./docs/plugins.md)
 1. [Official plugins](https://github.com/jsstyles?query=jss-)
