@@ -27,7 +27,6 @@ export default class StyleSheet {
     this.rules = Object.create(null)
     this.classes = Object.create(null)
     this.attached = false
-    this.deployed = false
     this.linked = false
 
     const Renderer = findRenderer(this.options)
@@ -50,10 +49,11 @@ export default class StyleSheet {
    */
   attach() {
     if (this.attached) return this
-    if (!this.deployed) this.deploy()
+    if (!this.attached) this.deploy()
     this.renderer.attach()
     if (!this.linked && this.options.link) this.link()
     this.attached = true
+
     return this
   }
 
@@ -67,7 +67,7 @@ export default class StyleSheet {
     if (!this.attached) return this
     this.renderer.detach()
     this.attached = false
-    this.deployed = false
+
     return this
   }
 
@@ -84,7 +84,7 @@ export default class StyleSheet {
     const rule = this.createRule(name, style)
     // Don't insert rule directly if there is no stringified version yet.
     // It will be inserted all together when .attach is called.
-    if (this.deployed) {
+    if (this.attached) {
       const renderable = this.renderer.insertRule(rule)
       if (this.options.link) rule.renderable = renderable
     }
@@ -239,7 +239,7 @@ export default class StyleSheet {
    */
   deploy() {
     this.renderer.deploy(this)
-    this.deployed = true
+
     return this
   }
 

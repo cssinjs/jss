@@ -8,7 +8,6 @@ describe('Integration: sheet', () => {
   describe('.createStyleSheet()', () => {
     it('should create a sheet without args', () => {
       const sheet = jss.createStyleSheet()
-      expect(sheet.deployed).to.be(false)
       expect(sheet.attached).to.be(false)
       expect(sheet.options.named).to.be(true)
       expect(sheet.classes).to.eql({})
