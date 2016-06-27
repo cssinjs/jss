@@ -67,7 +67,6 @@ export default class StyleSheet {
     if (!this.attached) return this
     this.renderer.detach()
     this.attached = false
-    this.deployed = false
     return this
   }
 
