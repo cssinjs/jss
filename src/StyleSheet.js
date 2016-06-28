@@ -81,12 +81,21 @@ export default class StyleSheet {
    */
   addRule(name, style) {
     const rule = this.createRule(name, style)
-    // Don't insert rule directly if there is no stringified version yet.
-    // It will be inserted all together when .attach is called.
-    if (this.deployed) {
-      const renderable = this.renderer.insertRule(rule)
-      if (this.options.link) rule.renderable = renderable
+
+    if (this.attached) {
+      // Don't insert rule directly if there is no stringified version yet.
+      // It will be inserted all together when .attach is called.
+      if (this.deployed) {
+        const renderable = this.renderer.insertRule(rule)
+        if (this.options.link) rule.renderable = renderable
+      }
+    // We can't add rules to a detached style node.
+    // We will redeploy the sheet once user will attach it.
     }
+    else {
+      this.deployed = false
+    }
+
     return rule
   }
 

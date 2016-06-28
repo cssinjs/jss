@@ -188,7 +188,7 @@ describe('Functional: sheet', () => {
       expect(sheet.getRule('a')).to.be(rule)
     })
 
-    it('should register the rule after sheet.detach()', () => {
+    it('should add a rule to a detached sheet', () => {
       sheet.detach()
       const newRule = sheet.addRule('b', {float: 'right'})
       sheet.attach()

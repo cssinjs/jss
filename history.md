@@ -1,3 +1,7 @@
+## 4.0.2 / 2016-06-28
+
+- allow adding rules to a detached sheet #253
+
 ## 4.0.1 / 2016-06-23
 
 - fix jss.version in lib
