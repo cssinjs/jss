@@ -188,6 +188,13 @@ describe('Functional: sheet', () => {
       expect(sheet.getRule('a')).to.be(rule)
     })
 
+    it('should register the rule after sheet.detach()', () => {
+      sheet.detach()
+      const newRule = sheet.addRule('b', {float: 'right'})
+      sheet.attach()
+      expect(sheet.getRule('b')).to.be(newRule)
+    })
+
     it('should link sheet in rules options', () => {
       expect(sheet.getRule('a').options.sheet).to.be(sheet)
     })
