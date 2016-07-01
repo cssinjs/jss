@@ -171,7 +171,8 @@ export default class StyleSheet {
       ...options,
       sheet: this,
       jss: this.options.jss,
-      Renderer: this.options.Renderer
+      Renderer: this.options.Renderer,
+      className: this.classes[name]
     }
     // Scope options overwrite instance options.
     if (options.named == null) options.named = this.options.named
