@@ -242,7 +242,7 @@ sheet.getRule('a').prop('color', 'green')
 `rule.toJSON()`
 
 Returns JSON representation of a rule. Only regular rules are supported,
-no nested, conditionals, keyframes or array values.
+no nested, conditionals, keyframes or fallbacks.
 
 Result of toJSON call can be used later to apply styles inline to the element.
 
