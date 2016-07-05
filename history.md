@@ -1,6 +1,7 @@
 ## 4.0.3 / 2016-07-05
 
 - fixed bug when plugins called twice on createStyleSheet #258
+- enable node 7 #248
 
 ## 4.0.2 / 2016-06-28
 
