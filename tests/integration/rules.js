@@ -59,8 +59,13 @@ describe('Integration: rules', () => {
       expect(rule.toString({selector: false})).to.be('\nfloat: left;')
     })
 
-    it('shuld return CSS with fallbacks', () => {
-      const rule = jss.createRule('.a', {display: ['inline', 'run-in']}, {named: false})
+    it('shuld return CSS with fallbacks object', () => {
+      const rule = jss.createRule('.a', {display: 'run-in', fallbacks: {display: 'inline'}}, {named: false})
+      expect(rule.toString()).to.be('.a {\n  display: inline;\n  display: run-in;\n}')
+    })
+
+    it('shuld return CSS with fallbacks array', () => {
+      const rule = jss.createRule('.a', {display: 'run-in', fallbacks: [{display: 'inline'}]}, {named: false})
       expect(rule.toString()).to.be('.a {\n  display: inline;\n  display: run-in;\n}')
     })
 

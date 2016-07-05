@@ -117,34 +117,27 @@ export default class Rule {
    * @api public
    */
   applyTo(renderable) {
-    for (const prop in this.style) {
-      const value = this.style[prop]
-      const {style} = this.options.Renderer
-      if (Array.isArray(value)) {
-        for (let index = 0; index < value.length; index++) {
-          style(renderable, prop, value[index])
-        }
-      }
-      else style(renderable, prop, value)
-    }
+    const {style} = this.options.Renderer
+    const json = this.toJSON()
+    for (const prop in json) style(renderable, prop, json[prop])
     return this
   }
 
   /**
    * Returns JSON representation of the rule.
-   * Array of values is not supported.
+   * Fallbacks are not supported.
    *
    * @return {Object}
    * @api public
    */
   toJSON() {
-    const style = Object.create(null)
+    const json = Object.create(null)
     for (const prop in this.style) {
       if (typeof this.style[prop] != 'object') {
-        style[prop] = this.style[prop]
+        json[prop] = this.style[prop]
       }
     }
-    return style
+    return json
   }
 
   /**

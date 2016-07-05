@@ -128,19 +128,28 @@ export default {
   src: url('webfont.eot');
   src: url('webfont.eot?#iefix') format('embedded-opentype');
   src: url('webfont.woff2') format('woff2');
-}       
+}
 ```
 
 ### Fallbacks
 
-JavaScript Objects can't have identical property names, but we can use arrays. This is even more concise.
-
 ```javascript
 export default {
   container: {
-    background: [
-      'red',
-      'linear-gradient(to right, red 0%, green 100%)'
+    background: 'linear-gradient(to right, red 0%, green 100%)'
+    fallbacks: {
+      background: 'red'
+    }
+  }
+}
+
+// Or if you need multiple fallbacks for the same property name:
+export default {
+  container: {
+    display: 'flex'
+    fallbacks: [
+      {display: 'box'},
+      {display: 'flex-box'}
     ]
   }
 }

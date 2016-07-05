@@ -61,15 +61,31 @@ export function toCSS(selector, style, options = {}) {
     indentationLevel++
   }
 
-  for (const prop in style) {
-    const value = style[prop]
-    // We want to generate multiple style with identical property names.
-    if (Array.isArray(value)) {
-      for (let index = 0; index < value.length; index++) {
-        str += `\n${indent(indentationLevel, `${prop}: ${value[index]};`)}`
+  const {fallbacks} = style
+
+  // Apply fallbacks first.
+  if (fallbacks) {
+    // Array syntax {fallbacks: [{prop: value}]}
+    if (Array.isArray(fallbacks)) {
+      for (let index = 0; index < fallbacks.length; index++) {
+        const fallback = fallbacks[index]
+        for (const prop in fallback) {
+          str += `\n${indent(indentationLevel, `${prop}: ${fallback[prop]};`)}`
+        }
       }
     }
-    else str += `\n${indent(indentationLevel, `${prop}: ${value};`)}`
+    // Object syntax {fallbacks: {prop: value}}
+    else {
+      for (const prop in fallbacks) {
+        str += `\n${indent(indentationLevel, `${prop}: ${fallbacks[prop]};`)}`
+      }
+    }
+  }
+
+  for (const prop in style) {
+    if (prop !== 'fallbacks') {
+      str += `\n${indent(indentationLevel, `${prop}: ${style[prop]};`)}`
+    }
   }
 
   if (options.selector !== false) str += `\n${indent(--indentationLevel, '}')}`

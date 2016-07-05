@@ -209,7 +209,7 @@ let rule = jss.createRule({
 
 `rule.applyTo(element)`
 
-This is equivalent to `element.style.background = 'blue'` except of that you could use a rule from sheet which is already defined and can apply s to it. [Example.](http://jsstyles.github.io/examples/inline/index.html)
+This is equivalent to `element.style.background = 'blue'` except that you could use a rule from sheet which is already defined. It uses `rule.toJSON()` internally, so same limitations are applied. [Example.](http://jsstyles.github.io/examples/inline/index.html)
 
 ```javascript
 jss.createRule({
@@ -245,6 +245,7 @@ Returns JSON representation of a rule. Only regular rules are supported,
 no nested, conditionals, keyframes or fallbacks.
 
 Result of toJSON call can be used later to apply styles inline to the element.
+It is used by `rule.applyTo()`.
 
 ### Convert to CSS.
 
