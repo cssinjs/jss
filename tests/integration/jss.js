@@ -60,11 +60,14 @@ describe('Integration: jss', () => {
     describe('.createRule()', () => {
       it('should pass correct rule to the plugin', () => {
         let receivedRule
+        let executed = 0
         jss.use(rule => {
           receivedRule = rule
+          executed++
         })
         const rule = jss.createRule()
         expect(rule).to.be(receivedRule)
+        expect(executed).to.be(1)
       })
 
       it('should run plugins on @media rule', () => {
