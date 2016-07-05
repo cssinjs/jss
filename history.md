@@ -1,3 +1,7 @@
+## 4.0.3 / 2016-07-05
+
+- fixed bug when plugins called twice on createStyleSheet #258
+
 ## 4.0.2 / 2016-06-28
 
 - allow adding rules to a detached sheet #253

@@ -57,8 +57,24 @@ describe('Integration: jss', () => {
   })
 
   describe('.use()', () => {
+    describe('.createStyleSheet()', () => {
+      it('should pass rule correctly', () => {
+        let receivedRule
+        let executed = 0
+        jss.use(rule => {
+          receivedRule = rule
+          executed++
+        })
+        const sheet = jss.createStyleSheet({
+          a: {float: 'left'}
+        })
+        expect(sheet.getRule('a')).to.be(receivedRule)
+        expect(executed).to.be(1)
+      })
+    })
+
     describe('.createRule()', () => {
-      it('should pass correct rule to the plugin', () => {
+      it('should pass rule correctly', () => {
         let receivedRule
         let executed = 0
         jss.use(rule => {

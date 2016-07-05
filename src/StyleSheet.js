@@ -37,7 +37,8 @@ export default class StyleSheet {
     for (const name in rules) {
       this.createAndRegisterRule(name, rules[name])
     }
-    for (const name in this.rules) {
+
+    for (const name in rules) {
       this.options.jss.plugins.run(this.rules[name])
     }
   }
