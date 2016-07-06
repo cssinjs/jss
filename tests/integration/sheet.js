@@ -93,6 +93,19 @@ describe('Integration: sheet', () => {
       )
     })
 
+    it('should compile a single media query', () => {
+      const sheet = jss.createStyleSheet({
+        '@media (min-width: 1024px)': {'.a': {color: 'blue'}},
+      }, {named: false})
+      expect(sheet.toString()).to.be(
+        '@media (min-width: 1024px) {\n' +
+        '  .a {\n' +
+        '    color: blue;\n' +
+        '  }\n' +
+        '}'
+      )
+    })
+
     it('should compile multiple media queries in unnamed sheet', () => {
       const sheet = jss.createStyleSheet({
         '.a': {color: 'red'},
