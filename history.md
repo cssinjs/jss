@@ -2,7 +2,7 @@
 
 - new fallbacks api #256
 - rule.applyTo doesn't support fallbacks any more
-- support conditionals overwrite upfront
+- support conditionals overwrite upfront #259, #180
 - remove compatibility fix for babel 6
 
 ## 4.0.3 / 2016-07-05
