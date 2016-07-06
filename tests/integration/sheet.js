@@ -1,5 +1,5 @@
 import expect from 'expect.js'
-import jss, {Rule} from 'jss'
+import jss, { create as createJss, Rule} from 'jss'
 import {reset} from '../utils'
 
 afterEach(reset)
@@ -39,6 +39,22 @@ describe('Integration: sheet', () => {
         }
       })
       expect(sheet.classes.a).to.be('a-id')
+    })
+
+    it('should generate the same class name for the same selectors within single stylesheet', () => {
+      // create new Jss instance with unmodified "jss.generateClassName()"
+      const jss = createJss()
+
+      const sheet = jss.createStyleSheet({
+        '@media print': {
+          a: {float: 'left'}
+        },
+        a: {color: 'yellow'}
+      })
+      const aInRoot = sheet.getRule('a')
+      const aInMedia = sheet.getRule('@media print').rules.a
+
+      expect(aInRoot.className).to.be.eql(aInMedia.className)
     })
   })
 
