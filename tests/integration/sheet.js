@@ -1,5 +1,5 @@
 import expect from 'expect.js'
-import jss, { create as createJss, Rule} from 'jss'
+import jss, {create, Rule} from 'jss'
 import {reset} from '../utils'
 
 afterEach(reset)
@@ -39,22 +39,6 @@ describe('Integration: sheet', () => {
         }
       })
       expect(sheet.classes.a).to.be('a-id')
-    })
-
-    it('should generate the same class name for the same selectors within single stylesheet', () => {
-      // create new Jss instance with unmodified "jss.generateClassName()"
-      const jss = createJss()
-
-      const sheet = jss.createStyleSheet({
-        '@media print': {
-          a: {float: 'left'}
-        },
-        a: {color: 'yellow'}
-      })
-      const aInRoot = sheet.getRule('a')
-      const aInMedia = sheet.getRule('@media print').rules.a
-
-      expect(aInRoot.className).to.be.eql(aInMedia.className)
     })
   })
 
@@ -164,6 +148,26 @@ describe('Integration: sheet', () => {
         '  .a-id {\n' +
         '    color: green;\n' +
         '  }\n' +
+        '}'
+      )
+    })
+
+    it('should use the class name of a conditional child', () => {
+      // Create new Jss instance with unmodified "jss.generateClassName()".
+      const sheet = create().createStyleSheet({
+        '@media print': {
+          a: {float: 'left'}
+        },
+        a: {color: 'red'}
+      })
+      expect(sheet.toString()).to.be(
+        '@media print {\n' +
+        '  .a-3787690649 {\n' +
+        '    float: left;\n' +
+        '  }\n' +
+        '}\n' +
+        '.a-3787690649 {\n' +
+        '  color: red;\n' +
         '}'
       )
     })

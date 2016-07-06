@@ -60,12 +60,18 @@ describe('Integration: rules', () => {
     })
 
     it('shuld return CSS with fallbacks object', () => {
-      const rule = jss.createRule('.a', {display: 'run-in', fallbacks: {display: 'inline'}}, {named: false})
+      const rule = jss.createRule('.a', {
+        display: 'run-in',
+        fallbacks: {display: 'inline'}
+      }, {named: false})
       expect(rule.toString()).to.be('.a {\n  display: inline;\n  display: run-in;\n}')
     })
 
     it('shuld return CSS with fallbacks array', () => {
-      const rule = jss.createRule('.a', {display: 'run-in', fallbacks: [{display: 'inline'}]}, {named: false})
+      const rule = jss.createRule('.a', {
+        display: 'run-in',
+        fallbacks: [{display: 'inline'}]
+      }, {named: false})
       expect(rule.toString()).to.be('.a {\n  display: inline;\n  display: run-in;\n}')
     })
 
