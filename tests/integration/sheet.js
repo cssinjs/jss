@@ -153,7 +153,7 @@ describe('Integration: sheet', () => {
     })
 
     it('should use the class name of a conditional child', () => {
-      // Create new Jss instance with unmodified "jss.generateClassName()".
+      // Create new Jss instance with unmodified `generateClassName`.
       const sheet = create().createStyleSheet({
         '@media print': {
           a: {float: 'left'}
@@ -168,6 +168,30 @@ describe('Integration: sheet', () => {
         '}\n' +
         '.a-3787690649 {\n' +
         '  color: red;\n' +
+        '}'
+      )
+    })
+
+    it('should use the class name of the first conditional child', () => {
+      // Create new Jss instance with unmodified `generateClassName`.
+      const sheet = create().createStyleSheet({
+        '@media print': {
+          a: {float: 'left'}
+        },
+        '@media screen': {
+          a: {float: 'right'}
+        }
+      })
+      expect(sheet.toString()).to.be(
+        '@media print {\n' +
+        '  .a-3787690649 {\n' +
+        '    float: left;\n' +
+        '  }\n' +
+        '}\n' +
+        '@media screen {\n' +
+        '  .a-3787690649 {\n' +
+        '    float: right;\n' +
+        '  }\n' +
         '}'
       )
     })
