@@ -9,11 +9,6 @@ import Jss from './Jss'
 import StyleSheet from './StyleSheet'
 import Rule from './rules/Rule'
 
-const jss = new Jss()
-
-// Hotfix for babel 5 migration, will be removed in version 4.0.0
-module.exports = exports = jss
-
 // For testing only.
 export {
   Jss,
@@ -21,4 +16,14 @@ export {
   Rule
 }
 
-export default jss
+/**
+ * Creates a new instance of Jss.
+ *
+ * @see Jss
+ * @api public
+ */
+export function create(options) {
+  return new Jss(options)
+}
+
+export default create()

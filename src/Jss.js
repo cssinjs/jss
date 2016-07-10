@@ -23,16 +23,6 @@ export default class Jss {
   }
 
   /**
-   * Creates a new instance of Jss.
-   *
-   * @see Jss
-   * @api public
-   */
-  create(options) {
-    return new Jss(options)
-  }
-
-  /**
    * Create a stylesheet.
    *
    * @see StyleSheet

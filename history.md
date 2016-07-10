@@ -1,9 +1,9 @@
-## 5.0.0-pre / 2016-07-05
+## 5.0.0 / 2016-07-10
 
 - new fallbacks api #256
 - rule.applyTo doesn't support fallbacks any more
 - support conditionals overwrite upfront #259, #180
-- remove compatibility fix for babel 6
+- remove compatibility fix for babel 5, now you need to use `var jss = require('jss').default` in ES5
 
 ## 4.0.3 / 2016-07-05
 

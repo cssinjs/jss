@@ -17,40 +17,28 @@
 1. [Convert rule to a JSON.](#convert-rule-to-a-json)
 1. [Convert to CSS](#convert-to-css)
 
-### Access the jss namespace.
+### Access the global JSS instance.
 
 ```javascript
-// Pure js
-var jss = window.jss
-
-// Commonjs
-var jss = require('jss')
-
-// ES6
 import jss from 'jss'
 ```
 
-### Create an own instance of JSS.
+### Create an own JSS instance.
 
 Use an own instance if the component you build should be reusable within a different project with a probably different JSS setup.
 
-`jss.create([options])`
+`create([options])`
 
 Options:
 
  - `generateClassName` accepts a styles string and a Rule instance.
 
 ```javascript
-// ES5
-var jss = require('jss').create()
-jss.use(somePlugin())
-jss.createStyleSheet(...)
-
-// ES6
 import {create} from 'jss'
-let jss = create()
+const jss = create()
 jss.use(somePlugin())
 jss.createStyleSheet(...)
+export default jss
 ```
 
 ### Create style sheet with namespaces enabled.
@@ -77,7 +65,7 @@ Options:
 
 ```javascript
 // Namespaced style sheet with generated selectors.
-let sheet = jss.createStyleSheet({
+const sheet = jss.createStyleSheet({
   button: {
     width: 100,
     height: 100
@@ -96,10 +84,10 @@ console.log(sheet.classes.button) // .button--jss-0-0
 </style>
 ```
 
-### Create regular style sheet with global selectors.
+### Create a style sheet with global selectors.
 
 ```javascript
-let sheet = jss.createStyleSheet({
+const sheet = jss.createStyleSheet({
   '.something': {
     width: 100,
     height: 100
@@ -145,7 +133,7 @@ Detaching unused style sheets will speedup every DOM node insertion and manipula
 #### Add a rule dynamically with a generated class name.
 
 ```javascript
-let rule = sheet.addRule({
+const rule = sheet.addRule({
   padding: 20,
   background: 'blue'
 })
@@ -155,7 +143,7 @@ document.body.innerHTML = '<button class="' + rule.className + '">Button</button
 #### Add a rule with global class name.
 
 ```javascript
-let rule = sheet.addRule('.my-button', {
+const rule = sheet.addRule('.my-button', {
   padding: 20,
   background: 'blue'
 }, {named: false})
@@ -169,10 +157,10 @@ Access a rule within sheet by selector or name.
 
 ```javascript
 // Using name, if named rule was added.
-let rule = sheet.getRule('myButton')
+const rule = sheet.getRule('myButton')
 
 // Using selector
-let rule = sheet.getRule('.my-button')
+const rule = sheet.getRule('.my-button')
 ```
 
 ### Add multiple rules.
@@ -199,7 +187,7 @@ sheet.addRules({
 In order to apply styles directly to the element but still be able to use jss s.
 
 ```javascript
-let rule = jss.createRule({
+const rule = jss.createRule({
   padding: 20,
   background: 'blue'
 })
@@ -224,7 +212,7 @@ jss.createRule({
 When option `link` is true, after stylesheet is attached, linker saves references to `CSSRule` instances so that you are able to set rules properties at any time. [Example.](http://jsstyles.github.io/examples/dynamic-props/index.html)
 
 ```javascript
-let sheet = jss.createStyleSheet({
+const sheet = jss.createStyleSheet({
   a: {
     color: 'red'
   }
@@ -277,7 +265,7 @@ console.log(sheet.toString())
 import {create} from 'jss'
 
 const jss = create({
-  generateClassName: (styles, rule) => {
+  generateClassName: (stylesStr, rule) => {
     return 'my-fancy-id'
   }
 })

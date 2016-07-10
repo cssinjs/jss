@@ -21,7 +21,7 @@ describe('Integration: jss', () => {
 
   describe('.create()', () => {
     it('should create a Jss instance', () => {
-      expect(jss.create()).to.be.a(Jss)
+      expect(create()).to.be.a(Jss)
     })
   })
 
