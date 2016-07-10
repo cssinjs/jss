@@ -57,7 +57,7 @@ JSS allows you to compose rules from multiple sources. You can reuse existing ru
   There is no need to learn new preprocessing languages. They all come with a burden of a new syntax for variables, functions, mixins, extends and others. At the same time there is nothing they can do JavaScript can't.
 
 
-### Compared to inline styles
+### Compared to Inline Styles
 
 1. Rules caching.
 
@@ -82,7 +82,20 @@ JSS allows you to compose rules from multiple sources. You can reuse existing ru
 
 Inline styles are [slower](./performance.md) than class names.
 
-### Compared to any other CSS in JS solution
+### Compared to Radium
+
+1. Generates CSS, not inline styles like radium.
+2. Pseudo selectors are implemented by CSS, not using JavaScript.
+3. You can do everything you could do with CSS. Not limited to specific kinds of selectors.
+
+### Compared to Aphrodite
+
+1. Supports children, simblings and any other kinds of selectors.
+2. Has support for global styles, without namespaces.
+3. Renders styles before component is rendered. It gives you an access to computed styles right after render and avoids additional recalcs and repaints, which can cause flickers and performance overhead.
+4. No auto "!important" insertion. You can write a plugin though.
+
+### Compared to any CSS in JS solution
 
 1. Extensible core architecture.
 
