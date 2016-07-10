@@ -76,8 +76,6 @@ import jss from 'jss'
 
 const {classes} = jss.createStyleSheet(styles).attach()
 
-classes // {button: '.button--jss-0-0 ', ctaButton: '.ctaButton--jss-0-2'}
-
 document.body.innerHTML = `
   <button class="${classes.button}">Button</button>
   <button class="${classes.ctaButton}">CTA Button</button>
@@ -96,7 +94,7 @@ document.body.innerHTML = `
 - Ease of maintenance is important to you.
 - You just want to use any of its [benefits](./docs/benefits.md)
 
-### Support
+### Browsers Support
 
 We have automated tests running in [real browsers](./browsers.json).
 
