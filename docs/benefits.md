@@ -86,14 +86,14 @@ Inline styles are [slower](./performance.md) than class names.
 
 1. Generates CSS, not inline styles like radium.
 2. Pseudo selectors are implemented by CSS, not using JavaScript.
-3. You can do everything you could do with CSS. Not limited to specific kinds of selectors.
+3. You can do everything you could do with CSS before. It is not limited to specific kinds of selectors.
 
 ### Compared to Aphrodite
 
-1. Supports children, simblings and any other kinds of selectors.
-2. Has support for global styles, without namespaces.
-3. Renders styles before component is rendered. It gives you an access to computed styles right after render and avoids additional recalcs and repaints, which can cause flickers and performance overhead.
-4. No auto "!important" insertion. You can write a plugin though.
+1. Supports children, siblings and any other kinds of selectors.
+2. Has support for global styles, without auto namespacing.
+3. Renders styles before component is rendered. It gives you an access to computed styles right after render and avoids additional recalcs and repaints, which can cause flickers and general performance overhead.
+4. No auto "!important" insertion. You can write a plugin for this though.
 
 ### Compared to any CSS in JS solution
 
