@@ -15,7 +15,10 @@ export function getStyle() {
 export function getCss(style) {
   // IE8 returns css from innerHTML even when inserted using addRule.
   return style.innerHTML.trim() ||
-    getRules(style).map(rule => rule.cssText).join('').trim()
+    getRules(style)
+      .map(rule => rule.cssText)
+      .join('')
+      .trim()
 }
 
 export function computeStyle(className) {

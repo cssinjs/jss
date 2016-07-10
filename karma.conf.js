@@ -50,16 +50,16 @@ module.exports = (config) => {
   if (useCloud) {
     assign(config, {
       browsers: Object.keys(browsers),
-      browserDisconnectTimeout: 10000,
       browserDisconnectTolerance: 3,
-      browserNoActivityTimeout: 30000,
-      captureTimeout: 200000
+      // My current OS plan allows max 2 parallel connections.
+      concurrency: 2,
+      retryLimit: 3
     })
 
     config.browserStack = {
       username: browserStackUserName,
       accessKey: browserStackAccessKey,
-      pollingTimeout: 10000
+      captureTimeout: 10000
     }
 
     if (isTravis) {
