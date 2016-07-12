@@ -41,6 +41,32 @@ function indent(level, str) {
 }
 
 /**
+ * Converts array values to string.
+ *
+ * `margin: [['5px', '10px']]` > `margin: 5px 10px;`
+ * `border: ['1px', '2px']` > `border: 1px, 2px;`
+ *
+ * @param {Array} value
+ * @return {String|Number|Object}
+ */
+export const toCssValue = (() => {
+  function joinWithSpace(value) {
+    return value.join(' ')
+  }
+
+  return function joinWithComma(value) {
+    if (!Array.isArray(value)) return value
+
+    // Support space separated values.
+    if (Array.isArray(value[0])) {
+      return joinWithComma(value.map(joinWithSpace))
+    }
+
+    return value.join(', ')
+  }
+})()
+
+/**
  * Converts a Rule to CSS string.
  *
  * Options:
@@ -52,7 +78,7 @@ function indent(level, str) {
  * @param {Object} options
  * @return {String}
  */
-export function toCSS(selector, style, options = {}) {
+export function toCss(selector, style, options = {}) {
   let indentationLevel = options.indentationLevel || 0
   let str = ''
 
@@ -70,21 +96,21 @@ export function toCSS(selector, style, options = {}) {
       for (let index = 0; index < fallbacks.length; index++) {
         const fallback = fallbacks[index]
         for (const prop in fallback) {
-          str += `\n${indent(indentationLevel, `${prop}: ${fallback[prop]};`)}`
+          str += `\n${indent(indentationLevel, `${prop}: ${toCssValue(fallback[prop])};`)}`
         }
       }
     }
     // Object syntax {fallbacks: {prop: value}}
     else {
       for (const prop in fallbacks) {
-        str += `\n${indent(indentationLevel, `${prop}: ${fallbacks[prop]};`)}`
+        str += `\n${indent(indentationLevel, `${prop}: ${toCssValue(fallbacks[prop])};`)}`
       }
     }
   }
 
   for (const prop in style) {
     if (prop !== 'fallbacks') {
-      str += `\n${indent(indentationLevel, `${prop}: ${style[prop]};`)}`
+      str += `\n${indent(indentationLevel, `${prop}: ${toCssValue(style[prop])};`)}`
     }
   }
 

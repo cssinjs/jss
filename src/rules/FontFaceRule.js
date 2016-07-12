@@ -1,4 +1,4 @@
-import {toCSS} from '../utils'
+import {toCss} from '../utils'
 
 /**
  * Font-face rules.
@@ -16,19 +16,19 @@ export default class Rule {
   /**
    * Generates a CSS string.
    *
-   * @see toCSS
+   * @see toCss
    * @api public
    */
   toString(options) {
     if (Array.isArray(this.style)) {
       let str = ''
       for (let index = 0; index < this.style.length; index++) {
-        str += toCSS(this.selector, this.style[index], options)
+        str += toCss(this.selector, this.style[index], options)
         if (this.style[index + 1]) str += '\n'
       }
       return str
     }
 
-    return toCSS(this.selector, this.style, options)
+    return toCss(this.selector, this.style, options)
   }
 }

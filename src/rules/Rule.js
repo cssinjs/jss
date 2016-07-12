@@ -1,4 +1,4 @@
-import {toCSS, findClassNames} from '../utils'
+import {toCss, findClassNames, toCssValue} from '../utils'
 const {parse, stringify} = JSON
 
 
@@ -133,9 +133,9 @@ export default class Rule {
   toJSON() {
     const json = Object.create(null)
     for (const prop in this.style) {
-      if (typeof this.style[prop] != 'object') {
-        json[prop] = this.style[prop]
-      }
+      const value = this.style[prop]
+      if (typeof value !== 'object') json[prop] = value
+      else if (Array.isArray(value)) json[prop] = toCssValue(value)
     }
     return json
   }
@@ -143,10 +143,10 @@ export default class Rule {
   /**
    * Generates a CSS string.
    *
-   * @see toCSS
+   * @see toCss
    * @api public
    */
   toString(options) {
-    return toCSS(this.selector, this.style, options)
+    return toCss(this.selector, this.style, options)
   }
 }

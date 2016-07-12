@@ -59,7 +59,7 @@ describe('Integration: rules', () => {
       expect(rule.toString({selector: false})).to.be('\nfloat: left;')
     })
 
-    it('shuld return CSS with fallbacks object', () => {
+    it('should return CSS with fallbacks object', () => {
       const rule = jss.createRule('.a', {
         display: 'run-in',
         fallbacks: {display: 'inline'}
@@ -67,12 +67,42 @@ describe('Integration: rules', () => {
       expect(rule.toString()).to.be('.a {\n  display: inline;\n  display: run-in;\n}')
     })
 
-    it('shuld return CSS with fallbacks array', () => {
+    it('should return CSS with fallbacks array', () => {
       const rule = jss.createRule('.a', {
         display: 'run-in',
         fallbacks: [{display: 'inline'}]
       }, {named: false})
       expect(rule.toString()).to.be('.a {\n  display: inline;\n  display: run-in;\n}')
+    })
+
+    it('should return CSS with comma separated values', () => {
+      const rule = jss.createRule('.a', {
+        border: ['1px solid red', '1px solid blue']
+      }, {named: false})
+      expect(rule.toString()).to.be('.a {\n  border: 1px solid red, 1px solid blue;\n}')
+    })
+
+    it('should return CSS with comma separated values inside of fallbacks', () => {
+      let rule = jss.createRule('.a', {
+        fallbacks: {
+          border: ['1px solid red', '1px solid blue']
+        }
+      }, {named: false})
+      expect(rule.toString()).to.be('.a {\n  border: 1px solid red, 1px solid blue;\n}')
+
+      rule = jss.createRule('.a', {
+        fallbacks: [{
+          border: ['1px solid red', '1px solid blue']
+        }]
+      }, {named: false})
+      expect(rule.toString()).to.be('.a {\n  border: 1px solid red, 1px solid blue;\n}')
+    })
+
+    it('should return CSS with space separated values', () => {
+      const rule = jss.createRule('.a', {
+        margin: [['5px', '10px']]
+      }, {named: false})
+      expect(rule.toString()).to.be('.a {\n  margin: 5px 10px;\n}')
     })
 
     it('should return CSS from @charset rule', () => {
@@ -273,6 +303,28 @@ describe('Integration: rules', () => {
       const style = {color: 'red', '&:hover': {color: 'blue'}}
       const rule = jss.createRule(style)
       expect(rule.toJSON()).to.eql({color: 'red'})
+    })
+
+    it('should skip fallbacks', () => {
+      const rule = jss.createRule({
+        display: 'run-in',
+        fallbacks: {display: 'inline'}
+      })
+      expect(rule.toJSON()).to.eql({display: 'run-in'})
+    })
+
+    it('should have proper comma separated values', () => {
+      const rule = jss.createRule({
+        border: ['1px solid red', '1px solid blue']
+      })
+      expect(rule.toJSON()).to.eql({border: '1px solid red, 1px solid blue'})
+    })
+
+    it('should have proper space separated values', () => {
+      const rule = jss.createRule({
+        margin: [['5px', '10px']]
+      })
+      expect(rule.toJSON()).to.eql({margin: '5px 10px'})
     })
   })
 

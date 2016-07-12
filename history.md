@@ -1,3 +1,7 @@
+## 5.1.0 / 2016-07-13
+
+- alternative syntax for space and comma separated values #264
+
 ## 5.0.0 / 2016-07-10
 
 - new fallbacks api #256
