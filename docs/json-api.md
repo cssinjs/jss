@@ -163,6 +163,80 @@ export default {
   background: linear-gradient(to right, red 0%, green 100%);
 }
 ```
+
+### Alternative syntax for space and comma separated values
+
+In order to describe space or comma separated CSS values in a JavaScript way, we introduced an array based syntax.
+
+There are some advantages in using this syntax:
+
+1. Plugin `jss-default-unit` is able to set default unit effectively for numeric values.
+2. You can use variables inside of a value declaration without string templates or concatenations.
+
+#### JS
+
+```javascript
+export default {
+  button: {
+    // Comma separated value with regular CSS strings inside.
+    border: [
+      '1px solid red',
+      '1px solid blue'
+   ]
+  }
+}
+```
+
+#### CSS
+
+```css
+.button-12345 {
+  border: 1px solid red, 1px solid blue;
+}
+```
+
+#### JS
+
+```javascript
+export default {
+  button: {
+    // Comma separated value with space separated values inside.
+    border: [
+      // Numbers can become default unit automatically.
+      [1, 'solid', 'red'],
+      [1, 'solid', 'blue']
+   ]
+  }
+}
+```
+
+#### CSS
+
+```css
+.button-12345 {
+  border: 1px solid red, 1px solid blue;
+}
+```
+
+#### JS
+
+```javascript
+export default {
+  button: {
+    // Space separated value.
+    margin: [[5, 10]]
+  }
+}
+```
+
+#### CSS
+
+```css
+.button-12345 {
+  margin: 5px 10px;
+}
+```
+
 ### Writing global selectors
 
 When using option "named" `jss.createStyleSheet(styles, {named: false})` you can use keys as selectors instead of names. Be careful, now you will be writing a regular Style Sheet with global selectors.
