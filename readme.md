@@ -19,11 +19,9 @@
 1. [Plugins API](./docs/plugins.md)
 1. [Official plugins](https://github.com/jsstyles?query=jss-)
 1. [External projects](./docs/external-projects.md)
+1. [CLI Converter](https://github.com/jsstyles/cli) 
 
 ### Example
-
-You think writing CSS in JS is ugly?
-Try [CSSX](https://github.com/krasimir/cssx), it compiles to JSS JSON and allows you to write  in CSSX language, but render with JSS.
 
 ```javascript
 export default {
@@ -46,6 +44,10 @@ export default {
   }
 }
 ```
+
+You think writing CSS in JS is ugly?
+Try [CSSX](https://github.com/krasimir/cssx), it compiles to JSS JSON and allows you to write  in CSSX language, but render with JSS.
+
 
 Converts to:
 
