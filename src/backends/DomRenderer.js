@@ -88,6 +88,26 @@ export default class DomRenderer {
   }
 
   /**
+   * Delete a rule.
+   *
+   * @param {CSSRule} rule
+   * @return {Boolean} true if the rule was deleted
+   * @api private
+   */
+  deleteRule(CSSRule) {
+    // IE8 has only `styleSheet` and `styleSheet.rules`
+    const sheet = this.element.sheet || this.element.styleSheet
+    const cssRules = sheet.cssRules || sheet.rules
+    for (let index = 0; index < cssRules.length; index++) {
+      if (CSSRule === cssRules[index]) {
+        sheet.deleteRule(index)
+        return true
+      }
+    }
+    return false
+  }
+
+  /**
    * Get all rules elements.
    *
    * @return {Object} rules map, where key is selector, CSSStyleRule is value.

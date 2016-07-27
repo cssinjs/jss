@@ -130,6 +130,14 @@ Detaching unused style sheets will speedup every DOM node insertion and manipula
 
 `sheet.addRule([selector], rule)`
 
+### Delete a rule from an existing style sheet.
+
+To remove the rule from the DOM, style sheet option `link: true` should be used.
+Returns `true` if rule has been removed from the DOM.
+
+`sheet.deleteRule(name)`
+
+
 #### Add a rule dynamically with a generated class name.
 
 ```javascript

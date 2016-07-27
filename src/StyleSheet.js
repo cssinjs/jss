@@ -75,7 +75,7 @@ export default class StyleSheet {
    * Add a rule to the current stylesheet. Will insert a rule also after the stylesheet
    * has been rendered first time.
    *
-   * @param {Object} [name] can be selector or name if ´options.named is true
+   * @param {String} [name] can be selector or name if ´options.named is true
    * @param {Object} style property/value hash
    * @return {Rule}
    * @api public
@@ -98,6 +98,19 @@ export default class StyleSheet {
     }
 
     return rule
+  }
+
+  /**
+   * Delete a rule.
+   *
+   * @param {String} rule selector or name
+   * @return {Boolean} true if rule has been deleted from the DOM.
+   * @api public
+   */
+  deleteRule(name) {
+    const rule = this.getRule(name)
+    this.unregisterRule(rule)
+    return this.renderer.deleteRule(rule.renderable)
   }
 
   /**

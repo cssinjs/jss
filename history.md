@@ -1,3 +1,7 @@
+## 5.2.0 / 2016-07-27
+
+- Added `sheet.deleteRule` #266
+
 ## 5.1.0 / 2016-07-13
 
 - alternative syntax for space and comma separated values #264
