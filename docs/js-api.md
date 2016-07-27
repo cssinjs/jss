@@ -7,6 +7,7 @@
 1. [Attach style sheet.](#attach-style-sheet)
 1. [Detach style sheet.](#detach-style-sheet)
 1. [Add a rule to an existing style sheet.](#add-a-rule-to-an-existing-style-sheet)
+1. [Delete a rule from an existing style sheet.](#delete-a-rule-from-an-existing-style-sheet)
 1. [Add a rule dynamically with a generated class name.](#add-a-rule-dynamically-with-a-generated-class-name)
 1. [Add a rule with global class name.](#add-a-rule-with-global-class-name)
 1. [Get a rule.](#get-a-rule)
@@ -132,7 +133,7 @@ Detaching unused style sheets will speedup every DOM node insertion and manipula
 
 ### Delete a rule from an existing style sheet.
 
-To remove the rule from the DOM, style sheet option `link: true` should be used.
+To remove a rule from the DOM, style sheet option `link: true` should be used.
 Returns `true` if rule has been removed from the DOM.
 
 `sheet.deleteRule(name)`
