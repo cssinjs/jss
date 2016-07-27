@@ -205,7 +205,7 @@ describe('Functional: sheet', () => {
   })
 
   describe('.deleteRule', () => {
-    it.only('should delete a rule from the sheet and DOM', () => {
+    it('should delete a rule from the sheet and DOM', () => {
       const sheet = jss.createStyleSheet(
         {a: {width: '1px'}},
         {link: true}
