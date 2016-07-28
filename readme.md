@@ -5,11 +5,11 @@
 [![codecov](https://codecov.io/gh/jsstyles/jss/branch/master/graph/badge.svg)](https://codecov.io/gh/jsstyles/jss)
 [![bitHound Score](https://www.bithound.io/jsstyles/jss/badges/score.svg)](https://www.bithound.io/jsstyles/jss)
 
-[JSS is a better abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It uses JavaScript as a language to describe styles in a declarative and maintainable way. It compiles to CSS at runtime or server-side and is potentially more performant. You can use it with [React](https://github.com/jsstyles/react-jss) or with any other library. It is less than 4KB (minfied and gzipped) and is extensible via [plugins](./docs/plugins.md) API.
+[JSS is a better abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It uses JavaScript as a language to describe styles in a declarative and maintainable way. It compiles to CSS at runtime or server-side and is potentially more performant. You can use it with [React](https://github.com/cssinjs/react-jss) or with any other library. It is less than 4KB (minfied and gzipped) and is extensible via [plugins](./docs/plugins.md) API.
 
 ### TOC
 
-1. [Live examples](http://jsstyles.github.io/examples/index.html).
+1. [Live examples](http://cssinjs.github.io/examples/index.html).
 1. [Benefits](./docs/benefits.md)
 1. [Setup](./docs/setup.md)
 1. [JSON API](./docs/json-api.md)
@@ -17,14 +17,21 @@
 1. [Server-side rendering](./docs/ssr.md)
 1. [Performance](./docs/performance.md)
 1. [Plugins API](./docs/plugins.md)
-1. [Official plugins](https://github.com/jsstyles?query=jss-)
+1. [Official plugins](https://github.com/cssinjs?query=jss-)
 1. [External projects](./docs/external-projects.md)
-1. [CLI Converter](https://github.com/jsstyles/cli) 
+1. [CLI Converter](https://github.com/cssinjs/cli) 
 
 ### Example
 
+You think writing CSS in JS is ugly?
+Try [CSSX](https://github.com/krasimir/cssx), it compiles to JSS JSON and allows you to write  in CSSX language, but render with JSS.
+
+You need to [setup plugins](./docs/setup.md#setup-with-plugins) before.
+
 ```javascript
-export default {
+import jss from 'jss'
+
+const styles = {
   button: {
     fontSize: 12,
     '&:hover': {
@@ -43,38 +50,6 @@ export default {
     }
   }
 }
-```
-
-You think writing CSS in JS is ugly?
-Try [CSSX](https://github.com/krasimir/cssx), it compiles to JSS JSON and allows you to write  in CSSX language, but render with JSS.
-
-
-Converts to:
-
-```css
-.button--jss-0-0 {
-  font-size: 12px;
-}
-.button--jss-0-0:hover {
-  background: blue;
-}
-.ctaButton--jss-0-2 {
-  font-size: 12px;
-}
-.ctaButton--jss-0-2:hover {
-  background: red;
-}
-@media (min-width: 1024px) {
-  .button--jss-0-0 {
-    min-width: 200px;
-  }
-}
-```
-
-Render styles to the DOM ([setup plugins](./docs/setup.md#setup-with-plugins) before):
-
-```javascript
-import jss from 'jss'
 
 const {classes} = jss.createStyleSheet(styles).attach()
 
@@ -84,6 +59,35 @@ document.body.innerHTML = `
 `
 ```
 
+Result
+
+```html
+<head>
+  <style type="text/css">
+    .button--jss-0-0 {
+      font-size: 12px;
+    }
+    .button--jss-0-0:hover {
+      background: blue;
+    }
+    .ctaButton--jss-0-2 {
+      font-size: 12px;
+    }
+    .ctaButton--jss-0-2:hover {
+      background: red;
+    }
+    @media (min-width: 1024px) {
+      .button--jss-0-0 {
+        min-width: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="button--jss-0-0">Button</button>
+  <button class="button--jss-0-2">CTA Button</button>
+</body>
+```
 ### When should I use it?
 
 - You build a JavaScript heavy application.
@@ -106,4 +110,4 @@ MIT
 
 ### Thanks
 
-Thanks to [BrowserStack](https://www.browserstack.com) for providing the infrastructure that allows us to run our build in real browsers and to all awesome [contributors](https://github.com/jsstyles/jss/graphs/contributors).
+Thanks to [BrowserStack](https://www.browserstack.com) for providing the infrastructure that allows us to run our build in real browsers and to all awesome [contributors](https://github.com/cssinjs/jss/graphs/contributors).
