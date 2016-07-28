@@ -44,7 +44,7 @@ export default jss
 
 ### Create style sheet with namespaces enabled.
 
-Create a style sheet with [namespaced](http://jsstyles.github.io/examples/namespace/index.html) rules.
+Create a style sheet with [namespaced](http://cssinjs.github.io/examples/namespace/index.html) rules.
 
 `jss.createStyleSheet([rules], [options])`
 
@@ -206,7 +206,7 @@ const rule = jss.createRule({
 
 `rule.applyTo(element)`
 
-This is equivalent to `element.style.background = 'blue'` except that you could use a rule from sheet which is already defined. It uses `rule.toJSON()` internally, so same limitations are applied. [Example.](http://jsstyles.github.io/examples/inline/index.html)
+This is equivalent to `element.style.background = 'blue'` except that you could use a rule from sheet which is already defined. It uses `rule.toJSON()` internally, so same limitations are applied. [Example.](http://cssinjs.github.io/examples/inline/index.html)
 
 ```javascript
 jss.createRule({
