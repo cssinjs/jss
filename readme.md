@@ -64,28 +64,28 @@ Result
 ```html
 <head>
   <style type="text/css">
-    .button--jss-0-0 {
+    .button-123456 {
       font-size: 12px;
     }
-    .button--jss-0-0:hover {
+    .button-123456:hover {
       background: blue;
     }
-    .ctaButton--jss-0-2 {
+    .ctaButton-789012 {
       font-size: 12px;
     }
-    .ctaButton--jss-0-2:hover {
+    .ctaButton-789012:hover {
       background: red;
     }
     @media (min-width: 1024px) {
-      .button--jss-0-0 {
+      .button-123456 {
         min-width: 200px;
       }
     }
   </style>
 </head>
 <body>
-  <button class="button--jss-0-0">Button</button>
-  <button class="button--jss-0-2">CTA Button</button>
+  <button class="button-123456">Button</button>
+  <button class="ctaButton-789012">CTA Button</button>
 </body>
 ```
 ### When should I use it?
