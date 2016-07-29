@@ -259,7 +259,7 @@ div {
 
 ### Pseudo and Nested Selectors.
 
-Are supported through the [jss-nested](https://github.com/jsstyles/jss-nested) plugin.
+Are supported through the [jss-nested](https://github.com/cssinjs/jss-nested) plugin.
 
 ### Property "content".
 
