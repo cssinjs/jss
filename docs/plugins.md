@@ -2,7 +2,7 @@
 
 Plugins API allows to modify every rule at creation time. A plugin can for e.g. add new style properties, modify values or even add new rules.
 
-A number of [plugins](https://github.com/jsstyles?query=jss-) do exist already. We are happy to add more.
+A number of [plugins](https://github.com/cssinjs?query=jss-) do exist already. We are happy to add more.
 
 #### Order does matter, here is the right one:
 
