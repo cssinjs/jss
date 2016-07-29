@@ -1,9 +1,9 @@
 ## JSS
 
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/jsstyles/jss?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Build Status](https://travis-ci.org/jsstyles/jss.svg?branch=master)](https://travis-ci.org/jsstyles/jss)
-[![codecov](https://codecov.io/gh/jsstyles/jss/branch/master/graph/badge.svg)](https://codecov.io/gh/jsstyles/jss)
-[![bitHound Score](https://www.bithound.io/jsstyles/jss/badges/score.svg)](https://www.bithound.io/jsstyles/jss)
+[![Build Status](https://travis-ci.org/cssinjs/jss.svg?branch=master)](https://travis-ci.org/cssinjs/jss)
+[![codecov](https://codecov.io/gh/cssinjs/jss/branch/master/graph/badge.svg)](https://codecov.io/gh/cssinjs/jss)
+[![bitHound Score](https://www.bithound.io/cssinjs/jss/badges/score.svg)](https://www.bithound.io/cssinjs/jss)
 
 [JSS is a better abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It uses JavaScript as a language to describe styles in a declarative and maintainable way. It compiles to CSS at runtime or server-side and is potentially more performant. You can use it with [React](https://github.com/cssinjs/react-jss) or with any other library. It is less than 4KB (minfied and gzipped) and is extensible via [plugins](./docs/plugins.md) API.
 
@@ -19,7 +19,7 @@
 1. [Plugins API](./docs/plugins.md)
 1. [Official plugins](https://github.com/cssinjs?query=jss-)
 1. [External projects](./docs/external-projects.md)
-1. [CLI Converter](https://github.com/cssinjs/cli) 
+1. [CLI Converter](https://github.com/cssinjs/cli)
 
 ### Example
 

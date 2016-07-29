@@ -22,7 +22,7 @@
 
 [babel-plugin-jss-simple](https://github.com/ashaffer/babel-plugin-jss-simple) Add filename keys to your jss-simple declarations to help with hot reloading.
 
-[babel-plugin-jss-css](https://github.com/alexkuz/babel-plugin-jss-css) Babel plugin for 
+[babel-plugin-jss-css](https://github.com/alexkuz/babel-plugin-jss-css) Babel plugin for
 
 [jss-css](https://github.com/alexkuz/jss-css) module.
 
@@ -34,7 +34,7 @@
 
 [css-modules-jss-demo](https://github.com/markdalgleish/css-modules-jss-demo) An experimental demo of CSS Modules, using JSS via jss-loader to compile JavaScript into locally scoped CSS.
 
-[perdido](http://jsstyles.github.io/examples/perdido/index.html) Demo of perdido fractional grid system.
+[perdido](http://cssinjs.github.io/examples/perdido/index.html) Demo of perdido fractional grid system.
 
 ### UI libs
 
