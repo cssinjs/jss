@@ -218,7 +218,7 @@ jss.createRule({
 
 `rule.prop(name, [value])`
 
-When option `link` is true, after stylesheet is attached, linker saves references to `CSSRule` instances so that you are able to set rules properties at any time. [Example.](http://jsstyles.github.io/examples/dynamic-props/index.html)
+When option `link` is true, after stylesheet is attached, linker saves references to `CSSRule` instances so that you are able to set rules properties at any time. [Example.](http://cssinjs.github.io/examples/dynamic-props/index.html)
 
 ```javascript
 const sheet = jss.createStyleSheet({
