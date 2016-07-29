@@ -16,7 +16,7 @@ https://npmcdn.com/jss/dist/jss.min.js
 
 ## Setup with plugins
 
-You can use jss with or without [plugins](https://github.com/jsstyles?query=jss-).
+You can use jss with or without [plugins](https://github.com/cssinjs?query=jss-).
 
 ```javascript
 
@@ -45,7 +45,7 @@ sheet.toString()
 
 ## CLI
 
-For more information see [CLI](https://github.com/jsstyles/jss-cli).
+For more information see [CLI](https://github.com/cssinjs/jss-cli).
 
 ```bash
 npm i jss-cli -g
