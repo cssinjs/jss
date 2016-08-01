@@ -102,7 +102,8 @@ Result
 
 ### Roadmap
 
-1. Make community create plugins (better plugins API documentation, infrastructure).
+1. Make it easier for newcomers to setup jss with plugins (like presets).
+2. Make community create plugins (better plugins API documentation, infrastructure).
 2. Make it easy to see when changes in the core break plugins (integrate plugins test suite).
 3. Do more benchmarking, include plugins, always track perf regressions.
 4. Make JSON DSL even better, for e.g. [jss-expand](https://github.com/typical000/jss-expand).
