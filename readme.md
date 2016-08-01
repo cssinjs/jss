@@ -100,6 +100,16 @@ Result
 - Ease of maintenance is important to you.
 - You just want to use any of its [benefits](./docs/benefits.md)
 
+### Roadmap
+
+1. Make community create plugins (better plugins API documentation, infrastructure).
+2. Make it easy to see when changes in the core break plugins (integrate plugins test suite).
+3. Do more benchmarking, include plugins, always track perf regressions.
+4. Make JSON DSL even better, for e.g. [jss-expand](https://github.com/typical000/jss-expand).
+5. Introduce a way for theming with react-jss. 
+6. Make SSR even better (vendor prefixer, smaller critical CSS)
+7. Make CLI tool better, allow compilation and integration with other precompilers and pure CSS.
+
 ### Browsers Support
 
 We have automated tests running in [real browsers](./browsers.json).
