@@ -109,7 +109,7 @@ Result
 4. Make JSON DSL even better, for e.g. [jss-expand](https://github.com/typical000/jss-expand).
 5. Introduce a way for theming with react-jss. 
 6. Make SSR even better (vendor prefixer, smaller critical CSS)
-7. Make CLI tool better, allow compilation and integration with other precompilers and pure CSS.
+7. Make CLI tool better, allow integration of styles written in various preprocessing languages as well as pure css.
 
 ### Browsers Support
 
