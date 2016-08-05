@@ -28,6 +28,7 @@ export default class Rule {
       }
       this.selectorText = `.${this.className}`
     }
+    this.renderer = options.sheet ? options.sheet.renderer : new options.Renderer()
   }
 
   /**
@@ -39,7 +40,7 @@ export default class Rule {
    * @api public
    */
   set selector(selector = '') {
-    const {Renderer, sheet} = this.options
+    const {sheet} = this.options
 
     // After we modify selector, ref by old selector needs to be removed.
     if (sheet) sheet.unregisterRule(this)
@@ -53,7 +54,7 @@ export default class Rule {
       return
     }
 
-    const changed = Renderer.setSelector(this.renderable, selector)
+    const changed = this.renderer.selector(this.renderable, selector)
 
     if (changed) {
       sheet.registerRule(this)
@@ -78,7 +79,7 @@ export default class Rule {
    */
   get selector() {
     if (this.renderable) {
-      return this.options.Renderer.getSelector(this.renderable)
+      return this.renderer.selector(this.renderable)
     }
 
     return this.selectorText
@@ -93,18 +94,17 @@ export default class Rule {
    * @api public
    */
   prop(name, value) {
-    const {style} = this.options.Renderer
     // Its a setter.
     if (value != null) {
       this.style[name] = value
       // Only defined if option linked is true.
-      if (this.renderable) style(this.renderable, name, value)
+      if (this.renderable) this.renderer.style(this.renderable, name, value)
       return this
     }
     // Its a getter, read the value from the DOM if its not cached.
     if (this.renderable && this.style[name] == null) {
       // Cache the value after we have got it from the DOM once.
-      this.style[name] = style(this.renderable, name)
+      this.style[name] = this.renderer.style(this.renderable, name)
     }
     return this.style[name]
   }
@@ -117,9 +117,8 @@ export default class Rule {
    * @api public
    */
   applyTo(renderable) {
-    const {style} = this.options.Renderer
     const json = this.toJSON()
-    for (const prop in json) style(renderable, prop, json[prop])
+    for (const prop in json) this.renderer.style(renderable, prop, json[prop])
     return this
   }
 

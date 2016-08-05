@@ -2,9 +2,9 @@
  * Rendering backend to do nothing in nodejs.
  */
 export default class VirtualRenderer {
-  static style() {}
-  static setSelector() {}
-  static getSelector() {}
+  createElement() {}
+  style() {}
+  selector() {}
   attach() {}
   detach() {}
   deploy() {}

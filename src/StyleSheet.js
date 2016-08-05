@@ -33,6 +33,7 @@ export default class StyleSheet {
     const Renderer = findRenderer(this.options)
     this.options.Renderer = Renderer
     this.renderer = new Renderer(this.options)
+    this.renderer.createElement()
 
     for (const name in rules) {
       this.createAndRegisterRule(name, rules[name])

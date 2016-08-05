@@ -4,38 +4,62 @@
  * @api private
  */
 export default class DomRenderer {
-  static style(element, name, value) {
+  constructor(options) {
+    this.options = options
+  }
+
+  /**
+   * Create and ref style element.
+   *
+   * @api private
+   */
+  createElement() {
+    this.head = document.head || document.getElementsByTagName('head')[0]
+    this.element = this.options.element || document.createElement('style')
+    this.element.type = 'text/css'
+    if (this.options.media) this.element.setAttribute('media', this.options.media)
+    if (this.options.meta) this.element.setAttribute('data-meta', this.options.meta)
+  }
+
+  /**
+   * Get or set a style property.
+   *
+   * @param {Element} element
+   * @param {String} name
+   * @param {String} [value]
+   * @return {String|Boolean}
+   * @api private
+   */
+  style(element, name, value) {
     try {
+      // It is a getter.
       if (value == null) return element.style[name]
       element.style[name] = value
     }
     catch (err) {
-      // IE8 may throw if property is unknown.
+      // IE may throw if property is unknown.
       return false
     }
     return true
   }
 
-  static setSelector(cssRule, selector) {
-    cssRule.selectorText = selector
+  /**
+   * Get or set the selector.
+   *
+   * @param {CSSStyleRule} CSSRule
+   * @param {String} [selectorText]
+   * @return {String|Boolean}
+   * @api private
+   */
+  selector(CSSRule, selectorText) {
+    // It is a getter.
+    if (selectorText == null) return CSSRule.selectorText
+
+    CSSRule.selectorText = selectorText
 
     // Return false if setter was not successful.
     // Currently works in chrome only.
-    return cssRule.selectorText === selector
-  }
-
-  static getSelector(cssRule) {
-    return cssRule.selectorText
-  }
-
-  constructor(options) {
-    this.head = document.head || document.getElementsByTagName('head')[0]
-    this.element = options.element || document.createElement('style')
-    // IE8 will not have `styleSheet` prop without `type and `styleSheet.cssText`
-    // is the only way to render on IE8.
-    this.element.type = 'text/css'
-    if (options.media) this.element.setAttribute('media', options.media)
-    if (options.meta) this.element.setAttribute('data-meta', options.meta)
+    return CSSRule.selectorText === selectorText
   }
 
   /**
@@ -44,6 +68,7 @@ export default class DomRenderer {
    * @api private
    */
   attach() {
+    // In the case the element node is external and it is already in the DOM.
     if (this.element.parendNode) return
     this.head.appendChild(this.element)
   }
@@ -64,10 +89,7 @@ export default class DomRenderer {
    * @api private
    */
   deploy(sheet) {
-    const css = `\n${sheet.toString()}\n`
-    if ('sheet' in this.element) this.element.innerHTML = css
-    // On IE8 the only way to render is `styleSheet.cssText`.
-    else if ('styleSheet' in this.element) this.element.styleSheet.cssText = css
+    this.element.textContent = `\n${sheet.toString()}\n`
   }
 
   /**
@@ -78,13 +100,11 @@ export default class DomRenderer {
    * @api private
    */
   insertRule(rule) {
-    // IE8 has only `styleSheet` and `styleSheet.rules`
-    const sheet = this.element.sheet || this.element.styleSheet
-    const cssRules = sheet.cssRules || sheet.rules
-    const nextIndex = cssRules.length
-    if (sheet.insertRule) sheet.insertRule(rule.toString(), nextIndex)
-    else sheet.addRule(rule.selector, rule.toString({selector: false}), nextIndex)
-    return cssRules[nextIndex]
+    const {sheet} = this.element
+    const {cssRules} = sheet
+    const index = cssRules.length
+    sheet.insertRule(rule.toString(), index)
+    return cssRules[index]
   }
 
   /**
@@ -95,9 +115,8 @@ export default class DomRenderer {
    * @api private
    */
   deleteRule(CSSRule) {
-    // IE8 has only `styleSheet` and `styleSheet.rules`
-    const sheet = this.element.sheet || this.element.styleSheet
-    const cssRules = sheet.cssRules || sheet.rules
+    const {sheet} = this.element
+    const {cssRules} = sheet
     for (let index = 0; index < cssRules.length; index++) {
       if (CSSRule === cssRules[index]) {
         sheet.deleteRule(index)
@@ -114,9 +133,8 @@ export default class DomRenderer {
    * @api private
    */
   getRules() {
-    // IE8 has only `styleSheet` and `styleSheet.rules`
-    const sheet = this.element.sheet || this.element.styleSheet
-    const cssRules = sheet.rules || sheet.cssRules
+    const {sheet} = this.element
+    const {cssRules} = sheet
     const rules = Object.create(null)
     for (let index = 0; index < cssRules.length; index++) {
       const cssRule = cssRules[index]
