@@ -14,27 +14,28 @@ export default class DomRenderer {
    * @api private
    */
   createElement() {
+    const {media, meta, element} = this.options
     this.head = document.head || document.getElementsByTagName('head')[0]
-    this.element = this.options.element || document.createElement('style')
+    this.element = element || document.createElement('style')
     this.element.type = 'text/css'
-    if (this.options.media) this.element.setAttribute('media', this.options.media)
-    if (this.options.meta) this.element.setAttribute('data-meta', this.options.meta)
+    if (media) this.element.setAttribute('media', media)
+    if (meta) this.element.setAttribute('data-meta', meta)
   }
 
   /**
    * Get or set a style property.
    *
-   * @param {Element} element
+   * @param {CSSStyleRule} element
    * @param {String} name
    * @param {String} [value]
    * @return {String|Boolean}
    * @api private
    */
-  style(element, name, value) {
+  style(CSSStyleRule, name, value) {
     try {
       // It is a getter.
-      if (value == null) return element.style[name]
-      element.style[name] = value
+      if (value == null) return CSSStyleRule.style[name]
+      CSSStyleRule.style[name] = value
     }
     catch (err) {
       // IE may throw if property is unknown.
@@ -46,20 +47,20 @@ export default class DomRenderer {
   /**
    * Get or set the selector.
    *
-   * @param {CSSStyleRule} CSSRule
+   * @param {CSSStyleRule} CSSStyleRule
    * @param {String} [selectorText]
    * @return {String|Boolean}
    * @api private
    */
-  selector(CSSRule, selectorText) {
+  selector(CSSStyleRule, selectorText) {
     // It is a getter.
-    if (selectorText == null) return CSSRule.selectorText
+    if (selectorText == null) return CSSStyleRule.selectorText
 
-    CSSRule.selectorText = selectorText
+    CSSStyleRule.selectorText = selectorText
 
     // Return false if setter was not successful.
     // Currently works in chrome only.
-    return CSSRule.selectorText === selectorText
+    return CSSStyleRule.selectorText === selectorText
   }
 
   /**
@@ -110,15 +111,15 @@ export default class DomRenderer {
   /**
    * Delete a rule.
    *
-   * @param {CSSRule} rule
+   * @param {CSSStyleRule} rule
    * @return {Boolean} true if the rule was deleted
    * @api private
    */
-  deleteRule(CSSRule) {
+  deleteRule(CSSStyleRule) {
     const {sheet} = this.element
     const {cssRules} = sheet
     for (let index = 0; index < cssRules.length; index++) {
-      if (CSSRule === cssRules[index]) {
+      if (CSSStyleRule === cssRules[index]) {
         sheet.deleteRule(index)
         return true
       }
@@ -133,12 +134,11 @@ export default class DomRenderer {
    * @api private
    */
   getRules() {
-    const {sheet} = this.element
-    const {cssRules} = sheet
+    const {cssRules} = this.element.sheet
     const rules = Object.create(null)
     for (let index = 0; index < cssRules.length; index++) {
-      const cssRule = cssRules[index]
-      rules[cssRule.selectorText] = cssRule
+      const CSSStyleRule = cssRules[index]
+      rules[CSSStyleRule.selectorText] = CSSStyleRule
     }
     return rules
   }
