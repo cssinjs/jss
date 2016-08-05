@@ -95,7 +95,7 @@ Inline styles are [slower](./performance.md) than class names.
 3. Renders styles before component is rendered. It gives you an access to computed styles right after render and avoids additional recalcs and repaints, which can cause flickers and general performance overhead.
 4. No auto "!important" insertion. You can write a plugin for this though.
 
-More details in [the article](https://github.com/Khan/aphrodite).
+More details in [the article](https://medium.com/@oleg008/aphrodite-vs-jss-a15761b91ee3).
 
 ### Compared to any CSS in JS solution
 
