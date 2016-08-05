@@ -105,32 +105,6 @@ export default {
 }
 ```
 
-### Font Face
-
-```javascript
-export default {
-  '@font-face': {
-    fontFamily: 'MyWebFont',
-    src: [
-      'url(webfont.eot)',
-      'url(webfont.eot?#iefix) format(embedded-opentype)',
-      'url(webfont.woff2) format(woff2)'
-    ]
-  }
-}
-```
-
-#### CSS
-
-```css
-@font-face {
-  font-family: 'MyWebFont';
-  src: url('webfont.eot');
-  src: url('webfont.eot?#iefix') format('embedded-opentype');
-  src: url('webfont.woff2') format('woff2');
-}
-```
-
 ### Fallbacks
 
 ```javascript
@@ -152,6 +126,80 @@ export default {
       {display: 'flex-box'}
     ]
   }
+}
+```
+
+### Font Face
+
+```javascript
+export default {
+  '@font-face': {
+    fontFamily: 'MyWebFont',
+    src: 'url(webfont.eot)'
+  }
+}
+```
+
+#### CSS
+
+```css
+@font-face {
+  font-family: 'MyWebFont';
+  src: url('webfont.eot');
+}
+```
+
+```javascript
+// Multiple font faces.
+export default {
+  '@font-face': [
+    {
+      fontFamily: 'MyWebFont',
+      src: 'url(webfont.eot)'
+    },
+    {
+      fontFamily: 'MySecondFont',
+      src: 'url(webfont2.eot)'
+    }
+  ]
+}
+```
+
+#### CSS
+
+```css
+@font-face {
+  font-family: 'MyWebFont';
+  src: url('webfont.eot');
+}
+@font-face {
+  font-family: 'MySecondFont';
+  src: url('webfont2.eot');
+}
+```
+
+```javascript
+// Font-Face with src fallbacks.
+export default {
+  '@font-face': {
+    fontFamily: 'MyWebFont',
+    src: 'url(webfont.eot)',
+    fallbacks: [
+      {src: 'url(webfont.eot?#iefix) format(embedded-opentype)'},
+      {src: 'url(webfont.woff2) format(woff2)'}
+    ]
+  }
+}
+```
+
+#### CSS
+
+```css
+@font-face {
+  font-family: 'MyWebFont';
+  src: url('webfont.eot');
+  src: url(webfont.eot?#iefix) format(embedded-opentype);
+  src: url(webfont.woff2) format(woff2);
 }
 ```
 
@@ -205,7 +253,7 @@ export default {
       // Numbers can become default unit automatically.
       [1, 'solid', 'red'],
       [1, 'solid', 'blue']
-   ]
+    ]
   }
 }
 ```
