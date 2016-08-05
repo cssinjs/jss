@@ -107,6 +107,8 @@ export default {
 
 ### Fallbacks
 
+#### JS
+
 ```javascript
 export default {
   container: {
@@ -129,7 +131,18 @@ export default {
 }
 ```
 
+#### CSS
+
+```css
+.container--jss-0-0 {
+  background: red;
+  background: linear-gradient(to right, red 0%, green 100%);
+}
+```
+
 ### Font Face
+
+#### JS
 
 ```javascript
 export default {
@@ -148,6 +161,8 @@ export default {
   src: url('webfont.eot');
 }
 ```
+
+#### JS
 
 ```javascript
 // Multiple font faces.
@@ -178,6 +193,8 @@ export default {
 }
 ```
 
+#### JS
+
 ```javascript
 // Font-Face with src fallbacks.
 export default {
@@ -200,15 +217,6 @@ export default {
   src: url('webfont.eot');
   src: url(webfont.eot?#iefix) format(embedded-opentype);
   src: url(webfont.woff2) format(woff2);
-}
-```
-
-#### CSS
-
-```css
-.container--jss-0-0 {
-  background: red;
-  background: linear-gradient(to right, red 0%, green 100%);
 }
 ```
 
@@ -289,6 +297,8 @@ export default {
 
 When using option "named" `jss.createStyleSheet(styles, {named: false})` you can use keys as selectors instead of names. Be careful, now you will be writing a regular Style Sheet with global selectors.
 
+#### JS
+
 ```javascript
 export default {
   div: {
@@ -312,6 +322,8 @@ Are supported through the [jss-nested](https://github.com/cssinjs/jss-nested) pl
 ### Property "content".
 
 When assigning a string to the content property it requires double or single quotes in CSS. Therefore you also have to provide the quotes within the value string for content to match how it will be represented in CSS.
+
+#### JS
 
 ```javascript
 export default {
