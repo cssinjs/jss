@@ -128,8 +128,8 @@ describe('Integration: jss', () => {
   describe('.setup()', () => {
     it('should set up plugins', () => {
       const local = create()
-      const fn1 = () => {}
-      const fn2 = () => {}
+      const fn1 = () => {}
+      const fn2 = () => {}
       local.setup({
         plugins: [fn1, fn2]
       })

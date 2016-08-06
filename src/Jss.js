@@ -34,11 +34,13 @@ export default class Jss {
    * @return {Jss}
    * @api public
    */
-  setup(options = {}) {
+  setup(options = {}) {
     this.generateClassName = options.generateClassName || generateClassName
-    options.plugins && options.plugins.forEach(plugin => {
-      this.use(plugin)
-    })
+    if (options.plugins) {
+      options.plugins.forEach(plugin => {
+        this.use(plugin)
+      })
+    }
     return this
   }
 

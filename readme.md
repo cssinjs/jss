@@ -27,9 +27,14 @@ You think writing CSS in JS is ugly?
 Try [CSSX](https://github.com/krasimir/cssx), it compiles to JSS JSON and allows you to write  in CSSX language, but render with JSS.
 
 You need to [setup plugins](./docs/setup.md#setup-with-plugins) before.
+You can use a [preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with default plugins.
 
 ```javascript
 import jss from 'jss'
+import preset from 'jss-preset-default'
+
+// One time setup with default plugins and settings.
+jss.setup(preset())
 
 const styles = {
   button: {
