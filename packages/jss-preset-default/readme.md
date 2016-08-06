@@ -44,13 +44,6 @@ const jss = create(preset())
 
 File a bug against [cssinjs/jss prefixed with \[jss-preset-default\]](https://github.com/cssinjs/jss/issues/new?title=[jss-preset-default]%20).
 
-## Run tests
-
-```bash
-npm i
-npm run test
-```
-
 ## License
 
 MIT
