@@ -26,13 +26,11 @@ import jss from 'jss'
 
 ### Create an own JSS instance.
 
-Use an own instance if the component you build should be reusable within a different project with a probably different JSS setup.
-
 `create([options])`
 
-Options:
+Use an own instance if the component you build should be reusable within a different project with a probably different JSS setup.
 
- - `generateClassName` accepts a styles string and a Rule instance.
+See `.setup`for `options` description.
 
 ```javascript
 import {create} from 'jss'
@@ -40,6 +38,24 @@ const jss = create()
 jss.use(somePlugin())
 jss.createStyleSheet(...)
 export default jss
+```
+
+### Setup JSS instance.
+
+`jss.setup(options)`
+
+Options:
+
+ - `generateClassName` accepts a styles string and a Rule instance.
+ - `plugins` an array of functions, will be passed to `jss.use`.
+
+### Quick setup with preset.
+
+```javascript
+import preset from 'jss-preset-default'
+import jss from 'jss'
+
+jss.setup(preset())
 ```
 
 ### Create style sheet with namespaces enabled.

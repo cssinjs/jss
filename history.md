@@ -1,3 +1,11 @@
+## 5.3.0 / 2016-08-06
+
+- Added `jss.setup` method which accepts options like the contructor and can be used for presets
+- Docs
+- Create Rodamap
+- Cleanup DomRenderer from IE8 code.
+- Fix benchmark, use a new jss instance, because there is sheets registry
+
 ## 5.2.0 / 2016-07-27
 
 - Added `sheet.deleteRule` #266

@@ -124,4 +124,17 @@ describe('Integration: jss', () => {
       })
     })
   })
+
+  describe('.setup()', () => {
+    it('should set up plugins', () => {
+      const local = create()
+      const fn1 = () => {}
+      const fn2 = () => {}
+      local.setup({
+        plugins: [fn1, fn2]
+      })
+      expect(local.plugins.registry[0]).to.be(fn1)
+      expect(local.plugins.registry[1]).to.be(fn2)
+    })
+  })
 })

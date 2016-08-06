@@ -12,14 +12,34 @@ import {generateClassName} from './utils'
  */
 export default class Jss {
   /**
-   * Options:
-   * - `generateClassName` accepts a styles string and a Rule instance.
+   * Create a jss instance to allow local setup.
+   *
+   * @see .setup()
    */
-  constructor(options = {}) {
+  constructor(options) {
     this.sheets = new SheetsRegistry()
     this.plugins = new PluginsRegistry()
     this.version = process.env.VERSION
+    this.setup(options)
+  }
+
+  /**
+   * Setup JSS.
+   *
+   * Options:
+   * - `generateClassName` accepts a styles string and a Rule instance.
+   * - `plugins`
+   *
+   * @param {Object} options
+   * @return {Jss}
+   * @api public
+   */
+  setup(options = {}) {
     this.generateClassName = options.generateClassName || generateClassName
+    options.plugins && options.plugins.forEach(plugin => {
+      this.use(plugin)
+    })
+    return this
   }
 
   /**
@@ -60,6 +80,7 @@ export default class Jss {
    * Register plugin. Passed function will be invoked with a rule instance.
    *
    * @param {Function} plugins
+   * @return {Jss}
    * @api public
    */
   use(...plugins) {
