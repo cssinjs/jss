@@ -107,7 +107,7 @@ Result
 
 ### Roadmap
 
-1. Make it easier for newcomers to setup jss with plugins (like presets).
+1. ~~Make it easier for newcomers to setup jss with plugins (like presets).~~
 1. Make community create plugins (better plugins API documentation, infrastructure).
 1. Make it easy to see when changes in the core break plugins (integrate plugins test suite).
 1. Do more benchmarking, include plugins, always track perf regressions.
