@@ -12,7 +12,7 @@
 1. [Live examples](http://cssinjs.github.io/examples/index.html).
 1. [Benefits](./docs/benefits.md)
 1. [Setup](./docs/setup.md)
-1. [JSON API](./docs/json-api.md)
+1. [JSON API (JSS Syntax)](./docs/json-api.md)
 1. [JavaScript API](./docs/js-api.md)
 1. [Server-side rendering](./docs/ssr.md)
 1. [Performance](./docs/performance.md)
