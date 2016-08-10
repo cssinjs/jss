@@ -357,6 +357,7 @@ export default {
     color: color('blue').darken(0.3).hexString()
   }
 }
+```
 
 #### CSS
 
