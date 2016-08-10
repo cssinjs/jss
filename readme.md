@@ -52,7 +52,7 @@ const styles = {
   },
   '@media (min-width: 1024px)': {
     button: {
-      minWidth: 200
+      width: 200
     }
   }
 }
