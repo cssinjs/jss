@@ -32,6 +32,7 @@ You can use a [preset](https://github.com/cssinjs/jss-preset-default) for a quic
 ```javascript
 import jss from 'jss'
 import preset from 'jss-preset-default'
+import color from 'color'
 
 // One time setup with default plugins and settings.
 jss.setup(preset())
@@ -46,7 +47,7 @@ const styles = {
   ctaButton: {
     extend: 'button',
     '&:hover': {
-      background: 'red'
+      background: color('blue').darken(0.3).hexString()
     }
   },
   '@media (min-width: 1024px)': {
