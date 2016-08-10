@@ -343,6 +343,29 @@ export default {
 }
 ```
 
+### Working with colors
+
+You can use any color conversion tool, for e.g. [this one](https://www.npmjs.com/package/color).
+
+#### JS
+
+```javascript
+import color from 'color'
+
+export default {
+  button: {
+    color: color('blue').darken(0.3).hexString()
+  }
+}
+
+#### CSS
+
+```css
+.button-jss-0-1 {
+  color: '#0000B3'
+}
+```
+
 ### Plugins
 
 JSS plugins give you even more features, [read about them](./plugins.md).
