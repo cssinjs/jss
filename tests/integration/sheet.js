@@ -55,6 +55,16 @@ describe('Integration: sheet', () => {
     })
   })
 
+  describe('sheet.getRule()', () => {
+    it('should add a rule with className in options', () => {
+      const sheet = jss.createStyleSheet()
+      const rule = sheet.addRule('a', {color: 'red'}, {className: 'test'})
+      expect(rule.className).to.be('test')
+      expect(rule.selector).to.be('.test')
+      expect(sheet.getRule('.test')).to.be(rule)
+    })
+  })
+
   describe('sheet.toString()', () => {
     it('should compile all rule types to CSS', () => {
       const sheet = jss.createStyleSheet({

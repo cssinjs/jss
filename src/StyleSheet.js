@@ -78,11 +78,12 @@ export default class StyleSheet {
    *
    * @param {String} [name] can be selector or name if ´options.named is true
    * @param {Object} style property/value hash
+   * @param {Object} [options]
    * @return {Rule}
    * @api public
    */
-  addRule(name, style) {
-    const rule = this.createRule(name, style)
+  addRule(name, style, options) {
+    const rule = this.createRule(name, style, options)
 
     if (this.attached) {
       // Don't insert rule directly if there is no stringified version yet.
@@ -186,9 +187,13 @@ export default class StyleSheet {
       ...options,
       sheet: this,
       jss: this.options.jss,
-      Renderer: this.options.Renderer,
-      className: this.classes[name]
+      Renderer: this.options.Renderer
     }
+
+    // Currently the only case where we have no class name is child rules of
+    // some conditional rule.
+    if (!options.className) options.className = this.classes[name]
+
     // Scope options overwrite instance options.
     if (options.named == null) options.named = this.options.named
     const rule = createRule(name, style, options)
