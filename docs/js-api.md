@@ -145,7 +145,7 @@ Detaching unused style sheets will speedup every DOM node insertion and manipula
 
 ### Add a rule to an existing style sheet.
 
-`sheet.addRule([selector], rule)`
+`sheet.addRule([selector], rule, [options])`
 
 ### Delete a rule from an existing style sheet.
 

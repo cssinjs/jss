@@ -1,3 +1,9 @@
+## 5.4.0 / 2016-08-15
+
+- More docs
+- More benchmarks
+- Make sheet.addRule accept options
+
 ## 5.3.0 / 2016-08-06
 
 - Added `jss.setup` method which accepts options like the contructor and can be used for presets
