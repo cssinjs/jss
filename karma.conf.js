@@ -43,7 +43,9 @@ module.exports = (config) => {
       frameworks: ['benchmark'],
       files: ['benchmark/**/*.js'],
       preprocessors: {'benchmark/**/*.js': ['webpack']},
-      reporters: ['benchmark']
+      reporters: ['benchmark'],
+      // Some tests are slow.
+      browserNoActivityTimeout: 20000
     })
   }
 

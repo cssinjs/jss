@@ -10,5 +10,5 @@ suite('Add rule', () => {
   benchmark('.insertRule()', function benchmark() {
     this.sheet = this.sheet || create().createStyleSheet().attach()
     this.sheet.addRule('modal', styles.modal)
-  })
-}, {teardown})
+  }, {teardown})
+})
