@@ -1,6 +1,7 @@
 const assign = require('lodash.assign')
 const webpackConfig = require('./webpack.config')
 const browsers = require('./browsers')
+const plugins = require('./plugins')
 
 const isBench = process.env.BENCHMARK === 'true'
 const useCloud = process.env.USE_CLOUD === 'true'
@@ -11,6 +12,12 @@ const travisBuildNumber = process.env.TRAVIS_BUILD_NUMBER
 const travisBuildId = process.env.TRAVIS_BUILD_ID
 const travisJobNumber = process.env.TRAVIS_JOB_NUMBER
 
+const filesForWebpack = plugins
+  .map(name => `node_modules/${name}/tests.webpack.js`)
+  .concat([
+    'tests.webpack.js'
+  ])
+
 module.exports = (config) => {
   config.set({
     customLaunchers: browsers,
@@ -18,12 +25,12 @@ module.exports = (config) => {
     frameworks: ['mocha'],
     files: [
       'node_modules/es5-shim/es5-shim.js',
-      'node_modules/es5-shim/es5-sham.js',
-      'tests.webpack.js'
-    ],
-    preprocessors: {
-      'tests.webpack.js': ['webpack', 'sourcemap']
-    },
+      'node_modules/es5-shim/es5-sham.js'
+    ].concat(filesForWebpack),
+    preprocessors: filesForWebpack.reduce((map, file) => {
+      map[file] = ['webpack', 'sourcemap']
+      return map
+    }, {}),
     webpack: assign(webpackConfig, {
       devtool: 'inline-source-map'
     }),
