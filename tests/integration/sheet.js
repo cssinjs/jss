@@ -55,13 +55,55 @@ describe('Integration: sheet', () => {
     })
   })
 
-  describe('sheet.getRule()', () => {
-    it('should add a rule with className in options', () => {
+  describe('sheet.indexOf()', () => {
+    it('should return the index of a rule', () => {
+      const sheet = jss.createStyleSheet({
+        a: {color: 'red'},
+        b: {color: 'blue'}
+      })
+      expect(sheet.indexOf(sheet.getRule('a'))).to.be(0)
+      expect(sheet.indexOf(sheet.getRule('b'))).to.be(1)
+      expect(sheet.indexOf(sheet.getRule('c'))).to.be(-1)
+    })
+  })
+
+  describe('sheet.addRule()', () => {
+    it('should add a rule with "className" in options', () => {
       const sheet = jss.createStyleSheet()
       const rule = sheet.addRule('a', {color: 'red'}, {className: 'test'})
       expect(rule.className).to.be('test')
       expect(rule.selector).to.be('.test')
       expect(sheet.getRule('.test')).to.be(rule)
+    })
+
+    it('should add a rule with "at" in options', () => {
+      const sheet = jss.createStyleSheet({
+        a: {color: 'red'},
+        c: {color: 'blue'},
+      })
+      sheet.addRule('b', {color: 'green'}, {at: 1})
+      expect(sheet.indexOf(sheet.getRule('a'))).to.be(0)
+      expect(sheet.indexOf(sheet.getRule('b'))).to.be(1)
+      expect(sheet.indexOf(sheet.getRule('c'))).to.be(2)
+      expect(sheet.toString()).to.equal(
+        '.a-id {\n' +
+        '  color: red;\n' +
+        '}\n' +
+        '.b-id {\n' +
+        '  color: green;\n' +
+        '}\n' +
+        '.c-id {\n' +
+        '  color: blue;\n' +
+        '}'
+      )
+    })
+  })
+
+  describe('sheet.deleteRule()', () => {
+    it('should delete a rule', () => {
+      const sheet = jss.createStyleSheet({a: {color: 'red'}})
+      expect(sheet.deleteRule('a')).to.be(true)
+      expect(sheet.toString()).to.equal('')
     })
   })
 

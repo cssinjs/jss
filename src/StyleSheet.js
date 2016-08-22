@@ -24,7 +24,11 @@ export default class StyleSheet {
   constructor(rules, options) {
     this.options = {...options}
     if (this.options.named == null) this.options.named = true
+    // Rules registry for access by .getRule() method.
+    // It contains the same rule registered by name and by class name.
     this.rules = Object.create(null)
+    // Used to ensure correct rules order.
+    this.rulesIndex = []
     this.classes = Object.create(null)
     this.attached = false
     this.deployed = false
@@ -39,9 +43,8 @@ export default class StyleSheet {
       this.createAndRegisterRule(name, rules[name])
     }
 
-    for (const name in rules) {
-      this.options.jss.plugins.run(this.rules[name])
-    }
+    const {plugins} = this.options.jss
+    this.rulesIndex.forEach(plugins.run, plugins)
   }
 
   /**
@@ -109,23 +112,34 @@ export default class StyleSheet {
    * @return {Boolean} true if rule has been deleted from the DOM.
    * @api public
    */
-  deleteRule(name) {
-    const rule = this.getRule(name)
+  deleteRule(nameOrSelector) {
+    const rule = this.getRule(nameOrSelector)
+
+    if (!rule) return false
+
     this.unregisterRule(rule)
-    return this.renderer.deleteRule(rule.renderable)
+
+    if (this.attached) {
+      return this.renderer.deleteRule(rule.renderable)
+    }
+
+    this.rulesIndex.splice(this.indexOf(rule), 1)
+
+    return true
   }
 
   /**
    * Create rules, will render also after stylesheet was rendered the first time.
    *
    * @param {Object} rules name:style hash.
+   * @param {Object} [options]
    * @return {Array} array of added rules
    * @api public
    */
-  addRules(rules) {
+  addRules(rules, options) {
     const added = []
     for (const name in rules) {
-      added.push(this.addRule(name, rules[name]))
+      added.push(this.addRule(name, rules[name], options))
     }
     return added
   }
@@ -133,12 +147,23 @@ export default class StyleSheet {
   /**
    * Get a rule.
    *
-   * @param {String} name can be selector or name if `named` option is true.
+   * @param {String} nameOrSelector can be selector or name if `named` option is true.
    * @return {Rule}
    * @api public
    */
-  getRule(name) {
-    return this.rules[name]
+  getRule(nameOrSelector) {
+    return this.rules[nameOrSelector]
+  }
+
+  /**
+   * Get index of a rule.
+   *
+   * @param {Rule} rule
+   * @return {Number}
+   * @api public
+   */
+  indexOf(rule) {
+    return this.rulesIndex.indexOf(rule)
   }
 
   /**
@@ -150,20 +175,17 @@ export default class StyleSheet {
    */
   toString(options) {
     const {rules} = this
-    const stringified = []
     let str = ''
-    for (const name in rules) {
-      const rule = rules[name]
-      // We have the same rule referenced twice if using named rules.
-      // By name and by selector.
-      if (stringified.indexOf(rule) !== -1) {
-        continue
-      }
 
+    for (let index = 0; index < this.rulesIndex.length; index++) {
+      const rule = this.rulesIndex[index]
+
+      // Regular rules.
       if (rule.style && isEmptyObject(rule.style)) {
         continue
       }
 
+      // Conditional rules.
       if (rule.rules && isEmptyObject(rule.rules)) {
         continue
       }
@@ -171,8 +193,8 @@ export default class StyleSheet {
       if (str) str += '\n'
 
       str += rule.toString(options)
-      stringified.push(rule)
     }
+
     return str
   }
 
@@ -198,13 +220,19 @@ export default class StyleSheet {
     if (options.named == null) options.named = this.options.named
     const rule = createRule(name, style, options)
     this.registerRule(rule)
+
+    if (!options.parent) {
+      const index = options.at === undefined ? this.rulesIndex.length : options.at
+      this.rulesIndex.splice(index, 0, rule)
+    }
+
     return rule
   }
 
   /**
    * Create and register rule, run plugins.
    *
-   * Will not render after stylesheet was rendered the first time.
+   * Will not render after style sheet was rendered the first time.
    * Will link the rule in `this.rules`.
    *
    * @see createRule

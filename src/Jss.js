@@ -82,9 +82,9 @@ export default class Jss {
       selector = null
     }
     const rule = createRule(selector, style, {
-      ...options,
       jss: this,
-      Renderer: findRenderer(options)
+      Renderer: findRenderer(options),
+      ...options
     })
     this.plugins.run(rule)
     return rule

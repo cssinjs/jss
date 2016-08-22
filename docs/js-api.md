@@ -153,12 +153,11 @@ Detaching unused style sheets will speedup every DOM node insertion and manipula
 
 `sheet.addRule([selector], rule, [options])`
 
-### Delete a rule from an existing style sheet.
+#### Options.
 
-To remove a rule from the DOM, style sheet option `link: true` should be used.
-Returns `true` if rule has been removed from the DOM.
-
-`sheet.deleteRule(name)`
+- `named` if true, selector will be generated
+- `at` index where the rule should be added, when you need to ensure the order
+- `className` add a rule with a predefined class name.
 
 
 #### Add a rule dynamically with a generated class name.
@@ -179,6 +178,14 @@ const rule = sheet.addRule('.my-button', {
   background: 'blue'
 }, {named: false})
 ```
+
+### Delete a rule from an existing style sheet.
+
+To remove a rule from the DOM, style sheet option `link: true` should be used.
+Returns `true` if rule has been removed from the DOM.
+
+`sheet.deleteRule(name)`
+
 
 ### Get a rule.
 
@@ -213,7 +220,7 @@ sheet.addRules({
 
 ### Create a rule without a style sheet.
 
-`jss.createRule([selector], rule)`
+`jss.createRule([selector], rule, [options])`
 
 In order to apply styles directly to the element but still be able to use jss s.
 
