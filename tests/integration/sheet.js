@@ -2,9 +2,9 @@ import expect from 'expect.js'
 import jss, {create, Rule} from 'jss'
 import {reset} from '../utils'
 
-afterEach(reset)
-
 describe('Integration: sheet', () => {
+  afterEach(reset)
+
   describe('.createStyleSheet()', () => {
     it('should create a sheet without args', () => {
       const sheet = jss.createStyleSheet()

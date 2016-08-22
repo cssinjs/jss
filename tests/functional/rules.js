@@ -2,9 +2,9 @@ import expect from 'expect.js'
 import jss from 'jss'
 import {reset} from '../utils'
 
-afterEach(reset)
-
 describe('Functional: rules', () => {
+  afterEach(reset)
+
   describe('rule.applyTo()', () => {
     it('should apply float: left', () => {
       const div = document.createElement('div')

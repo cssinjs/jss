@@ -2,9 +2,9 @@ import expect from 'expect.js'
 import jss, {create, Jss, StyleSheet} from 'jss'
 import {reset} from '../utils'
 
-afterEach(reset)
-
 describe('Integration: jss', () => {
+  afterEach(reset)
+
   describe('exports', () => {
     it('should export default Jss instance', () => {
       expect(jss).to.be.a(Jss)
@@ -34,14 +34,17 @@ describe('Integration: jss', () => {
       sheet2 = jss.createStyleSheet({a: {color: 'blue'}})
     })
 
+    afterEach(reset)
+
     it('should be StyleSheet instances', () => {
       expect(sheet1).to.be.a(StyleSheet)
       expect(sheet2).to.be.a(StyleSheet)
     })
 
     it('should register sheets in registry', () => {
-      expect(jss.sheets.registry.indexOf(sheet1)).to.not.be(-1)
-      expect(jss.sheets.registry.indexOf(sheet2)).to.not.be(-1)
+      expect(jss.sheets.registry.indexOf(sheet1)).to.be(0)
+      expect(jss.sheets.registry.indexOf(sheet2)).to.be(1)
+      expect(jss.sheets.registry.length).to.be(2)
     })
 
     it('should return CSS of all sheets from .sheets.toString()', () => {

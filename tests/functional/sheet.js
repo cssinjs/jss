@@ -2,9 +2,9 @@ import expect from 'expect.js'
 import jss from 'jss'
 import {reset, computeStyle, getStyle, getCss, getRules} from '../utils'
 
-afterEach(reset)
-
 describe('Functional: sheet', () => {
+  afterEach(reset)
+
   describe('sheet.attach() CSS check from DOM', () => {
     function check(styles, options) {
       const sheet = jss.createStyleSheet(styles, options).attach()
@@ -95,7 +95,8 @@ describe('Functional: sheet', () => {
 
   describe('Option: {link: true}', () => {
     let sheet
-    before(() => {
+
+    beforeEach(() => {
       sheet = jss.createStyleSheet({a: {float: 'left'}}, {link: true}).attach()
     })
 
@@ -106,10 +107,6 @@ describe('Functional: sheet', () => {
     it('should link the DOM node to added rule', () => {
       sheet.addRule('b', {color: 'red'})
       expect(sheet.getRule('b').renderable).to.be.a(CSSStyleRule)
-    })
-
-    after(() => {
-      sheet.detach()
     })
   })
 
@@ -138,7 +135,7 @@ describe('Functional: sheet', () => {
     let rule
     let style
 
-    before(() => {
+    beforeEach(() => {
       sheet = jss.createStyleSheet(null, {named: false}).attach()
       rule = sheet.addRule('.a', {float: 'left'})
       style = getStyle()
@@ -159,10 +156,6 @@ describe('Functional: sheet', () => {
     it('should link sheet in rules options', () => {
       expect(sheet.getRule('.a').options.sheet).to.be(sheet)
     })
-
-    after(() => {
-      sheet.detach()
-    })
   })
 
   describe('.addRule() to a named sheet', () => {
@@ -170,7 +163,7 @@ describe('Functional: sheet', () => {
     let rule
     let style
 
-    before(() => {
+    beforeEach(() => {
       sheet = jss.createStyleSheet().attach()
       rule = sheet.addRule('a', {float: 'left'})
       style = getStyle()
@@ -197,10 +190,6 @@ describe('Functional: sheet', () => {
 
     it('should link sheet in rules options', () => {
       expect(sheet.getRule('a').options.sheet).to.be(sheet)
-    })
-
-    after(() => {
-      sheet.detach()
     })
   })
 
@@ -254,7 +243,7 @@ describe('Functional: sheet', () => {
     let sheet
     let rule
 
-    before(() => {
+    beforeEach(() => {
       sheet = jss.createStyleSheet(
         {a: {width: '1px'}},
         {link: true}
@@ -268,15 +257,12 @@ describe('Functional: sheet', () => {
     })
 
     it('should apply selector to the DOM', () => {
+      rule.selector = '.test'
       expect(computeStyle('test').width).to.be('1px')
     })
 
     it('should register the class name in sheet.classes', () => {
       expect(sheet.classes.a, 'test')
-    })
-
-    after(() => {
-      sheet.detach()
     })
   })
 })
