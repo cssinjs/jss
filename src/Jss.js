@@ -45,7 +45,7 @@ export default class Jss {
   }
 
   /**
-   * Create a stylesheet.
+   * Create a style sheet.
    *
    * @see StyleSheet
    * @api public
@@ -54,6 +54,18 @@ export default class Jss {
     const sheet = new StyleSheet(rules, {...options, jss: this})
     this.sheets.add(sheet)
     return sheet
+  }
+
+  /**
+   * Detach the style sheet and remove it from the registry.
+   *
+   * @param {StyleSheet} sheet
+   * @api public
+   */
+  removeStyleSheet(sheet) {
+    sheet.detach()
+    this.sheets.remove(sheet)
+    return this
   }
 
   /**

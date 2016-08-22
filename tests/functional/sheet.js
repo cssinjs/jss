@@ -214,6 +214,7 @@ describe('Functional: sheet', () => {
       expect(sheet.deleteRule('a')).to.be(true)
       expect(sheet.getRule('a')).to.be(undefined)
       expect(computeStyle(sheet.classes.a).width).not.to.be('1px')
+      sheet.detach()
     })
   })
 

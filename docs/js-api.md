@@ -121,6 +121,12 @@ const sheet = jss.createStyleSheet({
 </style>
 ```
 
+### Remove a style sheet.
+
+`jss.removeStyleSheet(sheet)`
+
+Detach the style sheet and remove it from the registry.
+
 ### A style sheets registry.
 
 `jss.sheets`

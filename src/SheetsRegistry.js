@@ -19,6 +19,17 @@ export default class SheetsRegistry {
   }
 
   /**
+   * Remove a style sheet.
+   *
+   * @param {StyleSheet} sheet
+   * @api public
+   */
+  remove(sheet) {
+    const index = this.registry.indexOf(sheet)
+    this.registry.splice(index, 1)
+  }
+
+  /**
    * Returns CSS string with all Style Sheets.
    *
    * @param {StyleSheet} sheet

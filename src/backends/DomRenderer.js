@@ -70,7 +70,7 @@ export default class DomRenderer {
    */
   attach() {
     // In the case the element node is external and it is already in the DOM.
-    if (this.element.parendNode) return
+    if (this.element.parentNode) return
     this.head.appendChild(this.element)
   }
 

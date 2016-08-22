@@ -54,6 +54,12 @@ describe('Integration: jss', () => {
         '}'
       expect(jss.sheets.toString()).to.be(css)
     })
+
+    it('should remove a sheet from registry', () => {
+      jss.removeStyleSheet(sheet1)
+      jss.removeStyleSheet(sheet2)
+      expect(jss.sheets.registry.length).to.be(0)
+    })
   })
 
   describe('.use()', () => {
