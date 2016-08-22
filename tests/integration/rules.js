@@ -2,9 +2,9 @@ import expect from 'expect.js'
 import jss from 'jss'
 import {reset} from '../utils'
 
-afterEach(reset)
-
 describe('Integration: rules', () => {
+  afterEach(reset)
+
   describe('.createRule()', () => {
     it('should create a rule without args', () => {
       const rule = jss.createRule()

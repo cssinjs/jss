@@ -2,9 +2,9 @@ import expect from 'expect.js'
 import jss from 'jss'
 import {reset, computeStyle, getStyle, getCss, getRules} from '../utils'
 
-afterEach(reset)
-
 describe('Functional: sheet', () => {
+  afterEach(reset)
+
   describe('sheet.attach() CSS check from DOM', () => {
     function check(styles, options) {
       const sheet = jss.createStyleSheet(styles, options).attach()

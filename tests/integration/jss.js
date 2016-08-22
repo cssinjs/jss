@@ -2,9 +2,9 @@ import expect from 'expect.js'
 import jss, {create, Jss, StyleSheet} from 'jss'
 import {reset} from '../utils'
 
-afterEach(reset)
-
 describe('Integration: jss', () => {
+  afterEach(reset)
+
   describe('exports', () => {
     it('should export default Jss instance', () => {
       expect(jss).to.be.a(Jss)
