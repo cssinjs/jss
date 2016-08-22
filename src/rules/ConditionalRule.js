@@ -19,8 +19,10 @@ export default class ConditionalRule {
   /**
    * A conditional rule always contains child rules.
    *
+   * @param {String} name
    * @param {Object} styles
-   * @return {Array} rules
+   * @param {Object} [options]
+   * @return {Rule}
    * @api public
    */
   createRule(name, style, options) {

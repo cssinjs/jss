@@ -174,11 +174,11 @@ export default class StyleSheet {
    * @api public
    */
   toString(options) {
-    const {rules} = this
+    const {rulesIndex} = this
     let str = ''
 
-    for (let index = 0; index < this.rulesIndex.length; index++) {
-      const rule = this.rulesIndex[index]
+    for (let index = 0; index < rulesIndex.length; index++) {
+      const rule = rulesIndex[index]
 
       // Regular rules.
       if (rule.style && isEmptyObject(rule.style)) {
