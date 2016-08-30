@@ -2,7 +2,7 @@ import expect from 'expect.js'
 import {create} from 'jss'
 import {reset} from '../utils'
 
-describe('Integration: dom priority', () => {
+describe('Functional: dom priority', () => {
   function createDummySheets() {
     for (let i = 0; i < 2; i++) {
       const dummySheet = document.createElement('style')
@@ -147,6 +147,64 @@ describe('Integration: dom priority', () => {
       expect(styleElements[5].getAttribute('data-meta')).to.be('sheet4')
 
       expect(styleElements[6].getAttribute('data-test-dummy')).to.be('dummy2')
+    })
+  })
+
+  describe('with zero and negative indices', () => {
+    let jss
+
+    beforeEach(() => {
+      jss = create()
+    })
+    afterEach(() => {
+      reset(jss)
+    })
+
+    it('should insert sheets in the correct order', () => {
+      jss.createStyleSheet({}, {meta: 'sheet1', index: 0}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet2', index: -5}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet3', index: -999}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet4', index: 3}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet5', index: 312}).attach()
+
+      const styleElements = document.head.getElementsByTagName('style')
+
+      expect(styleElements.length).to.be(5)
+
+      expect(styleElements[0].getAttribute('data-meta')).to.be('sheet3')
+      expect(styleElements[1].getAttribute('data-meta')).to.be('sheet2')
+      expect(styleElements[2].getAttribute('data-meta')).to.be('sheet1')
+      expect(styleElements[3].getAttribute('data-meta')).to.be('sheet4')
+      expect(styleElements[4].getAttribute('data-meta')).to.be('sheet5')
+    })
+  })
+
+  describe('with multiple sheets using the same index', () => {
+    let jss
+
+    beforeEach(() => {
+      jss = create()
+    })
+    afterEach(() => {
+      reset(jss)
+    })
+
+    it('should insert sheets with the same index after existing', () => {
+      jss.createStyleSheet({}, {meta: 'sheet1', index: 50}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet2', index: 40}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet3', index: 40}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet4', index: 20}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet5', index: 40}).attach()
+
+      const styleElements = document.head.getElementsByTagName('style')
+
+      expect(styleElements.length).to.be(5)
+
+      expect(styleElements[0].getAttribute('data-meta')).to.be('sheet4')
+      expect(styleElements[1].getAttribute('data-meta')).to.be('sheet2')
+      expect(styleElements[2].getAttribute('data-meta')).to.be('sheet3')
+      expect(styleElements[3].getAttribute('data-meta')).to.be('sheet5')
+      expect(styleElements[4].getAttribute('data-meta')).to.be('sheet1')
     })
   })
 })

@@ -85,8 +85,8 @@ export default class DomRenderer {
           const sheet = registry[i]
           if (
             !sheet.attached ||
-            !sheet.options.index ||
-            sheet.options.index < index
+            typeof sheet.options.index !== 'number' ||
+            sheet.options.index <= index
           ) continue
           anchorEl = sheet.renderer.element
           break
@@ -96,9 +96,9 @@ export default class DomRenderer {
       // Otherwise insert after the last attached
       if (!anchorEl) {
         for (let i = registry.length - 1; i >= 0; i--) {
-          const registrySheet = registry[i]
-          if (registrySheet.attached) {
-            anchorEl = registrySheet.renderer.element.nextElementSibling
+          const sheet = registry[i]
+          if (sheet.attached) {
+            anchorEl = sheet.renderer.element.nextElementSibling
             break
           }
         }
@@ -107,9 +107,9 @@ export default class DomRenderer {
 
     if (!anchorEl) {
       // Try find a comment placeholder if registry is empty
-      for (let i = 0; i < document.head.childNodes.length; i++) {
-        const el = document.head.childNodes[i]
-        if (el.nodeType === 8 && el.nodeValue === 'jss') {
+      for (let i = 0; i < this.head.childNodes.length; i++) {
+        const el = this.head.childNodes[i]
+        if (el.nodeValue === 'jss') {
           anchorEl = el
           break
         }

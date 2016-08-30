@@ -17,13 +17,14 @@ export default class SheetsRegistry {
   add(sheet) {
     const {registry} = this
 
-    if (registry.length && sheet.options.index) {
-      for (let i = 0; i < registry.length; i++) {
-        const registration = registry[i]
-        if (
-          !registration.options.index ||
-          registration.options.index < sheet.options.index
-        ) continue
+    if (!registry.length || typeof sheet.options.index !== 'number') {
+      registry.push(sheet)
+      return
+    }
+
+    for (let i = 0; i < registry.length; i++) {
+      const {options} = registry[i]
+      if (options.index > sheet.options.index) {
         registry.splice(i, 0, sheet)
         return
       }

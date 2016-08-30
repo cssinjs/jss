@@ -40,12 +40,7 @@ export function computeStyle(className) {
 
 export function reset(jssInstance = jss) {
   jssInstance.plugins.registry = []
-
-  const numSheets = jssInstance.sheets.registry.length
-
-  for (let i = 0; i < numSheets; i++) {
-    jssInstance.removeStyleSheet(jssInstance.sheets.registry[0])
-  }
+  jssInstance.sheets.registry.slice(0).forEach(jssInstance.removeStyleSheet, jssInstance)
 }
 
 // Mock the hash function.
