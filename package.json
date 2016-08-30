@@ -17,7 +17,9 @@
     "stylesheet",
     "css",
     "components",
-    "composable"
+    "composable",
+    "css in js",
+    "css-in-js"
   ],
   "license": "MIT",
   "main": "./lib/index.js",
