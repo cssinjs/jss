@@ -17,7 +17,7 @@ export default class SheetsRegistry {
   add(sheet) {
     const {registry} = this
 
-    if (!registry.length || typeof sheet.options.index !== 'number') {
+    if (!registry.length) {
       registry.push(sheet)
       return
     }
@@ -30,6 +30,7 @@ export default class SheetsRegistry {
       }
     }
 
+    // Higher priority than any sheets in registry, so push on the end
     registry.push(sheet)
   }
 
