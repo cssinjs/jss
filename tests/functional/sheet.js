@@ -130,6 +130,21 @@ describe('Functional: sheet', () => {
     })
   })
 
+  describe('Option: {index}', () => {
+    it('should be 0 by default', () => {
+      const sheet = jss.createStyleSheet({})
+      expect(sheet.options.index).to.be(0)
+    })
+
+    it('should be set by the options argument', () => {
+      [-50, 0, 50, 9999].forEach((n) => {
+        const sheet2 = jss.createStyleSheet({}, { index: n })
+        expect(sheet2.options.index).to.be(n)
+      });
+    })
+  })
+
+
   describe('.addRule() to an unnamed sheet', () => {
     let sheet
     let rule
