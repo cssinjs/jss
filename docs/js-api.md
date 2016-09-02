@@ -6,6 +6,7 @@
 1. [Create regular style sheet with global selectors.](#create-regular-style-sheet-with-global-selectors)
 1. [Attach style sheet.](#attach-style-sheet)
 1. [Detach style sheet.](#detach-style-sheet)
+1. [Attach style sheets in a specific order.](#attach-style-sheets-in-a-specific-order)
 1. [Add a rule to an existing style sheet.](#add-a-rule-to-an-existing-style-sheet)
 1. [Delete a rule from an existing style sheet.](#delete-a-rule-from-an-existing-style-sheet)
 1. [Add a rule dynamically with a generated class name.](#add-a-rule-dynamically-with-a-generated-class-name)
@@ -71,6 +72,7 @@ Options:
 - `named` true by default - keys are names, selectors will be generated, if false - keys are global selectors.
 - `link` link jss `Rule` instances with DOM `CSSRule` instances so that styles, can be modified dynamically, false by default because it has some performance cost.
 - `element` style element, will create one by default
+- `index` 0 by default - determines DOM rendering order, higher number = higher specificity (inserted after)
 
 
 ```javascript
@@ -141,6 +143,20 @@ Insert style sheet into the render tree. You need to call it in order to make yo
 `sheet.detach()`
 
 Detaching unused style sheets will speedup every DOM node insertion and manipulation as the browser will have to do less lookups for css rules potentially to be applied to the element.
+
+### Attach style sheets in a specific order.
+
+Sheet 1 has a higher index (priority), and as such will come **after** sheet 2 in the resulting DOM.
+
+```javascript
+const sheet1 = jss.createStyleSheet({}, {index: 5, meta: 'sheet-1'}).attach()
+const sheet2 = jss.createStyleSheet({}, {index: 1, meta: 'sheet-2'}).attach()
+```
+
+```html
+<style type="text/css" data-meta="sheet-2"></style>
+<style type="text/css" data-meta="sheet-1"></style>
+```
 
 ### Add a rule to an existing style sheet.
 

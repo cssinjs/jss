@@ -15,7 +15,21 @@ export default class SheetsRegistry {
    * @api public
    */
   add(sheet) {
-    this.registry.push(sheet)
+    const {registry} = this
+    const {index} = sheet.options
+
+    if (!registry.length || index >= registry[registry.length - 1].options.index) {
+      registry.push(sheet)
+      return
+    }
+
+    for (let i = 0; i < registry.length; i++) {
+      const {options} = registry[i]
+      if (options.index > index) {
+        registry.splice(i, 0, sheet)
+        return
+      }
+    }
   }
 
   /**

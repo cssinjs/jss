@@ -38,9 +38,9 @@ export function computeStyle(className) {
   return styleCopy
 }
 
-export function reset() {
-  jss.plugins.registry = []
-  jss.sheets.registry.forEach(jss.removeStyleSheet, jss)
+export function reset(jssInstance = jss) {
+  jssInstance.plugins.registry = []
+  jssInstance.sheets.registry.slice(0).forEach(jssInstance.removeStyleSheet, jssInstance)
 }
 
 // Mock the hash function.

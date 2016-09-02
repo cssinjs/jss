@@ -18,6 +18,7 @@ export default class DomRenderer {
     this.head = document.head || document.getElementsByTagName('head')[0]
     this.element = element || document.createElement('style')
     this.element.type = 'text/css'
+    this.element.setAttribute('data-jss', '')
     if (media) this.element.setAttribute('media', media)
     if (meta) this.element.setAttribute('data-meta', meta)
   }
@@ -71,7 +72,51 @@ export default class DomRenderer {
   attach() {
     // In the case the element node is external and it is already in the DOM.
     if (this.element.parentNode) return
-    this.head.appendChild(this.element)
+
+    let anchorEl = null
+
+    const {index, jss} = this.options
+    const {registry} = jss.sheets
+
+    if (registry.length > 1) {
+      // Try to insert by index if set
+      if (typeof index === 'number') {
+        for (let i = 0; i < registry.length; i++) {
+          const sheet = registry[i]
+          if (
+            !sheet.attached ||
+            typeof sheet.options.index !== 'number' ||
+            sheet.options.index <= index
+          ) continue
+          anchorEl = sheet.renderer.element
+          break
+        }
+      }
+
+      // Otherwise insert after the last attached
+      if (!anchorEl) {
+        for (let i = registry.length - 1; i >= 0; i--) {
+          const sheet = registry[i]
+          if (sheet.attached) {
+            anchorEl = sheet.renderer.element.nextElementSibling
+            break
+          }
+        }
+      }
+    }
+
+    if (!anchorEl) {
+      // Try find a comment placeholder if registry is empty
+      for (let i = 0; i < this.head.childNodes.length; i++) {
+        const el = this.head.childNodes[i]
+        if (el.nodeValue === 'jss') {
+          anchorEl = el
+          break
+        }
+      }
+    }
+
+    this.head.insertBefore(this.element, anchorEl)
   }
 
   /**
