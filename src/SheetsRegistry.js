@@ -16,22 +16,20 @@ export default class SheetsRegistry {
    */
   add(sheet) {
     const {registry} = this
+    const {index} = sheet.options
 
-    if (!registry.length) {
+    if (!registry.length || index >= registry[registry.length - 1].options.index) {
       registry.push(sheet)
       return
     }
 
     for (let i = 0; i < registry.length; i++) {
       const {options} = registry[i]
-      if (options.index > sheet.options.index) {
+      if (options.index > index) {
         registry.splice(i, 0, sheet)
         return
       }
     }
-
-    // Higher priority than any sheets in registry, so push on the end
-    registry.push(sheet)
   }
 
   /**
