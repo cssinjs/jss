@@ -43,21 +43,21 @@ export default class Rule {
     const {sheet} = this.options
 
     // After we modify selector, ref by old selector needs to be removed.
-    if (sheet) sheet.unregisterRule(this)
+    if (sheet) sheet.rules.unregister(this)
 
     this.selectorText = selector
     this.className = findClassNames(selector)
 
     if (!this.renderable) {
       // Register the rule with new selector.
-      if (sheet) sheet.registerRule(this)
+      if (sheet) sheet.rules.register(this)
       return
     }
 
     const changed = this.renderer.selector(this.renderable, selector)
 
     if (changed) {
-      sheet.registerRule(this)
+      sheet.rules.register(this)
       return
     }
 
@@ -65,8 +65,8 @@ export default class Rule {
     // We need to delete renderable from the rule, because when sheet.deploy()
     // calls rule.toString, it will get the old selector.
     delete this.renderable
+    sheet.rules.register(this)
     sheet
-      .registerRule(this)
       .deploy()
       .link()
   }

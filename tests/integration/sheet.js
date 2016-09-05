@@ -76,12 +76,12 @@ describe('Integration: sheet', () => {
       expect(sheet.getRule('.test')).to.be(rule)
     })
 
-    it('should add a rule with "at" in options', () => {
+    it('should add a rule with "index" in options', () => {
       const sheet = jss.createStyleSheet({
         a: {color: 'red'},
         c: {color: 'blue'},
       })
-      sheet.addRule('b', {color: 'green'}, {at: 1})
+      sheet.addRule('b', {color: 'green'}, {index: 1})
       expect(sheet.indexOf(sheet.getRule('a'))).to.be(0)
       expect(sheet.indexOf(sheet.getRule('b'))).to.be(1)
       expect(sheet.indexOf(sheet.getRule('c'))).to.be(2)
