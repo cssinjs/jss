@@ -23,6 +23,12 @@ export default class StyleSheet {
   constructor(rules, options) {
     this.options = {...options}
     if (this.options.named == null) this.options.named = true
+    if (typeof this.options.index !== 'number') this.options.index = 0
+    // Rules registry for access by .getRule() method.
+    // It contains the same rule registered by name and by class name.
+    this.rules = Object.create(null)
+    // Used to ensure correct rules order.
+    this.rulesIndex = []
     this.classes = this.options.classes = Object.create(null)
     this.attached = false
     this.deployed = false

@@ -1,5 +1,6 @@
 import DomRenderer from './backends/DomRenderer'
 import VirtualRenderer from './backends/VirtualRenderer'
+import isBrowser from 'is-browser'
 
 /**
  * Find proper renderer.
@@ -12,5 +13,5 @@ import VirtualRenderer from './backends/VirtualRenderer'
  */
 export default function findRenderer(options = {}) {
   if (options.Renderer) return options.Renderer
-  return options.virtual || typeof document == 'undefined' ? VirtualRenderer : DomRenderer
+  return options.virtual || !isBrowser ? VirtualRenderer : DomRenderer
 }

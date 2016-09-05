@@ -17,7 +17,9 @@
     "stylesheet",
     "css",
     "components",
-    "composable"
+    "composable",
+    "css in js",
+    "css-in-js"
   ],
   "license": "MIT",
   "main": "./lib/index.js",
@@ -77,6 +79,7 @@
     "version": "node -e \"console.log(require('./package.json').version)\""
   },
   "dependencies": {
+    "is-browser": "^2.0.1",
     "murmurhash-js": "^1.0.0"
   }
 }

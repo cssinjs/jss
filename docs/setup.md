@@ -16,8 +16,7 @@ https://npmcdn.com/jss/dist/jss.min.js
 
 ## Setup with plugins
 
-You can use jss with or without [plugins](https://github.com/cssinjs?query=jss-).
-Also you can use a [preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with default plugins.
+You can use jss with or without [plugins](https://github.com/cssinjs?query=jss-). Make sure you use the plugins in the [right order](https://github.com/cssinjs/jss/blob/master/docs/plugins.md#order-does-matter) or just use a [preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with default plugins.
 
 ```javascript
 
@@ -42,6 +41,19 @@ sheet.attach()
 
 // If you want to render server-side, get the css text.
 sheet.toString()
+```
+
+## Specify DOM insertion point
+
+You can instruct `jss` to render your stylesheets starting at a specific point in the DOM by placing a comment node anywhere in the `head` of the document.
+
+This can be useful if you have another dependency that needs to come before or after the `jss` style sheets for cascading specificity purposes.
+
+```html
+<head>
+    <title>JSS</title>
+    <!-- jss -->
+</head>
 ```
 
 ## CLI
