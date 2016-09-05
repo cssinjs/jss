@@ -4,7 +4,7 @@ Plugins API allows to modify every rule at creation time. A plugin can for e.g. 
 
 A number of [plugins](https://github.com/cssinjs?query=jss-) do exist already. We are happy to add more.
 
-#### Order does matter, here is the right one:
+#### Order does matter
 
   1. jss-extend
   1. jss-nested
