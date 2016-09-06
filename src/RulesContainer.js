@@ -9,6 +9,7 @@ export default class RulesContainer {
     // Used to ensure correct rules order.
     this.index = []
     this.options = options
+    // Default object is needed when rule is created without a sheet.
     this.classes = options.classes || {}
   }
 
@@ -32,12 +33,13 @@ export default class RulesContainer {
         const renderable = this.renderer.insertRule(rule)
         if (this.options.link) rule.renderable = renderable
       }
+
+      return rule
+    }
+
     // We can't add rules to a detached style node.
     // We will redeploy the sheet once user will attach it.
-    }
-    else {
-      this.deployed = false
-    }
+    this.deployed = false
 
     return rule
   }

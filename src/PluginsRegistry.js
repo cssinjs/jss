@@ -19,14 +19,29 @@ export default class PluginsRegistry {
   }
 
   /**
-   * Execute all registered plugins.
+   * Execute all registered plugins on one rule.
    *
    * @param {Rule} rule
    * @api private
    */
-  run(rule) {
+  runOne(rule) {
     for (let index = 0; index < this.registry.length; index++) {
       this.registry[index](rule)
     }
+  }
+
+  /**
+   * Execute all registered plugins on all rules.
+   *
+   * @param {Rule|Array} rules
+   * @api public
+   */
+  run(rules) {
+    if (Array.isArray(rules)) {
+      rules.forEach(this.runOne, this)
+      return
+    }
+
+    this.runOne(rules)
   }
 }

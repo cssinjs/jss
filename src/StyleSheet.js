@@ -21,34 +21,38 @@ import RulesContainer from './RulesContainer'
  */
 export default class StyleSheet {
   constructor(rules, options) {
-    this.options = {...options}
-    if (this.options.named == null) this.options.named = true
-    if (typeof this.options.index !== 'number') this.options.index = 0
+    const named = options.named == null ? true : options.named
+    const index = typeof options.index === 'number' ? options.index : 0
+    const Renderer = findRenderer(options)
+
     // Rules registry for access by .getRule() method.
     // It contains the same rule registered by name and by class name.
     this.rules = Object.create(null)
     // Used to ensure correct rules order.
     this.rulesIndex = []
-    this.classes = this.options.classes = Object.create(null)
     this.attached = false
     this.deployed = false
     this.linked = false
-
-    const Renderer = findRenderer(this.options)
-    this.options.Renderer = Renderer
-    this.renderer = this.options.renderer = new Renderer(this.options)
+    this.classes = Object.create(null)
+    this.renderer = new Renderer(options)
     this.renderer.createElement()
-
-    this.options.sheet = this
-    this.options.parent = this
+    this.options = {
+      ...options,
+      sheet: this,
+      parent: this,
+      classes: this.classes,
+      renderer: this.renderer,
+      named,
+      index,
+      Renderer
+    }
     this.rules = new RulesContainer(this.options)
 
     for (const name in rules) {
       this.rules.createAndRegister(name, rules[name])
     }
 
-    const {plugins} = this.options.jss
-    this.rules.index.forEach(plugins.run, plugins)
+    options.jss.plugins.run(this.rules.index)
   }
 
   /**
@@ -170,8 +174,7 @@ export default class StyleSheet {
   /**
    * Convert rules to a CSS string.
    *
-   * @param {Object} options
-   * @return {String}
+   * @see RulesContainer.toString()
    * @api public
    */
   toString(options) {
@@ -184,7 +187,7 @@ export default class StyleSheet {
    * Will not render after style sheet was rendered the first time.
    * Will link the rule in `this.rules`.
    *
-   * @see createRule
+   * @see RulesContainer.create()
    * @api public
    */
   createRule(name, style, options) {
