@@ -87,6 +87,9 @@ export default class StyleSheet {
    * Add a rule to the current stylesheet. Will insert a rule also after the stylesheet
    * has been rendered first time.
    *
+   * Options:
+   *   - `index` rule position, will be pushed at the end if undefined.
+   *
    * @param {String} [name] can be selector or name if ´options.named is true
    * @param {Object} style property/value hash
    * @param {Object} [options]
@@ -94,7 +97,7 @@ export default class StyleSheet {
    * @api public
    */
   addRule(name, style, options) {
-    const rule = this.createRule(name, style, options)
+    const rule = this.rules.create(name, style, options)
 
     if (this.attached) {
       // Don't insert rule directly if there is no stringified version yet.
@@ -103,12 +106,13 @@ export default class StyleSheet {
         const renderable = this.renderer.insertRule(rule)
         if (this.options.link) rule.renderable = renderable
       }
+
+      return rule
+    }
+
     // We can't add rules to a detached style node.
     // We will redeploy the sheet once user will attach it.
-    }
-    else {
-      this.deployed = false
-    }
+    this.deployed = false
 
     return rule
   }
@@ -160,7 +164,6 @@ export default class StyleSheet {
     return true
   }
 
-
   /**
    * Get index of a rule.
    *
@@ -179,19 +182,6 @@ export default class StyleSheet {
    */
   toString(options) {
     return this.rules.toString(options)
-  }
-
-  /**
-   * Create and register rule, run plugins.
-   *
-   * Will not render after style sheet was rendered the first time.
-   * Will link the rule in `this.rules`.
-   *
-   * @see RulesContainer.create()
-   * @api public
-   */
-  createRule(name, style, options) {
-    return this.rules.create(name, style, options)
   }
 
   /**

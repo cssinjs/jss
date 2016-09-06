@@ -19,18 +19,6 @@ export default class PluginsRegistry {
   }
 
   /**
-   * Execute all registered plugins on one rule.
-   *
-   * @param {Rule} rule
-   * @api private
-   */
-  runOne(rule) {
-    for (let index = 0; index < this.registry.length; index++) {
-      this.registry[index](rule)
-    }
-  }
-
-  /**
    * Execute all registered plugins on all rules.
    *
    * @param {Rule|Array} rules
@@ -43,5 +31,17 @@ export default class PluginsRegistry {
     }
 
     this.runOne(rules)
+  }
+
+  /**
+   * Execute all registered plugins on one rule.
+   *
+   * @param {Rule} rule
+   * @api private
+   */
+  runOne(rule) {
+    for (let index = 0; index < this.registry.length; index++) {
+      this.registry[index](rule)
+    }
   }
 }

@@ -24,6 +24,10 @@ const atRuleNameRegExp = /^@[^ ]+/
 /**
  * Create rule factory.
  *
+ * Options:
+ *   - `named` pass `false` if selector argument is defined by user
+ *   - `className` pass class name if you to define it manually
+ *
  * @param {Object} [selector] if you don't pass selector - it will be generated
  * @param {Object} [style] declarations block
  * @param {Object} [options] rule options

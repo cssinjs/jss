@@ -1,6 +1,12 @@
 import {isEmptyObject} from './utils'
 import createRule from './createRule'
 
+/**
+ * Contains rules objects and allows adding/removing etc.
+ * Is used by containers liks StyleSheet or ConditionalRule.
+ *
+ * @api public
+ */
 export default class RulesContainer {
   constructor(options) {
     // Rules registry for access by .get() method.
@@ -11,37 +17,6 @@ export default class RulesContainer {
     this.options = options
     // Default object is needed when rule is created without a sheet.
     this.classes = options.classes || {}
-  }
-
-  /**
-   * Add a rule to the current stylesheet. Will insert a rule also after the stylesheet
-   * has been rendered first time.
-   *
-   * @param {String} [name] can be selector or name if ´options.named is true
-   * @param {Object} style property/value hash
-   * @param {Object} [options]
-   * @return {Rule}
-   * @api public
-   */
-  addRule(name, style, options) {
-    const rule = this.createRule(name, style, options)
-
-    if (this.attached) {
-      // Don't insert rule directly if there is no stringified version yet.
-      // It will be inserted all together when .attach is called.
-      if (this.deployed) {
-        const renderable = this.renderer.insertRule(rule)
-        if (this.options.link) rule.renderable = renderable
-      }
-
-      return rule
-    }
-
-    // We can't add rules to a detached style node.
-    // We will redeploy the sheet once user will attach it.
-    this.deployed = false
-
-    return rule
   }
 
   /**
@@ -91,37 +66,6 @@ export default class RulesContainer {
    */
   indexOf(rule) {
     return this.index.indexOf(rule)
-  }
-
-  /**
-   * Create and register a rule.
-   *
-   * @see createRule
-   * @api private
-   */
-  createAndRegister(name, style, options) {
-    options = {
-      ...options,
-      classes: this.classes,
-      parent: this.options.parent,
-      sheet: this.options.sheet,
-      jss: this.options.jss,
-      Renderer: this.options.Renderer
-    }
-
-    // Currently the only case where we have no class name is child rules of
-    // some conditional rule.
-    if (!options.className) options.className = this.classes[name]
-
-    // Scope options overwrite instance options.
-    if (options.named == null) options.named = this.options.named
-    const rule = createRule(name, style, options)
-    this.register(rule)
-
-    const index = options.index === undefined ? this.index.length : options.index
-    this.index.splice(index, 0, rule)
-
-    return rule
   }
 
   /**
@@ -179,5 +123,39 @@ export default class RulesContainer {
     }
 
     return str
+  }
+
+  /**
+   * Create and register a rule.
+   *
+   * Options:
+   *   - `index` rule position, will be pushed at the end if undefined.
+   *
+   * @see createRule
+   * @api private
+   */
+  createAndRegister(name, style, options) {
+    options = {
+      ...options,
+      classes: this.classes,
+      parent: this.options.parent,
+      sheet: this.options.sheet,
+      jss: this.options.jss,
+      Renderer: this.options.Renderer
+    }
+
+    // Currently the only case where we have no class name is child rules of
+    // some conditional rule.
+    if (!options.className) options.className = this.classes[name]
+
+    // Scope options overwrite instance options.
+    if (options.named == null) options.named = this.options.named
+    const rule = createRule(name, style, options)
+    this.register(rule)
+
+    const index = options.index === undefined ? this.index.length : options.index
+    this.index.splice(index, 0, rule)
+
+    return rule
   }
 }

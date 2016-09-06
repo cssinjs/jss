@@ -18,10 +18,6 @@ export default class ConditionalRule {
     options.jss.plugins.run(this.rules.index)
   }
 
-  createAndRegisterRule(name, style) {
-    return this.rules.createAndRegister(name, style, this.getChildOptions())
-  }
-
   /**
    * Get a rule.
    *
@@ -55,36 +51,6 @@ export default class ConditionalRule {
     return this.rules.create(name, style, this.getChildOptions(options))
   }
 
-  getChildOptions(options) {
-    return {...this.options, parent: this, ...options}
-  }
-
-  /**
-   * A conditional rule always contains child rules.
-   *
-   * @param {String} name
-   * @param {Object} styles
-   * @param {Object} [options]
-   * @return {Rule}
-   * @api public
-   */
-   /*
-  createRule(name, style, options) {
-    let newOptions = {...this.options, parent: this}
-    const {sheet, jss} = newOptions
-    // We have already a rule in the current style sheet with this name,
-    // This new rule is supposed to overwrite the first one, for this we need
-    // to ensure it will have the same className/selector.
-    const existingRule = sheet && sheet.getRule(name)
-    const className = existingRule ? existingRule.className : null
-    if (className || options) {
-      newOptions = {...newOptions, className, ...options}
-    }
-    const rule = (sheet || jss).createRule(name, style, newOptions)
-    this.rules[name] = rule
-    return rule
-  }
-*/
   /**
    * Generates a CSS string.
    *
@@ -95,5 +61,26 @@ export default class ConditionalRule {
     const inner = this.rules.toString({indentationLevel: 1})
     if (!inner) return ''
     return `${this.selector} {\n${inner}\n}`
+  }
+
+  /**
+   * Build options object for a child rule.
+   *
+   * @param {Object} options
+   * @api private
+   * @return {Object}
+   */
+  getChildOptions(options) {
+    return {...this.options, parent: this, ...options}
+  }
+
+  /**
+   * Create and register a rule.
+   *
+   * @see RulesContainer.createAndRegister()
+   * @api private
+   */
+  createAndRegisterRule(name, style) {
+    return this.rules.createAndRegister(name, style, this.getChildOptions())
   }
 }

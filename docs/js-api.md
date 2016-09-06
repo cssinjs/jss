@@ -164,8 +164,8 @@ const sheet2 = jss.createStyleSheet({}, {index: 1, meta: 'sheet-2'}).attach()
 
 #### Options.
 
-- `named` if true, selector will be generated
-- `at` index where the rule should be added, when you need to ensure the order
+- `named` if true, selector will be generated.
+- `index` index where the rule should be added, by default, rules are pushed at the end.
 - `className` add a rule with a predefined class name.
 
 
