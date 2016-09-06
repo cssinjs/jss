@@ -212,7 +212,7 @@ describe('Integration: rules', () => {
         )
         expect(rule.type).to.be('conditional')
         expect(rule.selector).to.be('@media print')
-        expect(rule.toString()).to.be('@media print {\n}')
+        expect(rule.toString()).to.be('')
       })
     })
 

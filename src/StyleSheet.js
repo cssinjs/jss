@@ -1,6 +1,5 @@
-import {isEmptyObject} from './utils'
-import createRule from './createRule'
 import findRenderer from './findRenderer'
+import RulesContainer from './RulesContainer'
 
 /**
  * StyleSheet model.
@@ -22,30 +21,38 @@ import findRenderer from './findRenderer'
  */
 export default class StyleSheet {
   constructor(rules, options) {
-    this.options = {...options}
-    if (this.options.named == null) this.options.named = true
-    if (typeof this.options.index !== 'number') this.options.index = 0
+    const named = options.named == null ? true : options.named
+    const index = typeof options.index === 'number' ? options.index : 0
+    const Renderer = findRenderer(options)
+
     // Rules registry for access by .getRule() method.
     // It contains the same rule registered by name and by class name.
     this.rules = Object.create(null)
     // Used to ensure correct rules order.
     this.rulesIndex = []
-    this.classes = Object.create(null)
     this.attached = false
     this.deployed = false
     this.linked = false
-
-    const Renderer = findRenderer(this.options)
-    this.options.Renderer = Renderer
-    this.renderer = new Renderer(this.options)
+    this.classes = Object.create(null)
+    this.renderer = new Renderer(options)
     this.renderer.createElement()
+    this.options = {
+      ...options,
+      sheet: this,
+      parent: this,
+      classes: this.classes,
+      renderer: this.renderer,
+      named,
+      index,
+      Renderer
+    }
+    this.rules = new RulesContainer(this.options)
 
     for (const name in rules) {
-      this.createAndRegisterRule(name, rules[name])
+      this.rules.createAndRegister(name, rules[name])
     }
 
-    const {plugins} = this.options.jss
-    this.rulesIndex.forEach(plugins.run, plugins)
+    options.jss.plugins.run(this.rules.index)
   }
 
   /**
@@ -107,29 +114,6 @@ export default class StyleSheet {
   }
 
   /**
-   * Delete a rule.
-   *
-   * @param {String} rule selector or name
-   * @return {Boolean} true if rule has been deleted from the DOM.
-   * @api public
-   */
-  deleteRule(nameOrSelector) {
-    const rule = this.getRule(nameOrSelector)
-
-    if (!rule) return false
-
-    this.unregisterRule(rule)
-
-    if (this.attached) {
-      return this.renderer.deleteRule(rule.renderable)
-    }
-
-    this.rulesIndex.splice(this.indexOf(rule), 1)
-
-    return true
-  }
-
-  /**
    * Create rules, will render also after stylesheet was rendered the first time.
    *
    * @param {Object} rules name:style hash.
@@ -148,86 +132,53 @@ export default class StyleSheet {
   /**
    * Get a rule.
    *
-   * @param {String} nameOrSelector can be selector or name if `named` option is true.
-   * @return {Rule}
+   * @see RulesContainer.get()
    * @api public
    */
   getRule(nameOrSelector) {
-    return this.rules[nameOrSelector]
+    return this.rules.get(nameOrSelector)
   }
+
+  /**
+   * Delete a rule.
+   *
+   * @param {String} rule selector or name
+   * @return {Boolean} true if rule has been deleted from the DOM.
+   * @api public
+   */
+  deleteRule(nameOrSelector) {
+    const rule = this.rules.get(nameOrSelector)
+
+    if (!rule) return false
+
+    this.rules.remove(rule)
+
+    if (this.attached) {
+      return this.renderer.deleteRule(rule.renderable)
+    }
+
+    return true
+  }
+
 
   /**
    * Get index of a rule.
    *
-   * @param {Rule} rule
-   * @return {Number}
+   * @see RulesContainer.indexOf()
    * @api public
    */
   indexOf(rule) {
-    return this.rulesIndex.indexOf(rule)
+    return this.rules.indexOf(rule)
   }
 
   /**
    * Convert rules to a CSS string.
    *
-   * @param {Object} options
-   * @return {String}
+   * @see RulesContainer.toString()
    * @api public
    */
   toString(options) {
-    const {rulesIndex} = this
-    let str = ''
-
-    for (let index = 0; index < rulesIndex.length; index++) {
-      const rule = rulesIndex[index]
-
-      // Regular rules.
-      if (rule.style && isEmptyObject(rule.style)) {
-        continue
-      }
-
-      // Conditional rules.
-      if (rule.rules && isEmptyObject(rule.rules)) {
-        continue
-      }
-
-      if (str) str += '\n'
-
-      str += rule.toString(options)
-    }
-
-    return str
-  }
-
-  /**
-   * Create and register a rule.
-   *
-   * @see createRule
-   * @api private
-   */
-  createAndRegisterRule(name, style, options) {
-    options = {
-      ...options,
-      sheet: this,
-      jss: this.options.jss,
-      Renderer: this.options.Renderer
-    }
-
-    // Currently the only case where we have no class name is child rules of
-    // some conditional rule.
-    if (!options.className) options.className = this.classes[name]
-
-    // Scope options overwrite instance options.
-    if (options.named == null) options.named = this.options.named
-    const rule = createRule(name, style, options)
-    this.registerRule(rule)
-
-    if (!options.parent) {
-      const index = options.at === undefined ? this.rulesIndex.length : options.at
-      this.rulesIndex.splice(index, 0, rule)
-    }
-
-    return rule
+    return this.rules.toString(options)
   }
 
   /**
@@ -236,57 +187,11 @@ export default class StyleSheet {
    * Will not render after style sheet was rendered the first time.
    * Will link the rule in `this.rules`.
    *
-   * @see createRule
+   * @see RulesContainer.create()
    * @api public
    */
   createRule(name, style, options) {
-    const rule = this.createAndRegisterRule(name, style, options)
-    this.options.jss.plugins.run(rule)
-    return rule
-  }
-
-  /**
-   * Register a rule in `sheet.rules` and `sheet.classes` maps.
-   *
-   * @param {Rule} rule
-   * @api public
-   */
-  registerRule(rule) {
-    // Children of container rules should not be registered.
-    if (rule.options.parent) {
-      // We need to register child rules of conditionals in classes, otherwise
-      // user can't access generated class name if it doesn't overrides
-      // a regular rule.
-      if (rule.name && rule.className) {
-        this.classes[rule.name] = rule.className
-      }
-      return this
-    }
-
-    if (rule.name) {
-      this.rules[rule.name] = rule
-      if (rule.className) this.classes[rule.name] = rule.className
-    }
-    if (rule.selector) {
-      this.rules[rule.selector] = rule
-    }
-    return this
-  }
-
-  /**
-   * Unregister a rule.
-   *
-   * @param {Rule} rule
-   * @api public
-   */
-  unregisterRule(rule) {
-    // Children of a conditional rule are not registered.
-    if (!rule.options.parent) {
-      delete this.rules[rule.name]
-      delete this.rules[rule.selector]
-    }
-    delete this.classes[rule.name]
-    return this
+    return this.rules.create(name, style, options)
   }
 
   /**
@@ -310,7 +215,7 @@ export default class StyleSheet {
   link() {
     const renderables = this.renderer.getRules()
     for (const selector in renderables) {
-      const rule = this.rules[selector]
+      const rule = this.rules.get(selector)
       if (rule) rule.renderable = renderables[selector]
     }
     this.linked = true
