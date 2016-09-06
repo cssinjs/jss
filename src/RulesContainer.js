@@ -126,6 +126,19 @@ export default class RulesContainer {
   }
 
   /**
+   * Returns a cloned index of rules.
+   * We need this because if we modify the index somewhere else during a loop
+   * we end up with very hard-to-track-down side effects.
+   *
+   * @return {Array}
+   * @api public
+   */
+  getIndex() {
+    // We need to clone the array, because while
+    return this.index.slice(0)
+  }
+
+  /**
    * Create and register a rule.
    *
    * Options:

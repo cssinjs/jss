@@ -52,7 +52,7 @@ export default class StyleSheet {
       this.rules.createAndRegister(name, rules[name])
     }
 
-    options.jss.plugins.run(this.rules.index)
+    options.jss.plugins.run(this.rules.getIndex())
   }
 
   /**

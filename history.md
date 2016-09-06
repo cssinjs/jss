@@ -1,3 +1,7 @@
+## 5.5.1 / 2016-09-6
+
+- Fix adding rules during the plugins loop
+
 ## 5.5.0 / 2016-09-6
 
 - Fix wrong order of nested rules #285
