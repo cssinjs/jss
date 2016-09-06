@@ -1,3 +1,10 @@
+## 5.5.0 / 2016-09-6
+
+- Fix wrong order of nested rules #285
+- Add `index` option to `sheet.addRule` which allows to specify the order or added rules
+- Add `<style>` node position control option `index` and insertion point comment
+- Better browser detection by using `is-browser` package
+
 ## 5.4.0 / 2016-08-15
 
 - More docs
