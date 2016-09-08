@@ -6,13 +6,13 @@ Using npm
 npm i jss
 ```
 
-For bower or direct script injection use [npmcdn](https://npmcdn.com):
+For bower or direct script injection use [unpkg](https://unpkg.com):
 
 Full:
-https://npmcdn.com/jss/dist/jss.js
+https://unpkg.com/jss/dist/jss.js
 
 Minified:
-https://npmcdn.com/jss/dist/jss.min.js
+https://unpkg.com/jss/dist/jss.min.js
 
 ## Setup with plugins
 
