@@ -72,14 +72,14 @@
     "build:min": "NODE_ENV=production webpack src/index.js dist/jss.min.js",
     "build:test": "webpack tests/index.js tmp/tests.js",
     "lint": "eslint ./src ./tests ./benchmark ./*.js",
+    "lint:staged": "lint-staged",
     "prepublish": "npm run all",
     "test": "karma start --single-run",
     "test:watch": "karma start",
     "posttest": "[ -z \"$TRAVIS\" ] || codecov",
     "codecov": "codecov",
     "bench": "BENCHMARK=true npm run test",
-    "version": "node -e \"console.log(require('./package.json').version)\"",
-    "lint-staged": "lint-staged"
+    "version": "node -e \"console.log(require('./package.json').version)\""
   },
   "dependencies": {
     "is-browser": "^2.0.1",
@@ -91,5 +91,5 @@
       "git add"
     ]
   },
-  "pre-commit": "lint-staged"
+  "pre-commit": "lint:staged"
 }
