@@ -13,19 +13,6 @@ export function generateClassName(str, rule) {
 }
 
 /**
- * Determine whether an object is empty or not.
- * More performant than a `Object.keys(obj).length > 0`
- *
- * @param {Object} obj
- * @return {Boolean}
- */
-export function isEmptyObject(obj) {
-  for (const key in obj) return false // eslint-disable-line no-unused-vars
-
-  return true
-}
-
-/**
  * Indent a string.
  *
  * http://jsperf.com/array-join-vs-for
@@ -82,12 +69,9 @@ export function toCss(selector, style, options = {}) {
   let indentationLevel = options.indentationLevel || 0
   let str = ''
 
-  if (options.selector !== false) {
-    str += indent(indentationLevel, `${selector} {`)
-    indentationLevel++
-  }
-
   const {fallbacks} = style
+
+  if (options.selector !== false) indentationLevel++
 
   // Apply fallbacks first.
   if (fallbacks) {
@@ -96,25 +80,37 @@ export function toCss(selector, style, options = {}) {
       for (let index = 0; index < fallbacks.length; index++) {
         const fallback = fallbacks[index]
         for (const prop in fallback) {
-          str += `\n${indent(indentationLevel, `${prop}: ${toCssValue(fallback[prop])};`)}`
+          const value = fallback[prop]
+          if (value != null) {
+            str += `\n${indent(indentationLevel, `${prop}: ${toCssValue(value)};`)}`
+          }
         }
       }
     }
     // Object syntax {fallbacks: {prop: value}}
     else {
       for (const prop in fallbacks) {
-        str += `\n${indent(indentationLevel, `${prop}: ${toCssValue(fallbacks[prop])};`)}`
+        const value = fallbacks[prop]
+        if (value != null) {
+          str += `\n${indent(indentationLevel, `${prop}: ${toCssValue(value)};`)}`
+        }
       }
     }
   }
 
   for (const prop in style) {
-    if (prop !== 'fallbacks') {
-      str += `\n${indent(indentationLevel, `${prop}: ${toCssValue(style[prop])};`)}`
+    const value = style[prop]
+    if (value != null && prop !== 'fallbacks') {
+      str += `\n${indent(indentationLevel, `${prop}: ${toCssValue(value)};`)}`
     }
   }
 
-  if (options.selector !== false) str += `\n${indent(--indentationLevel, '}')}`
+  if (!str) return str
+
+  if (options.selector !== false) {
+    indentationLevel--
+    str = indent(indentationLevel, `${selector} {${str}\n`) + indent(indentationLevel, '}')
+  }
 
   return str
 }

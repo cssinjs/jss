@@ -330,4 +330,29 @@ describe('Integration: sheet', () => {
       })
     })
   })
+
+  describe('skip empty values', () => {
+    it('should skip empty values', () => {
+      const sheet = jss.createStyleSheet({
+        a: {
+          margin: 0,
+          color: null
+        }
+      })
+      expect(sheet.toString()).to.be(
+        '.a-id {\n' +
+        '  margin: 0;\n' +
+        '}'
+      )
+    })
+
+    it('should skip rule if empty value was skipped', () => {
+      const sheet = jss.createStyleSheet({
+        a: {
+          color: null
+        }
+      })
+      expect(sheet.toString()).to.be('')
+    })
+  })
 })

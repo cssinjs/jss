@@ -1,4 +1,3 @@
-import {isEmptyObject} from './utils'
 import createRule from './createRule'
 
 /**
@@ -103,23 +102,15 @@ export default class RulesContainer {
    */
   toString(options) {
     let str = ''
+
     for (let index = 0; index < this.index.length; index++) {
       const rule = this.index[index]
-      // Regular rules.
-      if (rule.style && isEmptyObject(rule.style)) {
-        continue
-      }
+      const css = rule.toString(options)
 
-      // Conditional rules.
-      if (rule.rules && isEmptyObject(rule.rules)) {
-        continue
-      }
+      if (!css) continue
 
-      const nextRuleCss = rule.toString(options)
-
-      if (str && nextRuleCss) str += '\n'
-
-      str += nextRuleCss
+      if (str) str += '\n'
+      str += css
     }
 
     return str
