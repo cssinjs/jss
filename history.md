@@ -1,3 +1,7 @@
+## 5.5.2 / 2016-09-9
+
+- Skip empty values #307
+
 ## 5.5.1 / 2016-09-6
 
 - Fix adding rules during the plugins loop
