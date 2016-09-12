@@ -1,3 +1,7 @@
+## 0.4.0 / 2016-09-13
+
+- update jss-nested to 2.4.0
+
 ## 0.3.1 / 2016-09-09
 
 - update jss-default-unit to 4.0.1
