@@ -13,12 +13,18 @@ export function getStyle() {
 }
 
 export function getCss(style) {
-  // IE8 returns css from innerHTML even when inserted using addRule.
-  return style.innerHTML.trim() ||
+  // IE doesn't provide correct rules list when at-rules have been added
+  // by using `.addRule()` api.
+  // Others do not update .innerHTML result when `.addRule()` was used.
+  // We use what we can get.
+  return removeWhitespace(style.innerHTML) ||
     getRules(style)
-      .map(rule => rule.cssText)
+      .map(rule => removeWhitespace(rule.cssText))
       .join('')
-      .trim()
+}
+
+export function removeWhitespace(str) {
+  return str.replace(/\s/g, '')
 }
 
 export function computeStyle(className) {
