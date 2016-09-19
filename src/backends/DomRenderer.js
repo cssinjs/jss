@@ -149,10 +149,7 @@ export default class DomRenderer {
     const {sheet} = this.element
     const {cssRules} = sheet
     const index = cssRules.length
-    const css = rule.toString()
-    if (rule.type === 'regular') sheet.insertRule(css, index)
-    // IE `.insertRule()` can't handle @media queries.
-    else this.element.appendChild(document.createTextNode(css))
+    sheet.insertRule(rule.toString(), index)
     return cssRules[index]
   }
 

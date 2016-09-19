@@ -3,9 +3,7 @@ import jss from 'jss'
 const {slice} = []
 
 export function getRules(style) {
-  const sheet = style.sheet || style.styleSheet
-  const rules = sheet.rules || sheet.cssRules
-  return slice.call(rules)
+  return slice.call(style.sheet.cssRules)
 }
 
 export function getStyle() {

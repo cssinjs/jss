@@ -1,3 +1,7 @@
+## 5.5.4 / 2016-09-19
+
+- always use `cssRules.insertRule` when using addRule on attached sheet, mixing them results in weird overwrite of a rule added by insertRule by a media query rendered using text node.
+
 ## 5.5.3 / 2016-09-19
 
 - add edge browser for browserstack

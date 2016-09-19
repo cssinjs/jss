@@ -1,8 +1,8 @@
 /**
- * StyleSheets written in javascript.
+ * A better abstraction over CSS.
  *
- * @copyright Oleg Slobodskoi 2014-2016
- * @website https://github.com/jsstyles/jss
+ * @copyright Oleg Slobodskoi 2014-present
+ * @website https://github.com/cssinjs/jss
  * @license MIT
  */
 import Jss from './Jss'

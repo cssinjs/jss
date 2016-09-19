@@ -108,6 +108,10 @@ describe('Functional: sheet', () => {
       sheet.addRule('b', {color: 'red'})
       expect(sheet.getRule('b').renderable).to.be.a(CSSStyleRule)
     })
+
+    after(() => {
+      sheet.detach()
+    })
   })
 
   describe('Option {virtual: true}', () => {
@@ -238,7 +242,12 @@ describe('Functional: sheet', () => {
 
     beforeEach(() => {
       sheet = jss.createStyleSheet().attach()
-      sheet.addRule('@media (max-width: 400px)', {
+      sheet.addRule('a', {color: 'red'})
+      // It is important to use exactly this query, because
+      // IE will add "all" always when `cssRules.insertRule` is used,
+      // however all others will always remove "all" if query contains a second
+      // condition.
+      sheet.addRule('@media all', {
         a: {color: 'green'}
       })
       style = getStyle()

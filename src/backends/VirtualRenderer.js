@@ -9,6 +9,7 @@ export default class VirtualRenderer {
   detach() {}
   deploy() {}
   insertRule() {}
+  deleteRule() {}
   getRules() {
     return {}
   }
