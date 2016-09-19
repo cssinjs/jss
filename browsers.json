@@ -75,5 +75,12 @@
     "os_version": "8.1",
     "browser": "ie",
     "browser_version": "11.0"
+  },
+  "BS_Edge": {
+    "base": "BrowserStack",
+    "os": "Windows",
+    "os_version": "10",
+    "browser": "edge",
+    "browser_version": "14"
   }
 }
