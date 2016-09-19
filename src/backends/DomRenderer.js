@@ -1,3 +1,5 @@
+import warning from 'warning'
+
 /**
  * DOM rendering backend for StyleSheet.
  *
@@ -149,7 +151,12 @@ export default class DomRenderer {
     const {sheet} = this.element
     const {cssRules} = sheet
     const index = cssRules.length
-    sheet.insertRule(rule.toString(), index)
+    try {
+      sheet.insertRule(rule.toString(), index)
+    }
+    catch (err) {
+      warning(false, '[JSS] Can not insert an unsupported rule \n\r%s', rule.toString())
+    }
     return cssRules[index]
   }
 

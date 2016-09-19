@@ -1,6 +1,9 @@
+/* eslint-disable no-underscore-dangle */
+
 import expect from 'expect.js'
 import jss, {create} from 'jss'
 import {reset, computeStyle, getStyle, getCss, getRules, removeWhitespace} from '../utils'
+import DomRenderer from '../../src/backends/DomRenderer'
 
 describe('Functional: sheet', () => {
   afterEach(reset)
@@ -259,6 +262,53 @@ describe('Functional: sheet', () => {
 
     it('should render @media', () => {
       expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+    })
+  })
+
+  describe('.addRule() with @keyframes and attached sheet', () => {
+    const isSupported = 'animationName' in document.body.style
+    let style
+    let sheet
+
+    // We skip this test as keyframes are not supported by browser.
+    if (!isSupported) return
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet().attach()
+      sheet.addRule('@keyframes id', {
+        '0%': {top: '0px'}
+      })
+      style = getStyle()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should render @keyframes', () => {
+      // Safari adds the prefix automatically.
+      const css = getCss(style).replace('-webkit-', '')
+      expect(css).to.be(removeWhitespace(sheet.toString()))
+    })
+  })
+
+  describe('.addRule() with invalid decl to attached sheet', () => {
+    let warned = false
+
+    before(() => {
+      DomRenderer.__Rewire__('warning', () => {
+        warned = true
+      })
+    })
+
+    it('should not throw', () => {
+      const sheet = jss.createStyleSheet().attach()
+      sheet.addRule('%%%%', {color: 'red'})
+      expect(warned).to.be(true)
+    })
+
+    after(() => {
+      DomRenderer.__ResetDependency__('warning')
     })
   })
 
