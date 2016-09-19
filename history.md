@@ -1,3 +1,9 @@
+## 5.5.3 / 2016-09-19
+
+- add edge browser for browserstack
+- fix addRule insertion order from plugins when sheet is attached
+- fix @media insertion in IE
+
 ## 5.5.2 / 2016-09-9
 
 - Skip empty values #307
