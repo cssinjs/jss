@@ -45,6 +45,7 @@
     "expect.js": "^0.3.1",
     "json-loader": "^0.5.4",
     "jss-nested": "2.x",
+    "jss-extend": "2.x",
     "karma": "^1.1.1",
     "karma-benchmark": "^0.6.0",
     "karma-benchmark-reporter": "^0.1.1",

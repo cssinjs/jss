@@ -28,8 +28,6 @@ export default class StyleSheet {
     // Rules registry for access by .getRule() method.
     // It contains the same rule registered by name and by class name.
     this.rules = Object.create(null)
-    // Used to ensure correct rules order.
-    this.rulesIndex = []
     this.attached = false
     this.deployed = false
     this.linked = false
@@ -97,16 +95,28 @@ export default class StyleSheet {
    * @api public
    */
   addRule(name, style, options) {
+    const {queue} = this
+
+    // Plugins can create rules.
+    // In order to preserve the right order, we need to queue all `.addRule` calls,
+    // which happen after the first `rules.create()` call.
+    if (this.attached && !queue) this.queue = []
+
     const rule = this.rules.create(name, style, options)
 
     if (this.attached) {
+      if (!this.deployed) return rule
       // Don't insert rule directly if there is no stringified version yet.
       // It will be inserted all together when .attach is called.
-      if (this.deployed) {
+      if (queue) queue.push(rule)
+      else {
         const renderable = this.renderer.insertRule(rule)
         if (this.options.link) rule.renderable = renderable
+        if (this.queue) {
+          this.queue.forEach(this.renderer.insertRule, this.renderer)
+          this.queue = null
+        }
       }
-
       return rule
     }
 

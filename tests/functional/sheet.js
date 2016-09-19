@@ -1,6 +1,6 @@
 import expect from 'expect.js'
-import jss from 'jss'
-import {reset, computeStyle, getStyle, getCss, getRules} from '../utils'
+import jss, {create} from 'jss'
+import {reset, computeStyle, getStyle, getCss, getRules, removeWhitespace} from '../utils'
 
 describe('Functional: sheet', () => {
   afterEach(reset)
@@ -9,7 +9,7 @@ describe('Functional: sheet', () => {
     function check(styles, options) {
       const sheet = jss.createStyleSheet(styles, options).attach()
       const style = getStyle()
-      expect(getCss(style)).to.be(sheet.toString())
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
       sheet.detach()
     }
 
@@ -18,7 +18,7 @@ describe('Functional: sheet', () => {
     })
 
     it('should render named sheet', () => {
-      check({'.a': {width: '1px', float: 'left'}})
+      check({a: {width: '1px', float: 'left'}})
     })
 
     it('should render unnamed sheet with media query', () => {
@@ -125,7 +125,7 @@ describe('Functional: sheet', () => {
       element.type = 'text/css'
       const sheet = jss.createStyleSheet({a: {float: 'left'}}, {element})
       sheet.attach()
-      expect(getCss(element)).to.be(sheet.toString())
+      expect(getCss(element)).to.be(removeWhitespace(sheet.toString()))
       sheet.detach()
     })
   })
@@ -144,7 +144,6 @@ describe('Functional: sheet', () => {
     })
   })
 
-
   describe('.addRule() to an unnamed sheet', () => {
     let sheet
     let rule
@@ -161,7 +160,7 @@ describe('Functional: sheet', () => {
     })
 
     it('should render correct CSS', () => {
-      expect(getCss(style)).to.be('.a { float: left; }')
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
     })
 
     it('should register the rule', () => {
@@ -189,7 +188,7 @@ describe('Functional: sheet', () => {
     })
 
     it('should render correct CSS', () => {
-      expect(getCss(style)).to.be('.a-id { float: left; }')
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
     })
 
     it('should register the rule', () => {
@@ -205,6 +204,52 @@ describe('Functional: sheet', () => {
 
     it('should link sheet in rules options', () => {
       expect(sheet.getRule('a').options.sheet).to.be(sheet)
+    })
+  })
+
+  describe('.addRule() with .addRule() within a plugin and attached sheet', () => {
+    let style
+    let sheet
+
+    beforeEach(() => {
+      function addRule(rule) {
+        if (rule.name === 'a') {
+          rule.options.sheet.addRule('b', {color: 'red'})
+        }
+      }
+      const localJss = create().use(addRule)
+      sheet = localJss.createStyleSheet().attach()
+      sheet.addRule('a', {color: 'green'})
+      style = getStyle()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should render rules in the right order', () => {
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+    })
+  })
+
+  describe('.addRule() with @media and attached sheet', () => {
+    let style
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet().attach()
+      sheet.addRule('@media (max-width: 400px)', {
+        a: {color: 'green'}
+      })
+      style = getStyle()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should render @media', () => {
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
     })
   })
 
