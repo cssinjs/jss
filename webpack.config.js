@@ -1,18 +1,24 @@
 const webpack = require('webpack')
 const path = require('path')
+const pkg = require('./package.json')
 
-process.env.VERSION = require('./package.json').version
+const env = process.env.NODE_ENV
+const isProd = env === 'production'
+const isDev = env === 'development'
+const isTest = env === 'test'
+
+process.env.VERSION = pkg.version
 
 const plugins = [
   new webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-    'process.env.VERSION': JSON.stringify(process.env.VERSION),
-    __DEV__: process.env.NODE_ENV === 'development',
-    __TEST__: process.env.NODE_ENV === 'test'
+    'process.env.NODE_ENV': JSON.stringify(env),
+    'process.env.VERSION': JSON.stringify(pkg.version),
+    __DEV__: isDev,
+    __TEST__: isTest
   })
 ]
 
-if (process.env.NODE_ENV === 'production') {
+if (isProd) {
   plugins.push(new webpack.optimize.UglifyJsPlugin({
     compress: {
       warnings: false
@@ -30,6 +36,10 @@ module.exports = {
     loaders: [
       {
         loader: 'babel-loader',
+        query: {
+          presets: pkg.babel.presets,
+          plugins: pkg.babel.plugins.concat(isTest ? ['rewire'] : [])
+        },
         test: /\.js$/,
         exclude: /node_modules/
       },

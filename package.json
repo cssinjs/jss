@@ -72,12 +72,12 @@
     "build:lib": "VERSION=`npm run version -s` && VERSION=$VERSION babel src --out-dir lib",
     "build:max": "NODE_ENV=development webpack src/index.js dist/jss.js",
     "build:min": "NODE_ENV=production webpack src/index.js dist/jss.min.js",
-    "build:test": "webpack tests/index.js tmp/tests.js",
+    "build:test": "NODE_ENV=test webpack tests/index.js tmp/tests.js",
     "lint": "eslint ./src ./tests ./benchmark ./*.js",
     "lint:staged": "lint-staged",
     "prepublish": "npm run all",
-    "test": "karma start --single-run",
-    "test:watch": "karma start",
+    "test": "NODE_ENV=test karma start --single-run",
+    "test:watch": "NODE_ENV=test karma start",
     "posttest": "[ -z \"$TRAVIS\" ] || codecov",
     "codecov": "codecov",
     "bench": "BENCHMARK=true npm run test",
@@ -94,5 +94,9 @@
       "git add"
     ]
   },
-  "pre-commit": "lint:staged"
+  "pre-commit": "lint:staged",
+  "babel": {
+    "presets": ["stage-0", "es2015"],
+    "plugins": ["transform-inline-environment-variables"]
+  }
 }
