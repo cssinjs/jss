@@ -108,16 +108,16 @@ Result
 
 ### Roadmap
 
-1. ~~Make it easier for newcomers to setup jss with plugins (like presets).~~
-1. Make community create plugins (better plugins API documentation, infrastructure).
-1. Make it easy to see when changes in the core break plugins (integrate plugins test suite).
-1. Do more benchmarking, include plugins, always track perf regressions.
-1. Make JSON DSL even better, for e.g. [jss-expand](https://github.com/typical000/jss-expand).
-1. Introduce a way for theming with react-jss.
-1. Make SSR even better (vendor prefixer, smaller critical CSS)
-1. Make CLI tool better, allow integration of styles written in various preprocessing languages as well as pure css.
-1. React Native support.
-1. Add converters stylus, sass and co. to [cli](https://github.com/cssinjs/cli) with constants reuse.
+- ~~Make it easier for newcomers to setup jss with plugins (like presets).~~
+- Make community create plugins (better plugins API documentation, infrastructure).
+- Make it easy to see when changes in the core break plugins (integrate plugins test suite).
+- Do more benchmarking, include plugins, always track perf regressions.
+- Make JSON DSL even better, for e.g. [jss-expand](https://github.com/typical000/jss-expand).
+- Introduce a way for theming with react-jss or replace it by [jss-theme-reactor](https://github.com/nathanmarks/jss-theme-reactor)
+- Make SSR even better (vendor prefixer, smaller critical CSS)
+- Make CLI tool better, allow integration of styles written in various preprocessing languages as well as pure css.
+- React Native support.
+- Add converters stylus, sass and co. to [cli](https://github.com/cssinjs/cli) with constants reuse.
 
 ### Browsers Support
 
