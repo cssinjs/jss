@@ -1,3 +1,8 @@
+## 5.5.5 / 2016-09-23
+
+- remove rewire from build
+- update roadmap
+
 ## 5.5.4 / 2016-09-19
 
 - always use `cssRules.insertRule` when using addRule on attached sheet, mixing them results in weird overwrite of a rule added by insertRule by a media query rendered using text node.
