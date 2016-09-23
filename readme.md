@@ -117,6 +117,7 @@ Result
 1. Make SSR even better (vendor prefixer, smaller critical CSS)
 1. Make CLI tool better, allow integration of styles written in various preprocessing languages as well as pure css.
 1. React Native support.
+1. Add converters stylus, sass and co. to [cli](https://github.com/cssinjs/cli) with constants reuse.
 
 ### Browsers Support
 
