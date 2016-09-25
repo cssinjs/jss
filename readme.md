@@ -5,7 +5,7 @@
 [![codecov](https://codecov.io/gh/cssinjs/jss/branch/master/graph/badge.svg)](https://codecov.io/gh/cssinjs/jss)
 [![bitHound Score](https://www.bithound.io/cssinjs/jss/badges/score.svg)](https://www.bithound.io/cssinjs/jss)
 
-[JSS is a better abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It uses JavaScript as a language to describe styles in a declarative and maintainable way. It compiles to CSS at runtime or server-side and is potentially more performant. You can use it with [React](https://github.com/cssinjs/react-jss) or with any other library. It is less than 4KB (minfied and gzipped) and is extensible via [plugins](./docs/plugins.md) API.
+[JSS is a better abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It uses JavaScript as a language to describe styles in a declarative and maintainable way. It compiles to CSS at runtime or server-side and is potentially more performant. You can use it with [React](https://github.com/cssinjs/react-jss) or with any other library. It is about 5KB (minfied and gzipped) and is extensible via [plugins](./docs/plugins.md) API.
 
 ### TOC
 
