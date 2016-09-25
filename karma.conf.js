@@ -1,7 +1,6 @@
-const assign = require('lodash.assign')
 const webpackConfig = require('./webpack.config')
 const browsers = require('./browsers')
-const plugins = require('./plugins')
+const testPackages = require('./test-packages')
 
 const isBench = process.env.BENCHMARK === 'true'
 const useCloud = process.env.USE_CLOUD === 'true'
@@ -12,7 +11,7 @@ const travisBuildNumber = process.env.TRAVIS_BUILD_NUMBER
 const travisBuildId = process.env.TRAVIS_BUILD_ID
 const travisJobNumber = process.env.TRAVIS_JOB_NUMBER
 
-const filesForWebpack = plugins
+const filesForWebpack = testPackages
   .map(name => `node_modules/${name}/tests.webpack.js`)
   .concat([
     'tests.webpack.js'
@@ -31,7 +30,7 @@ module.exports = (config) => {
       map[file] = ['webpack', 'sourcemap']
       return map
     }, {}),
-    webpack: assign(webpackConfig, {
+    webpack: Object.assign(webpackConfig, {
       devtool: 'inline-source-map'
     }),
     webpackServer: {
@@ -45,7 +44,7 @@ module.exports = (config) => {
     }
   })
   if (isBench) {
-    assign(config, {
+    Object.assign(config, {
       browsers: ['Chrome'],
       frameworks: ['benchmark'],
       files: ['benchmark/**/*.js'],
@@ -57,7 +56,7 @@ module.exports = (config) => {
   }
 
   if (useCloud) {
-    assign(config, {
+    Object.assign(config, {
       browsers: Object.keys(browsers),
       browserDisconnectTolerance: 3,
       // My current OS plan allows max 2 parallel connections.
@@ -72,7 +71,7 @@ module.exports = (config) => {
     }
 
     if (isTravis) {
-      assign(config.browserStack, {
+      Object.assign(config.browserStack, {
         build: `TRAVIS #${travisBuildNumber} (${travisBuildId})`,
         name: travisJobNumber
       })
