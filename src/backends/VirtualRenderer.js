@@ -1,3 +1,5 @@
+/* eslint-disable class-methods-use-this */
+
 /**
  * Rendering backend to do nothing in nodejs.
  */

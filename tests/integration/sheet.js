@@ -99,14 +99,14 @@ describe('Integration: sheet', () => {
     })
 
     it('should apply plugins in the correct order', () => {
-      jss.use(rule => {
+      jss.use((rule) => {
         if (rule.name === 'a') {
           rule.options.sheet.addRule('b', {color: 'green'}, {index: 1})
         }
       })
 
       const classNames = []
-      jss.use(rule => {
+      jss.use((rule) => {
         classNames.push(rule.className)
       })
 

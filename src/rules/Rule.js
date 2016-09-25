@@ -1,6 +1,6 @@
 import {toCss, findClassNames, toCssValue} from '../utils'
-const {parse, stringify} = JSON
 
+const {parse, stringify} = JSON
 
 /**
  * Regular rules.

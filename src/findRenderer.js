@@ -1,6 +1,6 @@
+import isBrowser from 'is-browser'
 import DomRenderer from './backends/DomRenderer'
 import VirtualRenderer from './backends/VirtualRenderer'
-import isBrowser from 'is-browser'
 
 /**
  * Find proper renderer.

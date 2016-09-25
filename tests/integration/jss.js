@@ -70,7 +70,7 @@ describe('Integration: jss', () => {
       it('should pass rule correctly', () => {
         let receivedRule
         let executed = 0
-        jss.use(rule => {
+        jss.use((rule) => {
           receivedRule = rule
           executed++
         })
@@ -86,7 +86,7 @@ describe('Integration: jss', () => {
       it('should pass rule correctly', () => {
         let receivedRule
         let executed = 0
-        jss.use(rule => {
+        jss.use((rule) => {
           receivedRule = rule
           executed++
         })
@@ -117,10 +117,10 @@ describe('Integration: jss', () => {
       it('should accept multiple plugins', () => {
         let receivedRule1
         let receivedRule2
-        const plugin1 = rule => {
+        const plugin1 = (rule) => {
           receivedRule1 = rule
         }
-        const plugin2 = rule => {
+        const plugin2 = (rule) => {
           receivedRule2 = rule
         }
         jss.use(plugin1, plugin2)

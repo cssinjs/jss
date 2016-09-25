@@ -1,6 +1,47 @@
 import warning from 'warning'
 
 /**
+ * Get or set a style property.
+ *
+ * @param {CSSStyleRule} element
+ * @param {String} name
+ * @param {String} [value]
+ * @return {String|Boolean}
+ * @api private
+ */
+function style(CSSStyleRule, name, value) {
+  try {
+    // It is a getter.
+    if (value == null) return CSSStyleRule.style[name]
+    CSSStyleRule.style[name] = value
+  }
+  catch (err) {
+    // IE may throw if property is unknown.
+    return false
+  }
+  return true
+}
+
+/**
+ * Get or set the selector.
+ *
+ * @param {CSSStyleRule} CSSStyleRule
+ * @param {String} [selectorText]
+ * @return {String|Boolean}
+ * @api private
+ */
+function selector(CSSStyleRule, selectorText) {
+  // It is a getter.
+  if (selectorText == null) return CSSStyleRule.selectorText
+
+  CSSStyleRule.selectorText = selectorText
+
+  // Return false if setter was not successful.
+  // Currently works in chrome only.
+  return CSSStyleRule.selectorText === selectorText
+}
+
+/**
  * DOM rendering backend for StyleSheet.
  *
  * @api private
@@ -8,6 +49,8 @@ import warning from 'warning'
 export default class DomRenderer {
   constructor(options) {
     this.options = options
+    this.style = style
+    this.selector = selector
   }
 
   /**
@@ -23,47 +66,6 @@ export default class DomRenderer {
     this.element.setAttribute('data-jss', '')
     if (media) this.element.setAttribute('media', media)
     if (meta) this.element.setAttribute('data-meta', meta)
-  }
-
-  /**
-   * Get or set a style property.
-   *
-   * @param {CSSStyleRule} element
-   * @param {String} name
-   * @param {String} [value]
-   * @return {String|Boolean}
-   * @api private
-   */
-  style(CSSStyleRule, name, value) {
-    try {
-      // It is a getter.
-      if (value == null) return CSSStyleRule.style[name]
-      CSSStyleRule.style[name] = value
-    }
-    catch (err) {
-      // IE may throw if property is unknown.
-      return false
-    }
-    return true
-  }
-
-  /**
-   * Get or set the selector.
-   *
-   * @param {CSSStyleRule} CSSStyleRule
-   * @param {String} [selectorText]
-   * @return {String|Boolean}
-   * @api private
-   */
-  selector(CSSStyleRule, selectorText) {
-    // It is a getter.
-    if (selectorText == null) return CSSStyleRule.selectorText
-
-    CSSStyleRule.selectorText = selectorText
-
-    // Return false if setter was not successful.
-    // Currently works in chrome only.
-    return CSSStyleRule.selectorText === selectorText
   }
 
   /**

@@ -37,7 +37,7 @@ export default class Jss {
   setup(options = {}) {
     this.generateClassName = options.generateClassName || generateClassName
     if (options.plugins) {
-      options.plugins.forEach(plugin => {
+      options.plugins.forEach((plugin) => {
         this.use(plugin)
       })
     }
