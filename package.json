@@ -97,14 +97,5 @@
       "git add"
     ]
   },
-  "pre-commit": "lint:staged",
-  "babel": {
-    "presets": [
-      "stage-0",
-      "es2015"
-    ],
-    "plugins": [
-      "transform-inline-environment-variables"
-    ]
-  }
+  "pre-commit": "lint:staged"
 }

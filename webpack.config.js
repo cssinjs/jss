@@ -36,10 +36,6 @@ module.exports = {
     loaders: [
       {
         loader: 'babel-loader',
-        query: {
-          presets: pkg.babel.presets,
-          plugins: pkg.babel.plugins.concat(isTest ? ['rewire'] : [])
-        },
         test: /\.js$/,
         exclude: /node_modules/
       },
