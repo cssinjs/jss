@@ -4,6 +4,7 @@ import camelCase from 'jss-camel-case'
 import defaultUnit from 'jss-default-unit'
 import vendorPrefixer from 'jss-vendor-prefixer'
 import propsSort from 'jss-props-sort'
+import compose from 'jss-compose'
 
 export default (options = {}) => ({
   plugins: [
@@ -12,6 +13,7 @@ export default (options = {}) => ({
     camelCase(options.camelCase),
     defaultUnit(options.defaultUnit),
     vendorPrefixer(options.vendorPrefixer),
-    propsSort(options.propsSort)
+    propsSort(options.propsSort),
+    compose(options.compose)
   ]
 })

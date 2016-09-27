@@ -1,7 +1,7 @@
 {
   "name": "jss-preset-default",
   "description": "Default preset for JSS with selected plugins.",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "jss-camel-case": "^2.0.0",
+    "jss-compose": "^1.0.1",
     "jss-default-unit": "^4.0.1",
     "jss-extend": "^2.0.1",
     "jss-nested": "^2.4.0",
