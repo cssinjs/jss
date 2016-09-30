@@ -49,7 +49,7 @@
     "expect.js": "^0.3.1",
     "json-loader": "^0.5.4",
     "jss-compose": "^1.0.1",
-    "jss-extend": "^2.0.0",
+    "jss-expand": "^1.5.1",
     "jss-nested": "^2.0.0",
     "karma": "^1.1.1",
     "karma-benchmark": "^0.6.0",

@@ -1,5 +1,6 @@
 import 'jss-compose/tests/index.test'
 import 'jss-nested/tests/index.test'
+import 'jss-expand/tests/index.test'
 
 import './integration/jss'
 import './integration/rules'
