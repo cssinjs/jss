@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
 import expect from 'expect.js'
-import jss, {create} from 'jss'
+import jss, {create} from '../../src'
 import {reset, computeStyle, getStyle, getCss, getRules, removeWhitespace} from '../utils'
 import DomRenderer from '../../src/backends/DomRenderer'
 

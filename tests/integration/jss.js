@@ -1,5 +1,5 @@
 import expect from 'expect.js'
-import jss, {create, Jss, StyleSheet} from 'jss'
+import jss, {create, Jss, StyleSheet} from '../../src'
 import {reset} from '../utils'
 
 describe('Integration: jss', () => {

@@ -1,5 +1,4 @@
 const webpack = require('webpack')
-const path = require('path')
 const pkg = require('./package.json')
 
 const env = process.env.NODE_ENV
@@ -45,10 +44,5 @@ module.exports = {
       }
     ]
   },
-  devtool: 'source-map',
-  resolve: {
-    alias: {
-      jss: path.join(__dirname, 'src')
-    }
-  }
+  devtool: 'source-map'
 }

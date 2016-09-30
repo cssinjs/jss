@@ -1,5 +1,5 @@
 import expect from 'expect.js'
-import {create} from 'jss'
+import {create} from '../../src'
 import {reset} from '../utils'
 
 describe('Functional: dom priority', () => {
