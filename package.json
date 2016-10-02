@@ -29,7 +29,7 @@
   "devDependencies": {
     "babel-cli": "^6.5.1",
     "babel-core": "^6.5.1",
-    "babel-eslint": "^6.1.2",
+    "babel-eslint": "^7.0.0",
     "babel-loader": "^6.2.2",
     "babel-plugin-rewire": "^1.0.0",
     "babel-plugin-transform-es3-member-expression-literals": "^6.8.0",
@@ -43,7 +43,7 @@
     "eslint": "^3.0.1",
     "eslint-config-airbnb": "^12.0.0",
     "eslint-config-jss": "^2.3.0",
-    "eslint-plugin-import": "^1.5.0",
+    "eslint-plugin-import": "^2.0.0",
     "eslint-plugin-jsx-a11y": "^2.2.2",
     "eslint-plugin-react": "^6.3.0",
     "expect.js": "^0.3.1",
