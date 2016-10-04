@@ -1,0 +1,13 @@
+[ignore]
+.*/tests/.*
+.*node_modules/.*
+
+[include]
+src/
+
+[libs]
+interfaces/
+
+[options]
+suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
+suppress_comment= \\(.\\|\n\\)*\\$FlowIssue
