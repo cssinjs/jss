@@ -1,10 +1,14 @@
+/* @flow */
+
 /**
  * Register a plugin, run a plugin.
  *
  * @api public
  */
 export default class PluginsRegistry {
-  constructor() {
+  registry: Array<Function>;
+
+  constructor(): void {
     this.registry = []
   }
 
@@ -14,7 +18,7 @@ export default class PluginsRegistry {
    * @param {Function} fn
    * @api public
    */
-  use(fn) {
+  use(fn: Function): void {
     this.registry.push(fn)
   }
 
@@ -24,7 +28,7 @@ export default class PluginsRegistry {
    * @param {Rule|Array} rules
    * @api public
    */
-  run(rules) {
+  run(rules: Array<Object> | Object): void {
     if (Array.isArray(rules)) {
       rules.forEach(this.runOne, this)
       return
@@ -39,7 +43,7 @@ export default class PluginsRegistry {
    * @param {Rule} rule
    * @api private
    */
-  runOne(rule) {
+  runOne(rule: Object): void {
     for (let index = 0; index < this.registry.length; index++) {
       this.registry[index](rule)
     }
