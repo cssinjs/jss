@@ -1,3 +1,4 @@
+/* @flow */
 /**
  * A better abstraction over CSS.
  *
@@ -22,7 +23,7 @@ export {
  * @see Jss
  * @api public
  */
-export function create(options) {
+export function create(options?: Object): Jss {
   return new Jss(options)
 }
 

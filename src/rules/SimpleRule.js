@@ -1,10 +1,16 @@
+/* @flow */
 /**
  * Rule like @charset, @import, @namespace.
  *
  * @api public
  */
 export default class SimpleRule {
-  constructor(name, value, options) {
+  type: string;
+  name: string;
+  value: string;
+  options: Object;
+
+  constructor(name: string, value: string, options: Object) {
     this.type = 'simple'
     this.name = name
     this.value = value
@@ -17,7 +23,7 @@ export default class SimpleRule {
    * @return {String}
    * @api public
    */
-  toString() {
+  toString(): string {
     if (Array.isArray(this.value)) {
       let str = ''
       for (let index = 0; index < this.value.length; index++) {
