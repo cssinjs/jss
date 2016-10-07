@@ -7,6 +7,13 @@
 
 [JSS is a better abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It uses JavaScript as a language to describe styles in a declarative and maintainable way. It compiles to CSS at runtime or server-side and is potentially more performant. You can use it with [React](https://github.com/cssinjs/react-jss) or with any other library. It is about 5KB (minfied and gzipped) and is extensible via [plugins](./docs/plugins.md) API.
 
+### Libraries on top of JSS
+
+- [React-JSS](https://github.com/cssinjs/react-jss) integration for React.
+- [Theme Reactor](https://github.com/nathanmarks/jss-theme-reactor) Experimental React integration with theming.
+- [Aphrodisiac](https://github.com/cssinjs/aphrodisiac) provides Aphrodite like api on top of JSS.
+
+
 ### TOC
 
 1. [Live examples](http://cssinjs.github.io/examples/index.html).
@@ -20,6 +27,7 @@
 1. [Official plugins](https://github.com/cssinjs?query=jss-)
 1. [External projects](./docs/external-projects.md)
 1. [CLI Converter](https://github.com/cssinjs/cli)
+
 
 ### Example
 
