@@ -1,5 +1,11 @@
 ## Projects created by community based on jss.
 
+### Libraries on top of JSS
+
+- [React-JSS](https://github.com/cssinjs/react-jss) integration for React.
+- [Theme Reactor](https://github.com/nathanmarks/jss-theme-reactor) Experimental react integration with theming capabilities.
+- [Aphrodisiac](https://github.com/cssinjs/aphrodisiac) provides Aphrodite like api on top of JSS.
+
 ### JSS Plugins
 
 [jss-vendor-prefixer-ie10](https://github.com/alexkuz/jss-vendor-prefixer-ie10) JSS plugin that handles vendor prefixes for the legacy browsers.
