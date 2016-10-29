@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+
 import expect from 'expect.js'
 import jss from '../../src'
 import createRule from '../../src/createRule'
@@ -279,7 +281,6 @@ describe('Integration: rules', () => {
       let warned = false
 
       before(() => {
-        /* eslint-disable no-underscore-dangle */
         createRule.__Rewire__('warning', () => {
           warned = true
         })
@@ -299,7 +300,6 @@ describe('Integration: rules', () => {
 
       after(() => {
         createRule.__ResetDependency__('warning')
-        /* eslint-enable no-underscore-dangle */
       })
     })
 

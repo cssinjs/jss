@@ -43,18 +43,11 @@ export default function createRule(selector, style = {}, options = {}) {
     const name = atRuleNameRegExp.exec(selector)[0]
     const AtRule = atRuleClassMap[name]
 
-    if (AtRule) {
-      RuleClass = AtRule
-    }
-    else {
-      warning(false, '[JSS] Unknown at-rule %s', name)
-    }
+    if (AtRule) RuleClass = AtRule
+    else warning(false, '[JSS] Unknown at-rule %s', name)
   }
 
-  if (options.named == null) {
-    options.named = true
-  }
+  if (options.named == null) options.named = true
 
   return new RuleClass(selector, style, options)
 }
-
