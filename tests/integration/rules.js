@@ -1,5 +1,6 @@
 import expect from 'expect.js'
 import jss from '../../src'
+import createRule from '../../src/createRule'
 import {reset} from '../utils'
 
 describe('Integration: rules', () => {
@@ -271,6 +272,34 @@ describe('Integration: rules', () => {
 
       it('should handle multiple font-faces from unnamed rule', () => {
         checkMulti({named: false})
+      })
+    })
+
+    describe('at-rule', () => {
+      let warned = false
+
+      before(() => {
+        /* eslint-disable no-underscore-dangle */
+        createRule.__Rewire__('warning', () => {
+          warned = true
+        })
+      })
+
+      it('should warn when using an unknown at-rule', () => {
+        const rule = jss.createRule('@raw', {
+          color: 'red'
+        })
+        expect(warned).to.be(true)
+        const css =
+          '.@raw-id {\n' +
+          '  color: red;\n' +
+          '}'
+        expect(rule.toString()).to.be(css)
+      })
+
+      after(() => {
+        createRule.__ResetDependency__('warning')
+        /* eslint-enable no-underscore-dangle */
       })
     })
 

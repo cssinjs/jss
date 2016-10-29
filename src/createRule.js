@@ -1,3 +1,4 @@
+import warning from 'warning'
 import Rule from './rules/Rule'
 import SimpleRule from './rules/SimpleRule'
 import KeyframeRule from './rules/KeyframeRule'
@@ -35,14 +36,25 @@ const atRuleNameRegExp = /^@[^ ]+/
  * @api private
  */
 export default function createRule(selector, style = {}, options = {}) {
+  let RuleClass = Rule
+
   // Is an at-rule.
   if (selector && selector[0] === '@') {
     const name = atRuleNameRegExp.exec(selector)[0]
     const AtRule = atRuleClassMap[name]
-    return new AtRule(selector, style, options)
+
+    if (AtRule) {
+      RuleClass = AtRule
+    }
+    else {
+      warning(false, '[JSS] Unknown at-rule %s', name)
+    }
   }
 
-  if (options.named == null) options.named = true
-  return new Rule(selector, style, options)
+  if (options.named == null) {
+    options.named = true
+  }
+
+  return new RuleClass(selector, style, options)
 }
 
