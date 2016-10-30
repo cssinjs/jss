@@ -44,6 +44,16 @@ import preset from 'jss-preset-default'
 const jss = create(preset())
 ```
 
+## Included plugins
+
+* [jss-extend](https://github.com/cssinjs/jss-extend) — enables inheritance
+* [jss-nested](https://github.com/cssinjs/jss-nested) — enables support for nested rules
+* [jss-camel-case](https://github.com/cssinjs/jss-camel-case) — allows to write camel cased rule properties
+* [jss-default-unit](https://github.com/cssinjs/jss-default-unit) — adds units to numeric values
+* [jss-vendor-prefixer](https://github.com/cssinjs/jss-vendor-prefixer) — handles vendor prefixes on the browser
+* [jss-props-sort](https://github.com/cssinjs/jss-props-sort) — ensures style properties extend each other instead of override
+* [jss-compose](https://github.com/cssinjs/jss-compose) — classes composition
+
 ## Issues
 
 File a bug against [cssinjs/jss prefixed with \[jss-preset-default\]](https://github.com/cssinjs/jss/issues/new?title=[jss-preset-default]%20).
