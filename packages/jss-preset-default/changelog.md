@@ -1,3 +1,8 @@
+## 0.6.0 / 2016-10-31
+
+- update dev deps
+- update jss-nested to 2.5.0
+
 ## 0.5.0 / 2016-09-27
 
 - added jss-compose
