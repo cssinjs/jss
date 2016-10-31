@@ -94,7 +94,7 @@
     "version": "node -e \"console.log(require('./package.json').version)\""
   },
   "dependencies": {
-    "is-browser": "^2.0.1",
+    "is-in-browser": "^1.0.2",
     "murmurhash-js": "^1.0.0",
     "warning": "^3.0.0"
   },
