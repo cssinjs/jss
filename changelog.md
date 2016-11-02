@@ -1,3 +1,10 @@
+## 5.5.6 / 2016-11-03
+
+- test suite
+- new is-in-browser detection #305
+- warning when using an unknown at-rule
+- start using flow #296
+
 ## 5.5.5 / 2016-09-23
 
 - remove rewire from build
