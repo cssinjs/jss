@@ -56,6 +56,7 @@
     "jss-default-unit": "^4.1.0",
     "jss-expand": "^1.5.1",
     "jss-extend": "^2.0.5",
+    "jss-isolate": "^1.0.2",
     "jss-nested": "^2.0.0",
     "karma": "^1.1.1",
     "karma-benchmark": "^0.6.0",
