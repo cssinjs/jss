@@ -2,6 +2,8 @@ import 'jss-compose/tests/index.test'
 import 'jss-nested/tests/index.test'
 import 'jss-expand/tests/index.test'
 import 'jss-default-unit/tests/index.test'
+import 'jss-camel-case/tests/index.test'
+import 'jss-extend/tests/index.test'
 import 'react-jss/tests/index.test'
 
 import './integration/jss'
