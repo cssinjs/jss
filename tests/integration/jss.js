@@ -126,8 +126,8 @@ describe('Integration: jss', () => {
         jss.use(plugin1, plugin2)
         const rule = jss.createRule()
         expect(jss.plugins.registry.length).to.be(2)
-        expect(jss.plugins.registry[0]).to.be(plugin1)
-        expect(jss.plugins.registry[1]).to.be(plugin2)
+        expect(jss.plugins.registry[0].onRule).to.be(plugin1)
+        expect(jss.plugins.registry[1].onRule).to.be(plugin2)
         expect(receivedRule1).to.be(rule)
         expect(receivedRule2).to.be(rule)
       })
@@ -142,8 +142,8 @@ describe('Integration: jss', () => {
       local.setup({
         plugins: [fn1, fn2]
       })
-      expect(local.plugins.registry[0]).to.be(fn1)
-      expect(local.plugins.registry[1]).to.be(fn2)
+      expect(local.plugins.registry[0].onRule).to.be(fn1)
+      expect(local.plugins.registry[1].onRule).to.be(fn2)
     })
   })
 })

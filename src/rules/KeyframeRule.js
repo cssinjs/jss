@@ -19,8 +19,13 @@ export default class KeyframeRule {
   formatFrames(frames) {
     const newFrames = Object.create(null)
     for (const name in frames) {
-      const options = {...this.options, named: false, parent: this}
-      newFrames[name] = this.options.jss.createRule(name, frames[name], options)
+      const options = {
+        ...this.options,
+        parent: this,
+        className: name,
+        selector: name
+      }
+      newFrames[name] = options.jss.createRule(name, frames[name], options)
     }
     return newFrames
   }

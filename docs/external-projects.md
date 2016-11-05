@@ -47,3 +47,7 @@
 ### UI libs
 
 [react-modal-dialog](https://github.com/qimingweng/react-modal-dialog) A modal dialog for ReactJS
+
+### Editor integrations
+
+[atom snippets](https://github.com/march213/jss-atom-snippets) Snippets for Atom

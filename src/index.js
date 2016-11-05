@@ -8,13 +8,13 @@
  */
 import Jss from './Jss'
 import StyleSheet from './StyleSheet'
-import Rule from './rules/Rule'
+import RegularRule from './rules/RegularRule'
 
 // For testing only.
 export {
   Jss,
   StyleSheet,
-  Rule
+  RegularRule
 }
 
 /**
@@ -23,8 +23,12 @@ export {
  * @see Jss
  * @api public
  */
-export function create(options?: Object): Jss {
-  return new Jss(options)
-}
+export const create = (options?: Object) => new Jss(options)
 
+/**
+ * A global Jss instance.
+ *
+ * @see Jss
+ * @api public
+ */
 export default create()

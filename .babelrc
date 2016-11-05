@@ -6,8 +6,8 @@
   "plugins": [
     "transform-es3-member-expression-literals",
     "transform-es3-property-literals",
-    "transform-inline-environment-variables",
-    "transform-flow-strip-types"
+    "transform-flow-strip-types",
+    "inline-version"
   ],
   "env": {
     "test": {

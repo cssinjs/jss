@@ -117,10 +117,10 @@ Result
 ### Roadmap
 
 - ~~Make it easier for newcomers to setup jss with plugins (like presets).~~
+- ~~Make JSON DSL even better, for e.g. [jss-expand](https://github.com/typical000/jss-expand).~~
+- ~~Make it easy to see when changes in the core break plugins (integrate plugins test suite).~~
 - Make community create plugins (better plugins API documentation, infrastructure).
-- Make it easy to see when changes in the core break plugins (integrate plugins test suite).
 - Do more benchmarking, include plugins, always track perf regressions.
-- Make JSON DSL even better, for e.g. [jss-expand](https://github.com/typical000/jss-expand).
 - Introduce a way for theming with react-jss or replace it by [jss-theme-reactor](https://github.com/nathanmarks/jss-theme-reactor)
 - Make SSR even better (vendor prefixer, smaller critical CSS)
 - Make CLI tool better, allow integration of styles written in various preprocessing languages as well as pure css.

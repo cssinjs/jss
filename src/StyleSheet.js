@@ -9,8 +9,6 @@ import RulesContainer from './RulesContainer'
  * - `media` media query - attribute of style element.
  * - `meta` meta information about this style - attribute of style element, for e.g. you could pass
  * component name for easier debugging.
- * - `named` true by default - keys are names, selectors will be generated, if false - keys are
- * global selectors.
  * - `link` link jss `Rule` instances with DOM `CSSRule` instances so that styles, can be modified
  * dynamically, false by default because it has some performance cost.
  * - `element` style element, will create one by default
@@ -20,8 +18,7 @@ import RulesContainer from './RulesContainer'
  * @api public
  */
 export default class StyleSheet {
-  constructor(rules, options) {
-    const named = options.named == null ? true : options.named
+  constructor(styles, options) {
     const index = typeof options.index === 'number' ? options.index : 0
     const Renderer = findRenderer(options)
 
@@ -40,17 +37,18 @@ export default class StyleSheet {
       parent: this,
       classes: this.classes,
       renderer: this.renderer,
-      named,
       index,
       Renderer
     }
     this.rules = new RulesContainer(this.options)
 
-    for (const name in rules) {
-      this.rules.createAndRegister(name, rules[name])
+    for (const name in styles) {
+      this.rules.createAndRegister(name, styles[name])
     }
 
-    options.jss.plugins.run(this.rules.getIndex())
+    const {plugins} = options.jss
+    plugins.handleSheet(this)
+    plugins.handleRules(this.rules.getIndex())
   }
 
   /**
@@ -88,7 +86,7 @@ export default class StyleSheet {
    * Options:
    *   - `index` rule position, will be pushed at the end if undefined.
    *
-   * @param {String} [name] can be selector or name if ´options.named is true
+   * @param {String} [name] rule name
    * @param {Object} style property/value hash
    * @param {Object} [options]
    * @return {Rule}
@@ -128,17 +126,17 @@ export default class StyleSheet {
   }
 
   /**
-   * Create rules, will render also after stylesheet was rendered the first time.
+   * Create styles, will render also after stylesheet was rendered the first time.
    *
-   * @param {Object} rules name:style hash.
+   * @param {Object} styles name:style hash.
    * @param {Object} [options]
    * @return {Array} array of added rules
    * @api public
    */
-  addRules(rules, options) {
+  addRules(styles, options) {
     const added = []
-    for (const name in rules) {
-      added.push(this.addRule(name, rules[name], options))
+    for (const name in styles) {
+      added.push(this.addRule(name, styles[name], options))
     }
     return added
   }
@@ -146,22 +144,22 @@ export default class StyleSheet {
   /**
    * Get a rule.
    *
-   * @see RulesContainer.get()
+   * @see RulesContainer#get()
    * @api public
    */
-  getRule(nameOrSelector) {
-    return this.rules.get(nameOrSelector)
+  getRule(name) {
+    return this.rules.get(name)
   }
 
   /**
    * Delete a rule.
    *
-   * @param {String} rule selector or name
+   * @param {String} name
    * @return {Boolean} true if rule has been deleted from the DOM.
    * @api public
    */
-  deleteRule(nameOrSelector) {
-    const rule = this.rules.get(nameOrSelector)
+  deleteRule(name) {
+    const rule = this.rules.get(name)
 
     if (!rule) return false
 

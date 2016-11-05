@@ -5,7 +5,8 @@
     "import/no-unresolved": 0
   },
   "globals": {
-    "benchmark": true
+    "benchmark": true,
+    "__VERSION__": true
   },
   "plugins": ["flowtype"]
 }

@@ -46,7 +46,7 @@ JSS allows you to compose rules from multiple sources. You can reuse existing ru
 
 1. Adoption to environment.
 
-  You can generate styles according the environment requirements at runtime, for e.g. you can express any complex condition considering for e.g. pixel density, resolution and device type at the same time. You can compose new style sheets based on settings and environment out of existing once.
+  You can generate styles according the environment requirements at runtime, for e.g. you can express any complex condition considering for e.g. pixel density, resolution and device type at the same time. You can compose new Style Sheets based on settings and environment out of existing once.
 
 ### Compared to server-side preprocessing languages (stylus/less/sass/css-modules and co.)
 

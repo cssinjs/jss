@@ -8,7 +8,7 @@ const {parse, stringify} = JSON
  * @api public
  */
 export default class Rule {
-  constructor(selector, style, options) {
+  constructor(name, style, options) {
     // We expect style to be plain object.
     // To avoid original style object mutations, we clone it and hash it
     // along the way.
@@ -17,17 +17,11 @@ export default class Rule {
     const styleStr = stringify(style)
     this.style = parse(styleStr)
     this.type = 'regular'
+    this.name = name
     this.options = options
-    this.selectorText = selector || ''
-    this.className = options.className || ''
     this.originalStyle = style
-    if (options.named) {
-      this.name = selector
-      if (!this.className) {
-        this.className = options.jss.generateClassName(styleStr, this)
-      }
-      this.selectorText = `.${this.className}`
-    }
+    this.className = options.className || options.jss.generateClassName(styleStr, this)
+    this.selectorText = options.selector || `.${this.className}`
     this.renderer = options.sheet ? options.sheet.renderer : new options.Renderer()
   }
 

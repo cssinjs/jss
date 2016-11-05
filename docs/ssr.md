@@ -2,7 +2,7 @@
 
 1. Render the document.
 
-  The only JSS specific thing you need to know is style sheets registry. To get all created styles as a string - `jss.sheets.toString()`. Rendering of the document depends on framework you use, here is an [example in react](https://github.com/cssinjs/examples/blob/gh-pages/react-ssr/src/server.js).
+  The only JSS specific thing you need to know is Style Sheets registry. To get all created styles as a string - `jss.sheets.toString()`. Rendering of the document depends on framework you use, here is an [example in react](https://github.com/cssinjs/examples/blob/gh-pages/react-ssr/src/server.js).
 
 2. Rehydration.
 

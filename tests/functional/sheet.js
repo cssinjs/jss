@@ -16,23 +16,11 @@ describe('Functional: sheet', () => {
       sheet.detach()
     }
 
-    it('should render unnamed sheet', () => {
-      check({'.a': {width: '1px', float: 'left'}}, {named: false})
-    })
-
-    it('should render named sheet', () => {
+    it('should render simple sheet', () => {
       check({a: {width: '1px', float: 'left'}})
     })
 
-    it('should render unnamed sheet with media query', () => {
-      check({
-        '.a': {color: 'red'},
-        '@media (min-width: 1024px)': {'.a': {color: 'blue'}},
-        '@media (min-width: 1000px)': {'.a': {color: 'green'}}
-      }, {named: false})
-    })
-
-    it('should render named sheet with media query', () => {
+    it('should render sheet with media query', () => {
       check({
         a: {color: 'red'},
         '@media (min-width: 1024px)': {
@@ -151,35 +139,7 @@ describe('Functional: sheet', () => {
     })
   })
 
-  describe('.addRule() to an unnamed sheet', () => {
-    let sheet
-    let rule
-    let style
-
-    beforeEach(() => {
-      sheet = jss.createStyleSheet(null, {named: false}).attach()
-      rule = sheet.addRule('.a', {float: 'left'})
-      style = getStyle()
-    })
-
-    it('should render only 1 rule', () => {
-      expect(getRules(style).length).to.be(1)
-    })
-
-    it('should render correct CSS', () => {
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
-    })
-
-    it('should register the rule', () => {
-      expect(sheet.getRule('.a')).to.be(rule)
-    })
-
-    it('should link sheet in rules options', () => {
-      expect(sheet.getRule('.a').options.sheet).to.be(sheet)
-    })
-  })
-
-  describe('.addRule() to a named sheet', () => {
+  describe('.addRule()', () => {
     let sheet
     let rule
     let style
@@ -214,7 +174,7 @@ describe('Functional: sheet', () => {
     })
   })
 
-  describe('.addRule() with .addRule() within a plugin and attached sheet', () => {
+  describe('.addRule() with .addRule() call within a plugin and attached sheet', () => {
     let style
     let sheet
 

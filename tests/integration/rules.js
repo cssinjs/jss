@@ -2,7 +2,7 @@
 
 import expect from 'expect.js'
 import jss from '../../src'
-import createRule from '../../src/createRule'
+import RulesFactory from '../../src/RulesFactory'
 import {reset} from '../utils'
 
 describe('Integration: rules', () => {
@@ -33,79 +33,78 @@ describe('Integration: rules', () => {
       expect(rule.type).to.be('regular')
       expect(rule.className).to.be('id')
       expect(rule.selector).to.be('.id')
-      expect(rule.options.named).to.be(true)
       expect(rule.options.jss).to.be(jss)
       expect(rule.options.something).to.be(true)
     })
 
     it('should accept all params', () => {
       const style = {float: 'left'}
-      const options = {named: false}
-      const rule = jss.createRule('.a', style, options)
+      const options = {someOption: true}
+      const rule = jss.createRule('a', style, options)
       expect(rule.style).to.eql(style)
       expect(rule.type).to.be('regular')
-      expect(rule.className).to.be('')
-      expect(rule.selector).to.be('.a')
-      expect(rule.options.named).to.be(false)
+      expect(rule.className).to.be('a-id')
+      expect(rule.selector).to.be('.a-id')
+      expect(rule.options.someOption).to.be(true)
       expect(rule.options.jss).to.be(jss)
     })
   })
 
   describe('rule.toString()', () => {
-    it('should return CSS from unnamed rule', () => {
-      const rule = jss.createRule('.a', {float: 'left', width: '1px'}, {named: false})
-      expect(rule.toString()).to.be('.a {\n  float: left;\n  width: 1px;\n}')
+    it('should return CSS', () => {
+      const rule = jss.createRule('a', {float: 'left', width: '1px'})
+      expect(rule.toString()).to.be('.a-id {\n  float: left;\n  width: 1px;\n}')
     })
 
-    it('should return CSS without selector from unnamed rule', () => {
-      const rule = jss.createRule('.a', {float: 'left'}, {named: false})
+    it('should return CSS without selector', () => {
+      const rule = jss.createRule('a', {float: 'left'})
       expect(rule.toString({selector: false})).to.be('\nfloat: left;')
     })
 
     it('should return CSS with fallbacks object', () => {
-      const rule = jss.createRule('.a', {
+      const rule = jss.createRule('a', {
         display: 'run-in',
         fallbacks: {display: 'inline'}
-      }, {named: false})
-      expect(rule.toString()).to.be('.a {\n  display: inline;\n  display: run-in;\n}')
+      })
+      expect(rule.toString()).to.be('.a-id {\n  display: inline;\n  display: run-in;\n}')
     })
 
     it('should return CSS with fallbacks array', () => {
-      const rule = jss.createRule('.a', {
+      const rule = jss.createRule('a', {
         display: 'run-in',
         fallbacks: [{display: 'inline'}]
-      }, {named: false})
-      expect(rule.toString()).to.be('.a {\n  display: inline;\n  display: run-in;\n}')
+      })
+      expect(rule.toString()).to.be('.a-id {\n  display: inline;\n  display: run-in;\n}')
     })
 
     it('should return CSS with comma separated values', () => {
-      const rule = jss.createRule('.a', {
+      const rule = jss.createRule('a', {
         border: ['1px solid red', '1px solid blue']
-      }, {named: false})
-      expect(rule.toString()).to.be('.a {\n  border: 1px solid red, 1px solid blue;\n}')
+      })
+      expect(rule.toString()).to.be('.a-id {\n  border: 1px solid red, 1px solid blue;\n}')
     })
 
     it('should return CSS with comma separated values inside of fallbacks', () => {
-      let rule = jss.createRule('.a', {
+      let rule = jss.createRule('a', {
         fallbacks: {
           border: ['1px solid red', '1px solid blue']
         }
-      }, {named: false})
-      expect(rule.toString()).to.be('.a {\n  border: 1px solid red, 1px solid blue;\n}')
+      })
+      expect(rule.toString()).to.be('.a-id {\n  border: 1px solid red, 1px solid blue;\n}')
 
-      rule = jss.createRule('.a', {
+      rule = jss.createRule('a', {
         fallbacks: [{
           border: ['1px solid red', '1px solid blue']
         }]
-      }, {named: false})
-      expect(rule.toString()).to.be('.a {\n  border: 1px solid red, 1px solid blue;\n}')
+      })
+      expect(rule.toString()).to.be('.a-id {\n  border: 1px solid red, 1px solid blue;\n}')
     })
 
     it('should return CSS with space separated values', () => {
-      const rule = jss.createRule('.a', {
+      const rule = jss.createRule('a', {
         margin: [['5px', '10px']]
-      }, {named: false})
-      expect(rule.toString()).to.be('.a {\n  margin: 5px 10px;\n}')
+      })
+      expect(rule.toString()).to.be('.a-id {\n  margin: 5px 10px;\n}')
     })
 
     it('should return CSS from @charset rule', () => {
@@ -159,7 +158,7 @@ describe('Integration: rules', () => {
       })
       expect(rule.type).to.be('keyframe')
       expect(rule.selector).to.be('@keyframes id')
-      const css =
+      expect(rule.toString()).to.be(
         '@keyframes id {\n' +
         '  from {\n' +
         '    top: 0;\n' +
@@ -171,21 +170,20 @@ describe('Integration: rules', () => {
         '    top: 80;\n' +
         '  }\n' +
         '}'
-      expect(rule.toString()).to.be(css)
+      )
     })
 
     describe('@media rule', () => {
       it('should return CSS from unnamed rule', () => {
         const rule = jss.createRule(
           '@media print',
-          {button: {display: 'none'}},
-          {named: false}
+          {a: {display: 'none'}}
         )
         expect(rule.type).to.be('conditional')
         expect(rule.selector).to.be('@media print')
         expect(rule.toString()).to.be(
           '@media print {\n' +
-          '  button {\n' +
+          '  .a-id {\n' +
           '    display: none;\n' +
           '  }\n' +
           '}'
@@ -203,6 +201,22 @@ describe('Integration: rules', () => {
           '@media print {\n' +
           '  .button-id {\n' +
           '    display: none;\n' +
+          '  }\n' +
+          '}'
+        )
+      })
+
+      it('should support @media without space', () => {
+        const rule = jss.createRule(
+          '@media(max-width: 715px)',
+          {a: {color: 'red'}}
+        )
+        expect(rule.type).to.be('conditional')
+        expect(rule.selector).to.be('@media(max-width: 715px)')
+        expect(rule.toString()).to.be(
+          '@media(max-width: 715px) {\n' +
+          '  .a-id {\n' +
+          '    color: red;\n' +
           '  }\n' +
           '}'
         )
@@ -281,25 +295,25 @@ describe('Integration: rules', () => {
       let warned = false
 
       before(() => {
-        createRule.__Rewire__('warning', () => {
+        RulesFactory.__Rewire__('warning', () => {
           warned = true
         })
       })
 
       it('should warn when using an unknown at-rule', () => {
-        const rule = jss.createRule('@raw', {
+        const rule = jss.createRule('@unknown', {
           color: 'red'
         })
         expect(warned).to.be(true)
         const css =
-          '.@raw-id {\n' +
+          '.@unknown-id {\n' +
           '  color: red;\n' +
           '}'
         expect(rule.toString()).to.be(css)
       })
 
       after(() => {
-        createRule.__ResetDependency__('warning')
+        RulesFactory.__ResetDependency__('warning')
       })
     })
 

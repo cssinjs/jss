@@ -13,5 +13,6 @@ import VirtualRenderer from './backends/VirtualRenderer'
  */
 export default function findRenderer(options = {}) {
   if (options.Renderer) return options.Renderer
-  return options.virtual || !isInBrowser ? VirtualRenderer : DomRenderer
+  const useVirtual = options.virtual || !isInBrowser
+  return useVirtual ? VirtualRenderer : DomRenderer
 }

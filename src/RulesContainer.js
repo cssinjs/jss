@@ -1,5 +1,3 @@
-import createRule from './createRule'
-
 /**
  * Contains rules objects and allows adding/removing etc.
  * Is used by containers liks StyleSheet or ConditionalRule.
@@ -16,6 +14,7 @@ export default class RulesContainer {
     this.options = options
     // Default object is needed when rule is created without a sheet.
     this.classes = options.classes || {}
+    this.jss = options.jss
   }
 
   /**
@@ -24,12 +23,12 @@ export default class RulesContainer {
    * Will not render after style sheet was rendered the first time.
    * Will link the rule in `this.rules`.
    *
-   * @see createRule
+   * @see RulesFactory#createRule
    * @api public
    */
   create(name, style, options) {
     const rule = this.createAndRegister(name, style, options)
-    this.options.jss.plugins.run(rule)
+    this.jss.plugins.handleRule(rule)
     return rule
   }
 
@@ -48,7 +47,7 @@ export default class RulesContainer {
   /**
    * Get a rule.
    *
-   * @param {String} nameOrSelector can be selector or name if `named` option is true.
+   * @param {String} nameOrSelector
    * @return {Rule}
    * @api public
    */
@@ -139,22 +138,21 @@ export default class RulesContainer {
    * @api private
    */
   createAndRegister(name, style, options) {
+    const {parent, sheet, jss, Renderer} = this.options
+
     options = {
-      ...options,
       classes: this.classes,
-      parent: this.options.parent,
-      sheet: this.options.sheet,
-      jss: this.options.jss,
-      Renderer: this.options.Renderer
+      parent,
+      sheet,
+      jss,
+      Renderer,
+      applyPlugins: false,
+      ...options
     }
 
-    // Currently the only case where we have no class name is child rules of
-    // some conditional rule.
     if (!options.className) options.className = this.classes[name]
 
-    // Scope options overwrite instance options.
-    if (options.named == null) options.named = this.options.named
-    const rule = createRule(name, style, options)
+    const rule = jss.createRule(name, style, options)
     this.register(rule)
 
     const index = options.index === undefined ? this.index.length : options.index

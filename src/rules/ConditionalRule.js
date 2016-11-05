@@ -15,7 +15,7 @@ export default class ConditionalRule {
       this.createAndRegisterRule(name, rules[name])
     }
 
-    options.jss.plugins.run(this.rules.getIndex())
+    options.jss.plugins.handleRules(this.rules.getIndex())
   }
 
   /**

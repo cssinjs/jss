@@ -9,6 +9,7 @@ import createHash from 'murmurhash-js/murmurhash3_gc'
  */
 export function generateClassName(str, rule) {
   const hash = createHash(str)
+  // There is no name if `jss.createRule(styles)` was used.
   return rule.name ? `${rule.name}-${hash}` : hash
 }
 

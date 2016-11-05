@@ -1,5 +1,5 @@
 import expect from 'expect.js'
-import jss, {create, Rule} from '../../src'
+import jss, {create, RegularRule} from '../../src'
 import {reset} from '../utils'
 
 describe('Integration: sheet', () => {
@@ -10,26 +10,16 @@ describe('Integration: sheet', () => {
       const sheet = jss.createStyleSheet()
       expect(sheet.deployed).to.be(false)
       expect(sheet.attached).to.be(false)
-      expect(sheet.options.named).to.be(true)
       expect(sheet.classes).to.eql({})
     })
 
     it('should create a sheet with one rule', () => {
       const sheet = jss.createStyleSheet({a: {float: 'left'}})
       const rule = sheet.getRule('a')
-      expect(rule).to.be.a(Rule)
+      expect(rule).to.be.a(RegularRule)
       expect(sheet.classes.a).to.be('a-id')
       expect(rule.className).to.be('a-id')
       expect(rule.selector).to.be('.a-id')
-    })
-
-    it('should create an unnamed sheet', () => {
-      const sheet = jss.createStyleSheet({'.a': {float: 'left'}}, {named: false})
-      const rule = sheet.getRule('.a')
-      expect(rule).to.be.a(Rule)
-      expect(rule.options.named).to.be(false)
-      expect(sheet.options.named).to.be(false)
-      expect('.a' in sheet.classes).to.be(false)
     })
 
     it('should register a conditional child rule in classes', () => {
@@ -45,13 +35,13 @@ describe('Integration: sheet', () => {
   describe('sheet.getRule()', () => {
     it('should return a rule by name and selector from named sheet', () => {
       const sheet = jss.createStyleSheet({a: {float: 'left'}})
-      expect(sheet.getRule('a')).to.be.a(Rule)
-      expect(sheet.getRule('.a-id')).to.be.a(Rule)
+      expect(sheet.getRule('a')).to.be.a(RegularRule)
+      expect(sheet.getRule('.a-id')).to.be.a(RegularRule)
     })
 
     it('should return a rule by selector from unnamed sheet', () => {
       const sheet = jss.createStyleSheet({a: {float: 'left'}}, {named: false})
-      expect(sheet.getRule('a')).to.be.a(Rule)
+      expect(sheet.getRule('a')).to.be.a(RegularRule)
     })
   })
 
@@ -147,7 +137,7 @@ describe('Integration: sheet', () => {
         '@charset': '"utf-8"',
         '@import': 'bla',
         '@namespace': 'bla',
-        '.a': {
+        a: {
           float: 'left'
         },
         '@font-face': {
@@ -158,10 +148,10 @@ describe('Integration: sheet', () => {
           from: {top: 0}
         },
         '@media print': {
-          button: {display: 'none'}
+          b: {display: 'none'}
         },
         '@supports ( display: flexbox )': {
-          button: {
+          c: {
             display: 'none'
           }
         }
@@ -171,21 +161,21 @@ describe('Integration: sheet', () => {
         '@charset "utf-8";\n' +
         '@import bla;\n' +
         '@namespace bla;\n' +
-        '.a {\n  float: left;\n}\n' +
+        '.a-id {\n  float: left;\n}\n' +
         '@font-face {\n  font-family: MyHelvetica;\n  src: local("Helvetica");\n}\n' +
         '@keyframes id {\n  from {\n    top: 0;\n  }\n}\n' +
-        '@media print {\n  button {\n    display: none;\n  }\n}\n' +
-        '@supports ( display: flexbox ) {\n  button {\n    display: none;\n  }\n}'
+        '@media print {\n  .b-id {\n    display: none;\n  }\n}\n' +
+        '@supports ( display: flexbox ) {\n  .c-id {\n    display: none;\n  }\n}'
       )
     })
 
     it('should compile a single media query', () => {
       const sheet = jss.createStyleSheet({
-        '@media (min-width: 1024px)': {'.a': {color: 'blue'}},
-      }, {named: false})
+        '@media (min-width: 1024px)': {a: {color: 'blue'}},
+      })
       expect(sheet.toString()).to.be(
         '@media (min-width: 1024px) {\n' +
-        '  .a {\n' +
+        '  .a-id {\n' +
         '    color: blue;\n' +
         '  }\n' +
         '}'
@@ -194,21 +184,21 @@ describe('Integration: sheet', () => {
 
     it('should compile multiple media queries in unnamed sheet', () => {
       const sheet = jss.createStyleSheet({
-        '.a': {color: 'red'},
-        '@media (min-width: 1024px)': {'.a': {color: 'blue'}},
-        '@media (min-width: 1000px)': {'.a': {color: 'green'}}
-      }, {named: false})
+        a: {color: 'red'},
+        '@media (min-width: 1024px)': {a: {color: 'blue'}},
+        '@media (min-width: 1000px)': {a: {color: 'green'}}
+      })
       expect(sheet.toString()).to.be(
-        '.a {\n' +
+        '.a-id {\n' +
         '  color: red;\n' +
         '}\n' +
         '@media (min-width: 1024px) {\n' +
-        '  .a {\n' +
+        '  .a-id {\n' +
         '    color: blue;\n' +
         '  }\n' +
         '}\n' +
         '@media (min-width: 1000px) {\n' +
-        '  .a {\n' +
+        '  .a-id {\n' +
         '    color: green;\n' +
         '  }\n' +
         '}'

@@ -1,7 +1,7 @@
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import SheetsRegistry from './SheetsRegistry'
-import createRule from './createRule'
+import RulesFactory from './RulesFactory'
 import findRenderer from './findRenderer'
 import {generateClassName} from './utils'
 
@@ -17,9 +17,10 @@ export default class Jss {
    * @see .setup()
    */
   constructor(options) {
+    this.version = __VERSION__
     this.sheets = new SheetsRegistry()
-    this.plugins = new PluginsRegistry()
-    this.version = process.env.VERSION
+    this.plugins = new PluginsRegistry(this)
+    this.factory = new RulesFactory()
     this.setup(options)
   }
 
@@ -50,8 +51,8 @@ export default class Jss {
    * @see StyleSheet
    * @api public
    */
-  createStyleSheet(rules, options) {
-    const sheet = new StyleSheet(rules, {...options, jss: this})
+  createStyleSheet(styles, options) {
+    const sheet = new StyleSheet(styles, {...options, jss: this})
     this.sheets.add(sheet)
     return sheet
   }
@@ -74,20 +75,31 @@ export default class Jss {
    * @see createRule
    * @api public
    */
-  createRule(selector, style, options) {
-    // Enable rule without selector.
-    if (typeof selector == 'object') {
+  createRule(name, style, options) {
+    // Enable rule without name for inline styles.
+    if (typeof name === 'object') {
       options = style
-      style = selector
-      selector = null
+      style = name
+      name = null
     }
-    const rule = createRule(selector, style, {
+
+    options = {
       jss: this,
       Renderer: findRenderer(options),
       ...options
-    })
-    this.plugins.run(rule)
+    }
+
+    const rule = this.factory.get(name, style, options)
+
+    if (options.applyPlugins !== false) {
+      this.plugins.handleRule(rule)
+    }
+
     return rule
+  }
+
+  registerRuleClass(name, cls) {
+    this.factory.register(name, cls)
   }
 
   /**

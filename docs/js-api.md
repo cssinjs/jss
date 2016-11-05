@@ -1,19 +1,18 @@
 ## API
 
-1. [Access the jss namespace.](#access-the-jss-namespace)
-1. [Create an own instance of JSS.](#create-an-own-instance-of-jss)
-1. [Create style sheet with namespaces enabled.](#create-style-sheet-with-namespaces-enabled)
-1. [Create regular style sheet with global selectors.](#create-regular-style-sheet-with-global-selectors)
-1. [Attach style sheet.](#attach-style-sheet)
-1. [Detach style sheet.](#detach-style-sheet)
-1. [Attach style sheets in a specific order.](#attach-style-sheets-in-a-specific-order)
-1. [Add a rule to an existing style sheet.](#add-a-rule-to-an-existing-style-sheet)
-1. [Delete a rule from an existing style sheet.](#delete-a-rule-from-an-existing-style-sheet)
-1. [Add a rule dynamically with a generated class name.](#add-a-rule-dynamically-with-a-generated-class-name)
-1. [Add a rule with global class name.](#add-a-rule-with-global-class-name)
+1. [Access the jss namespace.](#access-the-global-jss-instance)
+1. [Create an own instance of JSS.](#create-an-own-jss-instance)
+1. [Create Style Sheet.](#create-style-sheet)
+1. [Create a Style Sheet with global selectors.](#create-a-style-sheet-with-global-selectors)
+1. [Attach Style Sheet.](#attach-style-sheet)
+1. [Detach Style Sheet.](#detach-style-sheet)
+1. [Attach Style Sheets in a specific order.](#attach-style-sheets-in-a-specific-order)
+1. [Add a rule to an existing Style Sheet.](#add-a-rule-to-an-existing-style-sheet)
+1. [Delete a rule from an existing Style Sheet.](#delete-a-rule-from-an-existing-style-sheet)
+1. [Add a rule dynamically.](#add-a-rule-dynamically)
 1. [Get a rule.](#get-a-rule)
 1. [Add multiple rules.](#add-multiple-rules)
-1. [Create a rule without a style sheet.](#create-a-rule-without-a-style-sheet)
+1. [Create a rule without a Style Sheet.](#create-a-rule-without-a-style-sheet)
 1. [Inline Style](#apply-a-rule-to-an-element-inline)
 1. [Set or get a rule property dynamically.](#set-or-get-a-rule-property-dynamically)
 1. [Convert rule to a JSON.](#convert-rule-to-a-json)
@@ -59,9 +58,7 @@ import jss from 'jss'
 jss.setup(preset())
 ```
 
-### Create style sheet with namespaces enabled.
-
-Create a style sheet with [namespaced](http://cssinjs.github.io/examples/namespace/index.html) rules.
+### Create Style Sheet
 
 `jss.createStyleSheet([rules], [options])`
 
@@ -69,14 +66,13 @@ Options:
 
 - `media` media query - attribute of style element.
 - `meta` meta information about this style - attribute of style element, for e.g. you could pass component name for easier debugging.
-- `named` true by default - keys are names, selectors will be generated, if false - keys are global selectors.
 - `link` link jss `Rule` instances with DOM `CSSRule` instances so that styles, can be modified dynamically, false by default because it has some performance cost.
 - `element` style element, will create one by default
 - `index` 0 by default - determines DOM rendering order, higher number = higher specificity (inserted after)
 
 
 ```javascript
-// Namespaced style sheet with generated selectors.
+// Namespaced Style Sheet with generated selectors.
 const sheet = jss.createStyleSheet({
   button: {
     width: 100,
@@ -96,55 +92,39 @@ console.log(sheet.classes.button) // .button--jss-0-0
 </style>
 ```
 
-### Create a style sheet with global selectors.
+### Create a Style Sheet with global selectors.
 
-```javascript
-const sheet = jss.createStyleSheet({
-  '.something': {
-    width: 100,
-    height: 100
-  }
-}, {named: false}).attach()
-```
+You need to have [jss-global](https://github.com/cssinjs/jss-global) plugin installed.
 
-```css
-<style>
-  .something {
-    width: 100px;
-    height: 100px;
-  }
-</style>
-```
-
-### Remove a style sheet.
+### Remove a Style Sheet.
 
 `jss.removeStyleSheet(sheet)`
 
-Detach the style sheet and remove it from the registry.
+Detach the Style Sheet and remove it from the registry.
 
-### A style sheets registry.
+### A Style Sheets registry.
 
 `jss.sheets`
 
 ```javascript
-jss.sheets.registry // an array with all style sheets
+jss.sheets.registry // an array with all Style Sheets
 
-jss.sheets.toString() // Returns CSS of all style sheets together. Useful for server-side rendering.
+jss.sheets.toString() // Returns CSS of all Style Sheets together. Useful for server-side rendering.
 ```
 
-### Attach style sheet.
+### Attach Style Sheet.
 
 `sheet.attach()`
 
-Insert style sheet into the render tree. You need to call it in order to make your style sheet visible for the layout.
+Insert Style Sheet into the render tree. You need to call it in order to make your Style Sheet visible for the layout.
 
-### Detach style sheet.
+### Detach Style Sheet.
 
 `sheet.detach()`
 
-Detaching unused style sheets will speedup every DOM node insertion and manipulation as the browser will have to do less lookups for css rules potentially to be applied to the element.
+Detaching unused Style Sheets will speedup every DOM node insertion and manipulation as the browser will have to do less lookups for css rules potentially to be applied to the element.
 
-### Attach style sheets in a specific order.
+### Attach Style Sheets in a specific order.
 
 Sheet 1 has a higher index (priority), and as such will come **after** sheet 2 in the resulting DOM.
 
@@ -158,18 +138,17 @@ const sheet2 = jss.createStyleSheet({}, {index: 1, meta: 'sheet-2'}).attach()
 <style type="text/css" data-meta="sheet-1"></style>
 ```
 
-### Add a rule to an existing style sheet.
+### Add a rule to an existing Style Sheet.
 
 `sheet.addRule([selector], rule, [options])`
 
 #### Options.
 
-- `named` if true, selector will be generated.
 - `index` index where the rule should be added, by default, rules are pushed at the end.
 - `className` add a rule with a predefined class name.
 
 
-#### Add a rule dynamically with a generated class name.
+#### Add a rule dynamically.
 
 ```javascript
 const rule = sheet.addRule({
@@ -179,18 +158,9 @@ const rule = sheet.addRule({
 document.body.innerHTML = '<button class="' + rule.className + '">Button</button>'
 ```
 
-#### Add a rule with global class name.
+### Delete a rule from an existing Style Sheet.
 
-```javascript
-const rule = sheet.addRule('.my-button', {
-  padding: 20,
-  background: 'blue'
-}, {named: false})
-```
-
-### Delete a rule from an existing style sheet.
-
-To remove a rule from the DOM, style sheet option `link: true` should be used.
+To remove a rule from the DOM, Style Sheet option `link: true` should be used.
 Returns `true` if rule has been removed from the DOM.
 
 `sheet.deleteRule(name)`
@@ -203,11 +173,8 @@ Returns `true` if rule has been removed from the DOM.
 Access a rule within sheet by selector or name.
 
 ```javascript
-// Using name, if named rule was added.
+// Using name.
 const rule = sheet.getRule('myButton')
-
-// Using selector
-const rule = sheet.getRule('.my-button')
 ```
 
 ### Add multiple rules.
@@ -227,7 +194,7 @@ sheet.addRules({
 })
 ```
 
-### Create a rule without a style sheet.
+### Create a rule without a Style Sheet.
 
 `jss.createRule([selector], rule, [options])`
 
