@@ -52,6 +52,7 @@
     "flow-bin": "0.33.0",
     "json-loader": "^0.5.4",
     "jss-compose": "^1.0.1",
+    "jss-default-unit": "^4.1.0",
     "jss-expand": "^1.5.1",
     "jss-extend": "^2.0.1",
     "jss-nested": "^2.0.0",
