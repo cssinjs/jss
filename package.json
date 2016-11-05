@@ -58,6 +58,8 @@
     "jss-extend": "^2.0.5",
     "jss-isolate": "^1.0.2",
     "jss-nested": "^2.0.0",
+    "jss-props-sort": "^2.0.1",
+    "jss-vendor-prefixer": "^3.0.1",
     "karma": "^1.1.1",
     "karma-benchmark": "^0.6.0",
     "karma-benchmark-reporter": "^0.1.1",
