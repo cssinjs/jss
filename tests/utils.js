@@ -49,5 +49,16 @@ export function reset(jssInstance = jss) {
 
 // Mock the hash function.
 jss.setup({
-  generateClassName: (str, rule) => (rule.name ? `${rule.name}-id` : 'id')
+  generateClassName: (str, rule) => {
+    const {name, options: {sheet}} = rule
+    const hash = 'id'
+
+    let className = name ? `${name}-${hash}` : hash
+
+    if (sheet && sheet.options.meta) {
+      className = `${sheet.options.meta}_${className}`
+    }
+
+    return className
+  }
 })

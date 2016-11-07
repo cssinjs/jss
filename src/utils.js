@@ -8,8 +8,16 @@ import createHash from 'murmurhash-js/murmurhash3_gc'
  * @return {String}
  */
 export function generateClassName(str, rule) {
+  const {name, options: {sheet}} = rule
   const hash = createHash(str)
-  return rule.name ? `${rule.name}-${hash}` : hash
+
+  let className = name ? `${name}-${hash}` : hash
+
+  if (sheet && sheet.options.meta) {
+    className = `${sheet.options.meta}_${className}`
+  }
+
+  return className
 }
 
 /**
