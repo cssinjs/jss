@@ -1,3 +1,7 @@
+## 0.7.0 / 2016-10-31
+
+- update plugins and jss
+
 ## 0.6.0 / 2016-10-31
 
 - update dev deps
