@@ -8,12 +8,14 @@
  */
 import Jss from './Jss'
 import StyleSheet from './StyleSheet'
+import SheetsRegistry from './SheetsRegistry'
 import Rule from './rules/Rule'
 
 // For testing only.
 export {
   Jss,
   StyleSheet,
+  SheetsRegistry,
   Rule
 }
 
