@@ -20,7 +20,7 @@ const atRuleClassMap = {
   '@font-face': FontFaceRule
 }
 
-const atRuleNameRegExp = /^@[^ ]+/
+const atRuleNameRegExp = new RegExp(`^${Object.keys(atRuleClassMap).join('|')}`)
 
 /**
  * Create rule factory.
@@ -40,11 +40,9 @@ export default function createRule(selector, style = {}, options = {}) {
 
   // Is an at-rule.
   if (selector && selector[0] === '@') {
-    const name = atRuleNameRegExp.exec(selector)[0]
-    const AtRule = atRuleClassMap[name]
-
-    if (AtRule) RuleClass = AtRule
-    else warning(false, '[JSS] Unknown at-rule %s', name)
+    const result = atRuleNameRegExp.exec(selector)
+    if (result) RuleClass = atRuleClassMap[result[0]]
+    else warning(false, '[JSS] Unknown at-rule %s', selector)
   }
 
   if (options.named == null) options.named = true

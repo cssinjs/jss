@@ -208,6 +208,22 @@ describe('Integration: rules', () => {
         )
       })
 
+      it('should support @media without space', () => {
+        const rule = jss.createRule(
+          '@media(max-width: 715px)',
+          {a: {color: 'red'}}
+        )
+        expect(rule.type).to.be('conditional')
+        expect(rule.selector).to.be('@media(max-width: 715px)')
+        expect(rule.toString()).to.be(
+          '@media(max-width: 715px) {\n' +
+          '  .a-id {\n' +
+          '    color: red;\n' +
+          '  }\n' +
+          '}'
+        )
+      })
+
       it('should return CSS from named rule without empty rule', () => {
         const rule = jss.createRule(
           '@media print',
@@ -287,12 +303,12 @@ describe('Integration: rules', () => {
       })
 
       it('should warn when using an unknown at-rule', () => {
-        const rule = jss.createRule('@raw', {
+        const rule = jss.createRule('@unknown', {
           color: 'red'
         })
         expect(warned).to.be(true)
         const css =
-          '.@raw-id {\n' +
+          '.@unknown-id {\n' +
           '  color: red;\n' +
           '}'
         expect(rule.toString()).to.be(css)
