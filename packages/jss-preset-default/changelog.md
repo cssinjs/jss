@@ -1,3 +1,7 @@
+## 0.8.0 / 2016-11-15
+
+- added jss-expand
+
 ## 0.7.0 / 2016-10-31
 
 - update plugins and jss
