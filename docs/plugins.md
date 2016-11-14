@@ -10,6 +10,7 @@ A number of [plugins](https://github.com/cssinjs?query=jss-) do exist already. W
   1. jss-nested
   1. jss-camel-case
   1. jss-default-unit
+  1. jss-expand
   1. jss-vendor-prefixer
   1. jss-props-sort
   1. jss-compose 
