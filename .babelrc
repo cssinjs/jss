@@ -4,6 +4,7 @@
     "es2015"
   ],
   "plugins": [
+    "./tools/babel-plugin-inline-version",
     "transform-es3-member-expression-literals",
     "transform-es3-property-literals",
     "transform-inline-environment-variables",
