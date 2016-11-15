@@ -31,6 +31,7 @@
     "babel-core": "^6.5.1",
     "babel-eslint": "^7.0.0",
     "babel-loader": "^6.2.2",
+    "babel-plugin-inline-version": "^1.0.2",
     "babel-plugin-rewire": "^1.0.0",
     "babel-plugin-transform-es3-member-expression-literals": "^6.8.0",
     "babel-plugin-transform-es3-property-literals": "^6.8.0",
@@ -83,7 +84,7 @@
   "scripts": {
     "all": "npm run lint && npm run flow && npm run test && npm run build",
     "build": "npm run clean && npm run build:lib && npm run build:max && npm run build:min && npm run build:tests",
-    "build:lib": "cross-env VERSION=`npm run version -s` && VERSION=$VERSION babel src --out-dir lib",
+    "build:lib": "cross-env babel src --out-dir lib",
     "build:max": "cross-env NODE_ENV=development webpack src/index.js dist/jss.js",
     "build:min": "cross-env NODE_ENV=production webpack src/index.js dist/jss.min.js",
     "build:tests": "cross-env NODE_ENV=test webpack tests/index.js tmp/tests.js",
@@ -96,8 +97,7 @@
     "test:watch": "cross-env NODE_ENV=test karma start",
     "posttest": "[ -z \"$TRAVIS\" ] || codecov",
     "codecov": "codecov",
-    "bench": "cross-env BENCHMARK=true npm run test",
-    "version": "node -e \"console.log(require('./package.json').version)\""
+    "bench": "cross-env BENCHMARK=true npm run test"
   },
   "dependencies": {
     "is-in-browser": "^1.0.2",

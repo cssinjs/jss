@@ -19,7 +19,7 @@ export default class Jss {
   constructor(options) {
     this.sheets = new SheetsRegistry()
     this.plugins = new PluginsRegistry()
-    this.version = process.env.VERSION
+    this.version = __VERSION__
     this.setup(options)
   }
 
