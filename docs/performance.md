@@ -20,6 +20,10 @@ npm i
 npm run bench
 ```
 
+### Comparison to other CSSinJS libs
+
+[css-in-js-perf-tests](https://github.com/hellofresh/css-in-js-perf-tests)
+
 ### JSPerf JSS vs. CSS
 
 [JSPerf bench](http://jsperf.com/jss-vs-css/3).
@@ -35,3 +39,4 @@ Inline styles are also slower because of a simple fact that same styled items (f
 [JSPerf bench 1](http://jsperf.com/classes-vs-inline-styles/4)
 
 [JSPerf bench 2](http://jsperf.com/class-vs-inline-styles/2)
+
