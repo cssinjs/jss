@@ -1,3 +1,7 @@
+## 0.9.0 / 2016-11-21
+
+- minor lisence tweak
+
 ## 0.8.0 / 2016-11-15
 
 - added jss-expand
