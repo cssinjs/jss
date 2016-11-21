@@ -126,9 +126,10 @@ export default class StyleSheet {
   }
 
   /**
-   * Create styles, will render also after stylesheet was rendered the first time.
+   * Create and add rules.
+   * Will render also after Style Sheet was rendered the first time.
    *
-   * @param {Object} styles name:style hash.
+   * @param {Object} styles
    * @param {Object} [options]
    * @return {Array} array of added rules
    * @api public
