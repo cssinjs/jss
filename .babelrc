@@ -7,6 +7,7 @@
     "transform-es3-member-expression-literals",
     "transform-es3-property-literals",
     "transform-flow-strip-types",
+    "transform-class-properties",
     "inline-version"
   ],
   "env": {

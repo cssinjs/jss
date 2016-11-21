@@ -6,11 +6,12 @@ import {toCss} from '../utils'
  * @api public
  */
 export default class FontFaceRule {
+  type = 'font-face'
+
   constructor(selector, style, options) {
-    this.type = 'font-face'
-    this.options = options
     this.selector = selector
     this.style = style
+    this.options = options
   }
 
   /**

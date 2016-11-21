@@ -4,9 +4,7 @@
  * @api public
  */
 export default class SheetsRegistry {
-  constructor() {
-    this.registry = []
-  }
+  registry = []
 
   /**
    * Register a style sheet.

@@ -11,16 +11,17 @@ import {generateClassName} from './utils'
  * @api public
  */
 export default class Jss {
+  version = __VERSION__
+  sheets = new SheetsRegistry()
+  plugins = new PluginsRegistry(this)
+  factory = new RulesFactory()
+
   /**
    * Create a jss instance to allow local setup.
    *
    * @see .setup()
    */
   constructor(options) {
-    this.version = __VERSION__
-    this.sheets = new SheetsRegistry()
-    this.plugins = new PluginsRegistry(this)
-    this.factory = new RulesFactory()
     this.setup(options)
   }
 

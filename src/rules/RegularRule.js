@@ -8,6 +8,8 @@ const {parse, stringify} = JSON
  * @api public
  */
 export default class Rule {
+  type = 'regular'
+
   constructor(name, style, options) {
     // We expect style to be plain object.
     // To avoid original style object mutations, we clone it and hash it
@@ -16,7 +18,6 @@ export default class Rule {
     // http://jsperf.com/lodash-deepclone-vs-jquery-extend-deep/6
     const styleStr = stringify(style)
     this.style = parse(styleStr)
-    this.type = 'regular'
     this.name = name
     this.options = options
     this.originalStyle = style

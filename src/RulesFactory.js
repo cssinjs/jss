@@ -7,18 +7,16 @@ import ConditionalRule from './rules/ConditionalRule'
 import FontFaceRule from './rules/FontFaceRule'
 
 export default class RulesFactory {
-  constructor() {
-    this.classes = {
-      '@charset': SimpleRule,
-      '@import': SimpleRule,
-      '@namespace': SimpleRule,
-      '@keyframes': KeyframeRule,
-      '@media': ConditionalRule,
-      '@supports': ConditionalRule,
-      '@font-face': FontFaceRule
-    }
-    this.regExp = this.buildRegExp()
+  classes = {
+    '@charset': SimpleRule,
+    '@import': SimpleRule,
+    '@namespace': SimpleRule,
+    '@keyframes': KeyframeRule,
+    '@media': ConditionalRule,
+    '@supports': ConditionalRule,
+    '@font-face': FontFaceRule
   }
+  regExp = this.buildRegExp()
 
   /**
    * Build regexp for matching rules.

@@ -47,10 +47,11 @@ function selector(CSSStyleRule, selectorText) {
  * @api private
  */
 export default class DomRenderer {
+  style = style
+  selector = selector
+
   constructor(options) {
     this.options = options
-    this.style = style
-    this.selector = selector
   }
 
   /**

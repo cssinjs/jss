@@ -6,11 +6,10 @@
  * @api public
  */
 export default class PluginsRegistry {
-  registry: Array<Object>
+  registry: Array<Object> = []
   jss: Object
 
   constructor(jss: Object): void {
-    this.registry = []
     this.jss = jss
   }
 

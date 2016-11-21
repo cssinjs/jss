@@ -5,13 +5,12 @@
  * @api public
  */
 export default class SimpleRule {
-  type: string;
-  name: string;
-  value: string;
-  options: Object;
+  type: string = 'simple'
+  name: string
+  value: string
+  options: Object
 
   constructor(name: string, value: string, options: Object) {
-    this.type = 'simple'
     this.name = name
     this.value = value
     this.options = options

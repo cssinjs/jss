@@ -6,8 +6,9 @@ import RulesContainer from '../RulesContainer'
  * @api public
  */
 export default class ConditionalRule {
+  type = 'conditional'
+
   constructor(selector, rules, options) {
-    this.type = 'conditional'
     this.selector = selector
     this.options = options
     this.rules = new RulesContainer({...options, parent: this})

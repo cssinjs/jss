@@ -4,8 +4,9 @@
  * @api private
  */
 export default class KeyframeRule {
+  type = 'keyframe'
+
   constructor(selector, frames, options) {
-    this.type = 'keyframe'
     this.selector = selector
     this.options = options
     this.frames = this.formatFrames(frames)

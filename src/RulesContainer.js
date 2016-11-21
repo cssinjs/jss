@@ -5,12 +5,12 @@
  * @api public
  */
 export default class RulesContainer {
+  // Rules registry for access by .get() method.
+  // It contains the same rule registered by name and by class name.
+  map = Object.create(null)
+  // Used to ensure correct rules order.
+  index = []
   constructor(options) {
-    // Rules registry for access by .get() method.
-    // It contains the same rule registered by name and by class name.
-    this.map = Object.create(null)
-    // Used to ensure correct rules order.
-    this.index = []
     this.options = options
     // Default object is needed when rule is created without a sheet.
     this.classes = options.classes || {}
