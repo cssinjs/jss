@@ -7,7 +7,7 @@ const {parse, stringify} = JSON
  *
  * @api public
  */
-export default class Rule {
+export default class RegularRule {
   type = 'regular'
 
   constructor(name, style, options) {
