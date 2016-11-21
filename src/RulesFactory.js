@@ -6,6 +6,9 @@ import KeyframeRule from './rules/KeyframeRule'
 import ConditionalRule from './rules/ConditionalRule'
 import FontFaceRule from './rules/FontFaceRule'
 
+// Build regexp for matching rules.
+const buildRegExp = classes => new RegExp(`^${Object.keys(classes).join('|')}`)
+
 export default class RulesFactory {
   classes = {
     '@charset': SimpleRule,
@@ -16,17 +19,7 @@ export default class RulesFactory {
     '@supports': ConditionalRule,
     '@font-face': FontFaceRule
   }
-  regExp = this.buildRegExp()
-
-  /**
-   * Build regexp for matching rules.
-   *
-   * @return {RegExp}
-   * @api private
-   */
-  buildRegExp() {
-    return new RegExp(`^${Object.keys(this.classes).join('|')}`)
-  }
+  regExp = buildRegExp(this.classes)
 
   /**
    * Register a new class.
@@ -37,7 +30,7 @@ export default class RulesFactory {
    */
   register(name, cls) {
     this.classes[name] = cls
-    this.regExp = this.buildRegExp()
+    this.regExp = buildRegExp(this.classes)
   }
 
   /**
