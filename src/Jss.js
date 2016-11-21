@@ -14,7 +14,7 @@ export default class Jss {
   version = __VERSION__
   sheets = new SheetsRegistry()
   plugins = new PluginsRegistry(this)
-  factory = new RulesFactory()
+  rulesFactory = new RulesFactory()
 
   /**
    * Create a jss instance to allow local setup.
@@ -90,7 +90,7 @@ export default class Jss {
       ...options
     }
 
-    const rule = this.factory.get(name, style, options)
+    const rule = this.rulesFactory.get(name, style, options)
 
     if (options.applyPlugins !== false) {
       this.plugins.handleRule(rule)
@@ -100,7 +100,7 @@ export default class Jss {
   }
 
   registerRuleClass(name, cls) {
-    this.factory.register(name, cls)
+    this.rulesFactory.register(name, cls)
   }
 
   /**
