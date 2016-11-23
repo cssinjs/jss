@@ -90,7 +90,7 @@ export default class Jss {
       ...options
     }
 
-    const rule = this.rulesFactory.get(name, style, options)
+    const rule = this.rulesFactory.create(name, style, options)
 
     if (options.applyPlugins !== false) {
       this.plugins.handleRule(rule)

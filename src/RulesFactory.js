@@ -45,7 +45,7 @@ export default class RulesFactory {
    * @return {Object} rule
    * @api public
    */
-  get(name, style = {}, options = {}) {
+  create(name, style = {}, options = {}) {
     let Rule = RegularRule
 
     // Is an at-rule.

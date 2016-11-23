@@ -35,7 +35,7 @@ export default class RulesContainer {
   /**
    * Delete a rule.
    *
-   * @param {String} rule selector or name
+   * @param {Object} rule
    * @return {Boolean} true if rule has been deleted from the DOM.
    * @api public
    */
@@ -47,12 +47,12 @@ export default class RulesContainer {
   /**
    * Get a rule.
    *
-   * @param {String} nameOrSelector
+   * @param {String} name
    * @return {Rule}
    * @api public
    */
-  get(nameOrSelector) {
-    return this.map[nameOrSelector]
+  get(name) {
+    return this.map[name]
   }
 
   /**

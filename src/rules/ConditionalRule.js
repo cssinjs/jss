@@ -25,8 +25,8 @@ export default class ConditionalRule {
    * @see RulesContainer.get()
    * @api public
    */
-  getRule(nameOrSelector) {
-    return this.rules.get(nameOrSelector)
+  getRule(name) {
+    return this.rules.get(name)
   }
 
   /**
