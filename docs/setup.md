@@ -64,20 +64,3 @@ For more information see [CLI](https://github.com/cssinjs/jss-cli).
 npm i jss-cli -g
 jss --help
 ```
-
-## Run tests
-
-Using karma (real browsers will be launched)
-
-```bash
-npm i
-npm test
-```
-
-Or manually
-
-```bash
-npm run build:test
-open tests/index.html
-```
-
