@@ -212,10 +212,11 @@ export default class StyleSheet {
    * @api private
    */
   link() {
-    const renderables = this.renderer.getRules()
-    for (const selector in renderables) {
-      const rule = this.rules.get(selector)
-      if (rule) rule.renderable = renderables[selector]
+    const cssRules = this.renderer.getRules()
+    for (let i = 0; i < cssRules.length; i++) {
+      const CSSRule = cssRules[i]
+      const rule = this.rules.get(CSSRule.selectorText)
+      if (rule) rule.renderable = CSSRule
     }
     this.linked = true
     return this

@@ -13,6 +13,6 @@ export default class VirtualRenderer {
   insertRule() {}
   deleteRule() {}
   getRules() {
-    return {}
+    return []
   }
 }

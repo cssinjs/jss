@@ -36,7 +36,6 @@ describe('Integration: sheet', () => {
     it('should return a rule by name and selector from named sheet', () => {
       const sheet = jss.createStyleSheet({a: {float: 'left'}})
       expect(sheet.getRule('a')).to.be.a(RegularRule)
-      expect(sheet.getRule('.a-id')).to.be.a(RegularRule)
     })
 
     it('should return a rule by selector from unnamed sheet', () => {
@@ -63,7 +62,7 @@ describe('Integration: sheet', () => {
       const rule = sheet.addRule('a', {color: 'red'}, {className: 'test'})
       expect(rule.className).to.be('test')
       expect(rule.selector).to.be('.test')
-      expect(sheet.getRule('.test')).to.be(rule)
+      expect(sheet.getRule('a')).to.be(rule)
     })
 
     it('should add a rule with "index" in options', () => {

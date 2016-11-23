@@ -185,16 +185,10 @@ export default class DomRenderer {
   /**
    * Get all rules elements.
    *
-   * @return {Object} rules map, where key is selector, CSSStyleRule is value.
+   * @return {Array} cssRules
    * @api private
    */
   getRules() {
-    const {cssRules} = this.element.sheet
-    const rules = Object.create(null)
-    for (let index = 0; index < cssRules.length; index++) {
-      const CSSStyleRule = cssRules[index]
-      rules[CSSStyleRule.selectorText] = CSSStyleRule
-    }
-    return rules
+    return this.element.sheet.cssRules
   }
 }
