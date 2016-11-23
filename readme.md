@@ -27,6 +27,7 @@
 1. [Official plugins](https://github.com/cssinjs?query=jss-)
 1. [External projects](./docs/external-projects.md)
 1. [CLI Converter](https://github.com/cssinjs/cli)
+1. [Contributing](./contributing.md)
 
 
 ### Example
