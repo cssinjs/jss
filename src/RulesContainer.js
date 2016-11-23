@@ -75,7 +75,6 @@ export default class RulesContainer {
   register(rule) {
     if (rule.name) this.map[rule.name] = rule
     if (rule.className && rule.name) this.classes[rule.name] = rule.className
-    if (rule.selector) this.map[rule.selector] = rule
     return this
   }
 
@@ -87,7 +86,6 @@ export default class RulesContainer {
    */
   unregister(rule) {
     delete this.map[rule.name]
-    delete this.map[rule.selector]
     delete this.classes[rule.name]
     return this
   }
