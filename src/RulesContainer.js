@@ -1,3 +1,5 @@
+import createRule from './createRule'
+
 /**
  * Contains rules objects and allows adding/removing etc.
  * Is used by containers liks StyleSheet or ConditionalRule.
@@ -148,13 +150,12 @@ export default class RulesContainer {
       sheet,
       jss,
       Renderer,
-      process: false,
       ...options
     }
 
     if (!options.className) options.className = this.classes[name]
 
-    const rule = jss.createRule(name, style, options)
+    const rule = createRule(name, style, options)
     this.register(rule)
 
     const index = options.index === undefined ? this.index.length : options.index

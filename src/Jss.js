@@ -79,17 +79,17 @@ export default class Jss {
       name = null
     }
 
-    options = {
-      jss: this,
-      Renderer: findRenderer(options),
-      ...options
+    // Perf optimizion, turns out to be important.
+    if (!options || !options.jss || !options.Renderer) {
+      options = {
+        jss: this,
+        Renderer: findRenderer(options),
+        ...options
+      }
     }
 
     const rule = createRule(name, style, options)
-
-    if (options.process !== false) {
-      this.plugins.onProcess(rule)
-    }
+    this.plugins.onProcess(rule)
 
     return rule
   }

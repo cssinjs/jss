@@ -3,19 +3,18 @@ import global from 'jss-global'
 
 import styles from '../fixtures/bootstrap.json'
 
-const globalPlugin = global()
-
-const jss = create().use(globalPlugin)
+const jssWithoutGlobal = create()
+const jssWithGlobal = create().use(global())
 
 suite('Bootstrap JSS to CSS', () => {
   benchmark('unnamed .toString()', () => {
-    jss
+    jssWithGlobal
       .createStyleSheet({'@global': styles})
       .toString()
   })
 
   benchmark('named .toString()', () => {
-    jss
+    jssWithoutGlobal
       .createStyleSheet(styles)
       .toString()
   })
