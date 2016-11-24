@@ -9,12 +9,17 @@
 import Jss from './Jss'
 import StyleSheet from './StyleSheet'
 import RegularRule from './rules/RegularRule'
+import SheetsRegistry from './SheetsRegistry'
 
-// For testing only.
+// For testing only!
 export {
   Jss,
   StyleSheet,
   RegularRule
+}
+
+export {
+  SheetsRegistry
 }
 
 /**
