@@ -44,10 +44,9 @@ export function computeStyle(className) {
 
 export function reset(jssInstance = jss) {
   jssInstance.plugins.registry = []
-  jssInstance.sheets.registry.slice(0).forEach(jssInstance.removeStyleSheet, jssInstance)
 }
 
+export const generateClassName = (str, rule) => (rule.name ? `${rule.name}-id` : 'id')
+
 // Mock the hash function.
-jss.setup({
-  generateClassName: (str, rule) => (rule.name ? `${rule.name}-id` : 'id')
-})
+jss.setup({generateClassName})

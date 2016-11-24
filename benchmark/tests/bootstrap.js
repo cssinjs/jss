@@ -5,17 +5,17 @@ import styles from '../fixtures/bootstrap.json'
 
 const globalPlugin = global()
 
+const jss = create().use(globalPlugin)
+
 suite('Bootstrap JSS to CSS', () => {
   benchmark('unnamed .toString()', () => {
-    create()
-      .use(globalPlugin)
+    jss
       .createStyleSheet({'@global': styles})
       .toString()
   })
 
   benchmark('named .toString()', () => {
-    create()
-      .use(globalPlugin)
+    jss
       .createStyleSheet(styles)
       .toString()
   })

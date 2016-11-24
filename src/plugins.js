@@ -14,12 +14,14 @@ const classes = {
 }
 
 /**
- * Generate plugins which wil register all rules.
+ * Generate plugins which will register all rules.
  */
-const plugins = Object.keys(classes).map(name => ({
-  onSetup: (jss, rulesFactory) => {
-    rulesFactory.register(name, classes[name])
-  }
-}))
+const plugins = Object.keys(classes).map((key) => {
+  const re = new RegExp(`^${key}`)
+  const onCreate = (name, style, options) => (
+    re.test(name) ? new classes[key](name, style, options) : null
+  )
+  return {onCreate}
+})
 
 export default plugins

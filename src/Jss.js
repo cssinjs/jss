@@ -1,12 +1,11 @@
 /* eslint-disable prefer-spread */
 
 import StyleSheet from './StyleSheet'
-import PluginsRegistry, {applyHook} from './PluginsRegistry'
-import SheetsRegistry from './SheetsRegistry'
-import RulesFactory from './RulesFactory'
-import findRenderer from './findRenderer'
+import PluginsRegistry from './PluginsRegistry'
 import {generateClassName} from './utils'
 import internalPlugins from './plugins'
+import createRule from './createRule'
+import findRenderer from './findRenderer'
 
 /**
  * Main Jss class.
@@ -15,9 +14,7 @@ import internalPlugins from './plugins'
  */
 export default class Jss {
   version = __VERSION__
-  sheets = new SheetsRegistry()
   plugins = new PluginsRegistry()
-  rulesFactory = new RulesFactory()
 
   /**
    * Create a jss instance to allow local setup.
@@ -53,9 +50,7 @@ export default class Jss {
    * @api public
    */
   createStyleSheet(styles, options) {
-    const sheet = new StyleSheet(styles, {...options, jss: this})
-    this.sheets.add(sheet)
-    return sheet
+    return new StyleSheet(styles, {...options, jss: this})
   }
 
   /**
@@ -90,10 +85,10 @@ export default class Jss {
       ...options
     }
 
-    const rule = this.rulesFactory.create(name, style, options)
+    const rule = createRule(name, style, options)
 
-    if (options.applyPlugins !== false) {
-      this.plugins.exec('onRule', rule)
+    if (options.process !== false) {
+      this.plugins.onProcess(rule)
     }
 
     return rule
@@ -107,10 +102,7 @@ export default class Jss {
    * @api public
    */
   use(...plugins) {
-    plugins.forEach((plugin) => {
-      this.plugins.use(plugin)
-      applyHook('onSetup', plugin, this, this.rulesFactory)
-    })
+    plugins.forEach(plugin => this.plugins.use(plugin))
     return this
   }
 }

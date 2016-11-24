@@ -1,6 +1,5 @@
 import expect from 'expect.js'
 import {create} from '../../src'
-import {reset} from '../utils'
 
 describe('Functional: dom priority', () => {
   function createDummySheets() {
@@ -28,7 +27,6 @@ describe('Functional: dom priority', () => {
     })
     afterEach(() => {
       removeDummySheets()
-      reset(jss)
     })
 
     it('should append sheets to the end of the document head after other stylesheets', () => {
@@ -66,7 +64,6 @@ describe('Functional: dom priority', () => {
       if (comment) {
         document.head.removeChild(comment)
       }
-      reset(jss)
     })
 
     it('should insert sheets before other stylesheets', () => {
@@ -156,9 +153,6 @@ describe('Functional: dom priority', () => {
     beforeEach(() => {
       jss = create()
     })
-    afterEach(() => {
-      reset(jss)
-    })
 
     it('should insert sheets in the correct order', () => {
       jss.createStyleSheet({}, {meta: 'sheet1', index: 0}).attach()
@@ -184,9 +178,6 @@ describe('Functional: dom priority', () => {
 
     beforeEach(() => {
       jss = create()
-    })
-    afterEach(() => {
-      reset(jss)
     })
 
     it('should insert sheets with the same index after existing', () => {

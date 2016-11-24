@@ -1,12 +1,18 @@
 /* eslint-disable no-underscore-dangle */
 
 import expect from 'expect.js'
-import jss, {create} from '../../src'
-import {reset, computeStyle, getStyle, getCss, getRules, removeWhitespace} from '../utils'
+import {create} from '../../src'
+import {generateClassName, computeStyle, getStyle, getCss, getRules, removeWhitespace} from '../utils'
 import DomRenderer from '../../src/backends/DomRenderer'
 
+const settings = {generateClassName}
+
 describe('Functional: sheet', () => {
-  afterEach(reset)
+  let jss
+
+  beforeEach(() => {
+    jss = create(settings)
+  })
 
   describe('sheet.attach() CSS check from DOM', () => {
     function check(styles, options) {
@@ -38,9 +44,13 @@ describe('Functional: sheet', () => {
     let sheet
     let style
 
-    before(() => {
+    beforeEach(() => {
       sheet = jss.createStyleSheet().attach()
       style = getStyle()
+    })
+
+    afterEach(() => {
+      sheet.detach()
     })
 
     it('should have attached the sheet', () => {
@@ -64,9 +74,13 @@ describe('Functional: sheet', () => {
     let sheet
     let style
 
-    before(() => {
+    beforeEach(() => {
       sheet = jss.createStyleSheet(null, {media: 'screen', meta: 'test'}).attach()
       style = getStyle()
+    })
+
+    afterEach(() => {
+      sheet.detach()
     })
 
     it('should have right options', () => {
@@ -78,10 +92,6 @@ describe('Functional: sheet', () => {
       expect(style.getAttribute('media'), 'screen')
       expect(style.getAttribute('data-meta'), 'test')
     })
-
-    after(() => {
-      sheet.detach()
-    })
   })
 
   describe('Option: {link: true}', () => {
@@ -91,6 +101,10 @@ describe('Functional: sheet', () => {
       sheet = jss.createStyleSheet({a: {float: 'left'}}, {link: true}).attach()
     })
 
+    afterEach(() => {
+      sheet.detach()
+    })
+
     it('should link the DOM node', () => {
       expect(sheet.getRule('a').renderable).to.be.a(CSSStyleRule)
     })
@@ -98,10 +112,6 @@ describe('Functional: sheet', () => {
     it('should link the DOM node to added rule', () => {
       sheet.addRule('b', {color: 'red'})
       expect(sheet.getRule('b').renderable).to.be.a(CSSStyleRule)
-    })
-
-    after(() => {
-      sheet.detach()
     })
   })
 
@@ -150,6 +160,10 @@ describe('Functional: sheet', () => {
       style = getStyle()
     })
 
+    afterEach(() => {
+      sheet.detach()
+    })
+
     it('should render only 1 rule', () => {
       expect(getRules(style).length).to.be(1)
     })
@@ -184,7 +198,7 @@ describe('Functional: sheet', () => {
           rule.options.sheet.addRule('b', {color: 'red'})
         }
       }
-      const localJss = create().use(addRule)
+      const localJss = create(settings).use(addRule)
       sheet = localJss.createStyleSheet().attach()
       sheet.addRule('a', {color: 'green'})
       style = getStyle()

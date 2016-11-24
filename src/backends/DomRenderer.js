@@ -80,6 +80,7 @@ export default class DomRenderer {
 
     let anchorEl = null
 
+    /*
     const {index, jss} = this.options
     const {registry} = jss.sheets
 
@@ -109,6 +110,7 @@ export default class DomRenderer {
         }
       }
     }
+    */
 
     if (!anchorEl) {
       // Try find a comment placeholder if registry is empty

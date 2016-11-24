@@ -6,10 +6,12 @@
  */
 export default class RulesContainer {
   // Rules registry for access by .get() method.
-  // It contains the same rule registered by name and by class name.
+  // It contains the same rule registered by name and by selector.
   map = Object.create(null)
+
   // Used to ensure correct rules order.
   index = []
+
   constructor(options) {
     this.options = options
     // Default object is needed when rule is created without a sheet.
@@ -23,12 +25,12 @@ export default class RulesContainer {
    * Will not render after style sheet was rendered the first time.
    * Will link the rule in `this.rules`.
    *
-   * @see RulesFactory#createRule
+   * @see Jss#createRule
    * @api public
    */
   create(name, style, options) {
     const rule = this.createAndRegister(name, style, options)
-    this.jss.plugins.onRule(rule)
+    this.jss.plugins.onProcess(rule)
     return rule
   }
 
@@ -146,7 +148,7 @@ export default class RulesContainer {
       sheet,
       jss,
       Renderer,
-      applyPlugins: false,
+      process: false,
       ...options
     }
 

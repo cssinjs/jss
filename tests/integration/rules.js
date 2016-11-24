@@ -1,12 +1,17 @@
 /* eslint-disable no-underscore-dangle */
 
 import expect from 'expect.js'
-import jss from '../../src'
-import RulesFactory from '../../src/RulesFactory'
-import {reset} from '../utils'
+
+import {create} from '../../src'
+import createRule from '../../src/createRule'
+import {generateClassName} from '../utils'
 
 describe('Integration: rules', () => {
-  afterEach(reset)
+  let jss
+
+  beforeEach(() => {
+    jss = create({generateClassName})
+  })
 
   describe('.createRule()', () => {
     it('should create a rule without args', () => {
@@ -295,7 +300,7 @@ describe('Integration: rules', () => {
       let warned = false
 
       before(() => {
-        RulesFactory.__Rewire__('warning', () => {
+        createRule.__Rewire__('warning', () => {
           warned = true
         })
       })
@@ -313,7 +318,7 @@ describe('Integration: rules', () => {
       })
 
       after(() => {
-        RulesFactory.__ResetDependency__('warning')
+        createRule.__ResetDependency__('warning')
       })
     })
 

@@ -1,9 +1,12 @@
 import expect from 'expect.js'
-import jss, {create, Jss, StyleSheet} from '../../src'
-import {reset} from '../utils'
+import {create, Jss} from '../../src'
 
 describe('Integration: jss', () => {
-  afterEach(reset)
+  let jss
+
+  beforeEach(() => {
+    jss = create()
+  })
 
   describe('exports', () => {
     it('should export default Jss instance', () => {
@@ -22,46 +25,6 @@ describe('Integration: jss', () => {
   describe('.create()', () => {
     it('should create a Jss instance', () => {
       expect(create()).to.be.a(Jss)
-    })
-  })
-
-  describe('.sheets registry', () => {
-    let sheet1
-    let sheet2
-
-    beforeEach(() => {
-      sheet1 = jss.createStyleSheet({a: {color: 'red'}})
-      sheet2 = jss.createStyleSheet({a: {color: 'blue'}})
-    })
-
-    afterEach(reset)
-
-    it('should be StyleSheet instances', () => {
-      expect(sheet1).to.be.a(StyleSheet)
-      expect(sheet2).to.be.a(StyleSheet)
-    })
-
-    it('should register sheets in registry', () => {
-      expect(jss.sheets.registry.indexOf(sheet1)).to.be(0)
-      expect(jss.sheets.registry.indexOf(sheet2)).to.be(1)
-      expect(jss.sheets.registry.length).to.be(2)
-    })
-
-    it('should return CSS of all sheets from .sheets.toString()', () => {
-      const css =
-        '.a-id {\n' +
-        '  color: red;\n' +
-        '}\n' +
-        '.a-id {\n' +
-        '  color: blue;\n' +
-        '}'
-      expect(jss.sheets.toString()).to.be(css)
-    })
-
-    it('should remove a sheet from registry', () => {
-      jss.removeStyleSheet(sheet1)
-      jss.removeStyleSheet(sheet2)
-      expect(jss.sheets.registry.length).to.be(0)
     })
   })
 
@@ -125,9 +88,9 @@ describe('Integration: jss', () => {
         }
         jss.use(plugin1, plugin2)
         const rule = jss.createRule()
-        expect(jss.plugins.registry.length).to.be(2)
-        expect(jss.plugins.registry[0].onRule).to.be(plugin1)
-        expect(jss.plugins.registry[1].onRule).to.be(plugin2)
+        expect(jss.plugins.registry.length).to.be(9)
+        expect(jss.plugins.registry[7].onProcess).to.be(plugin1)
+        expect(jss.plugins.registry[8].onProcess).to.be(plugin2)
         expect(receivedRule1).to.be(rule)
         expect(receivedRule2).to.be(rule)
       })
@@ -142,8 +105,8 @@ describe('Integration: jss', () => {
       local.setup({
         plugins: [plugin1, plugin2]
       })
-      expect(local.plugins.registry.pop().onRule).to.be(plugin2)
-      expect(local.plugins.registry.pop().onRule).to.be(plugin1)
+      expect(local.plugins.registry.pop().onProcess).to.be(plugin2)
+      expect(local.plugins.registry.pop().onProcess).to.be(plugin1)
     })
   })
 })
