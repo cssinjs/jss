@@ -28,7 +28,7 @@ export default class RulesContainer {
    */
   create(name, style, options) {
     const rule = this.createAndRegister(name, style, options)
-    this.jss.plugins.handleRule(rule)
+    this.jss.plugins.onRule(rule)
     return rule
   }
 

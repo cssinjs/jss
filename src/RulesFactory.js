@@ -1,25 +1,12 @@
 import warning from 'warning'
 
 import RegularRule from './rules/RegularRule'
-import SimpleRule from './rules/SimpleRule'
-import KeyframeRule from './rules/KeyframeRule'
-import ConditionalRule from './rules/ConditionalRule'
-import FontFaceRule from './rules/FontFaceRule'
 
 // Build regexp for matching rules.
 const buildRegExp = classes => new RegExp(`^${Object.keys(classes).join('|')}`)
 
 export default class RulesFactory {
-  classes = {
-    '@charset': SimpleRule,
-    '@import': SimpleRule,
-    '@namespace': SimpleRule,
-    '@keyframes': KeyframeRule,
-    '@media': ConditionalRule,
-    '@supports': ConditionalRule,
-    '@font-face': FontFaceRule
-  }
-  regExp = buildRegExp(this.classes)
+  classes = {}
 
   /**
    * Register a new class.

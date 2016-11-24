@@ -47,8 +47,7 @@ export default class StyleSheet {
     }
 
     const {plugins} = options.jss
-    plugins.handleSheet(this)
-    plugins.handleRules(this.rules.getIndex())
+    this.rules.getIndex().forEach(plugins.onRule, plugins)
   }
 
   /**

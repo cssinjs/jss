@@ -137,13 +137,13 @@ describe('Integration: jss', () => {
   describe('.setup()', () => {
     it('should set up plugins', () => {
       const local = create()
-      const fn1 = () => {}
-      const fn2 = () => {}
+      const plugin1 = () => {}
+      const plugin2 = () => {}
       local.setup({
-        plugins: [fn1, fn2]
+        plugins: [plugin1, plugin2]
       })
-      expect(local.plugins.registry[0].onRule).to.be(fn1)
-      expect(local.plugins.registry[1].onRule).to.be(fn2)
+      expect(local.plugins.registry.pop().onRule).to.be(plugin2)
+      expect(local.plugins.registry.pop().onRule).to.be(plugin1)
     })
   })
 })

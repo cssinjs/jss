@@ -1,25 +1,23 @@
 /* @flow */
 
+export function applyHook(type: string, plugin: Object, a1: any, a2: any): void {
+  const hook = plugin[type]
+  if (hook) hook(a1, a2)
+}
+
 /**
  * Register a plugin, run a plugin.
  *
  * @api public
  */
 export default class PluginsRegistry {
-  static defaultRegistry: Array<Object> = []
-
   registry: Array<Object> = []
-  jss: Object
 
-  constructor(jss: Object): void {
-    this.jss = jss
-    PluginsRegistry.defaultRegistry.forEach(this.use.bind(this))
-  }
+  onRule: Function = this.exec.bind(this, 'onRule')
 
   /**
-   * Register plugin.
-   * If plugin is a function, its an onRule hook.
-   * Also we call .onSetup hook here.
+   * Register a plugin.
+   * If `plugin` is a function, it's an onRule hook.
    *
    * @api public
    */
@@ -27,40 +25,13 @@ export default class PluginsRegistry {
     if (typeof plugin === 'function') {
       plugin = {onRule: plugin}
     }
+
     this.registry.push(plugin)
-    if (plugin.onSetup) plugin.onSetup(this.jss)
   }
 
-  /**
-   * Call all .onRule hooks for passed rules.
-   *
-   * @api public
-   */
-  handleRules(rules: Array<Object>): void {
-    rules.forEach(this.handleRule, this)
-  }
-
-  /**
-   * Call all .onRule hooks for passed rule.
-   *
-   * @api public
-   */
-  handleRule(rule: Object): void {
-    for (let index = 0; index < this.registry.length; index++) {
-      const plugin = this.registry[index]
-      if (plugin.onRule) plugin.onRule(rule)
-    }
-  }
-
-  /**
-   * Call all .onSheet hooks for passed sheet.
-   *
-   * @api public
-   */
-  handleSheet(sheet: Object): void {
-    for (let index = 0; index < this.registry.length; index++) {
-      const plugin = this.registry[index]
-      if (plugin.onSheet) plugin.onSheet(sheet)
+  exec(type: string, arg: any): void {
+    for (let i = 0; i < this.registry.length; i++) {
+      applyHook(type, this.registry[i], arg)
     }
   }
 }

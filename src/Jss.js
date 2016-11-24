@@ -1,9 +1,12 @@
+/* eslint-disable prefer-spread */
+
 import StyleSheet from './StyleSheet'
-import PluginsRegistry from './PluginsRegistry'
+import PluginsRegistry, {applyHook} from './PluginsRegistry'
 import SheetsRegistry from './SheetsRegistry'
 import RulesFactory from './RulesFactory'
 import findRenderer from './findRenderer'
 import {generateClassName} from './utils'
+import internalPlugins from './plugins'
 
 /**
  * Main Jss class.
@@ -13,7 +16,7 @@ import {generateClassName} from './utils'
 export default class Jss {
   version = __VERSION__
   sheets = new SheetsRegistry()
-  plugins = new PluginsRegistry(this)
+  plugins = new PluginsRegistry()
   rulesFactory = new RulesFactory()
 
   /**
@@ -22,6 +25,7 @@ export default class Jss {
    * @see .setup()
    */
   constructor(options) {
+    this.use.apply(this, internalPlugins)
     this.setup(options)
   }
 
@@ -38,11 +42,7 @@ export default class Jss {
    */
   setup(options = {}) {
     this.generateClassName = options.generateClassName || generateClassName
-    if (options.plugins) {
-      options.plugins.forEach((plugin) => {
-        this.use(plugin)
-      })
-    }
+    if (options.plugins) this.use.apply(this, options.plugins)
     return this
   }
 
@@ -93,14 +93,10 @@ export default class Jss {
     const rule = this.rulesFactory.create(name, style, options)
 
     if (options.applyPlugins !== false) {
-      this.plugins.handleRule(rule)
+      this.plugins.exec('onRule', rule)
     }
 
     return rule
-  }
-
-  registerRuleClass(name, cls) {
-    this.rulesFactory.register(name, cls)
   }
 
   /**
@@ -111,7 +107,10 @@ export default class Jss {
    * @api public
    */
   use(...plugins) {
-    plugins.forEach(plugin => this.plugins.use(plugin))
+    plugins.forEach((plugin) => {
+      this.plugins.use(plugin)
+      applyHook('onSetup', plugin, this, this.rulesFactory)
+    })
     return this
   }
 }

@@ -16,7 +16,8 @@ export default class ConditionalRule {
       this.createAndRegisterRule(name, rules[name])
     }
 
-    options.jss.plugins.handleRules(this.rules.getIndex())
+    const {plugins} = options.jss
+    this.rules.getIndex().forEach(plugins.onRule, plugins)
   }
 
   /**
