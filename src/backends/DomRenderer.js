@@ -142,7 +142,7 @@ export default class DomRenderer {
    * @api private
    */
   deploy(sheet) {
-    this.element.textContent = `\n${sheet.toString()}\n`
+    this.element.textContent = `\n${sheet}\n`
   }
 
   /**
@@ -157,10 +157,10 @@ export default class DomRenderer {
     const {cssRules} = sheet
     const index = cssRules.length
     try {
-      sheet.insertRule(rule.toString(), index)
+      sheet.insertRule(rule, index)
     }
     catch (err) {
-      warning(false, '[JSS] Can not insert an unsupported rule \n\r%s', rule.toString())
+      warning(false, '[JSS] Can not insert an unsupported rule \n\r%s', rule)
     }
     return cssRules[index]
   }
