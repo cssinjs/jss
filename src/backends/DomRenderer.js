@@ -82,35 +82,32 @@ export default class DomRenderer {
 
     const {index, sheets} = this.options
 
-    if (!sheets) {
-      this.head.appendChild(this.element)
-      return
-    }
+    if (sheets) {
+      const {registry} = sheets
 
-    const {registry} = sheets
-
-    if (registry.length > 1) {
-      // Try to insert by index if set
-      if (typeof index === 'number') {
-        for (let i = 0; i < registry.length; i++) {
-          const sheet = registry[i]
-          if (
-            !sheet.attached ||
-            typeof sheet.options.index !== 'number' ||
-            sheet.options.index <= index
-          ) continue
-          anchorEl = sheet.renderer.element
-          break
-        }
-      }
-
-      // Otherwise insert after the last attached
-      if (!anchorEl) {
-        for (let i = registry.length - 1; i >= 0; i--) {
-          const sheet = registry[i]
-          if (sheet.attached) {
-            anchorEl = sheet.renderer.element.nextElementSibling
+      if (registry.length > 1) {
+        // Try to insert by index if set
+        if (typeof index === 'number') {
+          for (let i = 0; i < registry.length; i++) {
+            const sheet = registry[i]
+            if (
+              !sheet.attached ||
+              typeof sheet.options.index !== 'number' ||
+              sheet.options.index <= index
+            ) continue
+            anchorEl = sheet.renderer.element
             break
+          }
+        }
+
+        // Otherwise insert after the last attached
+        if (!anchorEl) {
+          for (let i = registry.length - 1; i >= 0; i--) {
+            const sheet = registry[i]
+            if (sheet.attached) {
+              anchorEl = sheet.renderer.element.nextElementSibling
+              break
+            }
           }
         }
       }

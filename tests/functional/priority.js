@@ -64,9 +64,30 @@ describe('Functional: dom priority', () => {
       createDummySheets()
       jss = create({sheets: new SheetsRegistry()})
     })
+
     afterEach(() => {
       removeAllSheets()
       document.head.removeChild(comment)
+    })
+
+    it('should insert sheets after comment without registry', () => {
+      const jss2 = create()
+
+      comment = document.createComment('jss')
+
+      document.head.insertBefore(
+        comment,
+        document.head.querySelector('style')
+      )
+
+      jss2.createStyleSheet({}, {meta: 'sheet0'}).attach()
+
+      const styleElements = document.head.getElementsByTagName('style')
+
+      expect(styleElements.length).to.be(3)
+      expect(styleElements[0].getAttribute('data-meta')).to.be('sheet0')
+      expect(styleElements[1].getAttribute('data-test-dummy')).to.be('dummy1')
+      expect(styleElements[2].getAttribute('data-test-dummy')).to.be('dummy2')
     })
 
     it('should insert sheets before other stylesheets', () => {
