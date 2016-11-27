@@ -53,11 +53,16 @@ export default class Jss {
    * @api public
    */
   createStyleSheet(styles, options) {
-    return new StyleSheet(styles, {
-      ...options,
+    const {sheets, generateClassName} = this.options
+    options = {
       jss: this,
-      generateClassName: this.options.generateClassName
-    })
+      generateClassName,
+      sheets,
+      ...options
+    }
+    const sheet = new StyleSheet(styles, options)
+    if (sheets) sheets.add(sheet)
+    return sheet
   }
 
   /**

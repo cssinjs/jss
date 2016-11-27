@@ -80,9 +80,14 @@ export default class DomRenderer {
 
     let anchorEl = null
 
-    /*
-    const {index, jss} = this.options
-    const {registry} = jss.sheets
+    const {index, sheets} = this.options
+
+    if (!sheets) {
+      this.head.appendChild(this.element)
+      return
+    }
+
+    const {registry} = sheets
 
     if (registry.length > 1) {
       // Try to insert by index if set
@@ -110,7 +115,6 @@ export default class DomRenderer {
         }
       }
     }
-    */
 
     if (!anchorEl) {
       // Try find a comment placeholder if registry is empty

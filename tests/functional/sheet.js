@@ -268,6 +268,7 @@ describe('Functional: sheet', () => {
 
   describe('.addRule() with invalid decl to attached sheet', () => {
     let warned = false
+    let sheet
 
     before(() => {
       DomRenderer.__Rewire__('warning', () => {
@@ -276,13 +277,14 @@ describe('Functional: sheet', () => {
     })
 
     it('should not throw', () => {
-      const sheet = jss.createStyleSheet().attach()
+      sheet = jss.createStyleSheet().attach()
       sheet.addRule('%%%%', {color: 'red'})
       expect(warned).to.be(true)
     })
 
     after(() => {
       DomRenderer.__ResetDependency__('warning')
+      sheet.detach()
     })
   })
 
@@ -342,6 +344,10 @@ describe('Functional: sheet', () => {
         {link: true}
       ).attach()
       rule = sheet.getRule('a')
+    })
+
+    afterEach(() => {
+      sheet.detach()
     })
 
     it('should set the selector', () => {

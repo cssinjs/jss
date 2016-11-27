@@ -17,7 +17,4 @@ import './integration/sheet'
 import './integration/SheetsRegistry'
 import './functional/rules'
 import './functional/sheet'
-
-/*
 import './functional/priority'
-*/

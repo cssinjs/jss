@@ -1,5 +1,5 @@
 import expect from 'expect.js'
-import {create} from '../../src'
+import {create, SheetsRegistry} from '../../src'
 
 describe('Functional: dom priority', () => {
   function createDummySheets() {
@@ -7,26 +7,31 @@ describe('Functional: dom priority', () => {
       const dummySheet = document.createElement('style')
       dummySheet.type = 'text/css'
       dummySheet.setAttribute('data-test-dummy', `dummy${i + 1}`)
+      dummySheet.setAttribute('data-jss', `dummy${i + 1}`)
       document.head.appendChild(dummySheet)
     }
   }
 
-  function removeDummySheets() {
-    const dummySheets = document.head.querySelectorAll('[data-test-dummy]')
-    for (let i = 0; i < dummySheets.length; i++) {
-      document.head.removeChild(dummySheets[i])
+  function removeAllSheets() {
+    const sheets = document.head.querySelectorAll('[data-jss]')
+    for (let i = 0; i < sheets.length; i++) {
+      document.head.removeChild(sheets[i])
     }
   }
+
+  afterEach(() => {
+    removeAllSheets()
+  })
 
   describe('without a comment node', () => {
     let jss
 
     beforeEach(() => {
       createDummySheets()
-      jss = create()
+      jss = create({sheets: new SheetsRegistry()})
     })
     afterEach(() => {
-      removeDummySheets()
+      removeAllSheets()
     })
 
     it('should append sheets to the end of the document head after other stylesheets', () => {
@@ -57,13 +62,11 @@ describe('Functional: dom priority', () => {
 
     beforeEach(() => {
       createDummySheets()
-      jss = create()
+      jss = create({sheets: new SheetsRegistry()})
     })
     afterEach(() => {
-      removeDummySheets()
-      if (comment) {
-        document.head.removeChild(comment)
-      }
+      removeAllSheets()
+      document.head.removeChild(comment)
     })
 
     it('should insert sheets before other stylesheets', () => {
@@ -151,7 +154,7 @@ describe('Functional: dom priority', () => {
     let jss
 
     beforeEach(() => {
-      jss = create()
+      jss = create({sheets: new SheetsRegistry()})
     })
 
     it('should insert sheets in the correct order', () => {
@@ -177,7 +180,7 @@ describe('Functional: dom priority', () => {
     let jss
 
     beforeEach(() => {
-      jss = create()
+      jss = create({sheets: new SheetsRegistry()})
     })
 
     it('should insert sheets with the same index after existing', () => {
