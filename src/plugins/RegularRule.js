@@ -23,7 +23,7 @@ export default class RegularRule {
     this.name = name
     this.options = options
     this.originalStyle = style
-    this.className = options.className || options.jss.generateClassName(styleStr, this)
+    this.className = options.className || options.generateClassName(styleStr, this)
     this.selectorText = options.selector || `.${this.className}`
     this.renderer = options.sheet ? options.sheet.renderer : new options.Renderer()
   }

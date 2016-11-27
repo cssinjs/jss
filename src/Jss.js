@@ -3,7 +3,7 @@
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import internalPlugins from './plugins'
-import generateClassName from './utils/generateClassName'
+import generateClassNameDefault from './utils/generateClassName'
 import createRule from './utils/createRule'
 import findRenderer from './utils/findRenderer'
 
@@ -38,8 +38,11 @@ export default class Jss {
    * @api public
    */
   setup(options = {}) {
-    this.generateClassName = options.generateClassName || generateClassName
-    if (options.plugins) this.use.apply(this, options.plugins)
+    this.options = {
+      ...options,
+      generateClassName: options.generateClassName || generateClassNameDefault
+    }
+    if (this.options.plugins) this.use.apply(this, this.options.plugins)
     return this
   }
 
@@ -50,7 +53,11 @@ export default class Jss {
    * @api public
    */
   createStyleSheet(styles, options) {
-    return new StyleSheet(styles, {...options, jss: this})
+    return new StyleSheet(styles, {
+      ...options,
+      jss: this,
+      generateClassName: this.options.generateClassName
+    })
   }
 
   /**
@@ -80,10 +87,12 @@ export default class Jss {
     }
 
     // Perf optimization, turns out to be important.
-    if (!options || !options.jss || !options.Renderer) {
+    const {jss, Renderer, generateClassName} = options || {}
+    if (!jss || !Renderer || !generateClassName) {
       options = {
         jss: this,
         Renderer: findRenderer(options),
+        generateClassName: generateClassName || this.options.generateClassName,
         ...options
       }
     }

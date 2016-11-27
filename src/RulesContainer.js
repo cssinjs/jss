@@ -142,7 +142,7 @@ export default class RulesContainer {
    * @api private
    */
   createAndRegister(name, style, options) {
-    const {parent, sheet, jss, Renderer} = this.options
+    const {parent, sheet, jss, Renderer, generateClassName} = this.options
 
     options = {
       classes: this.classes,
@@ -150,6 +150,7 @@ export default class RulesContainer {
       sheet,
       jss,
       Renderer,
+      generateClassName,
       ...options
     }
 
