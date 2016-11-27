@@ -17,6 +17,7 @@ const classes = {
  * Generate plugins which will register all rules.
  */
 const plugins = Object.keys(classes).map((key) => {
+  // https://jsperf.com/indexof-vs-substr-vs-regex-at-the-beginning-3
   const re = new RegExp(`^${key}`)
   const onCreate = (name, style, options) => (
     re.test(name) ? new classes[key](name, style, options) : null
