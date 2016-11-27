@@ -8,8 +8,8 @@
  */
 import Jss from './Jss'
 import StyleSheet from './StyleSheet'
-import RegularRule from './rules/RegularRule'
 import SheetsRegistry from './SheetsRegistry'
+import RegularRule from './plugins/RegularRule'
 
 // For testing only!
 export {

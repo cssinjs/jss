@@ -1,4 +1,4 @@
-import findRenderer from './findRenderer'
+import findRenderer from './utils/findRenderer'
 import RulesContainer from './RulesContainer'
 
 /**

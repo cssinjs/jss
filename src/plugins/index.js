@@ -1,7 +1,7 @@
-import SimpleRule from './rules/SimpleRule'
-import KeyframeRule from './rules/KeyframeRule'
-import ConditionalRule from './rules/ConditionalRule'
-import FontFaceRule from './rules/FontFaceRule'
+import SimpleRule from './SimpleRule'
+import KeyframeRule from './KeyframeRule'
+import ConditionalRule from './ConditionalRule'
+import FontFaceRule from './FontFaceRule'
 
 const classes = {
   '@charset': SimpleRule,
@@ -16,7 +16,7 @@ const classes = {
 /**
  * Generate plugins which will register all rules.
  */
-const plugins = Object.keys(classes).map((key) => {
+export default Object.keys(classes).map((key) => {
   // https://jsperf.com/indexof-vs-substr-vs-regex-at-the-beginning-3
   const re = new RegExp(`^${key}`)
   const onCreate = (name, style, options) => (
@@ -24,5 +24,3 @@ const plugins = Object.keys(classes).map((key) => {
   )
   return {onCreate}
 })
-
-export default plugins

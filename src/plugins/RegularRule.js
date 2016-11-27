@@ -1,4 +1,6 @@
-import {toCss, findClassNames, toCssValue} from '../utils'
+import toCss from '../utils/toCss'
+import toCssValue from '../utils/toCssValue'
+import findClassNames from '../utils/findClassNames'
 
 const {parse, stringify} = JSON
 

@@ -1,6 +1,5 @@
 import warning from 'warning'
-
-import RegularRule from './rules/RegularRule'
+import RegularRule from '../plugins/RegularRule'
 
 /**
  * Create a rule instance.

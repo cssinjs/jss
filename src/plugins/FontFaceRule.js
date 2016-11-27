@@ -1,4 +1,4 @@
-import {toCss} from '../utils'
+import toCss from '../utils/toCss'
 
 /**
  * Font-face rules.

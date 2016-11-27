@@ -1,4 +1,4 @@
-import createRule from './createRule'
+import createRule from './utils/createRule'
 
 /**
  * Contains rules objects and allows adding/removing etc.

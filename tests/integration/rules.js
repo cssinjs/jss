@@ -3,7 +3,7 @@
 import expect from 'expect.js'
 
 import {create} from '../../src'
-import createRule from '../../src/createRule'
+import createRule from '../../src/utils/createRule'
 import {generateClassName} from '../utils'
 
 describe('Integration: rules', () => {

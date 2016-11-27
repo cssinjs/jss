@@ -1,17 +1,4 @@
-import createHash from 'murmurhash-js/murmurhash3_gc'
-
-/**
- * Generates a class name using murmurhash.
- *
- * @param {String} str
- * @param {Rule} rule
- * @return {String}
- */
-export function generateClassName(str, rule) {
-  const hash = createHash(str)
-  // There is no name if `jss.createRule(styles)` was used.
-  return rule.name ? `${rule.name}-${hash}` : hash
-}
+import toCssValue from './toCssValue'
 
 /**
  * Indent a string.
@@ -29,32 +16,6 @@ function indent(level, str) {
 }
 
 /**
- * Converts array values to string.
- *
- * `margin: [['5px', '10px']]` > `margin: 5px 10px;`
- * `border: ['1px', '2px']` > `border: 1px, 2px;`
- *
- * @param {Array} value
- * @return {String|Number|Object}
- */
-export const toCssValue = (() => {
-  function joinWithSpace(value) {
-    return value.join(' ')
-  }
-
-  return function joinWithComma(value) {
-    if (!Array.isArray(value)) return value
-
-    // Support space separated values.
-    if (Array.isArray(value[0])) {
-      return joinWithComma(value.map(joinWithSpace))
-    }
-
-    return value.join(', ')
-  }
-})()
-
-/**
  * Converts a Rule to CSS string.
  *
  * Options:
@@ -66,7 +27,7 @@ export const toCssValue = (() => {
  * @param {Object} options
  * @return {String}
  */
-export function toCss(selector, style, options = {}) {
+export default function toCss(selector, style, options = {}) {
   let indentationLevel = options.indentationLevel || 0
   let str = ''
 
@@ -115,24 +76,3 @@ export function toCss(selector, style, options = {}) {
 
   return str
 }
-
-/**
- * Get class names from a selector.
- *
- * @param {String} selector
- * @return {String}
- */
-export const findClassNames = (() => {
-  const dotsRegExp = /[.]/g
-  const classesRegExp = /[.][^ ,]+/g
-
-  return (selector) => {
-    const classes = selector.match(classesRegExp)
-
-    if (!classes) return ''
-
-    return classes
-      .join(' ')
-      .replace(dotsRegExp, '')
-  }
-})()

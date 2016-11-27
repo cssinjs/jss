@@ -2,10 +2,10 @@
 
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
-import {generateClassName} from './utils'
 import internalPlugins from './plugins'
-import createRule from './createRule'
-import findRenderer from './findRenderer'
+import generateClassName from './utils/generateClassName'
+import createRule from './utils/createRule'
+import findRenderer from './utils/findRenderer'
 
 /**
  * Main Jss class.
