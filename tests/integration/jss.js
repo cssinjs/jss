@@ -1,5 +1,5 @@
 import expect from 'expect.js'
-import {create, Jss} from '../../src'
+import {create, Jss, PluginsRegistry} from '../../src'
 
 describe('Integration: jss', () => {
   let jss
@@ -17,8 +17,17 @@ describe('Integration: jss', () => {
       expect(create).to.be.a(Function)
     })
 
+    it('should have .plugins registry instance', () => {
+      expect(jss.plugins).to.be.a(PluginsRegistry)
+    })
+
     it('should provide .version prop', () => {
       expect(jss.version).to.be.a('string')
+    })
+
+    it('should have correct .options', () => {
+      expect(jss.options).to.be.an(Object)
+      expect(jss.options.generateClassName).to.be.a(Function)
     })
   })
 

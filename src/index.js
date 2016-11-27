@@ -9,13 +9,15 @@
 import Jss from './Jss'
 import StyleSheet from './StyleSheet'
 import SheetsRegistry from './SheetsRegistry'
+import PluginsRegistry from './PluginsRegistry'
 import RegularRule from './plugins/RegularRule'
 
 // For testing only!
 export {
   Jss,
   StyleSheet,
-  RegularRule
+  RegularRule,
+  PluginsRegistry
 }
 
 export {
