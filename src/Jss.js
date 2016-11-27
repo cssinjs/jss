@@ -79,7 +79,7 @@ export default class Jss {
       name = null
     }
 
-    // Perf optimizion, turns out to be important.
+    // Perf optimization, turns out to be important.
     if (!options || !options.jss || !options.Renderer) {
       options = {
         jss: this,
