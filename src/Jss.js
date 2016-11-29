@@ -72,8 +72,9 @@ export default class Jss {
    * @api public
    */
   removeStyleSheet(sheet) {
+    const {sheets} = this.options
     sheet.detach()
-    this.sheets.remove(sheet)
+    if (sheets) sheets.remove(sheet)
     return this
   }
 

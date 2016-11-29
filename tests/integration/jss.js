@@ -1,5 +1,5 @@
 import expect from 'expect.js'
-import {create, Jss, PluginsRegistry} from '../../src'
+import {create, Jss, PluginsRegistry, StyleSheet} from '../../src'
 
 describe('Integration: jss', () => {
   let jss
@@ -34,6 +34,19 @@ describe('Integration: jss', () => {
   describe('.create()', () => {
     it('should create a Jss instance', () => {
       expect(create()).to.be.a(Jss)
+    })
+  })
+
+  describe('.setup()', () => {
+    it('should set up plugins', () => {
+      const local = create()
+      const plugin1 = () => {}
+      const plugin2 = () => {}
+      local.setup({
+        plugins: [plugin1, plugin2]
+      })
+      expect(local.plugins.registry.pop().onProcess).to.be(plugin2)
+      expect(local.plugins.registry.pop().onProcess).to.be(plugin1)
     })
   })
 
@@ -106,16 +119,23 @@ describe('Integration: jss', () => {
     })
   })
 
-  describe('.setup()', () => {
-    it('should set up plugins', () => {
-      const local = create()
-      const plugin1 = () => {}
-      const plugin2 = () => {}
-      local.setup({
-        plugins: [plugin1, plugin2]
-      })
-      expect(local.plugins.registry.pop().onProcess).to.be(plugin2)
-      expect(local.plugins.registry.pop().onProcess).to.be(plugin1)
+  describe('.createStyleSheet()', () => {
+    it('should create a sheet', () => {
+      expect(jss.createStyleSheet()).to.be.a(StyleSheet)
+    })
+  })
+
+  describe('.removeStyleSheet()', () => {
+    it('should remove', () => {
+      let detached
+      const sheet = jss.createStyleSheet()
+      sheet.detach = () => {
+        detached = true
+      }
+      expect(() => {
+        jss.removeStyleSheet(sheet)
+      }).to.not.throwException()
+      expect(detached).to.be(true)
     })
   })
 })

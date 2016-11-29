@@ -2,7 +2,7 @@ import expect from 'expect.js'
 import {create, SheetsRegistry} from '../../src'
 import {generateClassName} from '../utils'
 
-describe('Integration: SheetsRegistry', () => {
+describe('Integration: sheetsRegistry', () => {
   let jss
   let sheets
 
@@ -83,6 +83,24 @@ describe('Integration: SheetsRegistry', () => {
         '  color: blue;\n' +
         '}'
       )
+    })
+  })
+
+  describe('.sheets option', () => {
+    beforeEach(() => {
+      jss.setup({sheets})
+    })
+
+    it('should add sheet to the registry', () => {
+      jss.createStyleSheet()
+      expect(sheets.registry.length).to.be(1)
+    })
+
+    it('should remove sheet from the registry', () => {
+      const sheet = jss.createStyleSheet()
+      expect(sheets.registry.length).to.be(1)
+      jss.removeStyleSheet(sheet)
+      expect(sheets.registry.length).to.be(0)
     })
   })
 })
