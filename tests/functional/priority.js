@@ -30,9 +30,6 @@ describe('Functional: dom priority', () => {
       createDummySheets()
       jss = create({sheets: new SheetsRegistry()})
     })
-    afterEach(() => {
-      removeAllSheets()
-    })
 
     it('should append sheets to the end of the document head after other stylesheets', () => {
       jss.createStyleSheet({}, {meta: 'sheet1', index: 50}).attach()
@@ -66,28 +63,7 @@ describe('Functional: dom priority', () => {
     })
 
     afterEach(() => {
-      removeAllSheets()
       document.head.removeChild(comment)
-    })
-
-    it('should insert sheets after comment without registry', () => {
-      const jss2 = create()
-
-      comment = document.createComment('jss')
-
-      document.head.insertBefore(
-        comment,
-        document.head.querySelector('style')
-      )
-
-      jss2.createStyleSheet({}, {meta: 'sheet0'}).attach()
-
-      const styleElements = document.head.getElementsByTagName('style')
-
-      expect(styleElements.length).to.be(3)
-      expect(styleElements[0].getAttribute('data-meta')).to.be('sheet0')
-      expect(styleElements[1].getAttribute('data-test-dummy')).to.be('dummy1')
-      expect(styleElements[2].getAttribute('data-test-dummy')).to.be('dummy2')
     })
 
     it('should insert sheets before other stylesheets', () => {
@@ -113,7 +89,6 @@ describe('Functional: dom priority', () => {
       expect(styleElements[2].getAttribute('data-meta')).to.be('sheet3')
       expect(styleElements[3].getAttribute('data-meta')).to.be('sheet1')
       expect(styleElements[4].getAttribute('data-meta')).to.be('sheet4')
-
       expect(styleElements[5].getAttribute('data-test-dummy')).to.be('dummy1')
       expect(styleElements[6].getAttribute('data-test-dummy')).to.be('dummy2')
     })
@@ -168,6 +143,46 @@ describe('Functional: dom priority', () => {
       expect(styleElements[5].getAttribute('data-meta')).to.be('sheet4')
 
       expect(styleElements[6].getAttribute('data-test-dummy')).to.be('dummy2')
+    })
+  })
+
+  describe('preserve attachment order with no index, but with registry', () => {
+    let jss
+
+    beforeEach(() => {
+      jss = create({sheets: new SheetsRegistry()})
+    })
+
+    it('should insert sheets in the correct order', () => {
+      jss.createStyleSheet({}, {meta: 'sheet0'}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet1'}).attach()
+
+      const styleElements = document.head.getElementsByTagName('style')
+
+      expect(styleElements.length).to.be(2)
+
+      expect(styleElements[0].getAttribute('data-meta')).to.be('sheet0')
+      expect(styleElements[1].getAttribute('data-meta')).to.be('sheet1')
+    })
+  })
+
+  describe('preserve attachment order with no index and no registry', () => {
+    let jss
+
+    beforeEach(() => {
+      jss = create()
+    })
+
+    it('should insert sheets in the correct order', () => {
+      jss.createStyleSheet({}, {meta: 'sheet0'}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet1'}).attach()
+
+      const styleElements = document.head.getElementsByTagName('style')
+
+      expect(styleElements.length).to.be(2)
+
+      expect(styleElements[0].getAttribute('data-meta')).to.be('sheet0')
+      expect(styleElements[1].getAttribute('data-meta')).to.be('sheet1')
     })
   })
 

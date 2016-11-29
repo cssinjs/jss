@@ -41,6 +41,58 @@ function selector(CSSStyleRule, selectorText) {
   return CSSStyleRule.selectorText === selectorText
 }
 
+function findHigherSheet(registry, index) {
+  for (let i = 0; i < registry.length; i++) {
+    const sheet = registry[i]
+    if (sheet.attached && sheet.options.index > index) {
+      return sheet
+    }
+  }
+  return null
+}
+
+function findHighestSheet(registry) {
+  for (let i = registry.length - 1; i >= 0; i--) {
+    const sheet = registry[i]
+    if (sheet.attached) return sheet
+  }
+  return null
+}
+
+function findCommentNode(head) {
+  for (let i = 0; i < head.childNodes.length; i++) {
+    const el = head.childNodes[i]
+    if (el.nodeValue === 'jss') return el
+  }
+  return null
+}
+
+/**
+ * Find a node before which we can insert the sheet.
+ */
+function findPrevNode(head, options) {
+  const {sheets, index} = options
+
+  if (!sheets) return null
+
+  const {registry} = sheets
+
+  if (registry.length > 1) {
+    // Try to insert before the next higher sheet.
+    let sheet = findHigherSheet(registry, index)
+    if (sheet) return sheet.renderer.element
+
+    // Otherwise insert after the last attached.
+    sheet = findHighestSheet(registry)
+    if (sheet) return sheet.renderer.element.nextElementSibling
+  }
+
+  // Try find a comment placeholder if registry is empty.
+  const comment = findCommentNode(head)
+  if (comment) return comment.nextElementSibling
+  return null
+}
+
 /**
  * DOM rendering backend for StyleSheet.
  *
@@ -77,50 +129,8 @@ export default class DomRenderer {
   attach() {
     // In the case the element node is external and it is already in the DOM.
     if (this.element.parentNode) return
-
-    let anchorEl = null
-
-    const {index, sheets} = this.options
-
-    if (sheets) {
-      const {registry} = sheets
-
-      if (registry.length > 1) {
-        // Try to insert by index if set
-        if (typeof index === 'number') {
-          for (let i = 0; i < registry.length; i++) {
-            const sheet = registry[i]
-            if (!sheet.attached || sheet.options.index <= index) continue
-            anchorEl = sheet.renderer.element
-            break
-          }
-        }
-
-        // Otherwise insert after the last attached
-        if (!anchorEl) {
-          for (let i = registry.length - 1; i >= 0; i--) {
-            const sheet = registry[i]
-            if (sheet.attached) {
-              anchorEl = sheet.renderer.element.nextElementSibling
-              break
-            }
-          }
-        }
-      }
-    }
-
-    if (!anchorEl) {
-      // Try find a comment placeholder if registry is empty
-      for (let i = 0; i < this.head.childNodes.length; i++) {
-        const el = this.head.childNodes[i]
-        if (el.nodeValue === 'jss') {
-          anchorEl = el
-          break
-        }
-      }
-    }
-
-    this.head.insertBefore(this.element, anchorEl)
+    const prevNode = findPrevNode(this.head, this.options)
+    this.head.insertBefore(this.element, prevNode)
   }
 
   /**

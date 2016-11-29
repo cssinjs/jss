@@ -20,7 +20,6 @@ describe('Integration: sheet', () => {
       expect(sheet.options.index).to.be(0)
       expect(sheet.options.sheet).to.be(sheet)
       expect(sheet.options.parent).to.be(sheet)
-      expect(sheet.options.renderer).to.be(sheet.renderer)
     })
 
     it('should create a sheet with one rule', () => {

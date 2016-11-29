@@ -31,17 +31,16 @@ export default class StyleSheet {
     this.deployed = false
     this.linked = false
     this.classes = Object.create(null)
-    this.renderer = new Renderer(options)
-    this.renderer.createElement()
     this.options = {
       ...options,
       sheet: this,
       parent: this,
       classes: this.classes,
-      renderer: this.renderer,
       index,
       Renderer
     }
+    this.renderer = new Renderer(this.options)
+    this.renderer.createElement()
     this.rules = new RulesContainer(this.options)
 
     for (const name in styles) {
