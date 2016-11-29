@@ -90,11 +90,7 @@ export default class DomRenderer {
         if (typeof index === 'number') {
           for (let i = 0; i < registry.length; i++) {
             const sheet = registry[i]
-            if (
-              !sheet.attached ||
-              typeof sheet.options.index !== 'number' ||
-              sheet.options.index <= index
-            ) continue
+            if (!sheet.attached || sheet.options.index <= index) continue
             anchorEl = sheet.renderer.element
             break
           }
