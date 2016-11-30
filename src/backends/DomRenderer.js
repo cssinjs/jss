@@ -1,4 +1,5 @@
 import warning from 'warning'
+import SheetsRegistry from './SheetsRegistry'
 
 /**
  * Get or set a style property.
@@ -79,8 +80,8 @@ export default class DomRenderer {
 
     let anchorEl = null
 
-    const {index, jss} = this.options
-    const {registry} = jss.sheets
+    const {index} = this.options
+    const {registry} = DomRenderer
 
     if (registry.length > 1) {
       // Try to insert by index if set
@@ -130,6 +131,7 @@ export default class DomRenderer {
    */
   detach() {
     this.element.parentNode.removeChild(this.element)
+    DomRenderer.registry.remove(sheet)
   }
 
   /**
@@ -140,6 +142,7 @@ export default class DomRenderer {
    */
   deploy(sheet) {
     this.element.textContent = `\n${sheet.toString()}\n`
+    DomRenderer.registry.add(sheet)
   }
 
   /**
@@ -197,3 +200,6 @@ export default class DomRenderer {
     return rules
   }
 }
+
+DomRenderer.registry = new SheetsRegistry()
+
