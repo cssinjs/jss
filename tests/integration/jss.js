@@ -1,5 +1,8 @@
 import expect from 'expect.js'
-import {create, Jss, PluginsRegistry, StyleSheet} from '../../src'
+import {create, sheets} from '../../src'
+import Jss from '../../src/Jss'
+import StyleSheet from '../../src/StyleSheet'
+import PluginsRegistry from '../../src/PluginsRegistry'
 
 describe('Integration: jss', () => {
   let jss
@@ -132,10 +135,9 @@ describe('Integration: jss', () => {
       sheet.detach = () => {
         detached = true
       }
-      expect(() => {
-        jss.removeStyleSheet(sheet)
-      }).to.not.throwException()
+      jss.removeStyleSheet(sheet)
       expect(detached).to.be(true)
+      expect(sheets.registry.indexOf(sheet)).to.be(-1)
     })
   })
 })

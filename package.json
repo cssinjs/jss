@@ -98,7 +98,7 @@
     "test:watch": "cross-env NODE_ENV=test karma start",
     "posttest": "[ -z \"$TRAVIS\" ] || codecov",
     "codecov": "codecov",
-    "bench": "cross-env BENCHMARK=true npm run test"
+    "bench": "cross-env BENCHMARK=true karma start --single-run"
   },
   "dependencies": {
     "is-in-browser": "1.0.2",

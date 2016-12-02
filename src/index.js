@@ -7,22 +7,11 @@
  * @license MIT
  */
 import Jss from './Jss'
-import StyleSheet from './StyleSheet'
 import SheetsRegistry from './SheetsRegistry'
-import PluginsRegistry from './PluginsRegistry'
-import RegularRule from './plugins/RegularRule'
 
-// For testing only!
-export {
-  Jss,
-  StyleSheet,
-  RegularRule,
-  PluginsRegistry
-}
+export {SheetsRegistry}
 
-export {
-  SheetsRegistry
-}
+export const sheets = new SheetsRegistry()
 
 /**
  * Creates a new instance of Jss.

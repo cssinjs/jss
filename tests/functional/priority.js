@@ -1,5 +1,5 @@
 import expect from 'expect.js'
-import {create, SheetsRegistry} from '../../src'
+import {create, sheets} from '../../src'
 
 describe('Functional: dom priority', () => {
   function createDummySheets() {
@@ -13,14 +13,15 @@ describe('Functional: dom priority', () => {
   }
 
   function removeAllSheets() {
-    const sheets = document.head.querySelectorAll('[data-jss]')
-    for (let i = 0; i < sheets.length; i++) {
-      document.head.removeChild(sheets[i])
+    const styles = document.head.querySelectorAll('[data-jss]')
+    for (let i = 0; i < styles.length; i++) {
+      document.head.removeChild(styles[i])
     }
   }
 
   afterEach(() => {
     removeAllSheets()
+    sheets.reset()
   })
 
   describe('without a comment node', () => {
@@ -28,7 +29,7 @@ describe('Functional: dom priority', () => {
 
     beforeEach(() => {
       createDummySheets()
-      jss = create({sheets: new SheetsRegistry()})
+      jss = create()
     })
 
     it('should append sheets to the end of the document head after other stylesheets', () => {
@@ -59,7 +60,7 @@ describe('Functional: dom priority', () => {
 
     beforeEach(() => {
       createDummySheets()
-      jss = create({sheets: new SheetsRegistry()})
+      jss = create()
     })
 
     afterEach(() => {
@@ -150,7 +151,7 @@ describe('Functional: dom priority', () => {
     let jss
 
     beforeEach(() => {
-      jss = create({sheets: new SheetsRegistry()})
+      jss = create()
     })
 
     it('should insert sheets in the correct order', () => {
@@ -190,7 +191,7 @@ describe('Functional: dom priority', () => {
     let jss
 
     beforeEach(() => {
-      jss = create({sheets: new SheetsRegistry()})
+      jss = create()
     })
 
     it('should insert sheets in the correct order', () => {
@@ -216,7 +217,7 @@ describe('Functional: dom priority', () => {
     let jss
 
     beforeEach(() => {
-      jss = create({sheets: new SheetsRegistry()})
+      jss = create()
     })
 
     it('should insert sheets with the same index after existing', () => {

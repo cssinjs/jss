@@ -1,4 +1,5 @@
 import warning from 'warning'
+import {sheets} from '../index'
 
 /**
  * Get or set a style property.
@@ -70,11 +71,7 @@ function findCommentNode(head) {
 /**
  * Find a node before which we can insert the sheet.
  */
-function findPrevNode(head, options) {
-  const {sheets, index} = options
-
-  if (!sheets) return null
-
+function findPrevNode(head, index) {
   const {registry} = sheets
 
   if (registry.length > 1) {
@@ -102,8 +99,10 @@ export default class DomRenderer {
   style = style
   selector = selector
 
-  constructor(options) {
-    this.options = options
+  constructor(sheet) {
+    this.sheet = sheet
+    // There is no sheet when the renderer is used from a standalone RegularRule.
+    if (sheet) sheets.add(sheet)
   }
 
   /**
@@ -112,7 +111,7 @@ export default class DomRenderer {
    * @api private
    */
   createElement() {
-    const {media, meta, element} = this.options
+    const {media, meta, element} = this.sheet.options
     this.head = document.head || document.getElementsByTagName('head')[0]
     this.element = element || document.createElement('style')
     this.element.type = 'text/css'
@@ -129,7 +128,7 @@ export default class DomRenderer {
   attach() {
     // In the case the element node is external and it is already in the DOM.
     if (this.element.parentNode) return
-    const prevNode = findPrevNode(this.head, this.options)
+    const prevNode = findPrevNode(this.head, this.sheet.options.index)
     this.head.insertBefore(this.element, prevNode)
   }
 

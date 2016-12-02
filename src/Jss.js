@@ -6,6 +6,7 @@ import internalPlugins from './plugins'
 import generateClassNameDefault from './utils/generateClassName'
 import createRule from './utils/createRule'
 import findRenderer from './utils/findRenderer'
+import {sheets} from './index'
 
 /**
  * Main Jss class.
@@ -53,16 +54,12 @@ export default class Jss {
    * @api public
    */
   createStyleSheet(styles, options) {
-    const {sheets, generateClassName} = this.options
     options = {
       jss: this,
-      generateClassName,
-      sheets,
+      generateClassName: this.options.generateClassName,
       ...options
     }
-    const sheet = new StyleSheet(styles, options)
-    if (sheets) sheets.add(sheet)
-    return sheet
+    return new StyleSheet(styles, options)
   }
 
   /**
@@ -72,9 +69,8 @@ export default class Jss {
    * @api public
    */
   removeStyleSheet(sheet) {
-    const {sheets} = this.options
     sheet.detach()
-    if (sheets) sheets.remove(sheet)
+    sheets.remove(sheet)
     return this
   }
 

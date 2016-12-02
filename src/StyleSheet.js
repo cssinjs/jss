@@ -14,6 +14,7 @@ import RulesContainer from './RulesContainer'
  * - `element` style element, will create one by default
  * - `index` 0 by default - determines DOM rendering order, higher number = higher specificity
  *  (inserted after)
+ * - `virtual` if true, use VirtualRenderer
  *
  * @param {Object} [rules] object with selectors and declarations
  * @param {Object} [options]
@@ -39,7 +40,7 @@ export default class StyleSheet {
       index,
       Renderer
     }
-    this.renderer = new Renderer(this.options)
+    this.renderer = new Renderer(this)
     this.renderer.createElement()
     this.rules = new RulesContainer(this.options)
 

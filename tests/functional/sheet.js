@@ -2,8 +2,15 @@
 
 import expect from 'expect.js'
 import {create} from '../../src'
-import {generateClassName, computeStyle, getStyle, getCss, getRules, removeWhitespace} from '../utils'
 import DomRenderer from '../../src/backends/DomRenderer'
+import {
+  generateClassName,
+  computeStyle,
+  getStyle,
+  getCss,
+  getRules,
+  removeWhitespace
+} from '../utils'
 
 const settings = {generateClassName}
 

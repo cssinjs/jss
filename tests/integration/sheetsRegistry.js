@@ -71,8 +71,14 @@ describe('Integration: sheetsRegistry', () => {
 
   describe('.toString()', () => {
     it('should convert to CSS string', () => {
-      const sheet1 = jss.createStyleSheet({a: {color: 'red'}})
-      const sheet2 = jss.createStyleSheet({a: {color: 'blue'}})
+      const sheet1 = jss.createStyleSheet(
+        {a: {color: 'red'}},
+        {virtual: true}
+      ).attach()
+      const sheet2 = jss.createStyleSheet(
+        {a: {color: 'blue'}},
+        {virtual: true}
+      ).attach()
       sheets.add(sheet1)
       sheets.add(sheet2)
       expect(sheets.toString()).to.be(
@@ -84,23 +90,23 @@ describe('Integration: sheetsRegistry', () => {
         '}'
       )
     })
-  })
 
-  describe('.sheets option', () => {
-    beforeEach(() => {
-      jss.setup({sheets})
-    })
-
-    it('should add sheet to the registry', () => {
-      jss.createStyleSheet()
-      expect(sheets.registry.length).to.be(1)
-    })
-
-    it('should remove sheet from the registry', () => {
-      const sheet = jss.createStyleSheet()
-      expect(sheets.registry.length).to.be(1)
-      jss.removeStyleSheet(sheet)
-      expect(sheets.registry.length).to.be(0)
+    it('should not stringify detached sheets', () => {
+      const sheet1 = jss.createStyleSheet(
+        {a: {color: 'red'}},
+        {virtual: true}
+      ).attach()
+      const sheet2 = jss.createStyleSheet(
+        {a: {color: 'blue'}},
+        {virtual: true}
+      )
+      sheets.add(sheet1)
+      sheets.add(sheet2)
+      expect(sheets.toString()).to.be(
+        '.a-id {\n' +
+        '  color: red;\n' +
+        '}'
+      )
     })
   })
 })

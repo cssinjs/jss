@@ -1,5 +1,6 @@
 import expect from 'expect.js'
-import {create, RegularRule} from '../../src'
+import {create} from '../../src'
+import RegularRule from '../../src/plugins/RegularRule'
 import {generateClassName} from '../utils'
 
 describe('Integration: sheet', () => {

@@ -30,6 +30,10 @@ export default class SheetsRegistry {
     }
   }
 
+  reset() {
+    this.registry = []
+  }
+
   /**
    * Remove a style sheet.
    *
@@ -42,13 +46,14 @@ export default class SheetsRegistry {
   }
 
   /**
-   * Returns CSS string with all Style Sheets.
+   * Returns CSS string with all attached Style Sheets.
    *
    * @param {StyleSheet} sheet
    * @api public
    */
   toString(options) {
     return this.registry
+      .filter(sheet => sheet.attached)
       .map(sheet => sheet.toString(options))
       .join('\n')
   }
