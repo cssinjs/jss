@@ -48,8 +48,8 @@ describe('Integration: jss', () => {
       local.setup({
         plugins: [plugin1, plugin2]
       })
-      expect(local.plugins.registry.pop().onProcess).to.be(plugin2)
-      expect(local.plugins.registry.pop().onProcess).to.be(plugin1)
+      expect(local.plugins.registry.pop().onProcessRule).to.be(plugin2)
+      expect(local.plugins.registry.pop().onProcessRule).to.be(plugin1)
     })
   })
 
@@ -114,8 +114,8 @@ describe('Integration: jss', () => {
         jss.use(plugin1, plugin2)
         const rule = jss.createRule()
         expect(jss.plugins.registry.length).to.be(9)
-        expect(jss.plugins.registry[7].onProcess).to.be(plugin1)
-        expect(jss.plugins.registry[8].onProcess).to.be(plugin2)
+        expect(jss.plugins.registry[7].onProcessRule).to.be(plugin1)
+        expect(jss.plugins.registry[8].onProcessRule).to.be(plugin2)
         expect(receivedRule1).to.be(rule)
         expect(receivedRule2).to.be(rule)
       })

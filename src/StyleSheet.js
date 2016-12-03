@@ -49,7 +49,7 @@ export default class StyleSheet {
     }
 
     const {plugins} = options.jss
-    this.rules.getIndex().forEach(plugins.onProcess, plugins)
+    this.rules.getIndex().forEach(plugins.onProcessRule, plugins)
   }
 
   /**

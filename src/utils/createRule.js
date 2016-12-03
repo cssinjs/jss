@@ -16,7 +16,7 @@ import RegularRule from '../plugins/RegularRule'
 export default function createRule(name, decl = {}, options = {}) {
   // Is an at-rule.
   if (name && name[0] === '@') {
-    const rule = options.jss.plugins.onCreate(name, decl, options)
+    const rule = options.jss.plugins.onCreateRule(name, decl, options)
     if (rule) return rule
     warning(false, '[JSS] Unknown rule %s', name)
   }

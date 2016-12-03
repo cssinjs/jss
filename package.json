@@ -58,7 +58,7 @@
     "jss-default-unit": "4.1.3",
     "jss-expand": "1.6.0",
     "jss-extend": "2.0.6",
-    "jss-global": "^0.1.0",
+    "jss-global": "^0.2.0",
     "jss-isolate": "1.0.2",
     "jss-nested": "2.5.0",
     "jss-props-sort": "2.0.2",

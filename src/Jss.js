@@ -100,7 +100,7 @@ export default class Jss {
     }
 
     const rule = createRule(name, style, options)
-    this.plugins.onProcess(rule)
+    this.plugins.onProcessRule(rule)
 
     return rule
   }
