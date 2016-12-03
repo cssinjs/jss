@@ -197,7 +197,7 @@ sheet.addRules({
 
 ### Create a rule without a Style Sheet.
 
-`jss.createRule([selector], rule, [options])`
+`jss.createRule([name], rule, [options])`
 
 In order to apply styles directly to the element but still be able to use jss s.
 
@@ -205,6 +205,12 @@ In order to apply styles directly to the element but still be able to use jss s.
 const rule = jss.createRule({
   padding: 20,
   background: 'blue'
+})
+
+const rule = jss.createRule('@media', {
+  button: {
+    color: 'red'
+  }
 })
 ```
 

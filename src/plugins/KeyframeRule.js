@@ -1,3 +1,5 @@
+import createRule from '../utils/createRule'
+
 /**
  * Keyframe rule.
  *
@@ -26,7 +28,9 @@ export default class KeyframeRule {
         className: name,
         selector: name
       }
-      newFrames[name] = options.jss.createRule(name, frames[name], options)
+      const rule = createRule(name, frames[name], options)
+      options.jss.plugins.onProcessRule(rule)
+      newFrames[name] = rule
     }
     return newFrames
   }

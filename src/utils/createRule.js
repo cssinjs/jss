@@ -4,9 +4,6 @@ import RegularRule from '../plugins/RegularRule'
 /**
  * Create a rule instance.
  *
- * Options:
- *   - `className` pass class name if you to define it manually
- *
  * @param {Object} [name]
  * @param {Object} [decl] declarations block
  * @param {Object} [options] rule options
