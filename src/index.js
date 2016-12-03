@@ -8,10 +8,12 @@
  */
 import Jss from './Jss'
 import SheetsRegistry from './SheetsRegistry'
+import sheets from './sheets'
 
-export {SheetsRegistry}
-
-export const sheets = new SheetsRegistry()
+export {
+  SheetsRegistry,
+  sheets
+}
 
 /**
  * Creates a new instance of Jss.

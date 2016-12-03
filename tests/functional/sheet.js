@@ -277,21 +277,21 @@ describe('Functional: sheet', () => {
     let warned = false
     let sheet
 
-    before(() => {
+    beforeEach(() => {
       DomRenderer.__Rewire__('warning', () => {
         warned = true
       })
+    })
+
+    afterEach(() => {
+      DomRenderer.__ResetDependency__('warning')
+      sheet.detach()
     })
 
     it('should not throw', () => {
       sheet = jss.createStyleSheet().attach()
       sheet.addRule('%%%%', {color: 'red'})
       expect(warned).to.be(true)
-    })
-
-    after(() => {
-      DomRenderer.__ResetDependency__('warning')
-      sheet.detach()
     })
   })
 
@@ -313,10 +313,14 @@ describe('Functional: sheet', () => {
     let rule
     let sheet
 
-    before(() => {
+    beforeEach(() => {
       sheet = jss.createStyleSheet({a: {color: 'green'}}, {link: true})
       rule = sheet.getRule('a')
       sheet.attach()
+    })
+
+    afterEach(() => {
+      sheet.detach()
     })
 
     it('should have initial color', () => {
@@ -329,15 +333,13 @@ describe('Functional: sheet', () => {
     })
 
     it('should cache the new prop', () => {
+      rule.prop('color', 'red')
       expect(rule.style.color).to.be('red')
     })
 
     it('should apply new prop to the DOM', () => {
+      rule.prop('color', 'red')
       expect(rule.renderable.style.color).to.be('red')
-    })
-
-    after(() => {
-      sheet.detach()
     })
   })
 

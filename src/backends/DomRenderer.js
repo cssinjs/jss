@@ -1,5 +1,5 @@
 import warning from 'warning'
-import {sheets} from '../index'
+import sheets from '../sheets'
 
 /**
  * Get or set a style property.

@@ -3,10 +3,10 @@
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import internalPlugins from './plugins'
+import sheets from './sheets'
 import generateClassNameDefault from './utils/generateClassName'
 import createRule from './utils/createRule'
 import findRenderer from './utils/findRenderer'
-import {sheets} from './index'
 
 /**
  * Main Jss class.

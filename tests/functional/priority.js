@@ -1,5 +1,5 @@
 import expect from 'expect.js'
-import {create, sheets} from '../../src'
+import {create} from '../../src'
 
 describe('Functional: dom priority', () => {
   function createDummySheets() {
@@ -11,18 +11,6 @@ describe('Functional: dom priority', () => {
       document.head.appendChild(dummySheet)
     }
   }
-
-  function removeAllSheets() {
-    const styles = document.head.querySelectorAll('[data-jss]')
-    for (let i = 0; i < styles.length; i++) {
-      document.head.removeChild(styles[i])
-    }
-  }
-
-  afterEach(() => {
-    removeAllSheets()
-    sheets.reset()
-  })
 
   describe('without a comment node', () => {
     let jss
