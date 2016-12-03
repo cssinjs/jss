@@ -10,23 +10,22 @@ import Jss from './Jss'
 import SheetsRegistry from './SheetsRegistry'
 import sheets from './sheets'
 
-export {
-  SheetsRegistry,
-  sheets
-}
+/**
+ * SheetsRegistry for SSR.
+ */
+export {SheetsRegistry}
+
+/**
+ * Default global SheetsRegistry instance.
+ */
+export {sheets}
 
 /**
  * Creates a new instance of Jss.
- *
- * @see Jss
- * @api public
  */
-export const create = (options?: Object) => new Jss(options)
+export const create = (options?: Object): Jss => new Jss(options)
 
 /**
  * A global Jss instance.
- *
- * @see Jss
- * @api public
  */
 export default create()

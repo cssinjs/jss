@@ -1,14 +1,13 @@
 /* @flow */
+import type {Plugin, RuleOptions} from './types'
 
-/**
- * Register a plugin, run a plugin.
- *
- * @api public
- */
 export default class PluginsRegistry {
-  registry: Array<Object> = []
+  registry: Array<Plugin> = []
 
-  onCreateRule(name: string, decl: Object, options: Object): Object | null {
+  /**
+   * Call `onCreateRule` hooks and return an object if returned by a hook.
+   */
+  onCreateRule(name: string, decl: Object, options: RuleOptions): Object | null {
     for (let i = 0; i < this.registry.length; i++) {
       const {onCreateRule} = this.registry[i]
       if (!onCreateRule) continue
@@ -18,7 +17,10 @@ export default class PluginsRegistry {
     return null
   }
 
-  onProcessRule(rule: any): void {
+  /**
+   * Call `onProcessRule` hooks.
+   */
+  onProcessRule(rule: Object): void {
     for (let i = 0; i < this.registry.length; i++) {
       const {onProcessRule} = this.registry[i]
       if (onProcessRule) onProcessRule(rule)
@@ -27,11 +29,9 @@ export default class PluginsRegistry {
 
   /**
    * Register a plugin.
-   * If `plugin` is a function, it's an onProcessRule hook.
-   *
-   * @api public
+   * If function is passed, it is a shortcut for `{onProcessRule}`.
    */
-  use(plugin: Function | Object): void {
+  use(plugin: Plugin | Function): void {
     if (typeof plugin === 'function') {
       plugin = {onProcessRule: plugin}
     }
