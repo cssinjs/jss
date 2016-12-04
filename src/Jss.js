@@ -7,7 +7,7 @@ import sheets from './sheets'
 import generateClassNameDefault from './utils/generateClassName'
 import createRule from './utils/createRule'
 import findRenderer from './utils/findRenderer'
-import type {Plugin, UserJssOptions, JssOptions, UserStyleSheetOptions, RuleOptions} from './types'
+import type {Plugin, PublicJssOptions, JssOptions, PublicStyleSheetOptions, RuleOptions} from './types'
 
 declare var __VERSION__: string
 
@@ -18,12 +18,12 @@ export default class Jss {
 
   options: JssOptions
 
-  constructor(options?: UserJssOptions) {
+  constructor(options?: PublicJssOptions) {
     this.use.apply(this, internalPlugins) // eslint-disable-line prefer-spread
     this.setup(options)
   }
 
-  setup(options?: UserJssOptions = {}): Jss {
+  setup(options?: PublicJssOptions = {}): Jss {
     this.options = {
       ...options,
       generateClassName: options.generateClassName || generateClassNameDefault
@@ -36,7 +36,7 @@ export default class Jss {
   /**
    * Create a style sheet.
    */
-  createStyleSheet(styles: Object, options: UserStyleSheetOptions): StyleSheet {
+  createStyleSheet(styles: Object, options: PublicStyleSheetOptions): StyleSheet {
     options = {
       jss: this,
       generateClassName: this.options.generateClassName,

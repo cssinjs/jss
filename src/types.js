@@ -9,7 +9,7 @@ export type Plugin = {
   onProcessRule?: Function
 }
 
-export type UserJssOptions = {
+export type PublicJssOptions = {
   generateClassName?: Function,
   plugins?: Array<Plugin>
 }
@@ -30,7 +30,7 @@ export type JssOptions = {
  *  (inserted after)
  * - `virtual` if true, use VirtualRenderer
  */
-export type UserStyleSheetOptions = {
+export type PublicStyleSheetOptions = {
   media?: string,
   meta?: string,
   link?: boolean,
