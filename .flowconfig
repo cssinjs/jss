@@ -1,12 +1,11 @@
 [ignore]
 .*/tests/.*
-.*node_modules/.*
 
 [include]
 src/
 
 [libs]
-interfaces/
+flow/
 
 [options]
 suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe

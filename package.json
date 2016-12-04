@@ -107,7 +107,7 @@
     "warning": "3.0.0"
   },
   "lint-staged": {
-    "*.js": [
+    "./src ./tests ./benchmark ./*.js": [
       "eslint",
       "git add"
     ]

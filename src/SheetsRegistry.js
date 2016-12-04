@@ -1,7 +1,6 @@
 /* @flow */
 
-import StyleSheet from './StyleSheet'
-import type {toCssOptions} from './types'
+import type {toCssOptions, StyleSheet} from './types'
 
 /**
  * Sheets registry to access them all at one place.

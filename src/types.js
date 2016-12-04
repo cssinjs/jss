@@ -4,6 +4,11 @@ import Jss from './Jss'
 import StyleSheet from './StyleSheet'
 import ConditionalRule from './plugins/ConditionalRule'
 
+export {
+  StyleSheet,
+  Jss
+}
+
 export type Plugin = {
   onCreateRule?: Function,
   onProcessRule?: Function
@@ -21,9 +26,11 @@ export type JssOptions = {
 
 /**
  * - `media` media query - attribute of style element.
- * - `meta` meta information about this style - attribute of style element, for e.g. you could pass
+ * - `meta` meta information about this style - attribute of style element,
+ *   for e.g. you could pass
  * component name for easier debugging.
- * - `link` link jss `Rule` instances with DOM `CSSRule` instances so that styles, can be modified
+ * - `link` link jss `Rule` instances with DOM `CSSStyleRule` instances so that
+ *   styles, can be modified
  * dynamically, false by default because it has some performance cost.
  * - `element` style element, will create one by default
  * - `index` 0 by default - determines DOM rendering order, higher number = higher specificity
@@ -34,7 +41,7 @@ export type PublicStyleSheetOptions = {
   media?: string,
   meta?: string,
   link?: boolean,
-  element?: Element,
+  element?: HTMLStyleElement,
   index?: number,
   virtual?: boolean
 }
@@ -51,7 +58,10 @@ export type InstanceStyleSheetOptions = {
   sheet: StyleSheet,
   parent: StyleSheet,
   classes: Object,
-  Renderer: Function
+  Renderer: Function,
+  element?: HTMLStyleElement,
+  meta?: string,
+  media?: string
 }
 
 export type RuleOptions = {
@@ -74,22 +84,9 @@ export type toCssOptions = {
   selector?: boolean
 }
 
-type CSSStyleRule = {}
-
 export type Rule = {
   name?: string,
   selector?: string,
-  renderable?: CSSStyleRule
-}
-
-export type Renderer = {
-  createElement: Function,
-  style: Function,
-  selector: Function,
-  attach: Function,
-  detach: Function,
-  deploy: Function,
-  insertRule: Function,
-  deleteRule: Function,
-  getRules: Function
+  renderable?: CSSStyleRule,
+  toString: Function
 }

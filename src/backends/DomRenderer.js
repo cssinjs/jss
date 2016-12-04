@@ -1,5 +1,12 @@
+/* @-flow */
+
 import warning from 'warning'
 import sheets from '../sheets'
+
+import type {
+  Rule,
+  StyleSheet,
+} from '../types'
 
 /**
  * Get or set a style property.
@@ -10,11 +17,11 @@ import sheets from '../sheets'
  * @return {String|Boolean}
  * @api private
  */
-function style(CSSStyleRule, name, value) {
+function style(CSSStyleRule: CSSStyleRule, prop: string, value?: string): string | boolean {
   try {
     // It is a getter.
-    if (value == null) return CSSStyleRule.style[name]
-    CSSStyleRule.style[name] = value
+    if (value == null) return CSSStyleRule.style[prop]
+    CSSStyleRule.style[prop] = value
   }
   catch (err) {
     // IE may throw if property is unknown.
@@ -31,7 +38,7 @@ function style(CSSStyleRule, name, value) {
  * @return {String|Boolean}
  * @api private
  */
-function selector(CSSStyleRule, selectorText) {
+function selector(CSSStyleRule: CSSStyleRule, selectorText?: string): string | boolean {
   // It is a getter.
   if (selectorText == null) return CSSStyleRule.selectorText
 
@@ -42,7 +49,7 @@ function selector(CSSStyleRule, selectorText) {
   return CSSStyleRule.selectorText === selectorText
 }
 
-function findHigherSheet(registry, index) {
+function findHigherSheet(registry: Array<StyleSheet>, index: number): StyleSheet | null {
   for (let i = 0; i < registry.length; i++) {
     const sheet = registry[i]
     if (sheet.attached && sheet.options.index > index) {
@@ -52,7 +59,7 @@ function findHigherSheet(registry, index) {
   return null
 }
 
-function findHighestSheet(registry) {
+function findHighestSheet(registry: Array<StyleSheet>): StyleSheet | null {
   for (let i = registry.length - 1; i >= 0; i--) {
     const sheet = registry[i]
     if (sheet.attached) return sheet
@@ -60,10 +67,12 @@ function findHighestSheet(registry) {
   return null
 }
 
-function findCommentNode(head) {
+function findCommentNode(head: HTMLElement): Comment | null {
   for (let i = 0; i < head.childNodes.length; i++) {
-    const el = head.childNodes[i]
-    if (el.nodeValue === 'jss') return el
+    const node = head.childNodes[i]
+    if (node instanceof Comment && node.nodeValue.trim() === 'jss') {
+      return node
+    }
   }
   return null
 }
@@ -71,7 +80,7 @@ function findCommentNode(head) {
 /**
  * Find a node before which we can insert the sheet.
  */
-function findPrevNode(head, index) {
+function findPrevNode(head: HTMLElement, index: number): HTMLElement | null {
   const {registry} = sheets
 
   if (registry.length > 1) {
@@ -86,20 +95,23 @@ function findPrevNode(head, index) {
 
   // Try find a comment placeholder if registry is empty.
   const comment = findCommentNode(head)
-  if (comment) return comment.nextElementSibling
+  if (comment) return comment.nextSibling
   return null
 }
 
-/**
- * DOM rendering backend for StyleSheet.
- *
- * @api private
- */
 export default class DomRenderer {
   style = style
+
   selector = selector
 
-  constructor(sheet) {
+  // HTMLStyleElement needs fixing https://github.com/facebook/flow/issues/2696
+  element: any
+
+  head: HTMLElement
+
+  sheet: ?StyleSheet
+
+  constructor(sheet?: StyleSheet) {
     this.sheet = sheet
     // There is no sheet when the renderer is used from a standalone RegularRule.
     if (sheet) sheets.add(sheet)
@@ -110,8 +122,8 @@ export default class DomRenderer {
    *
    * @api private
    */
-  createElement() {
-    const {media, meta, element} = this.sheet.options
+  createElement(): void {
+    const {media, meta, element} = (this.sheet ? this.sheet.options : {})
     this.head = document.head || document.getElementsByTagName('head')[0]
     this.element = element || document.createElement('style')
     this.element.type = 'text/css'
@@ -125,9 +137,9 @@ export default class DomRenderer {
    *
    * @api private
    */
-  attach() {
+  attach(): void {
     // In the case the element node is external and it is already in the DOM.
-    if (this.element.parentNode) return
+    if (this.element.parentNode || !this.sheet) return
     const prevNode = findPrevNode(this.head, this.sheet.options.index)
     this.head.insertBefore(this.element, prevNode)
   }
@@ -137,7 +149,7 @@ export default class DomRenderer {
    *
    * @api private
    */
-  detach() {
+  detach(): void {
     this.element.parentNode.removeChild(this.element)
   }
 
@@ -147,8 +159,8 @@ export default class DomRenderer {
    * @param {String} cssStr
    * @api private
    */
-  deploy(sheet) {
-    this.element.textContent = `\n${sheet}\n`
+  deploy(sheet: StyleSheet): void {
+    this.element.textContent = `\n${sheet.toString()}\n`
   }
 
   /**
@@ -158,7 +170,7 @@ export default class DomRenderer {
    * @return {CSSStyleRule}
    * @api private
    */
-  insertRule(rule) {
+  insertRule(rule: Rule): CSSStyleRule {
     const {sheet} = this.element
     const {cssRules} = sheet
     const index = cssRules.length
@@ -178,11 +190,11 @@ export default class DomRenderer {
    * @return {Boolean} true if the rule was deleted
    * @api private
    */
-  deleteRule(CSSStyleRule) {
+  deleteRule(rule: CSSStyleRule): boolean {
     const {sheet} = this.element
     const {cssRules} = sheet
     for (let index = 0; index < cssRules.length; index++) {
-      if (CSSStyleRule === cssRules[index]) {
+      if (rule === cssRules[index]) {
         sheet.deleteRule(index)
         return true
       }
@@ -196,7 +208,7 @@ export default class DomRenderer {
    * @return {Array} cssRules
    * @api private
    */
-  getRules() {
+  getRules(): CSSRuleList {
     return this.element.sheet.cssRules
   }
 }

@@ -5,7 +5,6 @@ import RulesContainer from './RulesContainer'
 import type {
   InstanceStyleSheetOptions,
   StyleSheetOptions,
-  Renderer as RendererType,
   Rule,
   toCssOptions,
   RuleOptions
@@ -22,7 +21,7 @@ export default class StyleSheet {
 
   rules: RulesContainer
 
-  renderer: RendererType
+  renderer: JssRenderer
 
   classes: Object
 
@@ -44,7 +43,7 @@ export default class StyleSheet {
       Renderer,
       ...options
     }
-    this.renderer = new Renderer(this)
+    this.renderer = (new Renderer(this): JssRenderer)
     this.renderer.createElement()
     this.rules = new RulesContainer(this.options)
 
@@ -145,7 +144,7 @@ export default class StyleSheet {
 
     this.rules.remove(rule)
 
-    if (this.attached) {
+    if (this.attached && rule.renderable) {
       return this.renderer.deleteRule(rule.renderable)
     }
 
@@ -181,9 +180,9 @@ export default class StyleSheet {
   link(): StyleSheet {
     const cssRules = this.renderer.getRules()
     for (let i = 0; i < cssRules.length; i++) {
-      const CSSRule = cssRules[i]
-      const rule = this.rules.get(CSSRule.selectorText)
-      if (rule) rule.renderable = CSSRule
+      const CSSStyleRule = cssRules[i]
+      const rule = this.rules.get(CSSStyleRule.selectorText)
+      if (rule) rule.renderable = CSSStyleRule
     }
     this.linked = true
     return this

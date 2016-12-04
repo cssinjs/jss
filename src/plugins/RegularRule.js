@@ -25,7 +25,7 @@ export default class RegularRule {
     this.originalStyle = style
     this.className = options.className || options.generateClassName(styleStr, this)
     this.selectorText = options.selector || `.${this.className}`
-    this.renderer = options.sheet ? options.sheet.renderer : new options.Renderer()
+    this.renderer = options.sheet ? options.sheet.renderer : (new options.Renderer(): JssRenderer)
   }
 
   /**

@@ -1,3 +1,4 @@
+/* @flow */
 /* eslint-disable class-methods-use-this */
 
 /**
