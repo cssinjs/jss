@@ -1,44 +1,48 @@
+/* @flow */
+
 import findRenderer from './utils/findRenderer'
 import RulesContainer from './RulesContainer'
+import type {
+  InstanceStyleSheetOptions,
+  StyleSheetOptions,
+  Renderer as RendererType,
+  Rule,
+  toCssOptions,
+  RuleOptions
+} from './types'
 
-/**
- * StyleSheet model.
- *
- * Options:
- *
- * - `media` media query - attribute of style element.
- * - `meta` meta information about this style - attribute of style element, for e.g. you could pass
- * component name for easier debugging.
- * - `link` link jss `Rule` instances with DOM `CSSRule` instances so that styles, can be modified
- * dynamically, false by default because it has some performance cost.
- * - `element` style element, will create one by default
- * - `index` 0 by default - determines DOM rendering order, higher number = higher specificity
- *  (inserted after)
- * - `virtual` if true, use VirtualRenderer
- *
- * @param {Object} [rules] object with selectors and declarations
- * @param {Object} [options]
- * @api public
- */
 export default class StyleSheet {
-  constructor(styles, options) {
+  options: InstanceStyleSheetOptions
+
+  linked: boolean
+
+  deployed: boolean
+
+  attached: boolean
+
+  rules: RulesContainer
+
+  renderer: RendererType
+
+  classes: Object
+
+  queue: ?Array<Rule>
+
+  constructor(styles: Object, options: StyleSheetOptions) {
     const index = typeof options.index === 'number' ? options.index : 0
     const Renderer = findRenderer(options)
 
-    // Rules registry for access by .getRule() method.
-    // It contains the same rule registered by name and by class name.
-    this.rules = Object.create(null)
     this.attached = false
     this.deployed = false
     this.linked = false
     this.classes = Object.create(null)
     this.options = {
-      ...options,
       sheet: this,
       parent: this,
       classes: this.classes,
       index,
-      Renderer
+      Renderer,
+      ...options
     }
     this.renderer = new Renderer(this)
     this.renderer.createElement()
@@ -54,11 +58,8 @@ export default class StyleSheet {
 
   /**
    * Attach renderable to the render tree.
-   *
-   * @api public
-   * @return {StyleSheet}
    */
-  attach() {
+  attach(): StyleSheet {
     if (this.attached) return this
     if (!this.deployed) this.deploy()
     this.renderer.attach()
@@ -69,11 +70,8 @@ export default class StyleSheet {
 
   /**
    * Remove renderable from render tree.
-   *
-   * @return {StyleSheet}
-   * @api public
    */
-  detach() {
+  detach(): StyleSheet {
     if (!this.attached) return this
     this.renderer.detach()
     this.attached = false
@@ -81,19 +79,10 @@ export default class StyleSheet {
   }
 
   /**
-   * Add a rule to the current stylesheet. Will insert a rule also after the stylesheet
-   * has been rendered first time.
-   *
-   * Options:
-   *   - `index` rule position, will be pushed at the end if undefined.
-   *
-   * @param {String} [name] rule name
-   * @param {Object} style property/value hash
-   * @param {Object} [options]
-   * @return {Rule}
-   * @api public
+   * Add a rule to the current stylesheet.
+   * Will insert a rule also after the stylesheet has been rendered first time.
    */
-  addRule(name, style, options) {
+  addRule(name: string, style: Object, options?: RuleOptions): Rule {
     const {queue} = this
 
     // Plugins can create rules.
@@ -113,7 +102,7 @@ export default class StyleSheet {
         if (this.options.link) rule.renderable = renderable
         if (this.queue) {
           this.queue.forEach(this.renderer.insertRule, this.renderer)
-          this.queue = null
+          this.queue = undefined
         }
       }
       return rule
@@ -129,13 +118,8 @@ export default class StyleSheet {
   /**
    * Create and add rules.
    * Will render also after Style Sheet was rendered the first time.
-   *
-   * @param {Object} styles
-   * @param {Object} [options]
-   * @return {Array} array of added rules
-   * @api public
    */
-  addRules(styles, options) {
+  addRules(styles: Object, options?: RuleOptions): Array<Rule> {
     const added = []
     for (const name in styles) {
       added.push(this.addRule(name, styles[name], options))
@@ -144,23 +128,17 @@ export default class StyleSheet {
   }
 
   /**
-   * Get a rule.
-   *
-   * @see RulesContainer#get()
-   * @api public
+   * Get a rule by name.
    */
-  getRule(name) {
+  getRule(name: string): Rule {
     return this.rules.get(name)
   }
 
   /**
-   * Delete a rule.
-   *
-   * @param {String} name
-   * @return {Boolean} true if rule has been deleted from the DOM.
-   * @api public
+   * Delete a rule by name.
+   * Returns `true`: if rule has been deleted from the DOM.
    */
-  deleteRule(name) {
+  deleteRule(name: string): boolean {
     const rule = this.rules.get(name)
 
     if (!rule) return false
@@ -176,31 +154,22 @@ export default class StyleSheet {
 
   /**
    * Get index of a rule.
-   *
-   * @see RulesContainer.indexOf()
-   * @api public
    */
-  indexOf(rule) {
+  indexOf(rule: Rule): number {
     return this.rules.indexOf(rule)
   }
 
   /**
    * Convert rules to a CSS string.
-   *
-   * @see RulesContainer.toString()
-   * @api public
    */
-  toString(options) {
+  toString(options?: toCssOptions): string {
     return this.rules.toString(options)
   }
 
   /**
    * Deploy pure CSS string to a renderable.
-   *
-   * @return {StyleSheet}
-   * @api private
    */
-  deploy() {
+  deploy(): StyleSheet {
     this.renderer.deploy(this)
     this.deployed = true
     return this
@@ -208,11 +177,8 @@ export default class StyleSheet {
 
   /**
    * Link renderable CSS rules with their corresponding models.
-   *
-   * @return {StyleSheet}
-   * @api private
    */
-  link() {
+  link(): StyleSheet {
     const cssRules = this.renderer.getRules()
     for (let i = 0; i < cssRules.length; i++) {
       const CSSRule = cssRules[i]

@@ -30,7 +30,7 @@ export default class RulesContainer {
    *
    * Will not render after Style Sheet was rendered the first time.
    */
-  create(name: string, style: Object, options: RuleOptions): Rule {
+  create(name: string, style: Object, options?: RuleOptions): Rule {
     const rule = this.createAndRegister(name, style, options)
     this.options.jss.plugins.onProcessRule(rule)
     return rule
@@ -123,7 +123,7 @@ export default class RulesContainer {
   /**
    * Create and register a rule.
    */
-  createAndRegister(name?: string, style: Object, options: RuleOptions) {
+  createAndRegister(name?: string, style: Object, options?: RuleOptions) {
     const {parent, sheet, jss, Renderer, generateClassName} = this.options
 
     options = {

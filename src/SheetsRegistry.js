@@ -1,18 +1,18 @@
+/* @flow */
+
+import StyleSheet from './StyleSheet'
+import type {toCssOptions} from './types'
+
 /**
  * Sheets registry to access them all at one place.
- *
- * @api public
  */
 export default class SheetsRegistry {
-  registry = []
+  registry: Array<StyleSheet> = []
 
   /**
    * Register a style sheet.
-   *
-   * @param {StyleSheet} sheet
-   * @api public
    */
-  add(sheet) {
+  add(sheet: StyleSheet): void {
     const {registry} = this
     const {index} = sheet.options
 
@@ -30,28 +30,25 @@ export default class SheetsRegistry {
     }
   }
 
-  reset() {
+  /**
+   * Reset the registry.
+   */
+  reset(): void {
     this.registry = []
   }
 
   /**
    * Remove a style sheet.
-   *
-   * @param {StyleSheet} sheet
-   * @api public
    */
-  remove(sheet) {
+  remove(sheet: StyleSheet): void {
     const index = this.registry.indexOf(sheet)
     this.registry.splice(index, 1)
   }
 
   /**
-   * Returns CSS string with all attached Style Sheets.
-   *
-   * @param {StyleSheet} sheet
-   * @api public
+   * Convert all attached sheets to a CSS string.
    */
-  toString(options) {
+  toString(options?: toCssOptions): string {
     return this.registry
       .filter(sheet => sheet.attached)
       .map(sheet => sheet.toString(options))
