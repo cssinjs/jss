@@ -94,7 +94,7 @@ export default class RegularRule {
   /**
    * Get or set a style property.
    */
-  prop(name: string, value?: string | number): RegularRule | string | number {
+  prop(name: string, value?: string|number): RegularRule|string|number {
     // Its a setter.
     if (value != null) {
       this.style[name] = value

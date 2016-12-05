@@ -8,7 +8,7 @@ import VirtualRenderer from '../backends/VirtualRenderer'
  * Option `virtual` is used to force use of VirtualRenderer even if DOM is
  * detected, used for testing only.
  */
-export default function findRenderer(options: StyleSheetOptions | RuleOptions = {}): any {
+export default function findRenderer(options: StyleSheetOptions|RuleOptions = {}): any {
   if (options.Renderer) return options.Renderer
   const useVirtual = options.virtual || !isInBrowser
   return useVirtual ? VirtualRenderer : DomRenderer

@@ -13,7 +13,5 @@ export default class VirtualRenderer {
   deploy(): any {}
   insertRule(): any {}
   deleteRule(): any {}
-  getRules(): any {
-    return []
-  }
+  getRules(): any {}
 }

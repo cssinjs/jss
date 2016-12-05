@@ -1,6 +1,6 @@
 /* @flow */
 
-type Name = 'charset' | 'import' | 'namespace'
+type Name = 'charset'|'import'|'namespace'
 
 export default class SimpleRule {
   type = 'simple'

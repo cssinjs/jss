@@ -1,5 +1,5 @@
 /* @flow */
-const joinWithSpace = (value: Array<string | number>): string => value.join(' ')
+const joinWithSpace = (value: Array<string|number>): string => value.join(' ')
 
 /**
  * Converts array values to string.

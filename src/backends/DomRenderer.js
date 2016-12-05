@@ -1,4 +1,4 @@
-/* @-flow */
+/* @flow */
 
 import warning from 'warning'
 import sheets from '../sheets'
@@ -10,18 +10,12 @@ import type {
 
 /**
  * Get or set a style property.
- *
- * @param {CSSStyleRule} element
- * @param {String} name
- * @param {String} [value]
- * @return {String|Boolean}
- * @api private
  */
-function style(CSSStyleRule: CSSStyleRule, prop: string, value?: string): string | boolean {
+function style(rule: CSSStyleRule, prop: string, value?: string): string|boolean {
   try {
     // It is a getter.
-    if (value == null) return CSSStyleRule.style[prop]
-    CSSStyleRule.style[prop] = value
+    if (value == null) return rule.style[prop]
+    rule.style[prop] = value
   }
   catch (err) {
     // IE may throw if property is unknown.
@@ -32,24 +26,22 @@ function style(CSSStyleRule: CSSStyleRule, prop: string, value?: string): string
 
 /**
  * Get or set the selector.
- *
- * @param {CSSStyleRule} CSSStyleRule
- * @param {String} [selectorText]
- * @return {String|Boolean}
- * @api private
  */
-function selector(CSSStyleRule: CSSStyleRule, selectorText?: string): string | boolean {
+function selector(rule: CSSStyleRule, selectorText?: string): string|boolean {
   // It is a getter.
-  if (selectorText == null) return CSSStyleRule.selectorText
+  if (selectorText == null) return rule.selectorText
 
-  CSSStyleRule.selectorText = selectorText
+  rule.selectorText = selectorText
 
   // Return false if setter was not successful.
   // Currently works in chrome only.
-  return CSSStyleRule.selectorText === selectorText
+  return rule.selectorText === selectorText
 }
 
-function findHigherSheet(registry: Array<StyleSheet>, index: number): StyleSheet | null {
+/**
+ * Find attached sheet with an index higher than the passed one.
+ */
+function findHigherSheet(registry: Array<StyleSheet>, index: number): StyleSheet|null {
   for (let i = 0; i < registry.length; i++) {
     const sheet = registry[i]
     if (sheet.attached && sheet.options.index > index) {
@@ -59,7 +51,10 @@ function findHigherSheet(registry: Array<StyleSheet>, index: number): StyleSheet
   return null
 }
 
-function findHighestSheet(registry: Array<StyleSheet>): StyleSheet | null {
+/**
+ * Find attached sheet with the highest index.
+ */
+function findHighestSheet(registry: Array<StyleSheet>): StyleSheet|null {
   for (let i = registry.length - 1; i >= 0; i--) {
     const sheet = registry[i]
     if (sheet.attached) return sheet
@@ -67,10 +62,13 @@ function findHighestSheet(registry: Array<StyleSheet>): StyleSheet | null {
   return null
 }
 
-function findCommentNode(head: HTMLElement): Comment | null {
+/**
+ * Find a comment with "jss" inside.
+ */
+function findCommentNode(head: HTMLElement): Comment|null {
   for (let i = 0; i < head.childNodes.length; i++) {
     const node = head.childNodes[i]
-    if (node instanceof Comment && node.nodeValue.trim() === 'jss') {
+    if (node.nodeType === 8 && node.nodeValue.trim() === 'jss') {
       return node
     }
   }
@@ -80,7 +78,7 @@ function findCommentNode(head: HTMLElement): Comment | null {
 /**
  * Find a node before which we can insert the sheet.
  */
-function findPrevNode(head: HTMLElement, index: number): HTMLElement | null {
+function findPrevNode(head: HTMLElement, index: number): ?Node|null {
   const {registry} = sheets
 
   if (registry.length > 1) {
@@ -119,8 +117,6 @@ export default class DomRenderer {
 
   /**
    * Create and ref style element.
-   *
-   * @api private
    */
   createElement(): void {
     const {media, meta, element} = (this.sheet ? this.sheet.options : {})
@@ -134,8 +130,6 @@ export default class DomRenderer {
 
   /**
    * Insert style element into render tree.
-   *
-   * @api private
    */
   attach(): void {
     // In the case the element node is external and it is already in the DOM.
@@ -146,8 +140,6 @@ export default class DomRenderer {
 
   /**
    * Remove style element from render tree.
-   *
-   * @api private
    */
   detach(): void {
     this.element.parentNode.removeChild(this.element)
@@ -155,9 +147,6 @@ export default class DomRenderer {
 
   /**
    * Inject CSS string into element.
-   *
-   * @param {String} cssStr
-   * @api private
    */
   deploy(sheet: StyleSheet): void {
     this.element.textContent = `\n${sheet.toString()}\n`
@@ -165,10 +154,6 @@ export default class DomRenderer {
 
   /**
    * Insert a rule into element.
-   *
-   * @param {Rule} rule
-   * @return {CSSStyleRule}
-   * @api private
    */
   insertRule(rule: Rule): CSSStyleRule {
     const {sheet} = this.element
@@ -185,10 +170,6 @@ export default class DomRenderer {
 
   /**
    * Delete a rule.
-   *
-   * @param {CSSStyleRule} rule
-   * @return {Boolean} true if the rule was deleted
-   * @api private
    */
   deleteRule(rule: CSSStyleRule): boolean {
     const {sheet} = this.element
@@ -204,9 +185,6 @@ export default class DomRenderer {
 
   /**
    * Get all rules elements.
-   *
-   * @return {Array} cssRules
-   * @api private
    */
   getRules(): CSSRuleList {
     return this.element.sheet.cssRules

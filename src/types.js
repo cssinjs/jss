@@ -10,7 +10,7 @@ export type InstanceStyleSheetOptions = {
   jss: Jss,
   generateClassName: Function,
   sheet: StyleSheet,
-  parent: ConditionalRule | StyleSheet,
+  parent: ConditionalRule|StyleSheet,
   classes: Object,
   Renderer: Renderer,
   element?: HTMLStyleElement,
@@ -24,7 +24,7 @@ export type RulesContainerOptions = {
   Renderer: Renderer,
   jss: Jss,
   sheet: StyleSheet,
-  parent: ConditionalRule | StyleSheet
+  parent: ConditionalRule|StyleSheet
 }
 
 /**
