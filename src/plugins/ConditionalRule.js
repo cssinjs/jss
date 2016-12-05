@@ -46,7 +46,7 @@ export default class ConditionalRule {
    * Will not render after style sheet was rendered the first time.
    * Will link the rule in `this.rules`.
    */
-  addRule(name: string, style: Object, options: RuleOptions) {
+  addRule(name: string, style: Object, options: RuleOptions): Rule {
     return this.rules.create(name, style, this.getChildOptions(options))
   }
 

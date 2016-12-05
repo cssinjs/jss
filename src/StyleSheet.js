@@ -57,7 +57,7 @@ export default class StyleSheet {
   /**
    * Attach renderable to the render tree.
    */
-  attach(): StyleSheet {
+  attach(): this {
     if (this.attached) return this
     if (!this.deployed) this.deploy()
     this.renderer.attach()
@@ -69,7 +69,7 @@ export default class StyleSheet {
   /**
    * Remove renderable from render tree.
    */
-  detach(): StyleSheet {
+  detach(): this {
     if (!this.attached) return this
     this.renderer.detach()
     this.attached = false
@@ -167,7 +167,7 @@ export default class StyleSheet {
   /**
    * Deploy pure CSS string to a renderable.
    */
-  deploy(): StyleSheet {
+  deploy(): this {
     this.renderer.deploy(this)
     this.deployed = true
     return this
@@ -176,7 +176,7 @@ export default class StyleSheet {
   /**
    * Link renderable CSS rules with their corresponding models.
    */
-  link(): StyleSheet {
+  link(): this {
     const cssRules = this.renderer.getRules()
     for (let i = 0; i < cssRules.length; i++) {
       const CSSStyleRule = cssRules[i]

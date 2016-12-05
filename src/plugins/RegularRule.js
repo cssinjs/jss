@@ -113,7 +113,7 @@ export default class RegularRule {
   /**
    * Apply rule to an element inline.
    */
-  applyTo(renderable: Node): RegularRule {
+  applyTo(renderable: Node): this {
     const json = this.toJSON()
     for (const prop in json) this.renderer.style(renderable, prop, json[prop])
     return this

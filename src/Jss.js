@@ -6,6 +6,7 @@ import sheets from './sheets'
 import generateClassNameDefault from './utils/generateClassName'
 import createRule from './utils/createRule'
 import findRenderer from './utils/findRenderer'
+import type {Rule} from './types'
 
 declare var __VERSION__: string
 
@@ -21,7 +22,7 @@ export default class Jss {
     this.setup(options)
   }
 
-  setup(options?: JssOptions = {}): Jss {
+  setup(options?: JssOptions = {}): this {
     this.options = {
       ...options,
       generateClassName: options.generateClassName || generateClassNameDefault
@@ -45,7 +46,7 @@ export default class Jss {
   /**
    * Detach the style sheet and remove it from the registry.
    */
-  removeStyleSheet(sheet: StyleSheet): Jss {
+  removeStyleSheet(sheet: StyleSheet): this {
     sheet.detach()
     sheets.remove(sheet)
     return this
@@ -54,7 +55,7 @@ export default class Jss {
   /**
    * Create a rule.
    */
-  createRule(name?: string, style?: Object, options?: RuleOptions): Object {
+  createRule(name?: string, style?: Object, options?: RuleOptions): Rule {
     // Enable rule without name for inline styles.
     if (typeof name === 'object') {
       options = style
@@ -82,7 +83,7 @@ export default class Jss {
   /**
    * Register plugin. Passed function will be invoked with a rule instance.
    */
-  use(...plugins: Array<Plugin>): Jss {
+  use(...plugins: Array<Plugin>): this {
     plugins.forEach(plugin => this.plugins.use(plugin))
     return this
   }
