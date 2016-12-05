@@ -1,7 +1,6 @@
 /* @flow */
-
 import createRule from './utils/createRule'
-import type {RulesContainerOptions, RuleOptions, toCssOptions, Rule} from './types'
+import type {RulesContainerOptions, ToCssOptions, Rule} from './types'
 
 /**
  * Contains rules objects and allows adding/removing etc.
@@ -94,7 +93,7 @@ export default class RulesContainer {
   /**
    * Convert rules to a CSS string.
    */
-  toString(options?: toCssOptions): string {
+  toString(options?: ToCssOptions): string {
     let str = ''
 
     for (let index = 0; index < this.index.length; index++) {
@@ -123,7 +122,7 @@ export default class RulesContainer {
   /**
    * Create and register a rule.
    */
-  createAndRegister(name?: string, style: Object, options?: RuleOptions) {
+  createAndRegister(name?: string, style: Object, options?: RuleOptions): Rule {
     const {parent, sheet, jss, Renderer, generateClassName} = this.options
 
     options = {

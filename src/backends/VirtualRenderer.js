@@ -5,15 +5,15 @@
  * Rendering backend to do nothing in nodejs.
  */
 export default class VirtualRenderer {
-  createElement() {}
-  style() {}
-  selector() {}
-  attach() {}
-  detach() {}
-  deploy() {}
-  insertRule() {}
-  deleteRule() {}
-  getRules() {
+  createElement(): any {}
+  style(): any {}
+  selector(): any {}
+  attach(): any {}
+  detach(): any {}
+  deploy(): any {}
+  insertRule(): any {}
+  deleteRule(): any {}
+  getRules(): any {
     return []
   }
 }

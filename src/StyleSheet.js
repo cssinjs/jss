@@ -1,13 +1,10 @@
 /* @flow */
-
 import findRenderer from './utils/findRenderer'
 import RulesContainer from './RulesContainer'
 import type {
   InstanceStyleSheetOptions,
-  StyleSheetOptions,
   Rule,
-  toCssOptions,
-  RuleOptions
+  ToCssOptions
 } from './types'
 
 export default class StyleSheet {
@@ -21,15 +18,15 @@ export default class StyleSheet {
 
   rules: RulesContainer
 
-  renderer: JssRenderer
+  renderer: Object
 
   classes: Object
 
   queue: ?Array<Rule>
 
   constructor(styles: Object, options: StyleSheetOptions) {
-    const index = typeof options.index === 'number' ? options.index : 0
     const Renderer = findRenderer(options)
+    const index = typeof options.index === 'number' ? options.index : 0
 
     this.attached = false
     this.deployed = false
@@ -43,7 +40,7 @@ export default class StyleSheet {
       Renderer,
       ...options
     }
-    this.renderer = (new Renderer(this): JssRenderer)
+    this.renderer = new Renderer(this)
     this.renderer.createElement()
     this.rules = new RulesContainer(this.options)
 
@@ -51,8 +48,10 @@ export default class StyleSheet {
       this.rules.createAndRegister(name, styles[name])
     }
 
-    const {plugins} = options.jss
-    this.rules.getIndex().forEach(plugins.onProcessRule, plugins)
+    if (options.jss) {
+      const {plugins} = options.jss
+      this.rules.getIndex().forEach(plugins.onProcessRule, plugins)
+    }
   }
 
   /**
@@ -161,7 +160,7 @@ export default class StyleSheet {
   /**
    * Convert rules to a CSS string.
    */
-  toString(options?: toCssOptions): string {
+  toString(options?: ToCssOptions): string {
     return this.rules.toString(options)
   }
 

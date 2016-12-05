@@ -9,7 +9,6 @@
 import Jss from './Jss'
 import SheetsRegistry from './SheetsRegistry'
 import sheets from './sheets'
-import type {PublicJssOptions} from './types'
 
 /**
  * SheetsRegistry for SSR.
@@ -24,7 +23,7 @@ export {sheets}
 /**
  * Creates a new instance of Jss.
  */
-export const create = (options?: PublicJssOptions): Jss => new Jss(options)
+export const create = (options?: JssOptions): Jss => new Jss(options)
 
 /**
  * A global Jss instance.

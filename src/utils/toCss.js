@@ -1,15 +1,12 @@
+/* @flow */
 import toCssValue from './toCssValue'
+import type {ToCssOptions as Options} from '../types'
 
 /**
  * Indent a string.
- *
  * http://jsperf.com/array-join-vs-for
- *
- * @param {Number} level
- * @param {String} str
- * @return {String}
  */
-function indent(level, str) {
+function indent(level: number, str: string): string {
   let indentStr = ''
   for (let index = 0; index < level; index++) indentStr += '  '
   return indentStr + str
@@ -17,17 +14,8 @@ function indent(level, str) {
 
 /**
  * Converts a Rule to CSS string.
- *
- * Options:
- * - `selector` use `false` to get a rule without selector
- * - `indentationLevel` level of indentation
- *
- * @param {String} selector
- * @param {Object} style
- * @param {Object} options
- * @return {String}
  */
-export default function toCss(selector, style, options = {}) {
+export default function toCss(selector: string, style: Object, options: Options = {}): string {
   let indentationLevel = options.indentationLevel || 0
   let str = ''
 

@@ -1,5 +1,4 @@
 /* @flow */
-
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import internalPlugins from './plugins'
@@ -7,7 +6,6 @@ import sheets from './sheets'
 import generateClassNameDefault from './utils/generateClassName'
 import createRule from './utils/createRule'
 import findRenderer from './utils/findRenderer'
-import type {Plugin, PublicJssOptions, JssOptions, PublicStyleSheetOptions, RuleOptions} from './types'
 
 declare var __VERSION__: string
 
@@ -18,12 +16,12 @@ export default class Jss {
 
   options: JssOptions
 
-  constructor(options?: PublicJssOptions) {
+  constructor(options?: JssOptions) {
     this.use.apply(this, internalPlugins) // eslint-disable-line prefer-spread
     this.setup(options)
   }
 
-  setup(options?: PublicJssOptions = {}): Jss {
+  setup(options?: JssOptions = {}): Jss {
     this.options = {
       ...options,
       generateClassName: options.generateClassName || generateClassNameDefault
@@ -36,13 +34,12 @@ export default class Jss {
   /**
    * Create a style sheet.
    */
-  createStyleSheet(styles: Object, options: PublicStyleSheetOptions): StyleSheet {
-    options = {
+  createStyleSheet(styles: Object, options: StyleSheetOptions): StyleSheet {
+    return new StyleSheet(styles, {
       jss: this,
       generateClassName: this.options.generateClassName,
       ...options
-    }
-    return new StyleSheet(styles, options)
+    })
   }
 
   /**
@@ -67,7 +64,7 @@ export default class Jss {
 
     // Perf optimization, turns out to be important.
     const {Renderer, generateClassName} = options || {}
-    if (!Renderer || !generateClassName) {
+    if (!options || !Renderer || !generateClassName) {
       options = {
         jss: this,
         Renderer: findRenderer(options),

@@ -1,14 +1,17 @@
+/* @flow */
+
 import createRule from '../utils/createRule'
 
-/**
- * Keyframe rule.
- *
- * @api private
- */
 export default class KeyframeRule {
   type = 'keyframe'
 
-  constructor(selector, frames, options) {
+  selector: string
+
+  frames: Object
+
+  options: RuleOptions
+
+  constructor(selector: string, frames: Object, options: RuleOptions) {
     this.selector = selector
     this.options = options
     this.frames = this.formatFrames(frames)
@@ -16,10 +19,8 @@ export default class KeyframeRule {
 
   /**
    * Creates formatted frames where every frame value is a rule instance.
-   *
-   * @api private
    */
-  formatFrames(frames) {
+  formatFrames(frames: Object): Object {
     const newFrames = Object.create(null)
     for (const name in frames) {
       const options = {
@@ -37,11 +38,8 @@ export default class KeyframeRule {
 
   /**
    * Generates a CSS string.
-   *
-   * @return {String}
-   * @api private
    */
-  toString() {
+  toString(): string {
     let str = `${this.selector} {\n`
     const options = {indentationLevel: 1}
     for (const name in this.frames) {

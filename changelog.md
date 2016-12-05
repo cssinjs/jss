@@ -1,5 +1,9 @@
 ## 6.0.0 / 2016-12-04
 
+### Chore
+
+- Added flow types everywhere
+
 ### Breaking changes
 
 - Option "named" has been removed from JSS core and replaced by a jss-global plugin. From now on global styles are only possible using that plugin.

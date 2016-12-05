@@ -1,19 +1,25 @@
+/* @flow */
 import RulesContainer from '../RulesContainer'
+import type {Rule} from '../types'
 
 /**
  * Conditional rule for @media, @supports
- *
- * @api public
  */
 export default class ConditionalRule {
   type = 'conditional'
 
-  constructor(selector, rules, options) {
+  selector: string
+
+  rules: RulesContainer
+
+  options: RuleOptions
+
+  constructor(selector: string, styles: Object, options: RuleOptions) {
     this.selector = selector
     this.options = options
     this.rules = new RulesContainer({...options, parent: this})
-    for (const name in rules) {
-      this.createAndRegisterRule(name, rules[name])
+    for (const name in styles) {
+      this.createAndRegisterRule(name, styles[name])
     }
 
     const {plugins} = options.jss
@@ -22,21 +28,15 @@ export default class ConditionalRule {
 
   /**
    * Get a rule.
-   *
-   * @see RulesContainer.get()
-   * @api public
    */
-  getRule(name) {
+  getRule(name: string): Rule {
     return this.rules.get(name)
   }
 
   /**
    * Get index of a rule.
-   *
-   * @see RulesContainer.indexOf()
-   * @api public
    */
-  indexOf(rule) {
+  indexOf(rule: Rule): number {
     return this.rules.indexOf(rule)
   }
 
@@ -45,21 +45,15 @@ export default class ConditionalRule {
    *
    * Will not render after style sheet was rendered the first time.
    * Will link the rule in `this.rules`.
-   *
-   * @see createRule
-   * @api public
    */
-  addRule(name, style, options) {
+  addRule(name: string, style: Object, options: RuleOptions) {
     return this.rules.create(name, style, this.getChildOptions(options))
   }
 
   /**
    * Generates a CSS string.
-   *
-   * @return {String}
-   * @api public
    */
-  toString() {
+  toString(): string {
     const inner = this.rules.toString({indentationLevel: 1})
     if (!inner) return ''
     return `${this.selector} {\n${inner}\n}`
@@ -67,22 +61,15 @@ export default class ConditionalRule {
 
   /**
    * Build options object for a child rule.
-   *
-   * @param {Object} options
-   * @api private
-   * @return {Object}
    */
-  getChildOptions(options) {
+  getChildOptions(options?: RuleOptions): Object {
     return {...this.options, parent: this, ...options}
   }
 
   /**
    * Create and register a rule.
-   *
-   * @see RulesContainer.createAndRegister()
-   * @api private
    */
-  createAndRegisterRule(name, style) {
+  createAndRegisterRule(name?: string, style: Object): Rule {
     return this.rules.createAndRegister(name, style, this.getChildOptions())
   }
 }

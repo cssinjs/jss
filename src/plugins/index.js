@@ -1,3 +1,4 @@
+/* @flow */
 import SimpleRule from './SimpleRule'
 import KeyframeRule from './KeyframeRule'
 import ConditionalRule from './ConditionalRule'
@@ -16,7 +17,7 @@ const classes = {
 /**
  * Generate plugins which will register all rules.
  */
-export default Object.keys(classes).map((key) => {
+export default Object.keys(classes).map((key: string): Plugin => {
   // https://jsperf.com/indexof-vs-substr-vs-regex-at-the-beginning-3
   const re = new RegExp(`^${key}`)
   const onCreateRule = (name, style, options) => (

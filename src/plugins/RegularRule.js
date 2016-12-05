@@ -1,18 +1,31 @@
+/* @-flow */
 import toCss from '../utils/toCss'
 import toCssValue from '../utils/toCssValue'
 import findClassNames from '../utils/findClassNames'
+import type {ToCssOptions, InstanceRuleOptions} from '../types'
 
 const {parse, stringify} = JSON
 
-/**
- * Regular rules.
- *
- * @api public
- */
 export default class RegularRule {
   type = 'regular'
 
-  constructor(name, style, options) {
+  name: string
+
+  style: Object
+
+  originalStyle: Object
+
+  className: string
+
+  selectorText: string
+
+  renderer: Renderer
+
+  renderable: Node
+
+  options: InstanceRuleOptions
+
+  constructor(name?: string, style: Object, options: InstanceRuleOptions) {
     // We expect style to be plain object.
     // To avoid original style object mutations, we clone it and hash it
     // along the way.
@@ -25,18 +38,15 @@ export default class RegularRule {
     this.originalStyle = style
     this.className = options.className || options.generateClassName(styleStr, this)
     this.selectorText = options.selector || `.${this.className}`
-    this.renderer = options.sheet ? options.sheet.renderer : (new options.Renderer(): JssRenderer)
+    this.renderer = options.sheet ? options.sheet.renderer : new options.Renderer()
   }
 
   /**
    * Set selector string.
    * Attenition: use this with caution. Most browser didn't implement selector
    * text setter, so this will result in rerendering of entire style sheet.
-   *
-   * @param {String} selector
-   * @api public
    */
-  set selector(selector = '') {
+  set selector(selector: string): void {
     const {sheet} = this.options
 
     // After we modify selector, ref by old selector needs to be removed.
@@ -53,7 +63,7 @@ export default class RegularRule {
 
     const changed = this.renderer.selector(this.renderable, selector)
 
-    if (changed) {
+    if (changed && sheet) {
       sheet.rules.register(this)
       return
     }
@@ -62,19 +72,18 @@ export default class RegularRule {
     // We need to delete renderable from the rule, because when sheet.deploy()
     // calls rule.toString, it will get the old selector.
     delete this.renderable
-    sheet.rules.register(this)
-    sheet
-      .deploy()
-      .link()
+    if (sheet) {
+      sheet.rules.register(this)
+      sheet
+        .deploy()
+        .link()
+    }
   }
 
   /**
    * Get selector string.
-   *
-   * @return {String}
-   * @api public
    */
-  get selector() {
+  get selector(): string {
     if (this.renderable) {
       return this.renderer.selector(this.renderable)
     }
@@ -84,13 +93,8 @@ export default class RegularRule {
 
   /**
    * Get or set a style property.
-   *
-   * @param {String} name
-   * @param {String|Number} [value]
-   * @return {Rule|String|Number}
-   * @api public
    */
-  prop(name, value) {
+  prop(name: string, value?: string | number): RegularRule | string | number {
     // Its a setter.
     if (value != null) {
       this.style[name] = value
@@ -108,12 +112,8 @@ export default class RegularRule {
 
   /**
    * Apply rule to an element inline.
-   *
-   * @param {Element} renderable
-   * @return {Rule}
-   * @api public
    */
-  applyTo(renderable) {
+  applyTo(renderable: Node): RegularRule {
     const json = this.toJSON()
     for (const prop in json) this.renderer.style(renderable, prop, json[prop])
     return this
@@ -122,11 +122,8 @@ export default class RegularRule {
   /**
    * Returns JSON representation of the rule.
    * Fallbacks are not supported.
-   *
-   * @return {Object}
-   * @api public
    */
-  toJSON() {
+  toJSON(): Object {
     const json = Object.create(null)
     for (const prop in this.style) {
       const value = this.style[prop]
@@ -138,11 +135,8 @@ export default class RegularRule {
 
   /**
    * Generates a CSS string.
-   *
-   * @see toCss
-   * @api public
    */
-  toString(options) {
+  toString(options?: ToCssOptions): string {
     return toCss(this.selector, this.style, options)
   }
 }

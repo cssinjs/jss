@@ -1,14 +1,16 @@
+/* @flow */
 import toCss from '../utils/toCss'
 
-/**
- * Font-face rules.
- *
- * @api public
- */
 export default class FontFaceRule {
   type = 'font-face'
 
-  constructor(selector, style, options) {
+  selector: string
+
+  style: Object
+
+  options: RuleOptions
+
+  constructor(selector: string, style: Object, options: RuleOptions) {
     this.selector = selector
     this.style = style
     this.options = options
@@ -16,20 +18,17 @@ export default class FontFaceRule {
 
   /**
    * Generates a CSS string.
-   *
-   * @see toCss
-   * @api public
    */
-  toString(options) {
+  toString(): string {
     if (Array.isArray(this.style)) {
       let str = ''
       for (let index = 0; index < this.style.length; index++) {
-        str += toCss(this.selector, this.style[index], options)
+        str += toCss(this.selector, this.style[index])
         if (this.style[index + 1]) str += '\n'
       }
       return str
     }
 
-    return toCss(this.selector, this.style, options)
+    return toCss(this.selector, this.style)
   }
 }

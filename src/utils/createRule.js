@@ -1,16 +1,12 @@
+/* @flow */
 import warning from 'warning'
 import RegularRule from '../plugins/RegularRule'
+import type {Rule} from '../types'
 
 /**
  * Create a rule instance.
- *
- * @param {Object} [name]
- * @param {Object} [decl] declarations block
- * @param {Object} [options] rule options
- * @return {Object} rule
- * @api public
  */
-export default function createRule(name, decl = {}, options = {}) {
+export default function createRule(name?: string, decl: Object = {}, options: RuleOptions): Rule {
   // Is an at-rule.
   if (name && name[0] === '@') {
     const rule = options.jss.plugins.onCreateRule(name, decl, options)

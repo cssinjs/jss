@@ -1,6 +1,5 @@
 /* @flow */
-
-import type {toCssOptions, StyleSheet} from './types'
+import type {ToCssOptions, StyleSheet} from './types'
 
 /**
  * Sheets registry to access them all at one place.
@@ -47,7 +46,7 @@ export default class SheetsRegistry {
   /**
    * Convert all attached sheets to a CSS string.
    */
-  toString(options?: toCssOptions): string {
+  toString(options?: ToCssOptions): string {
     return this.registry
       .filter(sheet => sheet.attached)
       .map(sheet => sheet.toString(options))

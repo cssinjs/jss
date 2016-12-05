@@ -1,16 +1,14 @@
 /* @flow */
-/**
- * Rule like @charset, @import, @namespace.
- *
- * @api public
- */
-export default class SimpleRule {
-  type: string = 'simple'
-  name: string
-  value: string
-  options: Object
 
-  constructor(name: string, value: string, options: Object) {
+type Name = 'charset' | 'import' | 'namespace'
+
+export default class SimpleRule {
+  type = 'simple'
+  name: Name
+  value: string
+  options: RuleOptions
+
+  constructor(name: Name, value: string, options: RuleOptions) {
     this.name = name
     this.value = value
     this.options = options
@@ -18,9 +16,6 @@ export default class SimpleRule {
 
   /**
    * Generates a CSS string.
-   *
-   * @return {String}
-   * @api public
    */
   toString(): string {
     if (Array.isArray(this.value)) {
