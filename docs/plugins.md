@@ -12,12 +12,12 @@ In case you use any of the following plugins please bear in mind that they shoul
 
   1. jss-extend
   1. jss-nested
+  1. jss-compose
   1. jss-camel-case
   1. jss-default-unit
   1. jss-expand
   1. jss-vendor-prefixer
   1. jss-props-sort
-  1. jss-compose
   1. jss-isolate
 
 To make your life easier we made [jss-default-preset](https://www.npmjs.com/package/jss-preset-default) which is a ready to use and ordered preset of plugins.
