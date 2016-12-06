@@ -9,13 +9,13 @@ import expand from 'jss-expand'
 
 export default (options = {}) => ({
   plugins: [
+    compose(options.compose),
     extend(options.extend),
     nested(options.nested),
     camelCase(options.camelCase),
     defaultUnit(options.defaultUnit),
     expand(options.expand),
     vendorPrefixer(options.vendorPrefixer),
-    propsSort(options.propsSort),
-    compose(options.compose)
+    propsSort(options.propsSort)
   ]
 })
