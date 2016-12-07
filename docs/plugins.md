@@ -1,4 +1,4 @@
-## JSS Plugins.
+# JSS Plugins
 
 The Plugins API allows to manipulate every rule at creation time. A plugin can for e.g. add new style properties, modify values or even add new rules.
 
