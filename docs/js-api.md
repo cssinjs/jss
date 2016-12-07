@@ -1,4 +1,4 @@
-## API
+# JavaScript API
 
 1. [Access the jss namespace.](#access-the-jss-namespace)
 1. [Create an own instance of JSS.](#create-an-own-instance-of-jss)
