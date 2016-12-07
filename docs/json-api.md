@@ -1,4 +1,4 @@
-## JSON API for declaring style sheets.
+# JSON API for declaring style sheets
 
 JSS is designed to stay as close as possible to the CSS syntax, however there are some exceptions.
 
