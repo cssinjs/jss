@@ -1,4 +1,4 @@
-## Projects created by community based on jss.
+# Projects created by community based on JSS
 
 ### Libraries on top of JSS
 
