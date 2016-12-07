@@ -1,4 +1,4 @@
-## Performance
+# Performance
 
 ### Advantages
 
