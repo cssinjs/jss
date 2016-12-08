@@ -7,12 +7,42 @@ export type ToCssOptions = {
   indent?: number
 }
 
+export type generateClassName = (str: string, rule: Rule) => string
+
+export type RuleOptions = {
+  className?: string,
+  selector?: string,
+  generateClassName?: generateClassName,
+  Renderer?: Function,
+  index?: number,
+  virtual?: boolean,
+  classes?: Object,
+  jss?: Jss,
+  sheet?: StyleSheet
+}
+
+export type RulesContainerOptions = {
+  classes: Object,
+  generateClassName: generateClassName,
+  Renderer: Function,
+  jss: Jss,
+  sheet: StyleSheet,
+  parent: ConditionalRule|StyleSheet
+}
+
+export interface Rule {
+  name: ?string;
+  selector: string;
+  style: Object;
+  renderable: ?CSSStyleRule;
+  options: RuleOptions;
+  toString(options?: ToCssOptions): string;
+}
+
 export type Plugin = {
   onCreateRule?: (name: string, decl: Object, options: RuleOptions) => Rule|null,
   onProcessRule?: (rule: Rule) => void
 }
-
-export type generateClassName = (str: string, rule: Rule) => string
 
 export type JssOptions = {
   generateClassName?: generateClassName,
@@ -57,36 +87,6 @@ export type StyleSheetInstanceOptions = {
   sheet: StyleSheet,
   parent: ConditionalRule|StyleSheet,
   classes: Object
-}
-
-export type RuleOptions = {
-  className?: string,
-  selector?: string,
-  generateClassName?: generateClassName,
-  Renderer?: Function,
-  index?: number,
-  virtual?: boolean,
-  classes?: Object,
-  jss?: Jss,
-  sheet?: StyleSheet
-}
-
-export type RulesContainerOptions = {
-  classes: Object,
-  generateClassName: generateClassName,
-  Renderer: Function,
-  jss: Jss,
-  sheet: StyleSheet,
-  parent: ConditionalRule|StyleSheet
-}
-
-export interface Rule {
-  name: ?string;
-  selector: string;
-  style: Object;
-  renderable: ?CSSStyleRule;
-  options: RuleOptions;
-  toString(options?: ToCssOptions): string;
 }
 
 export interface Renderer {
