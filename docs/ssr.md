@@ -1,4 +1,4 @@
-## Server-Side Rendering
+# Server-Side Rendering
 
 1. Render the document.
 

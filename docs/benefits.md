@@ -1,4 +1,4 @@
-## Benefits of using JavaScript Style Sheets.
+# Benefits of using JavaScript Style Sheets.
 
 ### Compared to regular CSS.
 
