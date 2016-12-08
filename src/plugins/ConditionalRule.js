@@ -1,6 +1,6 @@
 /* @flow */
 import RulesContainer from '../RulesContainer'
-import type {Rule} from '../types'
+import type {Rule, RuleOptions} from '../types'
 
 /**
  * Conditional rule for @media, @supports
@@ -22,8 +22,10 @@ export default class ConditionalRule {
       this.createAndRegisterRule(name, styles[name])
     }
 
-    const {plugins} = options.jss
-    this.rules.getIndex().forEach(plugins.onProcessRule, plugins)
+    if (options.jss) {
+      const {plugins} = options.jss
+      this.rules.getIndex().forEach(plugins.onProcessRule, plugins)
+    }
   }
 
   /**
@@ -43,7 +45,7 @@ export default class ConditionalRule {
   /**
    * Create and register rule, run plugins.
    *
-   * Will not render after style sheet was rendered the first time.
+   * Will not render after Style Sheet was rendered the first time.
    * Will link the rule in `this.rules`.
    */
   addRule(name: string, style: Object, options: RuleOptions): Rule {
@@ -51,18 +53,9 @@ export default class ConditionalRule {
   }
 
   /**
-   * Generates a CSS string.
-   */
-  toString(): string {
-    const inner = this.rules.toString({indentationLevel: 1})
-    if (!inner) return ''
-    return `${this.selector} {\n${inner}\n}`
-  }
-
-  /**
    * Build options object for a child rule.
    */
-  getChildOptions(options?: RuleOptions): Object {
+  getChildOptions(options?: RuleOptions): RuleOptions {
     return {...this.options, parent: this, ...options}
   }
 
@@ -71,5 +64,14 @@ export default class ConditionalRule {
    */
   createAndRegisterRule(name?: string, style: Object): Rule {
     return this.rules.createAndRegister(name, style, this.getChildOptions())
+  }
+
+  /**
+   * Generates a CSS string.
+   */
+  toString(): string {
+    const inner = this.rules.toString({indent: 1})
+    if (!inner) return ''
+    return `${this.selector} {\n${inner}\n}`
   }
 }

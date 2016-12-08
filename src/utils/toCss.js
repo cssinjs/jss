@@ -6,22 +6,21 @@ import type {ToCssOptions as Options} from '../types'
  * Indent a string.
  * http://jsperf.com/array-join-vs-for
  */
-function indent(level: number, str: string): string {
-  let indentStr = ''
-  for (let index = 0; index < level; index++) indentStr += '  '
-  return indentStr + str
+function indentStr(str: string, indent: number): string {
+  let result = ''
+  for (let index = 0; index < indent; index++) result += '  '
+  return result + str
 }
 
 /**
  * Converts a Rule to CSS string.
  */
 export default function toCss(selector: string, style: Object, options: Options = {}): string {
-  let indentationLevel = options.indentationLevel || 0
-  let str = ''
-
+  let {indent = 0} = options
   const {fallbacks} = style
+  let result = ''
 
-  if (options.selector !== false) indentationLevel++
+  indent++
 
   // Apply fallbacks first.
   if (fallbacks) {
@@ -32,7 +31,7 @@ export default function toCss(selector: string, style: Object, options: Options 
         for (const prop in fallback) {
           const value = fallback[prop]
           if (value != null) {
-            str += `\n${indent(indentationLevel, `${prop}: ${toCssValue(value)};`)}`
+            result += `\n${indentStr(`${prop}: ${toCssValue(value)};`, indent)}`
           }
         }
       }
@@ -42,7 +41,7 @@ export default function toCss(selector: string, style: Object, options: Options 
       for (const prop in fallbacks) {
         const value = fallbacks[prop]
         if (value != null) {
-          str += `\n${indent(indentationLevel, `${prop}: ${toCssValue(value)};`)}`
+          result += `\n${indentStr(`${prop}: ${toCssValue(value)};`, indent)}`
         }
       }
     }
@@ -51,16 +50,14 @@ export default function toCss(selector: string, style: Object, options: Options 
   for (const prop in style) {
     const value = style[prop]
     if (value != null && prop !== 'fallbacks') {
-      str += `\n${indent(indentationLevel, `${prop}: ${toCssValue(value)};`)}`
+      result += `\n${indentStr(`${prop}: ${toCssValue(value)};`, indent)}`
     }
   }
 
-  if (!str) return str
+  if (!result) return result
 
-  if (options.selector !== false) {
-    indentationLevel--
-    str = indent(indentationLevel, `${selector} {${str}\n`) + indent(indentationLevel, '}')
-  }
+  indent--
+  result = indentStr(`${selector} {${result}\n`, indent) + indentStr('}', indent)
 
-  return str
+  return result
 }

@@ -1,6 +1,11 @@
 /* @flow */
 import createRule from './utils/createRule'
-import type {RulesContainerOptions, ToCssOptions, Rule} from './types'
+import type {
+  RulesContainerOptions,
+  ToCssOptions,
+  Rule,
+  RuleOptions
+} from './types'
 
 /**
  * Contains rules objects and allows adding/removing etc.
@@ -20,8 +25,7 @@ export default class RulesContainer {
 
   constructor(options: RulesContainerOptions) {
     this.options = options
-    // Default object is needed when rule is created without a sheet.
-    this.classes = options.classes || {}
+    this.classes = options.classes
   }
 
   /**

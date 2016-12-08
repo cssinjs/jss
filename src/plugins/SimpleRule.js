@@ -1,11 +1,15 @@
 /* @flow */
+import type {RuleOptions} from '../types'
 
 type Name = 'charset'|'import'|'namespace'
 
 export default class SimpleRule {
   type = 'simple'
+
   name: Name
+
   value: string
+
   options: RuleOptions
 
   constructor(name: Name, value: string, options: RuleOptions) {

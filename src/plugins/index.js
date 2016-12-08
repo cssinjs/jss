@@ -3,6 +3,7 @@ import SimpleRule from './SimpleRule'
 import KeyframeRule from './KeyframeRule'
 import ConditionalRule from './ConditionalRule'
 import FontFaceRule from './FontFaceRule'
+import type {Plugin} from '../types'
 
 const classes = {
   '@charset': SimpleRule,

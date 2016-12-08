@@ -1,21 +1,28 @@
 /* @flow */
-
 import warning from 'warning'
 import sheets from '../sheets'
-
-import type {
-  Rule,
-  StyleSheet,
-} from '../types'
+import type StyleSheet from '../StyleSheet'
+import type {Rule} from '../types'
 
 /**
- * Get or set a style property.
+ * Get a style property.
  */
-function style(rule: CSSStyleRule, prop: string, value?: string): string|boolean {
+function getStyle(rule: HTMLElement|CSSStyleRule, prop: string): string {
   try {
-    // It is a getter.
-    if (value == null) return rule.style[prop]
-    rule.style[prop] = value
+    return rule.style.getPropertyValue(prop)
+  }
+  catch (err) {
+    // IE may throw if property is unknown.
+    return ''
+  }
+}
+
+/**
+ * Set a style property.
+ */
+function setStyle(rule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean {
+  try {
+    rule.style.setProperty(prop, value)
   }
   catch (err) {
     // IE may throw if property is unknown.
@@ -24,13 +31,18 @@ function style(rule: CSSStyleRule, prop: string, value?: string): string|boolean
   return true
 }
 
-/**
- * Get or set the selector.
- */
-function selector(rule: CSSStyleRule, selectorText?: string): string|boolean {
-  // It is a getter.
-  if (selectorText == null) return rule.selectorText
 
+/**
+ * Get the selector.
+ */
+function getSelector(rule: CSSStyleRule): string {
+  return rule.selectorText
+}
+
+/**
+ * Set the selector.
+ */
+function setSelector(rule: CSSStyleRule, selectorText: string): boolean {
   rule.selectorText = selectorText
 
   // Return false if setter was not successful.
@@ -98,9 +110,13 @@ function findPrevNode(head: HTMLElement, index: number): ?Node|null {
 }
 
 export default class DomRenderer {
-  style = style
+  getStyle = getStyle
 
-  selector = selector
+  setStyle = setStyle
+
+  setSelector = setSelector
+
+  getSelector = getSelector
 
   // HTMLStyleElement needs fixing https://github.com/facebook/flow/issues/2696
   element: any

@@ -6,7 +6,13 @@ import sheets from './sheets'
 import generateClassNameDefault from './utils/generateClassName'
 import createRule from './utils/createRule'
 import findRenderer from './utils/findRenderer'
-import type {Rule} from './types'
+import type {
+  Rule,
+  RuleOptions,
+  StyleSheetOptions,
+  Plugin,
+  JssOptions
+} from './types'
 
 declare var __VERSION__: string
 
@@ -33,18 +39,18 @@ export default class Jss {
   }
 
   /**
-   * Create a style sheet.
+   * Create a Style Sheet.
    */
   createStyleSheet(styles: Object, options: StyleSheetOptions): StyleSheet {
     return new StyleSheet(styles, {
-      jss: this,
+      jss: (this: Jss),
       generateClassName: this.options.generateClassName,
       ...options
     })
   }
 
   /**
-   * Detach the style sheet and remove it from the registry.
+   * Detach the Style Sheet and remove it from the registry.
    */
   removeStyleSheet(sheet: StyleSheet): this {
     sheet.detach()
@@ -53,9 +59,9 @@ export default class Jss {
   }
 
   /**
-   * Create a rule.
+   * Create a rule without a Style Sheet.
    */
-  createRule(name?: string, style?: Object, options?: RuleOptions): Rule {
+  createRule(name?: string, style?: Object = {}, options?: RuleOptions = {}): Rule {
     // Enable rule without name for inline styles.
     if (typeof name === 'object') {
       options = style
@@ -63,15 +69,11 @@ export default class Jss {
       name = undefined
     }
 
-    // Perf optimization, turns out to be important.
-    const {Renderer, generateClassName} = options || {}
-    if (!options || !Renderer || !generateClassName) {
-      options = {
-        jss: this,
-        Renderer: findRenderer(options),
-        generateClassName: generateClassName || this.options.generateClassName,
-        ...options
-      }
+    if (!options.classes) options.classes = {}
+    if (!options.jss) options.jss = this
+    if (!options.Renderer) options.Renderer = findRenderer(options)
+    if (!options.generateClassName) {
+      options.generateClassName = this.options.generateClassName || generateClassNameDefault
     }
 
     const rule = createRule(name, style, options)

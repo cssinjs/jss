@@ -9,6 +9,7 @@
 import Jss from './Jss'
 import SheetsRegistry from './SheetsRegistry'
 import sheets from './sheets'
+import type {JssOptions} from './types'
 
 /**
  * SheetsRegistry for SSR.

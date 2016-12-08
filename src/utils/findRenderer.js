@@ -2,6 +2,7 @@
 import isInBrowser from 'is-in-browser'
 import DomRenderer from '../backends/DomRenderer'
 import VirtualRenderer from '../backends/VirtualRenderer'
+import type {RuleOptions, StyleSheetOptions} from '../types'
 
 /**
  * Find proper renderer.

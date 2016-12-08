@@ -61,11 +61,6 @@ describe('Integration: rules', () => {
       expect(rule.toString()).to.be('.a-id {\n  float: left;\n  width: 1px;\n}')
     })
 
-    it('should return CSS without selector', () => {
-      const rule = jss.createRule('a', {float: 'left'})
-      expect(rule.toString({selector: false})).to.be('\nfloat: left;')
-    })
-
     it('should return CSS with fallbacks object', () => {
       const rule = jss.createRule('a', {
         display: 'run-in',

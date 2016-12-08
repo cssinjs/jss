@@ -1,5 +1,6 @@
 /* @flow */
-import type {ToCssOptions, StyleSheet} from './types'
+import type {ToCssOptions} from './types'
+import type StyleSheet from './StyleSheet'
 
 /**
  * Sheets registry to access them all at one place.
@@ -8,7 +9,7 @@ export default class SheetsRegistry {
   registry: Array<StyleSheet> = []
 
   /**
-   * Register a style sheet.
+   * Register a Style Sheet.
    */
   add(sheet: StyleSheet): void {
     const {registry} = this
@@ -36,7 +37,7 @@ export default class SheetsRegistry {
   }
 
   /**
-   * Remove a style sheet.
+   * Remove a Style Sheet.
    */
   remove(sheet: StyleSheet): void {
     const index = this.registry.indexOf(sheet)

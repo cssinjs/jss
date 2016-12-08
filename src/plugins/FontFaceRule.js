@@ -1,5 +1,6 @@
 /* @flow */
 import toCss from '../utils/toCss'
+import type {RuleOptions} from '../types'
 
 export default class FontFaceRule {
   type = 'font-face'

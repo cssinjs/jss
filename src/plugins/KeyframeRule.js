@@ -1,6 +1,8 @@
 /* @flow */
-
 import createRule from '../utils/createRule'
+import type {RuleOptions} from '../types'
+
+const toCssOptions = {indent: 1}
 
 export default class KeyframeRule {
   type = 'keyframe'
@@ -41,9 +43,8 @@ export default class KeyframeRule {
    */
   toString(): string {
     let str = `${this.selector} {\n`
-    const options = {indentationLevel: 1}
     for (const name in this.frames) {
-      str += `${this.frames[name].toString(options)}\n`
+      str += `${this.frames[name].toString(toCssOptions)}\n`
     }
     str += '}'
     return str

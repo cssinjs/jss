@@ -1,15 +1,15 @@
-/* @-flow */
+/* @flow */
 import toCss from '../utils/toCss'
 import toCssValue from '../utils/toCssValue'
 import findClassNames from '../utils/findClassNames'
-import type {ToCssOptions, InstanceRuleOptions} from '../types'
+import type {ToCssOptions, RuleOptions, Renderer as RendererInterface} from '../types'
 
 const {parse, stringify} = JSON
 
 export default class RegularRule {
   type = 'regular'
 
-  name: string
+  name: ?string
 
   style: Object
 
@@ -19,37 +19,43 @@ export default class RegularRule {
 
   selectorText: string
 
-  renderer: Renderer
+  renderer: RendererInterface
 
-  renderable: Node
+  renderable: ?CSSStyleRule
 
-  options: InstanceRuleOptions
+  options: RuleOptions
 
-  constructor(name?: string, style: Object, options: InstanceRuleOptions) {
-    // We expect style to be plain object.
-    // To avoid original style object mutations, we clone it and hash it
-    // along the way.
-    // It is also the fastetst way.
-    // http://jsperf.com/lodash-deepclone-vs-jquery-extend-deep/6
+  /**
+   * We expect `style` to be a plain object.
+   * To avoid original style object mutations, we clone it and hash it
+   * along the way.
+   * It is also the fastetst way.
+   * http://jsperf.com/lodash-deepclone-vs-jquery-extend-deep/6
+   */
+  constructor(name?: string, style: Object, options: RuleOptions) {
+    const {generateClassName, sheet, Renderer} = options
     const styleStr = stringify(style)
     this.style = parse(styleStr)
     this.name = name
     this.options = options
     this.originalStyle = style
-    this.className = options.className || options.generateClassName(styleStr, this)
+    this.className = ''
+    if (options.className) this.className = options.className
+    else if (generateClassName) this.className = generateClassName(styleStr, this)
     this.selectorText = options.selector || `.${this.className}`
-    this.renderer = options.sheet ? options.sheet.renderer : new options.Renderer()
+    if (sheet) this.renderer = sheet.renderer
+    else if (Renderer) this.renderer = new Renderer()
   }
 
   /**
    * Set selector string.
-   * Attenition: use this with caution. Most browser didn't implement selector
-   * text setter, so this will result in rerendering of entire style sheet.
+   * Attenition: use this with caution. Most browser didn't implement
+   * selectorText setter, so this may result in rerendering of entire Style Sheet.
    */
   set selector(selector: string): void {
     const {sheet} = this.options
 
-    // After we modify selector, ref by old selector needs to be removed.
+    // After we modify a selector, ref by old selector needs to be removed.
     if (sheet) sheet.rules.unregister(this)
 
     this.selectorText = selector
@@ -61,7 +67,7 @@ export default class RegularRule {
       return
     }
 
-    const changed = this.renderer.selector(this.renderable, selector)
+    const changed = this.renderer.setSelector(this.renderable, selector)
 
     if (changed && sheet) {
       sheet.rules.register(this)
@@ -85,7 +91,8 @@ export default class RegularRule {
    */
   get selector(): string {
     if (this.renderable) {
-      return this.renderer.selector(this.renderable)
+      const selector = this.renderer.getSelector(this.renderable)
+      return (selector: string)
     }
 
     return this.selectorText
@@ -94,18 +101,18 @@ export default class RegularRule {
   /**
    * Get or set a style property.
    */
-  prop(name: string, value?: string|number): RegularRule|string|number {
+  prop(name: string, value?: string): RegularRule|string {
     // Its a setter.
     if (value != null) {
       this.style[name] = value
       // Only defined if option linked is true.
-      if (this.renderable) this.renderer.style(this.renderable, name, value)
+      if (this.renderable) this.renderer.setStyle(this.renderable, name, value)
       return this
     }
     // Its a getter, read the value from the DOM if its not cached.
     if (this.renderable && this.style[name] == null) {
       // Cache the value after we have got it from the DOM once.
-      this.style[name] = this.renderer.style(this.renderable, name)
+      this.style[name] = this.renderer.getStyle(this.renderable, name)
     }
     return this.style[name]
   }
@@ -113,15 +120,16 @@ export default class RegularRule {
   /**
    * Apply rule to an element inline.
    */
-  applyTo(renderable: Node): this {
+  applyTo(renderable: HTMLElement): this {
     const json = this.toJSON()
-    for (const prop in json) this.renderer.style(renderable, prop, json[prop])
+    for (const prop in json) this.renderer.setStyle(renderable, prop, json[prop])
     return this
   }
 
   /**
    * Returns JSON representation of the rule.
    * Fallbacks are not supported.
+   * Useful as inline style.
    */
   toJSON(): Object {
     const json = Object.create(null)

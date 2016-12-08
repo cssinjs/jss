@@ -1,4 +1,6 @@
 /* @flow */
+import type {Plugin, RuleOptions} from './types'
+
 export default class PluginsRegistry {
   registry: Array<Plugin> = []
 
