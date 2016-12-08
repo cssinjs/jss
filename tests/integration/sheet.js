@@ -40,6 +40,16 @@ describe('Integration: sheet', () => {
       })
       expect(sheet.classes.a).to.be('a-id')
     })
+
+    it('should create rule classNames using the rule name', () => {
+      const sheet = jss.createStyleSheet({bar: {}})
+      expect(sheet.classes.bar).to.be('bar-id')
+    })
+
+    it('should create rule classNames using the rule name and meta value', () => {
+      const sheet = jss.createStyleSheet({bar: {}}, {meta: 'foo'})
+      expect(sheet.classes.bar).to.be('foo_bar-id')
+    })
   })
 
   describe('sheet.getRule()', () => {
