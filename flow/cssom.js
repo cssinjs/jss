@@ -1,5 +1,5 @@
 declare class CSSStyleRule extends CSSRule {
-  style: Object; // CSSStyleDeclaration;
+  style: CSSStyleDeclaration;
   selectorText: string;
 }
 
