@@ -7,6 +7,6 @@ import type {Rule} from '../types'
  */
 export default function generateClassName(str: string, rule: Rule): string {
   const hash = createHash(str)
-  // There is no name if `jss.createRule(styles)` was used.
+  // There is no name if `jss.createRule(style)` was used.
   return rule.name ? `${rule.name}-${hash}` : hash
 }

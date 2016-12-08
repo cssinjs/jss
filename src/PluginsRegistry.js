@@ -1,5 +1,5 @@
 /* @flow */
-import type {Plugin, RuleOptions} from './types'
+import type {Plugin, Rule, RuleOptions} from './types'
 
 export default class PluginsRegistry {
   registry: Array<Plugin> = []
@@ -7,7 +7,7 @@ export default class PluginsRegistry {
   /**
    * Call `onCreateRule` hooks and return an object if returned by a hook.
    */
-  onCreateRule(name: string, decl: Object, options: RuleOptions): Object|null {
+  onCreateRule(name: string, decl: Object, options: RuleOptions): Rule|null {
     for (let i = 0; i < this.registry.length; i++) {
       const {onCreateRule} = this.registry[i]
       if (!onCreateRule) continue
@@ -20,7 +20,7 @@ export default class PluginsRegistry {
   /**
    * Call `onProcessRule` hooks.
    */
-  onProcessRule(rule: Object): void {
+  onProcessRule(rule: Rule): void {
     for (let i = 0; i < this.registry.length; i++) {
       const {onProcessRule} = this.registry[i]
       if (onProcessRule) onProcessRule(rule)

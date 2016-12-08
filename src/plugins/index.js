@@ -3,7 +3,7 @@ import SimpleRule from './SimpleRule'
 import KeyframeRule from './KeyframeRule'
 import ConditionalRule from './ConditionalRule'
 import FontFaceRule from './FontFaceRule'
-import type {Plugin} from '../types'
+import type {Plugin, RuleOptions, Rule} from '../types'
 
 const classes = {
   '@charset': SimpleRule,
@@ -21,8 +21,8 @@ const classes = {
 export default Object.keys(classes).map((key: string): Plugin => {
   // https://jsperf.com/indexof-vs-substr-vs-regex-at-the-beginning-3
   const re = new RegExp(`^${key}`)
-  const onCreateRule = (name, style, options) => (
-    re.test(name) ? new classes[key](name, style, options) : null
+  const onCreateRule = (name: string, decl: Object, options: RuleOptions): Rule|null => (
+    re.test(name) ? new classes[key](name, decl, options) : null
   )
   return {onCreateRule}
 })

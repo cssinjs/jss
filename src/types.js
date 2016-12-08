@@ -8,12 +8,14 @@ export type ToCssOptions = {
 }
 
 export type Plugin = {
-  onCreateRule?: Function,
-  onProcessRule?: Function
+  onCreateRule?: (name: string, decl: Object, options: RuleOptions) => Rule|null,
+  onProcessRule?: (rule: Rule) => void
 }
 
+export type generateClassName = (str: string, rule: Rule) => string
+
 export type JssOptions = {
-  generateClassName?: Function,
+  generateClassName?: generateClassName,
   plugins?: Array<Plugin>
 }
 
@@ -38,7 +40,7 @@ export type StyleSheetOptions = {
   index?: number,
   virtual?: boolean,
   Renderer?: Function,
-  generateClassName?: Function,
+  generateClassName?: generateClassName,
   jss: Jss
 }
 
@@ -50,7 +52,7 @@ export type StyleSheetInstanceOptions = {
   index: number,
   virtual?: boolean,
   Renderer: Function,
-  generateClassName: Function,
+  generateClassName: generateClassName,
   jss: Jss,
   sheet: StyleSheet,
   parent: ConditionalRule|StyleSheet,
@@ -60,7 +62,7 @@ export type StyleSheetInstanceOptions = {
 export type RuleOptions = {
   className?: string,
   selector?: string,
-  generateClassName?: Function,
+  generateClassName?: generateClassName,
   Renderer?: Function,
   index?: number,
   virtual?: boolean,
@@ -71,7 +73,7 @@ export type RuleOptions = {
 
 export type RulesContainerOptions = {
   classes: Object,
-  generateClassName: Function,
+  generateClassName: generateClassName,
   Renderer: Function,
   jss: Jss,
   sheet: StyleSheet,
@@ -81,8 +83,10 @@ export type RulesContainerOptions = {
 export interface Rule {
   name: ?string;
   selector: string;
+  style: Object;
   renderable: ?CSSStyleRule;
-  toString(): string;
+  options: RuleOptions;
+  toString(options?: ToCssOptions): string;
 }
 
 export interface Renderer {
