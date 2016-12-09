@@ -1,3 +1,7 @@
+## 1.0.0 / 2016-12-09
+
+- support jss 6.0
+
 ## 0.9.0 / 2016-11-21
 
 - minor lisence tweak
