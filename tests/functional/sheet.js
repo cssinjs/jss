@@ -1,12 +1,25 @@
 /* eslint-disable no-underscore-dangle */
 
 import expect from 'expect.js'
-import jss, {create} from '../../src'
-import {reset, computeStyle, getStyle, getCss, getRules, removeWhitespace} from '../utils'
+import {create} from '../../src'
 import DomRenderer from '../../src/backends/DomRenderer'
+import {
+  generateClassName,
+  computeStyle,
+  getStyle,
+  getCss,
+  getRules,
+  removeWhitespace
+} from '../utils'
+
+const settings = {generateClassName}
 
 describe('Functional: sheet', () => {
-  afterEach(reset)
+  let jss
+
+  beforeEach(() => {
+    jss = create(settings)
+  })
 
   describe('sheet.attach() CSS check from DOM', () => {
     function check(styles, options) {
@@ -16,23 +29,11 @@ describe('Functional: sheet', () => {
       sheet.detach()
     }
 
-    it('should render unnamed sheet', () => {
-      check({'.a': {width: '1px', float: 'left'}}, {named: false})
-    })
-
-    it('should render named sheet', () => {
+    it('should render simple sheet', () => {
       check({a: {width: '1px', float: 'left'}})
     })
 
-    it('should render unnamed sheet with media query', () => {
-      check({
-        '.a': {color: 'red'},
-        '@media (min-width: 1024px)': {'.a': {color: 'blue'}},
-        '@media (min-width: 1000px)': {'.a': {color: 'green'}}
-      }, {named: false})
-    })
-
-    it('should render named sheet with media query', () => {
+    it('should render sheet with media query', () => {
       check({
         a: {color: 'red'},
         '@media (min-width: 1024px)': {
@@ -50,9 +51,13 @@ describe('Functional: sheet', () => {
     let sheet
     let style
 
-    before(() => {
+    beforeEach(() => {
       sheet = jss.createStyleSheet().attach()
       style = getStyle()
+    })
+
+    afterEach(() => {
+      sheet.detach()
     })
 
     it('should have attached the sheet', () => {
@@ -76,9 +81,13 @@ describe('Functional: sheet', () => {
     let sheet
     let style
 
-    before(() => {
+    beforeEach(() => {
       sheet = jss.createStyleSheet(null, {media: 'screen', meta: 'test'}).attach()
       style = getStyle()
+    })
+
+    afterEach(() => {
+      sheet.detach()
     })
 
     it('should have right options', () => {
@@ -90,10 +99,6 @@ describe('Functional: sheet', () => {
       expect(style.getAttribute('media'), 'screen')
       expect(style.getAttribute('data-meta'), 'test')
     })
-
-    after(() => {
-      sheet.detach()
-    })
   })
 
   describe('Option: {link: true}', () => {
@@ -103,6 +108,10 @@ describe('Functional: sheet', () => {
       sheet = jss.createStyleSheet({a: {float: 'left'}}, {link: true}).attach()
     })
 
+    afterEach(() => {
+      sheet.detach()
+    })
+
     it('should link the DOM node', () => {
       expect(sheet.getRule('a').renderable).to.be.a(CSSStyleRule)
     })
@@ -110,10 +119,6 @@ describe('Functional: sheet', () => {
     it('should link the DOM node to added rule', () => {
       sheet.addRule('b', {color: 'red'})
       expect(sheet.getRule('b').renderable).to.be.a(CSSStyleRule)
-    })
-
-    after(() => {
-      sheet.detach()
     })
   })
 
@@ -151,35 +156,7 @@ describe('Functional: sheet', () => {
     })
   })
 
-  describe('.addRule() to an unnamed sheet', () => {
-    let sheet
-    let rule
-    let style
-
-    beforeEach(() => {
-      sheet = jss.createStyleSheet(null, {named: false}).attach()
-      rule = sheet.addRule('.a', {float: 'left'})
-      style = getStyle()
-    })
-
-    it('should render only 1 rule', () => {
-      expect(getRules(style).length).to.be(1)
-    })
-
-    it('should render correct CSS', () => {
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
-    })
-
-    it('should register the rule', () => {
-      expect(sheet.getRule('.a')).to.be(rule)
-    })
-
-    it('should link sheet in rules options', () => {
-      expect(sheet.getRule('.a').options.sheet).to.be(sheet)
-    })
-  })
-
-  describe('.addRule() to a named sheet', () => {
+  describe('.addRule()', () => {
     let sheet
     let rule
     let style
@@ -188,6 +165,10 @@ describe('Functional: sheet', () => {
       sheet = jss.createStyleSheet().attach()
       rule = sheet.addRule('a', {float: 'left'})
       style = getStyle()
+    })
+
+    afterEach(() => {
+      sheet.detach()
     })
 
     it('should render only 1 rule', () => {
@@ -214,7 +195,7 @@ describe('Functional: sheet', () => {
     })
   })
 
-  describe('.addRule() with .addRule() within a plugin and attached sheet', () => {
+  describe('.addRule() with .addRule() call within a plugin and attached sheet', () => {
     let style
     let sheet
 
@@ -224,7 +205,7 @@ describe('Functional: sheet', () => {
           rule.options.sheet.addRule('b', {color: 'red'})
         }
       }
-      const localJss = create().use(addRule)
+      const localJss = create(settings).use(addRule)
       sheet = localJss.createStyleSheet().attach()
       sheet.addRule('a', {color: 'green'})
       style = getStyle()
@@ -294,25 +275,27 @@ describe('Functional: sheet', () => {
 
   describe('.addRule() with invalid decl to attached sheet', () => {
     let warned = false
+    let sheet
 
-    before(() => {
+    beforeEach(() => {
       DomRenderer.__Rewire__('warning', () => {
         warned = true
       })
     })
 
+    afterEach(() => {
+      DomRenderer.__ResetDependency__('warning')
+      sheet.detach()
+    })
+
     it('should not throw', () => {
-      const sheet = jss.createStyleSheet().attach()
+      sheet = jss.createStyleSheet().attach()
       sheet.addRule('%%%%', {color: 'red'})
       expect(warned).to.be(true)
     })
-
-    after(() => {
-      DomRenderer.__ResetDependency__('warning')
-    })
   })
 
-  describe('.deleteRule', () => {
+  describe('.deleteRule()', () => {
     it('should delete a rule from the sheet and DOM', () => {
       const sheet = jss.createStyleSheet(
         {a: {width: '1px'}},
@@ -330,10 +313,14 @@ describe('Functional: sheet', () => {
     let rule
     let sheet
 
-    before(() => {
+    beforeEach(() => {
       sheet = jss.createStyleSheet({a: {color: 'green'}}, {link: true})
       rule = sheet.getRule('a')
       sheet.attach()
+    })
+
+    afterEach(() => {
+      sheet.detach()
     })
 
     it('should have initial color', () => {
@@ -346,15 +333,13 @@ describe('Functional: sheet', () => {
     })
 
     it('should cache the new prop', () => {
+      rule.prop('color', 'red')
       expect(rule.style.color).to.be('red')
     })
 
     it('should apply new prop to the DOM', () => {
+      rule.prop('color', 'red')
       expect(rule.renderable.style.color).to.be('red')
-    })
-
-    after(() => {
-      sheet.detach()
     })
   })
 
@@ -368,6 +353,10 @@ describe('Functional: sheet', () => {
         {link: true}
       ).attach()
       rule = sheet.getRule('a')
+    })
+
+    afterEach(() => {
+      sheet.detach()
     })
 
     it('should set the selector', () => {

@@ -1,103 +1,91 @@
+/* @flow */
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
-import SheetsRegistry from './SheetsRegistry'
-import createRule from './createRule'
-import findRenderer from './findRenderer'
-import {generateClassName} from './utils'
+import internalPlugins from './plugins'
+import sheets from './sheets'
+import generateClassNameDefault from './utils/generateClassName'
+import createRule from './utils/createRule'
+import findRenderer from './utils/findRenderer'
+import type {
+  Rule,
+  RuleOptions,
+  StyleSheetOptions,
+  Plugin,
+  JssOptions
+} from './types'
 
-/**
- * Main Jss class.
- *
- * @api public
- */
+declare var __VERSION__: string
+
 export default class Jss {
-  /**
-   * Create a jss instance to allow local setup.
-   *
-   * @see .setup()
-   */
-  constructor(options) {
-    this.sheets = new SheetsRegistry()
-    this.plugins = new PluginsRegistry()
-    this.version = __VERSION__
+  version = __VERSION__
+
+  plugins = new PluginsRegistry()
+
+  options: JssOptions
+
+  constructor(options?: JssOptions) {
+    this.use.apply(this, internalPlugins) // eslint-disable-line prefer-spread
     this.setup(options)
   }
 
-  /**
-   * Setup JSS.
-   *
-   * Options:
-   * - `generateClassName` accepts a styles string and a Rule instance.
-   * - `plugins`
-   *
-   * @param {Object} options
-   * @return {Jss}
-   * @api public
-   */
-  setup(options = {}) {
-    this.generateClassName = options.generateClassName || generateClassName
-    if (options.plugins) {
-      options.plugins.forEach((plugin) => {
-        this.use(plugin)
-      })
+  setup(options?: JssOptions = {}): this {
+    this.options = {
+      ...options,
+      generateClassName: options.generateClassName || generateClassNameDefault
     }
+    const {plugins} = this.options
+    if (plugins) this.use.apply(this, plugins) // eslint-disable-line prefer-spread
     return this
   }
 
   /**
-   * Create a style sheet.
-   *
-   * @see StyleSheet
-   * @api public
+   * Create a Style Sheet.
    */
-  createStyleSheet(rules, options) {
-    const sheet = new StyleSheet(rules, {...options, jss: this})
-    this.sheets.add(sheet)
-    return sheet
-  }
-
-  /**
-   * Detach the style sheet and remove it from the registry.
-   *
-   * @param {StyleSheet} sheet
-   * @api public
-   */
-  removeStyleSheet(sheet) {
-    sheet.detach()
-    this.sheets.remove(sheet)
-    return this
-  }
-
-  /**
-   * Create a rule.
-   *
-   * @see createRule
-   * @api public
-   */
-  createRule(selector, style, options) {
-    // Enable rule without selector.
-    if (typeof selector == 'object') {
-      options = style
-      style = selector
-      selector = null
-    }
-    const rule = createRule(selector, style, {
-      jss: this,
-      Renderer: findRenderer(options),
+  createStyleSheet(styles: Object, options: StyleSheetOptions): StyleSheet {
+    return new StyleSheet(styles, {
+      jss: (this: Jss),
+      generateClassName: this.options.generateClassName,
       ...options
     })
-    this.plugins.run(rule)
+  }
+
+  /**
+   * Detach the Style Sheet and remove it from the registry.
+   */
+  removeStyleSheet(sheet: StyleSheet): this {
+    sheet.detach()
+    sheets.remove(sheet)
+    return this
+  }
+
+  /**
+   * Create a rule without a Style Sheet.
+   */
+  createRule(name?: string, style?: Object = {}, options?: RuleOptions = {}): Rule {
+    // Enable rule without name for inline styles.
+    if (typeof name === 'object') {
+      options = style
+      style = name
+      name = undefined
+    }
+
+    if (!options.classes) options.classes = {}
+    if (!options.jss) options.jss = this
+    if (!options.Renderer) options.Renderer = findRenderer(options)
+    if (!options.generateClassName) {
+      options.generateClassName = this.options.generateClassName || generateClassNameDefault
+    }
+
+    const rule = createRule(name, style, options)
+    this.plugins.onProcessRule(rule)
+
     return rule
   }
 
   /**
    * Register plugin. Passed function will be invoked with a rule instance.
-   *
-   * @param {Function} plugins
-   * @return {Jss}
-   * @api public
    */
-  use(...plugins) {
+  use(...plugins: Array<Plugin>): this {
     plugins.forEach(plugin => this.plugins.use(plugin))
     return this
   }

@@ -1,51 +1,42 @@
 /* @flow */
+import type {Plugin, Rule, RuleOptions} from './types'
 
-/**
- * Register a plugin, run a plugin.
- *
- * @api public
- */
 export default class PluginsRegistry {
-  registry: Array<Function>;
+  registry: Array<Plugin> = []
 
-  constructor(): void {
-    this.registry = []
+  /**
+   * Call `onCreateRule` hooks and return an object if returned by a hook.
+   */
+  onCreateRule(name: string, decl: Object, options: RuleOptions): Rule|null {
+    for (let i = 0; i < this.registry.length; i++) {
+      const {onCreateRule} = this.registry[i]
+      if (!onCreateRule) continue
+      const rule = onCreateRule(name, decl, options)
+      if (rule) return rule
+    }
+    return null
   }
 
   /**
-   * Register plugin. Passed function will be invoked with a rule instance.
-   *
-   * @param {Function} fn
-   * @api public
+   * Call `onProcessRule` hooks.
    */
-  use(fn: Function): void {
-    this.registry.push(fn)
+  onProcessRule(rule: Rule): void {
+    for (let i = 0; i < this.registry.length; i++) {
+      const {onProcessRule} = this.registry[i]
+      if (onProcessRule) onProcessRule(rule)
+    }
   }
 
   /**
-   * Execute all registered plugins on all rules.
-   *
-   * @param {Rule|Array} rules
-   * @api public
+   * Register a plugin.
+   * If function is passed, it is a shortcut for `{onProcessRule}`.
    */
-  run(rules: Array<Object> | Object): void {
-    if (Array.isArray(rules)) {
-      rules.forEach(this.runOne, this)
-      return
+  use(plugin: Plugin|Function): void {
+    if (typeof plugin === 'function') {
+      plugin = {onProcessRule: plugin}
     }
 
-    this.runOne(rules)
-  }
-
-  /**
-   * Execute all registered plugins on one rule.
-   *
-   * @param {Rule} rule
-   * @api private
-   */
-  runOne(rule: Object): void {
-    for (let index = 0; index < this.registry.length; index++) {
-      this.registry[index](rule)
-    }
+    this.registry.push(plugin)
   }
 }
+

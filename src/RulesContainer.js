@@ -1,59 +1,65 @@
-import createRule from './createRule'
+/* @flow */
+import createRule from './utils/createRule'
+import type {
+  RulesContainerOptions,
+  ToCssOptions,
+  Rule,
+  RuleOptions
+} from './types'
 
 /**
  * Contains rules objects and allows adding/removing etc.
- * Is used by containers liks StyleSheet or ConditionalRule.
- *
- * @api public
+ * Is used for e.g. by `StyleSheet` or `ConditionalRule`.
  */
 export default class RulesContainer {
-  constructor(options) {
-    // Rules registry for access by .get() method.
-    // It contains the same rule registered by name and by class name.
-    this.map = Object.create(null)
-    // Used to ensure correct rules order.
-    this.index = []
+  // Rules registry for access by .get() method.
+  // It contains the same rule registered by name and by selector.
+  map: Object = Object.create(null)
+
+  // Used to ensure correct rules order.
+  index: Array<Object> = []
+
+  options: RulesContainerOptions
+
+  classes: Object
+
+  constructor(options: RulesContainerOptions) {
     this.options = options
-    // Default object is needed when rule is created without a sheet.
-    this.classes = options.classes || {}
+    this.classes = options.classes
   }
 
   /**
    * Create and register rule, run plugins.
    *
-   * Will not render after style sheet was rendered the first time.
-   * Will link the rule in `this.rules`.
-   *
-   * @see createRule
-   * @api public
+   * Will not render after Style Sheet was rendered the first time.
    */
-  create(name, style, options) {
+  create(name: string, style: Object, options?: RuleOptions): Rule {
     const rule = this.createAndRegister(name, style, options)
-    this.options.jss.plugins.run(rule)
+    this.options.jss.plugins.onProcessRule(rule)
     return rule
-  }
-
-  /**
-   * Delete a rule.
-   *
-   * @param {String} rule selector or name
-   * @return {Boolean} true if rule has been deleted from the DOM.
-   * @api public
-   */
-  remove(rule) {
-    this.unregister(rule)
-    this.index.splice(this.indexOf(rule), 1)
   }
 
   /**
    * Get a rule.
    *
-   * @param {String} nameOrSelector can be selector or name if `named` option is true.
+   * @param {String} name
    * @return {Rule}
    * @api public
    */
-  get(nameOrSelector) {
-    return this.map[nameOrSelector]
+  get(name: string): Rule {
+    return this.map[name]
+  }
+
+  /**
+   * Delete a rule.
+   *
+   * @param {Object} rule
+   * @return {Boolean} true if rule has been deleted from the DOM.
+   * @api public
+   */
+  remove(rule: Rule): void {
+    this.unregister(rule)
+    this.index.splice(this.indexOf(rule), 1)
   }
 
   /**
@@ -63,7 +69,7 @@ export default class RulesContainer {
    * @return {Number}
    * @api public
    */
-  indexOf(rule) {
+  indexOf(rule: Rule): number {
     return this.index.indexOf(rule)
   }
 
@@ -73,34 +79,25 @@ export default class RulesContainer {
    * @param {Rule} rule
    * @api public
    */
-  register(rule) {
+  register(rule: Rule): void {
     if (rule.name) this.map[rule.name] = rule
     if (rule.className && rule.name) this.classes[rule.name] = rule.className
     if (rule.selector) this.map[rule.selector] = rule
-    return this
   }
 
   /**
    * Unregister a rule.
-   *
-   * @param {Rule} rule
-   * @api public
    */
-  unregister(rule) {
+  unregister(rule: Rule): void {
     delete this.map[rule.name]
     delete this.map[rule.selector]
     delete this.classes[rule.name]
-    return this
   }
 
   /**
    * Convert rules to a CSS string.
-   *
-   * @param {Object} options
-   * @return {String}
-   * @api public
    */
-  toString(options) {
+  toString(options?: ToCssOptions): string {
     let str = ''
 
     for (let index = 0; index < this.index.length; index++) {
@@ -120,40 +117,30 @@ export default class RulesContainer {
    * Returns a cloned index of rules.
    * We need this because if we modify the index somewhere else during a loop
    * we end up with very hard-to-track-down side effects.
-   *
-   * @return {Array}
-   * @api public
    */
-  getIndex() {
+  getIndex(): Array<Object> {
     // We need to clone the array, because while
     return this.index.slice(0)
   }
 
   /**
    * Create and register a rule.
-   *
-   * Options:
-   *   - `index` rule position, will be pushed at the end if undefined.
-   *
-   * @see createRule
-   * @api private
    */
-  createAndRegister(name, style, options) {
+  createAndRegister(name?: string, style: Object, options?: RuleOptions): Rule {
+    const {parent, sheet, jss, Renderer, generateClassName} = this.options
+
     options = {
-      ...options,
       classes: this.classes,
-      parent: this.options.parent,
-      sheet: this.options.sheet,
-      jss: this.options.jss,
-      Renderer: this.options.Renderer
+      parent,
+      sheet,
+      jss,
+      Renderer,
+      generateClassName,
+      ...options
     }
 
-    // Currently the only case where we have no class name is child rules of
-    // some conditional rule.
     if (!options.className) options.className = this.classes[name]
 
-    // Scope options overwrite instance options.
-    if (options.named == null) options.named = this.options.named
     const rule = createRule(name, style, options)
     this.register(rule)
 

@@ -1,6 +1,6 @@
 # JSS Plugins
 
-The Plugins API allows to manipulate every rule at creation time. A plugin can for e.g. add new style properties, modify values or even add new rules.
+Plugins API allows to modify sheets and rules at different stages. A plugin can for e.g. add new style properties, modify values or even add new rules.
 
 A number of [plugins](https://github.com/cssinjs?query=jss-) do exist already. We are happy to add more.
 
@@ -24,23 +24,37 @@ To make your life easier we made [jss-default-preset](https://www.npmjs.com/pack
 
 ### Authoring plugins.
 
-You need to register a plugin only once per JSS instance and it will be applied to every rule.
+`jss.use(plugin)`
 
-`jss.use(fn)`
+You need to register a `plugin` only once per JSS instance. There is a number of hooks available. Multiple hooks may be implemented by the same plugin.
 
-Passed function will be invoked with a Rule instance as an argument.
+1. Hook `onCreateRule(name, decl, options)`.
 
-```javascript
-// Using a global JSS instance.
-import jss from 'jss'
-jss.use(function(rule) {
-  // Your modifier.
-})
+  This hook is invoked when a rule is about to be created. If this object returns an object, it is supposed to be a rule instance. If empty value is returned, JSS will fall back to a regular rule.
 
-// Using a local JSS instance.
-import {create} from 'jss'
-const jss = create()
-jss.use(function(rule) {
-  // Your modifier.
-})
-```
+  ```javascript
+  jss.use({
+    onCreateRule: (name, decl, options) => {
+      // Do something here.
+    }
+  })
+  ```
+
+1. Hook `onProcessRule(rule)`.
+
+  This hook is invoked on every created rule with the rule as an argument. If a `plugin` is a function, then jss defaults it to `onProcessRule` hook.
+
+  ```javascript
+  jss.use((rule) => {
+    // Do something here.
+  })
+
+  // or
+
+  jss.use({
+    onProcessRule: (rule) => {
+      // Do something here.
+    }
+  })
+  ```
+

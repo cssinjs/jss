@@ -1,3 +1,14 @@
+## 6.0.0 / 2016-12-09
+
+- Added flow types
+- Added a new plugins API. It is backwards compatible. See plugins section.
+- Perf improvements
+
+### Breaking changes
+
+- Option "named" has been removed from JSS core and replaced by a jss-global plugin. From now on global styles are only possible using that plugin.
+- Sheets are not added to the sheets registry automatically server-side any more. In order to prevent leaking styles between requests, you now need to create your own SheetsRegistry instance and add sheets to it manually. Make sure to create a new instance for each request. On the client, sheets are still automatically added to the registry.
+
 ## 5.5.6 / 2016-11-03
 
 - test suite

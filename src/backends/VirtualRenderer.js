@@ -1,3 +1,4 @@
+/* @flow */
 /* eslint-disable class-methods-use-this */
 
 /**
@@ -5,14 +6,14 @@
  */
 export default class VirtualRenderer {
   createElement() {}
-  style() {}
-  selector() {}
+  setStyle() {}
+  getStyle() {}
+  setSelector() {}
+  getSelector() {}
   attach() {}
   detach() {}
   deploy() {}
   insertRule() {}
   deleteRule() {}
-  getRules() {
-    return {}
-  }
+  getRules() {}
 }

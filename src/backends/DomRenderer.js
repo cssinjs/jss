@@ -1,19 +1,28 @@
+/* @flow */
 import warning from 'warning'
+import sheets from '../sheets'
+import type StyleSheet from '../StyleSheet'
+import type {Rule} from '../types'
 
 /**
- * Get or set a style property.
- *
- * @param {CSSStyleRule} element
- * @param {String} name
- * @param {String} [value]
- * @return {String|Boolean}
- * @api private
+ * Get a style property.
  */
-function style(CSSStyleRule, name, value) {
+function getStyle(rule: HTMLElement|CSSStyleRule, prop: string): string {
   try {
-    // It is a getter.
-    if (value == null) return CSSStyleRule.style[name]
-    CSSStyleRule.style[name] = value
+    return rule.style.getPropertyValue(prop)
+  }
+  catch (err) {
+    // IE may throw if property is unknown.
+    return ''
+  }
+}
+
+/**
+ * Set a style property.
+ */
+function setStyle(rule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean {
+  try {
+    rule.style.setProperty(prop, value)
   }
   catch (err) {
     // IE may throw if property is unknown.
@@ -22,44 +31,111 @@ function style(CSSStyleRule, name, value) {
   return true
 }
 
+
 /**
- * Get or set the selector.
- *
- * @param {CSSStyleRule} CSSStyleRule
- * @param {String} [selectorText]
- * @return {String|Boolean}
- * @api private
+ * Get the selector.
  */
-function selector(CSSStyleRule, selectorText) {
-  // It is a getter.
-  if (selectorText == null) return CSSStyleRule.selectorText
-
-  CSSStyleRule.selectorText = selectorText
-
-  // Return false if setter was not successful.
-  // Currently works in chrome only.
-  return CSSStyleRule.selectorText === selectorText
+function getSelector(rule: CSSStyleRule): string {
+  return rule.selectorText
 }
 
 /**
- * DOM rendering backend for StyleSheet.
- *
- * @api private
+ * Set the selector.
  */
+function setSelector(rule: CSSStyleRule, selectorText: string): boolean {
+  rule.selectorText = selectorText
+
+  // Return false if setter was not successful.
+  // Currently works in chrome only.
+  return rule.selectorText === selectorText
+}
+
+/**
+ * Find attached sheet with an index higher than the passed one.
+ */
+function findHigherSheet(registry: Array<StyleSheet>, index: number): StyleSheet|null {
+  for (let i = 0; i < registry.length; i++) {
+    const sheet = registry[i]
+    if (sheet.attached && sheet.options.index > index) {
+      return sheet
+    }
+  }
+  return null
+}
+
+/**
+ * Find attached sheet with the highest index.
+ */
+function findHighestSheet(registry: Array<StyleSheet>): StyleSheet|null {
+  for (let i = registry.length - 1; i >= 0; i--) {
+    const sheet = registry[i]
+    if (sheet.attached) return sheet
+  }
+  return null
+}
+
+/**
+ * Find a comment with "jss" inside.
+ */
+function findCommentNode(head: HTMLElement): Comment|null {
+  for (let i = 0; i < head.childNodes.length; i++) {
+    const node = head.childNodes[i]
+    if (node.nodeType === 8 && node.nodeValue.trim() === 'jss') {
+      return node
+    }
+  }
+  return null
+}
+
+/**
+ * Find a node before which we can insert the sheet.
+ */
+function findPrevNode(head: HTMLElement, index: number): ?Node|null {
+  const {registry} = sheets
+
+  if (registry.length > 1) {
+    // Try to insert before the next higher sheet.
+    let sheet = findHigherSheet(registry, index)
+    if (sheet) return sheet.renderer.element
+
+    // Otherwise insert after the last attached.
+    sheet = findHighestSheet(registry)
+    if (sheet) return sheet.renderer.element.nextElementSibling
+  }
+
+  // Try find a comment placeholder if registry is empty.
+  const comment = findCommentNode(head)
+  if (comment) return comment.nextSibling
+  return null
+}
+
 export default class DomRenderer {
-  constructor(options) {
-    this.options = options
-    this.style = style
-    this.selector = selector
+  getStyle = getStyle
+
+  setStyle = setStyle
+
+  setSelector = setSelector
+
+  getSelector = getSelector
+
+  // HTMLStyleElement needs fixing https://github.com/facebook/flow/issues/2696
+  element: any
+
+  head: HTMLElement
+
+  sheet: ?StyleSheet
+
+  constructor(sheet?: StyleSheet) {
+    this.sheet = sheet
+    // There is no sheet when the renderer is used from a standalone RegularRule.
+    if (sheet) sheets.add(sheet)
   }
 
   /**
    * Create and ref style element.
-   *
-   * @api private
    */
-  createElement() {
-    const {media, meta, element} = this.options
+  createElement(): void {
+    const {media, meta, element} = (this.sheet ? this.sheet.options : {})
     this.head = document.head || document.getElementsByTagName('head')[0]
     this.element = element || document.createElement('style')
     this.element.type = 'text/css'
@@ -70,110 +146,52 @@ export default class DomRenderer {
 
   /**
    * Insert style element into render tree.
-   *
-   * @api private
    */
-  attach() {
+  attach(): void {
     // In the case the element node is external and it is already in the DOM.
-    if (this.element.parentNode) return
-
-    let anchorEl = null
-
-    const {index, jss} = this.options
-    const {registry} = jss.sheets
-
-    if (registry.length > 1) {
-      // Try to insert by index if set
-      if (typeof index === 'number') {
-        for (let i = 0; i < registry.length; i++) {
-          const sheet = registry[i]
-          if (
-            !sheet.attached ||
-            typeof sheet.options.index !== 'number' ||
-            sheet.options.index <= index
-          ) continue
-          anchorEl = sheet.renderer.element
-          break
-        }
-      }
-
-      // Otherwise insert after the last attached
-      if (!anchorEl) {
-        for (let i = registry.length - 1; i >= 0; i--) {
-          const sheet = registry[i]
-          if (sheet.attached) {
-            anchorEl = sheet.renderer.element.nextElementSibling
-            break
-          }
-        }
-      }
-    }
-
-    if (!anchorEl) {
-      // Try find a comment placeholder if registry is empty
-      for (let i = 0; i < this.head.childNodes.length; i++) {
-        const el = this.head.childNodes[i]
-        if (el.nodeValue === 'jss') {
-          anchorEl = el
-          break
-        }
-      }
-    }
-
-    this.head.insertBefore(this.element, anchorEl)
+    if (this.element.parentNode || !this.sheet) return
+    const prevNode = findPrevNode(this.head, this.sheet.options.index)
+    this.head.insertBefore(this.element, prevNode)
   }
 
   /**
    * Remove style element from render tree.
-   *
-   * @api private
    */
-  detach() {
+  detach(): void {
     this.element.parentNode.removeChild(this.element)
   }
 
   /**
    * Inject CSS string into element.
-   *
-   * @param {String} cssStr
-   * @api private
    */
-  deploy(sheet) {
+  deploy(sheet: StyleSheet): void {
     this.element.textContent = `\n${sheet.toString()}\n`
   }
 
   /**
    * Insert a rule into element.
-   *
-   * @param {Rule} rule
-   * @return {CSSStyleRule}
-   * @api private
    */
-  insertRule(rule) {
+  insertRule(rule: Rule): CSSStyleRule {
     const {sheet} = this.element
     const {cssRules} = sheet
     const index = cssRules.length
     try {
-      sheet.insertRule(rule.toString(), index)
+      sheet.insertRule(rule, index)
     }
     catch (err) {
-      warning(false, '[JSS] Can not insert an unsupported rule \n\r%s', rule.toString())
+      warning(false, '[JSS] Can not insert an unsupported rule \n\r%s', rule)
     }
     return cssRules[index]
   }
 
   /**
    * Delete a rule.
-   *
-   * @param {CSSStyleRule} rule
-   * @return {Boolean} true if the rule was deleted
-   * @api private
    */
-  deleteRule(CSSStyleRule) {
+  deleteRule(rule: CSSStyleRule): boolean {
     const {sheet} = this.element
     const {cssRules} = sheet
     for (let index = 0; index < cssRules.length; index++) {
-      if (CSSStyleRule === cssRules[index]) {
+      if (rule === cssRules[index]) {
         sheet.deleteRule(index)
         return true
       }
@@ -183,17 +201,8 @@ export default class DomRenderer {
 
   /**
    * Get all rules elements.
-   *
-   * @return {Object} rules map, where key is selector, CSSStyleRule is value.
-   * @api private
    */
-  getRules() {
-    const {cssRules} = this.element.sheet
-    const rules = Object.create(null)
-    for (let index = 0; index < cssRules.length; index++) {
-      const CSSStyleRule = cssRules[index]
-      rules[CSSStyleRule.selectorText] = CSSStyleRule
-    }
-    return rules
+  getRules(): CSSRuleList {
+    return this.element.sheet.cssRules
   }
 }

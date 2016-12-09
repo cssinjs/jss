@@ -1,6 +1,5 @@
 import expect from 'expect.js'
 import {create} from '../../src'
-import {reset} from '../utils'
 
 describe('Functional: dom priority', () => {
   function createDummySheets() {
@@ -8,14 +7,8 @@ describe('Functional: dom priority', () => {
       const dummySheet = document.createElement('style')
       dummySheet.type = 'text/css'
       dummySheet.setAttribute('data-test-dummy', `dummy${i + 1}`)
+      dummySheet.setAttribute('data-jss', `dummy${i + 1}`)
       document.head.appendChild(dummySheet)
-    }
-  }
-
-  function removeDummySheets() {
-    const dummySheets = document.head.querySelectorAll('[data-test-dummy]')
-    for (let i = 0; i < dummySheets.length; i++) {
-      document.head.removeChild(dummySheets[i])
     }
   }
 
@@ -25,10 +18,6 @@ describe('Functional: dom priority', () => {
     beforeEach(() => {
       createDummySheets()
       jss = create()
-    })
-    afterEach(() => {
-      removeDummySheets()
-      reset(jss)
     })
 
     it('should append sheets to the end of the document head after other stylesheets', () => {
@@ -61,12 +50,9 @@ describe('Functional: dom priority', () => {
       createDummySheets()
       jss = create()
     })
+
     afterEach(() => {
-      removeDummySheets()
-      if (comment) {
-        document.head.removeChild(comment)
-      }
-      reset(jss)
+      document.head.removeChild(comment)
     })
 
     it('should insert sheets before other stylesheets', () => {
@@ -92,7 +78,6 @@ describe('Functional: dom priority', () => {
       expect(styleElements[2].getAttribute('data-meta')).to.be('sheet3')
       expect(styleElements[3].getAttribute('data-meta')).to.be('sheet1')
       expect(styleElements[4].getAttribute('data-meta')).to.be('sheet4')
-
       expect(styleElements[5].getAttribute('data-test-dummy')).to.be('dummy1')
       expect(styleElements[6].getAttribute('data-test-dummy')).to.be('dummy2')
     })
@@ -150,14 +135,51 @@ describe('Functional: dom priority', () => {
     })
   })
 
-  describe('with zero and negative indices', () => {
+  describe('preserve attachment order with no index, but with registry', () => {
     let jss
 
     beforeEach(() => {
       jss = create()
     })
-    afterEach(() => {
-      reset(jss)
+
+    it('should insert sheets in the correct order', () => {
+      jss.createStyleSheet({}, {meta: 'sheet0'}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet1'}).attach()
+
+      const styleElements = document.head.getElementsByTagName('style')
+
+      expect(styleElements.length).to.be(2)
+
+      expect(styleElements[0].getAttribute('data-meta')).to.be('sheet0')
+      expect(styleElements[1].getAttribute('data-meta')).to.be('sheet1')
+    })
+  })
+
+  describe('preserve attachment order with no index and no registry', () => {
+    let jss
+
+    beforeEach(() => {
+      jss = create()
+    })
+
+    it('should insert sheets in the correct order', () => {
+      jss.createStyleSheet({}, {meta: 'sheet0'}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet1'}).attach()
+
+      const styleElements = document.head.getElementsByTagName('style')
+
+      expect(styleElements.length).to.be(2)
+
+      expect(styleElements[0].getAttribute('data-meta')).to.be('sheet0')
+      expect(styleElements[1].getAttribute('data-meta')).to.be('sheet1')
+    })
+  })
+
+  describe('with zero and negative indices', () => {
+    let jss
+
+    beforeEach(() => {
+      jss = create()
     })
 
     it('should insert sheets in the correct order', () => {
@@ -184,9 +206,6 @@ describe('Functional: dom priority', () => {
 
     beforeEach(() => {
       jss = create()
-    })
-    afterEach(() => {
-      reset(jss)
     })
 
     it('should insert sheets with the same index after existing', () => {

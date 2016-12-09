@@ -1,9 +1,15 @@
 import expect from 'expect.js'
-import jss, {create, Jss, StyleSheet} from '../../src'
-import {reset} from '../utils'
+import {create, sheets} from '../../src'
+import Jss from '../../src/Jss'
+import StyleSheet from '../../src/StyleSheet'
+import PluginsRegistry from '../../src/PluginsRegistry'
 
 describe('Integration: jss', () => {
-  afterEach(reset)
+  let jss
+
+  beforeEach(() => {
+    jss = create()
+  })
 
   describe('exports', () => {
     it('should export default Jss instance', () => {
@@ -14,8 +20,17 @@ describe('Integration: jss', () => {
       expect(create).to.be.a(Function)
     })
 
+    it('should have .plugins registry instance', () => {
+      expect(jss.plugins).to.be.a(PluginsRegistry)
+    })
+
     it('should provide .version prop', () => {
       expect(jss.version).to.be.a('string')
+    })
+
+    it('should have correct .options', () => {
+      expect(jss.options).to.be.an(Object)
+      expect(jss.options.generateClassName).to.be.a(Function)
     })
   })
 
@@ -25,43 +40,16 @@ describe('Integration: jss', () => {
     })
   })
 
-  describe('.sheets registry', () => {
-    let sheet1
-    let sheet2
-
-    beforeEach(() => {
-      sheet1 = jss.createStyleSheet({a: {color: 'red'}})
-      sheet2 = jss.createStyleSheet({a: {color: 'blue'}})
-    })
-
-    afterEach(reset)
-
-    it('should be StyleSheet instances', () => {
-      expect(sheet1).to.be.a(StyleSheet)
-      expect(sheet2).to.be.a(StyleSheet)
-    })
-
-    it('should register sheets in registry', () => {
-      expect(jss.sheets.registry.indexOf(sheet1)).to.be(0)
-      expect(jss.sheets.registry.indexOf(sheet2)).to.be(1)
-      expect(jss.sheets.registry.length).to.be(2)
-    })
-
-    it('should return CSS of all sheets from .sheets.toString()', () => {
-      const css =
-        '.a-id {\n' +
-        '  color: red;\n' +
-        '}\n' +
-        '.a-id {\n' +
-        '  color: blue;\n' +
-        '}'
-      expect(jss.sheets.toString()).to.be(css)
-    })
-
-    it('should remove a sheet from registry', () => {
-      jss.removeStyleSheet(sheet1)
-      jss.removeStyleSheet(sheet2)
-      expect(jss.sheets.registry.length).to.be(0)
+  describe('.setup()', () => {
+    it('should set up plugins', () => {
+      const local = create()
+      const plugin1 = () => {}
+      const plugin2 = () => {}
+      local.setup({
+        plugins: [plugin1, plugin2]
+      })
+      expect(local.plugins.registry.pop().onProcessRule).to.be(plugin2)
+      expect(local.plugins.registry.pop().onProcessRule).to.be(plugin1)
     })
   })
 
@@ -125,25 +113,31 @@ describe('Integration: jss', () => {
         }
         jss.use(plugin1, plugin2)
         const rule = jss.createRule()
-        expect(jss.plugins.registry.length).to.be(2)
-        expect(jss.plugins.registry[0]).to.be(plugin1)
-        expect(jss.plugins.registry[1]).to.be(plugin2)
+        expect(jss.plugins.registry.length).to.be(9)
+        expect(jss.plugins.registry[7].onProcessRule).to.be(plugin1)
+        expect(jss.plugins.registry[8].onProcessRule).to.be(plugin2)
         expect(receivedRule1).to.be(rule)
         expect(receivedRule2).to.be(rule)
       })
     })
   })
 
-  describe('.setup()', () => {
-    it('should set up plugins', () => {
-      const local = create()
-      const fn1 = () => {}
-      const fn2 = () => {}
-      local.setup({
-        plugins: [fn1, fn2]
-      })
-      expect(local.plugins.registry[0]).to.be(fn1)
-      expect(local.plugins.registry[1]).to.be(fn2)
+  describe('.createStyleSheet()', () => {
+    it('should create a sheet', () => {
+      expect(jss.createStyleSheet()).to.be.a(StyleSheet)
+    })
+  })
+
+  describe('.removeStyleSheet()', () => {
+    it('should remove', () => {
+      let detached
+      const sheet = jss.createStyleSheet()
+      sheet.detach = () => {
+        detached = true
+      }
+      jss.removeStyleSheet(sheet)
+      expect(detached).to.be(true)
+      expect(sheets.registry.indexOf(sheet)).to.be(-1)
     })
   })
 })

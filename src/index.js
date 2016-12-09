@@ -7,26 +7,26 @@
  * @license MIT
  */
 import Jss from './Jss'
-import StyleSheet from './StyleSheet'
 import SheetsRegistry from './SheetsRegistry'
-import Rule from './rules/Rule'
+import sheets from './sheets'
+import type {JssOptions} from './types'
 
-// For testing only.
-export {
-  Jss,
-  StyleSheet,
-  SheetsRegistry,
-  Rule
-}
+/**
+ * SheetsRegistry for SSR.
+ */
+export {SheetsRegistry}
+
+/**
+ * Default global SheetsRegistry instance.
+ */
+export {sheets}
 
 /**
  * Creates a new instance of Jss.
- *
- * @see Jss
- * @api public
  */
-export function create(options?: Object): Jss {
-  return new Jss(options)
-}
+export const create = (options?: JssOptions): Jss => new Jss(options)
 
+/**
+ * A global Jss instance.
+ */
 export default create()

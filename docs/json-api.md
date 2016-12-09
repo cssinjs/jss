@@ -1,4 +1,4 @@
-# JSON API for declaring style sheets
+## JSON API for declaring Style Sheets.
 
 JSS is designed to stay as close as possible to the CSS syntax, however there are some exceptions.
 
@@ -295,25 +295,7 @@ export default {
 
 ### Writing global selectors
 
-When using option "named" `jss.createStyleSheet(styles, {named: false})` you can use keys as selectors instead of names. Be careful, now you will be writing a regular Style Sheet with global selectors.
-
-#### JS
-
-```javascript
-export default {
-  div: {
-    boxSizing: 'border-box'
-  }
-}
-```
-
-#### CSS
-
-```css
-div {
-  box-sizing: border-box;
-}
-```
+Global selectors can be used when [jss-global](https://github.com/cssinjs/jss-global) plugin is installed.
 
 ### Pseudo and Nested Selectors.
 
