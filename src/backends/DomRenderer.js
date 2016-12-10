@@ -171,16 +171,22 @@ export default class DomRenderer {
   /**
    * Insert a rule into element.
    */
-  insertRule(rule: Rule): CSSStyleRule {
+  insertRule(rule: Rule): CSSStyleRule|false {
     const {sheet} = this.element
     const {cssRules} = sheet
     const index = cssRules.length
+    const str = rule.toString()
+
+    if (!str) return false
+
     try {
-      sheet.insertRule(rule, index)
+      sheet.insertRule(str, index)
     }
     catch (err) {
       warning(false, '[JSS] Can not insert an unsupported rule \n\r%s', rule)
+      return false
     }
+
     return cssRules[index]
   }
 

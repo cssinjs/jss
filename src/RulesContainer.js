@@ -104,6 +104,7 @@ export default class RulesContainer {
       const rule = this.index[index]
       const css = rule.toString(options)
 
+      // No need to render an empty rule.
       if (!css) continue
 
       if (str) str += '\n'
