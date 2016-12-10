@@ -246,6 +246,34 @@ describe('Functional: sheet', () => {
     })
   })
 
+  describe('.addRule() with empty styles', () => {
+    let sheet
+    let style
+    let warned = false
+
+    beforeEach(() => {
+      DomRenderer.__Rewire__('warning', () => {
+        warned = true
+      })
+      sheet = jss.createStyleSheet().attach()
+      sheet.addRule('a', {})
+      style = getStyle()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+      DomRenderer.__ResetDependency__('warning')
+    })
+
+    it('should not render', () => {
+      expect(getCss(style)).to.be('')
+    })
+
+    it('should not warn', () => {
+      expect(warned).to.be(false)
+    })
+  })
+
   describe('.addRule() with @keyframes and attached sheet', () => {
     const isSupported = 'animationName' in document.body.style
     let style

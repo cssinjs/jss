@@ -99,7 +99,7 @@ export default class StyleSheet {
       if (queue) queue.push(rule)
       else {
         const renderable = this.renderer.insertRule(rule)
-        if (this.options.link) rule.renderable = renderable
+        if (renderable && this.options.link) rule.renderable = renderable
         if (this.queue) {
           this.queue.forEach(this.renderer.insertRule, this.renderer)
           this.queue = undefined

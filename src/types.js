@@ -97,7 +97,7 @@ export interface Renderer {
   attach(): void;
   detach(): void;
   deploy(sheet: StyleSheet): void;
-  insertRule(rule: Rule): CSSStyleRule;
+  insertRule(rule: Rule): CSSStyleRule|false;
   deleteRule(rule: CSSStyleRule): boolean;
   getRules(): CSSRuleList;
 }
