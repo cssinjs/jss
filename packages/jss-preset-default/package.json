@@ -1,7 +1,7 @@
 {
   "name": "jss-preset-default",
   "description": "Default preset for JSS with selected plugins.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
@@ -53,6 +53,7 @@
     "jss-default-unit": "^5.0.0",
     "jss-expand": "^2.0.1",
     "jss-extend": "^3.0.0",
+    "jss-global": "^0.3.0",
     "jss-nested": "^3.0.0",
     "jss-props-sort": "^3.0.0",
     "jss-vendor-prefixer": "^4.0.0"
