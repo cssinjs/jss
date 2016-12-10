@@ -1,3 +1,7 @@
+## 6.0.1 / 2016-12-10
+
+- Don't insert empty rules #363
+
 ## 6.0.0 / 2016-12-09
 
 - Added flow types
