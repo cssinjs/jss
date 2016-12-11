@@ -41,7 +41,7 @@ export default class RegularRule {
     this.originalStyle = style
     this.className = ''
     if (options.className) this.className = options.className
-    else if (generateClassName) this.className = generateClassName(styleStr, this)
+    else if (generateClassName) this.className = generateClassName(styleStr, this, options.sheet)
     this.selectorText = options.selector || `.${this.className}`
     if (sheet) this.renderer = sheet.renderer
     else if (Renderer) this.renderer = new Renderer()
