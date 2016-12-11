@@ -1,4 +1,5 @@
 import expect from 'expect.js'
+import createHash from 'murmurhash-js/murmurhash3_gc'
 import {create} from '../../src'
 import RegularRule from '../../src/plugins/RegularRule'
 import {generateClassName} from '../utils'
@@ -39,6 +40,23 @@ describe('Integration: sheet', () => {
         }
       })
       expect(sheet.classes.a).to.be('a-id')
+    })
+
+    it('should create rule classNames using the rule name and a hash of styles', () => {
+      const jssInstance = create()
+      const styles = {bar: {color: 'red'}}
+      const sheet = jssInstance.createStyleSheet(styles)
+      const expectedHash = createHash(JSON.stringify(styles.bar))
+      expect(sheet.classes.bar).to.be(`bar-${expectedHash}`)
+    })
+
+    it('should create rule classNames using the rule name and a hash of styles + the meta option', () => {
+      const jssInstance = create()
+      const styles = {bar: {color: 'red'}}
+      const meta = 'foo'
+      const sheet = jssInstance.createStyleSheet(styles, {meta})
+      const expectedHash = createHash(JSON.stringify(styles.bar) + meta)
+      expect(sheet.classes.bar).to.be(`bar-${expectedHash}`)
     })
   })
 
