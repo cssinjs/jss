@@ -8,6 +8,7 @@
  */
 import Jss from './Jss'
 import SheetsRegistry from './SheetsRegistry'
+import RulesContainer from './RulesContainer'
 import sheets from './sheets'
 import type {JssOptions} from './types'
 
@@ -15,6 +16,11 @@ import type {JssOptions} from './types'
  * SheetsRegistry for SSR.
  */
 export {SheetsRegistry}
+
+/**
+ * RulesContainer for plugins.
+ */
+export {RulesContainer}
 
 /**
  * Default global SheetsRegistry instance.

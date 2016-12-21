@@ -12,20 +12,18 @@ export default class ConditionalRule {
 
   rules: RulesContainer
 
-  options: RuleOptions
+  options: Object
 
   constructor(selector: string, styles: Object, options: RuleOptions) {
     this.selector = selector
     this.options = options
     this.rules = new RulesContainer({...options, parent: this})
+
     for (const name in styles) {
-      this.createAndRegisterRule(name, styles[name])
+      this.rules.add(name, styles[name])
     }
 
-    if (options.jss) {
-      const {plugins} = options.jss
-      this.rules.getIndex().forEach(plugins.onProcessRule, plugins)
-    }
+    this.rules.process()
   }
 
   /**
@@ -44,26 +42,11 @@ export default class ConditionalRule {
 
   /**
    * Create and register rule, run plugins.
-   *
-   * Will not render after Style Sheet was rendered the first time.
-   * Will link the rule in `this.rules`.
    */
-  addRule(name: string, style: Object, options: RuleOptions): Rule {
-    return this.rules.create(name, style, this.getChildOptions(options))
-  }
-
-  /**
-   * Build options object for a child rule.
-   */
-  getChildOptions(options?: RuleOptions): RuleOptions {
-    return {...this.options, parent: this, ...options}
-  }
-
-  /**
-   * Create and register a rule.
-   */
-  createAndRegisterRule(name?: string, style: Object): Rule {
-    return this.rules.createAndRegister(name, style, this.getChildOptions())
+  addRule(name: string, style: Object, options?: RuleOptions): Rule {
+    const rule = this.rules.add(name, style, options)
+    this.options.jss.plugins.onProcessRule(rule)
+    return rule
   }
 
   /**
@@ -71,7 +54,6 @@ export default class ConditionalRule {
    */
   toString(): string {
     const inner = this.rules.toString({indent: 1})
-    if (!inner) return ''
-    return `${this.selector} {\n${inner}\n}`
+    return inner ? `${this.selector} {\n${inner}\n}` : ''
   }
 }

@@ -47,13 +47,10 @@ export default class StyleSheet {
     this.rules = new RulesContainer(this.options)
 
     for (const name in styles) {
-      this.rules.createAndRegister(name, styles[name])
+      this.rules.add(name, styles[name])
     }
 
-    if (options.jss) {
-      const {plugins} = options.jss
-      this.rules.getIndex().forEach(plugins.onProcessRule, plugins)
-    }
+    this.rules.process()
   }
 
   /**
@@ -87,10 +84,11 @@ export default class StyleSheet {
 
     // Plugins can create rules.
     // In order to preserve the right order, we need to queue all `.addRule` calls,
-    // which happen after the first `rules.create()` call.
+    // which happen after the first `rules.add()` call.
     if (this.attached && !queue) this.queue = []
 
-    const rule = this.rules.create(name, style, options)
+    const rule = this.rules.add(name, style, options)
+    this.options.jss.plugins.onProcessRule(rule)
 
     if (this.attached) {
       if (!this.deployed) return rule
@@ -160,13 +158,6 @@ export default class StyleSheet {
   }
 
   /**
-   * Convert rules to a CSS string.
-   */
-  toString(options?: ToCssOptions): string {
-    return this.rules.toString(options)
-  }
-
-  /**
    * Deploy pure CSS string to a renderable.
    */
   deploy(): this {
@@ -187,5 +178,12 @@ export default class StyleSheet {
     }
     this.linked = true
     return this
+  }
+
+  /**
+   * Convert rules to a CSS string.
+   */
+  toString(options?: ToCssOptions): string {
+    return this.rules.toString(options)
   }
 }
