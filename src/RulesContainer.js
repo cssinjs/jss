@@ -29,22 +29,35 @@ export default class RulesContainer {
   }
 
   /**
-   * Create and register rule, run plugins.
+   * Create and register rule.
    *
    * Will not render after Style Sheet was rendered the first time.
    */
-  create(name: string, style: Object, options?: RuleOptions): Rule {
-    const rule = this.createAndRegister(name, style, options)
-    this.options.jss.plugins.onProcessRule(rule)
+  add(name: string, style: Object, options?: RuleOptions): Rule {
+    const {parent, sheet, jss, Renderer, generateClassName} = this.options
+
+    options = {
+      classes: this.classes,
+      parent,
+      sheet,
+      jss,
+      Renderer,
+      generateClassName,
+      ...options
+    }
+
+    if (!options.className) options.className = this.classes[name]
+
+    const rule = createRule(name, style, options)
+    this.register(rule)
+
+    const index = options.index === undefined ? this.index.length : options.index
+    this.index.splice(index, 0, rule)
     return rule
   }
 
   /**
    * Get a rule.
-   *
-   * @param {String} name
-   * @return {Rule}
-   * @api public
    */
   get(name: string): Rule {
     return this.map[name]
@@ -52,10 +65,6 @@ export default class RulesContainer {
 
   /**
    * Delete a rule.
-   *
-   * @param {Object} rule
-   * @return {Boolean} true if rule has been deleted from the DOM.
-   * @api public
    */
   remove(rule: Rule): void {
     this.unregister(rule)
@@ -64,20 +73,23 @@ export default class RulesContainer {
 
   /**
    * Get index of a rule.
-   *
-   * @param {Rule} rule
-   * @return {Number}
-   * @api public
    */
   indexOf(rule: Rule): number {
     return this.index.indexOf(rule)
   }
 
   /**
+   * Run `onProcessRule()` plugins on every rule.
+   */
+  process(): void {
+    const {plugins} = this.options.jss
+    // We need to clone array because if we modify the index somewhere else during a loop
+    // we end up with very hard-to-track-down side effects.
+    this.index.slice(0).forEach(plugins.onProcessRule, plugins)
+  }
+
+  /**
    * Register a rule in `.map` and `.classes` maps.
-   *
-   * @param {Rule} rule
-   * @api public
    */
   register(rule: Rule): void {
     if (rule.name) this.map[rule.name] = rule
@@ -112,42 +124,5 @@ export default class RulesContainer {
     }
 
     return str
-  }
-
-  /**
-   * Returns a cloned index of rules.
-   * We need this because if we modify the index somewhere else during a loop
-   * we end up with very hard-to-track-down side effects.
-   */
-  getIndex(): Array<Object> {
-    // We need to clone the array, because while
-    return this.index.slice(0)
-  }
-
-  /**
-   * Create and register a rule.
-   */
-  createAndRegister(name?: string, style: Object, options?: RuleOptions): Rule {
-    const {parent, sheet, jss, Renderer, generateClassName} = this.options
-
-    options = {
-      classes: this.classes,
-      parent,
-      sheet,
-      jss,
-      Renderer,
-      generateClassName,
-      ...options
-    }
-
-    if (!options.className) options.className = this.classes[name]
-
-    const rule = createRule(name, style, options)
-    this.register(rule)
-
-    const index = options.index === undefined ? this.index.length : options.index
-    this.index.splice(index, 0, rule)
-
-    return rule
   }
 }

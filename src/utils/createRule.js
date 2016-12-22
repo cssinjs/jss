@@ -8,11 +8,14 @@ import type {Rule, RuleOptions} from '../types'
  */
 export default function createRule(name?: string, decl: Object = {}, options: RuleOptions): Rule {
   const {jss} = options
-  // Is an at-rule.
-  if (name && name[0] === '@' && jss) {
+  if (jss) {
     const rule = jss.plugins.onCreateRule(name, decl, options)
     if (rule) return rule
-    warning(false, '[JSS] Unknown rule %s', name)
+  }
+
+  // It is an at-rule and it has no instance.
+  if (name && name[0] === '@') {
+    warning(false, '[JSS] Unknown at-rule %s', name)
   }
 
   return new RegularRule(name, decl, options)

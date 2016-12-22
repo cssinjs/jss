@@ -1,4 +1,4 @@
-import jss, {sheets} from '../src'
+import {sheets} from '../src'
 
 const {slice} = []
 
@@ -42,21 +42,15 @@ export function computeStyle(className) {
   return styleCopy
 }
 
-export function reset(jssInstance = jss) {
-  jssInstance.plugins.registry = []
+export const generateClassName = (str, rule) => (rule.name ? `${rule.name}-id` : 'id')
+
+// Make sure tests are isolated.
+afterEach(() => {
   sheets.reset()
 
   const styles = document.head.querySelectorAll('[data-jss]')
   for (let i = 0; i < styles.length; i++) {
     document.head.removeChild(styles[i])
   }
-}
-
-export const generateClassName = (str, rule) => (rule.name ? `${rule.name}-id` : 'id')
-
-// Mock the hash function.
-jss.setup({generateClassName})
-
-// Make sure tests are isolated.
-afterEach(reset)
+})
 
