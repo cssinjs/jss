@@ -1,3 +1,12 @@
+## 6.0.2 / 2016-12-23
+
+- Call `onCreateRule` for every rule type.
+- RulesContainer is now exported for the plugins.
+- Using babel-runtime for the lib build now.
+- Using webpack 2 now.
+- Preparation for the bugfix - nesting within @global (#380)
+- Preparation for the bugfix - nested @media inside of a rule inside of @global (#387)
+
 ## 6.0.1 / 2016-12-10
 
 - Don't insert empty rules #363
