@@ -41,7 +41,7 @@ You need to register a `plugin` only once per JSS instance. There is a number of
   })
   ```
 
-1. Hook `onProcessRule(rule)`.
+1. Hook `onProcessRule(rule, sheet)`.
 
   This hook is invoked on every created rule with the rule as an argument. If a `plugin` is a function, then jss defaults it to `onProcessRule` hook.
 
@@ -53,7 +53,7 @@ You need to register a `plugin` only once per JSS instance. There is a number of
   // or
 
   jss.use({
-    onProcessRule: (rule) => {
+    onProcessRule: (rule, sheet) => {
       // Do something here.
     }
   })
