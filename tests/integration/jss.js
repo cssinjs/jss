@@ -71,7 +71,7 @@ describe('Integration: jss', () => {
 
   describe('.use()', () => {
     describe('.createStyleSheet()', () => {
-      it('should pass rule correctly', () => {
+      it('should pass right arguments to onProcessRule', () => {
         let receivedRule
         let receivedSheet
         let executed = 0
@@ -85,6 +85,28 @@ describe('Integration: jss', () => {
         })
         expect(sheet).to.be(receivedSheet)
         expect(sheet.getRule('a')).to.be(receivedRule)
+        expect(executed).to.be(1)
+      })
+
+      it('should pass right arguments to onCreateRule', () => {
+        let receivedName
+        let receivedDecl
+        let receivedOptions
+        let executed = 0
+        jss.use({
+          onCreateRule: (name, decl, options) => {
+            receivedName = name
+            receivedDecl = decl
+            receivedOptions = options
+            executed++
+          }
+        })
+        jss.createStyleSheet({
+          a: {float: 'left'}
+        })
+        expect(receivedName).to.be('a')
+        expect(receivedDecl).to.eql({float: 'left'})
+        expect(receivedOptions).to.be.an(Object)
         expect(executed).to.be(1)
       })
     })
