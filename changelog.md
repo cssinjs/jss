@@ -1,3 +1,11 @@
+## 6.1.0 / 2016-12-26
+
+- Add jss-cache to the tests suit.
+- Don't run processors on a rule which has been processed already.
+- Add test for onCreateRule arguments.
+- Add sheet as a second argument to the onProcessRule hook.
+
+
 ## 6.0.2 / 2016-12-23
 
 - Call `onCreateRule` for every rule type.
