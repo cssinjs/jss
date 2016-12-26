@@ -22,7 +22,7 @@ export default class PluginsRegistry {
    */
   onProcessRule(rule: Rule): void {
     for (let i = 0; i < this.processors.length; i++) {
-      this.processors[i](rule)
+      this.processors[i](rule, rule.options.sheet)
     }
   }
 

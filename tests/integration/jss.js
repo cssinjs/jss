@@ -73,14 +73,17 @@ describe('Integration: jss', () => {
     describe('.createStyleSheet()', () => {
       it('should pass rule correctly', () => {
         let receivedRule
+        let receivedSheet
         let executed = 0
-        jss.use((rule) => {
+        jss.use((rule, sheet) => {
           receivedRule = rule
+          receivedSheet = sheet
           executed++
         })
         const sheet = jss.createStyleSheet({
           a: {float: 'left'}
         })
+        expect(sheet).to.be(receivedSheet)
         expect(sheet.getRule('a')).to.be(receivedRule)
         expect(executed).to.be(1)
       })
