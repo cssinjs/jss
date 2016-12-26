@@ -12,6 +12,8 @@ export default class SimpleRule {
 
   options: RuleOptions
 
+  isProcessed: ?boolean
+
   constructor(name: Name, value: string, options: RuleOptions) {
     this.name = name
     this.value = value

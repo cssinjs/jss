@@ -109,6 +109,23 @@ describe('Integration: jss', () => {
         expect(receivedOptions).to.be.an(Object)
         expect(executed).to.be(1)
       })
+
+      it('should not call processors twice on the same rule', () => {
+        const styles = {a: {color: 'red'}}
+        let receivedRule
+        let processed = 0
+        jss.use({
+          onCreateRule: () => receivedRule,
+          onProcessRule: (rule) => {
+            receivedRule = rule
+            processed++
+          }
+        })
+        // Process rules once.
+        jss.createStyleSheet(styles)
+        jss.createStyleSheet(styles)
+        expect(processed).to.be(1)
+      })
     })
 
     describe('.createRule()', () => {

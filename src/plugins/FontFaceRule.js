@@ -11,6 +11,8 @@ export default class FontFaceRule {
 
   options: RuleOptions
 
+  isProcessed: ?boolean
+
   constructor(selector: string, style: Object, options: RuleOptions) {
     this.selector = selector
     this.style = style

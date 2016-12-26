@@ -14,6 +14,8 @@ export default class ConditionalRule {
 
   options: Object
 
+  isProcessed: ?boolean
+
   constructor(selector: string, styles: Object, options: RuleOptions) {
     this.selector = selector
     this.options = options

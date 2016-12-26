@@ -11,6 +11,8 @@ export default class RegularRule {
 
   name: ?string
 
+  isProcessed: ?boolean
+
   style: Object
 
   originalStyle: Object

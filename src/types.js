@@ -36,6 +36,7 @@ export interface Rule {
   style: Object;
   renderable: ?CSSStyleRule;
   options: RuleOptions;
+  isProcessed: ?boolean;
   toString(options?: ToCssOptions): string;
 }
 

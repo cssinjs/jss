@@ -13,6 +13,8 @@ export default class KeyframeRule {
 
   options: RuleOptions
 
+  isProcessed: ?boolean
+
   constructor(selector: string, frames: Object, options: RuleOptions) {
     this.selector = selector
     this.options = options

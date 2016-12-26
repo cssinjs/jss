@@ -21,9 +21,11 @@ export default class PluginsRegistry {
    * Call `onProcessRule` hooks.
    */
   onProcessRule(rule: Rule): void {
+    if (rule.isProcessed) return
     for (let i = 0; i < this.processors.length; i++) {
       this.processors[i](rule, rule.options.sheet)
     }
+    rule.isProcessed = true
   }
 
   /**
