@@ -24,7 +24,7 @@
 1. [Server-side rendering](./docs/ssr.md)
 1. [Performance](./docs/performance.md)
 1. [Plugins API](./docs/plugins.md)
-1. [Official plugins](https://github.com/cssinjs?query=plugin)
+1. [Official plugins](https://github.com/cssinjs?q=plugin)
 1. [External projects](./docs/external-projects.md)
 1. [CLI Converter](https://github.com/cssinjs/cli)
 1. [Contributing](./contributing.md)
