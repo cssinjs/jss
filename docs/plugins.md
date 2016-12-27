@@ -2,7 +2,7 @@
 
 Plugins API allows to modify sheets and rules at different stages. A plugin can for e.g. add new style properties, modify values or even add new rules.
 
-A number of [plugins](https://github.com/cssinjs?query=plugin) do exist already. We are happy to add more.
+A number of [plugins](https://github.com/cssinjs?q=plugin) do exist already. We are happy to add more.
 
 ### Order does matter
 

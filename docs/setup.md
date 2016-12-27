@@ -18,7 +18,7 @@ https://unpkg.com/jss/dist/jss.min.js
 
 ## Setup with plugins
 
-You can use jss with or without [plugins](https://github.com/cssinjs?query=plugin). Make sure you use the plugins in the [right order](https://github.com/cssinjs/jss/blob/master/docs/plugins.md#order-does-matter) or just use a [preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with default plugins.
+You can use jss with or without [plugins](https://github.com/cssinjs?q=plugin). Make sure you use the plugins in the [right order](https://github.com/cssinjs/jss/blob/master/docs/plugins.md#order-does-matter) or just use a [preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with default plugins.
 
 ```javascript
 
