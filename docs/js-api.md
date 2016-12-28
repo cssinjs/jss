@@ -19,6 +19,7 @@
 1. [Set or get a rule property dynamically.](#set-or-get-a-rule-property-dynamically)
 1. [Convert rule to a JSON.](#convert-rule-to-a-json)
 1. [Convert to CSS](#convert-to-css)
+1. [Plugins](./plugins.md)
 
 ### Access the global JSS instance.
 
@@ -296,7 +297,7 @@ console.log(sheet.toString())
 import {create} from 'jss'
 
 const jss = create({
-  generateClassName: (stylesStr, rule) => {
+  generateClassName: (stylesStr, rule, sheet) => {
     return 'my-fancy-id'
   }
 })
@@ -315,3 +316,7 @@ console.log(sheet.toString())
   float: left;
 }
 ```
+
+### Plugins
+
+See [plugins](./plugins.md) documentation.

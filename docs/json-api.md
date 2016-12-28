@@ -6,7 +6,7 @@ JSS is designed to stay as close as possible to the CSS syntax, however there ar
 
 #### JS
 ```javascript
-export default {
+const styles = {
   button: {
     color: 'red',
     'font-size': '12px'
@@ -27,7 +27,7 @@ export default {
 #### JS
 
 ```javascript
-export default {
+const styles = {
   button: {
     width: 100
   },
@@ -44,7 +44,7 @@ export default {
 ```javascript
 const minWidth = 1024
 
-export default {
+const styles = {
   button: {
     width: 100
   },
@@ -76,7 +76,7 @@ Note: keyframe id is still global and may conflict.
 #### JS
 
 ```javascript
-export default {
+const styles = {
   '@keyframes my-animation': {
     from: {opacity: 0},
     to: {opacity: 1}
@@ -88,9 +88,9 @@ export default {
 
 
 ```javascript
-export const animationId = random()
+const animationId = random()
 
-export default {
+const styles = {
   [`@keyframes ${animationId}`]: {
     from: {opacity: 0},
     to {opacity: 1}
@@ -112,7 +112,7 @@ export default {
 #### JS
 
 ```javascript
-export default {
+const styles = {
   container: {
     background: 'linear-gradient(to right, red 0%, green 100%)'
     fallbacks: {
@@ -122,7 +122,7 @@ export default {
 }
 
 // Or if you need multiple fallbacks for the same property name:
-export default {
+const styles = {
   container: {
     display: 'flex'
     fallbacks: [
@@ -147,7 +147,7 @@ export default {
 #### JS
 
 ```javascript
-export default {
+const styles = {
   '@font-face': {
     fontFamily: 'MyWebFont',
     src: 'url(webfont.eot)'
@@ -168,7 +168,7 @@ export default {
 
 ```javascript
 // Multiple font faces.
-export default {
+const styles = {
   '@font-face': [
     {
       fontFamily: 'MyWebFont',
@@ -199,7 +199,7 @@ export default {
 
 ```javascript
 // Font-Face with src fallbacks.
-export default {
+const styles = {
   '@font-face': {
     fontFamily: 'MyWebFont',
     src: 'url(webfont.eot)',
@@ -234,7 +234,7 @@ There are some advantages in using this syntax:
 #### JS
 
 ```javascript
-export default {
+const styles = {
   button: {
     // Comma separated value with regular CSS strings inside.
     border: [
@@ -256,7 +256,7 @@ export default {
 #### JS
 
 ```javascript
-export default {
+const styles = {
   button: {
     // Comma separated value with space separated values inside.
     border: [
@@ -279,7 +279,7 @@ export default {
 #### JS
 
 ```javascript
-export default {
+const styles = {
   button: {
     // Space separated value.
     margin: [[5, 10]]
@@ -310,7 +310,7 @@ When assigning a string to the content property it requires double or single quo
 #### JS
 
 ```javascript
-export default {
+const styles = {
   button: {
     '&:after': {
       content: '"JSS"'
@@ -336,7 +336,7 @@ You can use any color conversion tool, for e.g. [this one](https://www.npmjs.com
 ```javascript
 import color from 'color'
 
-export default {
+const styles = {
   button: {
     color: color('blue').darken(0.3).hexString()
   }
