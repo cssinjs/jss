@@ -10,6 +10,7 @@ The order in which plugins are registered matters since they will be applied seq
 
 In case you use any of the following plugins please bear in mind that they should be registered in this order:
 
+  1. jss-cache
   1. jss-global
   1. jss-extend
   1. jss-nested

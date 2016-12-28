@@ -71,6 +71,8 @@ export default {
 
 ### Keyframes Animation
 
+Note: keyframe id is still global and may conflict.
+
 #### JS
 
 ```javascript
@@ -82,14 +84,14 @@ export default {
 }
 ```
 
-#### ES6 with constants in prop names.
+#### ES6 with generated keyframe id
 
-Note, currently JSS doesn't fixes the keyframes identifier, which is global for the document in CSS, we can use a generated id though.
 
 ```javascript
-const identifier = Math.random()
+export const animationId = random()
+
 export default {
-  [`@keyframes ${identifier}`]: {
+  [`@keyframes ${animationId}`]: {
     from: {opacity: 0},
     to {opacity: 1}
   }

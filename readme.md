@@ -32,9 +32,6 @@
 
 ### Example
 
-You think writing CSS in JS is ugly?
-Try [CSSX](https://github.com/krasimir/cssx), it compiles to JSS JSON and allows you to write  in CSSX language, but render with JSS.
-
 You need to [setup plugins](./docs/setup.md#setup-with-plugins) before.
 You can use a [preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with default plugins.
 
@@ -138,4 +135,4 @@ MIT
 
 ### Thanks
 
-Thanks to [BrowserStack](https://www.browserstack.com) for providing the infrastructure that allows us to run our build in real browsers and to all awesome [contributors](https://github.com/cssinjs/jss/graphs/contributors).
+Thanks to [BrowserStack](https://www.browserstack.com) for providing the infrastructure that allows us to run our tests in real browsers and to all awesome [contributors](https://github.com/cssinjs/jss/graphs/contributors).

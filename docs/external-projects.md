@@ -8,6 +8,8 @@
 
 [Aphrodisiac](https://github.com/cssinjs/aphrodisiac) provides Aphrodite like api on top of JSS.
 
+[CSSX](https://github.com/krasimir/cssx) CSS syntax which can use JSS for rendering.
+
 ### JSS Plugins
 
 [jss-vendor-prefixer-ie10](https://github.com/alexkuz/jss-vendor-prefixer-ie10) JSS plugin that handles vendor prefixes for the legacy browsers.
