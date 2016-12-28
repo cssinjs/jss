@@ -26,6 +26,8 @@
 
 [perdido](https://github.com/wldcordeiro/perdido) JSS fractional grid system built with calc(), based on Lost PostCSS grid. Supports masonry, vertical, and waffle grids.
 
+[flex-jss](https://github.com/tusharmath/flex-jss) Provides barebone flex-box utils, with concise and intuitive class names.
+
 ### Build tools integrations
 
 [babel-plugin-jss-simple](https://github.com/ashaffer/babel-plugin-jss-simple) Add filename keys to your jss-simple declarations to help with hot reloading.
