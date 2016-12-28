@@ -1,6 +1,6 @@
 # Performance
 
-### Advantages
+## Advantages
 
 JSS has a number of performance advantages.
 
@@ -9,7 +9,7 @@ JSS has a number of performance advantages.
   - Only styles which are currently in use on your screen are also in the DOM (react-jss)
   - Simple class selectors ensure high selectors [performance](#jsperf-simple-class-selectors) at scale.
 
-### Run benchmarks locally
+## Run benchmarks locally
 
 These benchmarks are used to ensure performance after code changes.
 
@@ -20,19 +20,19 @@ npm i
 npm run bench
 ```
 
-### Comparison to other CSSinJS libs
+## Comparison to other CSSinJS libs
 
 [css-in-js-perf-tests](https://github.com/hellofresh/css-in-js-perf-tests)
 
-### JSPerf JSS vs. CSS
+## JSPerf JSS vs. CSS
 
 [JSPerf bench](http://jsperf.com/jss-vs-css/3).
 
-### JSPerf simple class selectors
+## JSPerf simple class selectors
 
 [JSPerf bench](http://jsperf.com/css-selectors-amount-influences-dom-performance/3).
 
-### JSPerf inline styles vs. classes
+## JSPerf inline styles vs. classes
 
 Inline styles are also slower because of a simple fact that same styled items (for e.g. in a list) don't share the same rule.
 

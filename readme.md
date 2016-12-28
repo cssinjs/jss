@@ -7,14 +7,14 @@
 
 [JSS is a better abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It uses JavaScript as a language to describe styles in a declarative and maintainable way. It is a [high performance](https://github.com/cssinjs/jss/blob/master/docs/performance.md) JS to CSS compiler which works at runtime and server-side. You can use it with [React](https://github.com/cssinjs/react-jss) or with any other library. It is about 5KB (minfied and gzipped) and is extensible via [plugins](./docs/plugins.md) API.
 
-### Libraries on top of JSS
+## Libraries on top of JSS
 
 - [React-JSS](https://github.com/cssinjs/react-jss) integration for React.
 - [Theme Reactor](https://github.com/nathanmarks/jss-theme-reactor) Experimental React integration with theming.
 - [Aphrodisiac](https://github.com/cssinjs/aphrodisiac) provides Aphrodite like api on top of JSS.
 
 
-### TOC
+## TOC
 
 1. [Live examples](http://cssinjs.github.io/examples/index.html).
 1. [Benefits](./docs/benefits.md)
@@ -30,7 +30,7 @@
 1. [Contributing](./contributing.md)
 
 
-### Example
+## Example
 
 You need to [setup plugins](./docs/setup.md#setup-with-plugins) before.
 You can use a [preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with default plugins.
@@ -100,7 +100,7 @@ Result
   <button class="ctaButton-789012">CTA Button</button>
 </body>
 ```
-### When should I use it?
+## When should I use it?
 
 - You build a JavaScript heavy application.
 - You use components based architecture.
@@ -112,7 +112,7 @@ Result
 - Ease of maintenance is important to you.
 - You just want to use any of its [benefits](./docs/benefits.md)
 
-### Roadmap
+## Roadmap
 
 - ~~Make it easier for newcomers to setup jss with plugins (like presets).~~
 - ~~Make JSON DSL even better, for e.g. [jss-expand](https://github.com/typical000/jss-expand).~~
@@ -125,14 +125,14 @@ Result
 - React Native support.
 - Add converters stylus, sass and co. to [cli](https://github.com/cssinjs/cli) with constants reuse.
 
-### Browsers Support
+## Browsers Support
 
 We have automated tests running in [real browsers](./browsers.json).
 
-### License
+## License
 
 MIT
 
-### Thanks
+## Thanks
 
 Thanks to [BrowserStack](https://www.browserstack.com) for providing the infrastructure that allows us to run our tests in real browsers and to all awesome [contributors](https://github.com/cssinjs/jss/graphs/contributors).

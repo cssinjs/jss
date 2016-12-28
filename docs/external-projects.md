@@ -1,6 +1,6 @@
 # Projects created by community based on JSS
 
-### Libraries on top of JSS
+## Libraries on top of JSS
 
 [React-JSS](https://github.com/cssinjs/react-jss) integration for React.
 
@@ -10,7 +10,7 @@
 
 [CSSX](https://github.com/krasimir/cssx) CSS syntax which can use JSS for rendering.
 
-### JSS Plugins
+## JSS Plugins
 
 [jss-vendor-prefixer-ie10](https://github.com/alexkuz/jss-vendor-prefixer-ie10) JSS plugin that handles vendor prefixes for the legacy browsers.
 
@@ -18,17 +18,17 @@
 
 [jss-color-rebeccapurple](https://github.com/joshgillies/jss-color-rebeccapurple) JSS plugin to transform the W3C CSS rebeccapurple color to rgb.
 
-### Convenience
+## Convenience
 
 [jss-simple](https://github.com/ashaffer/jss-simple) Thin wrapper around jss that simplifies its interface and restricts you to a single, global stylesheet.
 
 [jss-css](https://github.com/alexkuz/jss-css) This is a convenience module for JSS that converts CSS string into JSS object. It allows to describe style classes for components in a habitual and little less verbose way.
 
-### Layout systems
+## Layout systems
 
 [perdido](https://github.com/wldcordeiro/perdido) JSS fractional grid system built with calc(), based on Lost PostCSS grid. Supports masonry, vertical, and waffle grids.
 
-### Build tools integrations
+## Build tools integrations
 
 [babel-plugin-jss-simple](https://github.com/ashaffer/babel-plugin-jss-simple) Add filename keys to your jss-simple declarations to help with hot reloading.
 
@@ -40,16 +40,16 @@
 
 [gulp-jss](https://github.com/gooy/gulp-jss) Gulp plugin
 
-### Demos
+## Demos
 
 [css-modules-jss-demo](https://github.com/markdalgleish/css-modules-jss-demo) An experimental demo of CSS Modules, using JSS via jss-loader to compile JavaScript into locally scoped CSS.
 
 [perdido](http://cssinjs.github.io/examples/perdido/index.html) Demo of perdido fractional grid system.
 
-### UI libs
+## UI libs
 
 [react-modal-dialog](https://github.com/qimingweng/react-modal-dialog) A modal dialog for ReactJS
 
-### Editor integrations
+## Editor integrations
 
 [atom snippets](https://github.com/march213/jss-atom-snippets) Snippets for Atom

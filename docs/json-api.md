@@ -1,10 +1,9 @@
-## JSON API for declaring Style Sheets.
+# JSON API for declaring Style Sheets.
 
 JSS is designed to stay as close as possible to the CSS syntax, however there are some exceptions.
 
-### Regular Rule, without plugins
+## Regular Rule, without plugins
 
-#### JS
 ```javascript
 const styles = {
   button: {
@@ -14,7 +13,8 @@ const styles = {
 }
 ```
 
-#### CSS
+Compiles to:
+
 ```css
 .button-jss-0 {
   color: red;
@@ -22,9 +22,7 @@ const styles = {
 }
 ```
 
-### Media Queries
-
-#### JS
+## Media Queries
 
 ```javascript
 const styles = {
@@ -39,7 +37,7 @@ const styles = {
 }
 ```
 
-#### ES6 with constants in prop names.
+### ES6 with constants in prop names.
 
 ```javascript
 const minWidth = 1024
@@ -56,7 +54,7 @@ const styles = {
 }
 ```
 
-#### CSS
+Compiles to:
 
 ```css
 .button-jss-0 {
@@ -69,11 +67,9 @@ const styles = {
 }
 ```
 
-### Keyframes Animation
+## Keyframes Animation
 
 Note: keyframe id is still global and may conflict.
-
-#### JS
 
 ```javascript
 const styles = {
@@ -84,8 +80,7 @@ const styles = {
 }
 ```
 
-#### ES6 with generated keyframe id
-
+### ES6 with generated keyframe id
 
 ```javascript
 const animationId = random()
@@ -98,7 +93,7 @@ const styles = {
 }
 ```
 
-#### CSS
+Compiles to:
 
 ```css
 @keyframes my-animation {
@@ -107,9 +102,7 @@ const styles = {
 }
 ```
 
-### Fallbacks
-
-#### JS
+## Fallbacks
 
 ```javascript
 const styles = {
@@ -133,7 +126,7 @@ const styles = {
 }
 ```
 
-#### CSS
+Compiles to:
 
 ```css
 .container--jss-0-0 {
@@ -142,9 +135,7 @@ const styles = {
 }
 ```
 
-### Font Face
-
-#### JS
+## Font Face
 
 ```javascript
 const styles = {
@@ -155,7 +146,7 @@ const styles = {
 }
 ```
 
-#### CSS
+Compiles to:
 
 ```css
 @font-face {
@@ -163,8 +154,6 @@ const styles = {
   src: url('webfont.eot');
 }
 ```
-
-#### JS
 
 ```javascript
 // Multiple font faces.
@@ -182,7 +171,7 @@ const styles = {
 }
 ```
 
-#### CSS
+Compiles to:
 
 ```css
 @font-face {
@@ -194,8 +183,6 @@ const styles = {
   src: url('webfont2.eot');
 }
 ```
-
-#### JS
 
 ```javascript
 // Font-Face with src fallbacks.
@@ -211,7 +198,7 @@ const styles = {
 }
 ```
 
-#### CSS
+Compiles to:
 
 ```css
 @font-face {
@@ -222,7 +209,7 @@ const styles = {
 }
 ```
 
-### Alternative syntax for space and comma separated values
+## Alternative syntax for space and comma separated values
 
 In order to describe space or comma separated CSS values in a JavaScript way, we introduced an array based syntax.
 
@@ -230,8 +217,6 @@ There are some advantages in using this syntax:
 
 1. Plugin `jss-default-unit` is able to set default unit effectively for numeric values.
 2. You can use variables inside of a value declaration without string templates or concatenations.
-
-#### JS
 
 ```javascript
 const styles = {
@@ -245,15 +230,13 @@ const styles = {
 }
 ```
 
-#### CSS
+Compiles to:
 
 ```css
 .button-12345 {
   border: 1px solid red, 1px solid blue;
 }
 ```
-
-#### JS
 
 ```javascript
 const styles = {
@@ -268,15 +251,13 @@ const styles = {
 }
 ```
 
-#### CSS
+Compiles to:
 
 ```css
 .button-12345 {
   border: 1px solid red, 1px solid blue;
 }
 ```
-
-#### JS
 
 ```javascript
 const styles = {
@@ -287,7 +268,7 @@ const styles = {
 }
 ```
 
-#### CSS
+Compiles to:
 
 ```css
 .button-12345 {
@@ -295,19 +276,17 @@ const styles = {
 }
 ```
 
-### Writing global selectors
+## Writing global selectors
 
 Global selectors can be used when [jss-global](https://github.com/cssinjs/jss-global) plugin is installed.
 
-### Pseudo and Nested Selectors.
+## Pseudo and Nested Selectors.
 
 Are supported through the [jss-nested](https://github.com/cssinjs/jss-nested) plugin.
 
-### Property "content".
+## Property "content".
 
 When assigning a string to the content property it requires double or single quotes in CSS. Therefore you also have to provide the quotes within the value string for content to match how it will be represented in CSS.
-
-#### JS
 
 ```javascript
 const styles = {
@@ -319,7 +298,7 @@ const styles = {
 }
 ```
 
-#### CSS
+Compiles to:
 
 ```css
 .button-jss-0-1:after {
@@ -327,11 +306,9 @@ const styles = {
 }
 ```
 
-### Working with colors
+## Working with colors
 
 You can use any color conversion tool, for e.g. [this one](https://www.npmjs.com/package/color).
-
-#### JS
 
 ```javascript
 import color from 'color'
@@ -343,7 +320,7 @@ const styles = {
 }
 ```
 
-#### CSS
+Compiles to:
 
 ```css
 .button-jss-0-1 {
@@ -351,6 +328,6 @@ const styles = {
 }
 ```
 
-### Plugins
+## Plugins
 
 JSS plugins give you even more features, [read about them](./plugins.md).

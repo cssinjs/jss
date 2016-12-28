@@ -21,13 +21,13 @@
 1. [Convert to CSS](#convert-to-css)
 1. [Plugins](./plugins.md)
 
-### Access the global JSS instance.
+## Access the global JSS instance.
 
 ```javascript
 import jss from 'jss'
 ```
 
-### Create an own JSS instance.
+## Create an own JSS instance.
 
 `create([options])`
 
@@ -43,7 +43,7 @@ jss.createStyleSheet(...)
 export default jss
 ```
 
-### Setup JSS instance.
+## Setup JSS instance.
 
 `jss.setup(options)`
 
@@ -52,7 +52,7 @@ Options:
  - `generateClassName` accepts a styles string and a Rule instance.
  - `plugins` an array of functions, will be passed to `jss.use`.
 
-### Quick setup with preset.
+## Quick setup with preset.
 
 ```javascript
 import preset from 'jss-preset-default'
@@ -61,7 +61,7 @@ import jss from 'jss'
 jss.setup(preset())
 ```
 
-### Create a Style Sheet.
+## Create a Style Sheet.
 
 `jss.createStyleSheet([styles], [options])`
 
@@ -86,7 +86,7 @@ const sheet = jss.createStyleSheet({
   }
 }, {media: 'print'}).attach()
 
-console.log(sheet.classes.button) // .button-d4f43g
+console.log(sheet.classes.button) // button-d4f43g
 ```
 
 ```css
@@ -98,11 +98,11 @@ console.log(sheet.classes.button) // .button-d4f43g
 </style>
 ```
 
-### Create a Style Sheet with global selectors.
+## Create a Style Sheet with global selectors.
 
 You need to have [jss-global](https://github.com/cssinjs/jss-global) plugin installed.
 
-### Style Sheets registry.
+## Style Sheets registry.
 
 `SheetsRegistry`
 
@@ -118,25 +118,25 @@ sheets.add(sheet)
 sheets.toString() // Returns CSS of all attached Style Sheets together.
 ```
 
-### Remove a Style Sheet.
+## Remove a Style Sheet.
 
 `jss.removeStyleSheet(sheet)`
 
 Detach the Style Sheet and remove it from the registry.
 
-### Attach Style Sheet.
+## Attach Style Sheet.
 
 `sheet.attach()`
 
 Insert Style Sheet into the render tree. You need to call it in order to make your Style Sheet visible for the layout.
 
-### Detach Style Sheet.
+## Detach Style Sheet.
 
 `sheet.detach()`
 
 Detaching unused Style Sheets will speedup every DOM node insertion and manipulation as the browser will have to do less lookups for css rules potentially to be applied to the element.
 
-### Attach Style Sheets in a specific order.
+## Attach Style Sheets in a specific order.
 
 Sheet 1 has a higher index (priority), and as such will come **after** sheet 2 in the resulting DOM.
 
@@ -150,17 +150,17 @@ const sheet2 = jss.createStyleSheet({}, {index: 1, meta: 'sheet-2'}).attach()
 <style type="text/css" data-meta="sheet-1"></style>
 ```
 
-### Add a rule to an existing Style Sheet.
+## Add a rule to an existing Style Sheet.
 
 `sheet.addRule([name], style, [options])`
 
-#### Options.
+### Options.
 
 - `index` index where the rule should be added, by default, rules are pushed at the end.
 - `className` add a rule with a predefined class name.
 
 
-#### Add a rule dynamically.
+### Add a rule dynamically.
 
 ```javascript
 const rule = sheet.addRule({
@@ -170,7 +170,7 @@ const rule = sheet.addRule({
 document.body.innerHTML = '<button class="' + rule.className + '">Button</button>'
 ```
 
-### Delete a rule from an existing Style Sheet.
+## Delete a rule from an existing Style Sheet.
 
 To remove a rule from the DOM, Style Sheet option `link: true` should be used.
 Returns `true` if rule has been removed from the DOM.
@@ -178,7 +178,7 @@ Returns `true` if rule has been removed from the DOM.
 `sheet.deleteRule(name)`
 
 
-### Get a rule.
+## Get a rule.
 
 `sheet.getRule(name)`
 
@@ -189,7 +189,7 @@ Access a rule within sheet by a name.
 const rule = sheet.getRule('myButton')
 ```
 
-### Add multiple rules.
+## Add multiple rules.
 
 `sheet.addRules(styles)`
 
@@ -206,7 +206,7 @@ sheet.addRules({
 })
 ```
 
-### Create a rule without a Style Sheet.
+## Create a rule without a Style Sheet.
 
 `jss.createRule([name], style, [options])`
 
@@ -225,7 +225,7 @@ const rule = jss.createRule('@media', {
 })
 ```
 
-### Apply a rule to an element inline.
+## Apply a rule to an element inline.
 
 `rule.applyTo(element)`
 
@@ -237,7 +237,7 @@ jss.createRule({
 }).applyTo(element)
 ```
 
-### Set or get a rule property dynamically.
+## Set or get a rule property dynamically.
 
 `rule.prop(name, [value])`
 
@@ -257,7 +257,7 @@ sheet.getRule('a').prop('color') // red
 sheet.getRule('a').prop('color', 'green')
 ```
 
-### Convert rule to a JSON.
+## Convert rule to a JSON.
 
 `rule.toJSON()`
 
@@ -267,7 +267,7 @@ no nested, conditionals, keyframes or fallbacks.
 Result of toJSON call can be used later to apply styles inline to the element.
 It is used by `rule.applyTo()`.
 
-### Convert to CSS.
+## Convert to CSS.
 
 `sheet.toString()`
 
@@ -291,7 +291,7 @@ console.log(sheet.toString())
 }
 ```
 
-### Generate your own class names
+## Generate your own class names
 
 ```javascript
 import {create} from 'jss'
@@ -317,6 +317,6 @@ console.log(sheet.toString())
 }
 ```
 
-### Plugins
+## Plugins
 
 See [plugins](./plugins.md) documentation.

@@ -1,6 +1,6 @@
 # Benefits of using JavaScript Style Sheets.
 
-### Compared to regular CSS.
+## Compared to regular CSS.
 
 1. Scoped selectors.
 
@@ -48,7 +48,7 @@ JSS allows you to compose rules from multiple sources. You can reuse existing ru
 
   You can generate styles according the environment requirements at runtime, for e.g. you can express any complex condition considering for e.g. pixel density, resolution and device type at the same time. You can compose new Style Sheets based on settings and environment out of existing once.
 
-### Compared to server-side preprocessing languages (stylus/less/sass/css-modules and co.)
+## Compared to server-side preprocessing languages (stylus/less/sass/css-modules and co.)
 
 1. Aforementioned benefits.
 1. There is no build step, as a result - no dependency to build tools at all.
@@ -57,7 +57,7 @@ JSS allows you to compose rules from multiple sources. You can reuse existing ru
   There is no need to learn new preprocessing languages. They all come with a burden of a new syntax for variables, functions, mixins, extends and others. At the same time there is nothing they can do JavaScript can't.
 
 
-### Compared to Inline Styles
+## Compared to Inline Styles
 
 1. Rules caching.
 
@@ -82,13 +82,13 @@ JSS allows you to compose rules from multiple sources. You can reuse existing ru
 
 Inline styles are [slower](./performance.md) than class names.
 
-### Compared to Radium
+## Compared to Radium
 
 1. Generates CSS, not inline styles like radium.
 2. Pseudo selectors are implemented by CSS, not using JavaScript.
 3. You can do everything you could do with CSS before. It is not limited to specific kinds of selectors.
 
-### Compared to Aphrodite
+## Compared to Aphrodite
 
 1. Supports children, siblings and any other kinds of selectors.
 2. Has support for global styles, without auto namespacing.
@@ -97,13 +97,13 @@ Inline styles are [slower](./performance.md) than class names.
 
 More details in [the article](https://medium.com/@oleg008/aphrodite-vs-jss-a15761b91ee3).
 
-### Compared to any CSS in JS solution
+## Compared to any CSS in JS solution
 
 1. Extensible core architecture.
 
   Small core, everything else is a plugin. It is similar to [postcss](http://postcss.org/) at this point. It allows you to create your own setup with selected plugins, which fix **your** problems. Also it allows you to create your very specific custom modifiers.
 
-### Related articles:
+## Related articles:
 https://byjoeybaker.com/react-inline-styles
 
 https://medium.com/@dbow1234/component-style-b2b8be6931d3

@@ -4,7 +4,7 @@ Plugins API allows to modify sheets and rules at different stages. A plugin can 
 
 A number of [plugins](https://github.com/cssinjs?q=plugin) do exist already. We are happy to add more.
 
-### Order does matter
+## Order does matter
 
 The order in which plugins are registered matters since they will be applied sequentially.
 
@@ -24,7 +24,7 @@ In case you use any of the following plugins please bear in mind that they shoul
 
 To make your life easier we made [jss-default-preset](https://www.npmjs.com/package/jss-preset-default) which is a ready to use and ordered preset of plugins.
 
-### Authoring plugins.
+## Authoring plugins.
 
 `jss.use(plugin)`
 
