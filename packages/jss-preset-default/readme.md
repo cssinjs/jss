@@ -3,7 +3,7 @@
 Preset allows to setup [JSS](https://github.com/cssinjs/jss) quickly with default settings and a [number of plugins](https://github.com/cssinjs/jss-preset-default/blob/master/package.json#L50) so that you don't need to learn how to [setup plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-plugins).
 
 
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/cssinjs/jss)
+[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/jss)
 
 ## API
 
