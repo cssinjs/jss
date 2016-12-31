@@ -1,26 +1,5 @@
 # JavaScript API
 
-1. [Access the jss namespace.](#access-the-global-jss-instance)
-1. [Create an own instance of JSS.](#create-an-own-jss-instance)
-1. [Create Style Sheet.](#create-style-sheet)
-1. [Create a Style Sheet with global selectors.](#create-a-style-sheet-with-global-selectors)
-1. [Style Sheets registry](#style-sheets-registry)
-1. [Remove a Style Sheet](#remove-a-style-sheet)
-1. [Attach Style Sheet.](#attach-style-sheet)
-1. [Detach Style Sheet.](#detach-style-sheet)
-1. [Attach Style Sheets in a specific order.](#attach-style-sheets-in-a-specific-order)
-1. [Add a rule to an existing Style Sheet.](#add-a-rule-to-an-existing-style-sheet)
-1. [Delete a rule from an existing Style Sheet.](#delete-a-rule-from-an-existing-style-sheet)
-1. [Add a rule dynamically.](#add-a-rule-dynamically)
-1. [Get a rule.](#get-a-rule)
-1. [Add multiple rules.](#add-multiple-rules)
-1. [Create a rule without a Style Sheet.](#create-a-rule-without-a-style-sheet)
-1. [Inline Style](#apply-a-rule-to-an-element-inline)
-1. [Set or get a rule property dynamically.](#set-or-get-a-rule-property-dynamically)
-1. [Convert rule to a JSON.](#convert-rule-to-a-json)
-1. [Convert to CSS](#convert-to-css)
-1. [Plugins](./plugins.md)
-
 ## Access the global JSS instance.
 
 ```javascript
@@ -61,7 +40,7 @@ import jss from 'jss'
 jss.setup(preset())
 ```
 
-## Create a Style Sheet.
+## Create Style Sheet.
 
 `jss.createStyleSheet([styles], [options])`
 
@@ -89,7 +68,7 @@ const sheet = jss.createStyleSheet({
 console.log(sheet.classes.button) // button-d4f43g
 ```
 
-```css
+```html
 <style media="print">
   .button-d4f43g {
     width: 100px;
