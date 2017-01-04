@@ -6,14 +6,26 @@
  */
 export default class VirtualRenderer {
   createElement() {}
-  setStyle() {}
-  getStyle() {}
-  setSelector() {}
-  getSelector() {}
+  setStyle() {
+    return true
+  }
+  getStyle() {
+    return ''
+  }
+  setSelector() {
+    return true
+  }
+  getSelector() {
+    return ''
+  }
   attach() {}
   detach() {}
   deploy() {}
-  insertRule() {}
-  deleteRule() {}
+  insertRule() {
+    return true
+  }
+  deleteRule() {
+    return true
+  }
   getRules() {}
 }

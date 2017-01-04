@@ -100,5 +100,5 @@ export interface Renderer {
   deploy(sheet: StyleSheet): void;
   insertRule(rule: Rule): CSSStyleRule|false;
   deleteRule(rule: CSSStyleRule): boolean;
-  getRules(): CSSRuleList;
+  getRules(): CSSRuleList|void;
 }

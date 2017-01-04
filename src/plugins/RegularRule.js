@@ -93,8 +93,7 @@ export default class RegularRule {
    */
   get selector(): string {
     if (this.renderable) {
-      const selector = this.renderer.getSelector(this.renderable)
-      return (selector: string)
+      return this.renderer.getSelector(this.renderable)
     }
 
     return this.selectorText

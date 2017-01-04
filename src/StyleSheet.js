@@ -171,10 +171,14 @@ export default class StyleSheet {
    */
   link(): this {
     const cssRules = this.renderer.getRules()
-    for (let i = 0; i < cssRules.length; i++) {
-      const CSSStyleRule = cssRules[i]
-      const rule = this.rules.get(CSSStyleRule.selectorText)
-      if (rule) rule.renderable = CSSStyleRule
+
+    // Is undefined when VirtualRenderer is used.
+    if (cssRules) {
+      for (let i = 0; i < cssRules.length; i++) {
+        const CSSStyleRule = cssRules[i]
+        const rule = this.rules.get(CSSStyleRule.selectorText)
+        if (rule) rule.renderable = CSSStyleRule
+      }
     }
     this.linked = true
     return this
