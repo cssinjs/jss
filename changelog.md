@@ -1,3 +1,7 @@
+## 6.1.1 / 2017-01-04
+
+- Allow sheet.link() call when VirtualRenderer is used.
+
 ## 6.1.0 / 2016-12-26
 
 - Add jss-cache to the tests suit.
