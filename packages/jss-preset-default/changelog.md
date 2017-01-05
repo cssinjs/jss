@@ -1,3 +1,7 @@
+## 1.2.1 / 2017-01-05
+
+- fix the build
+
 ## 1.2.0 / 2016-12-31
 
 - update jss-global to 0.4.0
