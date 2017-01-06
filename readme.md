@@ -16,7 +16,7 @@
 
 ## TOC
 
-1. [Live examples](http://cssinjs.github.io/examples/index.html).
+1. [Live examples](https://github.com/cssinjs/examples).
 1. [Benefits](./docs/benefits.md)
 1. [Setup](./docs/setup.md)
 1. [JSON API (JSS Syntax)](./docs/json-api.md)
