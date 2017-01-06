@@ -10,6 +10,8 @@
 
 [CSSX](https://github.com/krasimir/cssx) CSS syntax which can use JSS for rendering.
 
+[Aesthetic](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic) A React style abstraction layer with theme support.
+
 ## JSS Plugins
 
 [jss-vendor-prefixer-ie10](https://github.com/alexkuz/jss-vendor-prefixer-ie10) JSS plugin that handles vendor prefixes for the legacy browsers.
