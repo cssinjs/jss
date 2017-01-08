@@ -60,7 +60,7 @@ This can be useful if you have another dependency that needs to come before or a
 
 ## CLI
 
-For more information see [CLI](https://github.com/cssinjs/jss-cli).
+For more information see [CLI](https://github.com/cssinjs/cli).
 
 ```bash
 npm i jss-cli -g
