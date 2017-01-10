@@ -1,6 +1,6 @@
 # Projects created by community based on JSS
 
-## Libraries on top of JSS
+## Abstractions on top of JSS
 
 [React-JSS](https://github.com/cssinjs/react-jss) integration for React.
 
@@ -12,7 +12,17 @@
 
 [Aesthetic](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic) A React style abstraction layer with theme support.
 
-## JSS Plugins
+## Examples
+
+[Examples repository](https://github.com/cssinjs/examples)
+
+## UI libs
+
+[material-ui](https://github.com/callemall/material-ui/tree/next) Material UI
+
+[react-modal-dialog](https://github.com/qimingweng/react-modal-dialog) A modal dialog for ReactJS
+
+## Plugins
 
 [jss-vendor-prefixer-ie10](https://github.com/alexkuz/jss-vendor-prefixer-ie10) JSS plugin that handles vendor prefixes for the legacy browsers.
 
@@ -26,9 +36,12 @@
 
 [jss-css](https://github.com/alexkuz/jss-css) This is a convenience module for JSS that converts CSS string into JSS object. It allows to describe style classes for components in a habitual and little less verbose way.
 
-## Layout systems
+## JSS Helpers
+
+[normalize-jss](https://github.com/typical000/normalize-jss]) JSS port of normalize.css
 
 [perdido](https://github.com/wldcordeiro/perdido) JSS fractional grid system built with calc(), based on Lost PostCSS grid. Supports masonry, vertical, and waffle grids.
+
 
 ## Build tools integrations
 
@@ -41,16 +54,6 @@
 [jss-loader](https://github.com/markdalgleish/jss-loader) Webpack loader - use JavaScript as your CSS preprocessor!
 
 [gulp-jss](https://github.com/gooy/gulp-jss) Gulp plugin
-
-## Demos
-
-[css-modules-jss-demo](https://github.com/markdalgleish/css-modules-jss-demo) An experimental demo of CSS Modules, using JSS via jss-loader to compile JavaScript into locally scoped CSS.
-
-[perdido](http://cssinjs.github.io/examples/perdido/index.html) Demo of perdido fractional grid system.
-
-## UI libs
-
-[react-modal-dialog](https://github.com/qimingweng/react-modal-dialog) A modal dialog for ReactJS
 
 ## Editor integrations
 
