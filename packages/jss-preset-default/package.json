@@ -45,16 +45,16 @@
     "webpack": "^1.13.1"
   },
   "peerDependencies": {
-    "jss": "^6.0.0"
+    "jss": "^6.2.0"
   },
   "dependencies": {
     "jss-camel-case": "^3.0.0",
     "jss-compose": "^2.0.0",
-    "jss-default-unit": "^5.0.0",
-    "jss-expand": "^2.0.1",
+    "jss-default-unit": "^5.0.2",
+    "jss-expand": "^2.0.3",
     "jss-extend": "^3.0.0",
-    "jss-global": "^0.4.0",
-    "jss-nested": "^3.0.0",
+    "jss-global": "^0.4.1",
+    "jss-nested": "^3.0.1",
     "jss-props-sort": "^3.0.0",
     "jss-vendor-prefixer": "^4.0.0"
   }

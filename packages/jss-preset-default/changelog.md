@@ -1,3 +1,7 @@
+## 1.3.0 / 2017-01-15
+
+- updates: jss-default-unit, jss-expand, jss-global, jss-nested
+
 ## 1.2.1 / 2017-01-05
 
 - fix the build
