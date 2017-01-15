@@ -1,3 +1,7 @@
+## 6.2.0 / 2017-01-15
+
+- Added @viewport and @-ms-viewport support (used in bootstrap)
+
 ## 6.1.1 / 2017-01-04
 
 - Allow sheet.link() call when VirtualRenderer is used.

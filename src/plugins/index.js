@@ -3,6 +3,7 @@ import SimpleRule from './SimpleRule'
 import KeyframeRule from './KeyframeRule'
 import ConditionalRule from './ConditionalRule'
 import FontFaceRule from './FontFaceRule'
+import ViewportRule from './ViewportRule'
 import type {Plugin, RuleOptions, Rule} from '../types'
 
 const classes = {
@@ -12,7 +13,9 @@ const classes = {
   '@keyframes': KeyframeRule,
   '@media': ConditionalRule,
   '@supports': ConditionalRule,
-  '@font-face': FontFaceRule
+  '@font-face': FontFaceRule,
+  '@viewport': ViewportRule,
+  '@-ms-viewport': ViewportRule
 }
 
 /**

@@ -291,7 +291,7 @@ describe('Integration: rules', () => {
       })
     })
 
-    describe('at-rule', () => {
+    describe('unknown at-rule', () => {
       let warned = false
 
       before(() => {
@@ -300,7 +300,7 @@ describe('Integration: rules', () => {
         })
       })
 
-      it('should warn when using an unknown at-rule', () => {
+      it('should warn', () => {
         const rule = jss.createRule('@unknown', {
           color: 'red'
         })
@@ -332,6 +332,34 @@ describe('Integration: rules', () => {
         '  }\n' +
         '}'
       expect(rule.toString()).to.be(css)
+    })
+
+    describe('@viewport rule', () => {
+      it('should return CSS from @viewport rule', () => {
+        const rule = jss.createRule('@viewport', {
+          zoom: 1
+        })
+        expect(rule.type).to.be('viewport')
+        expect(rule.name).to.be('@viewport')
+        expect(rule.toString()).to.be(
+          '@viewport {\n' +
+          '  zoom: 1;\n' +
+          '}'
+        )
+      })
+
+      it('should return CSS from @-ms-viewport rule', () => {
+        const rule = jss.createRule('@-ms-viewport', {
+          zoom: 1
+        })
+        expect(rule.type).to.be('viewport')
+        expect(rule.name).to.be('@-ms-viewport')
+        expect(rule.toString()).to.be(
+          '@-ms-viewport {\n' +
+          '  zoom: 1;\n' +
+          '}'
+        )
+      })
     })
   })
 
