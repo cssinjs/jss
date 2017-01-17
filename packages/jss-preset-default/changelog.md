@@ -1,3 +1,7 @@
+## 1.3.1 / 2017-01-17
+
+- create a build with jss-global@0.4.1
+
 ## 1.3.0 / 2017-01-15
 
 - updates: jss-default-unit, jss-expand, jss-global, jss-nested
