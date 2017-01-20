@@ -1,4 +1,4 @@
-# JSON API for declaring Style Sheets.
+# JSON API for declaring Style Sheets
 
 JSS is designed to stay as close as possible to the CSS syntax, however there are some exceptions.
 
@@ -37,7 +37,7 @@ const styles = {
 }
 ```
 
-### ES6 with constants in prop names.
+### ES6 with constants in prop names
 
 ```javascript
 const minWidth = 1024
@@ -280,11 +280,11 @@ Compiles to:
 
 Global selectors can be used when [jss-global](https://github.com/cssinjs/jss-global) plugin is installed.
 
-## Pseudo and Nested Selectors.
+## Pseudo and Nested Selectors
 
 Are supported through the [jss-nested](https://github.com/cssinjs/jss-nested) plugin.
 
-## Property "content".
+## Property "content"
 
 When assigning a string to the content property it requires double or single quotes in CSS. Therefore you also have to provide the quotes within the value string for content to match how it will be represented in CSS.
 

@@ -24,7 +24,7 @@ In case you use any of the following plugins please bear in mind that they shoul
 
 To make your life easier we made [jss-default-preset](https://www.npmjs.com/package/jss-preset-default) which is a ready to use and ordered preset of plugins.
 
-## Authoring plugins.
+## Authoring plugins
 
 `jss.use(plugin)`
 

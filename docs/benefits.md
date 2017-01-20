@@ -1,6 +1,6 @@
-# Benefits of using JavaScript Style Sheets.
+# Benefits of using JavaScript Style Sheets
 
-## Compared to regular CSS.
+## Compared to regular CSS
 
 1. **Scoped selectors.**
 
@@ -104,7 +104,8 @@ More details in [the article](https://medium.com/@oleg008/aphrodite-vs-jss-a1576
 
     Small core, everything else is a plugin. It is similar to [postcss](http://postcss.org/) at this point. It allows you to create your own setup with selected plugins, which fix **your** problems. Also it allows you to create your very specific custom modifiers.
 
-## Related articles:
+## Related articles
+
 https://byjoeybaker.com/react-inline-styles
 
 https://medium.com/@dbow1234/component-style-b2b8be6931d3
