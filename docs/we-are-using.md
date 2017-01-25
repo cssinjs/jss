@@ -4,4 +4,4 @@
 
 [Material UI Next](https://github.com/callemall/material-ui/tree/next)
 
-[React Style Guide](http://react-styleguidist.js.org)
+[React Styleguidist](https://github.com/styleguidist/react-styleguidist)
