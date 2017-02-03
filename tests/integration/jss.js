@@ -110,6 +110,22 @@ describe('Integration: jss', () => {
         expect(executed).to.be(1)
       })
 
+      it('should pass right arguments to onProcessSheet', () => {
+        let receivedSheet
+        let executed = 0
+        jss.use({
+          onProcessSheet: (sheet) => {
+            receivedSheet = sheet
+            executed++
+          }
+        })
+        jss.createStyleSheet({
+          a: {float: 'left'}
+        })
+        expect(receivedSheet).to.be.a(StyleSheet)
+        expect(executed).to.be(1)
+      })
+
       it('should not call processors twice on the same rule', () => {
         const styles = {a: {color: 'red'}}
         let receivedRule
