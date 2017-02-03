@@ -107,6 +107,10 @@
     "murmurhash-js": "1.0.0",
     "warning": "3.0.0"
   },
+  "files": [
+    "dist",
+    "lib"
+  ],
   "lint-staged": {
     "./src ./tests ./benchmark ./*.js": [
       "eslint",
