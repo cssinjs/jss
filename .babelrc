@@ -10,15 +10,6 @@
     "inline-version"
   ],
   "env": {
-    "lib": {
-      "plugins": [
-        ["transform-runtime", {
-          "helpers": true,
-          "polyfill": false,
-          "regenerator": false
-        }]
-      ]
-    },
     "test": {
       "plugins": [
         "rewire"
