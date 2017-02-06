@@ -315,7 +315,7 @@ import color from 'color'
 
 const styles = {
   button: {
-    color: color('blue').darken(0.3).hexString()
+    color: color('blue').darken(0.3).hex()
   }
 }
 ```
