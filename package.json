@@ -109,7 +109,8 @@
   },
   "files": [
     "dist",
-    "lib"
+    "lib",
+    "flow-typed"
   ],
   "lint-staged": {
     "./src ./tests ./benchmark ./*.js": [
