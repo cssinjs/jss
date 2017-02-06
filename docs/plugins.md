@@ -60,3 +60,15 @@ You need to register a `plugin` only once per JSS instance. There is a number of
   })
   ```
 
+1. Hook `onProcessSheet(sheet)`.
+
+  This hook is invoked on every created `StyleSheet` after all rules are processed, with the `sheet` as an argument.
+
+  ```javascript
+  jss.use({
+    onProcessSheet: (sheet) => {
+      // Do something here.
+    }
+  })
+  ```
+

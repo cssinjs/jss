@@ -42,7 +42,8 @@ export interface Rule {
 
 export type Plugin = {
   onCreateRule?: (name: string, decl: Object, options: RuleOptions) => Rule|null,
-  onProcessRule?: (rule: Rule, sheet?: StyleSheet) => void
+  onProcessRule?: (rule: Rule, sheet?: StyleSheet) => void,
+  onProcessSheet?: (sheet?: StyleSheet) => void
 }
 
 export type JssOptions = {
