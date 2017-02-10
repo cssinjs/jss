@@ -108,7 +108,10 @@
   "files": [
     "dist",
     "lib",
-    "flow-typed"
+    "flow-typed",
+    "readme.md",
+    "changelog.md",
+    "LICENSE"
   ],
   "lint-staged": {
     "./src ./tests ./benchmark ./*.js": [
