@@ -53,7 +53,7 @@ const styles = {
   ctaButton: {
     extend: 'button',
     '&:hover': {
-      background: color('blue').darken(0.3).hexString()
+      background: color('blue').darken(0.3).hex()
     }
   },
   '@media (min-width: 1024px)': {
