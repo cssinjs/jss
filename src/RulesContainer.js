@@ -106,6 +106,22 @@ export default class RulesContainer {
     delete this.classes[rule.name]
   }
 
+  update(data: Object): void {
+    this.index.forEach((rule) => {
+      const style = rule.originalStyle
+      for (const prop in style) {
+        const value = style[prop]
+        if (typeof value === 'function') {
+          const computedValue = value(data)
+          rule.prop(prop, computedValue)
+        }
+      }
+      if (rule.rules instanceof RulesContainer) {
+        rule.rules.update(data)
+      }
+    })
+  }
+
   /**
    * Convert rules to a CSS string.
    */

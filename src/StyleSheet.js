@@ -184,6 +184,11 @@ export default class StyleSheet {
     return this
   }
 
+  update(data: Object): this {
+    this.rules.update(data)
+    return this
+  }
+
   /**
    * Convert rules to a CSS string.
    */

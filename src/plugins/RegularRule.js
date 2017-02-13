@@ -105,9 +105,12 @@ export default class RegularRule {
   prop(name: string, value?: string): RegularRule|string {
     // Its a setter.
     if (value != null) {
-      this.style[name] = value
-      // Only defined if option linked is true.
-      if (this.renderable) this.renderer.setStyle(this.renderable, name, value)
+      // Don't do anything if the value has not changed.
+      if (this.style[name] !== value) {
+        this.style[name] = value
+        // Only defined if option linked is true.
+        if (this.renderable) this.renderer.setStyle(this.renderable, name, value)
+      }
       return this
     }
     // Its a getter, read the value from the DOM if its not cached.

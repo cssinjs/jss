@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
+import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
 import {create} from '../../src'
 import DomRenderer from '../../src/backends/DomRenderer'
@@ -399,6 +400,51 @@ describe('Functional: sheet', () => {
 
     it('should register the class name in sheet.classes', () => {
       expect(sheet.classes.a, 'test')
+    })
+  })
+
+  describe('sheet.update()', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet({
+        a: {
+          color: theme => theme.color
+        },
+        '@media all': {
+          b: {
+            color: theme => theme.color
+          }
+        }
+      }, {link: true})
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should return correct .toString()', () => {
+      expect(sheet.toString()).to.be('')
+
+      sheet.update({
+        color: 'green'
+      })
+
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: green;
+        }
+        @media all {
+          .b-id {
+            color: green;
+          }
+        }
+      `)
+    })
+
+    it('should render updated props', () => {
+      sheet.update({color: 'green'}).attach()
+      expect(getCss(getStyle())).to.be(removeWhitespace(sheet.toString()))
     })
   })
 })
