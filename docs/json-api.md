@@ -22,6 +22,18 @@ Compiles to:
 }
 ```
 
+## Function values
+
+If you want dynamic behavior for your Style Sheet, you can use functions as a value which return the actual value. Use [sheet.update(data)]() in order to pass the data object.
+
+```javascript
+const styles = {
+  button: {
+    color: data => data.color
+  }
+}
+```
+
 ## Media Queries
 
 ```javascript

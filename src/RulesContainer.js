@@ -106,6 +106,9 @@ export default class RulesContainer {
     delete this.classes[rule.name]
   }
 
+  /**
+   * Update the function values with a new data.
+   */
   update(data: Object): void {
     this.index.forEach((rule) => {
       const style = rule.originalStyle

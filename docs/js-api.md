@@ -185,6 +185,18 @@ sheet.addRules({
 })
 ```
 
+## Update function values
+
+`sheet.update(data)`
+
+If you use [function values](), you will want to update them with new data. This method will call all your function values, pass the `data` param and update the CSS Rule if needed.
+
+```javascript
+sheet.update({
+  // Any data here.
+})
+```
+
 ## Create a rule without a Style Sheet
 
 `jss.createRule([name], style, [options])`

@@ -184,6 +184,9 @@ export default class StyleSheet {
     return this
   }
 
+  /**
+   * Update the function values with a new data.
+   */
   update(data: Object): this {
     this.rules.update(data)
     return this
