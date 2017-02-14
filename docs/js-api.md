@@ -308,6 +308,28 @@ console.log(sheet.toString())
 }
 ```
 
+## Extract dynamic styles
+
+`getDynamicStyles(styles)`
+
+Extracts a styles object with only rules that contain function values. Useful when you want to share a static part between different elements and render only the dynamic styles separate for each element.
+
+```js
+const dynamicStyles = getDynamicStyles({
+  button: {
+    fontSize: 12,
+    color: data => data.color
+  }
+})
+
+// Returns only dynamic values.
+{
+  button: {
+    color: data => data.color
+  }
+}
+```
+
 ## Plugins
 
 See [plugins](./plugins.md) documentation.

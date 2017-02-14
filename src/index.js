@@ -11,6 +11,12 @@ import SheetsRegistry from './SheetsRegistry'
 import RulesContainer from './RulesContainer'
 import sheets from './sheets'
 import type {JssOptions} from './types'
+import getDynamicStyles from './utils/getDynamicStyles'
+
+/**
+ * Extracts a styles object with only rules that contain function values.
+ */
+export {getDynamicStyles}
 
 /**
  * SheetsRegistry for SSR.
