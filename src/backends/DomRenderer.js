@@ -103,7 +103,7 @@ function findPrevNode(head: HTMLElement, index: number): ?Node|null {
     if (sheet) return sheet.renderer.element.nextElementSibling
   }
 
-  // Try find a comment placeholder if registry is empty.
+  // Try to find a comment placeholder if registry is empty.
   const comment = findCommentNode(head)
   if (comment) return comment.nextSibling
   return null
