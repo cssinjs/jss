@@ -28,8 +28,9 @@ export default jss
 
 Options:
 
- - `generateClassName` accepts a styles string and a Rule instance.
- - `plugins` an array of functions, will be passed to `jss.use`.
+  - `generateClassName` function you can pass to generate your custom class name.
+  - `plugins` an array of functions, will be passed to `jss.use`.
+  - `insertionPoint` 'jss' by default, the value of a comment node sheets will be inserted after
 
 ## Quick setup with preset
 

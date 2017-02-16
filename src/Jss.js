@@ -24,17 +24,19 @@ export default class Jss {
   options: JssOptions
 
   constructor(options?: JssOptions) {
-    this.use.apply(this, internalPlugins) // eslint-disable-line prefer-spread
+    // eslint-disable-next-line prefer-spread
+    this.use.apply(this, internalPlugins)
     this.setup(options)
   }
 
   setup(options?: JssOptions = {}): this {
     this.options = {
-      ...options,
-      generateClassName: options.generateClassName || generateClassNameDefault
+      generateClassName: options.generateClassName || generateClassNameDefault,
+      insertionPoint: options.insertionPoint || 'jss',
+      ...options
     }
-    const {plugins} = this.options
-    if (plugins) this.use.apply(this, plugins) // eslint-disable-line prefer-spread
+    // eslint-disable-next-line prefer-spread
+    if (options.plugins) this.use.apply(this, options.plugins)
     return this
   }
 
@@ -45,6 +47,7 @@ export default class Jss {
     const sheet = new StyleSheet(styles, {
       jss: (this: Jss),
       generateClassName: this.options.generateClassName,
+      insertionPoint: this.options.insertionPoint,
       ...options
     })
     this.plugins.onProcessSheet(sheet)
