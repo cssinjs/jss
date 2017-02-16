@@ -30,7 +30,7 @@ Options:
 
   - `generateClassName` function you can pass to generate your custom class name.
   - `plugins` an array of functions, will be passed to `jss.use`.
-  - `insertionPoint` 'jss' by default, the value of a comment node sheets will be inserted after
+  - `insertionPoint` the value of a DOM comment node which marks the start of sheets. Sheets rendered by this Jss instance are inserted after this point sequentially. Default is `jss`.
 
 ## Quick setup with preset
 
