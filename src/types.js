@@ -83,7 +83,7 @@ export type StyleSheetInstanceOptions = {
   media?: string,
   meta?: string,
   index: number,
-  insertionPoint?: string,
+  insertionPoint: string,
   link?: boolean,
   element?: HTMLStyleElement,
   virtual?: boolean,

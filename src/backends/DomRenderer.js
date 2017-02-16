@@ -4,6 +4,11 @@ import sheets from '../sheets'
 import type StyleSheet from '../StyleSheet'
 import type {Rule} from '../types'
 
+type PriorityOptions = {
+  index: number,
+  insertionPoint: string
+}
+
 /**
  * Get a style property.
  */
@@ -64,7 +69,7 @@ const getHead = (() => {
 /**
  * Find attached sheet with an index higher than the passed one.
  */
-function findHigherSheet(registry: Array<StyleSheet>, options: Object): StyleSheet|null {
+function findHigherSheet(registry: Array<StyleSheet>, options: PriorityOptions): StyleSheet|null {
   for (let i = 0; i < registry.length; i++) {
     const sheet = registry[i]
     if (
@@ -81,7 +86,7 @@ function findHigherSheet(registry: Array<StyleSheet>, options: Object): StyleShe
 /**
  * Find attached sheet with the highest index.
  */
-function findHighestSheet(registry: Array<StyleSheet>, options): StyleSheet|null {
+function findHighestSheet(registry: Array<StyleSheet>, options: PriorityOptions): StyleSheet|null {
   for (let i = registry.length - 1; i >= 0; i--) {
     const sheet = registry[i]
     if (sheet.attached && sheet.options.insertionPoint === options.insertionPoint) {
@@ -108,7 +113,7 @@ function findCommentNode(text: string): Comment|null {
 /**
  * Find a node before which we can insert the sheet.
  */
-function findPrevNode(options: Object): ?Node|null {
+function findPrevNode(options: PriorityOptions): ?Node|null {
   const {registry} = sheets
 
   if (registry.length > 0) {
