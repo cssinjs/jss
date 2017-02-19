@@ -322,7 +322,7 @@ const dynamicStyles = getDynamicStyles({
   }
 })
 
-// Returns only dynamic values.
+// Returns only styles with dynamic values.
 {
   button: {
     color: data => data.color
