@@ -1,7 +1,11 @@
-const extract = (from) => {
+/**
+ * Extracts a styles object with only rules that contain function values.
+ */
+export default function extract(styles: Object): Object {
   let to
-  for (const key in from) {
-    const value = from[key]
+
+  for (const key in styles) {
+    const value = styles[key]
     const type = typeof value
 
     if (type === 'function') {
@@ -17,8 +21,3 @@ const extract = (from) => {
 
   return to
 }
-
-/**
- * Extracts a styles object with only rules that contain function values.
- */
-export default (styles: Object): Object => extract(styles)
