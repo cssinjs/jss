@@ -44,7 +44,7 @@ describe('Integration: sheet', () => {
     it('should create rule classNames using the rule name', () => {
       const styles = {bar: {color: 'red'}}
       const sheet = jss.createStyleSheet(styles)
-      expect(sheet.classes.bar).to.be(`bar-id`)
+      expect(sheet.classes.bar).to.be('bar-id')
     })
   })
 
@@ -244,8 +244,8 @@ describe('Integration: sheet', () => {
     })
 
     it('should use the class name of a conditional child', () => {
-      const generateClassName = () => 'my-special-id'
-      const sheet = create({generateClassName}).createStyleSheet({
+      const options = {generateClassName: () => 'my-special-id'}
+      const sheet = create(options).createStyleSheet({
         '@media print': {
           a: {float: 'left'}
         },
@@ -264,8 +264,8 @@ describe('Integration: sheet', () => {
     })
 
     it('should use the class name of the first conditional child', () => {
-      const generateClassName = () => 'my-special-id'
-      const sheet = create({generateClassName}).createStyleSheet({
+      const options = {generateClassName: () => 'my-special-id'}
+      const sheet = create(options).createStyleSheet({
         '@media print': {
           a: {float: 'left'}
         },
