@@ -56,7 +56,7 @@
     "json-loader": "0.5.4",
     "jss-cache": "^0.2.0",
     "jss-camel-case": "3.0.0",
-    "jss-compose": "2.0.0",
+    "jss-compose": "2.0.1",
     "jss-default-unit": "5.0.0",
     "jss-expand": "2.0.1",
     "jss-extend": "3.0.0",
@@ -102,7 +102,6 @@
   },
   "dependencies": {
     "is-in-browser": "1.0.2",
-    "murmurhash-js": "1.0.0",
     "warning": "3.0.0"
   },
   "files": [

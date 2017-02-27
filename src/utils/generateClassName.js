@@ -1,16 +1,18 @@
 /* @flow */
-import createHash from 'murmurhash-js/murmurhash3_gc'
 import type StyleSheet from '../StyleSheet'
 import type {Rule} from '../types'
 
+const globalRef = typeof window === 'undefined' ? global : window
+const namespace = '__JSS_VERSION_COUNTER__'
+if (globalRef[namespace] == null) globalRef[namespace] = 0
+// In case we have more than one JSS version.
+const jssCounter = globalRef[namespace]++
+let ruleCounter = 0
+
 /**
- * Generates a class name using murmurhash.
+ * Generates unique class names.
  */
-export default function generateClassName(str: string, rule: Rule, sheet?: StyleSheet): string {
-  if (sheet && sheet.options.meta) str += sheet.options.meta
-
-  const hash = createHash(str)
-
-  // There is no name if `jss.createRule(style)` was used.
-  return rule.name ? `${rule.name}-${hash}` : hash
-}
+export default (str: string, rule: Rule, sheet?: StyleSheet): string  => (
+  // There is no rule name if `jss.createRule(style)` was used.
+  `${rule.name || 'jss'}-${jssCounter}:${ruleCounter++}`
+)

@@ -1,5 +1,4 @@
 import expect from 'expect.js'
-import createHash from 'murmurhash-js/murmurhash3_gc'
 import {create} from '../../src'
 import RegularRule from '../../src/plugins/RegularRule'
 import {generateClassName} from '../utils'
@@ -42,21 +41,10 @@ describe('Integration: sheet', () => {
       expect(sheet.classes.a).to.be('a-id')
     })
 
-    it('should create rule classNames using the rule name and a hash of styles', () => {
-      const jssInstance = create()
+    it('should create rule classNames using the rule name', () => {
       const styles = {bar: {color: 'red'}}
-      const sheet = jssInstance.createStyleSheet(styles)
-      const expectedHash = createHash(JSON.stringify(styles.bar))
-      expect(sheet.classes.bar).to.be(`bar-${expectedHash}`)
-    })
-
-    it('should create rule classNames using the rule name and a hash of styles + the meta option', () => {
-      const jssInstance = create()
-      const styles = {bar: {color: 'red'}}
-      const meta = 'foo'
-      const sheet = jssInstance.createStyleSheet(styles, {meta})
-      const expectedHash = createHash(JSON.stringify(styles.bar) + meta)
-      expect(sheet.classes.bar).to.be(`bar-${expectedHash}`)
+      const sheet = jss.createStyleSheet(styles)
+      expect(sheet.classes.bar).to.be(`bar-id`)
     })
   })
 
@@ -256,8 +244,8 @@ describe('Integration: sheet', () => {
     })
 
     it('should use the class name of a conditional child', () => {
-      // Create new Jss instance with unmodified `generateClassName`.
-      const sheet = create().createStyleSheet({
+      const generateClassName = () => 'my-special-id'
+      const sheet = create({generateClassName}).createStyleSheet({
         '@media print': {
           a: {float: 'left'}
         },
@@ -265,19 +253,19 @@ describe('Integration: sheet', () => {
       })
       expect(sheet.toString()).to.be(
         '@media print {\n' +
-        '  .a-3787690649 {\n' +
+        '  .my-special-id {\n' +
         '    float: left;\n' +
         '  }\n' +
         '}\n' +
-        '.a-3787690649 {\n' +
+        '.my-special-id {\n' +
         '  color: red;\n' +
         '}'
       )
     })
 
     it('should use the class name of the first conditional child', () => {
-      // Create new Jss instance with unmodified `generateClassName`.
-      const sheet = create().createStyleSheet({
+      const generateClassName = () => 'my-special-id'
+      const sheet = create({generateClassName}).createStyleSheet({
         '@media print': {
           a: {float: 'left'}
         },
@@ -287,12 +275,12 @@ describe('Integration: sheet', () => {
       })
       expect(sheet.toString()).to.be(
         '@media print {\n' +
-        '  .a-3787690649 {\n' +
+        '  .my-special-id {\n' +
         '    float: left;\n' +
         '  }\n' +
         '}\n' +
         '@media screen {\n' +
-        '  .a-3787690649 {\n' +
+        '  .my-special-id {\n' +
         '    float: right;\n' +
         '  }\n' +
         '}'
