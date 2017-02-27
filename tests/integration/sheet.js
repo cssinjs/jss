@@ -243,48 +243,51 @@ describe('Integration: sheet', () => {
       )
     })
 
-    it('should use the class name of a conditional child', () => {
-      const options = {generateClassName: () => 'my-special-id'}
-      const sheet = create(options).createStyleSheet({
-        '@media print': {
-          a: {float: 'left'}
-        },
-        a: {color: 'red'}
-      })
-      expect(sheet.toString()).to.be(
-        '@media print {\n' +
-        '  .my-special-id {\n' +
-        '    float: left;\n' +
-        '  }\n' +
-        '}\n' +
-        '.my-special-id {\n' +
-        '  color: red;\n' +
-        '}'
-      )
-    })
+    describe('class names of conditional rules', () => {
+      let id
+      const options = {generateClassName: () => id = Math.random()}
 
-    it('should use the class name of the first conditional child', () => {
-      const options = {generateClassName: () => 'my-special-id'}
-      const sheet = create(options).createStyleSheet({
-        '@media print': {
-          a: {float: 'left'}
-        },
-        '@media screen': {
-          a: {float: 'right'}
-        }
+      it('should use the class name of a conditional child', () => {
+        const sheet = create(options).createStyleSheet({
+          '@media print': {
+            a: {float: 'left'}
+          },
+          a: {color: 'red'}
+        })
+        expect(sheet.toString()).to.be(
+          `@media print {\n` +
+          `  .${id} {\n` +
+          `    float: left;\n` +
+          `  }\n` +
+          `}\n` +
+          `.${id} {\n` +
+          `  color: red;\n` +
+          `}`
+        )
       })
-      expect(sheet.toString()).to.be(
-        '@media print {\n' +
-        '  .my-special-id {\n' +
-        '    float: left;\n' +
-        '  }\n' +
-        '}\n' +
-        '@media screen {\n' +
-        '  .my-special-id {\n' +
-        '    float: right;\n' +
-        '  }\n' +
-        '}'
-      )
+
+      it('should use the class name of the first conditional child', () => {
+        const sheet = create(options).createStyleSheet({
+          '@media print': {
+            a: {float: 'left'}
+          },
+          '@media screen': {
+            a: {float: 'right'}
+          }
+        })
+        expect(sheet.toString()).to.be(
+          `@media print {\n` +
+          `  .${id} {\n` +
+          `    float: left;\n` +
+          `  }\n` +
+          `}\n` +
+          `@media screen {\n` +
+          `  .${id} {\n` +
+          `    float: right;\n` +
+          `  }\n` +
+          `}`
+        )
+      })
     })
 
     describe('skip empty rules', () => {
