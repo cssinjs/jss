@@ -7,3 +7,5 @@
 [React Styleguidist](https://github.com/styleguidist/react-styleguidist)
 
 [JavaScript Stack from Scratch](https://github.com/verekia/js-stack-from-scratch)
+
+[jcore.io](http://jcore.io/)
