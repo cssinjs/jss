@@ -36,6 +36,8 @@
 
 [jss-css](https://github.com/alexkuz/jss-css) This is a convenience module for JSS that converts CSS string into JSS object. It allows to describe style classes for components in a habitual and little less verbose way.
 
+[PreJSS](https://github.com/axept/prejss) Fast, scoped, component-friendly and fully customizable PostCSS-to-JSS adapter which allows to use plain CSS, PostCSS, SCSS, CSS Modules, Stylus and LESS styles as JSS objects "on-the-fly" through using Tagged Template Strings. 
+
 ## JSS Helpers
 
 [normalize-jss](https://github.com/typical000/normalize-jss]) JSS port of normalize.css
