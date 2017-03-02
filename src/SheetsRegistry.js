@@ -1,5 +1,5 @@
 /* @flow */
-import type {ToCssOptions} from './types'
+import type {ToCssOptions, SsrRulesMap} from './types'
 import type StyleSheet from './StyleSheet'
 
 /**
@@ -57,7 +57,7 @@ export default class SheetsRegistry {
   /**
    * Convert sheets to a map of rule names to class names.
    */
-  toMap(): Array<Object> {
+  toMap(): SsrRulesMap {
     return this.registry
       .filter(sheet => sheet.attached)
       .map(sheet => (
