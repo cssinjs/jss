@@ -245,7 +245,11 @@ describe('Integration: sheet', () => {
 
     describe('class names of conditional rules', () => {
       let id
-      const options = {generateClassName: () => id = Math.random()}
+      const options = {
+        generateClassName: () => {
+          id = Math.random()
+        }
+      }
 
       it('should use the class name of a conditional child', () => {
         const sheet = create(options).createStyleSheet({
@@ -255,14 +259,14 @@ describe('Integration: sheet', () => {
           a: {color: 'red'}
         })
         expect(sheet.toString()).to.be(
-          `@media print {\n` +
+          '@media print {\n' +
           `  .${id} {\n` +
-          `    float: left;\n` +
-          `  }\n` +
-          `}\n` +
+          '    float: left;\n' +
+          '  }\n' +
+          '}\n' +
           `.${id} {\n` +
-          `  color: red;\n` +
-          `}`
+          '  color: red;\n' +
+          '}'
         )
       })
 
@@ -276,16 +280,16 @@ describe('Integration: sheet', () => {
           }
         })
         expect(sheet.toString()).to.be(
-          `@media print {\n` +
+          '@media print {\n' +
           `  .${id} {\n` +
-          `    float: left;\n` +
-          `  }\n` +
-          `}\n` +
-          `@media screen {\n` +
+          '    float: left;\n' +
+          '  }\n' +
+          '}\n' +
+          '@media screen {\n' +
           `  .${id} {\n` +
-          `    float: right;\n` +
-          `  }\n` +
-          `}`
+          '    float: right;\n' +
+          '  }\n' +
+          '}'
         )
       })
     })
