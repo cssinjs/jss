@@ -12,8 +12,6 @@
 
 [Aesthetic](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic) A React style abstraction layer with theme support.
 
-[JSS-Sheet-Loader](https://github.com/wellguimaraes/jss-sheet-loader) Webpack loader for JSS to simplify styles creation and usage.
-
 ## Examples
 
 [Examples repository](https://github.com/cssinjs/examples)
@@ -56,6 +54,8 @@
 [jss-css](https://github.com/alexkuz/jss-css) module.
 
 [jss-loader](https://github.com/markdalgleish/jss-loader) Webpack loader - use JavaScript as your CSS preprocessor!
+
+[JSS-Sheet-Loader](https://github.com/wellguimaraes/jss-sheet-loader) Webpack loader for JSS to simplify styles creation and usage.
 
 [gulp-jss](https://github.com/gooy/gulp-jss) Gulp plugin
 
