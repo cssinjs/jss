@@ -1,4 +1,5 @@
 /* @flow */
+import warning from 'warning'
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import internalPlugins from './plugins'
@@ -11,7 +12,8 @@ import type {
   RuleOptions,
   StyleSheetOptions,
   Plugin,
-  JssOptions
+  JssOptions,
+  SsrRulesMap
 } from './types'
 
 declare var __VERSION__: string
@@ -23,6 +25,8 @@ export default class Jss {
 
   options: JssOptions
 
+  ssrRulesMap: SsrRulesMap
+
   constructor(options?: JssOptions) {
     // eslint-disable-next-line prefer-spread
     this.use.apply(this, internalPlugins)
@@ -33,6 +37,7 @@ export default class Jss {
     this.options = {
       generateClassName: options.generateClassName || generateClassNameDefault,
       insertionPoint: options.insertionPoint || 'jss',
+      ssrRulesMap: this.ssrRulesMap,
       ...options
     }
     // eslint-disable-next-line prefer-spread
@@ -48,6 +53,7 @@ export default class Jss {
       jss: (this: Jss),
       generateClassName: this.options.generateClassName,
       insertionPoint: this.options.insertionPoint,
+      ssrRulesMap: this.ssrRulesMap,
       ...options
     })
     this.plugins.onProcessSheet(sheet)
@@ -80,6 +86,7 @@ export default class Jss {
     if (!options.generateClassName) {
       options.generateClassName = this.options.generateClassName || generateClassNameDefault
     }
+    if (!options.ssrRulesMap) options.ssrRulesMap = this.ssrRulesMap
 
     const rule = createRule(name, style, options)
     this.plugins.onProcessRule(rule)
@@ -92,6 +99,27 @@ export default class Jss {
    */
   use(...plugins: Array<Plugin>): this {
     plugins.forEach(plugin => this.plugins.use(plugin))
+    return this
+  }
+
+  /**
+   * Rehydrate the client after SSR.
+   */
+  rehydrate(nodeOrSelector?: HTMLStyleElement|string = '#jss-ssr', mapOrAttr?: SsrRulesMap|string = 'data-rulesmap'): this {
+    if (sheets.registry.length) {
+      warning(false, 'Rehydration attempt after a .createStyleSheet() call.')
+      return this
+    }
+
+    let node
+    if (typeof nodeOrSelector === 'string') node = document.querySelector(nodeOrSelector)
+    else node = nodeOrSelector
+
+    if (typeof mapOrAttr === 'string') {
+      this.ssrRulesMap = JSON.parse(node.getAttribute(mapOrAttr))
+    }
+    else this.ssrRulesMap = mapOrAttr
+
     return this
   }
 }
