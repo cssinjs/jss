@@ -12,6 +12,8 @@
 
 [Aesthetic](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic) A React style abstraction layer with theme support.
 
+[JSS-Sheet-Loader](https://github.com/wellguimaraes/jss-sheet-loader) Webpack loader for JSS to simplify styles creation and usage.
+
 ## Examples
 
 [Examples repository](https://github.com/cssinjs/examples)
