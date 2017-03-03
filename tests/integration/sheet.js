@@ -1,4 +1,5 @@
 import expect from 'expect.js'
+import {stripIndent} from 'common-tags'
 import {create} from '../../src'
 import RegularRule from '../../src/plugins/RegularRule'
 import {generateClassName} from '../utils'
@@ -258,16 +259,16 @@ describe('Integration: sheet', () => {
           },
           a: {color: 'red'}
         })
-        expect(sheet.toString()).to.be(
-          '@media print {\n' +
-          `  .${id} {\n` +
-          '    float: left;\n' +
-          '  }\n' +
-          '}\n' +
-          `.${id} {\n` +
-          '  color: red;\n' +
-          '}'
-        )
+        expect(sheet.toString()).to.be(stripIndent`
+          @media print {
+            .${id} {
+              float: left;
+            }
+          }
+          .${id} {
+            color: red;
+          }
+        `)
       })
 
       it('should use the class name of the first conditional child', () => {
@@ -279,18 +280,18 @@ describe('Integration: sheet', () => {
             a: {float: 'right'}
           }
         })
-        expect(sheet.toString()).to.be(
-          '@media print {\n' +
-          `  .${id} {\n` +
-          '    float: left;\n' +
-          '  }\n' +
-          '}\n' +
-          '@media screen {\n' +
-          `  .${id} {\n` +
-          '    float: right;\n' +
-          '  }\n' +
-          '}'
-        )
+        expect(sheet.toString()).to.be(stripIndent`
+          @media print {
+            .${id} {
+              float: left;
+            }
+          }
+          @media screen {
+            .${id} {
+              float: right;
+            }
+          }
+        `)
       })
     })
 
