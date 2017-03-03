@@ -31,7 +31,8 @@ export type RulesContainerOptions = {
   Renderer: Function,
   jss: Jss,
   sheet: StyleSheet,
-  parent: ConditionalRule|StyleSheet
+  parent: ConditionalRule|StyleSheet,
+  ssrClassesMap?: SsrClassesMap
 }
 
 export interface Rule {
@@ -81,7 +82,7 @@ export type StyleSheetOptions = {
   Renderer?: Function,
   generateClassName?: generateClassName,
   jss: Jss,
-  ssrClassesMap: SsrClassesMap
+  ssrClassesMap?: SsrClassesMap
 }
 
 export type StyleSheetInstanceOptions = {
@@ -97,7 +98,8 @@ export type StyleSheetInstanceOptions = {
   jss: Jss,
   sheet: StyleSheet,
   parent: ConditionalRule|StyleSheet,
-  classes: Object
+  classes: Object,
+  ssrClassesMap?: SsrClassesMap
 }
 
 export interface Renderer {

@@ -1,4 +1,5 @@
 import expect from 'expect.js'
+import {stripIndent} from 'common-tags'
 import {create, sheets} from '../../src'
 import Jss from '../../src/Jss'
 import StyleSheet from '../../src/StyleSheet'
@@ -209,6 +210,38 @@ describe('Integration: jss', () => {
       jss.removeStyleSheet(sheet)
       expect(detached).to.be(true)
       expect(sheets.registry.indexOf(sheet)).to.be(-1)
+    })
+  })
+
+  describe('.rehydrate()', () => {
+    let sheet0
+    let sheet1
+
+    beforeEach(() => {
+      jss.rehydrate([{a: 'a-x', b: 'b-x'}, {c: 'c-x'}])
+      sheet0 = jss.createStyleSheet({
+        a: {color: 'red'},
+        b: {color: 'green'}
+      })
+      sheet1 = jss.createStyleSheet({
+        c: {color: 'blue'}
+      })
+    })
+
+    it('should use rehydrated class names', () => {
+      expect(sheet0.toString()).to.be(stripIndent`
+        .a-x {
+          color: red;
+        }
+        .b-x {
+          color: green;
+        }
+      `)
+      expect(sheet1.toString()).to.be(stripIndent`
+        .c-x {
+          color: blue;
+        }
+      `)
     })
   })
 })

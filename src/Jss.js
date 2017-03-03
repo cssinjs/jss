@@ -48,11 +48,12 @@ export default class Jss {
    * Create a Style Sheet.
    */
   createStyleSheet(styles: Object, options: StyleSheetOptions): StyleSheet {
+    const ssrClassesMap = this.rehydrationData.length ? this.rehydrationData.shift() : undefined
     const sheet = new StyleSheet(styles, {
       jss: (this: Jss),
       generateClassName: this.options.generateClassName,
       insertionPoint: this.options.insertionPoint,
-      ssrClassesMap: this.rehydrationData.shift() || {},
+      ssrClassesMap,
       ...options
     })
     this.plugins.onProcessSheet(sheet)
@@ -102,8 +103,9 @@ export default class Jss {
 
   /**
    * Rehydrate the client after SSR.
+   * TODO move DOM logic to the DomRenderer.
    */
-  rehydrate(nodeOrSelector?: HTMLStyleElement|string = '#jss-ssr', mapOrAttr?: RehydrationData|string = 'data-rulesmap'): this {
+  rehydrate(dataOrAttr: RehydrationData|string = 'data-rehydration', nodeOrSelector?: HTMLStyleElement|string = '#jss-ssr'): this {
     if (sheets.registry.length) {
       warning(false, 'Rehydration attempt after a .createStyleSheet() call.')
       return this
@@ -113,10 +115,10 @@ export default class Jss {
     if (typeof nodeOrSelector === 'string') node = document.querySelector(nodeOrSelector)
     else node = nodeOrSelector
 
-    if (typeof mapOrAttr === 'string') {
-      this.rehydrationData = JSON.parse(node.getAttribute(mapOrAttr))
+    if (typeof dataOrAttr === 'string') {
+      this.rehydrationData = JSON.parse(node.getAttribute(dataOrAttr))
     }
-    else this.rehydrationData = mapOrAttr
+    else this.rehydrationData = dataOrAttr
 
     return this
   }
