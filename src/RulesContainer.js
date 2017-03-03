@@ -46,7 +46,12 @@ export default class RulesContainer {
       ...options
     }
 
-    if (!options.className) options.className = this.classes[name]
+    if (!options.className) {
+      options.className = this.classes[name]
+      if (options.ssrClassesMap && options.ssrClassesMap[name]) {
+        options.className = options.ssrClassesMap[name]
+      }
+    }
 
     const rule = createRule(name, style, options)
     this.register(rule)

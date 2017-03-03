@@ -13,7 +13,7 @@ import type {
   StyleSheetOptions,
   Plugin,
   JssOptions,
-  SsrRulesMap
+  RehydrationData
 } from './types'
 
 declare var __VERSION__: string
@@ -25,7 +25,7 @@ export default class Jss {
 
   options: JssOptions
 
-  ssrRulesMap: SsrRulesMap
+  rehydrationData: RehydrationData = []
 
   constructor(options?: JssOptions) {
     // eslint-disable-next-line prefer-spread
@@ -37,7 +37,6 @@ export default class Jss {
     this.options = {
       generateClassName: options.generateClassName || generateClassNameDefault,
       insertionPoint: options.insertionPoint || 'jss',
-      ssrRulesMap: this.ssrRulesMap,
       ...options
     }
     // eslint-disable-next-line prefer-spread
@@ -53,7 +52,7 @@ export default class Jss {
       jss: (this: Jss),
       generateClassName: this.options.generateClassName,
       insertionPoint: this.options.insertionPoint,
-      ssrRulesMap: this.ssrRulesMap,
+      ssrClassesMap: this.rehydrationData.shift() || {},
       ...options
     })
     this.plugins.onProcessSheet(sheet)
@@ -86,7 +85,6 @@ export default class Jss {
     if (!options.generateClassName) {
       options.generateClassName = this.options.generateClassName || generateClassNameDefault
     }
-    if (!options.ssrRulesMap) options.ssrRulesMap = this.ssrRulesMap
 
     const rule = createRule(name, style, options)
     this.plugins.onProcessRule(rule)
@@ -105,7 +103,7 @@ export default class Jss {
   /**
    * Rehydrate the client after SSR.
    */
-  rehydrate(nodeOrSelector?: HTMLStyleElement|string = '#jss-ssr', mapOrAttr?: SsrRulesMap|string = 'data-rulesmap'): this {
+  rehydrate(nodeOrSelector?: HTMLStyleElement|string = '#jss-ssr', mapOrAttr?: RehydrationData|string = 'data-rulesmap'): this {
     if (sheets.registry.length) {
       warning(false, 'Rehydration attempt after a .createStyleSheet() call.')
       return this
@@ -116,9 +114,9 @@ export default class Jss {
     else node = nodeOrSelector
 
     if (typeof mapOrAttr === 'string') {
-      this.ssrRulesMap = JSON.parse(node.getAttribute(mapOrAttr))
+      this.rehydrationData = JSON.parse(node.getAttribute(mapOrAttr))
     }
-    else this.ssrRulesMap = mapOrAttr
+    else this.rehydrationData = mapOrAttr
 
     return this
   }
