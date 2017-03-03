@@ -55,6 +55,8 @@
 
 [jss-loader](https://github.com/markdalgleish/jss-loader) Webpack loader - use JavaScript as your CSS preprocessor!
 
+[JSS-Sheet-Loader](https://github.com/wellguimaraes/jss-sheet-loader) Webpack loader for JSS to simplify styles creation and usage.
+
 [gulp-jss](https://github.com/gooy/gulp-jss) Gulp plugin
 
 ## Editor integrations
