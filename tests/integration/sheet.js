@@ -249,6 +249,7 @@ describe('Integration: sheet', () => {
       const options = {
         generateClassName: () => {
           id = Math.random()
+          return id
         }
       }
 
