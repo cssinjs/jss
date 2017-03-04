@@ -7,6 +7,7 @@ import sheets from './sheets'
 import generateClassNameDefault from './utils/generateClassName'
 import createRule from './utils/createRule'
 import findRenderer from './utils/findRenderer'
+import {getRehydrationData} from './backends/DomRenderer'
 import type {
   Rule,
   RuleOptions,
@@ -103,7 +104,6 @@ export default class Jss {
 
   /**
    * Rehydrate the client after SSR.
-   * TODO move DOM logic to the DomRenderer.
    */
   rehydrate(dataOrAttr?: RehydrationData|string = 'data-rehydration', nodeOrSelector?: HTMLStyleElement|string = '#jss-ssr'): this {
     if (sheets.registry.length) {
@@ -111,14 +111,9 @@ export default class Jss {
       return this
     }
 
-    let node
-    if (typeof nodeOrSelector === 'string') node = document.querySelector(nodeOrSelector)
-    else node = nodeOrSelector
-
     if (typeof dataOrAttr === 'string') {
-      this.rehydrationData = JSON.parse(node.getAttribute(dataOrAttr))
-    }
-    else this.rehydrationData = dataOrAttr
+      this.rehydrationData = getRehydrationData(dataOrAttr, nodeOrSelector)
+    } else this.rehydrationData = dataOrAttr
 
     return this
   }
