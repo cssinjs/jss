@@ -105,7 +105,7 @@ export default class Jss {
    * Rehydrate the client after SSR.
    * TODO move DOM logic to the DomRenderer.
    */
-  rehydrate(dataOrAttr: RehydrationData|string = 'data-rehydration', nodeOrSelector?: HTMLStyleElement|string = '#jss-ssr'): this {
+  rehydrate(dataOrAttr?: RehydrationData|string = 'data-rehydration', nodeOrSelector?: HTMLStyleElement|string = '#jss-ssr'): this {
     if (sheets.registry.length) {
       warning(false, 'Rehydration attempt after a .createStyleSheet() call.')
       return this
