@@ -13,5 +13,5 @@ let ruleCounter = 0
  */
 export default (str: string, rule: Rule): string => (
   // There is no rule name if `jss.createRule(style)` was used.
-  `${rule.name || 'jss'}-${jssCounter}:${ruleCounter++}`
+  `${rule.name || 'jss'}-${jssCounter}-${ruleCounter++}`
 )
