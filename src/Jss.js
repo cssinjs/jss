@@ -113,7 +113,8 @@ export default class Jss {
 
     if (typeof dataOrAttr === 'string') {
       this.rehydrationData = getRehydrationData(dataOrAttr, nodeOrSelector)
-    } else this.rehydrationData = dataOrAttr
+    }
+    else this.rehydrationData = dataOrAttr
 
     return this
   }

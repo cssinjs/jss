@@ -135,7 +135,10 @@ function findPrevNode(options: PriorityOptions): ?Node|null {
 /**
  * Get rehydration data from the DOM.
  */
-export function getRehydrationData(attr: string, nodeOrSelector: HTMLStyleElement|string): RehydrationData {
+export function getRehydrationData(
+  attr: string,
+  nodeOrSelector: HTMLStyleElement|string
+): RehydrationData {
   let node
   if (typeof nodeOrSelector === 'string') node = document.querySelector(nodeOrSelector)
   else node = nodeOrSelector
