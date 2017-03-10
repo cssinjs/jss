@@ -1,3 +1,7 @@
+## 6.4.0 / 2017-03-10
+
+- Reintroduced counter based class generation algorithm. #432
+
 ## 6.3.0 / 2017-02-16
 
 - Introduced new option `insertionPoint`.
