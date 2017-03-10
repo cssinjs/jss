@@ -9,8 +9,6 @@ export type ToCssOptions = {
 
 export type generateClassName = (str: string, rule: Rule) => string
 
-export type SsrClassesMap = Object
-
 export type RuleOptions = {
   className?: string,
   selector?: string,

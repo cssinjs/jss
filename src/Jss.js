@@ -1,5 +1,4 @@
 /* @flow */
-import warning from 'warning'
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import internalPlugins from './plugins'

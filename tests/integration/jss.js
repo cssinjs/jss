@@ -1,5 +1,4 @@
 import expect from 'expect.js'
-import {stripIndent} from 'common-tags'
 import {create, sheets} from '../../src'
 import Jss from '../../src/Jss'
 import StyleSheet from '../../src/StyleSheet'
