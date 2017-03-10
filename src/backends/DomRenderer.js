@@ -2,7 +2,7 @@
 import warning from 'warning'
 import sheets from '../sheets'
 import type StyleSheet from '../StyleSheet'
-import type {Rule, RehydrationData} from '../types'
+import type {Rule} from '../types'
 
 type PriorityOptions = {
   index: number,
@@ -130,20 +130,6 @@ function findPrevNode(options: PriorityOptions): ?Node|null {
   const comment = findCommentNode(options.insertionPoint)
   if (comment) return comment.nextSibling
   return null
-}
-
-/**
- * Get rehydration data from the DOM.
- */
-export function getRehydrationData(
-  attr: string,
-  nodeOrSelector: HTMLStyleElement|string
-): RehydrationData {
-  let node
-  if (typeof nodeOrSelector === 'string') node = document.querySelector(nodeOrSelector)
-  else node = nodeOrSelector
-
-  return JSON.parse(node.getAttribute(attr))
 }
 
 export default class DomRenderer {

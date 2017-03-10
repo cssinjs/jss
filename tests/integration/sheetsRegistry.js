@@ -109,17 +109,4 @@ describe('Integration: sheetsRegistry', () => {
       )
     })
   })
-
-  describe('.toMap()', () => {
-    it('should return a map of a style sheet', () => {
-      sheets.add(jss.createStyleSheet({
-        a: {color: 'red'},
-        b: {color: 'green'}
-      }).attach())
-      sheets.add(jss.createStyleSheet({
-        c: {color: 'blue'}
-      }).attach())
-      expect(sheets.toMap()).to.eql([{a: 'a-id', b: 'b-id'}, {c: 'c-id'}])
-    })
-  })
 })

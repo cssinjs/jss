@@ -1,5 +1,5 @@
 /* @flow */
-import type {ToCssOptions, RehydrationData} from './types'
+import type {ToCssOptions} from './types'
 import type StyleSheet from './StyleSheet'
 
 /**
@@ -52,19 +52,5 @@ export default class SheetsRegistry {
       .filter(sheet => sheet.attached)
       .map(sheet => sheet.toString(options))
       .join('\n')
-  }
-
-  /**
-   * Convert sheets to a map of rule names to class names.
-   */
-  toMap(): RehydrationData {
-    return this.registry
-      .filter(sheet => sheet.attached)
-      .map(sheet => (
-        sheet.rules.index.reduce((map, rule) => {
-          map[rule.name] = rule.className
-          return map
-        }, {})
-      ))
   }
 }

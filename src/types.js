@@ -11,8 +11,6 @@ export type generateClassName = (str: string, rule: Rule) => string
 
 export type SsrClassesMap = Object
 
-export type RehydrationData = Array<SsrClassesMap>
-
 export type RuleOptions = {
   className?: string,
   selector?: string,
@@ -31,8 +29,7 @@ export type RulesContainerOptions = {
   Renderer: Function,
   jss: Jss,
   sheet: StyleSheet,
-  parent: ConditionalRule|StyleSheet,
-  ssrClassesMap?: SsrClassesMap
+  parent: ConditionalRule|StyleSheet
 }
 
 export interface Rule {
@@ -81,8 +78,7 @@ export type StyleSheetOptions = {
   virtual?: boolean,
   Renderer?: Function,
   generateClassName?: generateClassName,
-  jss: Jss,
-  ssrClassesMap?: SsrClassesMap
+  jss: Jss
 }
 
 export type StyleSheetInstanceOptions = {
@@ -98,8 +94,7 @@ export type StyleSheetInstanceOptions = {
   jss: Jss,
   sheet: StyleSheet,
   parent: ConditionalRule|StyleSheet,
-  classes: Object,
-  ssrClassesMap?: SsrClassesMap
+  classes: Object
 }
 
 export interface Renderer {

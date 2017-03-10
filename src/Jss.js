@@ -7,14 +7,12 @@ import sheets from './sheets'
 import generateClassNameDefault from './utils/generateClassName'
 import createRule from './utils/createRule'
 import findRenderer from './utils/findRenderer'
-import {getRehydrationData} from './backends/DomRenderer'
 import type {
   Rule,
   RuleOptions,
   StyleSheetOptions,
   Plugin,
-  JssOptions,
-  RehydrationData
+  JssOptions
 } from './types'
 
 declare var __VERSION__: string
@@ -25,8 +23,6 @@ export default class Jss {
   plugins = new PluginsRegistry()
 
   options: JssOptions
-
-  rehydrationData: RehydrationData = []
 
   constructor(options?: JssOptions) {
     // eslint-disable-next-line prefer-spread
@@ -49,12 +45,10 @@ export default class Jss {
    * Create a Style Sheet.
    */
   createStyleSheet(styles: Object, options: StyleSheetOptions): StyleSheet {
-    const ssrClassesMap = this.rehydrationData.length ? this.rehydrationData.shift() : undefined
     const sheet = new StyleSheet(styles, {
       jss: (this: Jss),
       generateClassName: this.options.generateClassName,
       insertionPoint: this.options.insertionPoint,
-      ssrClassesMap,
       ...options
     })
     this.plugins.onProcessSheet(sheet)
@@ -99,23 +93,6 @@ export default class Jss {
    */
   use(...plugins: Array<Plugin>): this {
     plugins.forEach(plugin => this.plugins.use(plugin))
-    return this
-  }
-
-  /**
-   * Rehydrate the client after SSR.
-   */
-  rehydrate(dataOrAttr?: RehydrationData|string = 'data-rehydration', nodeOrSelector?: HTMLStyleElement|string = '#jss-ssr'): this {
-    if (sheets.registry.length) {
-      warning(false, 'Rehydration attempt after a .createStyleSheet() call.')
-      return this
-    }
-
-    if (typeof dataOrAttr === 'string') {
-      this.rehydrationData = getRehydrationData(dataOrAttr, nodeOrSelector)
-    }
-    else this.rehydrationData = dataOrAttr
-
     return this
   }
 }

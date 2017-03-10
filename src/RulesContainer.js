@@ -34,7 +34,7 @@ export default class RulesContainer {
    * Will not render after Style Sheet was rendered the first time.
    */
   add(name: string, style: Object, options?: RuleOptions): Rule {
-    const {parent, sheet, jss, Renderer, generateClassName, ssrClassesMap} = this.options
+    const {parent, sheet, jss, Renderer, generateClassName} = this.options
 
     options = {
       classes: this.classes,
@@ -46,10 +46,7 @@ export default class RulesContainer {
       ...options
     }
 
-    if (!options.className) {
-      options.className = this.classes[name]
-      if (ssrClassesMap && ssrClassesMap[name]) options.className = ssrClassesMap[name]
-    }
+    if (!options.className) options.className = this.classes[name]
 
     const rule = createRule(name, style, options)
     this.register(rule)
