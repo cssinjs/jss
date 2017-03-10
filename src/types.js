@@ -48,7 +48,8 @@ export type Plugin = {
 
 export type JssOptions = {
   generateClassName?: generateClassName,
-  plugins?: Array<Plugin>
+  plugins?: Array<Plugin>,
+  insertionPoint?: string
 }
 
 /**
@@ -56,20 +57,22 @@ export type JssOptions = {
  * - `meta` meta information about this style - attribute of style element,
  *   for e.g. you could pass
  * component name for easier debugging.
+ * - `index` 0 by default - determines DOM rendering order, higher number = higher specificity
+ * - `insertionPoint` 'jss' by default, the value of a comment node sheets will be inserted after
  * - `link` link jss `Rule` instances with DOM `CSSStyleRule` instances so that
  *   styles, can be modified
  * dynamically, false by default because it has some performance cost.
  * - `element` style element, will create one by default
- * - `index` 0 by default - determines DOM rendering order, higher number = higher specificity
  *  (inserted after)
  * - `virtual` if true, use VirtualRenderer
  */
 export type StyleSheetOptions = {
   media?: string,
   meta?: string,
+  index?: number,
+  insertionPoint?: string,
   link?: boolean,
   element?: HTMLStyleElement,
-  index?: number,
   virtual?: boolean,
   Renderer?: Function,
   generateClassName?: generateClassName,
@@ -79,9 +82,10 @@ export type StyleSheetOptions = {
 export type StyleSheetInstanceOptions = {
   media?: string,
   meta?: string,
+  index: number,
+  insertionPoint: string,
   link?: boolean,
   element?: HTMLStyleElement,
-  index: number,
   virtual?: boolean,
   Renderer: Function,
   generateClassName: generateClassName,

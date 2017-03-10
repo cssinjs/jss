@@ -1,6 +1,18 @@
+## 6.4.0 / 2017-03-10
+
+- Reintroduced counter based class generation algorithm. #432
+
+## 6.3.0 / 2017-02-16
+
+- Introduced new option `insertionPoint`.
+- Reduced amount of files in the package, dropped .npmignore file.
+- Removed babel-runtime from the build.
+- Added a new hook `onProcessSheet`.
+- Started a list of companies/products using JSS, see docs/users.md
+
 ## 6.2.0 / 2017-01-15
 
-- Added @viewport and @-ms-viewport support (used in bootstrap)
+- Added @viewport and @-ms-viewport support (used in bootstrap).
 
 ## 6.1.1 / 2017-01-04
 
@@ -21,17 +33,17 @@
 - Using babel-runtime for the lib build now.
 - Using webpack 2 now.
 - Preparation for the bugfix - nesting within @global (#380)
-- Preparation for the bugfix - nested @media inside of a rule inside of @global (#387)
+- Preparation for the bugfix - nested @media inside of a rule inside of @global (#387).
 
 ## 6.0.1 / 2016-12-10
 
-- Don't insert empty rules #363
+- Don't insert empty rules #363.
 
 ## 6.0.0 / 2016-12-09
 
-- Added flow types
+- Added flow types.
 - Added a new plugins API. It is backwards compatible. See plugins section.
-- Perf improvements
+- Perf improvements.
 
 ### Breaking changes
 

@@ -12,7 +12,7 @@ describe('Functional: dom priority', () => {
     }
   }
 
-  describe('without a comment node', () => {
+  describe('without insertion point', () => {
     let jss
 
     beforeEach(() => {
@@ -42,7 +42,7 @@ describe('Functional: dom priority', () => {
     })
   })
 
-  describe('with a comment node', () => {
+  describe('with an insertion point', () => {
     let jss
     let comment
 
@@ -132,6 +132,38 @@ describe('Functional: dom priority', () => {
       expect(styleElements[5].getAttribute('data-meta')).to.be('sheet4')
 
       expect(styleElements[6].getAttribute('data-test-dummy')).to.be('dummy2')
+    })
+  })
+
+  describe('custom insertion point', () => {
+    let jss1
+    let jss2
+    let comment1
+    let comment2
+
+    beforeEach(() => {
+      jss1 = create()
+      jss2 = create({
+        insertionPoint: 'jss2'
+      })
+      comment1 = document.head.appendChild(document.createComment('jss'))
+      comment2 = document.head.appendChild(document.createComment('jss2'))
+    })
+
+    afterEach(() => {
+      document.head.removeChild(comment1)
+      document.head.removeChild(comment2)
+    })
+
+    it('should insert sheets in the correct order', () => {
+      jss2.createStyleSheet({}, {meta: 'sheet2'}).attach()
+      jss1.createStyleSheet({}, {meta: 'sheet1'}).attach()
+
+      const styleElements = document.head.getElementsByTagName('style')
+
+      expect(styleElements.length).to.be(2)
+      expect(styleElements[0].getAttribute('data-meta')).to.be('sheet1')
+      expect(styleElements[1].getAttribute('data-meta')).to.be('sheet2')
     })
   })
 

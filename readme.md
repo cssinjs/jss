@@ -11,7 +11,7 @@
 
 - [React-JSS](https://github.com/cssinjs/react-jss) integration for React.
 - [Theme Reactor](https://github.com/nathanmarks/jss-theme-reactor) Experimental React integration with theming.
-- [Aphrodisiac](https://github.com/cssinjs/aphrodisiac) provides Aphrodite like api on top of JSS.
+- [Aphrodite-JSS](https://github.com/cssinjs/aphrodite-jss) provides Aphrodite like api on top of JSS.
 - [Aesthetic](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic) A React style abstraction layer with theme support.
 
 ## TOC
@@ -53,7 +53,7 @@ const styles = {
   ctaButton: {
     extend: 'button',
     '&:hover': {
-      background: color('blue').darken(0.3).hexString()
+      background: color('blue').darken(0.3).hex()
     }
   },
   '@media (min-width: 1024px)': {

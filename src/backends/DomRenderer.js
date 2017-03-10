@@ -4,6 +4,11 @@ import sheets from '../sheets'
 import type StyleSheet from '../StyleSheet'
 import type {Rule} from '../types'
 
+type PriorityOptions = {
+  index: number,
+  insertionPoint: string
+}
+
 /**
  * Get a style property.
  */
@@ -51,12 +56,27 @@ function setSelector(rule: CSSStyleRule, selectorText: string): boolean {
 }
 
 /**
+ * Gets the `head` element upon the first call and caches it.
+ */
+const getHead = (() => {
+  let head
+  return (): HTMLElement => {
+    if (!head) head = document.head || document.getElementsByTagName('head')[0]
+    return head
+  }
+})()
+
+/**
  * Find attached sheet with an index higher than the passed one.
  */
-function findHigherSheet(registry: Array<StyleSheet>, index: number): StyleSheet|null {
+function findHigherSheet(registry: Array<StyleSheet>, options: PriorityOptions): StyleSheet|null {
   for (let i = 0; i < registry.length; i++) {
     const sheet = registry[i]
-    if (sheet.attached && sheet.options.index > index) {
+    if (
+      sheet.attached &&
+      sheet.options.index > options.index &&
+      sheet.options.insertionPoint === options.insertionPoint
+    ) {
       return sheet
     }
   }
@@ -66,10 +86,12 @@ function findHigherSheet(registry: Array<StyleSheet>, index: number): StyleSheet
 /**
  * Find attached sheet with the highest index.
  */
-function findHighestSheet(registry: Array<StyleSheet>): StyleSheet|null {
+function findHighestSheet(registry: Array<StyleSheet>, options: PriorityOptions): StyleSheet|null {
   for (let i = registry.length - 1; i >= 0; i--) {
     const sheet = registry[i]
-    if (sheet.attached) return sheet
+    if (sheet.attached && sheet.options.insertionPoint === options.insertionPoint) {
+      return sheet
+    }
   }
   return null
 }
@@ -77,10 +99,11 @@ function findHighestSheet(registry: Array<StyleSheet>): StyleSheet|null {
 /**
  * Find a comment with "jss" inside.
  */
-function findCommentNode(head: HTMLElement): Comment|null {
+function findCommentNode(text: string): Comment|null {
+  const head = getHead()
   for (let i = 0; i < head.childNodes.length; i++) {
     const node = head.childNodes[i]
-    if (node.nodeType === 8 && node.nodeValue.trim() === 'jss') {
+    if (node.nodeType === 8 && node.nodeValue.trim() === text) {
       return node
     }
   }
@@ -90,21 +113,21 @@ function findCommentNode(head: HTMLElement): Comment|null {
 /**
  * Find a node before which we can insert the sheet.
  */
-function findPrevNode(head: HTMLElement, index: number): ?Node|null {
+function findPrevNode(options: PriorityOptions): ?Node|null {
   const {registry} = sheets
 
-  if (registry.length > 1) {
+  if (registry.length > 0) {
     // Try to insert before the next higher sheet.
-    let sheet = findHigherSheet(registry, index)
+    let sheet = findHigherSheet(registry, options)
     if (sheet) return sheet.renderer.element
 
     // Otherwise insert after the last attached.
-    sheet = findHighestSheet(registry)
+    sheet = findHighestSheet(registry, options)
     if (sheet) return sheet.renderer.element.nextElementSibling
   }
 
-  // Try find a comment placeholder if registry is empty.
-  const comment = findCommentNode(head)
+  // Try to find a comment placeholder if registry is empty.
+  const comment = findCommentNode(options.insertionPoint)
   if (comment) return comment.nextSibling
   return null
 }
@@ -121,8 +144,6 @@ export default class DomRenderer {
   // HTMLStyleElement needs fixing https://github.com/facebook/flow/issues/2696
   element: any
 
-  head: HTMLElement
-
   sheet: ?StyleSheet
 
   constructor(sheet?: StyleSheet) {
@@ -136,7 +157,6 @@ export default class DomRenderer {
    */
   createElement(): void {
     const {media, meta, element} = (this.sheet ? this.sheet.options : {})
-    this.head = document.head || document.getElementsByTagName('head')[0]
     this.element = element || document.createElement('style')
     this.element.type = 'text/css'
     this.element.setAttribute('data-jss', '')
@@ -150,8 +170,8 @@ export default class DomRenderer {
   attach(): void {
     // In the case the element node is external and it is already in the DOM.
     if (this.element.parentNode || !this.sheet) return
-    const prevNode = findPrevNode(this.head, this.sheet.options.index)
-    this.head.insertBefore(this.element, prevNode)
+    const prevNode = findPrevNode(this.sheet.options)
+    getHead().insertBefore(this.element, prevNode)
   }
 
   /**
