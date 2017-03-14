@@ -50,5 +50,19 @@ describe('Unit: jss', () => {
         }
       })
     })
+
+    it('should return null if there are no function values', () => {
+      const styles = {
+        button: {
+          float: 'left',
+        },
+        '@media': {
+          button: {
+            width: 2
+          }
+        }
+      }
+      expect(getDynamicStyles(styles)).to.be(null)
+    })
   })
 })

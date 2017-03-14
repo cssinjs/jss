@@ -1,23 +1,32 @@
 /**
  * Extracts a styles object with only rules that contain function values.
  */
-export default function extract(styles: Object): Object {
-  let to
+export default (styles: Object): Object|null => {
+  let fnValuesCounter = 0
 
-  for (const key in styles) {
-    const value = styles[key]
-    const type = typeof value
+  // eslint-disable-next-line no-shadow
+  function extract(styles: Object): Object {
+    let to
 
-    if (type === 'function') {
-      if (!to) to = {}
-      to[key] = value
+    for (const key in styles) {
+      const value = styles[key]
+      const type = typeof value
+
+      if (type === 'function') {
+        if (!to) to = {}
+        to[key] = value
+        fnValuesCounter++
+      }
+      else if (type === 'object' && value !== null && !Array.isArray(value)) {
+        if (!to) to = {}
+        const extracted = extract(value)
+        if (extracted) to[key] = extracted
+      }
     }
-    else if (type === 'object' && value !== null && !Array.isArray(value)) {
-      if (!to) to = {}
-      const extracted = extract(value)
-      if (extracted) to[key] = extracted
-    }
+
+    return to
   }
 
-  return to
+  const extracted = extract(styles)
+  return fnValuesCounter ? extracted : null
 }
