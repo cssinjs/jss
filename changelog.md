@@ -1,3 +1,7 @@
+## 6.5.0 / 2017-03-14
+
+- Dynamic Sheets for theming and animations. #356
+
 ## 6.4.0 / 2017-03-10
 
 - Reintroduced counter based class generation algorithm. #432
