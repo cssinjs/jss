@@ -186,6 +186,18 @@ sheet.addRules({
 })
 ```
 
+## Update function values
+
+`sheet.update(data)`
+
+If you use [function values](./json-api.md#function-values), you will want to update them with new data. This method will call all your function values, pass the `data` param and update the CSS Rule if needed.
+
+```javascript
+sheet.update({
+  // Any data here.
+})
+```
+
 ## Create a rule without a Style Sheet
 
 `jss.createRule([name], style, [options])`
@@ -294,6 +306,28 @@ console.log(sheet.toString())
 ```css
 .my-fancy-id {
   float: left;
+}
+```
+
+## Extract dynamic styles
+
+`getDynamicStyles(styles)`
+
+Extracts a styles object with only rules that contain function values. Useful when you want to share a static part between different elements and render only the dynamic styles separate for each element.
+
+```js
+const dynamicStyles = getDynamicStyles({
+  button: {
+    fontSize: 12,
+    color: data => data.color
+  }
+})
+
+// Returns only styles with dynamic values.
+{
+  button: {
+    color: data => data.color
+  }
 }
 ```
 

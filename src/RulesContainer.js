@@ -107,6 +107,25 @@ export default class RulesContainer {
   }
 
   /**
+   * Update the function values with a new data.
+   */
+  update(data: Object): void {
+    this.index.forEach((rule) => {
+      const style = rule.originalStyle
+      for (const prop in style) {
+        const value = style[prop]
+        if (typeof value === 'function') {
+          const computedValue = value(data)
+          rule.prop(prop, computedValue)
+        }
+      }
+      if (rule.rules instanceof RulesContainer) {
+        rule.rules.update(data)
+      }
+    })
+  }
+
+  /**
    * Convert rules to a CSS string.
    */
   toString(options?: ToCssOptions): string {
