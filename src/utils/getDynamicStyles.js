@@ -1,5 +1,5 @@
 /**
- * Extracts a styles object with only rules that contain function values.
+ * Extracts a styles object with only props that contain function values.
  */
 export default (styles: Object): Object|null => {
   let fnValuesCounter = 0
