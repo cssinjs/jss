@@ -1,10 +1,10 @@
 import styles from '../fixtures/regular.json'
 
-const fn = () => null
+const Fn = () => null
 
 function protoClone(style) {
-  fn.prototype = style
-  return new fn
+  Fn.prototype = style
+  return new Fn()
 }
 
 function walkClone(style) {
@@ -15,22 +15,22 @@ function walkClone(style) {
   return newStyle
 }
 
-function use(obj) {
+function use(obj) {
   if (obj.somethingNotDefined) {
-    console.log(123456)
+    Math.round(obj.something)
   }
 }
 
-suite('Cloning', () => {
-  benchmark('protoClone', function benchmark() {
+suite.only('Cloning', () => {
+  benchmark('protoClone', () => {
     use(protoClone(styles.modal))
   })
 
-  benchmark('walkClone', function benchmark() {
+  benchmark('walkClone', () => {
     use(walkClone(styles.modal))
   })
 
-  benchmark('Object.assign', function benchmark() {
+  benchmark('Object.assign', () => {
     use(Object.assign({}, styles.modal))
   })
 })
