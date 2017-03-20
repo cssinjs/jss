@@ -43,7 +43,8 @@ export interface Rule {
 export type Plugin = {
   onCreateRule?: (name: string, decl: Object, options: RuleOptions) => Rule|null,
   onProcessRule?: (rule: Rule, sheet?: StyleSheet) => void,
-  onProcessSheet?: (sheet?: StyleSheet) => void
+  onProcessSheet?: (sheet?: StyleSheet) => void,
+  onChangeValue?: (value: string, prop: string, rule: Rule) => string
 }
 
 export type JssOptions = {
@@ -79,7 +80,7 @@ export type StyleSheetOptions = {
   jss: Jss
 }
 
-export type StyleSheetInstanceOptions = {
+export type InternalStyleSheetOptions = {
   media?: string,
   meta?: string,
   index: number,
