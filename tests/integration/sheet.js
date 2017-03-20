@@ -103,40 +103,6 @@ describe('Integration: sheet', () => {
         '}'
       )
     })
-
-    it('should apply plugins in the correct order', () => {
-      jss.use((rule) => {
-        if (rule.name === 'a') {
-          rule.options.sheet.addRule('b', {color: 'green'}, {index: 1})
-        }
-      })
-
-      const classNames = []
-      jss.use((rule) => {
-        classNames.push(rule.className)
-      })
-
-      const sheet = jss.createStyleSheet({
-        a: {color: 'red'},
-        c: {color: 'blue'}
-      })
-
-      expect(sheet.indexOf(sheet.getRule('a'))).to.be(0)
-      expect(sheet.indexOf(sheet.getRule('b'))).to.be(1)
-      expect(sheet.indexOf(sheet.getRule('c'))).to.be(2)
-      expect(sheet.toString()).to.be(
-        '.a-id {\n' +
-        '  color: red;\n' +
-        '}\n' +
-        '.b-id {\n' +
-        '  color: green;\n' +
-        '}\n' +
-        '.c-id {\n' +
-        '  color: blue;\n' +
-        '}'
-      )
-      expect(classNames).to.eql(['b-id', 'a-id', 'c-id'])
-    })
   })
 
   describe('sheet.deleteRule()', () => {
