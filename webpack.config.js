@@ -9,6 +9,7 @@ const isTest = env === 'test'
 const plugins = [
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(env),
+    // We need to allow redefine this variable from the tests.
     __DEV__: isTest ? '__DEV__' : isDev,
     __TEST__: isTest
   })
