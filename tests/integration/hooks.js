@@ -1,4 +1,5 @@
 import expect from 'expect.js'
+import {stripIndent} from 'common-tags'
 import {create} from '../../src'
 import StyleSheet from '../../src/StyleSheet'
 import {generateClassName} from '../utils'
@@ -83,7 +84,7 @@ describe('Integration: hooks', () => {
   })
 
   describe('onCreateRule', () => {
-    it('should pass right arguments to onCreateRule', () => {
+    it('should pass right arguments', () => {
       let receivedName
       let receivedDecl
       let receivedOptions
@@ -107,7 +108,7 @@ describe('Integration: hooks', () => {
   })
 
   describe('onProcessSheet', () => {
-    it('should pass right arguments to onProcessSheet', () => {
+    it('should pass right arguments', () => {
       let receivedSheet
       let executed = 0
       jss.use({
@@ -169,6 +170,51 @@ describe('Integration: hooks', () => {
       const rule = jss.createRule()
       expect(receivedRule1).to.be(rule)
       expect(receivedRule2).to.be(rule)
+    })
+  })
+
+  describe('onChangeValue', () => {
+    let receivedValue
+    let receivedProp
+    let receivedRule
+    let executed = 0
+    let sheet
+
+    beforeEach(() => {
+      jss.use({
+        onChangeValue: (value, prop, rule) => {
+          receivedValue = value
+          receivedProp = prop
+          receivedRule = rule
+          executed++
+        }
+      })
+      sheet = jss.createStyleSheet({
+        a: {color: 'red'}
+      })
+    })
+
+    it('should receive correct arguments', () => {
+      const rule = sheet.getRule('a')
+      rule.prop('color', 'green')
+      expect(executed).to.be(1)
+      expect(receivedValue).to.be('green')
+      expect(receivedProp).to.be('color')
+      expect(receivedRule).to.be(rule)
+    })
+
+    it('should compile to correct CSS string', () => {
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+        }
+      `)
+      sheet.getRule('a').prop('color', 'green')
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: green;
+        }
+      `)
     })
   })
 })
