@@ -14,7 +14,7 @@
  * @flow
  */
 
-declare var __DEV__: string
+declare var __DEV__: boolean
 
 const identity = value => value
 

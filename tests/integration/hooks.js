@@ -74,11 +74,26 @@ describe('Integration: hooks', () => {
         executed++
       })
       const sheet = jss.createStyleSheet({
-        a: {float: 'left'}
+        a: {color: 'red'}
       })
       expect(sheet).to.be(receivedSheet)
       expect(sheet.getRule('a')).to.be(receivedRule)
       expect(executed).to.be(1)
+    })
+
+    it('should detect styles mutation', () => {
+      jss.use((rule) => {
+        rule.style.border.color = 'green'
+      })
+      expect(() => {
+        jss.createStyleSheet({
+          a: {
+            border: {
+              color: 'red'
+            }
+          }
+        })
+      }).to.throwException()
     })
   })
 

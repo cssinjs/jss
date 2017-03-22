@@ -1,5 +1,8 @@
 import {sheets} from '../src'
 
+// eslint-disable-next-line no-underscore-dangle
+global.__DEV__ = true
+
 const {slice} = []
 
 export function getRules(style) {
@@ -12,7 +15,7 @@ export function getStyle() {
 
 export function getCss(style) {
   // IE doesn't provide correct rules list when at-rules have been added
-  // by using `.addRule()` api.
+  // by using `.addRule()` API.
   // Others do not update .innerHTML result when `.addRule()` was used.
   // We use what we can get.
   return removeWhitespace(style.innerHTML) ||

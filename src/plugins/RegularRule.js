@@ -3,8 +3,10 @@ import toCss from '../utils/toCss'
 import toCssValue from '../utils/toCssValue'
 import findClassNames from '../utils/findClassNames'
 import type {ToCssOptions, RuleOptions, Renderer as RendererInterface} from '../types'
+import deepFreeze from '../utils/deepFreeze'
+import cloneStyle from '../utils/cloneStyle'
 
-const {parse, stringify} = JSON
+declare var __DEV__: boolean
 
 export default class RegularRule {
   type = 'regular'
@@ -36,14 +38,14 @@ export default class RegularRule {
    */
   constructor(name?: string, style: Object, options: RuleOptions) {
     const {generateClassName, sheet, Renderer} = options
-    const styleStr = stringify(style)
-    this.style = parse(styleStr)
+    this.style = cloneStyle(style)
+    if (__DEV__) deepFreeze(style, 'RegularRule#style')
     this.name = name
     this.options = options
     this.originalStyle = style
     this.className = ''
     if (options.className) this.className = options.className
-    else if (generateClassName) this.className = generateClassName(styleStr, this, options.sheet)
+    else if (generateClassName) this.className = generateClassName('', this, options.sheet)
     this.selectorText = options.selector || `.${this.className}`
     if (sheet) this.renderer = sheet.renderer
     else if (Renderer) this.renderer = new Renderer()
