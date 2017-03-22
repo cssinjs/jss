@@ -21,7 +21,7 @@ function use(obj) {
   }
 }
 
-suite.only('Cloning', () => {
+suite('Cloning', () => {
   benchmark('protoClone', () => {
     use(protoClone(styles.modal))
   })
