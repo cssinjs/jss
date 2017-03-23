@@ -6,10 +6,10 @@ declare var __DEV__: boolean
 
 const identity = value => value
 
-const throwOnMutation = (objectName, key, value) => {
+const throwOnMutation = (key, value) => {
   throw Error(`
     You attempted to set the key ${key} with the value
-    ${JSON.stringify(value)} on the object ${objectName} that is meant to be immutable
+    ${JSON.stringify(value)} on the object that is meant to be immutable
     and has been frozen.
   `)
 }
@@ -31,7 +31,7 @@ const throwOnMutation = (objectName, key, value) => {
  * Freezing the object and adding the throw mechanism is expensive and will
  * only be used in DEV.
  */
-export default function deepFreeze(object: Object, objectName?: string = '') {
+export default function deepFreeze(object: Object): void {
   if (!__DEV__) return
 
   if (
@@ -48,7 +48,7 @@ export default function deepFreeze(object: Object, objectName?: string = '') {
     Object.defineProperty(object, key, {
       enumerable: true,
       get: identity.bind(null, object[key]),
-      set: throwOnMutation.bind(null, objectName, key)
+      set: throwOnMutation.bind(null, key)
     })
   })
 

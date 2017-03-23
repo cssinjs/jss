@@ -11,7 +11,8 @@ import type {
   RuleOptions,
   StyleSheetOptions,
   Plugin,
-  JssOptions
+  JssOptions,
+  JssStyle
 } from './types'
 
 declare var __VERSION__: string
@@ -66,7 +67,7 @@ export default class Jss {
   /**
    * Create a rule without a Style Sheet.
    */
-  createRule(name?: string, style?: Object = {}, options?: RuleOptions = {}): Rule {
+  createRule(name?: string, style?: JssStyle = {}, options?: RuleOptions = {}): Rule {
     // Enable rule without name for inline styles.
     if (typeof name === 'object') {
       options = style

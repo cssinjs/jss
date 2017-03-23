@@ -1,21 +1,22 @@
 /* @flow */
 import toCss from '../utils/toCss'
-import type {RuleOptions} from '../types'
+import type {RuleOptions, JssStyle} from '../types'
+import cloneStyle from '../utils/cloneStyle'
 
 export default class ViewportRule {
   type = 'viewport'
 
   name: string
 
-  style: Object
+  style: JssStyle
 
   options: RuleOptions
 
   isProcessed: ?boolean
 
-  constructor(name: string, style: Object, options: RuleOptions) {
+  constructor(name: string, style: JssStyle, options: RuleOptions) {
     this.name = name
-    this.style = style
+    this.style = cloneStyle(style)
     this.options = options
   }
 

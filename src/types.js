@@ -9,6 +9,8 @@ export type ToCssOptions = {
 
 export type generateClassName = (str: string, rule: Rule) => string
 
+export type JssStyle = Object
+
 export type RuleOptions = {
   className?: string,
   selector?: string,
@@ -33,7 +35,7 @@ export type RulesContainerOptions = {
 export interface Rule {
   name: ?string;
   selector: string;
-  style: Object;
+  style: JssStyle;
   renderable: ?CSSStyleRule;
   options: RuleOptions;
   isProcessed: ?boolean;
@@ -41,7 +43,7 @@ export interface Rule {
 }
 
 export type Plugin = {
-  onCreateRule?: (name: string, decl: Object, options: RuleOptions) => Rule|null,
+  onCreateRule?: (name: string, decl: JssStyle, options: RuleOptions) => Rule|null,
   onProcessRule?: (rule: Rule, sheet?: StyleSheet) => void,
   onProcessSheet?: (sheet?: StyleSheet) => void
 }

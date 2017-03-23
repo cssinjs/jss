@@ -1,6 +1,6 @@
 /* @flow */
 import RulesContainer from '../RulesContainer'
-import type {Rule, RuleOptions} from '../types'
+import type {Rule, RuleOptions, JssStyle} from '../types'
 
 /**
  * Conditional rule for @media, @supports
@@ -45,7 +45,7 @@ export default class ConditionalRule {
   /**
    * Create and register rule, run plugins.
    */
-  addRule(name: string, style: Object, options?: RuleOptions): Rule {
+  addRule(name: string, style: JssStyle, options?: RuleOptions): Rule {
     const rule = this.rules.add(name, style, options)
     this.options.jss.plugins.onProcessRule(rule)
     return rule

@@ -2,11 +2,8 @@
 import toCss from '../utils/toCss'
 import toCssValue from '../utils/toCssValue'
 import findClassNames from '../utils/findClassNames'
-import type {ToCssOptions, RuleOptions, Renderer as RendererInterface} from '../types'
-import deepFreeze from '../utils/deepFreeze'
+import type {ToCssOptions, RuleOptions, Renderer as RendererInterface, JssStyle} from '../types'
 import cloneStyle from '../utils/cloneStyle'
-
-declare var __DEV__: boolean
 
 export default class RegularRule {
   type = 'regular'
@@ -15,9 +12,9 @@ export default class RegularRule {
 
   isProcessed: ?boolean
 
-  style: Object
+  style: JssStyle
 
-  originalStyle: Object
+  originalStyle: JssStyle
 
   className: string
 
@@ -36,14 +33,13 @@ export default class RegularRule {
    * It is also the fastetst way.
    * http://jsperf.com/lodash-deepclone-vs-jquery-extend-deep/6
    */
-  constructor(name?: string, style: Object, options: RuleOptions) {
+  constructor(name?: string, style: JssStyle, options: RuleOptions) {
     const {generateClassName, sheet, Renderer} = options
-    this.style = cloneStyle(style)
-    if (__DEV__) deepFreeze(style, 'RegularRule#style')
     this.name = name
+    this.className = ''
     this.options = options
     this.originalStyle = style
-    this.className = ''
+    this.style = cloneStyle(style)
     if (options.className) this.className = options.className
     else if (generateClassName) this.className = generateClassName('', this, options.sheet)
     this.selectorText = options.selector || `.${this.className}`

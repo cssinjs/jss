@@ -1,8 +1,11 @@
-export default (style) => {
+import type {JssStyle} from '../types'
+
+export default (style: JssStyle): JssStyle => {
   const newStyle = {}
   for (const name in style) {
-    if (typeof style[name] === 'function') continue
-    newStyle[name] = style[name]
+    const value = style[name]
+    if (typeof value === 'function') continue
+    newStyle[name] = value
   }
   return newStyle
 }

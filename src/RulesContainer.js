@@ -4,7 +4,8 @@ import type {
   RulesContainerOptions,
   ToCssOptions,
   Rule,
-  RuleOptions
+  RuleOptions,
+  JssStyle
 } from './types'
 
 /**
@@ -33,7 +34,7 @@ export default class RulesContainer {
    *
    * Will not render after Style Sheet was rendered the first time.
    */
-  add(name: string, style: Object, options?: RuleOptions): Rule {
+  add(name: string, decl: JssStyle, options?: RuleOptions): Rule {
     const {parent, sheet, jss, Renderer, generateClassName} = this.options
 
     options = {
@@ -48,7 +49,7 @@ export default class RulesContainer {
 
     if (!options.className) options.className = this.classes[name]
 
-    const rule = createRule(name, style, options)
+    const rule = createRule(name, decl, options)
     this.register(rule)
 
     const index = options.index === undefined ? this.index.length : options.index
