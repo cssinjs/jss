@@ -315,7 +315,7 @@ console.log(sheet.toString())
 
 Extracts a styles object with only props that contain function values. Useful when you want to share a static part between different elements and render only the dynamic styles separate for each element.
 
-```js
+```javascript
 const dynamicStyles = getDynamicStyles({
   button: {
     fontSize: 12,
@@ -329,6 +329,16 @@ const dynamicStyles = getDynamicStyles({
     color: data => data.color
   }
 }
+```
+
+## Clone style declaration
+
+`cloneStyle(decl)`
+
+Creates a shallow copy of a style declaration. Skips function values.
+
+```javascript
+const clonedStyle = cloneStyle({color: 'red'})
 ```
 
 ## Plugins

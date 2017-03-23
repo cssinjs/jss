@@ -12,11 +12,17 @@ import RulesContainer from './RulesContainer'
 import sheets from './sheets'
 import type {JssOptions} from './types'
 import getDynamicStyles from './utils/getDynamicStyles'
+import cloneStyle from './utils/cloneStyle'
 
 /**
  * Extracts a styles object with only rules that contain function values.
  */
 export {getDynamicStyles}
+
+/**
+ * Creates a shallow copy of a style declaration. Skips function values.
+ */
+export {cloneStyle}
 
 /**
  * SheetsRegistry for SSR.
