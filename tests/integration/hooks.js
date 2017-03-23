@@ -231,5 +231,16 @@ describe('Integration: hooks', () => {
         }
       `)
     })
+
+    it('should pass the new value to the next hook', () => {
+      jss.use({onChangeValue: value => value + '-first'})
+      jss.use({onChangeValue: value => value + '-second'})
+      sheet.getRule('a').prop('color', 'green')
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: green-first-second;
+        }
+      `)
+    })
   })
 })
