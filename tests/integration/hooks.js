@@ -70,6 +70,7 @@ describe('Integration: hooks', () => {
 
     it('should warn when unknown hook name is used', () => {
       let receivedWarning
+      // eslint-disable-next-line no-underscore-dangle
       PluginsRegistry.__Rewire__('warning', (flag, warning) => {
         receivedWarning = warning
       })
@@ -89,9 +90,9 @@ describe('Integration: hooks', () => {
 
     beforeEach(() => {
       jss.use({
-        onProcessRule: (rule, sheet) => {
+        onProcessRule: (rule, passedSheet) => {
           receivedRule = rule
-          receivedSheet = sheet
+          receivedSheet = passedSheet
           executed++
         }
       })
@@ -100,7 +101,7 @@ describe('Integration: hooks', () => {
       })
     })
 
-    it('should be executed just once', () => {
+    it('should be executed just once', () => {
       expect(executed).to.be(1)
     })
 
@@ -147,7 +148,7 @@ describe('Integration: hooks', () => {
       })
     })
 
-    it('should be executed just once', () => {
+    it('should be executed just once', () => {
       expect(executed).to.be(1)
     })
 
@@ -174,7 +175,7 @@ describe('Integration: hooks', () => {
       })
     })
 
-    it('should be executed just once', () => {
+    it('should be executed just once', () => {
       expect(executed).to.be(1)
     })
 
@@ -261,7 +262,7 @@ describe('Integration: hooks', () => {
       })
     })
 
-    it('should be executed just once', () => {
+    it('should be executed just once', () => {
       sheet.getRule('a').prop('color', 'green')
       expect(executed).to.be(1)
     })
@@ -295,6 +296,52 @@ describe('Integration: hooks', () => {
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
           color: green-first-second;
+        }
+      `)
+    })
+  })
+
+  describe('onProcessStyle', () => {
+    let receivedStyle
+    let receivedRule
+    let receivedSheet
+    let executed = 0
+    let sheet
+    const newStyle = {color: 'green'}
+
+    beforeEach(() => {
+      jss.use({
+        onProcessStyle: (style, rule, passedSheet) => {
+          receivedStyle = style
+          receivedRule = rule
+          receivedSheet = passedSheet
+          executed++
+          return newStyle
+        }
+      })
+      sheet = jss.createStyleSheet({
+        a: {color: 'red'}
+      })
+    })
+
+    it('should be executed just once', () => {
+      expect(executed).to.be(1)
+    })
+
+    it('should receive correct arguments', () => {
+      expect(receivedStyle).to.eql({color: 'red'})
+      expect(receivedRule).to.be(sheet.getRule('a'))
+      expect(receivedSheet).to.be(sheet)
+    })
+
+    it('should set the returned style', () => {
+      expect(sheet.getRule('a').style).to.be(newStyle)
+    })
+
+    it('should compile to correct CSS string', () => {
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: green;
         }
       `)
     })

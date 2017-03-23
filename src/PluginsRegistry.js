@@ -7,6 +7,7 @@ export default class PluginsRegistry {
   hooks: {[key: string]: Array<Function>} = {
     onCreateRule: [],
     onProcessRule: [],
+    onProcessStyle: [],
     onProcessSheet: [],
     onChangeValue: []
   }
@@ -27,10 +28,22 @@ export default class PluginsRegistry {
    */
   onProcessRule(rule: Rule): void {
     if (rule.isProcessed) return
+    const {sheet} = rule.options
     for (let i = 0; i < this.hooks.onProcessRule.length; i++) {
-      this.hooks.onProcessRule[i](rule, rule.options.sheet)
+      this.hooks.onProcessRule[i](rule, sheet)
     }
+    this.onProcessStyle(rule.style, rule, sheet)
     rule.isProcessed = true
+  }
+
+  /**
+   * Call `onProcessStyle` hooks.
+   */
+  onProcessStyle(style: JssStyle, rule: Rule, sheet?: StyleSheet): void {
+    for (let i = 0; i < this.hooks.onProcessStyle.length; i++) {
+      const newStyle = this.hooks.onProcessStyle[i](style, rule, sheet)
+      if (newStyle) rule.style = newStyle
+    }
   }
 
   /**
