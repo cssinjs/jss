@@ -1,22 +1,22 @@
 /* @flow */
+import warning from 'warning'
 import type StyleSheet from './StyleSheet'
 import type {Plugin, Rule, RuleOptions, JssStyle} from './types'
 
 export default class PluginsRegistry {
-  createRuleHooks: Array<Function> = []
-
-  processRuleHooks: Array<Function> = []
-
-  processSheetHooks: Array<Function> = []
-
-  changeValueHooks: Array<Function> = []
+  hooks: {[key: string]: Array<Function>} = {
+    onCreateRule: [],
+    onProcessRule: [],
+    onProcessSheet: [],
+    onChangeValue: []
+  }
 
   /**
    * Call `onCreateRule` hooks and return an object if returned by a hook.
    */
   onCreateRule(name?: string, decl: JssStyle, options: RuleOptions): Rule|null {
-    for (let i = 0; i < this.createRuleHooks.length; i++) {
-      const rule = this.createRuleHooks[i](name, decl, options)
+    for (let i = 0; i < this.hooks.onCreateRule.length; i++) {
+      const rule = this.hooks.onCreateRule[i](name, decl, options)
       if (rule) return rule
     }
     return null
@@ -27,8 +27,8 @@ export default class PluginsRegistry {
    */
   onProcessRule(rule: Rule): void {
     if (rule.isProcessed) return
-    for (let i = 0; i < this.processRuleHooks.length; i++) {
-      this.processRuleHooks[i](rule, rule.options.sheet)
+    for (let i = 0; i < this.hooks.onProcessRule.length; i++) {
+      this.hooks.onProcessRule[i](rule, rule.options.sheet)
     }
     rule.isProcessed = true
   }
@@ -37,8 +37,8 @@ export default class PluginsRegistry {
    * Call `onProcessSheet` hooks.
    */
   onProcessSheet(sheet: StyleSheet): void {
-    for (let i = 0; i < this.processSheetHooks.length; i++) {
-      this.processSheetHooks[i](sheet)
+    for (let i = 0; i < this.hooks.onProcessSheet.length; i++) {
+      this.hooks.onProcessSheet[i](sheet)
     }
   }
 
@@ -47,8 +47,8 @@ export default class PluginsRegistry {
    */
   onChangeValue(value: string, prop: string, rule: Rule): string {
     let processedValue = value
-    for (let i = 0; i < this.changeValueHooks.length; i++) {
-      const nextValue = this.changeValueHooks[i](processedValue, prop, rule)
+    for (let i = 0; i < this.hooks.onChangeValue.length; i++) {
+      const nextValue = this.hooks.onChangeValue[i](processedValue, prop, rule)
       if (nextValue !== undefined) processedValue = nextValue
     }
     return processedValue
@@ -59,9 +59,9 @@ export default class PluginsRegistry {
    * If function is passed, it is a shortcut for `{onProcessRule}`.
    */
   use(plugin: Plugin): void {
-    if (plugin.onCreateRule) this.createRuleHooks.push(plugin.onCreateRule)
-    if (plugin.onProcessRule) this.processRuleHooks.push(plugin.onProcessRule)
-    if (plugin.onProcessSheet) this.processSheetHooks.push(plugin.onProcessSheet)
-    if (plugin.onChangeValue) this.changeValueHooks.push(plugin.onChangeValue)
+    for (const name in plugin) {
+      if (this.hooks[name]) this.hooks[name].push(plugin[name])
+      else warning(false, '[JSS] Unknown hook "%s".', name)
+    }
   }
 }

@@ -3,6 +3,7 @@ import {stripIndent} from 'common-tags'
 import {create} from '../../src'
 import StyleSheet from '../../src/StyleSheet'
 import {generateClassName} from '../utils'
+import PluginsRegistry from '../../src/PluginsRegistry'
 
 describe('Integration: hooks', () => {
   let jss
@@ -65,6 +66,18 @@ describe('Integration: hooks', () => {
         '}'
       )
       expect(classNames).to.eql(['b-id', 'a-id', 'c-id'])
+    })
+
+    it('should warn when unknown hook name is used', () => {
+      let receivedWarning
+      PluginsRegistry.__Rewire__('warning', (flag, warning) => {
+        receivedWarning = warning
+      })
+      jss.use({
+        unknownHook: () => null
+      })
+      jss.createStyleSheet({a: {color: 'red'}})
+      expect(receivedWarning).to.be('[JSS] Unknown hook "%s".')
     })
   })
 
