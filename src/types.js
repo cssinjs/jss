@@ -7,7 +7,7 @@ export type ToCssOptions = {
   indent?: number
 }
 
-export type generateClassName = (str: string, rule: Rule) => string
+export type generateClassName = (rule: Rule) => string
 
 export type JssStyle = Object
 
