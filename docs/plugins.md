@@ -38,6 +38,7 @@ You need to register a `plugin` only once per JSS instance. There is a number of
   jss.use({
     onCreateRule: (name, decl, options) => {
       // Do something here.
+      return newRule
     }
   })
   ```
@@ -71,4 +72,15 @@ You need to register a `plugin` only once per JSS instance. There is a number of
     }
   })
   ```
+1. Hook `onChangeValue(value, prop, rule)`.
 
+  This hook is invoked when `rule.prop(prop, value)` is called as a setter (with a value). Method `sheet.update()` uses `rule.prop()` internally. If this hook is implemented by a plugin, the returned value will be set on the style object and on the CSSOM CSSRule object if the sheet is linked. If multiple plugins implement this hook, return value from the first one will be passed to the second one and so on, like a chain of `map` functions.
+
+  ```javascript
+  jss.use({
+    onChangeValue: (value, prop, rule) => {
+      // Do something here.
+      return newValue
+    }
+  })
+  ```

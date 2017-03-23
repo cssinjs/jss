@@ -2,7 +2,7 @@
 import findRenderer from './utils/findRenderer'
 import RulesContainer from './RulesContainer'
 import type {
-  StyleSheetInstanceOptions,
+  InternalStyleSheetOptions,
   Rule,
   ToCssOptions,
   RuleOptions,
@@ -11,7 +11,7 @@ import type {
 } from './types'
 
 export default class StyleSheet {
-  options: StyleSheetInstanceOptions
+  options: InternalStyleSheetOptions
 
   linked: boolean
 

@@ -105,9 +105,10 @@ export default class RegularRule {
     if (value != null) {
       // Don't do anything if the value has not changed.
       if (this.style[name] !== value) {
-        this.style[name] = value
+        const {jss} = this.options
+        this.style[name] = jss ? jss.plugins.onChangeValue(value, name, this) : value
         // Only defined if option linked is true.
-        if (this.renderable) this.renderer.setStyle(this.renderable, name, value)
+        if (this.renderable) this.renderer.setStyle(this.renderable, name, this.style[name])
       }
       return this
     }
