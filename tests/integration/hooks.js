@@ -69,10 +69,12 @@ describe('Integration: hooks', () => {
   })
 
   describe('onProcessRule', () => {
-    it('should pass right arguments', () => {
-      let receivedRule
-      let receivedSheet
-      let executed = 0
+    let sheet
+    let receivedRule
+    let receivedSheet
+    let executed = 0
+
+    beforeEach(() => {
       jss.use({
         onProcessRule: (rule, sheet) => {
           receivedRule = rule
@@ -80,12 +82,18 @@ describe('Integration: hooks', () => {
           executed++
         }
       })
-      const sheet = jss.createStyleSheet({
+      sheet = jss.createStyleSheet({
         a: {color: 'red'}
       })
+    })
+
+    it('should be executed just once', () => {
+      expect(executed).to.be(1)
+    })
+
+    it('should pass right arguments', () => {
       expect(sheet).to.be(receivedSheet)
       expect(sheet.getRule('a')).to.be(receivedRule)
-      expect(executed).to.be(1)
     })
 
     it('should detect styles mutation', () => {
@@ -107,11 +115,12 @@ describe('Integration: hooks', () => {
   })
 
   describe('onCreateRule', () => {
-    it('should pass right arguments', () => {
-      let receivedName
-      let receivedDecl
-      let receivedOptions
-      let executed = 0
+    let receivedName
+    let receivedDecl
+    let receivedOptions
+    let executed = 0
+
+    beforeEach(() => {
       jss.use({
         onCreateRule: (name, decl, options) => {
           receivedName = name
@@ -123,17 +132,24 @@ describe('Integration: hooks', () => {
       jss.createStyleSheet({
         a: {float: 'left'}
       })
+    })
+
+    it('should be executed just once', () => {
+      expect(executed).to.be(1)
+    })
+
+    it('should pass right arguments', () => {
       expect(receivedName).to.be('a')
       expect(receivedDecl).to.eql({float: 'left'})
       expect(receivedOptions).to.be.an(Object)
-      expect(executed).to.be(1)
     })
   })
 
   describe('onProcessSheet', () => {
-    it('should pass right arguments', () => {
-      let receivedSheet
-      let executed = 0
+    let receivedSheet
+    let executed = 0
+
+    beforeEach(() => {
       jss.use({
         onProcessSheet: (sheet) => {
           receivedSheet = sheet
@@ -143,42 +159,51 @@ describe('Integration: hooks', () => {
       jss.createStyleSheet({
         a: {float: 'left'}
       })
-      expect(receivedSheet).to.be.a(StyleSheet)
+    })
+
+    it('should be executed just once', () => {
       expect(executed).to.be(1)
+    })
+
+    it('should pass right arguments', () => {
+      expect(receivedSheet).to.be.a(StyleSheet)
     })
   })
 
-  describe('.createRule() with onProcessRule', () => {
-    it('should pass rule correctly', () => {
-      let receivedRule
-      let executed = 0
+  describe('.createRule() with onProcessRule and onCreateRule', () => {
+    let receivedRule
+    let executed = 0
+
+    beforeEach(() => {
+      executed = 0
       jss.use({
         onProcessRule: (rule) => {
           receivedRule = rule
           executed++
         }
       })
+    })
+
+    it('should pass rule correctly', () => {
       const rule = jss.createRule()
       expect(rule).to.be(receivedRule)
       expect(executed).to.be(1)
     })
 
     it('should run plugins on @media rule', () => {
-      let executed = 0
-      jss.use({onProcessRule: () => executed++})
-      jss.createRule('@media', {
+      const rule = jss.createRule('@media', {
         button: {float: 'left'}
       })
+      expect(rule).to.be(receivedRule)
       expect(executed).to.be(2)
     })
 
     it('should run plugins on @keyframes rule', () => {
-      let executed = 0
-      jss.use({onProcessRule: () => executed++})
-      jss.createRule('@keyframes', {
+      const rule = jss.createRule('@keyframes', {
         from: {top: 0},
         to: {top: 10}
       })
+      expect(rule).to.be(receivedRule)
       expect(executed).to.be(3)
     })
 
@@ -223,10 +248,14 @@ describe('Integration: hooks', () => {
       })
     })
 
+    it('should be executed just once', () => {
+      sheet.getRule('a').prop('color', 'green')
+      expect(executed).to.be(1)
+    })
+
     it('should receive correct arguments', () => {
       const rule = sheet.getRule('a')
       rule.prop('color', 'green')
-      expect(executed).to.be(1)
       expect(receivedValue).to.be('green')
       expect(receivedProp).to.be('color')
       expect(receivedRule).to.be(rule)
