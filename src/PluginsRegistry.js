@@ -58,12 +58,7 @@ export default class PluginsRegistry {
    * Register a plugin.
    * If function is passed, it is a shortcut for `{onProcessRule}`.
    */
-  use(plugin: Plugin|Function): void {
-    if (typeof plugin === 'function') {
-      this.processRuleHooks.push(plugin)
-      return
-    }
-
+  use(plugin: Plugin): void {
     if (plugin.onCreateRule) this.createRuleHooks.push(plugin.onCreateRule)
     if (plugin.onProcessRule) this.processRuleHooks.push(plugin.onProcessRule)
     if (plugin.onProcessSheet) this.processSheetHooks.push(plugin.onProcessSheet)

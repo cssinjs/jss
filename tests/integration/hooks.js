@@ -30,15 +30,19 @@ describe('Integration: hooks', () => {
     })
 
     it('should call hooks in the correct order', () => {
-      jss.use((rule) => {
-        if (rule.name === 'a') {
-          rule.options.sheet.addRule('b', {color: 'green'}, {index: 1})
+      jss.use({
+        onProcessRule: (rule) => {
+          if (rule.name === 'a') {
+            rule.options.sheet.addRule('b', {color: 'green'}, {index: 1})
+          }
         }
       })
 
       const classNames = []
-      jss.use((rule) => {
-        classNames.push(rule.className)
+      jss.use({
+        onProcessRule: (rule) => {
+          classNames.push(rule.className)
+        }
       })
 
       const sheet = jss.createStyleSheet({
@@ -69,10 +73,12 @@ describe('Integration: hooks', () => {
       let receivedRule
       let receivedSheet
       let executed = 0
-      jss.use((rule, sheet) => {
-        receivedRule = rule
-        receivedSheet = sheet
-        executed++
+      jss.use({
+        onProcessRule: (rule, sheet) => {
+          receivedRule = rule
+          receivedSheet = sheet
+          executed++
+        }
       })
       const sheet = jss.createStyleSheet({
         a: {color: 'red'}
@@ -83,8 +89,10 @@ describe('Integration: hooks', () => {
     })
 
     it('should detect styles mutation', () => {
-      jss.use((rule) => {
-        rule.style.border.color = 'green'
+      jss.use({
+        onProcessRule: (rule) => {
+          rule.style.border.color = 'green'
+        }
       })
       expect(() => {
         jss.createStyleSheet({
@@ -144,9 +152,11 @@ describe('Integration: hooks', () => {
     it('should pass rule correctly', () => {
       let receivedRule
       let executed = 0
-      jss.use((rule) => {
-        receivedRule = rule
-        executed++
+      jss.use({
+        onProcessRule: (rule) => {
+          receivedRule = rule
+          executed++
+        }
       })
       const rule = jss.createRule()
       expect(rule).to.be(receivedRule)
@@ -155,7 +165,7 @@ describe('Integration: hooks', () => {
 
     it('should run plugins on @media rule', () => {
       let executed = 0
-      jss.use(() => executed++)
+      jss.use({onProcessRule: () => executed++})
       jss.createRule('@media', {
         button: {float: 'left'}
       })
@@ -164,7 +174,7 @@ describe('Integration: hooks', () => {
 
     it('should run plugins on @keyframes rule', () => {
       let executed = 0
-      jss.use(() => executed++)
+      jss.use({onProcessRule: () => executed++})
       jss.createRule('@keyframes', {
         from: {top: 0},
         to: {top: 10}
@@ -175,11 +185,15 @@ describe('Integration: hooks', () => {
     it('should accept multiple plugins', () => {
       let receivedRule1
       let receivedRule2
-      const plugin1 = (rule) => {
-        receivedRule1 = rule
+      const plugin1 = {
+        onProcessRule: (rule) => {
+          receivedRule1 = rule
+        }
       }
-      const plugin2 = (rule) => {
-        receivedRule2 = rule
+      const plugin2 = {
+        onProcessRule: (rule) => {
+          receivedRule2 = rule
+        }
       }
       jss.use(plugin1, plugin2)
       const rule = jss.createRule()
@@ -233,8 +247,8 @@ describe('Integration: hooks', () => {
     })
 
     it('should pass the new value to the next hook', () => {
-      jss.use({onChangeValue: value => value + '-first'})
-      jss.use({onChangeValue: value => value + '-second'})
+      jss.use({onChangeValue: value => `${value}-first`})
+      jss.use({onChangeValue: value => `${value}-second`})
       sheet.getRule('a').prop('color', 'green')
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
