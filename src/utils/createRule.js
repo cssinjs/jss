@@ -14,7 +14,7 @@ export default function createRule(name?: string, decl: JssStyle, options: RuleO
   const {jss} = options
   const declCopy = cloneStyle(decl)
 
-  // Throw in dev when somebody is trying to modify styles.
+  // Throw in dev when somebody is trying to modify users original styles.
   if (__DEV__) deepFreeze(decl)
 
   if (jss) {
