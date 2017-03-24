@@ -1,26 +1,21 @@
 /* @flow */
 import toCss from '../utils/toCss'
 import type {RuleOptions, JssStyle} from '../types'
-import cloneStyle from '../utils/cloneStyle'
-
-type FontFace = JssStyle|Array<JssStyle>
-
-const clone = decl => (Array.isArray(decl) ? decl.slice(0) : cloneStyle(decl))
 
 export default class FontFaceRule {
   type = 'font-face'
 
   selector: string
 
-  decl: FontFace
+  decl: JssStyle
 
   options: RuleOptions
 
   isProcessed: ?boolean
 
-  constructor(selector: string, decl: FontFace, options: RuleOptions) {
+  constructor(selector: string, decl: JssStyle, options: RuleOptions) {
     this.selector = selector
-    this.decl = clone(decl)
+    this.decl = decl
     this.options = options
   }
 

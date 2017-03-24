@@ -3,7 +3,6 @@ import toCss from '../utils/toCss'
 import toCssValue from '../utils/toCssValue'
 import findClassNames from '../utils/findClassNames'
 import type {ToCssOptions, RuleOptions, Renderer as RendererInterface, JssStyle} from '../types'
-import cloneStyle from '../utils/cloneStyle'
 
 export default class RegularRule {
   type = 'regular'
@@ -13,8 +12,6 @@ export default class RegularRule {
   isProcessed: ?boolean
 
   style: JssStyle
-
-  originalStyle: JssStyle
 
   className: string
 
@@ -38,8 +35,7 @@ export default class RegularRule {
     this.name = name
     this.className = ''
     this.options = options
-    this.originalStyle = style
-    this.style = cloneStyle(style)
+    this.style = style
     if (options.className) this.className = options.className
     else if (generateClassName) this.className = generateClassName(this, options.sheet)
     this.selectorText = options.selector || `.${this.className}`

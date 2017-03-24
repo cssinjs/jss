@@ -3,6 +3,7 @@ import warning from 'warning'
 import RegularRule from '../plugins/RegularRule'
 import type {Rule, RuleOptions, JssStyle} from '../types'
 import deepFreeze from '../utils/deepFreeze'
+import cloneStyle from '../utils/cloneStyle'
 
 declare var __DEV__: boolean
 
@@ -11,12 +12,13 @@ declare var __DEV__: boolean
  */
 export default function createRule(name?: string, decl: JssStyle, options: RuleOptions): Rule {
   const {jss} = options
+  const declCopy = cloneStyle(decl)
 
   // Throw in dev when somebody is trying to modify styles.
   if (__DEV__) deepFreeze(decl)
 
   if (jss) {
-    const rule = jss.plugins.onCreateRule(name, decl, options)
+    const rule = jss.plugins.onCreateRule(name, declCopy, options)
     if (rule) return rule
   }
 
@@ -25,5 +27,5 @@ export default function createRule(name?: string, decl: JssStyle, options: RuleO
     warning(false, '[JSS] Unknown at-rule %s', name)
   }
 
-  return new RegularRule(name, decl, options)
+  return new RegularRule(name, declCopy, options)
 }

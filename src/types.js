@@ -2,6 +2,7 @@
 import Jss from './Jss'
 import StyleSheet from './StyleSheet'
 import ConditionalRule from './plugins/ConditionalRule'
+import RegularRule from './plugins/RegularRule'
 
 export type ToCssOptions = {
   indent?: number
@@ -33,12 +34,14 @@ export type RulesContainerOptions = {
 }
 
 export interface Rule {
+  type: string;
   name: ?string;
   selector: string;
   style: JssStyle;
   renderable: ?CSSStyleRule;
   options: RuleOptions;
   isProcessed: ?boolean;
+  prop(name: string, value?: string): RegularRule|string;
   toString(options?: ToCssOptions): string;
 }
 

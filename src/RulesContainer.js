@@ -15,10 +15,13 @@ import type {
 export default class RulesContainer {
   // Rules registry for access by .get() method.
   // It contains the same rule registered by name and by selector.
-  map: Object = Object.create(null)
+  map: {[key: string]: Rule} = Object.create(null)
+
+  // A map to access original style objects.
+  styles: {[key: string]: JssStyle} = Object.create(null)
 
   // Used to ensure correct rules order.
-  index: Array<Object> = []
+  index: Array<Rule> = []
 
   options: RulesContainerOptions
 
@@ -49,11 +52,14 @@ export default class RulesContainer {
 
     if (!options.className) options.className = this.classes[name]
 
+    this.styles[name] = decl
+
     const rule = createRule(name, decl, options)
     this.register(rule)
 
     const index = options.index === undefined ? this.index.length : options.index
     this.index.splice(index, 0, rule)
+
     return rule
   }
 
@@ -62,6 +68,13 @@ export default class RulesContainer {
    */
   get(name: string): Rule {
     return this.map[name]
+  }
+
+  /**
+   * Get original style object.
+   */
+  getStyle(name: string): JssStyle {
+    return this.styles[name]
   }
 
   /**
@@ -102,9 +115,11 @@ export default class RulesContainer {
    * Unregister a rule.
    */
   unregister(rule: Rule): void {
-    delete this.map[rule.name]
+    if (rule.name) {
+      delete this.map[rule.name]
+      delete this.classes[rule.name]
+    }
     delete this.map[rule.selector]
-    delete this.classes[rule.name]
   }
 
   /**
@@ -112,15 +127,17 @@ export default class RulesContainer {
    */
   update(data: Object): void {
     this.index.forEach((rule) => {
-      const style = rule.originalStyle
-      for (const prop in style) {
-        const value = style[prop]
-        if (typeof value === 'function') {
-          const computedValue = value(data)
-          rule.prop(prop, computedValue)
+      if (rule.type === 'regular' && rule.name) {
+        const style = this.getStyle(rule.name)
+        for (const prop in style) {
+          const value = style[prop]
+          if (typeof value === 'function') {
+            const computedValue = value(data)
+            rule.prop(prop, computedValue)
+          }
         }
       }
-      if (rule.rules instanceof RulesContainer) {
+      else if (rule.rules instanceof RulesContainer) {
         rule.rules.update(data)
       }
     })

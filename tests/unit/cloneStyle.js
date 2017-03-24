@@ -15,4 +15,13 @@ describe('Unit: jss - cloneStyle', () => {
     expect(clonedStyle).not.to.be(style)
     expect(clonedStyle).to.eql({color: 'red'})
   })
+
+  it('should accept empty values', () => {
+    expect(cloneStyle('')).to.be('')
+    expect(cloneStyle(null)).to.be(null)
+  })
+
+  it('should accept string for SimpleRule', () => {
+    expect(cloneStyle('something')).to.be('something')
+  })
 })
