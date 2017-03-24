@@ -10,6 +10,8 @@ export type ToCssOptions = {
 
 export type generateClassName = (rule: Rule) => string
 
+// TODO
+// Find a way to declare all types: Object|string|Array<Object>
 export type JssStyle = Object
 
 export type RuleOptions = {
