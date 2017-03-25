@@ -61,8 +61,7 @@ export default class PluginsRegistry {
   onChangeValue(value: string, prop: string, rule: Rule): string {
     let processedValue = value
     for (let i = 0; i < this.hooks.onChangeValue.length; i++) {
-      const nextValue = this.hooks.onChangeValue[i](processedValue, prop, rule)
-      if (nextValue !== undefined) processedValue = nextValue
+      processedValue = this.hooks.onChangeValue[i](processedValue, prop, rule)
     }
     return processedValue
   }

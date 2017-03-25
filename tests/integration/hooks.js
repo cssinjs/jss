@@ -255,6 +255,7 @@ describe('Integration: hooks', () => {
           receivedProp = prop
           receivedRule = rule
           executed++
+          return value
         }
       })
       sheet = jss.createStyleSheet({
