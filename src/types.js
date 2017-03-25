@@ -50,7 +50,7 @@ export interface Rule {
 export type Plugin = {
   onCreateRule?: (name: string, decl: JssStyle, options: RuleOptions) => Rule|null,
   onProcessRule?: (rule: Rule, sheet?: StyleSheet) => void,
-  onProcessStyle?: (style: JssStyle, rule: Rule, sheet?: StyleSheet) => void,
+  onProcessStyle?: (style: JssStyle, rule: Rule, sheet?: StyleSheet) => JssStyle,
   onProcessSheet?: (sheet?: StyleSheet) => void,
   onChangeValue?: (value: string, prop: string, rule: Rule) => string
 }

@@ -41,8 +41,7 @@ export default class PluginsRegistry {
    */
   onProcessStyle(style: JssStyle, rule: Rule, sheet?: StyleSheet): void {
     for (let i = 0; i < this.hooks.onProcessStyle.length; i++) {
-      const newStyle = this.hooks.onProcessStyle[i](style, rule, sheet)
-      if (newStyle) rule.style = newStyle
+      rule.style = this.hooks.onProcessStyle[i](style, rule, sheet)
     }
   }
 
