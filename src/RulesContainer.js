@@ -17,8 +17,8 @@ export default class RulesContainer {
   // It contains the same rule registered by name and by selector.
   map: {[key: string]: Rule} = Object.create(null)
 
-  // A map to access original style objects.
-  styles: {[key: string]: JssStyle} = Object.create(null)
+  // Original styles object.
+  raw: {[key: string]: JssStyle} = Object.create(null)
 
   // Used to ensure correct rules order.
   index: Array<Rule> = []
@@ -52,7 +52,7 @@ export default class RulesContainer {
 
     if (!options.className) options.className = this.classes[name]
 
-    this.styles[name] = decl
+    this.raw[name] = decl
 
     const rule = createRule(name, decl, options)
     this.register(rule)
@@ -68,13 +68,6 @@ export default class RulesContainer {
    */
   get(name: string): Rule {
     return this.map[name]
-  }
-
-  /**
-   * Get original style object.
-   */
-  getStyle(name: string): JssStyle {
-    return this.styles[name]
   }
 
   /**
@@ -128,7 +121,7 @@ export default class RulesContainer {
   update(data: Object): void {
     this.index.forEach((rule) => {
       if (rule.type === 'regular' && rule.name) {
-        const style = this.getStyle(rule.name)
+        const style = this.raw[rule.name]
         for (const prop in style) {
           const value = style[prop]
           if (typeof value === 'function') {
