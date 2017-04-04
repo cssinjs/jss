@@ -7,15 +7,15 @@ export default class FontFaceRule {
 
   selector: string
 
-  decl: JssStyle
+  style: JssStyle
 
   options: RuleOptions
 
   isProcessed: ?boolean
 
-  constructor(selector: string, decl: JssStyle, options: RuleOptions) {
+  constructor(selector: string, style: JssStyle, options: RuleOptions) {
     this.selector = selector
-    this.decl = decl
+    this.style = style
     this.options = options
   }
 
@@ -23,15 +23,15 @@ export default class FontFaceRule {
    * Generates a CSS string.
    */
   toString(): string {
-    if (Array.isArray(this.decl)) {
+    if (Array.isArray(this.style)) {
       let str = ''
-      for (let index = 0; index < this.decl.length; index++) {
-        str += toCss(this.selector, this.decl[index])
-        if (this.decl[index + 1]) str += '\n'
+      for (let index = 0; index < this.style.length; index++) {
+        str += toCss(this.selector, this.style[index])
+        if (this.style[index + 1]) str += '\n'
       }
       return str
     }
 
-    return toCss(this.selector, this.decl)
+    return toCss(this.selector, this.style)
   }
 }

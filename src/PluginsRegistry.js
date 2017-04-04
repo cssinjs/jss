@@ -32,7 +32,7 @@ export default class PluginsRegistry {
     for (let i = 0; i < this.hooks.onProcessRule.length; i++) {
       this.hooks.onProcessRule[i](rule, sheet)
     }
-    this.onProcessStyle(rule.style, rule, sheet)
+    if (rule.style) this.onProcessStyle(rule.style, rule, sheet)
     rule.isProcessed = true
   }
 

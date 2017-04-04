@@ -346,5 +346,27 @@ describe('Integration: hooks', () => {
         }
       `)
     })
+
+    it('should not call the hook if rule has no .style', () => {
+      let localExecuted = 0
+      jss.use({
+        onProcessStyle: (style, rule, passedSheet) => {
+          receivedStyle = style
+          receivedRule = rule
+          receivedSheet = passedSheet
+          localExecuted++
+        }
+      })
+      sheet = jss.createStyleSheet({
+        '@media all': {
+          a: {color: 'red'}
+        }
+      })
+
+      expect(receivedStyle).to.eql({color: 'red'})
+      expect(receivedRule.type).to.be('regular')
+      expect(receivedSheet).to.be(sheet)
+      expect(localExecuted).to.be(1)
+    })
   })
 })
