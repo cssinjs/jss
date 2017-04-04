@@ -382,6 +382,7 @@ describe('Integration: hooks', () => {
         a: {color: 'red'}
       })
       expect(sheet.getRule('a').style).to.be(newStyle)
-   })
+      expect(passedStyle).to.be(newStyle)
+    })
   })
 })

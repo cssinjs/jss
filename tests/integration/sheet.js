@@ -47,6 +47,13 @@ describe('Integration: sheet', () => {
       const sheet = jss.createStyleSheet(styles)
       expect(sheet.classes.bar).to.be('bar-id')
     })
+
+    it('should ref original style object in RulesContainer#raw', () => {
+      const styles = {a: {color: 'red'}}
+      const sheet = jss.createStyleSheet(styles)
+      // jss-cache relies on `a` being a ref to the original object.
+      expect(sheet.getRule('a').options.parent.rules.raw.a).to.be(styles.a)
+    })
   })
 
   describe('sheet.getRule()', () => {
