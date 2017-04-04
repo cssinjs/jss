@@ -6,6 +6,11 @@ describe('Unit: jss', () => {
     it('should extract dynamic styles', () => {
       const color = data => data.color
       const styles = {
+        span: {
+          '& > *:last-child': {
+            color: 'red',
+          },
+        },
         button: {
           float: 'left',
           margin: [5, 10],
