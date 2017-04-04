@@ -355,6 +355,7 @@ describe('Integration: hooks', () => {
           receivedRule = rule
           receivedSheet = passedSheet
           localExecuted++
+          return style
         }
       })
       sheet = jss.createStyleSheet({
@@ -363,10 +364,24 @@ describe('Integration: hooks', () => {
         }
       })
 
-      expect(receivedStyle).to.eql({color: 'red'})
+      expect(receivedStyle).to.be(newStyle)
       expect(receivedRule.type).to.be('regular')
       expect(receivedSheet).to.be(sheet)
       expect(localExecuted).to.be(1)
     })
+
+    it('should pass the style object to the next hook', () => {
+      let passedStyle
+      jss.use({
+        onProcessStyle: (style) => {
+          passedStyle = style
+          return style
+        }
+      })
+      sheet = jss.createStyleSheet({
+        a: {color: 'red'}
+      })
+      expect(sheet.getRule('a').style).to.be(newStyle)
+   })
   })
 })
