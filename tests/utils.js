@@ -1,8 +1,5 @@
 import {sheets} from '../src'
 
-// eslint-disable-next-line no-underscore-dangle
-global.__DEV__ = true
-
 const {slice} = []
 
 export function getRules(style) {

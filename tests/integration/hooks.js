@@ -109,23 +109,6 @@ describe('Integration: hooks', () => {
       expect(sheet).to.be(receivedSheet)
       expect(sheet.getRule('a')).to.be(receivedRule)
     })
-
-    it('should detect styles mutation', () => {
-      jss.use({
-        onProcessRule: (rule) => {
-          rule.style.border.color = 'green'
-        }
-      })
-      expect(() => {
-        jss.createStyleSheet({
-          a: {
-            border: {
-              color: 'red'
-            }
-          }
-        })
-      }).to.throwException()
-    })
   })
 
   describe('onCreateRule', () => {
