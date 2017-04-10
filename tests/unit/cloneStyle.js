@@ -2,23 +2,49 @@ import expect from 'expect.js'
 import cloneStyle from '../../src/utils/cloneStyle'
 
 describe('Unit: jss - cloneStyle', () => {
-  it('should return a shallow cloned object', () => {
+  it('should return a cloned object', () => {
     const style = {color: 'red'}
     const clonedStyle = cloneStyle(style)
     expect(clonedStyle).not.to.be(style)
     expect(clonedStyle).to.eql(style)
   })
 
-  it('should skip function values', () => {
-    const style = {width: () => null, color: 'red'}
+  it('should clone nested object', () => {
+    const style = {
+      color: 'red',
+      '@media': {
+        color: 'green'
+      }
+    }
     const clonedStyle = cloneStyle(style)
-    expect(clonedStyle).not.to.be(style)
-    expect(clonedStyle).to.eql({color: 'red'})
+    expect(clonedStyle).to.eql(style)
   })
 
-  it('should accept empty values', () => {
-    expect(cloneStyle('')).to.be('')
+  it('should clone array', () => {
+    const style = [
+      {
+        'font-family': 'MyHelvetica',
+        src: 'local("Helvetica")'
+      },
+      {
+        'font-family': 'MyComicSans',
+        src: 'local("ComicSans")'
+      }
+    ]
+    const clonedStyle = cloneStyle(style)
+    expect(clonedStyle).to.eql(style)
+  })
+
+  it('should accept number', () => {
+    expect(cloneStyle(1)).to.be(1)
+  })
+
+  it('should accept null', () => {
     expect(cloneStyle(null)).to.be(null)
+  })
+
+  it('should accept undefined', () => {
+    expect(cloneStyle(undefined)).to.be(undefined)
   })
 
   it('should accept string for SimpleRule', () => {
