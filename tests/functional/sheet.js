@@ -440,6 +440,21 @@ describe('Functional: sheet', () => {
           }
         }
       `)
+
+      sheet.update({
+        color: 'yellow'
+      })
+
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: yellow;
+        }
+        @media all {
+          .b-id {
+            color: yellow;
+          }
+        }
+      `)
     })
 
     it('should render updated props', () => {
