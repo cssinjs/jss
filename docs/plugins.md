@@ -32,62 +32,62 @@ You need to register a `plugin` only once per JSS instance. There is a number of
 
 1. Hook `onCreateRule(name, decl, options)`.
 
-  This hook is invoked when a rule is about to be created. If this object returns an object, it is supposed to be a rule instance. If empty value is returned, JSS will fall back to a regular rule.
+    This hook is invoked when a rule is about to be created. If this object returns an object, it is supposed to be a rule instance. If empty value is returned, JSS will fall back to a regular rule.
 
-  ```javascript
-  jss.use({
-    onCreateRule: (name, decl, options) => {
-      // Do something here.
-      return newRule
-    }
-  })
-  ```
+    ```javascript
+    jss.use({
+      onCreateRule: (name, decl, options) => {
+        // Do something here.
+        return newRule
+      }
+    })
+    ```
 
 1. Hook `onProcessRule(rule, sheet)`.
 
-  This hook is invoked on every created rule with the rule as an argument.
+    This hook is invoked on every created rule with the rule as an argument.
 
-  ```javascript
-  jss.use({
-    onProcessRule: (rule, sheet) => {
-      // Do something here.
-    }
-  })
-  ```
+    ```javascript
+    jss.use({
+      onProcessRule: (rule, sheet) => {
+        // Do something here.
+      }
+    })
+    ```
 
 1. Hook `onProcessStyle(style, rule, sheet)`.
 
-  This hook is invoked on every created rule with `style` as a primary argument. It is designed for `style` object transformations and rule manipulations. For performance reasons you are allowed to mutate the `style` object itself, though __NOT__ the nested objects. It is limited to the first level, because the `style` object is shallow-cloned in the core, but the nested objects have to be cloned by plugins if they need to mutate it. Use `jss.cloneStyle()` utility for style cloning. The returned object from the hook will replace `rule.style`.
+    This hook is invoked on every created rule with `style` as a primary argument. It is designed for `style` object transformations and rule manipulations. For performance reasons you are allowed to mutate the `style` object itself, though __NOT__ the nested objects. It is limited to the first level, because the `style` object is shallow-cloned in the core, but the nested objects have to be cloned by plugins if they need to mutate it. Use `jss.cloneStyle()` utility for style cloning. The returned object from the hook will replace `rule.style`.
 
-  ```javascript
-  jss.use({
-    onProcessStyle: (style, rule, sheet) => {
-      // Do something here.
-      return style
-    }
-  })
-  ```
+    ```javascript
+    jss.use({
+      onProcessStyle: (style, rule, sheet) => {
+        // Do something here.
+        return style
+      }
+    })
+    ```
 
 1. Hook `onProcessSheet(sheet)`.
 
-  This hook is invoked on every created `StyleSheet` after all rules are processed, with the `sheet` as an argument.
+    This hook is invoked on every created `StyleSheet` after all rules are processed, with the `sheet` as an argument.
 
-  ```javascript
-  jss.use({
-    onProcessSheet: (sheet) => {
-      // Do something here.
-    }
-  })
-  ```
+    ```javascript
+    jss.use({
+      onProcessSheet: (sheet) => {
+        // Do something here.
+      }
+    })
+    ```
 1. Hook `onChangeValue(value, prop, rule)`.
 
-  This hook is invoked when `rule.prop(prop, value)` is called as a setter (with a value). Method `sheet.update()` uses `rule.prop()` internally. If this hook is implemented by a plugin, the returned value will be set on the style object and on the CSSOM CSSRule object if the sheet is linked. If multiple plugins implement this hook, return value from the first one will be passed to the second one and so on, like a chain of `map` functions.
+    This hook is invoked when `rule.prop(prop, value)` is called as a setter (with a value). Method `sheet.update()` uses `rule.prop()` internally. If this hook is implemented by a plugin, the returned value will be set on the style object and on the CSSOM CSSRule object if the sheet is linked. If multiple plugins implement this hook, return value from the first one will be passed to the second one and so on, like a chain of `map` functions.
 
-  ```javascript
-  jss.use({
-    onChangeValue: (value, prop, rule) => {
-      // Do something here.
-      return newValue
-    }
-  })
-  ```
+    ```javascript
+    jss.use({
+      onChangeValue: (value, prop, rule) => {
+        // Do something here.
+        return newValue
+      }
+    })
+    ```

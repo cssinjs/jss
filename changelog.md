@@ -1,6 +1,8 @@
 ## 7.0.0 / 2017-04-10
 
 - Perf improvement through removing of JSON.parse(JSON.strigify(style))
+- New hook `onProcessStyle`
+- New hook `onChangeValue`
 
 ### Bugfixes
 
