@@ -331,16 +331,6 @@ const dynamicStyles = getDynamicStyles({
 }
 ```
 
-## Clone style declaration
-
-`cloneStyle(decl)`
-
-Creates a shallow copy of a style declaration. Skips function values.
-
-```javascript
-const clonedStyle = cloneStyle({color: 'red'})
-```
-
 ## Plugins
 
 See [plugins](./plugins.md) documentation.
