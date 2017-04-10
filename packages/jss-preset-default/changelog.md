@@ -1,3 +1,7 @@
+## 2.0.0 / 2017-10-04
+
+- support jss 7.0
+
 ## 1.3.1 / 2017-01-17
 
 - create a build with jss-global@0.4.1

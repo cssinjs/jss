@@ -40,22 +40,22 @@
     "eslint-plugin-import": "^2.0.1",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.4.1",
-    "jss": "^6.0.0",
+    "jss": "^7.0.0",
     "rimraf": "^2.5.4",
     "webpack": "^1.13.1"
   },
   "peerDependencies": {
-    "jss": "^6.2.0"
+    "jss": "^7.0.0"
   },
   "dependencies": {
-    "jss-camel-case": "^3.0.0",
-    "jss-compose": "^2.0.0",
-    "jss-default-unit": "^5.0.2",
-    "jss-expand": "^2.0.3",
-    "jss-extend": "^3.0.0",
-    "jss-global": "^0.4.1",
-    "jss-nested": "^3.0.1",
-    "jss-props-sort": "^3.0.0",
-    "jss-vendor-prefixer": "^4.0.0"
+    "jss-camel-case": "^4.0.0",
+    "jss-compose": "^3.0.0",
+    "jss-default-unit": "^6.0.0",
+    "jss-expand": "^3.0.0",
+    "jss-extend": "^4.0.0",
+    "jss-global": "^1.0.0",
+    "jss-nested": "^4.0.0",
+    "jss-props-sort": "^4.0.0",
+    "jss-vendor-prefixer": "^5.0.0"
   }
 }
