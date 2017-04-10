@@ -49,7 +49,7 @@ export default function toCss(selector: string, style: JssStyle, options: Option
 
   for (const prop in style) {
     const value = style[prop]
-    if (value != null && prop !== 'fallbacks') {
+    if (value != null && prop !== 'fallbacks' && typeof value !== 'function') {
       result += `\n${indentStr(`${prop}: ${toCssValue(value)};`, indent)}`
     }
   }

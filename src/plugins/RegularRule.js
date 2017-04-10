@@ -134,7 +134,8 @@ export default class RegularRule {
     const json = Object.create(null)
     for (const prop in this.style) {
       const value = this.style[prop]
-      if (typeof value !== 'object') json[prop] = value
+      const type = typeof value
+      if (type !== 'object' && type !== 'function') json[prop] = value
       else if (Array.isArray(value)) json[prop] = toCssValue(value)
     }
     return json
