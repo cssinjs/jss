@@ -120,10 +120,9 @@ export default class RulesContainer {
    */
   update(data: Object): void {
     this.index.forEach((rule) => {
-      if (rule.type === 'regular' && rule.name) {
-        const style = this.raw[rule.name]
-        for (const prop in style) {
-          const value = style[prop]
+      if (rule.type === 'regular') {
+        for (const prop in rule.style) {
+          const value = rule.style[prop]
           if (typeof value === 'function') {
             const computedValue = value(data)
             rule.prop(prop, computedValue)

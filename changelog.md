@@ -1,3 +1,17 @@
+## 7.0.0 / 2017-04-10
+
+- Perf improvement through removing of JSON.parse(JSON.strigify(style))
+
+### Bugfixes
+
+- Run plugins over property names with function values (#441)
+
+### Breaking changes
+
+- New signature of `generateClassName(rule, sheet)` option.
+- Property `rule.originalStyle` is now available through `rule.options.parent.rules.raw[rule.name]`. It is longer but its a better place and is used in plugins only.
+- Plugin signature for the hook `onProcessRule` shortcut `jss.use((rule) => {})` is not supported any more. Instead this hook is supported using its full name: `jss.use({onProcessRule: () => {}})`
+
 ## 6.5.0 / 2017-03-14
 
 - Dynamic Sheets for theming and animations. #356

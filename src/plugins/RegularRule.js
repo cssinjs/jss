@@ -97,23 +97,32 @@ export default class RegularRule {
    * Get or set a style property.
    */
   prop(name: string, value?: string): RegularRule|string {
+    const $name = typeof this.style[name] === 'function' ? `$${name}` : name
+    let currValue = this.style[$name]
+
     // Its a setter.
     if (value != null) {
       // Don't do anything if the value has not changed.
-      if (this.style[name] !== value) {
+      if (currValue !== value) {
         const {jss} = this.options
-        this.style[name] = jss ? jss.plugins.onChangeValue(value, name, this) : value
+        const newValue = jss ? jss.plugins.onChangeValue(value, name, this) : value
+        Object.defineProperty(this.style, $name, {
+          value: newValue,
+          writable: true
+        })
         // Only defined if option linked is true.
-        if (this.renderable) this.renderer.setStyle(this.renderable, name, this.style[name])
+        if (this.renderable) this.renderer.setStyle(this.renderable, name, newValue)
       }
       return this
     }
     // Its a getter, read the value from the DOM if its not cached.
-    if (this.renderable && this.style[name] == null) {
-      // Cache the value after we have got it from the DOM once.
-      this.style[name] = this.renderer.getStyle(this.renderable, name)
+    if (this.renderable && currValue == null) {
+      currValue = this.renderer.getStyle(this.renderable, name)
+      // Cache the value after we have got it from the DOM first time.
+      this.prop(name, currValue)
     }
-    return this.style[name]
+
+    return this.style[$name]
   }
 
   /**
@@ -128,14 +137,15 @@ export default class RegularRule {
   /**
    * Returns JSON representation of the rule.
    * Fallbacks are not supported.
-   * Useful as inline style.
+   * Useful for inline styles.
    */
   toJSON(): Object {
     const json = Object.create(null)
     for (const prop in this.style) {
       const value = this.style[prop]
       const type = typeof value
-      if (type !== 'object' && type !== 'function') json[prop] = value
+      if (type === 'function') json[prop] = this.style[`$${prop}`]
+      else if (type !== 'object') json[prop] = value
       else if (Array.isArray(value)) json[prop] = toCssValue(value)
     }
     return json
