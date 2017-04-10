@@ -2,12 +2,17 @@
 import Jss from './Jss'
 import StyleSheet from './StyleSheet'
 import ConditionalRule from './plugins/ConditionalRule'
+import RegularRule from './plugins/RegularRule'
 
 export type ToCssOptions = {
   indent?: number
 }
 
-export type generateClassName = (str: string, rule: Rule) => string
+export type generateClassName = (rule: Rule) => string
+
+// TODO
+// Find a way to declare all types: Object|string|Array<Object>
+export type JssStyle = Object
 
 export type RuleOptions = {
   className?: string,
@@ -31,18 +36,21 @@ export type RulesContainerOptions = {
 }
 
 export interface Rule {
+  type: string;
   name: ?string;
   selector: string;
-  style: Object;
+  style: JssStyle;
   renderable: ?CSSStyleRule;
   options: RuleOptions;
   isProcessed: ?boolean;
+  prop(name: string, value?: string): RegularRule|string;
   toString(options?: ToCssOptions): string;
 }
 
 export type Plugin = {
-  onCreateRule?: (name: string, decl: Object, options: RuleOptions) => Rule|null,
+  onCreateRule?: (name: string, decl: JssStyle, options: RuleOptions) => Rule|null,
   onProcessRule?: (rule: Rule, sheet?: StyleSheet) => void,
+  onProcessStyle?: (style: JssStyle, rule: Rule, sheet?: StyleSheet) => JssStyle,
   onProcessSheet?: (sheet?: StyleSheet) => void,
   onChangeValue?: (value: string, prop: string, rule: Rule) => string
 }

@@ -1,6 +1,6 @@
 /* @flow */
 import toCssValue from './toCssValue'
-import type {ToCssOptions as Options} from '../types'
+import type {ToCssOptions as Options, JssStyle} from '../types'
 
 /**
  * Indent a string.
@@ -15,7 +15,7 @@ function indentStr(str: string, indent: number): string {
 /**
  * Converts a Rule to CSS string.
  */
-export default function toCss(selector: string, style: Object, options: Options = {}): string {
+export default function toCss(selector: string, style: JssStyle, options: Options = {}): string {
   let {indent = 0} = options
   const {fallbacks} = style
   let result = ''
@@ -49,7 +49,7 @@ export default function toCss(selector: string, style: Object, options: Options 
 
   for (const prop in style) {
     const value = style[prop]
-    if (value != null && prop !== 'fallbacks') {
+    if (value != null && prop !== 'fallbacks' && typeof value !== 'function') {
       result += `\n${indentStr(`${prop}: ${toCssValue(value)};`, indent)}`
     }
   }

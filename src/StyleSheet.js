@@ -6,7 +6,8 @@ import type {
   Rule,
   ToCssOptions,
   RuleOptions,
-  StyleSheetOptions
+  StyleSheetOptions,
+  JssStyle
 } from './types'
 
 export default class StyleSheet {
@@ -79,7 +80,7 @@ export default class StyleSheet {
    * Add a rule to the current stylesheet.
    * Will insert a rule also after the stylesheet has been rendered first time.
    */
-  addRule(name: string, style: Object, options?: RuleOptions): Rule {
+  addRule(name: string, decl: JssStyle, options?: RuleOptions): Rule {
     const {queue} = this
 
     // Plugins can create rules.
@@ -87,7 +88,7 @@ export default class StyleSheet {
     // which happen after the first `rules.add()` call.
     if (this.attached && !queue) this.queue = []
 
-    const rule = this.rules.add(name, style, options)
+    const rule = this.rules.add(name, decl, options)
     this.options.jss.plugins.onProcessRule(rule)
 
     if (this.attached) {

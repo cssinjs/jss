@@ -4,7 +4,8 @@ import type {
   RulesContainerOptions,
   ToCssOptions,
   Rule,
-  RuleOptions
+  RuleOptions,
+  JssStyle
 } from './types'
 
 /**
@@ -14,10 +15,13 @@ import type {
 export default class RulesContainer {
   // Rules registry for access by .get() method.
   // It contains the same rule registered by name and by selector.
-  map: Object = Object.create(null)
+  map: {[key: string]: Rule} = Object.create(null)
+
+  // Original styles object.
+  raw: {[key: string]: JssStyle} = Object.create(null)
 
   // Used to ensure correct rules order.
-  index: Array<Object> = []
+  index: Array<Rule> = []
 
   options: RulesContainerOptions
 
@@ -33,7 +37,7 @@ export default class RulesContainer {
    *
    * Will not render after Style Sheet was rendered the first time.
    */
-  add(name: string, style: Object, options?: RuleOptions): Rule {
+  add(name: string, decl: JssStyle, options?: RuleOptions): Rule {
     const {parent, sheet, jss, Renderer, generateClassName} = this.options
 
     options = {
@@ -48,11 +52,14 @@ export default class RulesContainer {
 
     if (!options.className) options.className = this.classes[name]
 
-    const rule = createRule(name, style, options)
+    this.raw[name] = decl
+
+    const rule = createRule(name, decl, options)
     this.register(rule)
 
     const index = options.index === undefined ? this.index.length : options.index
     this.index.splice(index, 0, rule)
+
     return rule
   }
 
@@ -101,9 +108,11 @@ export default class RulesContainer {
    * Unregister a rule.
    */
   unregister(rule: Rule): void {
-    delete this.map[rule.name]
+    if (rule.name) {
+      delete this.map[rule.name]
+      delete this.classes[rule.name]
+    }
     delete this.map[rule.selector]
-    delete this.classes[rule.name]
   }
 
   /**
@@ -111,15 +120,17 @@ export default class RulesContainer {
    */
   update(data: Object): void {
     this.index.forEach((rule) => {
-      const style = rule.originalStyle
-      for (const prop in style) {
-        const value = style[prop]
-        if (typeof value === 'function') {
-          const computedValue = value(data)
-          rule.prop(prop, computedValue)
+      if (rule.type === 'regular' && rule.name) {
+        const style = this.raw[rule.name]
+        for (const prop in style) {
+          const value = style[prop]
+          if (typeof value === 'function') {
+            const computedValue = value(data)
+            rule.prop(prop, computedValue)
+          }
         }
       }
-      if (rule.rules instanceof RulesContainer) {
+      else if (rule.rules instanceof RulesContainer) {
         rule.rules.update(data)
       }
     })

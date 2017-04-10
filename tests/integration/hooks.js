@@ -3,6 +3,7 @@ import {stripIndent} from 'common-tags'
 import {create} from '../../src'
 import StyleSheet from '../../src/StyleSheet'
 import {generateClassName} from '../utils'
+import PluginsRegistry from '../../src/PluginsRegistry'
 
 describe('Integration: hooks', () => {
   let jss
@@ -30,15 +31,19 @@ describe('Integration: hooks', () => {
     })
 
     it('should call hooks in the correct order', () => {
-      jss.use((rule) => {
-        if (rule.name === 'a') {
-          rule.options.sheet.addRule('b', {color: 'green'}, {index: 1})
+      jss.use({
+        onProcessRule: (rule) => {
+          if (rule.name === 'a') {
+            rule.options.sheet.addRule('b', {color: 'green'}, {index: 1})
+          }
         }
       })
 
       const classNames = []
-      jss.use((rule) => {
-        classNames.push(rule.className)
+      jss.use({
+        onProcessRule: (rule) => {
+          classNames.push(rule.className)
+        }
       })
 
       const sheet = jss.createStyleSheet({
@@ -62,33 +67,57 @@ describe('Integration: hooks', () => {
       )
       expect(classNames).to.eql(['b-id', 'a-id', 'c-id'])
     })
+
+    it('should warn when unknown hook name is used', () => {
+      let receivedWarning
+      // eslint-disable-next-line no-underscore-dangle
+      PluginsRegistry.__Rewire__('warning', (flag, warning) => {
+        receivedWarning = warning
+      })
+      jss.use({
+        unknownHook: () => null
+      })
+      jss.createStyleSheet({a: {color: 'red'}})
+      expect(receivedWarning).to.be('[JSS] Unknown hook "%s".')
+    })
   })
 
   describe('onProcessRule', () => {
+    let sheet
+    let receivedRule
+    let receivedSheet
+    let executed = 0
+
+    beforeEach(() => {
+      jss.use({
+        onProcessRule: (rule, passedSheet) => {
+          receivedRule = rule
+          receivedSheet = passedSheet
+          executed++
+        }
+      })
+      sheet = jss.createStyleSheet({
+        a: {color: 'red'}
+      })
+    })
+
+    it('should be executed just once', () => {
+      expect(executed).to.be(1)
+    })
+
     it('should pass right arguments', () => {
-      let receivedRule
-      let receivedSheet
-      let executed = 0
-      jss.use((rule, sheet) => {
-        receivedRule = rule
-        receivedSheet = sheet
-        executed++
-      })
-      const sheet = jss.createStyleSheet({
-        a: {float: 'left'}
-      })
       expect(sheet).to.be(receivedSheet)
       expect(sheet.getRule('a')).to.be(receivedRule)
-      expect(executed).to.be(1)
     })
   })
 
   describe('onCreateRule', () => {
-    it('should pass right arguments', () => {
-      let receivedName
-      let receivedDecl
-      let receivedOptions
-      let executed = 0
+    let receivedName
+    let receivedDecl
+    let receivedOptions
+    let executed = 0
+
+    beforeEach(() => {
       jss.use({
         onCreateRule: (name, decl, options) => {
           receivedName = name
@@ -100,17 +129,24 @@ describe('Integration: hooks', () => {
       jss.createStyleSheet({
         a: {float: 'left'}
       })
+    })
+
+    it('should be executed just once', () => {
+      expect(executed).to.be(1)
+    })
+
+    it('should pass right arguments', () => {
       expect(receivedName).to.be('a')
       expect(receivedDecl).to.eql({float: 'left'})
       expect(receivedOptions).to.be.an(Object)
-      expect(executed).to.be(1)
     })
   })
 
   describe('onProcessSheet', () => {
-    it('should pass right arguments', () => {
-      let receivedSheet
-      let executed = 0
+    let receivedSheet
+    let executed = 0
+
+    beforeEach(() => {
       jss.use({
         onProcessSheet: (sheet) => {
           receivedSheet = sheet
@@ -120,51 +156,66 @@ describe('Integration: hooks', () => {
       jss.createStyleSheet({
         a: {float: 'left'}
       })
-      expect(receivedSheet).to.be.a(StyleSheet)
+    })
+
+    it('should be executed just once', () => {
       expect(executed).to.be(1)
+    })
+
+    it('should pass right arguments', () => {
+      expect(receivedSheet).to.be.a(StyleSheet)
     })
   })
 
-  describe('.createRule() with onProcessRule', () => {
-    it('should pass rule correctly', () => {
-      let receivedRule
-      let executed = 0
-      jss.use((rule) => {
-        receivedRule = rule
-        executed++
+  describe('.createRule() with onProcessRule and onCreateRule', () => {
+    let receivedRule
+    let executed = 0
+
+    beforeEach(() => {
+      executed = 0
+      jss.use({
+        onProcessRule: (rule) => {
+          receivedRule = rule
+          executed++
+        }
       })
+    })
+
+    it('should pass rule correctly', () => {
       const rule = jss.createRule()
       expect(rule).to.be(receivedRule)
       expect(executed).to.be(1)
     })
 
     it('should run plugins on @media rule', () => {
-      let executed = 0
-      jss.use(() => executed++)
-      jss.createRule('@media', {
+      const rule = jss.createRule('@media', {
         button: {float: 'left'}
       })
+      expect(rule).to.be(receivedRule)
       expect(executed).to.be(2)
     })
 
     it('should run plugins on @keyframes rule', () => {
-      let executed = 0
-      jss.use(() => executed++)
-      jss.createRule('@keyframes', {
+      const rule = jss.createRule('@keyframes', {
         from: {top: 0},
         to: {top: 10}
       })
+      expect(rule).to.be(receivedRule)
       expect(executed).to.be(3)
     })
 
     it('should accept multiple plugins', () => {
       let receivedRule1
       let receivedRule2
-      const plugin1 = (rule) => {
-        receivedRule1 = rule
+      const plugin1 = {
+        onProcessRule: (rule) => {
+          receivedRule1 = rule
+        }
       }
-      const plugin2 = (rule) => {
-        receivedRule2 = rule
+      const plugin2 = {
+        onProcessRule: (rule) => {
+          receivedRule2 = rule
+        }
       }
       jss.use(plugin1, plugin2)
       const rule = jss.createRule()
@@ -187,6 +238,7 @@ describe('Integration: hooks', () => {
           receivedProp = prop
           receivedRule = rule
           executed++
+          return value
         }
       })
       sheet = jss.createStyleSheet({
@@ -194,10 +246,14 @@ describe('Integration: hooks', () => {
       })
     })
 
+    it('should be executed just once', () => {
+      sheet.getRule('a').prop('color', 'green')
+      expect(executed).to.be(1)
+    })
+
     it('should receive correct arguments', () => {
       const rule = sheet.getRule('a')
       rule.prop('color', 'green')
-      expect(executed).to.be(1)
       expect(receivedValue).to.be('green')
       expect(receivedProp).to.be('color')
       expect(receivedRule).to.be(rule)
@@ -215,6 +271,101 @@ describe('Integration: hooks', () => {
           color: green;
         }
       `)
+    })
+
+    it('should pass the new value to the next hook', () => {
+      jss.use({onChangeValue: value => `${value}-first`})
+      jss.use({onChangeValue: value => `${value}-second`})
+      sheet.getRule('a').prop('color', 'green')
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: green-first-second;
+        }
+      `)
+    })
+  })
+
+  describe('onProcessStyle', () => {
+    let receivedStyle
+    let receivedRule
+    let receivedSheet
+    let executed = 0
+    let sheet
+    const newStyle = {color: 'green'}
+
+    beforeEach(() => {
+      jss.use({
+        onProcessStyle: (style, rule, passedSheet) => {
+          receivedStyle = style
+          receivedRule = rule
+          receivedSheet = passedSheet
+          executed++
+          return newStyle
+        }
+      })
+      sheet = jss.createStyleSheet({
+        a: {color: 'red'}
+      })
+    })
+
+    it('should be executed just once', () => {
+      expect(executed).to.be(1)
+    })
+
+    it('should receive correct arguments', () => {
+      expect(receivedStyle).to.eql({color: 'red'})
+      expect(receivedRule).to.be(sheet.getRule('a'))
+      expect(receivedSheet).to.be(sheet)
+    })
+
+    it('should set the returned style', () => {
+      expect(sheet.getRule('a').style).to.be(newStyle)
+    })
+
+    it('should compile to correct CSS string', () => {
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: green;
+        }
+      `)
+    })
+
+    it('should not call the hook if rule has no .style', () => {
+      let localExecuted = 0
+      jss.use({
+        onProcessStyle: (style, rule, passedSheet) => {
+          receivedStyle = style
+          receivedRule = rule
+          receivedSheet = passedSheet
+          localExecuted++
+          return style
+        }
+      })
+      sheet = jss.createStyleSheet({
+        '@media all': {
+          a: {color: 'red'}
+        }
+      })
+
+      expect(receivedStyle).to.be(newStyle)
+      expect(receivedRule.type).to.be('regular')
+      expect(receivedSheet).to.be(sheet)
+      expect(localExecuted).to.be(1)
+    })
+
+    it('should pass the style object to the next hook', () => {
+      let passedStyle
+      jss.use({
+        onProcessStyle: (style) => {
+          passedStyle = style
+          return style
+        }
+      })
+      sheet = jss.createStyleSheet({
+        a: {color: 'red'}
+      })
+      expect(sheet.getRule('a').style).to.be(newStyle)
+      expect(passedStyle).to.be(newStyle)
     })
   })
 })

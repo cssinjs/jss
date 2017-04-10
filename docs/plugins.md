@@ -45,18 +45,25 @@ You need to register a `plugin` only once per JSS instance. There is a number of
 
 1. Hook `onProcessRule(rule, sheet)`.
 
-  This hook is invoked on every created rule with the rule as an argument. If a `plugin` is a function, then jss defaults it to `onProcessRule` hook.
+  This hook is invoked on every created rule with the rule as an argument.
 
   ```javascript
-  jss.use((rule) => {
-    // Do something here.
-  })
-
-  // or
-
   jss.use({
     onProcessRule: (rule, sheet) => {
       // Do something here.
+    }
+  })
+  ```
+
+1. Hook `onProcessStyle(style, rule, sheet)`.
+
+  This hook is invoked on every created rule with `style` as a primary argument. It is designed for `style` object transformations and rule manipulations. For performance reasons you are allowed to mutate the `style` object itself, though __NOT__ the nested objects. It is limited to the first level, because the `style` object is shallow-cloned in the core, but the nested objects have to be cloned by plugins if they need to mutate it. Use `jss.cloneStyle()` utility for style cloning. The returned object from the hook will replace `rule.style`.
+
+  ```javascript
+  jss.use({
+    onProcessStyle: (style, rule, sheet) => {
+      // Do something here.
+      return style
     }
   })
   ```

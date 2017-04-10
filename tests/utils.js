@@ -12,7 +12,7 @@ export function getStyle() {
 
 export function getCss(style) {
   // IE doesn't provide correct rules list when at-rules have been added
-  // by using `.addRule()` api.
+  // by using `.addRule()` API.
   // Others do not update .innerHTML result when `.addRule()` was used.
   // We use what we can get.
   return removeWhitespace(style.innerHTML) ||
@@ -42,7 +42,7 @@ export function computeStyle(className) {
   return styleCopy
 }
 
-export const generateClassName = (str, rule) => (rule.name ? `${rule.name}-id` : 'id')
+export const generateClassName = rule => (rule.name ? `${rule.name}-id` : 'id')
 
 // Make sure tests are isolated.
 afterEach(() => {

@@ -15,6 +15,14 @@ function walkClone(style) {
   return newStyle
 }
 
+function assign(style) {
+  return Object.assign({}, style)
+}
+
+function jsonClone(style) {
+  return JSON.parse(JSON.stringify(style))
+}
+
 function use(obj) {
   if (obj.somethingNotDefined) {
     Math.round(obj.something)
@@ -31,6 +39,10 @@ suite('Cloning', () => {
   })
 
   benchmark('Object.assign', () => {
-    use(Object.assign({}, styles.modal))
+    use(assign(styles.modal))
+  })
+
+  benchmark('jsonClone', () => {
+    use(jsonClone(styles.modal))
   })
 })

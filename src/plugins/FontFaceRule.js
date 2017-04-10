@@ -1,19 +1,19 @@
 /* @flow */
 import toCss from '../utils/toCss'
-import type {RuleOptions} from '../types'
+import type {RuleOptions, JssStyle} from '../types'
 
 export default class FontFaceRule {
   type = 'font-face'
 
   selector: string
 
-  style: Object
+  style: JssStyle
 
   options: RuleOptions
 
   isProcessed: ?boolean
 
-  constructor(selector: string, style: Object, options: RuleOptions) {
+  constructor(selector: string, style: JssStyle, options: RuleOptions) {
     this.selector = selector
     this.style = style
     this.options = options

@@ -47,8 +47,10 @@ describe('Integration: jss', () => {
       let c2 = false
       let p2 = false
 
-      const plugin1 = () => {
-        p1 = true
+      const plugin1 = {
+        onProcessRule: () => {
+          p1 = true
+        }
       }
       const plugin2 = {
         onCreateRule: () => {

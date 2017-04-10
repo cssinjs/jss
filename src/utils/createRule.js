@@ -1,15 +1,18 @@
 /* @flow */
 import warning from 'warning'
 import RegularRule from '../plugins/RegularRule'
-import type {Rule, RuleOptions} from '../types'
+import type {Rule, RuleOptions, JssStyle} from '../types'
+import cloneStyle from '../utils/cloneStyle'
 
 /**
  * Create a rule instance.
  */
-export default function createRule(name?: string, decl: Object = {}, options: RuleOptions): Rule {
+export default function createRule(name?: string, decl: JssStyle, options: RuleOptions): Rule {
   const {jss} = options
+  const declCopy = cloneStyle(decl)
+
   if (jss) {
-    const rule = jss.plugins.onCreateRule(name, decl, options)
+    const rule = jss.plugins.onCreateRule(name, declCopy, options)
     if (rule) return rule
   }
 
@@ -18,5 +21,5 @@ export default function createRule(name?: string, decl: Object = {}, options: Ru
     warning(false, '[JSS] Unknown at-rule %s', name)
   }
 
-  return new RegularRule(name, decl, options)
+  return new RegularRule(name, declCopy, options)
 }

@@ -2,9 +2,7 @@
 import toCss from '../utils/toCss'
 import toCssValue from '../utils/toCssValue'
 import findClassNames from '../utils/findClassNames'
-import type {ToCssOptions, RuleOptions, Renderer as RendererInterface} from '../types'
-
-const {parse, stringify} = JSON
+import type {ToCssOptions, RuleOptions, Renderer as RendererInterface, JssStyle} from '../types'
 
 export default class RegularRule {
   type = 'regular'
@@ -13,9 +11,7 @@ export default class RegularRule {
 
   isProcessed: ?boolean
 
-  style: Object
-
-  originalStyle: Object
+  style: JssStyle
 
   className: string
 
@@ -34,16 +30,14 @@ export default class RegularRule {
    * It is also the fastetst way.
    * http://jsperf.com/lodash-deepclone-vs-jquery-extend-deep/6
    */
-  constructor(name?: string, style: Object, options: RuleOptions) {
+  constructor(name?: string, style: JssStyle, options: RuleOptions) {
     const {generateClassName, sheet, Renderer} = options
-    const styleStr = stringify(style)
-    this.style = parse(styleStr)
     this.name = name
-    this.options = options
-    this.originalStyle = style
     this.className = ''
+    this.options = options
+    this.style = style
     if (options.className) this.className = options.className
-    else if (generateClassName) this.className = generateClassName(styleStr, this, options.sheet)
+    else if (generateClassName) this.className = generateClassName(this, options.sheet)
     this.selectorText = options.selector || `.${this.className}`
     if (sheet) this.renderer = sheet.renderer
     else if (Renderer) this.renderer = new Renderer()
@@ -140,7 +134,8 @@ export default class RegularRule {
     const json = Object.create(null)
     for (const prop in this.style) {
       const value = this.style[prop]
-      if (typeof value !== 'object') json[prop] = value
+      const type = typeof value
+      if (type !== 'object' && type !== 'function') json[prop] = value
       else if (Array.isArray(value)) json[prop] = toCssValue(value)
     }
     return json
