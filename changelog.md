@@ -2,6 +2,10 @@
 
 - Perf improvement through removing of JSON.parse(JSON.strigify(style))
 
+### Bugfixes
+
+- Run plugins over property names with function values (#441)
+
 ### Breaking changes
 
 - New signature of `generateClassName(rule, sheet)` option.
