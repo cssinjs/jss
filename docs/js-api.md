@@ -289,7 +289,7 @@ console.log(sheet.toString())
 import {create} from 'jss'
 
 const jss = create({
-  generateClassName: (stylesStr, rule, sheet) => {
+  generateClassName: (rule, sheet) => {
     return 'my-fancy-id'
   }
 })
