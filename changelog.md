@@ -7,6 +7,7 @@
 ### Bugfixes
 
 - Run plugins over property names with function values (#441)
+- Function values inside of nested rules (#445)
 
 ### Breaking changes
 
