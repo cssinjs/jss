@@ -23,13 +23,14 @@ if (isProd) {
 }
 
 module.exports = {
+  entry: './src/index',
   output: {
     library: 'jss',
     libraryTarget: 'umd'
   },
   plugins,
   module: {
-    loaders: [
+    rules: [
       {
         loader: 'babel-loader',
         test: /\.js$/,
