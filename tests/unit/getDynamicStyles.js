@@ -28,6 +28,11 @@ describe('Unit: jss - getDynamicStyles', () => {
           width: 2,
           color
         }
+      },
+      nested: {
+        '& a': {
+          color: 'red'
+        }
       }
     }
     expect(getDynamicStyles(styles)).to.eql({
