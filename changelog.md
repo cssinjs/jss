@@ -1,3 +1,7 @@
+## 7.0.1 / 2017-04-14
+
+- Fix `getDynamicStyles` when nested object is in the same styles object (#467)
+
 ## 7.0.0 / 2017-04-10
 
 - Perf improvement through removing of JSON.parse(JSON.strigify(style))
