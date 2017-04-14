@@ -1,3 +1,7 @@
+## 7.0.3 / 2017-04-14
+
+- Fix a bug when dynamically inserted rules disapeared after reattaching the sheet (#438)
+
 ## 7.0.2 / 2017-04-14
 
 - Remove temporarily jss-isolate from the tests
