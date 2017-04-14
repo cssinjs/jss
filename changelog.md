@@ -1,3 +1,7 @@
+## 7.0.2 / 2017-04-14
+
+- Remove temporarily jss-isolate from the tests
+
 ## 7.0.1 / 2017-04-14
 
 - Fix `getDynamicStyles` when nested object is in the same styles object (#467)
