@@ -162,7 +162,7 @@ export default class StyleSheet {
    * Deploy pure CSS string to a renderable.
    */
   deploy(): this {
-    this.renderer.deploy(this)
+    this.renderer.deploy()
     this.deployed = true
     return this
   }

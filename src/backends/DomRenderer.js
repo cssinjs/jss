@@ -146,6 +146,8 @@ export default class DomRenderer {
 
   sheet: ?StyleSheet
 
+  hasInsertedRules: boolean = false
+
   constructor(sheet?: StyleSheet) {
     this.sheet = sheet
     // There is no sheet when the renderer is used from a standalone RegularRule.
@@ -170,6 +172,15 @@ export default class DomRenderer {
   attach(): void {
     // In the case the element node is external and it is already in the DOM.
     if (this.element.parentNode || !this.sheet) return
+
+    // When rules are inserted using `insertRule` API, after `sheet.detach().attach()`
+    // browsers remove those rules.
+    // TODO figure out if its a bug and if it is known.
+    // Workaround is to redeploy the sheet before attaching as a string.
+    if (this.hasInsertedRules) {
+      this.deploy()
+      this.hasInsertedRules = false
+    }
     const prevNode = findPrevNode(this.sheet.options)
     getHead().insertBefore(this.element, prevNode)
   }
@@ -184,8 +195,9 @@ export default class DomRenderer {
   /**
    * Inject CSS string into element.
    */
-  deploy(sheet: StyleSheet): void {
-    this.element.textContent = `\n${sheet.toString()}\n`
+  deploy(): void {
+    if (!this.sheet) return
+    this.element.textContent = `\n${this.sheet.toString()}\n`
   }
 
   /**
@@ -206,6 +218,8 @@ export default class DomRenderer {
       warning(false, '[JSS] Can not insert an unsupported rule \n\r%s', rule)
       return false
     }
+
+    this.hasInsertedRules = true
 
     return cssRules[index]
   }

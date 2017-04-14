@@ -324,7 +324,7 @@ describe('Functional: sheet', () => {
     })
   })
 
-  describe.only('.addRules() with an attached sheet', () => {
+  describe('.addRules() with an attached sheet', () => {
     let sheet
     beforeEach(() => {
       sheet = jss.createStyleSheet({
