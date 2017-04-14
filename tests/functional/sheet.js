@@ -324,6 +324,31 @@ describe('Functional: sheet', () => {
     })
   })
 
+  describe.only('.addRules() with an attached sheet', () => {
+    let sheet
+    beforeEach(() => {
+      sheet = jss.createStyleSheet({
+        a: {width: '1px'}
+      }).attach()
+      sheet.addRules({
+        b: {
+          width: '2px'
+        }
+      })
+    })
+
+    it('should add rules to an attached sheet', () => {
+      expect(computeStyle(sheet.classes.a).width).to.be('1px')
+      expect(computeStyle(sheet.classes.b).width).to.be('2px')
+    })
+
+    it('should keep the values after reattaching', () => {
+      sheet.detach().attach()
+      expect(computeStyle(sheet.classes.a).width).to.be('1px')
+      expect(computeStyle(sheet.classes.b).width).to.be('2px')
+    })
+  })
+
   describe('.deleteRule()', () => {
     it('should delete a rule from the sheet and DOM', () => {
       const sheet = jss.createStyleSheet(
