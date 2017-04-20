@@ -1,6 +1,5 @@
 /* @flow */
 import createRule from './utils/createRule'
-import createRuleUpdater from './utils/createRuleUpdater'
 import type {
   RulesContainerOptions,
   ToCssOptions,
@@ -28,13 +27,31 @@ export default class RulesContainer {
 
   classes: Object
 
-  RuleUpdater: Function
+  updateRule: Function
 
   constructor(options: RulesContainerOptions) {
     this.options = options
     this.classes = options.classes
 
-    this.RuleUpdater = createRuleUpdater(RulesContainer)
+    /**
+     * Update the function values with a new data for rule.
+     */
+    this.updateRule = (rule: Rule, data: Object): ?RulesContainer => {
+      if (rule.type === 'regular') {
+        for (const prop in rule.style) {
+          const value = rule.style[prop]
+          if (typeof value === 'function') {
+            const computedValue = value(data)
+            rule.prop(prop, computedValue)
+          }
+        }
+      }
+      else if (rule.rules instanceof RulesContainer) {
+        return rule.rules
+      }
+
+      return null
+    }
   }
 
   /**
@@ -121,27 +138,26 @@ export default class RulesContainer {
   }
 
   /**
-   * Update the function values with a new data for all rules.
+   * Update the function values with a new data for all rules or by name.
    */
-  update(data: Object): void {
-    this.index.forEach(this.RuleUpdater({
-      data,
-      processor: 'update',
-      args: data,
-    }))
-  }
+  update(...args: any): void {
+    if (args.length === 2) {
+      const [name, data]: [string, Object] = args
+      const rule = this.map[name]
 
-  /**
-   * Update the function values with a new data for rule by its name.
-   */
-  updateRuleByName(name: string, data: Object): void {
-    const rule = this.map[name]
+      const rules = this.updateRule(rule, data)
 
-    this.RuleUpdater({
-      data,
-      processor: 'updateRuleByName',
-      args: [name, data],
-    })(rule)
+      if (rules) rules.update(name, data)
+
+      return
+    }
+
+    this.index.forEach((rule) => {
+      const [data]: [Object] = args
+      const rules = this.updateRule(rule, data)
+
+      if (rules) rules.update(data)
+    })
   }
 
   /**

@@ -188,16 +188,8 @@ export default class StyleSheet {
   /**
    * Update the function values with a new data.
    */
-  update(data: Object): this {
-    this.rules.update(data)
-    return this
-  }
-
-  /**
-   * Update the function values with a new data by rule name.
-   */
-  updateRule(name: string, data: Object): this {
-    this.rules.updateRuleByName(name, data)
+  update(...args: any): this {
+    this.rules.update(...args)
     return this
   }
 
