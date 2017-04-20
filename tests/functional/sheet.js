@@ -482,8 +482,29 @@ describe('Functional: sheet', () => {
       `)
     })
 
-    it('should render updated props', () => {
+    it('should render sheet with updated props', () => {
       sheet.update({color: 'green'}).attach()
+      expect(getCss(getStyle())).to.be(removeWhitespace(sheet.toString()))
+    })
+
+    it('should update specific rule', () => {
+      sheet.update({color: 'yellow'})
+      sheet.update('a', {color: 'green'})
+
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: green;
+        }
+        @media all {
+          .b-id {
+            color: yellow;
+          }
+        }
+      `)
+    })
+
+    it('should render updated rule', () => {
+      sheet.update('a', {color: 'green'}).attach()
       expect(getCss(getStyle())).to.be(removeWhitespace(sheet.toString()))
     })
   })
