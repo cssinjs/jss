@@ -1,3 +1,7 @@
+## 7.1.0 / 2017-04-21
+
+- Support updating specific rule in `sheet.update(name, data)`
+
 ## 7.0.3 / 2017-04-14
 
 - Fix a bug when dynamically inserted rules disapeared after reattaching the sheet (#438)
