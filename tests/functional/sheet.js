@@ -487,4 +487,72 @@ describe('Functional: sheet', () => {
       expect(getCss(getStyle())).to.be(removeWhitespace(sheet.toString()))
     })
   })
+
+  describe('sheet.update() by name', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet({
+        a: {
+          color: theme => theme.color
+        },
+        c: {
+          color: theme => theme.secondColor
+        },
+        '@media all': {
+          b: {
+            color: theme => theme.color
+          }
+        }
+      }, {link: true})
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should return correct .toString()', () => {
+      expect(sheet.toString()).to.be('')
+
+      sheet.update({
+        color: 'green',
+        secondColor: 'red'
+      })
+
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: green;
+        }
+        .c-id {
+          color: red;
+        }
+        @media all {
+          .b-id {
+            color: green;
+          }
+        }
+      `)
+
+      sheet.update('a', {color: 'yellow'})
+
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: yellow;
+        }
+        .c-id {
+          color: red;
+        }
+        @media all {
+          .b-id {
+            color: green;
+          }
+        }
+      `)
+    })
+
+    it('should render updated props', () => {
+      sheet.update('a', {color: 'green'}).attach()
+      expect(getCss(getStyle())).to.be(removeWhitespace(sheet.toString()))
+    })
+  })
 })
