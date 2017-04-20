@@ -121,12 +121,12 @@ export default class RulesContainer {
    */
   update(name?: string, data?: Object): void {
     if (typeof name === 'string') {
-      updateRule(this.get(name), data)
+      updateRule(this.get(name), data, RulesContainer)
       return
     }
 
     this.index.forEach((rule) => {
-      updateRule(rule, name)
+      updateRule(rule, name, RulesContainer)
     })
   }
 
