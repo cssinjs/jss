@@ -194,6 +194,14 @@ export default class StyleSheet {
   }
 
   /**
+   * Update the function values with a new data by rule name.
+   */
+  updateRule(name: string, data: Object): this {
+    this.rules.updateRuleByName(name, data)
+    return this
+  }
+
+  /**
    * Convert rules to a CSS string.
    */
   toString(options?: ToCssOptions): string {

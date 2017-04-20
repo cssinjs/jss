@@ -1,5 +1,6 @@
 /* @flow */
 import createRule from './utils/createRule'
+import createRuleUpdater from './utils/createRuleUpdater'
 import type {
   RulesContainerOptions,
   ToCssOptions,
@@ -27,9 +28,13 @@ export default class RulesContainer {
 
   classes: Object
 
+  RuleUpdater: Function
+
   constructor(options: RulesContainerOptions) {
     this.options = options
     this.classes = options.classes
+
+    this.RuleUpdater = createRuleUpdater(RulesContainer)
   }
 
   /**
@@ -116,23 +121,27 @@ export default class RulesContainer {
   }
 
   /**
-   * Update the function values with a new data.
+   * Update the function values with a new data for all rules.
    */
   update(data: Object): void {
-    this.index.forEach((rule) => {
-      if (rule.type === 'regular') {
-        for (const prop in rule.style) {
-          const value = rule.style[prop]
-          if (typeof value === 'function') {
-            const computedValue = value(data)
-            rule.prop(prop, computedValue)
-          }
-        }
-      }
-      else if (rule.rules instanceof RulesContainer) {
-        rule.rules.update(data)
-      }
-    })
+    this.index.forEach(this.RuleUpdater({
+      data,
+      processor: 'update',
+      args: data,
+    }))
+  }
+
+  /**
+   * Update the function values with a new data for rule by its name.
+   */
+  updateRuleByName(name: string, data: Object): void {
+    const rule = this.map[name]
+
+    this.RuleUpdater({
+      data,
+      processor: 'updateRuleByName',
+      args: [name, data],
+    })(rule)
   }
 
   /**
