@@ -1,5 +1,6 @@
 /* @flow */
 import createRule from './utils/createRule'
+import updateRule from './utils/updateRule'
 import type {
   RulesContainerOptions,
   ToCssOptions,
@@ -118,20 +119,14 @@ export default class RulesContainer {
   /**
    * Update the function values with a new data.
    */
-  update(data: Object): void {
+  update(name?: string, data?: Object): void {
+    if (typeof name === 'string') {
+      updateRule(this.get(name), data)
+      return
+    }
+
     this.index.forEach((rule) => {
-      if (rule.type === 'regular') {
-        for (const prop in rule.style) {
-          const value = rule.style[prop]
-          if (typeof value === 'function') {
-            const computedValue = value(data)
-            rule.prop(prop, computedValue)
-          }
-        }
-      }
-      else if (rule.rules instanceof RulesContainer) {
-        rule.rules.update(data)
-      }
+      updateRule(rule, name)
     })
   }
 

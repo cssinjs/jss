@@ -482,78 +482,29 @@ describe('Functional: sheet', () => {
       `)
     })
 
-    it('should render updated props', () => {
+    it('should render sheet with updated props', () => {
       sheet.update({color: 'green'}).attach()
       expect(getCss(getStyle())).to.be(removeWhitespace(sheet.toString()))
     })
-  })
 
-  describe('sheet.updateRule()', () => {
-    let sheet
-
-    beforeEach(() => {
-      sheet = jss.createStyleSheet({
-        a: {
-          color: theme => theme.color
-        },
-        c: {
-          color: theme => theme.secondColor
-        },
-        '@media all': {
-          b: {
-            color: theme => theme.color
-          }
-        }
-      }, {link: true})
-    })
-
-    afterEach(() => {
-      sheet.detach()
-    })
-
-    it('should return correct .toString()', () => {
-      expect(sheet.toString()).to.be('')
-
-      sheet.update({
-        color: 'green',
-        secondColor: 'red'
-      })
+    it('should update specific rule', () => {
+      sheet.update({color: 'yellow'})
+      sheet.update('a', {color: 'green'})
 
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
           color: green;
         }
-        .c-id {
-          color: red;
-        }
         @media all {
           .b-id {
-            color: green;
-          }
-        }
-      `)
-
-      sheet.updateRule('a', {
-        color: 'yellow'
-      })
-
-      expect(sheet.toString()).to.be(stripIndent`
-        .a-id {
-          color: yellow;
-        }
-        .c-id {
-          color: red;
-        }
-        @media all {
-          .b-id {
-            color: green;
+            color: yellow;
           }
         }
       `)
     })
 
-    it('should render updated props', () => {
-      sheet.updateRule('a', {color: 'green'}).attach()
+    it('should render updated rule', () => {
+      sheet.update('a', {color: 'green'}).attach()
       expect(getCss(getStyle())).to.be(removeWhitespace(sheet.toString()))
     })
   })
