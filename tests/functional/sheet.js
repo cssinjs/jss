@@ -488,7 +488,7 @@ describe('Functional: sheet', () => {
     })
   })
 
-  describe('sheet.updateRule()', () => {
+  describe('sheet.update() by name', () => {
     let sheet
 
     beforeEach(() => {
@@ -533,9 +533,7 @@ describe('Functional: sheet', () => {
         }
       `)
 
-      sheet.updateRule('a', {
-        color: 'yellow'
-      })
+      sheet.update('a', {color: 'yellow'})
 
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
@@ -553,7 +551,7 @@ describe('Functional: sheet', () => {
     })
 
     it('should render updated props', () => {
-      sheet.updateRule('a', {color: 'green'}).attach()
+      sheet.update('a', {color: 'green'}).attach()
       expect(getCss(getStyle())).to.be(removeWhitespace(sheet.toString()))
     })
   })
