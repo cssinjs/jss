@@ -47,17 +47,20 @@ export default function toCss(selector: string, style: JssStyle, options: Option
     }
   }
 
+  let hasFunctionValue = false
+
   for (const prop in style) {
     let value = style[prop]
     if (typeof value === 'function') {
       value = style[`$${prop}`]
+      hasFunctionValue = true
     }
     if (value != null && prop !== 'fallbacks') {
       result += `\n${indentStr(`${prop}: ${toCssValue(value)};`, indent)}`
     }
   }
 
-  if (!result) return result
+  if (!result && !hasFunctionValue) return result
 
   indent--
   result = indentStr(`${selector} {${result}\n`, indent) + indentStr('}', indent)
