@@ -1,3 +1,7 @@
+## 7.1.1 / 2017-04-26
+
+- Fixes rendering rules with function values only (#475)
+
 ## 7.1.0 / 2017-04-21
 
 - Support updating specific rule in `sheet.update(name, data)`
