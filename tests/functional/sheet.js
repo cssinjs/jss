@@ -247,6 +247,34 @@ describe('Functional: sheet', () => {
     })
   })
 
+  describe('.addRule() with just function values and attached sheet', () => {
+    let style
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet().attach().link()
+      sheet.addRule('a', {color: ({color}) => color})
+      style = getStyle()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should render an empty rule', () => {
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+    })
+
+    it('should render rule with updated color', () => {
+      sheet.update({color: 'red'})
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+        }
+      `)
+    })
+  })
+
   describe('.addRule() with empty styles', () => {
     let sheet
     let style
@@ -449,7 +477,14 @@ describe('Functional: sheet', () => {
     })
 
     it('should return correct .toString()', () => {
-      expect(sheet.toString()).to.be('')
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+        }
+        @media all {
+          .b-id {
+          }
+        }
+      `)
 
       sheet.update({
         color: 'green'
