@@ -10,12 +10,18 @@
 
 [JSS is a better abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It uses JavaScript as a language to describe styles in a declarative and maintainable way. It is a [high performance](https://github.com/cssinjs/jss/blob/master/docs/performance.md) JS to CSS compiler which works at runtime and server-side. You can use it with [React](https://github.com/cssinjs/react-jss) or with any other library. It is about 5KB (minfied and gzipped) and is extensible via [plugins](./docs/plugins.md) API.
 
-## Libraries on top of JSS
+## Integrations
 
-- [React-JSS](https://github.com/cssinjs/react-jss) integration for React.
-- [Theme Reactor](https://github.com/nathanmarks/jss-theme-reactor) Experimental React integration with theming.
-- [Aphrodite-JSS](https://github.com/cssinjs/aphrodite-jss) provides Aphrodite like api on top of JSS.
-- [Aesthetic](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic) A React style abstraction layer with theme support.
+### Official
+
+- [React-JSS](https://github.com/cssinjs/react-jss) - HOC interface for React.
+- [Styled-JSS](https://github.com/cssinjs/styled-jss) - styled components interface for React.
+- [Aphrodite-JSS](https://github.com/cssinjs/aphrodite-jss) - aphrodite like API.
+
+### External
+
+- [Theme Reactor](https://github.com/nathanmarks/jss-theme-reactor) - experimental React integration with theming.
+- [Aesthetic](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic) - a React style abstraction layer with theme support.
 
 ## TOC
 
@@ -28,7 +34,7 @@
 1. [Performance](./docs/performance.md)
 1. [Plugins API](./docs/plugins.md)
 1. [Official plugins](https://github.com/cssinjs?q=plugin)
-1. [External projects](./docs/external-projects.md)
+1. [All related projects](./docs/projects.md)
 1. [CLI Converter](https://github.com/cssinjs/cli)
 1. [Contributing](./contributing.md)
 
