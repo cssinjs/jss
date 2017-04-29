@@ -1,16 +1,18 @@
-# Projects created by community based on JSS
+# All projects using JSS
 
-## Abstractions on top of JSS
+## Integrations
 
-[React-JSS](https://github.com/cssinjs/react-jss) integration for React.
+[React-JSS](https://github.com/cssinjs/react-jss) - HOC interface for React.
 
-[Theme Reactor](https://github.com/nathanmarks/jss-theme-reactor) Experimental react integration with theming capabilities.
+[Styled-JSS](https://github.com/cssinjs/styled-jss) - styled components interface for React.
 
-[Aphrodite-JSS](https://github.com/cssinjs/aphrodite-jss) provides Aphrodite like api on top of JSS.
+[Aphrodite-JSS](https://github.com/cssinjs/aphrodite-jss) - aphrodite like API.
+
+[Theme Reactor](https://github.com/nathanmarks/jss-theme-reactor) - experimental React integration with theming.
+
+[Aesthetic](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic) - a React style abstraction layer with theme support.
 
 [CSSX](https://github.com/krasimir/cssx) CSS syntax which can use JSS for rendering.
-
-[Aesthetic](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic) A React style abstraction layer with theme support.
 
 ## Examples
 
@@ -38,14 +40,14 @@
 
 [PreJSS](https://github.com/axept/prejss) Fast, scoped, component-friendly and fully customizable PostCSS-to-JSS adapter which allows to use plain CSS, PostCSS, SCSS, CSS Modules, Stylus and LESS styles as JSS objects "on-the-fly" through using Tagged Template Strings.
 
-## JSS Helpers
+## Style helpers
 
-[normalize-jss](https://github.com/typical000/normalize-jss]) JSS port of normalize.css
+[normalize-jss](https://github.com/cssinjs/normalize-jss]) JSS port of normalize.css
 
 [perdido](https://github.com/wldcordeiro/perdido) JSS fractional grid system built with calc(), based on Lost PostCSS grid. Supports masonry, vertical, and waffle grids.
 
 
-## Build tools integrations
+## Build tools
 
 [babel-plugin-jss-simple](https://github.com/ashaffer/babel-plugin-jss-simple) Add filename keys to your jss-simple declarations to help with hot reloading.
 
@@ -55,7 +57,7 @@
 
 [jss-loader](https://github.com/markdalgleish/jss-loader) Webpack loader - use JavaScript as your CSS preprocessor!
 
-[JSS-Sheet-Loader](https://github.com/wellguimaraes/jss-sheet-loader) Webpack loader for JSS to simplify styles creation and usage.
+[jss-sheet-Loader](https://github.com/wellguimaraes/jss-sheet-loader) Webpack loader for JSS to simplify styles creation and usage.
 
 [gulp-jss](https://github.com/gooy/gulp-jss) Gulp plugin
 
