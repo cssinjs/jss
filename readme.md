@@ -8,7 +8,7 @@
 [![OpenCollective](https://opencollective.com/jss/sponsors/badge.svg)](#sponsors)
 
 
-[JSS is a better abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It uses JavaScript as a language to describe styles in a declarative and maintainable way. It is a [high performance](https://github.com/cssinjs/jss/blob/master/docs/performance.md) JS to CSS compiler which works at runtime and server-side. You can use it with [React](https://github.com/cssinjs/react-jss) or with any other library. It is about 5KB (minfied and gzipped) and is extensible via [plugins](./docs/plugins.md) API.
+[JSS is a better abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It uses JavaScript as a language to describe styles in a declarative and maintainable way. It is a [high performance](https://github.com/cssinjs/jss/blob/master/docs/performance.md) JS to CSS compiler which works at runtime and server-side. You can use it with [React](https://github.com/cssinjs/react-jss) or with any other library. It is about 5KB (minified and gzipped) and is extensible via [plugins](./docs/plugins.md) API.
 
 ## Integrations
 
