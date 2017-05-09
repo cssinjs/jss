@@ -22,7 +22,7 @@ export type RuleOptions = {
   index?: number,
   virtual?: boolean,
   classes?: Object,
-  jss?: Jss,
+  jss?: Class<Jss>,
   sheet?: StyleSheet
 }
 
@@ -30,7 +30,7 @@ export type RulesContainerOptions = {
   classes: Object,
   generateClassName: generateClassName,
   Renderer: Function,
-  jss: Jss,
+  jss: Class<Jss>,
   sheet: StyleSheet,
   parent: ConditionalRule|StyleSheet
 }
@@ -85,7 +85,7 @@ export type StyleSheetOptions = {
   virtual?: boolean,
   Renderer?: Function,
   generateClassName?: generateClassName,
-  jss: Jss
+  jss?: Class<Jss>
 }
 
 export type InternalStyleSheetOptions = {
@@ -98,7 +98,7 @@ export type InternalStyleSheetOptions = {
   virtual?: boolean,
   Renderer: Function,
   generateClassName: generateClassName,
-  jss: Jss,
+  jss: Class<Jss>,
   sheet: StyleSheet,
   parent: ConditionalRule|StyleSheet,
   classes: Object
