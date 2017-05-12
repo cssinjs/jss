@@ -1,3 +1,7 @@
+## 7.1.2 / 2017-05-12
+
+- Fixes function values within keyframes (#471)
+
 ## 7.1.1 / 2017-04-26
 
 - Fixes rendering rules with function values only (#475)
