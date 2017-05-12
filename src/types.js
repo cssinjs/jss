@@ -2,6 +2,7 @@
 import Jss from './Jss'
 import StyleSheet from './StyleSheet'
 import ConditionalRule from './plugins/ConditionalRule'
+import KeyframeRule from './plugins/KeyframeRule'
 import RegularRule from './plugins/RegularRule'
 
 export type ToCssOptions = {
@@ -32,7 +33,7 @@ export type RulesContainerOptions = {
   Renderer: Function,
   jss: Jss,
   sheet: StyleSheet,
-  parent: ConditionalRule|StyleSheet
+  parent: ConditionalRule|KeyframeRule|StyleSheet
 }
 
 export interface Rule {
@@ -100,7 +101,7 @@ export type InternalStyleSheetOptions = {
   generateClassName: generateClassName,
   jss: Jss,
   sheet: StyleSheet,
-  parent: ConditionalRule|StyleSheet,
+  parent: ConditionalRule|KeyframeRule|StyleSheet,
   classes: Object
 }
 

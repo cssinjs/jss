@@ -1,54 +1,44 @@
 /* @flow */
-import createRule from '../utils/createRule'
+import RulesContainer from '../RulesContainer'
 import type {RuleOptions} from '../types'
 
-const toCssOptions = {indent: 1}
-
+/**
+ * Rule for @keyframes
+ */
 export default class KeyframeRule {
   type = 'keyframe'
 
   selector: string
 
-  frames: Object
+  rules: RulesContainer
 
-  options: RuleOptions
+  options: Object
 
   isProcessed: ?boolean
 
   constructor(selector: string, frames: Object, options: RuleOptions) {
     this.selector = selector
     this.options = options
-    this.frames = this.formatFrames(frames)
-  }
+    this.rules = new RulesContainer({...options, parent: this})
 
-  /**
-   * Creates formatted frames where every frame value is a rule instance.
-   */
-  formatFrames(frames: Object): Object {
-    const newFrames = Object.create(null)
     for (const name in frames) {
-      const options = {
+      this.rules.add(name, frames[name], {
         ...this.options,
         parent: this,
         className: name,
         selector: name
-      }
-      const rule = createRule(name, frames[name], options)
-      options.jss.plugins.onProcessRule(rule)
-      newFrames[name] = rule
+      })
     }
-    return newFrames
+
+    this.rules.process()
   }
 
   /**
    * Generates a CSS string.
    */
   toString(): string {
-    let str = `${this.selector} {\n`
-    for (const name in this.frames) {
-      str += `${this.frames[name].toString(toCssOptions)}\n`
-    }
-    str += '}'
-    return str
+    let inner = this.rules.toString({indent: 1})
+    if (inner) inner += '\n'
+    return `${this.selector} {\n${inner}}`
   }
 }

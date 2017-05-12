@@ -468,6 +468,11 @@ describe('Functional: sheet', () => {
           b: {
             color: theme => theme.color
           }
+        },
+        '@keyframes': {
+          '0%': {
+            color: theme => theme.color
+          }
         }
       }, {link: true})
     })
@@ -476,7 +481,7 @@ describe('Functional: sheet', () => {
       sheet.detach()
     })
 
-    it('should return correct .toString()', () => {
+    it('should return correct .toString() before .update()', () => {
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
         }
@@ -484,8 +489,14 @@ describe('Functional: sheet', () => {
           .b-id {
           }
         }
+        @keyframes {
+          0% {
+          }
+        }
       `)
+    })
 
+    it('should return correct .toString() after single .update()', () => {
       sheet.update({
         color: 'green'
       })
@@ -499,8 +510,18 @@ describe('Functional: sheet', () => {
             color: green;
           }
         }
+        @keyframes {
+          0% {
+            color: green;
+          }
+        }
       `)
+    })
 
+    it('should return correct .toString() after double .update()', () => {
+      sheet.update({
+        color: 'green'
+      })
       sheet.update({
         color: 'yellow'
       })
@@ -511,6 +532,11 @@ describe('Functional: sheet', () => {
         }
         @media all {
           .b-id {
+            color: yellow;
+          }
+        }
+        @keyframes {
+          0% {
             color: yellow;
           }
         }
@@ -532,6 +558,11 @@ describe('Functional: sheet', () => {
         }
         @media all {
           .b-id {
+            color: yellow;
+          }
+        }
+        @keyframes {
+          0% {
             color: yellow;
           }
         }
