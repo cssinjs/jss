@@ -125,9 +125,9 @@ export default class RulesContainer {
       return
     }
 
-    this.index.forEach((rule) => {
-      updateRule(rule, name, RulesContainer)
-    })
+    for (let index = 0; index < this.index.length; index++) {
+      updateRule(this.index[index], name, RulesContainer)
+    }
   }
 
   /**
