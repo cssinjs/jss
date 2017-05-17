@@ -89,6 +89,19 @@ export type StyleSheetOptions = {
   jss: Jss
 }
 
+export type StyleSheetFactoryOptions = {
+  media?: string,
+  meta?: string,
+  index?: number,
+  insertionPoint?: string,
+  link?: boolean,
+  element?: HTMLStyleElement,
+  virtual?: boolean,
+  Renderer?: Function,
+  generateClassName?: generateClassName,
+  jss?: Jss
+}
+
 export type InternalStyleSheetOptions = {
   media?: string,
   meta?: string,

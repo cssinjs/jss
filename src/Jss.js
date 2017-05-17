@@ -9,7 +9,7 @@ import findRenderer from './utils/findRenderer'
 import type {
   Rule,
   RuleOptions,
-  StyleSheetOptions,
+  StyleSheetFactoryOptions,
   Plugin,
   JssOptions,
   JssStyle
@@ -44,7 +44,7 @@ export default class Jss {
   /**
    * Create a Style Sheet.
    */
-  createStyleSheet(styles: Object, options: StyleSheetOptions): StyleSheet {
+  createStyleSheet(styles: Object, options: StyleSheetFactoryOptions = {}): StyleSheet {
     const sheet = new StyleSheet(styles, {
       jss: (this: Jss),
       generateClassName: this.options.generateClassName,
