@@ -1,5 +1,6 @@
 /* @flow */
-import type {ToCssOptions} from './types'
+import {createGenerateClassName} from './utils/generateClassName'
+import type {ToCssOptions, SheetsRegistryContext} from './types'
 import type StyleSheet from './StyleSheet'
 
 /**
@@ -7,6 +8,13 @@ import type StyleSheet from './StyleSheet'
  */
 export default class SheetsRegistry {
   registry: Array<StyleSheet> = []
+  context: SheetsRegistryContext
+
+  constructor() {
+    this.context = {
+      generateClassName: createGenerateClassName()
+    }
+  }
 
   /**
    * Register a Style Sheet.
@@ -52,5 +60,13 @@ export default class SheetsRegistry {
       .filter(sheet => sheet.attached)
       .map(sheet => sheet.toString(options))
       .join('\n')
+  }
+
+  /**
+   * Get the class name generator, if there
+   * is one.
+   */
+  getContext(): SheetsRegistryContext {
+    return this.context
   }
 }

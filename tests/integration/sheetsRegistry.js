@@ -109,4 +109,21 @@ describe('Integration: sheetsRegistry', () => {
       )
     })
   })
+
+  describe('.getClassNameGenerator', () => {
+    it('should return a generator', () => {
+      const registry = new SheetsRegistry()
+      expect(registry.getContext().generateClassName).to.not.be(undefined)
+    })
+
+    it('should return different generators from two instances', () => {
+      const registry1 = new SheetsRegistry()
+      const registry2 = new SheetsRegistry()
+      const generator1 = registry1.getContext().generateClassName
+      const generator2 = registry2.getContext().generateClassName
+      expect(typeof generator1).to.be('function')
+      expect(typeof generator2).to.be('function')
+      expect(generator1).to.not.be(generator2)
+    })
+  })
 })
