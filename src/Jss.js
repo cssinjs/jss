@@ -44,7 +44,7 @@ export default class Jss {
   /**
    * Create a Style Sheet.
    */
-  createStyleSheet(styles: Object, options: StyleSheetOptions): StyleSheet {
+  createStyleSheet(styles: Object, options?: StyleSheetOptions): StyleSheet {
     const sheet = new StyleSheet(styles, {
       jss: (this: Jss),
       generateClassName: this.options.generateClassName,
