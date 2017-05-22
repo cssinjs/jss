@@ -167,6 +167,38 @@ describe('Functional: dom priority', () => {
     })
   })
 
+  describe('custom insertion point in the body', () => {
+    let jss1
+    let jss2
+    let comment1
+    let comment2
+
+    beforeEach(() => {
+      jss1 = create()
+      jss2 = create({
+        insertionPoint: 'jss2'
+      })
+      comment1 = document.body.appendChild(document.createComment('jss'))
+      comment2 = document.body.appendChild(document.createComment('jss2'))
+    })
+
+    afterEach(() => {
+      document.body.removeChild(comment1)
+      document.body.removeChild(comment2)
+    })
+
+    it('should insert sheets in the correct order', () => {
+      jss2.createStyleSheet({}, {meta: 'sheet2'}).attach()
+      jss1.createStyleSheet({}, {meta: 'sheet1'}).attach()
+
+      const styleElements = document.body.getElementsByTagName('style')
+
+      expect(styleElements.length).to.be(2)
+      expect(styleElements[0].getAttribute('data-meta')).to.be('sheet1')
+      expect(styleElements[1].getAttribute('data-meta')).to.be('sheet2')
+    })
+  })
+
   describe('preserve attachment order with no index, but with registry', () => {
     let jss
 
