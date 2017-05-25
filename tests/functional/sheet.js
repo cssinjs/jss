@@ -352,6 +352,48 @@ describe('Functional: sheet', () => {
     })
   })
 
+  describe('.addRule() with function values for rules from plugins queue', () => {
+    let style
+    let sheet
+
+    beforeEach(() => {
+      jss.use({
+        onProcessRule(rule, ruleSheet) {
+          const ruleName = 'plugin-rule'
+
+          if (rule.name === ruleName) return
+
+          ruleSheet.addRule(ruleName, {
+            color: props => props.color
+          })
+        }
+      })
+      sheet = jss.createStyleSheet({}, {link: true}).attach()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should render color for rule by plugin', () => {
+      sheet.addRule('rule', {
+        color: props => props.color
+      })
+      sheet.update({color: 'red'})
+      style = getStyle()
+
+      expect(sheet.toString()).to.be(stripIndent`
+        .rule-id {
+          color: red;
+        }
+        .plugin-rule-id {
+          color: red;
+        }
+      `)
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+    })
+  })
+
   describe('.addRules() with an attached sheet', () => {
     let sheet
     beforeEach(() => {
