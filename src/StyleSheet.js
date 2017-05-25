@@ -97,10 +97,9 @@ export default class StyleSheet {
       // It will be inserted all together when .attach is called.
       if (queue) queue.push(rule)
       else {
-        const renderable = this.renderer.insertRule(rule)
-        if (renderable && this.options.link) rule.renderable = renderable
+        this.insertRule(rule)
         if (this.queue) {
-          this.queue.forEach(this.renderer.insertRule, this.renderer)
+          this.queue.forEach(this.insertRule, this)
           this.queue = undefined
         }
       }
@@ -112,6 +111,14 @@ export default class StyleSheet {
     this.deployed = false
 
     return rule
+  }
+
+  /**
+   * Insert rule into the StyleSheet
+   */
+  insertRule(rule: Rule) {
+    const renderable = this.renderer.insertRule(rule)
+    if (renderable && this.options.link) rule.renderable = renderable
   }
 
   /**
