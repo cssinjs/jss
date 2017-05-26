@@ -56,6 +56,10 @@ export type Plugin = {
   onChangeValue?: (value: string, prop: string, rule: Rule) => string
 }
 
+export type SheetsRegistryContext = {
+  generateClassName: generateClassName
+}
+
 export type JssOptions = {
   generateClassName?: generateClassName,
   plugins?: Array<Plugin>,
@@ -86,6 +90,7 @@ export type StyleSheetOptions = {
   virtual?: boolean,
   Renderer?: Function,
   generateClassName?: generateClassName,
+  sheetsRegistryContext?: SheetsRegistryContext,
   jss: Jss
 }
 

@@ -45,9 +45,19 @@ export default class Jss {
    * Create a Style Sheet.
    */
   createStyleSheet(styles: Object, options: StyleSheetOptions): StyleSheet {
+    let generateClassName
+    if (options
+      && options.sheetsRegistryContext
+      && this.options.generateClassName === generateClassNameDefault) {
+      generateClassName = options.sheetsRegistryContext.generateClassName
+    }
+    else {
+      generateClassName = this.options.generateClassName
+    }
+
     const sheet = new StyleSheet(styles, {
       jss: (this: Jss),
-      generateClassName: this.options.generateClassName,
+      generateClassName,
       insertionPoint: this.options.insertionPoint,
       ...options
     })
