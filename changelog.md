@@ -1,3 +1,9 @@
+## 7.1.3 / 2017-05-26
+
+- Fixes flow error when updating to the latest version (#507)
+- Fixes createStyleSheet type definitions error (#495)
+- Fixes function values for for nested rules (#500)
+
 ## 7.1.2 / 2017-05-12
 
 - Fixes function values within keyframes (#471)
