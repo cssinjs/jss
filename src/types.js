@@ -9,7 +9,7 @@ export type ToCssOptions = {
   indent?: number
 }
 
-export type generateClassName = (rule: Rule) => string
+export type generateClassName = (rule: Rule, sheet?: StyleSheet) => string
 
 // TODO
 // Find a way to declare all types: Object|string|Array<Object>
