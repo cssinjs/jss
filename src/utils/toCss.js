@@ -16,9 +16,12 @@ function indentStr(str: string, indent: number): string {
  * Converts a Rule to CSS string.
  */
 export default function toCss(selector: string, style: JssStyle, options: Options = {}): string {
+  let result = ''
+
+  if (!style) return result
+
   let {indent = 0} = options
   const {fallbacks} = style
-  let result = ''
 
   indent++
 

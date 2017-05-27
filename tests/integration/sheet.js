@@ -217,6 +217,11 @@ describe('Integration: sheet', () => {
       )
     })
 
+    it('should not throw when rule is undefined', () => {
+      const sheet = jss.createStyleSheet({a: undefined})
+      expect(sheet.toString()).to.be('')
+    })
+
     describe('class names of conditional rules', () => {
       let id
       const options = {
