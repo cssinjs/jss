@@ -1,3 +1,7 @@
+## 7.1.4 / 2017-05-27
+
+- Fixed undefined rule support (#489)
+
 ## 7.1.3 / 2017-05-26
 
 - Fixes flow error when updating to the latest version (#507)
