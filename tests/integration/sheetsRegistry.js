@@ -23,6 +23,13 @@ describe('Integration: sheetsRegistry', () => {
       expect(sheets.registry.length).to.be(2)
     })
 
+    it('should not add duplicates', () => {
+      const sheet = jss.createStyleSheet()
+      sheets.add(sheet)
+      sheets.add(sheet)
+      expect(sheets.registry.length).to.be(1)
+    })
+
     it('should add 2 sheets with specific index', () => {
       const sheet0 = jss.createStyleSheet(null, {index: 1})
       const sheet1 = jss.createStyleSheet(null, {index: 0})

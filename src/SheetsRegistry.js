@@ -22,6 +22,8 @@ export default class SheetsRegistry {
     const {registry} = this
     const {index} = sheet.options
 
+    if (registry.indexOf(sheet) !== -1) return
+
     if (registry.length === 0 || index >= this.index) {
       registry.push(sheet)
       return
