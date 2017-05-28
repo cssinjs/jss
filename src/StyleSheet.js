@@ -29,7 +29,6 @@ export default class StyleSheet {
 
   constructor(styles: Object, options: StyleSheetOptions) {
     const Renderer = findRenderer(options)
-    const index = typeof options.index === 'number' ? options.index : 0
 
     this.attached = false
     this.deployed = false
@@ -39,7 +38,6 @@ export default class StyleSheet {
       sheet: this,
       parent: this,
       classes: this.classes,
-      index,
       Renderer,
       ...options
     }

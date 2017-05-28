@@ -45,11 +45,16 @@ export default class Jss {
    * Create a Style Sheet.
    */
   createStyleSheet(styles: Object, options: StyleSheetFactoryOptions = {}): StyleSheet {
+    let index = options.index
+    if (typeof index !== 'number') {
+      index = sheets.index === 0 ? 0 : sheets.index + 1
+    }
     const sheet = new StyleSheet(styles, {
       jss: (this: Jss),
       generateClassName: this.options.generateClassName,
       insertionPoint: this.options.insertionPoint,
-      ...options
+      ...options,
+      index
     })
     this.plugins.onProcessSheet(sheet)
     return sheet

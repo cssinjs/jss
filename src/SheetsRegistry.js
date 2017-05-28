@@ -9,20 +9,27 @@ export default class SheetsRegistry {
   registry: Array<StyleSheet> = []
 
   /**
+   * Current highest index number.
+   */
+  get index(): number {
+    return this.registry.length === 0 ? 0 : this.registry[this.registry.length - 1].options.index
+  }
+
+  /**
    * Register a Style Sheet.
    */
   add(sheet: StyleSheet): void {
     const {registry} = this
     const {index} = sheet.options
 
-    if (!registry.length || index >= registry[registry.length - 1].options.index) {
+    if (registry.length === 0 || index >= this.index) {
       registry.push(sheet)
       return
     }
 
+    // Find a position.
     for (let i = 0; i < registry.length; i++) {
-      const {options} = registry[i]
-      if (options.index > index) {
+      if (registry[i].options.index > index) {
         registry.splice(i, 0, sheet)
         return
       }
