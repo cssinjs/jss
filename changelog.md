@@ -1,3 +1,8 @@
+## 7.1.5 / 2017-05-28
+
+- Prevent duplicates in the sheets registry (#504)
+- Optimize `sheets.add` for a big registry
+
 ## 7.1.4 / 2017-05-27
 
 - Fixed undefined rule support (#489)
