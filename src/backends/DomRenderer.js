@@ -67,6 +67,17 @@ const getHead = (() => {
 })()
 
 /**
+ * Gets the `body` element upon the first call and caches it.
+ */
+const getBody = (() => {
+  let body
+  return (): HTMLElement => {
+    if (!body) body = document.body || document.getElementsByTagName('body')[0]
+    return body
+  }
+})()
+
+/**
  * Find attached sheet with an index higher than the passed one.
  */
 function findHigherSheet(registry: Array<StyleSheet>, options: PriorityOptions): StyleSheet|null {
@@ -97,39 +108,58 @@ function findHighestSheet(registry: Array<StyleSheet>, options: PriorityOptions)
 }
 
 /**
- * Find a comment with "jss" inside.
+ * Look within the document head and body for a comment with "jss" inside.
  */
 function findCommentNode(text: string): Comment|null {
-  const head = getHead()
-  for (let i = 0; i < head.childNodes.length; i++) {
-    const node = head.childNodes[i]
-    if (node.nodeType === 8 && node.nodeValue.trim() === text) {
-      return node
+  let commentNode = null
+
+  const parentNodes: Array<HTMLElement> = [getHead(), getBody()]
+
+  parentNodes.forEach((parentNode: HTMLElement) => {
+    // Return early if the node is null or a non-object
+    if (typeof parentNode !== 'object' || parentNode === null) {
+      return undefined
     }
-  }
-  return null
+
+    for (let i = 0; i < parentNode.childNodes.length; i++) {
+      const node = parentNode.childNodes[i]
+      if (node.nodeType === 8 && node.nodeValue.trim() === text) {
+        commentNode = node
+        return undefined
+      }
+    }
+
+    return undefined
+  })
+
+  return commentNode
 }
 
 /**
  * Find a node before which we can insert the sheet.
  */
-function findPrevNode(options: PriorityOptions): ?Node|null {
+function findPrevNodeAndParent(options: PriorityOptions): [?Node|null, ?Node|null] {
   const {registry} = sheets
 
   if (registry.length > 0) {
     // Try to insert before the next higher sheet.
     let sheet = findHigherSheet(registry, options)
-    if (sheet) return sheet.renderer.element
+    if (sheet) return [sheet.renderer.element, sheet.renderer.element.parentNode]
 
     // Otherwise insert after the last attached.
     sheet = findHighestSheet(registry, options)
-    if (sheet) return sheet.renderer.element.nextElementSibling
+    if (sheet) {
+      return [
+        sheet.renderer.element.nextElementSibling,
+        sheet.renderer.element.parentNode
+      ]
+    }
   }
 
   // Try to find a comment placeholder if registry is empty.
   const comment = findCommentNode(options.insertionPoint)
-  if (comment) return comment.nextSibling
-  return null
+  if (comment) return [comment.nextSibling, comment.parentNode]
+  return [null, null]
 }
 
 export default class DomRenderer {
@@ -181,8 +211,13 @@ export default class DomRenderer {
       this.deploy()
       this.hasInsertedRules = false
     }
-    const prevNode = findPrevNode(this.sheet.options)
-    getHead().insertBefore(this.element, prevNode)
+    const [prevNode, parentNode] = findPrevNodeAndParent(this.sheet.options)
+    if (parentNode) {
+      parentNode.insertBefore(this.element, prevNode)
+    }
+    else {
+      getHead().insertBefore(this.element, prevNode)
+    }
   }
 
   /**
