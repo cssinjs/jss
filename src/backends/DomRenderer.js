@@ -209,17 +209,17 @@ export default class DomRenderer {
     const index = cssRules.length
     const str = rule.toString()
 
-    if (!str) return false
+    if (str) {
+      try {
+        sheet.insertRule(str, index)
+      }
+      catch (err) {
+        warning(false, '[JSS] Can not insert an unsupported rule \n\r%s', rule)
+        return false
+      }
 
-    try {
-      sheet.insertRule(str, index)
+      this.hasInsertedRules = true
     }
-    catch (err) {
-      warning(false, '[JSS] Can not insert an unsupported rule \n\r%s', rule)
-      return false
-    }
-
-    this.hasInsertedRules = true
 
     return cssRules[index]
   }
