@@ -126,7 +126,7 @@ export default class RulesContainer {
     }
 
     for (let index = 0; index < this.index.length; index++) {
-      updateRule(this.index[index], name, RulesContainer)
+      updateRule(this.index[index], data, RulesContainer)
     }
   }
 
