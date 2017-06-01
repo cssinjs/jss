@@ -1,5 +1,6 @@
 /* @flow */
 import findRenderer from './utils/findRenderer'
+import linkRule from './utils/linkRule'
 import RulesContainer from './RulesContainer'
 import type {
   InternalStyleSheetOptions,
@@ -116,7 +117,7 @@ export default class StyleSheet {
    */
   insertRule(rule: Rule) {
     const renderable = this.renderer.insertRule(rule)
-    if (renderable && this.options.link) rule.renderable = renderable
+    if (renderable && this.options.link) linkRule(rule, renderable)
   }
 
   /**
@@ -173,19 +174,13 @@ export default class StyleSheet {
   }
 
   /**
-   * Link renderable CSS rules with their corresponding models.
+   * Link renderable CSS rules from sheet with their corresponding models.
    */
   link(): this {
     const cssRules = this.renderer.getRules()
 
     // Is undefined when VirtualRenderer is used.
-    if (cssRules) {
-      for (let i = 0; i < cssRules.length; i++) {
-        const CSSStyleRule = cssRules[i]
-        const rule = this.rules.get(CSSStyleRule.selectorText)
-        if (rule) rule.renderable = CSSStyleRule
-      }
-    }
+    if (cssRules) this.rules.link(cssRules)
     this.linked = true
     return this
   }

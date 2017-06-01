@@ -1,6 +1,7 @@
 /* @flow */
 import createRule from './utils/createRule'
 import updateRule from './utils/updateRule'
+import linkRule from './utils/linkRule'
 import type {
   RulesContainerOptions,
   ToCssOptions,
@@ -127,6 +128,17 @@ export default class RulesContainer {
 
     for (let index = 0; index < this.index.length; index++) {
       updateRule(this.index[index], name, RulesContainer)
+    }
+  }
+
+  /**
+   * Link renderable rules with CSSRuleList.
+   */
+  link(cssRules: CSSRuleList): void {
+    for (let i = 0; i < cssRules.length; i++) {
+      const cssRule = cssRules[i]
+      const rule = this.get(this.options.sheet.renderer.getSelector(cssRule))
+      if (rule) linkRule(rule, cssRule)
     }
   }
 

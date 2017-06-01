@@ -21,6 +21,16 @@ export function getCss(style) {
       .join('')
 }
 
+export function getCssFromSheet(sheet) {
+  return [...sheet.renderer.getRules()]
+    .map(rule => removeWhitespace(rule.cssText))
+    .join('')
+}
+
+export function removeVendorPrefixes(str) {
+  return str.replace(/-webkit-|-moz-|-o-|-ms-/, '')
+}
+
 export function removeWhitespace(str) {
   return str.replace(/\s/g, '')
 }
@@ -53,4 +63,3 @@ afterEach(() => {
     document.head.removeChild(styles[i])
   }
 })
-

@@ -9,8 +9,10 @@ import {
   computeStyle,
   getStyle,
   getCss,
+  getCssFromSheet,
   getRules,
-  removeWhitespace
+  removeWhitespace,
+  removeVendorPrefixes
 } from '../utils'
 
 const settings = {generateClassName}
@@ -226,7 +228,7 @@ describe('Functional: sheet', () => {
     let sheet
 
     beforeEach(() => {
-      sheet = jss.createStyleSheet().attach()
+      sheet = jss.createStyleSheet({}, {link: true}).attach()
       sheet.addRule('a', {color: 'red'})
       // It is important to use exactly this query, because
       // IE will add "all" always when `cssRules.insertRule` is used,
@@ -243,6 +245,19 @@ describe('Functional: sheet', () => {
     })
 
     it('should render @media', () => {
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+    })
+
+    it('should render @media with function values', () => {
+      sheet.addRule('b', {
+        color: 'red'
+      })
+      sheet.addRule('@media screen', {
+        b: {
+          color: props => (props.primary ? 'black' : 'white')
+        }
+      })
+      sheet.update({primary: true})
       expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
     })
   })
@@ -511,7 +526,7 @@ describe('Functional: sheet', () => {
             color: theme => theme.color
           }
         },
-        '@keyframes': {
+        '@keyframes test': {
           '0%': {
             color: theme => theme.color
           }
@@ -531,7 +546,7 @@ describe('Functional: sheet', () => {
           .b-id {
           }
         }
-        @keyframes {
+        @keyframes test {
           0% {
           }
         }
@@ -552,7 +567,7 @@ describe('Functional: sheet', () => {
             color: green;
           }
         }
-        @keyframes {
+        @keyframes test {
           0% {
             color: green;
           }
@@ -577,7 +592,7 @@ describe('Functional: sheet', () => {
             color: yellow;
           }
         }
-        @keyframes {
+        @keyframes test {
           0% {
             color: yellow;
           }
@@ -588,6 +603,12 @@ describe('Functional: sheet', () => {
     it('should render sheet with updated props', () => {
       sheet.update({color: 'green'}).attach()
       expect(getCss(getStyle())).to.be(removeWhitespace(sheet.toString()))
+    })
+
+    it('should render sheet with updated props after attach', () => {
+      sheet.attach().update({color: 'green'})
+      const style = removeVendorPrefixes(getCssFromSheet(sheet))
+      expect(style).to.be(removeWhitespace(sheet.toString()))
     })
 
     it('should update specific rule', () => {
@@ -603,7 +624,7 @@ describe('Functional: sheet', () => {
             color: yellow;
           }
         }
-        @keyframes {
+        @keyframes test {
           0% {
             color: yellow;
           }
@@ -614,6 +635,12 @@ describe('Functional: sheet', () => {
     it('should render updated rule', () => {
       sheet.update('a', {color: 'green'}).attach()
       expect(getCss(getStyle())).to.be(removeWhitespace(sheet.toString()))
+    })
+
+    it('should render updated rule after attach', () => {
+      sheet.attach().update('a', {color: 'green'})
+      const style = removeVendorPrefixes(getCssFromSheet(sheet))
+      expect(style).to.be(removeWhitespace(sheet.toString()))
     })
   })
 })
