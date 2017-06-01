@@ -1,0 +1,10 @@
+{
+  "extends": "../.babelrc",
+  "env": {
+    "test": {
+      "plugins": [
+        "transform-runtime"
+      ]
+    }
+  }
+}
