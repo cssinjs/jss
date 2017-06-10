@@ -1,3 +1,7 @@
+## Next
+
+- Option `insertionPoint` can now accept a DOM node.
+
 ## 7.1.5 / 2017-05-28
 
 - Prevent duplicates in the sheets registry (#504)

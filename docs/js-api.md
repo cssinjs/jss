@@ -55,7 +55,7 @@ Options:
 - `element` style element, will create one by default
 - `index` 0 by default - determines DOM rendering order, higher number = higher specificity (inserted after)
 - `virtual` if true, use VirtualRenderer
-- `insertionPoint` the value of a DOM comment node which marks the start of sheets. Sheets rendered by this Jss instance are inserted after this point sequentially. Default is `jss`.
+- `insertionPoint` string value of a DOM comment node which marks the start of sheets or a rendered DOM node. Sheets rendered by this Jss instance are inserted after this point sequentially. Default is `jss`.
 
 
 ```javascript

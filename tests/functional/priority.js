@@ -135,7 +135,7 @@ describe('Functional: dom priority', () => {
     })
   })
 
-  describe('custom insertion point', () => {
+  describe('custom string insertion point', () => {
     let jss1
     let jss2
     let comment1
@@ -164,6 +164,26 @@ describe('Functional: dom priority', () => {
       expect(styleElements.length).to.be(2)
       expect(styleElements[0].getAttribute('data-meta')).to.be('sheet1')
       expect(styleElements[1].getAttribute('data-meta')).to.be('sheet2')
+    })
+  })
+
+  describe('custom element insertion point', () => {
+    let div
+    let jss
+
+    beforeEach(() => {
+      div = document.body.appendChild(document.createElement('div'))
+      jss = create({insertionPoint: div})
+    })
+
+    afterEach(() => {
+      document.body.removeChild(div)
+    })
+
+    it('should insert sheets in the correct order', () => {
+      jss.createStyleSheet().attach()
+      const styleElements = document.body.getElementsByTagName('style')
+      expect(styleElements.length).to.be(1)
     })
   })
 

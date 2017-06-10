@@ -132,6 +132,20 @@ function findPrevNode(options: PriorityOptions): ?Node|null {
   return null
 }
 
+/**
+ * Insert style element into the DOM.
+ */
+function insertStyle(style: HTMLElement, options: PriorityOptions) {
+  const {insertionPoint} = options
+
+  if (typeof insertionPoint === 'string') {
+    getHead().insertBefore(style, findPrevNode(options))
+    return
+  }
+
+  insertionPoint.parentNode.insertBefore(style, insertionPoint.nextSibling)
+}
+
 export default class DomRenderer {
   getStyle = getStyle
 
@@ -181,8 +195,8 @@ export default class DomRenderer {
       this.deploy()
       this.hasInsertedRules = false
     }
-    const prevNode = findPrevNode(this.sheet.options)
-    getHead().insertBefore(this.element, prevNode)
+
+    insertStyle(this.element, this.sheet.options)
   }
 
   /**
