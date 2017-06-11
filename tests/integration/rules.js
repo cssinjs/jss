@@ -17,8 +17,7 @@ describe('Integration: rules', () => {
     it('should create a rule without args', () => {
       const rule = jss.createRule()
       expect(rule.type).to.be('regular')
-      expect(rule.className).to.be('id')
-      expect(rule.selector).to.be('.id')
+      expect(rule.selector).to.be('.unnamed-id')
     })
 
     it('should accept styles only', () => {
@@ -26,8 +25,7 @@ describe('Integration: rules', () => {
       const rule = jss.createRule(style)
       expect(rule.style).to.eql(style)
       expect(rule.type).to.be('regular')
-      expect(rule.className).to.be('id')
-      expect(rule.selector).to.be('.id')
+      expect(rule.selector).to.be('.unnamed-id')
     })
 
     it('should accept styles and options', () => {
@@ -36,8 +34,7 @@ describe('Integration: rules', () => {
       const rule = jss.createRule(style, options)
       expect(rule.style).to.eql(style)
       expect(rule.type).to.be('regular')
-      expect(rule.className).to.be('id')
-      expect(rule.selector).to.be('.id')
+      expect(rule.selector).to.be('.unnamed-id')
       expect(rule.options.jss).to.be(jss)
       expect(rule.options.something).to.be(true)
     })
@@ -48,7 +45,6 @@ describe('Integration: rules', () => {
       const rule = jss.createRule('a', style, options)
       expect(rule.style).to.eql(style)
       expect(rule.type).to.be('regular')
-      expect(rule.className).to.be('a-id')
       expect(rule.selector).to.be('.a-id')
       expect(rule.options.someOption).to.be(true)
       expect(rule.options.jss).to.be(jss)
@@ -110,7 +106,7 @@ describe('Integration: rules', () => {
     it('should return CSS from @charset rule', () => {
       const rule = jss.createRule('@charset', '"utf-8"')
       expect(rule.type).to.be('simple')
-      expect(rule.name).to.be('@charset')
+      expect(rule.key).to.be('@charset')
       expect(rule.value).to.be('"utf-8"')
       expect(rule.toString()).to.be('@charset "utf-8";')
     })
@@ -119,7 +115,7 @@ describe('Integration: rules', () => {
       it('should return CSS from @import with single value', () => {
         let rule = jss.createRule('@import', '"something"')
         expect(rule.type).to.be('simple')
-        expect(rule.name).to.be('@import')
+        expect(rule.key).to.be('@import')
         expect(rule.value).to.be('"something"')
         expect(rule.toString()).to.be('@import "something";')
         rule = jss.createRule('@import', 'url("something") print')
@@ -133,7 +129,7 @@ describe('Integration: rules', () => {
         ]
         const rule = jss.createRule('@import', value)
         expect(rule.type).to.be('simple')
-        expect(rule.name).to.be('@import')
+        expect(rule.key).to.be('@import')
         expect(rule.value).to.eql(value)
         expect(rule.toString()).to.be(
           '@import url("something") print;\n' +
@@ -145,7 +141,7 @@ describe('Integration: rules', () => {
     it('should return CSS from @namespace rule', () => {
       const rule = jss.createRule('@namespace', 'svg url(http://www.w3.org/2000/svg)')
       expect(rule.type).to.be('simple')
-      expect(rule.name).to.be('@namespace')
+      expect(rule.key).to.be('@namespace')
       expect(rule.value).to.be('svg url(http://www.w3.org/2000/svg)')
       expect(rule.toString()).to.be('@namespace svg url(http://www.w3.org/2000/svg);')
     })
@@ -157,7 +153,7 @@ describe('Integration: rules', () => {
         '60%, 70%': {top: 80}
       })
       expect(rule.type).to.be('keyframe')
-      expect(rule.selector).to.be('@keyframes id')
+      expect(rule.key).to.be('@keyframes id')
       expect(rule.toString()).to.be(
         '@keyframes id {\n' +
         '  from {\n' +
@@ -180,7 +176,7 @@ describe('Integration: rules', () => {
           {a: {display: 'none'}}
         )
         expect(rule.type).to.be('conditional')
-        expect(rule.selector).to.be('@media print')
+        expect(rule.key).to.be('@media print')
         expect(rule.toString()).to.be(
           '@media print {\n' +
           '  .a-id {\n' +
@@ -196,7 +192,7 @@ describe('Integration: rules', () => {
           {button: {display: 'none'}}
         )
         expect(rule.type).to.be('conditional')
-        expect(rule.selector).to.be('@media print')
+        expect(rule.key).to.be('@media print')
         expect(rule.toString()).to.be(
           '@media print {\n' +
           '  .button-id {\n' +
@@ -212,7 +208,7 @@ describe('Integration: rules', () => {
           {a: {color: 'red'}}
         )
         expect(rule.type).to.be('conditional')
-        expect(rule.selector).to.be('@media(max-width: 715px)')
+        expect(rule.key).to.be('@media(max-width: 715px)')
         expect(rule.toString()).to.be(
           '@media(max-width: 715px) {\n' +
           '  .a-id {\n' +
@@ -228,7 +224,7 @@ describe('Integration: rules', () => {
           {button: {}}
         )
         expect(rule.type).to.be('conditional')
-        expect(rule.selector).to.be('@media print')
+        expect(rule.key).to.be('@media print')
         expect(rule.toString()).to.be('')
       })
     })
@@ -240,7 +236,7 @@ describe('Integration: rules', () => {
           src: 'local("Helvetica")'
         }, options)
         expect(rule.type).to.be('font-face')
-        expect(rule.selector).to.be('@font-face')
+        expect(rule.key).to.be('@font-face')
         expect(rule.toString()).to.be(
           '@font-face {\n' +
           '  font-family: MyHelvetica;\n' +
@@ -261,7 +257,7 @@ describe('Integration: rules', () => {
           },
         ], options)
         expect(rule.type).to.be('font-face')
-        expect(rule.selector).to.be('@font-face')
+        expect(rule.key).to.be('@font-face')
         expect(rule.toString()).to.be(
           '@font-face {\n' +
           '  font-family: MyHelvetica;\n' +
@@ -324,7 +320,7 @@ describe('Integration: rules', () => {
         }
       })
       expect(rule.type).to.be('conditional')
-      expect(rule.selector).to.be('@supports ( display: flexbox )')
+      expect(rule.key).to.be('@supports ( display: flexbox )')
       const css =
         '@supports ( display: flexbox ) {\n' +
         '  .button-id {\n' +
@@ -340,7 +336,7 @@ describe('Integration: rules', () => {
           zoom: 1
         })
         expect(rule.type).to.be('viewport')
-        expect(rule.name).to.be('@viewport')
+        expect(rule.key).to.be('@viewport')
         expect(rule.toString()).to.be(
           '@viewport {\n' +
           '  zoom: 1;\n' +
@@ -353,7 +349,7 @@ describe('Integration: rules', () => {
           zoom: 1
         })
         expect(rule.type).to.be('viewport')
-        expect(rule.name).to.be('@-ms-viewport')
+        expect(rule.key).to.be('@-ms-viewport')
         expect(rule.toString()).to.be(
           '@-ms-viewport {\n' +
           '  zoom: 1;\n' +

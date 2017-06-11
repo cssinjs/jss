@@ -1,23 +1,25 @@
 /* @flow */
 import RulesContainer from '../RulesContainer'
-import type {Rule, RuleOptions, JssStyle} from '../types'
+import type {Rule, RuleOptions, ToCssOptions, JssStyle, BaseRule} from '../types'
 
 /**
  * Conditional rule for @media, @supports
  */
-export default class ConditionalRule {
+export default class ConditionalRule implements BaseRule {
   type = 'conditional'
 
-  selector: string
+  key: string
 
   rules: RulesContainer
 
-  options: Object
+  options: RuleOptions
 
-  isProcessed: ?boolean
+  isProcessed: boolean = false
 
-  constructor(selector: string, styles: Object, options: RuleOptions) {
-    this.selector = selector
+  renderable: ?CSSStyleRule
+
+  constructor(key: string, styles: Object, options: RuleOptions) {
+    this.key = key
     this.options = options
     this.rules = new RulesContainer({...options, parent: this})
 
@@ -54,8 +56,8 @@ export default class ConditionalRule {
   /**
    * Generates a CSS string.
    */
-  toString(): string {
-    const inner = this.rules.toString({indent: 1})
-    return inner ? `${this.selector} {\n${inner}\n}` : ''
+  toString(options?: ToCssOptions = {indent: 1}): string {
+    const inner = this.rules.toString(options)
+    return inner ? `${this.key} {\n${inner}\n}` : ''
   }
 }

@@ -29,7 +29,6 @@ describe('Integration: sheet', () => {
       const rule = sheet.getRule('a')
       expect(rule).to.be.a(RegularRule)
       expect(sheet.classes.a).to.be('a-id')
-      expect(rule.className).to.be('a-id')
       expect(rule.selector).to.be('.a-id')
     })
 
@@ -81,10 +80,9 @@ describe('Integration: sheet', () => {
   })
 
   describe('sheet.addRule()', () => {
-    it('should add a rule with "className" in options', () => {
+    it('should add a rule with "selector" option', () => {
       const sheet = jss.createStyleSheet()
-      const rule = sheet.addRule('a', {color: 'red'}, {className: 'test'})
-      expect(rule.className).to.be('test')
+      const rule = sheet.addRule('a', {color: 'red'}, {selector: '.test'})
       expect(rule.selector).to.be('.test')
       expect(sheet.getRule('a')).to.be(rule)
     })
@@ -226,7 +224,7 @@ describe('Integration: sheet', () => {
       let id
       const options = {
         generateClassName: () => {
-          id = Math.random()
+          id = Math.random().toString()
           return id
         }
       }

@@ -203,7 +203,7 @@ describe('Functional: sheet', () => {
 
     beforeEach(() => {
       function addRule(rule) {
-        if (rule.name === 'a') {
+        if (rule.key === 'a') {
           rule.options.sheet.addRule('b', {color: 'red'})
         }
       }
@@ -362,7 +362,7 @@ describe('Functional: sheet', () => {
         onProcessRule(rule, ruleSheet) {
           const ruleName = 'plugin-rule'
 
-          if (rule.name === ruleName) return
+          if (rule.key === ruleName) return
 
           ruleSheet.addRule(ruleName, {
             color: props => props.color

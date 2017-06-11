@@ -4,10 +4,15 @@ import StyleSheet from './StyleSheet'
 import ConditionalRule from './plugins/ConditionalRule'
 import KeyframeRule from './plugins/KeyframeRule'
 import RegularRule from './plugins/RegularRule'
+import ViewportRule from './plugins/ViewportRule'
+import SimpleRule from './plugins/SimpleRule'
+import FontFaceRule from './plugins/FontFaceRule'
 
 export type ToCssOptions = {
   indent?: number
 }
+
+export type Rule = RegularRule|ConditionalRule|FontFaceRule|KeyframeRule|SimpleRule|ViewportRule
 
 export type generateClassName = (rule: Rule, sheet?: StyleSheet) => string
 
@@ -15,35 +20,40 @@ export type generateClassName = (rule: Rule, sheet?: StyleSheet) => string
 // Find a way to declare all types: Object|string|Array<Object>
 export type JssStyle = Object
 
-export type RuleOptions = {
-  className?: string,
+export type RuleFactoryOptions = {
   selector?: string,
-  generateClassName?: generateClassName,
-  Renderer?: Function,
-  index?: number,
   classes?: Object,
+  sheet?: StyleSheet,
+  index?: number,
   jss?: Jss,
-  sheet?: StyleSheet
+  generateClassName?: generateClassName,
+  Renderer?: Class<Renderer>
+}
+
+export type RuleOptions = {
+  selector?: string,
+  sheet?: StyleSheet,
+  index?: number,
+  classes: Object,
+  jss: Jss,
+  generateClassName: generateClassName,
+  Renderer: Class<Renderer>
 }
 
 export type RulesContainerOptions = {
   classes: Object,
   generateClassName: generateClassName,
-  Renderer: Function,
+  Renderer: Class<Renderer>,
   jss: Jss,
   sheet: StyleSheet,
   parent: ConditionalRule|KeyframeRule|StyleSheet
 }
 
-export interface Rule {
+export interface BaseRule {
   type: string;
-  name: ?string;
-  selector: string;
-  style: JssStyle;
-  renderable: ?CSSStyleRule;
+  key: string;
+  isProcessed: boolean;
   options: RuleOptions;
-  isProcessed: ?boolean;
-  prop(name: string, value?: string): RegularRule|string;
   toString(options?: ToCssOptions): string;
 }
 
@@ -108,7 +118,7 @@ export type InternalStyleSheetOptions = {
 }
 
 export interface Renderer {
-  constructor(sheet: StyleSheet): Renderer;
+  constructor(sheet?: StyleSheet): Renderer;
   setStyle(rule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean;
   getStyle(rule: HTMLElement|CSSStyleRule, prop: string): string;
   setSelector(rule: CSSStyleRule, selectorText: string): boolean;

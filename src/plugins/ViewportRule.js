@@ -1,20 +1,22 @@
 /* @flow */
 import toCss from '../utils/toCss'
-import type {RuleOptions, JssStyle} from '../types'
+import type {RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
 
-export default class ViewportRule {
+export default class ViewportRule implements BaseRule {
   type = 'viewport'
 
-  name: string
+  key: string
 
   style: JssStyle
 
   options: RuleOptions
 
-  isProcessed: ?boolean
+  isProcessed: boolean = false
 
-  constructor(name: string, style: JssStyle, options: RuleOptions) {
-    this.name = name
+  renderable: ?CSSStyleRule
+
+  constructor(key: string, style: JssStyle, options: RuleOptions) {
+    this.key = key
     this.style = style
     this.options = options
   }
@@ -22,7 +24,7 @@ export default class ViewportRule {
   /**
    * Generates a CSS string.
    */
-  toString(): string {
-    return toCss(this.name, this.style)
+  toString(options?: ToCssOptions): string {
+    return toCss(this.key, this.style, options)
   }
 }

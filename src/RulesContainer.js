@@ -1,6 +1,7 @@
 /* @flow */
 import createRule from './utils/createRule'
 import updateRule from './utils/updateRule'
+import RegularRule from './plugins/RegularRule'
 import type {
   RulesContainerOptions,
   ToCssOptions,
@@ -51,7 +52,7 @@ export default class RulesContainer {
       ...options
     }
 
-    if (!options.className) options.className = this.classes[name]
+    if (!options.selector && this.classes[name]) options.selector = `.${this.classes[name]}`
 
     this.raw[name] = decl
 
@@ -100,20 +101,20 @@ export default class RulesContainer {
    * Register a rule in `.map` and `.classes` maps.
    */
   register(rule: Rule): void {
-    if (rule.name) this.map[rule.name] = rule
-    if (rule.className && rule.name) this.classes[rule.name] = rule.className
-    if (rule.selector) this.map[rule.selector] = rule
+    this.map[rule.key] = rule
+    if (rule instanceof RegularRule) {
+      this.map[rule.selector] = rule
+      this.classes[rule.key] = rule.selector.substr(1)
+    }
   }
 
   /**
    * Unregister a rule.
    */
   unregister(rule: Rule): void {
-    if (rule.name) {
-      delete this.map[rule.name]
-      delete this.classes[rule.name]
-    }
-    delete this.map[rule.selector]
+    delete this.map[rule.key]
+    delete this.classes[rule.key]
+    if (rule instanceof RegularRule) delete this.map[rule.selector]
   }
 
   /**

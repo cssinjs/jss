@@ -33,16 +33,16 @@ describe('Integration: hooks', () => {
     it('should call hooks in the correct order', () => {
       jss.use({
         onProcessRule: (rule) => {
-          if (rule.name === 'a') {
+          if (rule.key === 'a') {
             rule.options.sheet.addRule('b', {color: 'green'}, {index: 1})
           }
         }
       })
 
-      const classNames = []
+      const selectors = []
       jss.use({
         onProcessRule: (rule) => {
-          classNames.push(rule.className)
+          selectors.push(rule.selector)
         }
       })
 
@@ -65,7 +65,7 @@ describe('Integration: hooks', () => {
         '  color: blue;\n' +
         '}'
       )
-      expect(classNames).to.eql(['b-id', 'a-id', 'c-id'])
+      expect(selectors).to.eql(['.b-id', '.a-id', '.c-id'])
     })
 
     it('should warn when unknown hook name is used', () => {

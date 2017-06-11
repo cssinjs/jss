@@ -1,23 +1,25 @@
 /* @flow */
 import RulesContainer from '../RulesContainer'
-import type {RuleOptions} from '../types'
+import type {RuleOptions, ToCssOptions, BaseRule} from '../types'
 
 /**
  * Rule for @keyframes
  */
-export default class KeyframeRule {
+export default class KeyframeRule implements BaseRule {
   type = 'keyframe'
 
-  selector: string
+  key: string
 
   rules: RulesContainer
 
-  options: Object
+  options: RuleOptions
 
-  isProcessed: ?boolean
+  isProcessed: boolean = false
 
-  constructor(selector: string, frames: Object, options: RuleOptions) {
-    this.selector = selector
+  renderable: ?CSSStyleRule
+
+  constructor(key: string, frames: Object, options: RuleOptions) {
+    this.key = key
     this.options = options
     this.rules = new RulesContainer({...options, parent: this})
 
@@ -25,7 +27,6 @@ export default class KeyframeRule {
       this.rules.add(name, frames[name], {
         ...this.options,
         parent: this,
-        className: name,
         selector: name
       })
     }
@@ -36,9 +37,9 @@ export default class KeyframeRule {
   /**
    * Generates a CSS string.
    */
-  toString(): string {
-    let inner = this.rules.toString({indent: 1})
+  toString(options?: ToCssOptions = {indent: 1}): string {
+    let inner = this.rules.toString(options)
     if (inner) inner += '\n'
-    return `${this.selector} {\n${inner}}`
+    return `${this.key} {\n${inner}}`
   }
 }

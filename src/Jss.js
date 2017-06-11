@@ -8,6 +8,7 @@ import createRule from './utils/createRule'
 import findRenderer from './utils/findRenderer'
 import type {
   Rule,
+  RuleFactoryOptions,
   RuleOptions,
   StyleSheetFactoryOptions,
   Plugin,
@@ -75,7 +76,7 @@ export default class Jss {
   /**
    * Create a rule without a Style Sheet.
    */
-  createRule(name?: string, style?: JssStyle = {}, options?: RuleOptions = {}): Rule {
+  createRule(name?: string, style?: JssStyle = {}, options?: RuleFactoryOptions = {}): Rule {
     // Enable rule without name for inline styles.
     if (typeof name === 'object') {
       options = style
@@ -83,14 +84,16 @@ export default class Jss {
       name = undefined
     }
 
-    if (!options.classes) options.classes = {}
-    if (!options.jss) options.jss = this
-    if (!options.Renderer) options.Renderer = this.options.Renderer
-    if (!options.generateClassName) {
-      options.generateClassName = this.options.generateClassName || generateClassNameDefault
-    }
+    // Cast from RuleFactoryOptions to RuleOptions
+    // https://stackoverflow.com/questions/41328728/force-casting-in-flow
+    const ruleOptions: RuleOptions = (options: any)
 
-    const rule = createRule(name, style, options)
+    ruleOptions.jss = this
+    ruleOptions.Renderer = this.options.Renderer
+    ruleOptions.generateClassName = this.options.generateClassName || generateClassNameDefault
+    if (!ruleOptions.classes) ruleOptions.classes = {}
+
+    const rule = createRule(name || 'unnamed', style, ruleOptions)
     this.plugins.onProcessRule(rule)
 
     return rule

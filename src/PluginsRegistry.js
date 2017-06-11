@@ -2,6 +2,7 @@
 import warning from 'warning'
 import type StyleSheet from './StyleSheet'
 import type {Plugin, Rule, RuleOptions, JssStyle} from './types'
+import RegularRule from './plugins/RegularRule'
 
 export default class PluginsRegistry {
   hooks: {[key: string]: Array<Function>} = {
@@ -32,7 +33,10 @@ export default class PluginsRegistry {
     for (let i = 0; i < this.hooks.onProcessRule.length; i++) {
       this.hooks.onProcessRule[i](rule, sheet)
     }
-    if (rule.style) this.onProcessStyle(rule.style, rule, sheet)
+
+    // TODO
+    // Find a way to use rule.type with flow
+    if (rule instanceof RegularRule) this.onProcessStyle(rule.style, rule, sheet)
     rule.isProcessed = true
   }
 
@@ -40,6 +44,9 @@ export default class PluginsRegistry {
    * Call `onProcessStyle` hooks.
    */
   onProcessStyle(style: JssStyle, rule: Rule, sheet?: StyleSheet): void {
+    // TODO
+    // Only added because of flow.
+    if (!(rule instanceof RegularRule)) return
     for (let i = 0; i < this.hooks.onProcessStyle.length; i++) {
       rule.style = style = this.hooks.onProcessStyle[i](style, rule, sheet)
     }

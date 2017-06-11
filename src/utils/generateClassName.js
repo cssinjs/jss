@@ -11,7 +11,4 @@ let ruleCounter = 0
 /**
  * Generates unique class names.
  */
-export default (rule: Rule): string => (
-  // There is no rule name if `jss.createRule(style)` was used.
-  `${rule.name || 'jss'}-${jssCounter}-${ruleCounter++}`
-)
+export default (rule: Rule): string => `${rule.key}-${jssCounter}-${ruleCounter++}`

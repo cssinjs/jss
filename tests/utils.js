@@ -42,7 +42,7 @@ export function computeStyle(className) {
   return styleCopy
 }
 
-export const generateClassName = rule => (rule.name ? `${rule.name}-id` : 'id')
+export const generateClassName = rule => `${rule.key}-id`
 
 // Make sure tests are isolated.
 afterEach(() => {
@@ -53,4 +53,3 @@ afterEach(() => {
     document.head.removeChild(styles[i])
   }
 })
-
