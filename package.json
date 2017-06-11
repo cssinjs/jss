@@ -94,7 +94,7 @@
     "flow:copy-src": "flow-copy-source -i './src/**' src lib",
     "lint": "eslint ./src ./tests ./benchmark ./*.js && npm run flow",
     "lint:staged": "lint-staged && npm run flow",
-    "prepublish": "npm run all",
+    "prepublishOnly": "npm run all",
     "test": "cross-env NODE_ENV=test karma start --single-run",
     "test:watch": "cross-env NODE_ENV=test karma start",
     "posttest": "[ -z \"$TRAVIS\" ] || codecov",
