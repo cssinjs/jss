@@ -16,10 +16,10 @@ import type {
 export default class RulesContainer {
   // Rules registry for access by .get() method.
   // It contains the same rule registered by name and by selector.
-  map: {[key: string]: Rule} = Object.create(null)
+  map: {[key: string]: Rule} = {}
 
   // Original styles object.
-  raw: {[key: string]: JssStyle} = Object.create(null)
+  raw: {[key: string]: JssStyle} = {}
 
   // Used to ensure correct rules order.
   index: Array<Rule> = []

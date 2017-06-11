@@ -140,7 +140,7 @@ export default class RegularRule {
    * Useful for inline styles.
    */
   toJSON(): Object {
-    const json = Object.create(null)
+    const json = {}
     for (const prop in this.style) {
       const value = this.style[prop]
       const type = typeof value
