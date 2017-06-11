@@ -30,7 +30,10 @@ Options:
 
   - `generateClassName` function you can pass to generate your custom class name.
   - `plugins` an array of functions, will be passed to `jss.use`.
-  - `insertionPoint` the value of a DOM comment node which marks the start of sheets. Sheets rendered by this Jss instance are inserted after this point sequentially. Default is `jss`.
+  - `virtual` if true, JSS will use VirtualRenderer
+  - `insertionPoint` string value of a DOM comment node which marks the start of sheets or a rendered DOM node. Sheets rendered by this Jss instance are inserted after this point sequentially. Default is `jss`.
+
+See [setup examples](./setup#specify-dom-insertion-point).
 
 ## Quick setup with preset
 
@@ -54,9 +57,6 @@ Options:
 - `link` link jss `Rule` instances with DOM `CSSRule` instances so that styles, can be modified dynamically, false by default because it has some performance cost.
 - `element` style element, will create one by default
 - `index` 0 by default - determines DOM rendering order, higher number = higher specificity (inserted after)
-- `virtual` if true, use VirtualRenderer
-- `insertionPoint` string value of a DOM comment node which marks the start of sheets or a rendered DOM node. Sheets rendered by this Jss instance are inserted after this point sequentially. Default is `jss`.
-
 
 ```javascript
 const sheet = jss.createStyleSheet({

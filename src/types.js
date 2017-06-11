@@ -21,7 +21,6 @@ export type RuleOptions = {
   generateClassName?: generateClassName,
   Renderer?: Function,
   index?: number,
-  virtual?: boolean,
   classes?: Object,
   jss?: Jss,
   sheet?: StyleSheet
@@ -62,7 +61,8 @@ export type JssOptions = {
   generateClassName?: generateClassName,
   plugins?: Array<Plugin>,
   insertionPoint?: InsertionPoint,
-  Renderer?: Class<Renderer>
+  Renderer?: Class<Renderer>,
+  virtual?: Boolean
 }
 
 export type InternalJssOptions = {
@@ -72,54 +72,33 @@ export type InternalJssOptions = {
   Renderer: Class<Renderer>
 }
 
-/**
- * - `media` media query - attribute of style element.
- * - `meta` meta information about this style - attribute of style element,
- *   for e.g. you could pass
- * component name for easier debugging.
- * - `index` 0 by default - determines DOM rendering order, higher number = higher specificity
- * - `insertionPoint` 'jss' by default, the value of a comment node sheets will be inserted after
- * - `link` link jss `Rule` instances with DOM `CSSStyleRule` instances so that
- *   styles, can be modified
- * dynamically, false by default because it has some performance cost.
- * - `element` style element, will create one by default
- *  (inserted after)
- * - `virtual` if true, use VirtualRenderer
- */
-export type StyleSheetOptions = {
-  media?: string,
-  meta?: string,
-  index?: number,
-  insertionPoint?: InsertionPoint,
-  link?: boolean,
-  element?: HTMLStyleElement,
-  virtual?: boolean,
-  generateClassName?: generateClassName,
-  Renderer: Class<Renderer>,
-  jss: Jss
-}
-
 export type StyleSheetFactoryOptions = {
   media?: string,
   meta?: string,
   index?: number,
-  insertionPoint?: InsertionPoint,
+  link?: boolean,
+  element?: HTMLStyleElement
+}
+
+export type StyleSheetOptions = {
+  media?: string,
+  meta?: string,
   link?: boolean,
   element?: HTMLStyleElement,
-  virtual?: boolean,
-  Renderer?: Class<Renderer>,
-  generateClassName?: generateClassName,
-  jss?: Jss
+  index: number,
+  generateClassName: generateClassName,
+  Renderer: Class<Renderer>,
+  insertionPoint: InsertionPoint,
+  jss: Jss
 }
 
 export type InternalStyleSheetOptions = {
   media?: string,
   meta?: string,
-  index: number,
-  insertionPoint: InsertionPoint,
   link?: boolean,
   element?: HTMLStyleElement,
-  virtual?: boolean,
+  index: number,
+  insertionPoint: InsertionPoint,
   Renderer: Class<Renderer>,
   generateClassName: generateClassName,
   jss: Jss,
