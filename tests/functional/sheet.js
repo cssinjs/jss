@@ -125,7 +125,8 @@ describe('Functional: sheet', () => {
 
   describe('Option {virtual: true}', () => {
     it('should not render style', () => {
-      const sheet = jss.createStyleSheet({a: {float: 'left'}}, {virtual: true})
+      const localJss = create({virtual: true})
+      const sheet = localJss.createStyleSheet({a: {float: 'left'}})
       sheet.attach()
       expect(getStyle()).to.be(undefined)
       sheet.detach()

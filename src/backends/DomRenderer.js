@@ -2,11 +2,11 @@
 import warning from 'warning'
 import sheets from '../sheets'
 import type StyleSheet from '../StyleSheet'
-import type {Rule} from '../types'
+import type {Rule, InsertionPoint} from '../types'
 
 type PriorityOptions = {
   index: number,
-  insertionPoint: string
+  insertionPoint: InsertionPoint
 }
 
 /**
@@ -127,8 +127,11 @@ function findPrevNode(options: PriorityOptions): ?Node|null {
   }
 
   // Try to find a comment placeholder if registry is empty.
-  const comment = findCommentNode(options.insertionPoint)
-  if (comment) return comment.nextSibling
+  if (typeof options.insertionPoint === 'string') {
+    const comment = findCommentNode(options.insertionPoint)
+    if (comment) return comment.nextSibling
+  }
+
   return null
 }
 
@@ -137,13 +140,21 @@ function findPrevNode(options: PriorityOptions): ?Node|null {
  */
 function insertStyle(style: HTMLElement, options: PriorityOptions) {
   const {insertionPoint} = options
+  const prevNode = findPrevNode(options)
 
-  if (typeof insertionPoint === 'string') {
-    getHead().insertBefore(style, findPrevNode(options))
+  if (prevNode) {
+    const {parentNode} = prevNode
+    if (parentNode) parentNode.insertBefore(style, prevNode)
     return
   }
 
-  insertionPoint.parentNode.insertBefore(style, insertionPoint.nextSibling)
+  if (insertionPoint instanceof HTMLElement) {
+    const {parentNode} = insertionPoint
+    if (parentNode) parentNode.insertBefore(style, insertionPoint.nextSibling)
+    return
+  }
+
+  getHead().insertBefore(style, prevNode)
 }
 
 export default class DomRenderer {
@@ -163,15 +174,10 @@ export default class DomRenderer {
   hasInsertedRules: boolean = false
 
   constructor(sheet?: StyleSheet) {
-    this.sheet = sheet
     // There is no sheet when the renderer is used from a standalone RegularRule.
     if (sheet) sheets.add(sheet)
-  }
 
-  /**
-   * Create and ref style element.
-   */
-  createElement(): void {
+    this.sheet = sheet
     const {media, meta, element} = (this.sheet ? this.sheet.options : {})
     this.element = element || document.createElement('style')
     this.element.type = 'text/css'

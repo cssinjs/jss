@@ -12,6 +12,7 @@ import type {
   StyleSheetFactoryOptions,
   Plugin,
   JssOptions,
+  InternalJssOptions,
   JssStyle
 } from './types'
 
@@ -22,7 +23,7 @@ export default class Jss {
 
   plugins = new PluginsRegistry()
 
-  options: JssOptions
+  options: InternalJssOptions
 
   constructor(options?: JssOptions) {
     // eslint-disable-next-line prefer-spread
@@ -32,9 +33,10 @@ export default class Jss {
 
   setup(options?: JssOptions = {}): this {
     this.options = {
+      ...options,
       generateClassName: options.generateClassName || generateClassNameDefault,
       insertionPoint: options.insertionPoint || 'jss',
-      ...options
+      Renderer: findRenderer(options)
     }
     // eslint-disable-next-line prefer-spread
     if (options.plugins) this.use.apply(this, options.plugins)
@@ -50,10 +52,11 @@ export default class Jss {
       index = sheets.index === 0 ? 0 : sheets.index + 1
     }
     const sheet = new StyleSheet(styles, {
+      ...options,
       jss: (this: Jss),
       generateClassName: this.options.generateClassName,
       insertionPoint: this.options.insertionPoint,
-      ...options,
+      Renderer: this.options.Renderer,
       index
     })
     this.plugins.onProcessSheet(sheet)
@@ -82,7 +85,7 @@ export default class Jss {
 
     if (!options.classes) options.classes = {}
     if (!options.jss) options.jss = this
-    if (!options.Renderer) options.Renderer = findRenderer(options)
+    if (!options.Renderer) options.Renderer = this.options.Renderer
     if (!options.generateClassName) {
       options.generateClassName = this.options.generateClassName || generateClassNameDefault
     }

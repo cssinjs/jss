@@ -56,10 +56,20 @@ export type Plugin = {
   onChangeValue?: (value: string, prop: string, rule: Rule) => string
 }
 
+export type InsertionPoint = string|HTMLElement
+
 export type JssOptions = {
   generateClassName?: generateClassName,
   plugins?: Array<Plugin>,
-  insertionPoint?: string
+  insertionPoint?: InsertionPoint,
+  Renderer?: Class<Renderer>
+}
+
+export type InternalJssOptions = {
+  generateClassName: generateClassName,
+  plugins?: Array<Plugin>,
+  insertionPoint: InsertionPoint,
+  Renderer: Class<Renderer>
 }
 
 /**
@@ -80,12 +90,12 @@ export type StyleSheetOptions = {
   media?: string,
   meta?: string,
   index?: number,
-  insertionPoint?: string,
+  insertionPoint?: InsertionPoint,
   link?: boolean,
   element?: HTMLStyleElement,
   virtual?: boolean,
-  Renderer?: Function,
   generateClassName?: generateClassName,
+  Renderer: Class<Renderer>,
   jss: Jss
 }
 
@@ -93,11 +103,11 @@ export type StyleSheetFactoryOptions = {
   media?: string,
   meta?: string,
   index?: number,
-  insertionPoint?: string,
+  insertionPoint?: InsertionPoint,
   link?: boolean,
   element?: HTMLStyleElement,
   virtual?: boolean,
-  Renderer?: Function,
+  Renderer?: Class<Renderer>,
   generateClassName?: generateClassName,
   jss?: Jss
 }
@@ -106,11 +116,11 @@ export type InternalStyleSheetOptions = {
   media?: string,
   meta?: string,
   index: number,
-  insertionPoint: string,
+  insertionPoint: InsertionPoint,
   link?: boolean,
   element?: HTMLStyleElement,
   virtual?: boolean,
-  Renderer: Function,
+  Renderer: Class<Renderer>,
   generateClassName: generateClassName,
   jss: Jss,
   sheet: StyleSheet,
@@ -119,6 +129,7 @@ export type InternalStyleSheetOptions = {
 }
 
 export interface Renderer {
+  constructor(sheet: StyleSheet): Renderer;
   setStyle(rule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean;
   getStyle(rule: HTMLElement|CSSStyleRule, prop: string): string;
   setSelector(rule: CSSStyleRule, selectorText: string): boolean;

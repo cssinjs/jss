@@ -168,22 +168,24 @@ describe('Functional: dom priority', () => {
   })
 
   describe('custom element insertion point', () => {
-    let div
-    let jss
-
+    let insertionPoint
     beforeEach(() => {
-      div = document.body.appendChild(document.createElement('div'))
-      jss = create({insertionPoint: div})
+      insertionPoint = document.body.appendChild(document.createElement('div'))
+      const jss = create({insertionPoint})
+      jss.createStyleSheet({}, {meta: 'sheet2', index: 2}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet1', index: 1}).attach()
     })
 
     afterEach(() => {
-      document.body.removeChild(div)
+      document.body.removeChild(insertionPoint)
     })
 
     it('should insert sheets in the correct order', () => {
-      jss.createStyleSheet().attach()
       const styleElements = document.body.getElementsByTagName('style')
-      expect(styleElements.length).to.be(1)
+
+      expect(styleElements.length).to.be(2)
+      expect(styleElements[0].getAttribute('data-meta')).to.be('sheet1')
+      expect(styleElements[1].getAttribute('data-meta')).to.be('sheet2')
     })
   })
 
