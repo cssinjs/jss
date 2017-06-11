@@ -34,9 +34,9 @@ export default class PluginsRegistry {
       this.hooks.onProcessRule[i](rule, sheet)
     }
 
-    // TODO
-    // Find a way to use rule.type with flow
-    if (rule instanceof RegularRule) this.onProcessStyle(rule.style, rule, sheet)
+    // $FlowFixMe
+    if (rule.style) this.onProcessStyle(rule.style, rule, sheet)
+
     rule.isProcessed = true
   }
 
@@ -44,11 +44,12 @@ export default class PluginsRegistry {
    * Call `onProcessStyle` hooks.
    */
   onProcessStyle(style: JssStyle, rule: Rule, sheet?: StyleSheet): void {
-    // TODO
-    // Only added because of flow.
-    if (!(rule instanceof RegularRule)) return
+    let nextStyle = style
+
     for (let i = 0; i < this.hooks.onProcessStyle.length; i++) {
-      rule.style = style = this.hooks.onProcessStyle[i](style, rule, sheet)
+      nextStyle = this.hooks.onProcessStyle[i](nextStyle, rule, sheet)
+      // $FlowFixMe
+      rule.style = nextStyle
     }
   }
 
