@@ -27,8 +27,12 @@ export function getCssFromSheet(sheet) {
     .join('')
 }
 
+/**
+ * We need to remove vendor prefixes for some tests,
+ * because some browsers automatically add them (like Mobile Safari 9.0.0)
+ */
 export function removeVendorPrefixes(str) {
-  return str.replace(/-webkit-|-moz-|-o-|-ms-/, '')
+  return str.replace(/-webkit-|-moz-|-o-|-ms-/g, '')
 }
 
 export function removeWhitespace(str) {

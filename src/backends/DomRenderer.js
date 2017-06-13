@@ -54,12 +54,10 @@ function getSelector(rule: CSSOMRule): string {
     const {name} = rule
     if (name) return `@keyframes ${name}`
 
-    /**
-     * there is no CSSKeyframesRules.name for browsers like
-     * - IE 9
-     * - Safari 7.1.8
-     * - Mobile Safari 9.0.0
-     */
+    // There is no rule.name in the following browsers:
+    // - IE 9
+    // - Safari 7.1.8
+    // - Mobile Safari 9.0.0
     const {cssText} = rule
     return `@${extractSelector(cssText, cssText.indexOf('keyframes'))}`
   }
