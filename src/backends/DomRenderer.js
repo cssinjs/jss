@@ -36,12 +36,33 @@ function setStyle(rule: HTMLElement|CSSStyleRule, prop: string, value: string): 
   return true
 }
 
+function extractSelector(cssText: string, from: number = 0) {
+  return cssText.substr(from, cssText.indexOf('{') - 1)
+}
+
+const CSSRuleTypes = {
+  STYLE_RULE: 1,
+  KEYFRAMES_RULE: 7
+}
 
 /**
  * Get the selector.
  */
-function getSelector(rule: CSSStyleRule): string {
-  return rule.selectorText
+function getSelector(rule: CSSOMRule): string {
+  if (rule.type === CSSRuleTypes.STYLE_RULE) return rule.selectorText
+  if (rule.type === CSSRuleTypes.KEYFRAMES_RULE) {
+    const {name} = rule
+    if (name) return `@keyframes ${name}`
+
+    // There is no rule.name in the following browsers:
+    // - IE 9
+    // - Safari 7.1.8
+    // - Mobile Safari 9.0.0
+    const {cssText} = rule
+    return `@${extractSelector(cssText, cssText.indexOf('keyframes'))}`
+  }
+
+  return extractSelector(rule.cssText)
 }
 
 /**
