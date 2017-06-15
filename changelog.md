@@ -1,3 +1,7 @@
+## 7.1.7 / 2017-06-15
+
+- Fix CSS flow types
+
 ## 7.1.6 / 2017-06-14
 
 - Fix dynamic values for conditional and keyframe rules
