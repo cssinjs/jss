@@ -1,6 +1,6 @@
 /* @flow */
 import SimpleRule from './SimpleRule'
-import KeyframeRule from './KeyframeRule'
+import KeyframesRule from './KeyframesRule'
 import ConditionalRule from './ConditionalRule'
 import FontFaceRule from './FontFaceRule'
 import ViewportRule from './ViewportRule'
@@ -10,7 +10,7 @@ const classes = {
   '@charset': SimpleRule,
   '@import': SimpleRule,
   '@namespace': SimpleRule,
-  '@keyframes': KeyframeRule,
+  '@keyframes': KeyframesRule,
   '@media': ConditionalRule,
   '@supports': ConditionalRule,
   '@font-face': FontFaceRule,

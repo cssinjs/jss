@@ -5,8 +5,8 @@ import type {RuleOptions, ToCssOptions, BaseRule} from '../types'
 /**
  * Rule for @keyframes
  */
-export default class KeyframeRule implements BaseRule {
-  type = 'keyframe'
+export default class KeyframesRule implements BaseRule {
+  type = 'keyframes'
 
   key: string
 

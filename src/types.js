@@ -2,7 +2,7 @@
 import Jss from './Jss'
 import StyleSheet from './StyleSheet'
 import ConditionalRule from './plugins/ConditionalRule'
-import KeyframeRule from './plugins/KeyframeRule'
+import KeyframesRule from './plugins/KeyframesRule'
 import RegularRule from './plugins/RegularRule'
 import ViewportRule from './plugins/ViewportRule'
 import SimpleRule from './plugins/SimpleRule'
@@ -12,7 +12,7 @@ export type ToCssOptions = {
   indent?: number
 }
 
-export type Rule = RegularRule|ConditionalRule|FontFaceRule|KeyframeRule|SimpleRule|ViewportRule
+export type Rule = RegularRule|ConditionalRule|FontFaceRule|KeyframesRule|SimpleRule|ViewportRule
 
 export type generateClassName = (rule: Rule, sheet?: StyleSheet) => string
 
@@ -46,7 +46,7 @@ export type RulesContainerOptions = {
   Renderer: Class<Renderer>,
   jss: Jss,
   sheet: StyleSheet,
-  parent: ConditionalRule|KeyframeRule|StyleSheet
+  parent: ConditionalRule|KeyframesRule|StyleSheet
 }
 
 export interface BaseRule {
@@ -116,7 +116,7 @@ export type InternalStyleSheetOptions = {
   generateClassName: generateClassName,
   jss: Jss,
   sheet: StyleSheet,
-  parent: ConditionalRule|KeyframeRule|StyleSheet,
+  parent: ConditionalRule|KeyframesRule|StyleSheet,
   classes: Object
 }
 

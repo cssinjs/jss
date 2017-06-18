@@ -152,7 +152,7 @@ describe('Integration: rules', () => {
         '30%': {top: 30},
         '60%, 70%': {top: 80}
       })
-      expect(rule.type).to.be('keyframe')
+      expect(rule.type).to.be('keyframes')
       expect(rule.key).to.be('@keyframes id')
       expect(rule.toString()).to.be(
         '@keyframes id {\n' +

@@ -6,6 +6,8 @@
 
 - Jss constructor and Jss.setup option `generateClassName` has been removed. A new option is called `createGenerateClassName` which is a factory that returns the old `generateClassName`. We need this to reset counters on SSR for each request.
 
+- Only for plugins: KeyframeRule has been renamed to KeyframesRule and KeyframeRule.type 'keyframe' to 'keyframes'.
+
 ## 7.1.7 / 2017-06-15
 
 - Fix CSS flow types
