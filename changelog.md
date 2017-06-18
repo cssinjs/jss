@@ -17,6 +17,7 @@
 - FontFaceRule.selector => FontFaceRule.key
 - SimpleRule.name => SimpleRule.key
 - ViewportRule.name => ViewportRule.key
+- RulesContainer => RuleList
 
 ## 7.1.7 / 2017-06-15
 

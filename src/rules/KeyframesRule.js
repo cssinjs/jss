@@ -1,5 +1,5 @@
 /* @flow */
-import RulesContainer from '../RulesContainer'
+import RuleList from '../RuleList'
 import type {RuleOptions, ToCssOptions, BaseRule} from '../types'
 
 /**
@@ -10,7 +10,7 @@ export default class KeyframesRule implements BaseRule {
 
   key: string
 
-  rules: RulesContainer
+  rules: RuleList
 
   options: RuleOptions
 
@@ -21,7 +21,7 @@ export default class KeyframesRule implements BaseRule {
   constructor(key: string, frames: Object, options: RuleOptions) {
     this.key = key
     this.options = options
-    this.rules = new RulesContainer({...options, parent: this})
+    this.rules = new RuleList({...options, parent: this})
 
     for (const name in frames) {
       this.rules.add(name, frames[name], {

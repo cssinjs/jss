@@ -4,7 +4,7 @@ import updateRule from './utils/updateRule'
 import linkRule from './utils/linkRule'
 import StyleRule from './rules/StyleRule'
 import type {
-  RulesContainerOptions,
+  RuleListOptions,
   ToCssOptions,
   Rule,
   RuleOptions,
@@ -15,7 +15,7 @@ import type {
  * Contains rules objects and allows adding/removing etc.
  * Is used for e.g. by `StyleSheet` or `ConditionalRule`.
  */
-export default class RulesContainer {
+export default class RuleList {
   // Rules registry for access by .get() method.
   // It contains the same rule registered by name and by selector.
   map: {[key: string]: Rule} = {}
@@ -26,11 +26,11 @@ export default class RulesContainer {
   // Used to ensure correct rules order.
   index: Array<Rule> = []
 
-  options: RulesContainerOptions
+  options: RuleListOptions
 
   classes: Object
 
-  constructor(options: RulesContainerOptions) {
+  constructor(options: RuleListOptions) {
     this.options = options
     this.classes = options.classes
   }
@@ -123,12 +123,12 @@ export default class RulesContainer {
    */
   update(name?: string, data?: Object): void {
     if (typeof name === 'string') {
-      updateRule(this.get(name), data, RulesContainer)
+      updateRule(this.get(name), data, RuleList)
       return
     }
 
     for (let index = 0; index < this.index.length; index++) {
-      updateRule(this.index[index], name, RulesContainer)
+      updateRule(this.index[index], name, RuleList)
     }
   }
 

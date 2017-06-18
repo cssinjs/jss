@@ -1,5 +1,5 @@
 /* @flow */
-import RulesContainer from '../RulesContainer'
+import RuleList from '../RuleList'
 import type {Rule, RuleOptions, ToCssOptions, JssStyle, BaseRule} from '../types'
 
 /**
@@ -10,7 +10,7 @@ export default class ConditionalRule implements BaseRule {
 
   key: string
 
-  rules: RulesContainer
+  rules: RuleList
 
   options: RuleOptions
 
@@ -21,7 +21,7 @@ export default class ConditionalRule implements BaseRule {
   constructor(key: string, styles: Object, options: RuleOptions) {
     this.key = key
     this.options = options
-    this.rules = new RulesContainer({...options, parent: this})
+    this.rules = new RuleList({...options, parent: this})
 
     for (const name in styles) {
       this.rules.add(name, styles[name])

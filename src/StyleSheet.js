@@ -1,6 +1,6 @@
 /* @flow */
 import linkRule from './utils/linkRule'
-import RulesContainer from './RulesContainer'
+import RuleList from './RuleList'
 import type {
   InternalStyleSheetOptions,
   Rule,
@@ -19,7 +19,7 @@ export default class StyleSheet {
 
   attached: boolean
 
-  rules: RulesContainer
+  rules: RuleList
 
   renderer: Object
 
@@ -39,7 +39,7 @@ export default class StyleSheet {
       classes: this.classes
     }
     this.renderer = new options.Renderer(this)
-    this.rules = new RulesContainer(this.options)
+    this.rules = new RuleList(this.options)
 
     for (const name in styles) {
       this.rules.add(name, styles[name])

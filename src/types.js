@@ -40,7 +40,7 @@ export type RuleOptions = {
   Renderer: Class<Renderer>
 }
 
-export type RulesContainerOptions = {
+export type RuleListOptions = {
   classes: Object,
   generateClassName: generateClassName,
   Renderer: Class<Renderer>,
