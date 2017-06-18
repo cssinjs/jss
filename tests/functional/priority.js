@@ -189,6 +189,33 @@ describe('Functional: dom priority', () => {
     })
   })
 
+  describe('custom element insertion point in an iframe', () => {
+    let insertionPoint
+    let iframe
+    let iDoc
+
+    beforeEach(() => {
+      iframe = document.body.appendChild(document.createElement('iframe'))
+      iDoc = iframe.contentWindow.document
+      insertionPoint = iDoc.body.appendChild(iDoc.createElement('div'))
+      const jss = create({insertionPoint})
+      jss.createStyleSheet({}, {meta: 'sheet2', index: 2}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet1', index: 1}).attach()
+    })
+
+    afterEach(() => {
+      iframe.parentNode.removeChild(iframe)
+    })
+
+    it('should insert sheets in the correct order', () => {
+      const styleElements = iDoc.body.getElementsByTagName('style')
+
+      expect(styleElements.length).to.be(2)
+      expect(styleElements[0].getAttribute('data-meta')).to.be('sheet1')
+      expect(styleElements[1].getAttribute('data-meta')).to.be('sheet2')
+    })
+  })
+
   describe('preserve attachment order with no index, but with registry', () => {
     let jss
 

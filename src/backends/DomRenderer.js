@@ -169,9 +169,12 @@ function insertStyle(style: HTMLElement, options: PriorityOptions) {
     return
   }
 
-  if (insertionPoint instanceof HTMLElement) {
-    const {parentNode} = insertionPoint
-    if (parentNode) parentNode.insertBefore(style, insertionPoint.nextSibling)
+  // Works with iframes and any node types.
+  if (typeof insertionPoint.nodeType === 'number') {
+    // https://stackoverflow.com/questions/41328728/force-casting-in-flow
+    const insertionPointElement: HTMLElement = (insertionPoint: any)
+    const {parentNode} = insertionPointElement
+    if (parentNode) parentNode.insertBefore(style, insertionPointElement.nextSibling)
     return
   }
 

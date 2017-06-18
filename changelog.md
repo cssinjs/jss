@@ -1,6 +1,6 @@
 ## Next
 
-- Option `insertionPoint` can now accept a DOM node.
+- Option `insertionPoint` can now accept a DOM node, so styles can no be rendered also in body or even in an iframe.
 
 ### Breaking changes
 

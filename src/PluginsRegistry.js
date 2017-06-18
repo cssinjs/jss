@@ -2,7 +2,6 @@
 import warning from 'warning'
 import type StyleSheet from './StyleSheet'
 import type {Plugin, Rule, RuleOptions, JssStyle} from './types'
-import RegularRule from './plugins/RegularRule'
 
 export default class PluginsRegistry {
   hooks: {[key: string]: Array<Function>} = {
