@@ -244,7 +244,7 @@ export default class DomRenderer {
   /**
    * Insert a rule into element.
    */
-  insertRule(rule: Rule): CSSStyleRule|false {
+  insertRule(rule: Rule): false|CSSStyleRule {
     const {sheet} = this.element
     const {cssRules} = sheet
     const index = cssRules.length
