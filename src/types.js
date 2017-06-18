@@ -1,6 +1,7 @@
 /* @flow */
 import Jss from './Jss'
 import StyleSheet from './StyleSheet'
+import RulesContainer from './RulesContainer'
 import ConditionalRule from './plugins/ConditionalRule'
 import KeyframeRule from './plugins/KeyframeRule'
 import RegularRule from './plugins/RegularRule'

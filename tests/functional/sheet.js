@@ -2,6 +2,9 @@
 
 import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
+
+import vendorPrefixer from 'jss-vendor-prefixer'
+
 import {create} from '../../src'
 import DomRenderer from '../../src/backends/DomRenderer'
 import {
@@ -9,8 +12,10 @@ import {
   computeStyle,
   getStyle,
   getCss,
+  getCssFromSheet,
   getRules,
-  removeWhitespace
+  removeWhitespace,
+  removeVendorPrefixes
 } from '../utils'
 
 const settings = {generateClassName}
@@ -227,7 +232,7 @@ describe('Functional: sheet', () => {
     let sheet
 
     beforeEach(() => {
-      sheet = jss.createStyleSheet().attach()
+      sheet = jss.createStyleSheet({}, {link: true}).attach()
       sheet.addRule('a', {color: 'red'})
       // It is important to use exactly this query, because
       // IE will add "all" always when `cssRules.insertRule` is used,
@@ -244,6 +249,19 @@ describe('Functional: sheet', () => {
     })
 
     it('should render @media', () => {
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+    })
+
+    it('should render @media with function values', () => {
+      sheet.addRule('b', {
+        color: 'red'
+      })
+      sheet.addRule('@media screen', {
+        b: {
+          color: props => (props.primary ? 'black' : 'white')
+        }
+      })
+      sheet.update({primary: true})
       expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
     })
   })
@@ -500,24 +518,25 @@ describe('Functional: sheet', () => {
   })
 
   describe('sheet.update()', () => {
+    const styles = {
+      a: {
+        color: theme => theme.color
+      },
+      '@media all': {
+        b: {
+          color: theme => theme.color
+        }
+      },
+      '@keyframes test': {
+        '0%': {
+          color: theme => theme.color
+        }
+      }
+    }
     let sheet
 
     beforeEach(() => {
-      sheet = jss.createStyleSheet({
-        a: {
-          color: theme => theme.color
-        },
-        '@media all': {
-          b: {
-            color: theme => theme.color
-          }
-        },
-        '@keyframes': {
-          '0%': {
-            color: theme => theme.color
-          }
-        }
-      }, {link: true})
+      sheet = jss.createStyleSheet(styles, {link: true})
     })
 
     afterEach(() => {
@@ -532,7 +551,7 @@ describe('Functional: sheet', () => {
           .b-id {
           }
         }
-        @keyframes {
+        @keyframes test {
           0% {
           }
         }
@@ -553,7 +572,7 @@ describe('Functional: sheet', () => {
             color: green;
           }
         }
-        @keyframes {
+        @keyframes test {
           0% {
             color: green;
           }
@@ -578,7 +597,7 @@ describe('Functional: sheet', () => {
             color: yellow;
           }
         }
-        @keyframes {
+        @keyframes test {
           0% {
             color: yellow;
           }
@@ -604,7 +623,7 @@ describe('Functional: sheet', () => {
             color: yellow;
           }
         }
-        @keyframes {
+        @keyframes test {
           0% {
             color: yellow;
           }
@@ -615,6 +634,37 @@ describe('Functional: sheet', () => {
     it('should render updated rule', () => {
       sheet.update('a', {color: 'green'}).attach()
       expect(getCss(getStyle())).to.be(removeWhitespace(sheet.toString()))
+    })
+
+    describe('sheet.update() after attach', () => {
+      const assertSheet = () => {
+        // skip this test for browsers,
+        // that could not apply keyframes rule w/ or w/o prefix (like IE9)
+        if (sheet.renderer.getRules().length < 3) return
+
+        const [actual, expected] = [
+          getCssFromSheet(sheet),
+          removeWhitespace(sheet.toString())
+        ].map(removeVendorPrefixes)
+
+        expect(actual).to.be(expected)
+      }
+
+      beforeEach(() => {
+        // we need to use vendor-prefixer, because keyframes rule may not to work
+        // in some browsers wihtout prefix (like Safari 7.1.8)
+        sheet = jss.use(vendorPrefixer()).createStyleSheet(styles, {link: true})
+      })
+
+      it('should render sheet with updated props after attach', () => {
+        sheet.attach().update({color: 'green'})
+        assertSheet()
+      })
+
+      it('should render updated rule after attach', () => {
+        sheet.attach().update('a', {color: 'green'})
+        assertSheet()
+      })
     })
   })
 })

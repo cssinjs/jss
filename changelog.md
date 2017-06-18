@@ -2,6 +2,14 @@
 
 - Option `insertionPoint` can now accept a DOM node.
 
+## 7.1.7 / 2017-06-15
+
+- Fix CSS flow types
+
+## 7.1.6 / 2017-06-14
+
+- Fix dynamic values for conditional and keyframe rules
+
 ## 7.1.5 / 2017-05-28
 
 - Prevent duplicates in the sheets registry (#504)

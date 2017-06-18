@@ -21,6 +21,20 @@ export function getCss(style) {
       .join('')
 }
 
+export function getCssFromSheet(sheet) {
+  return [...sheet.renderer.getRules()]
+    .map(rule => removeWhitespace(rule.cssText))
+    .join('')
+}
+
+/**
+ * We need to remove vendor prefixes for some tests,
+ * because some browsers automatically add them (like Mobile Safari 9.0.0)
+ */
+export function removeVendorPrefixes(str) {
+  return str.replace(/-webkit-|-moz-|-o-|-ms-/g, '')
+}
+
 export function removeWhitespace(str) {
   return str.replace(/\s/g, '')
 }
