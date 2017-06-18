@@ -1,9 +1,9 @@
 /* @flow */
-import SimpleRule from './SimpleRule'
-import KeyframesRule from './KeyframesRule'
-import ConditionalRule from './ConditionalRule'
-import FontFaceRule from './FontFaceRule'
-import ViewportRule from './ViewportRule'
+import SimpleRule from '../rules/SimpleRule'
+import KeyframesRule from '../rules/KeyframesRule'
+import ConditionalRule from '../rules/ConditionalRule'
+import FontFaceRule from '../rules/FontFaceRule'
+import ViewportRule from '../rules/ViewportRule'
 import type {Plugin, RuleOptions, Rule, JssStyle} from '../types'
 
 const classes = {

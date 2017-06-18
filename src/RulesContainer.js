@@ -2,7 +2,7 @@
 import createRule from './utils/createRule'
 import updateRule from './utils/updateRule'
 import linkRule from './utils/linkRule'
-import StyleRule from './plugins/StyleRule'
+import StyleRule from './rules/StyleRule'
 import type {
   RulesContainerOptions,
   ToCssOptions,

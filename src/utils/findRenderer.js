@@ -1,7 +1,7 @@
 /* @flow */
 import isInBrowser from 'is-in-browser'
-import DomRenderer from '../backends/DomRenderer'
-import VirtualRenderer from '../backends/VirtualRenderer'
+import DomRenderer from '../renderers/DomRenderer'
+import VirtualRenderer from '../renderers/VirtualRenderer'
 import type {JssOptions, Renderer} from '../types'
 
 /**

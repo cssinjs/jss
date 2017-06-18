@@ -1,12 +1,12 @@
 /* @flow */
 import Jss from './Jss'
 import StyleSheet from './StyleSheet'
-import ConditionalRule from './plugins/ConditionalRule'
-import KeyframesRule from './plugins/KeyframesRule'
-import StyleRule from './plugins/StyleRule'
-import ViewportRule from './plugins/ViewportRule'
-import SimpleRule from './plugins/SimpleRule'
-import FontFaceRule from './plugins/FontFaceRule'
+import ConditionalRule from './rules/ConditionalRule'
+import KeyframesRule from './rules/KeyframesRule'
+import StyleRule from './rules/StyleRule'
+import ViewportRule from './rules/ViewportRule'
+import SimpleRule from './rules/SimpleRule'
+import FontFaceRule from './rules/FontFaceRule'
 
 export type ToCssOptions = {
   indent?: number

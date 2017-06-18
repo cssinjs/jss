@@ -1,7 +1,7 @@
 /* @flow */
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
-import internalPlugins from './plugins'
+import rulesPlugin from './utils/rulesPlugin'
 import sheets from './sheets'
 import createGenerateClassNameDefault from './utils/createGenerateClassName'
 import createRule from './utils/createRule'
@@ -31,7 +31,7 @@ export default class Jss {
 
   constructor(options?: JssOptions) {
     // eslint-disable-next-line prefer-spread
-    this.use.apply(this, internalPlugins)
+    this.use.apply(this, rulesPlugin)
     this.setup(options)
   }
 

@@ -2,11 +2,10 @@
 
 import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
-
 import vendorPrefixer from 'jss-vendor-prefixer'
 
 import {create} from '../../src'
-import DomRenderer from '../../src/backends/DomRenderer'
+import DomRenderer from '../../src/renderers/DomRenderer'
 import {
   createGenerateClassName,
   computeStyle,

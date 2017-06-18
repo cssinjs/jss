@@ -1,7 +1,7 @@
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import {create} from '../../src'
-import StyleRule from '../../src/plugins/StyleRule'
+import StyleRule from '../../src/rules/StyleRule'
 import {createGenerateClassName} from '../utils'
 
 describe('Integration: sheet', () => {
