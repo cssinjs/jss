@@ -16,7 +16,7 @@ describe('Integration: rules', () => {
   describe('.createRule()', () => {
     it('should create a rule without args', () => {
       const rule = jss.createRule()
-      expect(rule.type).to.be('regular')
+      expect(rule.type).to.be('style')
       expect(rule.selector).to.be('.unnamed-id')
     })
 
@@ -24,7 +24,7 @@ describe('Integration: rules', () => {
       const style = {float: 'left'}
       const rule = jss.createRule(style)
       expect(rule.style).to.eql(style)
-      expect(rule.type).to.be('regular')
+      expect(rule.type).to.be('style')
       expect(rule.selector).to.be('.unnamed-id')
     })
 
@@ -33,7 +33,7 @@ describe('Integration: rules', () => {
       const options = {something: true}
       const rule = jss.createRule(style, options)
       expect(rule.style).to.eql(style)
-      expect(rule.type).to.be('regular')
+      expect(rule.type).to.be('style')
       expect(rule.selector).to.be('.unnamed-id')
       expect(rule.options.jss).to.be(jss)
       expect(rule.options.something).to.be(true)
@@ -44,7 +44,7 @@ describe('Integration: rules', () => {
       const options = {someOption: true}
       const rule = jss.createRule('a', style, options)
       expect(rule.style).to.eql(style)
-      expect(rule.type).to.be('regular')
+      expect(rule.type).to.be('style')
       expect(rule.selector).to.be('.a-id')
       expect(rule.options.someOption).to.be(true)
       expect(rule.options.jss).to.be(jss)

@@ -3,8 +3,8 @@ import toCss from '../utils/toCss'
 import toCssValue from '../utils/toCssValue'
 import type {ToCssOptions, RuleOptions, Renderer as RendererInterface, JssStyle, BaseRule} from '../types'
 
-export default class RegularRule implements BaseRule {
-  type = 'regular'
+export default class StyleRule implements BaseRule {
+  type = 'style'
 
   key: string
 
@@ -82,7 +82,7 @@ export default class RegularRule implements BaseRule {
   /**
    * Get or set a style property.
    */
-  prop(name: string, value?: string): RegularRule|string {
+  prop(name: string, value?: string): StyleRule|string {
     const $name = typeof this.style[name] === 'function' ? `$${name}` : name
     let currValue = this.style[$name]
 

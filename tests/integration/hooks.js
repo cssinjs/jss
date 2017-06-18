@@ -348,7 +348,7 @@ describe('Integration: hooks', () => {
       })
 
       expect(receivedStyle).to.be(newStyle)
-      expect(receivedRule.type).to.be('regular')
+      expect(receivedRule.type).to.be('style')
       expect(receivedSheet).to.be(sheet)
       expect(localExecuted).to.be(1)
     })

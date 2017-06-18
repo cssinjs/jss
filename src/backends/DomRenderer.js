@@ -198,7 +198,7 @@ export default class DomRenderer {
   hasInsertedRules: boolean = false
 
   constructor(sheet?: StyleSheet) {
-    // There is no sheet when the renderer is used from a standalone RegularRule.
+    // There is no sheet when the renderer is used from a standalone StyleRule.
     if (sheet) sheets.add(sheet)
 
     this.sheet = sheet

@@ -2,7 +2,7 @@ import type RulesContainerType from '../RulesContainer'
 import type {Rule} from './types'
 
 export default (rule: Rule, data: Object, RulesContainer: RulesContainerType): void => {
-  if (rule.type === 'regular') {
+  if (rule.type === 'style') {
     for (const prop in rule.style) {
       const value = rule.style[prop]
       if (typeof value === 'function') {

@@ -1,7 +1,7 @@
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import {create} from '../../src'
-import RegularRule from '../../src/plugins/RegularRule'
+import StyleRule from '../../src/plugins/StyleRule'
 import {createGenerateClassName} from '../utils'
 
 describe('Integration: sheet', () => {
@@ -27,7 +27,7 @@ describe('Integration: sheet', () => {
     it('should create a sheet with one rule', () => {
       const sheet = jss.createStyleSheet({a: {float: 'left'}})
       const rule = sheet.getRule('a')
-      expect(rule).to.be.a(RegularRule)
+      expect(rule).to.be.a(StyleRule)
       expect(sheet.classes.a).to.be('a-id')
       expect(rule.selector).to.be('.a-id')
     })
@@ -64,12 +64,12 @@ describe('Integration: sheet', () => {
   describe('sheet.getRule()', () => {
     it('should return a rule by name and selector from named sheet', () => {
       const sheet = jss.createStyleSheet({a: {float: 'left'}})
-      expect(sheet.getRule('a')).to.be.a(RegularRule)
+      expect(sheet.getRule('a')).to.be.a(StyleRule)
     })
 
     it('should return a rule by selector from unnamed sheet', () => {
       const sheet = jss.createStyleSheet({a: {float: 'left'}}, {named: false})
-      expect(sheet.getRule('a')).to.be.a(RegularRule)
+      expect(sheet.getRule('a')).to.be.a(StyleRule)
     })
   })
 

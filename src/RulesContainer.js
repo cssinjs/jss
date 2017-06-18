@@ -2,7 +2,7 @@
 import createRule from './utils/createRule'
 import updateRule from './utils/updateRule'
 import linkRule from './utils/linkRule'
-import RegularRule from './plugins/RegularRule'
+import StyleRule from './plugins/StyleRule'
 import type {
   RulesContainerOptions,
   ToCssOptions,
@@ -103,7 +103,7 @@ export default class RulesContainer {
    */
   register(rule: Rule): void {
     this.map[rule.key] = rule
-    if (rule instanceof RegularRule) {
+    if (rule instanceof StyleRule) {
       this.map[rule.selector] = rule
       this.classes[rule.key] = rule.selector.substr(1)
     }
@@ -115,7 +115,7 @@ export default class RulesContainer {
   unregister(rule: Rule): void {
     delete this.map[rule.key]
     delete this.classes[rule.key]
-    if (rule instanceof RegularRule) delete this.map[rule.selector]
+    if (rule instanceof StyleRule) delete this.map[rule.selector]
   }
 
   /**

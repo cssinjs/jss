@@ -1,6 +1,6 @@
 /* @flow */
 import warning from 'warning'
-import RegularRule from '../plugins/RegularRule'
+import StyleRule from '../plugins/StyleRule'
 import type {Rule, RuleOptions, JssStyle} from '../types'
 import cloneStyle from '../utils/cloneStyle'
 
@@ -19,5 +19,5 @@ export default function createRule(name: string, decl: JssStyle, options: RuleOp
     warning(false, '[JSS] Unknown at-rule %s', name)
   }
 
-  return new RegularRule(name, declCopy, options)
+  return new StyleRule(name, declCopy, options)
 }
