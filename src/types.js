@@ -67,8 +67,10 @@ export type Plugin = {
 
 export type InsertionPoint = string|HTMLElement
 
+type createGenerateClassName = () => generateClassName
+
 export type JssOptions = {
-  generateClassName?: generateClassName,
+  createGenerateClassName?: createGenerateClassName,
   plugins?: Array<Plugin>,
   insertionPoint?: InsertionPoint,
   Renderer?: Class<Renderer>,
@@ -76,7 +78,7 @@ export type JssOptions = {
 }
 
 export type InternalJssOptions = {
-  generateClassName: generateClassName,
+  createGenerateClassName: createGenerateClassName,
   plugins?: Array<Plugin>,
   insertionPoint: InsertionPoint,
   Renderer: Class<Renderer>
@@ -87,7 +89,8 @@ export type StyleSheetFactoryOptions = {
   meta?: string,
   index?: number,
   link?: boolean,
-  element?: HTMLStyleElement
+  element?: HTMLStyleElement,
+  generateClassName?: generateClassName
 }
 
 export type StyleSheetOptions = {

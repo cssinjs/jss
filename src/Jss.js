@@ -3,7 +3,7 @@ import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import internalPlugins from './plugins'
 import sheets from './sheets'
-import generateClassNameDefault from './utils/generateClassName'
+import createGenerateClassNameDefault from './utils/createGenerateClassName'
 import createRule from './utils/createRule'
 import findRenderer from './utils/findRenderer'
 import type {
@@ -14,7 +14,8 @@ import type {
   Plugin,
   JssOptions,
   InternalJssOptions,
-  JssStyle
+  JssStyle,
+  generateClassName
 } from './types'
 
 declare var __VERSION__: string
@@ -26,6 +27,8 @@ export default class Jss {
 
   options: InternalJssOptions
 
+  generateClassName: generateClassName
+
   constructor(options?: JssOptions) {
     // eslint-disable-next-line prefer-spread
     this.use.apply(this, internalPlugins)
@@ -33,9 +36,13 @@ export default class Jss {
   }
 
   setup(options?: JssOptions = {}): this {
+    const createGenerateClassName =
+      options.createGenerateClassName ||
+      createGenerateClassNameDefault
+    this.generateClassName = createGenerateClassName()
     this.options = {
       ...options,
-      generateClassName: options.generateClassName || generateClassNameDefault,
+      createGenerateClassName,
       insertionPoint: options.insertionPoint || 'jss',
       Renderer: findRenderer(options)
     }
@@ -55,7 +62,7 @@ export default class Jss {
     const sheet = new StyleSheet(styles, {
       ...options,
       jss: (this: Jss),
-      generateClassName: this.options.generateClassName,
+      generateClassName: options.generateClassName || this.generateClassName,
       insertionPoint: this.options.insertionPoint,
       Renderer: this.options.Renderer,
       index
@@ -90,7 +97,7 @@ export default class Jss {
 
     ruleOptions.jss = this
     ruleOptions.Renderer = this.options.Renderer
-    ruleOptions.generateClassName = this.options.generateClassName || generateClassNameDefault
+    if (!ruleOptions.generateClassName) ruleOptions.generateClassName = this.generateClassName
     if (!ruleOptions.classes) ruleOptions.classes = {}
 
     const rule = createRule(name || 'unnamed', style, ruleOptions)

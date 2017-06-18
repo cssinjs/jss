@@ -2,13 +2,13 @@ import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import {create} from '../../src'
 import RegularRule from '../../src/plugins/RegularRule'
-import {generateClassName} from '../utils'
+import {createGenerateClassName} from '../utils'
 
 describe('Integration: sheet', () => {
   let jss
 
   beforeEach(() => {
-    jss = create({generateClassName})
+    jss = create({createGenerateClassName})
   })
 
   describe('.createStyleSheet()', () => {
@@ -52,6 +52,12 @@ describe('Integration: sheet', () => {
       const sheet = jss.createStyleSheet(styles)
       // jss-cache relies on `a` being a ref to the original object.
       expect(sheet.getRule('a').options.parent.rules.raw.a).to.be(styles.a)
+    })
+
+    it('should allow generateClassName override', () => {
+      const generateClassName = () => {}
+      const sheet = jss.createStyleSheet(null, {generateClassName})
+      expect(sheet.options.generateClassName).to.be(generateClassName)
     })
   })
 
@@ -230,12 +236,12 @@ describe('Integration: sheet', () => {
       }
 
       it('should use the class name of a conditional child', () => {
-        const sheet = create(options).createStyleSheet({
+        const sheet = create().createStyleSheet({
           '@media print': {
             a: {float: 'left'}
           },
           a: {color: 'red'}
-        })
+        }, options)
         expect(sheet.toString()).to.be(stripIndent`
           @media print {
             .${id} {
@@ -249,14 +255,14 @@ describe('Integration: sheet', () => {
       })
 
       it('should use the class name of the first conditional child', () => {
-        const sheet = create(options).createStyleSheet({
+        const sheet = create().createStyleSheet({
           '@media print': {
             a: {float: 'left'}
           },
           '@media screen': {
             a: {float: 'right'}
           }
-        })
+        }, options)
         expect(sheet.toString()).to.be(stripIndent`
           @media print {
             .${id} {

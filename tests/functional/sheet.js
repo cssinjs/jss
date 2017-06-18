@@ -8,7 +8,7 @@ import vendorPrefixer from 'jss-vendor-prefixer'
 import {create} from '../../src'
 import DomRenderer from '../../src/backends/DomRenderer'
 import {
-  generateClassName,
+  createGenerateClassName,
   computeStyle,
   getStyle,
   getCss,
@@ -18,7 +18,7 @@ import {
   removeVendorPrefixes
 } from '../utils'
 
-const settings = {generateClassName}
+const settings = {createGenerateClassName}
 
 describe('Functional: sheet', () => {
   let jss

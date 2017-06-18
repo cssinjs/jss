@@ -30,7 +30,7 @@ describe('Integration: jss', () => {
 
     it('should have correct .options', () => {
       expect(jss.options).to.be.an(Object)
-      expect(jss.options.generateClassName).to.be.a(Function)
+      expect(jss.options.createGenerateClassName).to.be.a(Function)
     })
   })
 

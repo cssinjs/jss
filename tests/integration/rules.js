@@ -4,13 +4,13 @@ import expect from 'expect.js'
 
 import {create} from '../../src'
 import createRule from '../../src/utils/createRule'
-import {generateClassName} from '../utils'
+import {createGenerateClassName} from '../utils'
 
 describe('Integration: rules', () => {
   let jss
 
   beforeEach(() => {
-    jss = create({generateClassName})
+    jss = create({createGenerateClassName})
   })
 
   describe('.createRule()', () => {

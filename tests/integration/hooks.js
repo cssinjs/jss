@@ -2,14 +2,14 @@ import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import {create} from '../../src'
 import StyleSheet from '../../src/StyleSheet'
-import {generateClassName} from '../utils'
+import {createGenerateClassName} from '../utils'
 import PluginsRegistry from '../../src/PluginsRegistry'
 
 describe('Integration: hooks', () => {
   let jss
 
   beforeEach(() => {
-    jss = create({generateClassName})
+    jss = create({createGenerateClassName})
   })
 
   describe('common', () => {
