@@ -43,7 +43,6 @@ export default class Jss {
     this.options = {
       ...options,
       createGenerateClassName,
-      insertionPoint: options.insertionPoint || 'jss',
       Renderer: findRenderer(options)
     }
     // eslint-disable-next-line prefer-spread

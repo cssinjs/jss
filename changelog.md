@@ -1,10 +1,13 @@
 ## Next
 
-- Option `insertionPoint` can now accept a DOM node, so styles can no be rendered also in body or even in an iframe.
+- Option `insertionPoint` can now accept a DOM node
+- Option `insertionPoint` can be inside of an iframe now.
+- Warn when an `insertionPoint` was specified but not found in the DOM.
 
 ### Breaking changes for users
 
 - Jss constructor and Jss.setup option `generateClassName` has been removed. A new option is called `createGenerateClassName` which is a factory that returns the old `generateClassName`. We need this to reset counters on SSR for each request.
+- Removed default `insertionPoint` value ("jss") in order to have warnings when insertionPoint is not found in the DOM. With the default one we simply don't know when to warn.
 
 ### Potentially breaking changes for plugins
 

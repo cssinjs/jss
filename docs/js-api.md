@@ -31,7 +31,7 @@ Options:
   - `createGenerateClassName` function you can pass to generate your custom class name.
   - `plugins` an array of functions, will be passed to `jss.use`.
   - `virtual` if true, JSS will use VirtualRenderer
-  - `insertionPoint` string value of a DOM comment node which marks the start of sheets or a rendered DOM node. Sheets rendered by this Jss instance are inserted after this point sequentially. Default is `jss`.
+  - `insertionPoint` string value of a DOM comment node which marks the start of sheets or a rendered DOM node. Sheets rendered by this Jss instance are inserted after this point sequentially.
 
 See [setup examples](./setup#specify-dom-insertion-point).
 

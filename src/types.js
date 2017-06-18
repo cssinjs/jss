@@ -80,7 +80,7 @@ export type JssOptions = {
 export type InternalJssOptions = {
   createGenerateClassName: createGenerateClassName,
   plugins?: Array<Plugin>,
-  insertionPoint: InsertionPoint,
+  insertionPoint?: InsertionPoint,
   Renderer: Class<Renderer>
 }
 
@@ -101,7 +101,7 @@ export type StyleSheetOptions = {
   index: number,
   generateClassName: generateClassName,
   Renderer: Class<Renderer>,
-  insertionPoint: InsertionPoint,
+  insertionPoint?: InsertionPoint,
   jss: Jss
 }
 
@@ -111,7 +111,7 @@ export type InternalStyleSheetOptions = {
   link?: boolean,
   element?: HTMLStyleElement,
   index: number,
-  insertionPoint: InsertionPoint,
+  insertionPoint?: InsertionPoint,
   Renderer: Class<Renderer>,
   generateClassName: generateClassName,
   jss: Jss,

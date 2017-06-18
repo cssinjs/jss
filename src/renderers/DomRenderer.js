@@ -6,7 +6,7 @@ import type {Rule, InsertionPoint} from '../types'
 
 type PriorityOptions = {
   index: number,
-  insertionPoint: InsertionPoint
+  insertionPoint?: InsertionPoint
 }
 
 /**
@@ -148,9 +148,13 @@ function findPrevNode(options: PriorityOptions): ?Node|null {
   }
 
   // Try to find a comment placeholder if registry is empty.
-  if (typeof options.insertionPoint === 'string') {
-    const comment = findCommentNode(options.insertionPoint)
+  const {insertionPoint} = options
+  if (insertionPoint && typeof insertionPoint === 'string') {
+    const comment = findCommentNode(insertionPoint)
     if (comment) return comment.nextSibling
+    // If user specifies an insertion point and it can't be found in the document -
+    // bad specificity issues may appear.
+    warning(insertionPoint === 'jss', '[JSS] Insertion point "%s" not found.', insertionPoint)
   }
 
   return null
@@ -170,11 +174,12 @@ function insertStyle(style: HTMLElement, options: PriorityOptions) {
   }
 
   // Works with iframes and any node types.
-  if (typeof insertionPoint.nodeType === 'number') {
+  if (insertionPoint && typeof insertionPoint.nodeType === 'number') {
     // https://stackoverflow.com/questions/41328728/force-casting-in-flow
     const insertionPointElement: HTMLElement = (insertionPoint: any)
     const {parentNode} = insertionPointElement
     if (parentNode) parentNode.insertBefore(style, insertionPointElement.nextSibling)
+    else warning(false, '[JSS] Insertion point is not in the DOM.')
     return
   }
 

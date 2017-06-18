@@ -1,5 +1,8 @@
+/* eslint-disable no-underscore-dangle */
+
 import expect from 'expect.js'
 import {create} from '../../src'
+import DomRenderer from '../../src/renderers/DomRenderer'
 
 describe('Functional: dom priority', () => {
   function createDummySheets() {
@@ -48,7 +51,7 @@ describe('Functional: dom priority', () => {
 
     beforeEach(() => {
       createDummySheets()
-      jss = create()
+      jss = create({insertionPoint: 'jss'})
     })
 
     afterEach(() => {
@@ -135,17 +138,15 @@ describe('Functional: dom priority', () => {
     })
   })
 
-  describe('custom string insertion point', () => {
+  describe('two string insertion points', () => {
     let jss1
     let jss2
     let comment1
     let comment2
 
     beforeEach(() => {
-      jss1 = create()
-      jss2 = create({
-        insertionPoint: 'jss2'
-      })
+      jss1 = create({insertionPoint: 'jss'})
+      jss2 = create({insertionPoint: 'jss2'})
       comment1 = document.head.appendChild(document.createComment('jss'))
       comment2 = document.head.appendChild(document.createComment('jss2'))
     })
@@ -167,7 +168,35 @@ describe('Functional: dom priority', () => {
     })
   })
 
-  describe('custom element insertion point', () => {
+  describe('insertion point specified but not found in the document', () => {
+    let warned
+
+    beforeEach(() => {
+      warned = false
+      DomRenderer.__Rewire__('warning', () => {
+        warned = true
+      })
+    })
+
+    afterEach(() => {
+      DomRenderer.__ResetDependency__('warning')
+    })
+
+    it('should warn when string insertion point not found', () => {
+      const jss = create({insertionPoint: 'something'})
+      jss.createStyleSheet().attach()
+      expect(warned).to.be(true)
+    })
+
+    it('should warn when element insertion point not found', () => {
+      const jss = create({insertionPoint: document.createElement('div')})
+      jss.createStyleSheet().attach()
+      expect(warned).to.be(true)
+    })
+  })
+
+
+  describe('element insertion point', () => {
     let insertionPoint
     beforeEach(() => {
       insertionPoint = document.body.appendChild(document.createElement('div'))
@@ -189,7 +218,7 @@ describe('Functional: dom priority', () => {
     })
   })
 
-  describe('custom element insertion point in an iframe', () => {
+  describe('element insertion point in an iframe', () => {
     let insertionPoint
     let iframe
     let iDoc
