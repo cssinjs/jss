@@ -7,7 +7,7 @@ import cloneStyle from '../utils/cloneStyle'
 /**
  * Create a rule instance.
  */
-export default function createRule(name: string, decl: JssStyle, options: RuleOptions): Rule {
+export default function createRule(name: string = 'unnamed', decl: JssStyle, options: RuleOptions): Rule {
   const {jss} = options
   const declCopy = cloneStyle(decl)
 
@@ -15,7 +15,7 @@ export default function createRule(name: string, decl: JssStyle, options: RuleOp
   if (rule) return rule
 
   // It is an at-rule and it has no instance.
-  if (name && name[0] === '@') {
+  if (name[0] === '@') {
     warning(false, '[JSS] Unknown at-rule %s', name)
   }
 

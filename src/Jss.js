@@ -1,7 +1,7 @@
 /* @flow */
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
-import rulesPlugin from './utils/rulesPlugin'
+import rulesPlugins from './plugins/rules'
 import sheets from './sheets'
 import createGenerateClassNameDefault from './utils/createGenerateClassName'
 import createRule from './utils/createRule'
@@ -31,7 +31,7 @@ export default class Jss {
 
   constructor(options?: JssOptions) {
     // eslint-disable-next-line prefer-spread
-    this.use.apply(this, rulesPlugin)
+    this.use.apply(this, rulesPlugins)
     this.setup(options)
   }
 
@@ -98,8 +98,7 @@ export default class Jss {
     ruleOptions.Renderer = this.options.Renderer
     if (!ruleOptions.generateClassName) ruleOptions.generateClassName = this.generateClassName
     if (!ruleOptions.classes) ruleOptions.classes = {}
-
-    const rule = createRule(name || 'unnamed', style, ruleOptions)
+    const rule = createRule(name, style, ruleOptions)
     this.plugins.onProcessRule(rule)
 
     return rule
