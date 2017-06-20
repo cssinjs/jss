@@ -1,4 +1,9 @@
-## 2.0.0 / 2017-10-04
+## 3.0.0 / 2017-06-20
+
+- support jss 8
+- update all plugins
+
+## 2.0.0 / 2017-04-10
 
 - support jss 7.0
 
