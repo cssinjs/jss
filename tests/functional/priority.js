@@ -225,7 +225,6 @@ describe('Functional: dom priority', () => {
 
     beforeEach(() => {
       iframe = document.createElement('iframe')
-      iframe.src='javascript:'
       document.body.appendChild(iframe)
       iDoc = iframe.contentWindow.document
       const body = iDoc.body || iDoc.appendChild(iDoc.createElement('body'))

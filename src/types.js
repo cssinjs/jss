@@ -20,6 +20,21 @@ export type generateClassName = (rule: Rule, sheet?: StyleSheet) => string
 // Find a way to declare all types: Object|string|Array<Object>
 export type JssStyle = Object
 
+
+export interface Renderer {
+  constructor(sheet?: StyleSheet): Renderer;
+  setStyle(rule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean;
+  getStyle(rule: HTMLElement|CSSStyleRule, prop: string): string;
+  setSelector(rule: CSSStyleRule, selectorText: string): boolean;
+  getSelector(rule: CSSStyleRule): string;
+  attach(): void;
+  detach(): void;
+  deploy(sheet: StyleSheet): void;
+  insertRule(rule: Rule): false|CSSStyleRule;
+  deleteRule(rule: CSSStyleRule): boolean;
+  getRules(): CSSRuleList|void;
+}
+
 export type RuleFactoryOptions = {
   selector?: string,
   classes?: Object,
@@ -118,18 +133,4 @@ export type InternalStyleSheetOptions = {
   sheet: StyleSheet,
   parent: ConditionalRule|KeyframesRule|StyleSheet,
   classes: Object
-}
-
-export interface Renderer {
-  constructor(sheet?: StyleSheet): Renderer;
-  setStyle(rule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean;
-  getStyle(rule: HTMLElement|CSSStyleRule, prop: string): string;
-  setSelector(rule: CSSStyleRule, selectorText: string): boolean;
-  getSelector(rule: CSSStyleRule): string;
-  attach(): void;
-  detach(): void;
-  deploy(sheet: StyleSheet): void;
-  insertRule(rule: Rule): false|CSSStyleRule;
-  deleteRule(rule: CSSStyleRule): boolean;
-  getRules(): CSSRuleList|void;
 }
