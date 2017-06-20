@@ -2,11 +2,11 @@
 import warning from 'warning'
 import sheets from '../sheets'
 import type StyleSheet from '../StyleSheet'
-import type {Rule} from '../types'
+import type {Rule, InsertionPoint} from '../types'
 
 type PriorityOptions = {
   index: number,
-  insertionPoint: string
+  insertionPoint?: InsertionPoint
 }
 
 /**
@@ -148,9 +148,42 @@ function findPrevNode(options: PriorityOptions): ?Node|null {
   }
 
   // Try to find a comment placeholder if registry is empty.
-  const comment = findCommentNode(options.insertionPoint)
-  if (comment) return comment.nextSibling
+  const {insertionPoint} = options
+  if (insertionPoint && typeof insertionPoint === 'string') {
+    const comment = findCommentNode(insertionPoint)
+    if (comment) return comment.nextSibling
+    // If user specifies an insertion point and it can't be found in the document -
+    // bad specificity issues may appear.
+    warning(insertionPoint === 'jss', '[JSS] Insertion point "%s" not found.', insertionPoint)
+  }
+
   return null
+}
+
+/**
+ * Insert style element into the DOM.
+ */
+function insertStyle(style: HTMLElement, options: PriorityOptions) {
+  const {insertionPoint} = options
+  const prevNode = findPrevNode(options)
+
+  if (prevNode) {
+    const {parentNode} = prevNode
+    if (parentNode) parentNode.insertBefore(style, prevNode)
+    return
+  }
+
+  // Works with iframes and any node types.
+  if (insertionPoint && typeof insertionPoint.nodeType === 'number') {
+    // https://stackoverflow.com/questions/41328728/force-casting-in-flow
+    const insertionPointElement: HTMLElement = (insertionPoint: any)
+    const {parentNode} = insertionPointElement
+    if (parentNode) parentNode.insertBefore(style, insertionPointElement.nextSibling)
+    else warning(false, '[JSS] Insertion point is not in the DOM.')
+    return
+  }
+
+  getHead().insertBefore(style, prevNode)
 }
 
 export default class DomRenderer {
@@ -170,15 +203,10 @@ export default class DomRenderer {
   hasInsertedRules: boolean = false
 
   constructor(sheet?: StyleSheet) {
-    this.sheet = sheet
-    // There is no sheet when the renderer is used from a standalone RegularRule.
+    // There is no sheet when the renderer is used from a standalone StyleRule.
     if (sheet) sheets.add(sheet)
-  }
 
-  /**
-   * Create and ref style element.
-   */
-  createElement(): void {
+    this.sheet = sheet
     const {media, meta, element} = (this.sheet ? this.sheet.options : {})
     this.element = element || document.createElement('style')
     this.element.type = 'text/css'
@@ -202,8 +230,8 @@ export default class DomRenderer {
       this.deploy()
       this.hasInsertedRules = false
     }
-    const prevNode = findPrevNode(this.sheet.options)
-    getHead().insertBefore(this.element, prevNode)
+
+    insertStyle(this.element, this.sheet.options)
   }
 
   /**
@@ -224,7 +252,7 @@ export default class DomRenderer {
   /**
    * Insert a rule into element.
    */
-  insertRule(rule: Rule): CSSStyleRule|false {
+  insertRule(rule: Rule): false|CSSStyleRule {
     const {sheet} = this.element
     const {cssRules} = sheet
     const index = cssRules.length

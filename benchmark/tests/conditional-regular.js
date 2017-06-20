@@ -7,14 +7,14 @@ const options = {virtual: true}
 
 suite('Conditional vs. regular rules to CSS', () => {
   benchmark('conditionals .toString()', () => {
-    create()
-      .createStyleSheet(conditional, options)
+    create(options)
+      .createStyleSheet(conditional)
       .toString()
   })
 
   benchmark('regulars .toString()', () => {
-    create()
-      .createStyleSheet(regular, options)
+    create(options)
+      .createStyleSheet(regular)
       .toString()
   })
 })

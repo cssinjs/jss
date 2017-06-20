@@ -1,18 +1,21 @@
 /* @flow */
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
-import internalPlugins from './plugins'
+import rulesPlugins from './plugins/rules'
 import sheets from './sheets'
-import generateClassNameDefault from './utils/generateClassName'
+import createGenerateClassNameDefault from './utils/createGenerateClassName'
 import createRule from './utils/createRule'
 import findRenderer from './utils/findRenderer'
 import type {
   Rule,
+  RuleFactoryOptions,
   RuleOptions,
   StyleSheetFactoryOptions,
   Plugin,
   JssOptions,
-  JssStyle
+  InternalJssOptions,
+  JssStyle,
+  generateClassName
 } from './types'
 
 declare var __VERSION__: string
@@ -22,19 +25,25 @@ export default class Jss {
 
   plugins = new PluginsRegistry()
 
-  options: JssOptions
+  options: InternalJssOptions
+
+  generateClassName: generateClassName
 
   constructor(options?: JssOptions) {
     // eslint-disable-next-line prefer-spread
-    this.use.apply(this, internalPlugins)
+    this.use.apply(this, rulesPlugins)
     this.setup(options)
   }
 
   setup(options?: JssOptions = {}): this {
+    const createGenerateClassName =
+      options.createGenerateClassName ||
+      createGenerateClassNameDefault
+    this.generateClassName = createGenerateClassName()
     this.options = {
-      generateClassName: options.generateClassName || generateClassNameDefault,
-      insertionPoint: options.insertionPoint || 'jss',
-      ...options
+      ...options,
+      createGenerateClassName,
+      Renderer: findRenderer(options)
     }
     // eslint-disable-next-line prefer-spread
     if (options.plugins) this.use.apply(this, options.plugins)
@@ -50,10 +59,11 @@ export default class Jss {
       index = sheets.index === 0 ? 0 : sheets.index + 1
     }
     const sheet = new StyleSheet(styles, {
-      jss: (this: Jss),
-      generateClassName: this.options.generateClassName,
-      insertionPoint: this.options.insertionPoint,
       ...options,
+      jss: (this: Jss),
+      generateClassName: options.generateClassName || this.generateClassName,
+      insertionPoint: this.options.insertionPoint,
+      Renderer: this.options.Renderer,
       index
     })
     this.plugins.onProcessSheet(sheet)
@@ -72,7 +82,7 @@ export default class Jss {
   /**
    * Create a rule without a Style Sheet.
    */
-  createRule(name?: string, style?: JssStyle = {}, options?: RuleOptions = {}): Rule {
+  createRule(name?: string, style?: JssStyle = {}, options?: RuleFactoryOptions = {}): Rule {
     // Enable rule without name for inline styles.
     if (typeof name === 'object') {
       options = style
@@ -80,14 +90,15 @@ export default class Jss {
       name = undefined
     }
 
-    if (!options.classes) options.classes = {}
-    if (!options.jss) options.jss = this
-    if (!options.Renderer) options.Renderer = findRenderer(options)
-    if (!options.generateClassName) {
-      options.generateClassName = this.options.generateClassName || generateClassNameDefault
-    }
+    // Cast from RuleFactoryOptions to RuleOptions
+    // https://stackoverflow.com/questions/41328728/force-casting-in-flow
+    const ruleOptions: RuleOptions = (options: any)
 
-    const rule = createRule(name, style, options)
+    ruleOptions.jss = this
+    ruleOptions.Renderer = this.options.Renderer
+    if (!ruleOptions.generateClassName) ruleOptions.generateClassName = this.generateClassName
+    if (!ruleOptions.classes) ruleOptions.classes = {}
+    const rule = createRule(name, style, ruleOptions)
     this.plugins.onProcessRule(rule)
 
     return rule

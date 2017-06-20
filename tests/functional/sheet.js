@@ -2,13 +2,12 @@
 
 import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
-
 import vendorPrefixer from 'jss-vendor-prefixer'
 
 import {create} from '../../src'
-import DomRenderer from '../../src/backends/DomRenderer'
+import DomRenderer from '../../src/renderers/DomRenderer'
 import {
-  generateClassName,
+  createGenerateClassName,
   computeStyle,
   getStyle,
   getCss,
@@ -18,7 +17,7 @@ import {
   removeVendorPrefixes
 } from '../utils'
 
-const settings = {generateClassName}
+const settings = {createGenerateClassName}
 
 describe('Functional: sheet', () => {
   let jss
@@ -130,7 +129,8 @@ describe('Functional: sheet', () => {
 
   describe('Option {virtual: true}', () => {
     it('should not render style', () => {
-      const sheet = jss.createStyleSheet({a: {float: 'left'}}, {virtual: true})
+      const localJss = create({virtual: true})
+      const sheet = localJss.createStyleSheet({a: {float: 'left'}})
       sheet.attach()
       expect(getStyle()).to.be(undefined)
       sheet.detach()
@@ -207,7 +207,7 @@ describe('Functional: sheet', () => {
 
     beforeEach(() => {
       function addRule(rule) {
-        if (rule.name === 'a') {
+        if (rule.key === 'a') {
           rule.options.sheet.addRule('b', {color: 'red'})
         }
       }
@@ -379,7 +379,7 @@ describe('Functional: sheet', () => {
         onProcessRule(rule, ruleSheet) {
           const ruleName = 'plugin-rule'
 
-          if (rule.name === ruleName) return
+          if (rule.key === ruleName) return
 
           ruleSheet.addRule(ruleName, {
             color: props => props.color

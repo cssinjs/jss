@@ -1,19 +1,16 @@
 /* @flow */
 import toCss from '../utils/toCss'
 import toCssValue from '../utils/toCssValue'
-import findClassNames from '../utils/findClassNames'
-import type {ToCssOptions, RuleOptions, Renderer as RendererInterface, JssStyle} from '../types'
+import type {ToCssOptions, RuleOptions, Renderer as RendererInterface, JssStyle, BaseRule} from '../types'
 
-export default class RegularRule {
-  type = 'regular'
+export default class StyleRule implements BaseRule {
+  type = 'style'
 
-  name: ?string
+  key: string
 
-  isProcessed: ?boolean
+  isProcessed: boolean = false
 
   style: JssStyle
-
-  className: string
 
   selectorText: string
 
@@ -23,29 +20,19 @@ export default class RegularRule {
 
   options: RuleOptions
 
-  /**
-   * We expect `style` to be a plain object.
-   * To avoid original style object mutations, we clone it and hash it
-   * along the way.
-   * It is also the fastetst way.
-   * http://jsperf.com/lodash-deepclone-vs-jquery-extend-deep/6
-   */
-  constructor(name?: string, style: JssStyle, options: RuleOptions) {
-    const {generateClassName, sheet, Renderer} = options
-    this.name = name
-    this.className = ''
+  constructor(key: string, style: JssStyle, options: RuleOptions) {
+    const {generateClassName, sheet, Renderer, selector} = options
+    this.key = key
     this.options = options
     this.style = style
-    if (options.className) this.className = options.className
-    else if (generateClassName) this.className = generateClassName(this, sheet)
-    this.selectorText = options.selector || `.${this.className}`
-    if (sheet) this.renderer = sheet.renderer
-    else if (Renderer) this.renderer = new Renderer()
+    this.selectorText = selector || `.${generateClassName(this, sheet)}`
+    this.renderer = sheet ? sheet.renderer : new Renderer()
   }
 
   /**
    * Set selector string.
-   * Attenition: use this with caution. Most browser didn't implement
+   * TODO rewrite this #419
+   * Attention: use this with caution. Most browsers didn't implement
    * selectorText setter, so this may result in rerendering of entire Style Sheet.
    */
   set selector(selector: string): void {
@@ -55,7 +42,6 @@ export default class RegularRule {
     if (sheet) sheet.rules.unregister(this)
 
     this.selectorText = selector
-    this.className = findClassNames(selector)
 
     if (!this.renderable) {
       // Register the rule with new selector.
@@ -96,7 +82,7 @@ export default class RegularRule {
   /**
    * Get or set a style property.
    */
-  prop(name: string, value?: string): RegularRule|string {
+  prop(name: string, value?: string): StyleRule|string {
     const $name = typeof this.style[name] === 'function' ? `$${name}` : name
     let currValue = this.style[$name]
 
@@ -140,7 +126,7 @@ export default class RegularRule {
    * Useful for inline styles.
    */
   toJSON(): Object {
-    const json = Object.create(null)
+    const json = {}
     for (const prop in this.style) {
       const value = this.style[prop]
       const type = typeof value

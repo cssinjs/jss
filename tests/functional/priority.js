@@ -1,5 +1,8 @@
+/* eslint-disable no-underscore-dangle */
+
 import expect from 'expect.js'
 import {create} from '../../src'
+import DomRenderer from '../../src/renderers/DomRenderer'
 
 describe('Functional: dom priority', () => {
   function createDummySheets() {
@@ -48,7 +51,7 @@ describe('Functional: dom priority', () => {
 
     beforeEach(() => {
       createDummySheets()
-      jss = create()
+      jss = create({insertionPoint: 'jss'})
     })
 
     afterEach(() => {
@@ -135,17 +138,15 @@ describe('Functional: dom priority', () => {
     })
   })
 
-  describe('custom insertion point', () => {
+  describe('two string insertion points', () => {
     let jss1
     let jss2
     let comment1
     let comment2
 
     beforeEach(() => {
-      jss1 = create()
-      jss2 = create({
-        insertionPoint: 'jss2'
-      })
+      jss1 = create({insertionPoint: 'jss'})
+      jss2 = create({insertionPoint: 'jss2'})
       comment1 = document.head.appendChild(document.createComment('jss'))
       comment2 = document.head.appendChild(document.createComment('jss2'))
     })
@@ -160,6 +161,86 @@ describe('Functional: dom priority', () => {
       jss1.createStyleSheet({}, {meta: 'sheet1'}).attach()
 
       const styleElements = document.head.getElementsByTagName('style')
+
+      expect(styleElements.length).to.be(2)
+      expect(styleElements[0].getAttribute('data-meta')).to.be('sheet1')
+      expect(styleElements[1].getAttribute('data-meta')).to.be('sheet2')
+    })
+  })
+
+  describe('insertion point specified but not found in the document', () => {
+    let warned
+
+    beforeEach(() => {
+      warned = false
+      DomRenderer.__Rewire__('warning', () => {
+        warned = true
+      })
+    })
+
+    afterEach(() => {
+      DomRenderer.__ResetDependency__('warning')
+    })
+
+    it('should warn when string insertion point not found', () => {
+      const jss = create({insertionPoint: 'something'})
+      jss.createStyleSheet().attach()
+      expect(warned).to.be(true)
+    })
+
+    it('should warn when element insertion point not found', () => {
+      const jss = create({insertionPoint: document.createElement('div')})
+      jss.createStyleSheet().attach()
+      expect(warned).to.be(true)
+    })
+  })
+
+
+  describe('element insertion point', () => {
+    let insertionPoint
+    beforeEach(() => {
+      insertionPoint = document.body.appendChild(document.createElement('div'))
+      const jss = create({insertionPoint})
+      jss.createStyleSheet({}, {meta: 'sheet2', index: 2}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet1', index: 1}).attach()
+    })
+
+    afterEach(() => {
+      document.body.removeChild(insertionPoint)
+    })
+
+    it('should insert sheets in the correct order', () => {
+      const styleElements = document.body.getElementsByTagName('style')
+
+      expect(styleElements.length).to.be(2)
+      expect(styleElements[0].getAttribute('data-meta')).to.be('sheet1')
+      expect(styleElements[1].getAttribute('data-meta')).to.be('sheet2')
+    })
+  })
+
+  describe('element insertion point in an iframe', () => {
+    let insertionPoint
+    let iframe
+    let iDoc
+
+    beforeEach(() => {
+      iframe = document.createElement('iframe')
+      iframe.src='javascript:'
+      document.body.appendChild(iframe)
+      iDoc = iframe.contentWindow.document
+      const body = iDoc.body || iDoc.appendChild(iDoc.createElement('body'))
+      insertionPoint = body.appendChild(iDoc.createElement('div'))
+      const jss = create({insertionPoint})
+      jss.createStyleSheet({}, {meta: 'sheet2', index: 2}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet1', index: 1}).attach()
+    })
+
+    afterEach(() => {
+      iframe.parentNode.removeChild(iframe)
+    })
+
+    it('should insert sheets in the correct order', () => {
+      const styleElements = iDoc.getElementsByTagName('style')
 
       expect(styleElements.length).to.be(2)
       expect(styleElements[0].getAttribute('data-meta')).to.be('sheet1')

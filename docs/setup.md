@@ -49,15 +49,38 @@ sheet.toString()
 
 You can instruct `jss` to render your stylesheets starting at a specific point in the DOM by placing a comment node anywhere in the `head` of the document.
 
-This can be useful if you have another dependency that needs to come before or after the `jss` Style Sheets for cascading specificity purposes.
+This can be useful if you have another dependency that needs to come before or after the `jss` Style Sheets for source order based specificity purposes.
 
 You can specify an `insertionPoint` during [jss.setup()](https://github.com/cssinjs/jss/blob/master/docs/js-api.md#setup-jss-instance) and [jss.createStyleSheeet()](https://github.com/cssinjs/jss/blob/master/docs/js-api.md#create-style-sheet).
 
 ```html
 <head>
-    <title>JSS</title>
-    <!-- jss -->
+  <title>JSS</title>
+  <!-- custom-insertion-point -->
 </head>
+```
+
+```js
+jss.setup({insertionPoint: 'custom-insertion-point'})
+```
+
+Here is another example, with the insertion point moved to the `body`:
+
+```html
+<head>    
+  <title>JSS in body</title>
+</head>
+<body>  
+  <div id="insertion-point">
+    This might be any DOM node of your choice which can serve as an insertion point.
+  </div>
+</body>
+```
+
+```js
+jss.setup({
+  insertionPoint: document.getElementById('insertion-point')
+})
 ```
 
 ## CLI

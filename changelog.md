@@ -1,3 +1,27 @@
+## 8.0.0 / 2017-06-20
+
+- Option `insertionPoint` can now accept a DOM node
+- DOM node provided in `insertionPoint` can be inside of an iframe.
+- Warn when an `insertionPoint` was specified but not found in the DOM.
+
+### Breaking changes for users
+
+- Option `generateClassName` which was used in Jss constructor and `Jss.setup` has been removed. A new option is called `createGenerateClassName` which is a factory that returns the old `generateClassName`. We need this to reset counters on SSR for each request.
+- Removed default `insertionPoint` value ("jss") in order to have warnings when insertionPoint is not found in the DOM. With the default one we simply don't know when to warn.
+
+### Potentially breaking changes for plugins
+
+- KeyframeRule has been renamed to KeyframesRule.
+- KeyframeRule.type === 'keyframe' => KeyFrames.type === 'keyframes'.
+- RegularRule has been renamed to StyleRule
+- RegularRule.type === 'regular' => StyleRule.type === 'style'.
+- RegularRule.name => RegularRule.key
+- ConditionalRule.selector => ConditionalRule.key
+- FontFaceRule.selector => FontFaceRule.key
+- SimpleRule.name => SimpleRule.key
+- ViewportRule.name => ViewportRule.key
+- RulesContainer => RuleList
+
 ## 7.1.7 / 2017-06-15
 
 - Fix CSS flow types

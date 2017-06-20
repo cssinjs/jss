@@ -28,9 +28,12 @@ export default jss
 
 Options:
 
-  - `generateClassName` function you can pass to generate your custom class name.
+  - `createGenerateClassName` function you can pass to generate your custom class name.
   - `plugins` an array of functions, will be passed to `jss.use`.
-  - `insertionPoint` the value of a DOM comment node which marks the start of sheets. Sheets rendered by this Jss instance are inserted after this point sequentially. Default is `jss`.
+  - `virtual` if true, JSS will use VirtualRenderer
+  - `insertionPoint` string value of a DOM comment node which marks the start of sheets or a rendered DOM node. Sheets rendered by this Jss instance are inserted after this point sequentially.
+
+See [setup examples](./setup#specify-dom-insertion-point).
 
 ## Quick setup with preset
 
@@ -54,9 +57,6 @@ Options:
 - `link` link jss `Rule` instances with DOM `CSSRule` instances so that styles, can be modified dynamically, false by default because it has some performance cost.
 - `element` style element, will create one by default
 - `index` 0 by default - determines DOM rendering order, higher number = higher specificity (inserted after)
-- `virtual` if true, use VirtualRenderer
-- `insertionPoint` the value of a DOM comment node which marks the start of sheets. Sheets rendered by this Jss instance are inserted after this point sequentially. Default is `jss`.
-
 
 ```javascript
 const sheet = jss.createStyleSheet({
@@ -286,14 +286,18 @@ console.log(sheet.toString())
 
 ## Generate your own class names
 
+Option `createGenerateClassName` allows you to specify a function which returns a class name generator function. This pattern is used to allow JSS reset the counter upon factory invocation, when needed. For e.g. it is used in [react-jss](https://github.com/cssinjs/react-jss) to reset the counter on each request for SSR.
+
 ```javascript
 import {create} from 'jss'
 
-const jss = create({
-  generateClassName: (rule, sheet) => {
-    return 'my-fancy-id'
-  }
-})
+const generateClassName => {
+  let counter = 0
+
+  return (rule, sheet) => `${rule.key}-${counter++}`
+}
+
+const jss = create({createGenerateClassName})
 
 const sheet = jss.createStyleSheet({
   button: {

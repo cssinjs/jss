@@ -8,7 +8,7 @@
  */
 import Jss from './Jss'
 import SheetsRegistry from './SheetsRegistry'
-import RulesContainer from './RulesContainer'
+import RuleList from './RuleList'
 import sheets from './sheets'
 import type {JssOptions} from './types'
 import getDynamicStyles from './utils/getDynamicStyles'
@@ -24,9 +24,9 @@ export {getDynamicStyles}
 export {SheetsRegistry}
 
 /**
- * RulesContainer for plugins.
+ * RuleList for plugins.
  */
-export {RulesContainer}
+export {RuleList}
 
 /**
  * Default global SheetsRegistry instance.

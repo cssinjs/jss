@@ -1,14 +1,18 @@
 /* @flow */
 import Jss from './Jss'
 import StyleSheet from './StyleSheet'
-import RulesContainer from './RulesContainer'
-import ConditionalRule from './plugins/ConditionalRule'
-import KeyframeRule from './plugins/KeyframeRule'
-import RegularRule from './plugins/RegularRule'
+import ConditionalRule from './rules/ConditionalRule'
+import KeyframesRule from './rules/KeyframesRule'
+import StyleRule from './rules/StyleRule'
+import ViewportRule from './rules/ViewportRule'
+import SimpleRule from './rules/SimpleRule'
+import FontFaceRule from './rules/FontFaceRule'
 
 export type ToCssOptions = {
   indent?: number
 }
+
+export type Rule = StyleRule|ConditionalRule|FontFaceRule|KeyframesRule|SimpleRule|ViewportRule
 
 export type generateClassName = (rule: Rule, sheet?: StyleSheet) => string
 
@@ -16,37 +20,40 @@ export type generateClassName = (rule: Rule, sheet?: StyleSheet) => string
 // Find a way to declare all types: Object|string|Array<Object>
 export type JssStyle = Object
 
-export type RuleOptions = {
-  className?: string,
+export type RuleFactoryOptions = {
   selector?: string,
-  generateClassName?: generateClassName,
-  Renderer?: Function,
-  index?: number,
-  virtual?: boolean,
   classes?: Object,
+  sheet?: StyleSheet,
+  index?: number,
   jss?: Jss,
-  sheet?: StyleSheet
+  generateClassName?: generateClassName,
+  Renderer?: Class<Renderer>
 }
 
-export type RulesContainerOptions = {
+export type RuleOptions = {
+  selector?: string,
+  sheet?: StyleSheet,
+  index?: number,
+  classes: Object,
+  jss: Jss,
+  generateClassName: generateClassName,
+  Renderer: Class<Renderer>
+}
+
+export type RuleListOptions = {
   classes: Object,
   generateClassName: generateClassName,
-  Renderer: Function,
+  Renderer: Class<Renderer>,
   jss: Jss,
   sheet: StyleSheet,
-  parent: ConditionalRule|KeyframeRule|StyleSheet
+  parent: ConditionalRule|KeyframesRule|StyleSheet
 }
 
-export interface Rule {
+export interface BaseRule {
   type: string;
-  name: ?string;
-  selector: string;
-  rules?: RulesContainer;
-  style: JssStyle;
-  renderable: ?CSSStyleRule;
+  key: string;
+  isProcessed: boolean;
   options: RuleOptions;
-  isProcessed: ?boolean;
-  prop(name: string, value?: string): RegularRule|string;
   toString(options?: ToCssOptions): string;
 }
 
@@ -58,69 +65,63 @@ export type Plugin = {
   onChangeValue?: (value: string, prop: string, rule: Rule) => string
 }
 
+export type InsertionPoint = string|HTMLElement
+
+type createGenerateClassName = () => generateClassName
+
 export type JssOptions = {
-  generateClassName?: generateClassName,
+  createGenerateClassName?: createGenerateClassName,
   plugins?: Array<Plugin>,
-  insertionPoint?: string
+  insertionPoint?: InsertionPoint,
+  Renderer?: Class<Renderer>,
+  virtual?: Boolean
 }
 
-/**
- * - `media` media query - attribute of style element.
- * - `meta` meta information about this style - attribute of style element,
- *   for e.g. you could pass
- * component name for easier debugging.
- * - `index` 0 by default - determines DOM rendering order, higher number = higher specificity
- * - `insertionPoint` 'jss' by default, the value of a comment node sheets will be inserted after
- * - `link` link jss `Rule` instances with DOM `CSSStyleRule` instances so that
- *   styles, can be modified
- * dynamically, false by default because it has some performance cost.
- * - `element` style element, will create one by default
- *  (inserted after)
- * - `virtual` if true, use VirtualRenderer
- */
-export type StyleSheetOptions = {
-  media?: string,
-  meta?: string,
-  index?: number,
-  insertionPoint?: string,
-  link?: boolean,
-  element?: HTMLStyleElement,
-  virtual?: boolean,
-  Renderer?: Function,
-  generateClassName?: generateClassName,
-  jss: Jss
+export type InternalJssOptions = {
+  createGenerateClassName: createGenerateClassName,
+  plugins?: Array<Plugin>,
+  insertionPoint?: InsertionPoint,
+  Renderer: Class<Renderer>
 }
 
 export type StyleSheetFactoryOptions = {
   media?: string,
   meta?: string,
   index?: number,
-  insertionPoint?: string,
   link?: boolean,
   element?: HTMLStyleElement,
-  virtual?: boolean,
-  Renderer?: Function,
-  generateClassName?: generateClassName,
-  jss?: Jss
+  generateClassName?: generateClassName
+}
+
+export type StyleSheetOptions = {
+  media?: string,
+  meta?: string,
+  link?: boolean,
+  element?: HTMLStyleElement,
+  index: number,
+  generateClassName: generateClassName,
+  Renderer: Class<Renderer>,
+  insertionPoint?: InsertionPoint,
+  jss: Jss
 }
 
 export type InternalStyleSheetOptions = {
   media?: string,
   meta?: string,
-  index: number,
-  insertionPoint: string,
   link?: boolean,
   element?: HTMLStyleElement,
-  virtual?: boolean,
-  Renderer: Function,
+  index: number,
+  insertionPoint?: InsertionPoint,
+  Renderer: Class<Renderer>,
   generateClassName: generateClassName,
   jss: Jss,
   sheet: StyleSheet,
-  parent: ConditionalRule|KeyframeRule|StyleSheet,
+  parent: ConditionalRule|KeyframesRule|StyleSheet,
   classes: Object
 }
 
 export interface Renderer {
+  constructor(sheet?: StyleSheet): Renderer;
   setStyle(rule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean;
   getStyle(rule: HTMLElement|CSSStyleRule, prop: string): string;
   setSelector(rule: CSSStyleRule, selectorText: string): boolean;
@@ -128,7 +129,7 @@ export interface Renderer {
   attach(): void;
   detach(): void;
   deploy(sheet: StyleSheet): void;
-  insertRule(rule: Rule): CSSStyleRule|false;
+  insertRule(rule: Rule): false|CSSStyleRule;
   deleteRule(rule: CSSStyleRule): boolean;
   getRules(): CSSRuleList|void;
 }

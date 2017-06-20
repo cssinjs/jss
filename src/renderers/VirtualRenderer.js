@@ -5,7 +5,6 @@
  * Rendering backend to do nothing in nodejs.
  */
 export default class VirtualRenderer {
-  createElement() {}
   setStyle() {
     return true
   }
@@ -22,7 +21,7 @@ export default class VirtualRenderer {
   detach() {}
   deploy() {}
   insertRule() {
-    return true
+    return false
   }
   deleteRule() {
     return true

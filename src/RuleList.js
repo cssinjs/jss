@@ -2,8 +2,9 @@
 import createRule from './utils/createRule'
 import updateRule from './utils/updateRule'
 import linkRule from './utils/linkRule'
+import StyleRule from './rules/StyleRule'
 import type {
-  RulesContainerOptions,
+  RuleListOptions,
   ToCssOptions,
   Rule,
   RuleOptions,
@@ -14,22 +15,22 @@ import type {
  * Contains rules objects and allows adding/removing etc.
  * Is used for e.g. by `StyleSheet` or `ConditionalRule`.
  */
-export default class RulesContainer {
+export default class RuleList {
   // Rules registry for access by .get() method.
   // It contains the same rule registered by name and by selector.
-  map: {[key: string]: Rule} = Object.create(null)
+  map: {[key: string]: Rule} = {}
 
   // Original styles object.
-  raw: {[key: string]: JssStyle} = Object.create(null)
+  raw: {[key: string]: JssStyle} = {}
 
   // Used to ensure correct rules order.
   index: Array<Rule> = []
 
-  options: RulesContainerOptions
+  options: RuleListOptions
 
   classes: Object
 
-  constructor(options: RulesContainerOptions) {
+  constructor(options: RuleListOptions) {
     this.options = options
     this.classes = options.classes
   }
@@ -52,7 +53,7 @@ export default class RulesContainer {
       ...options
     }
 
-    if (!options.className) options.className = this.classes[name]
+    if (!options.selector && this.classes[name]) options.selector = `.${this.classes[name]}`
 
     this.raw[name] = decl
 
@@ -101,20 +102,20 @@ export default class RulesContainer {
    * Register a rule in `.map` and `.classes` maps.
    */
   register(rule: Rule): void {
-    if (rule.name) this.map[rule.name] = rule
-    if (rule.className && rule.name) this.classes[rule.name] = rule.className
-    if (rule.selector) this.map[rule.selector] = rule
+    this.map[rule.key] = rule
+    if (rule instanceof StyleRule) {
+      this.map[rule.selector] = rule
+      this.classes[rule.key] = rule.selector.substr(1)
+    }
   }
 
   /**
    * Unregister a rule.
    */
   unregister(rule: Rule): void {
-    if (rule.name) {
-      delete this.map[rule.name]
-      delete this.classes[rule.name]
-    }
-    delete this.map[rule.selector]
+    delete this.map[rule.key]
+    delete this.classes[rule.key]
+    if (rule instanceof StyleRule) delete this.map[rule.selector]
   }
 
   /**
@@ -122,12 +123,12 @@ export default class RulesContainer {
    */
   update(name?: string, data?: Object): void {
     if (typeof name === 'string') {
-      updateRule(this.get(name), data, RulesContainer)
+      updateRule(this.get(name), data, RuleList)
       return
     }
 
     for (let index = 0; index < this.index.length; index++) {
-      updateRule(this.index[index], name, RulesContainer)
+      updateRule(this.index[index], name, RuleList)
     }
   }
 

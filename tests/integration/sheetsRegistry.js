@@ -1,13 +1,13 @@
 import expect from 'expect.js'
 import {create, SheetsRegistry} from '../../src'
-import {generateClassName} from '../utils'
+import {createGenerateClassName} from '../utils'
 
 describe('Integration: sheetsRegistry', () => {
   let jss
   let sheets
 
   beforeEach(() => {
-    jss = create({generateClassName})
+    jss = create({createGenerateClassName})
     sheets = new SheetsRegistry()
   })
 

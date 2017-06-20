@@ -3,10 +3,10 @@ import global from 'jss-global'
 
 import styles from '../fixtures/bootstrap.json'
 
-const jssWithoutGlobal = create()
-const jssWithGlobal = create().use(global())
 // Avoid memory leak with registry.
 const options = {virtual: true}
+const jssWithoutGlobal = create(options)
+const jssWithGlobal = create(options).use(global())
 
 suite('Bootstrap JSS to CSS', () => {
   benchmark('unnamed .toString()', () => {

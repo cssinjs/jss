@@ -1,7 +1,6 @@
 /* @flow */
-import findRenderer from './utils/findRenderer'
 import linkRule from './utils/linkRule'
-import RulesContainer from './RulesContainer'
+import RuleList from './RuleList'
 import type {
   InternalStyleSheetOptions,
   Rule,
@@ -20,7 +19,7 @@ export default class StyleSheet {
 
   attached: boolean
 
-  rules: RulesContainer
+  rules: RuleList
 
   renderer: Object
 
@@ -29,22 +28,18 @@ export default class StyleSheet {
   queue: ?Array<Rule>
 
   constructor(styles: Object, options: StyleSheetOptions) {
-    const Renderer = findRenderer(options)
-
     this.attached = false
     this.deployed = false
     this.linked = false
-    this.classes = Object.create(null)
+    this.classes = {}
     this.options = {
+      ...options,
       sheet: this,
       parent: this,
-      classes: this.classes,
-      Renderer,
-      ...options
+      classes: this.classes
     }
-    this.renderer = new Renderer(this)
-    this.renderer.createElement()
-    this.rules = new RulesContainer(this.options)
+    this.renderer = new options.Renderer(this)
+    this.rules = new RuleList(this.options)
 
     for (const name in styles) {
       this.rules.add(name, styles[name])

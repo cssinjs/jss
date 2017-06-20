@@ -1,14 +1,14 @@
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import {create} from '../../src'
-import RegularRule from '../../src/plugins/RegularRule'
-import {generateClassName} from '../utils'
+import StyleRule from '../../src/rules/StyleRule'
+import {createGenerateClassName} from '../utils'
 
 describe('Integration: sheet', () => {
   let jss
 
   beforeEach(() => {
-    jss = create({generateClassName})
+    jss = create({createGenerateClassName})
   })
 
   describe('.createStyleSheet()', () => {
@@ -27,9 +27,8 @@ describe('Integration: sheet', () => {
     it('should create a sheet with one rule', () => {
       const sheet = jss.createStyleSheet({a: {float: 'left'}})
       const rule = sheet.getRule('a')
-      expect(rule).to.be.a(RegularRule)
+      expect(rule).to.be.a(StyleRule)
       expect(sheet.classes.a).to.be('a-id')
-      expect(rule.className).to.be('a-id')
       expect(rule.selector).to.be('.a-id')
     })
 
@@ -48,23 +47,29 @@ describe('Integration: sheet', () => {
       expect(sheet.classes.bar).to.be('bar-id')
     })
 
-    it('should ref original style object in RulesContainer#raw', () => {
+    it('should ref original style object in RuleList#raw', () => {
       const styles = {a: {color: 'red'}}
       const sheet = jss.createStyleSheet(styles)
       // jss-cache relies on `a` being a ref to the original object.
       expect(sheet.getRule('a').options.parent.rules.raw.a).to.be(styles.a)
+    })
+
+    it('should allow generateClassName override', () => {
+      const generateClassName = () => {}
+      const sheet = jss.createStyleSheet(null, {generateClassName})
+      expect(sheet.options.generateClassName).to.be(generateClassName)
     })
   })
 
   describe('sheet.getRule()', () => {
     it('should return a rule by name and selector from named sheet', () => {
       const sheet = jss.createStyleSheet({a: {float: 'left'}})
-      expect(sheet.getRule('a')).to.be.a(RegularRule)
+      expect(sheet.getRule('a')).to.be.a(StyleRule)
     })
 
     it('should return a rule by selector from unnamed sheet', () => {
       const sheet = jss.createStyleSheet({a: {float: 'left'}}, {named: false})
-      expect(sheet.getRule('a')).to.be.a(RegularRule)
+      expect(sheet.getRule('a')).to.be.a(StyleRule)
     })
   })
 
@@ -81,10 +86,9 @@ describe('Integration: sheet', () => {
   })
 
   describe('sheet.addRule()', () => {
-    it('should add a rule with "className" in options', () => {
+    it('should add a rule with "selector" option', () => {
       const sheet = jss.createStyleSheet()
-      const rule = sheet.addRule('a', {color: 'red'}, {className: 'test'})
-      expect(rule.className).to.be('test')
+      const rule = sheet.addRule('a', {color: 'red'}, {selector: '.test'})
       expect(rule.selector).to.be('.test')
       expect(sheet.getRule('a')).to.be(rule)
     })
@@ -226,18 +230,18 @@ describe('Integration: sheet', () => {
       let id
       const options = {
         generateClassName: () => {
-          id = Math.random()
+          id = Math.random().toString()
           return id
         }
       }
 
       it('should use the class name of a conditional child', () => {
-        const sheet = create(options).createStyleSheet({
+        const sheet = create().createStyleSheet({
           '@media print': {
             a: {float: 'left'}
           },
           a: {color: 'red'}
-        })
+        }, options)
         expect(sheet.toString()).to.be(stripIndent`
           @media print {
             .${id} {
@@ -251,14 +255,14 @@ describe('Integration: sheet', () => {
       })
 
       it('should use the class name of the first conditional child', () => {
-        const sheet = create(options).createStyleSheet({
+        const sheet = create().createStyleSheet({
           '@media print': {
             a: {float: 'left'}
           },
           '@media screen': {
             a: {float: 'right'}
           }
-        })
+        }, options)
         expect(sheet.toString()).to.be(stripIndent`
           @media print {
             .${id} {

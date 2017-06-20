@@ -32,7 +32,10 @@ export default class PluginsRegistry {
     for (let i = 0; i < this.hooks.onProcessRule.length; i++) {
       this.hooks.onProcessRule[i](rule, sheet)
     }
+
+    // $FlowFixMe
     if (rule.style) this.onProcessStyle(rule.style, rule, sheet)
+
     rule.isProcessed = true
   }
 
@@ -40,8 +43,12 @@ export default class PluginsRegistry {
    * Call `onProcessStyle` hooks.
    */
   onProcessStyle(style: JssStyle, rule: Rule, sheet?: StyleSheet): void {
+    let nextStyle = style
+
     for (let i = 0; i < this.hooks.onProcessStyle.length; i++) {
-      rule.style = style = this.hooks.onProcessStyle[i](style, rule, sheet)
+      nextStyle = this.hooks.onProcessStyle[i](nextStyle, rule, sheet)
+      // $FlowFixMe
+      rule.style = nextStyle
     }
   }
 

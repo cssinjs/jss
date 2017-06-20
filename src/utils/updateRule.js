@@ -1,8 +1,8 @@
-import type RulesContainerType from '../RulesContainer'
+import type RuleListType from '../RuleList'
 import type {Rule} from './types'
 
-export default (rule: Rule, data: Object, RulesContainer: RulesContainerType): void => {
-  if (rule.type === 'regular') {
+export default (rule: Rule, data: Object, RuleList: RuleListType): void => {
+  if (rule.type === 'style') {
     for (const prop in rule.style) {
       const value = rule.style[prop]
       if (typeof value === 'function') {
@@ -10,7 +10,7 @@ export default (rule: Rule, data: Object, RulesContainer: RulesContainerType): v
       }
     }
   }
-  else if (rule.rules instanceof RulesContainer) {
+  else if (rule.rules instanceof RuleList) {
     rule.rules.update(data)
   }
 }
