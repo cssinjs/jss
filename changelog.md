@@ -1,12 +1,12 @@
-## Next
+## 8.0.0 / 2017-06-20
 
 - Option `insertionPoint` can now accept a DOM node
-- Option `insertionPoint` can be inside of an iframe now.
+- DOM node provided in `insertionPoint` can be inside of an iframe.
 - Warn when an `insertionPoint` was specified but not found in the DOM.
 
 ### Breaking changes for users
 
-- Jss constructor and Jss.setup option `generateClassName` has been removed. A new option is called `createGenerateClassName` which is a factory that returns the old `generateClassName`. We need this to reset counters on SSR for each request.
+- Option `generateClassName` which was used in Jss constructor and `Jss.setup` has been removed. A new option is called `createGenerateClassName` which is a factory that returns the old `generateClassName`. We need this to reset counters on SSR for each request.
 - Removed default `insertionPoint` value ("jss") in order to have warnings when insertionPoint is not found in the DOM. With the default one we simply don't know when to warn.
 
 ### Potentially breaking changes for plugins
