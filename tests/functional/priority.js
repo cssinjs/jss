@@ -224,9 +224,12 @@ describe('Functional: dom priority', () => {
     let iDoc
 
     beforeEach(() => {
-      iframe = document.body.appendChild(document.createElement('iframe'))
+      iframe = document.createElement('iframe')
+      iframe.src='javascript:'
+      document.body.appendChild(iframe)
       iDoc = iframe.contentWindow.document
-      insertionPoint = iDoc.body.appendChild(iDoc.createElement('div'))
+      const body = iDoc.body || iDoc.appendChild(iDoc.createElement('body'))
+      insertionPoint = body.appendChild(iDoc.createElement('div'))
       const jss = create({insertionPoint})
       jss.createStyleSheet({}, {meta: 'sheet2', index: 2}).attach()
       jss.createStyleSheet({}, {meta: 'sheet1', index: 1}).attach()
@@ -237,7 +240,7 @@ describe('Functional: dom priority', () => {
     })
 
     it('should insert sheets in the correct order', () => {
-      const styleElements = iDoc.body.getElementsByTagName('style')
+      const styleElements = iDoc.getElementsByTagName('style')
 
       expect(styleElements.length).to.be(2)
       expect(styleElements[0].getAttribute('data-meta')).to.be('sheet1')
