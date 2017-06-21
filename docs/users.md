@@ -15,3 +15,5 @@
 [Axept](https://github.com/axept)
 
 [XING](http://xing.com)
+
+[livejournal](http://www.livejournal.com/post)
