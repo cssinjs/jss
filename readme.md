@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/cssinjs/jss.svg?branch=master)](https://travis-ci.org/cssinjs/jss)
 [![codecov](https://codecov.io/gh/cssinjs/jss/branch/master/graph/badge.svg)](https://codecov.io/gh/cssinjs/jss)
 [![bitHound Score](https://www.bithound.io/cssinjs/jss/badges/score.svg)](https://www.bithound.io/cssinjs/jss)
-[![OpenCollective](https://opencollective.com/jss/backers/badge.svg)](#backers) 
+[![OpenCollective](https://opencollective.com/jss/backers/badge.svg)](#backers)
 [![OpenCollective](https://opencollective.com/jss/sponsors/badge.svg)](#sponsors)
 
 
@@ -14,8 +14,8 @@
 
 ### Official
 
-- [React-JSS](https://github.com/cssinjs/react-jss) - HOC interface for React.
-- [Styled-JSS](https://github.com/cssinjs/styled-jss) - styled components interface for React.
+- [React-JSS](https://github.com/cssinjs/react-jss) - HOC interface for React, try it on [webpackbin](https://www.webpackbin.com/bins/-Kn90iijPuAJO48ItgF-).
+- [Styled-JSS](https://github.com/cssinjs/styled-jss) - styled components interface for React, try it on [webpackbin](https://www.webpackbin.com/bins/-KlrbQuwAZSK5eSzpCSy).
 - [Aphrodite-JSS](https://github.com/cssinjs/aphrodite-jss) - aphrodite like API.
 
 ### External
@@ -41,6 +41,7 @@
 
 ## Example
 
+Try it out on [webpackbin](https://www.webpackbin.com/bins/-KlrNqkpZZmKIz0eYwIk).
 You need to [setup plugins](./docs/setup.md#setup-with-plugins) before.
 You can use a [preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with default plugins.
 
