@@ -16,7 +16,7 @@ const styles = {
 Compiles to:
 
 ```css
-.button-jss-0 {
+.button-0-0 {
   color: red;
   font-size: 12px;
 }
@@ -69,11 +69,11 @@ const styles = {
 Compiles to:
 
 ```css
-.button-jss-0 {
+.button-0-0 {
   width: 100px;
 }
 @media (min-width: 1024px): {
-  .button-jss-0 {
+  .button-0-0 {
     width: 200px;
   }
 }
@@ -141,7 +141,7 @@ const styles = {
 Compiles to:
 
 ```css
-.container--jss-0-0 {
+.container-0-0 {
   background: red;
   background: linear-gradient(to right, red 0%, green 100%);
 }
@@ -245,7 +245,7 @@ const styles = {
 Compiles to:
 
 ```css
-.button-12345 {
+.button-0-1 {
   border: 1px solid red, 1px solid blue;
 }
 ```
@@ -266,7 +266,7 @@ const styles = {
 Compiles to:
 
 ```css
-.button-12345 {
+.button-0-1 {
   border: 1px solid red, 1px solid blue;
 }
 ```
@@ -283,7 +283,7 @@ const styles = {
 Compiles to:
 
 ```css
-.button-12345 {
+.button-0-1 {
   margin: 5px 10px;
 }
 ```
@@ -313,7 +313,7 @@ const styles = {
 Compiles to:
 
 ```css
-.button-jss-0-1:after {
+.button-0-1:after {
   content: "JSS"
 }
 ```
@@ -335,8 +335,27 @@ const styles = {
 Compiles to:
 
 ```css
-.button-jss-0-1 {
+.button-0-1 {
   color: '#0000B3'
+}
+```
+
+## Alternative syntax using string templates
+
+You can use a template string literal or a regular string to declare the props and values.
+This notation is only supported for style declarations, nested rules, media queries, keyframes and others still have to be objects.
+
+```javascript
+const styles = {
+  button: `
+    color: red;
+    margin: 20px 40px;
+  `,
+  '@media print': {
+    button: `
+      color: black;
+    `
+  }
 }
 ```
 
