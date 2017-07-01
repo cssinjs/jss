@@ -11,7 +11,8 @@ const plugins = [
     'process.env.NODE_ENV': JSON.stringify(env),
     __DEV__: isDev,
     __TEST__: isTest
-  })
+  }),
+  new webpack.optimize.ModuleConcatenationPlugin()
 ]
 
 if (isProd) {
