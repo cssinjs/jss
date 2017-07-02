@@ -53,7 +53,7 @@ sheet.toString()
 
 ## Setup with custom plugins
 
-You can use jss with or without [plugins](https://github.com/cssinjs?q=plugin). Make sure you use the plugins in the [right order](https://github.com/cssinjs/jss/blob/master/docs/plugins.md#order-does-matter).
+You can use JSS with or without [plugins](https://github.com/cssinjs?q=plugin). Make sure you use the plugins in the [right order](https://github.com/cssinjs/jss/blob/master/docs/plugins.md#order-does-matter) or just use a [preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with default plugins.
 
 ```javascript
 import jss from 'jss'
@@ -81,9 +81,9 @@ sheet.toString()
 
 ## Specify DOM insertion point
 
-You can instruct `jss` to render your stylesheets starting at a specific point in the DOM by placing a comment node anywhere in the `head` of the document.
+You can instruct JSS to render your stylesheets starting at a specific point in the DOM by placing a comment node anywhere in the `head` of the document.
 
-This can be useful if you have another dependency that needs to come before or after the `jss` Style Sheets for source order based specificity purposes.
+This can be useful if you have another dependency that needs to come before or after the JSS Style Sheets for source order based specificity purposes.
 
 You can specify an `insertionPoint` during [jss.setup()](https://github.com/cssinjs/jss/blob/master/docs/js-api.md#setup-jss-instance) and [jss.createStyleSheeet()](https://github.com/cssinjs/jss/blob/master/docs/js-api.md#create-style-sheet).
 
