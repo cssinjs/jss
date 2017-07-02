@@ -102,7 +102,7 @@
     "posttest": "[ -z \"$TRAVIS\" ] || codecov",
     "codecov": "codecov",
     "bench": "cross-env BENCHMARK=true karma start --single-run",
-    "size": "size-limit 5.6KB dist/jss.js"
+    "size": "size-limit 5.7KB dist/jss.js"
   },
   "dependencies": {
     "is-in-browser": "^1.0.2",
