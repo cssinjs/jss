@@ -82,30 +82,32 @@ export default class StyleRule implements BaseRule {
   /**
    * Get or set a style property.
    */
-  prop(name: string, value?: string): StyleRule|string {
+  prop(name: string, nextValue?: string): StyleRule|string {
     const $name = typeof this.style[name] === 'function' ? `$${name}` : name
-    let currValue = this.style[$name]
+    const currValue = this.style[$name]
 
     // Its a setter.
-    if (value != null) {
+    if (nextValue != null) {
       // Don't do anything if the value has not changed.
-      if (currValue !== value) {
-        const {jss} = this.options
-        const newValue = jss ? jss.plugins.onChangeValue(value, name, this) : value
+      if (currValue !== nextValue) {
+        nextValue = this.options.jss.plugins.onChangeValue(nextValue, name, this)
         Object.defineProperty(this.style, $name, {
-          value: newValue,
+          value: nextValue,
           writable: true
         })
-        // Only defined if option linked is true.
-        if (this.renderable) this.renderer.setStyle(this.renderable, name, newValue)
+        // Defined if StyleSheet option `link` is true.
+        if (this.renderable) this.renderer.setStyle(this.renderable, name, nextValue)
       }
       return this
     }
+
     // Its a getter, read the value from the DOM if its not cached.
     if (this.renderable && currValue == null) {
-      currValue = this.renderer.getStyle(this.renderable, name)
       // Cache the value after we have got it from the DOM first time.
-      this.prop(name, currValue)
+      Object.defineProperty(this.style, $name, {
+        value: this.renderer.getStyle(this.renderable, name),
+        writable: true
+      })
     }
 
     return this.style[$name]
