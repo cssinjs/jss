@@ -84,7 +84,7 @@
     "webpack": "^2.3.3"
   },
   "scripts": {
-    "all": "npm run lint && npm run flow && npm run test && npm run build",
+    "all": "npm run lint && npm run flow && npm run test && npm run build && npm run size",
     "build": "npm run clean && npm run build:lib && npm run build:max && npm run build:min && npm run build:tests",
     "build:lib": "babel src --out-dir lib && npm run flow:copy-src",
     "build:max": "cross-env NODE_ENV=development webpack src/index.js dist/jss.js",
@@ -100,7 +100,8 @@
     "test:watch": "cross-env NODE_ENV=test karma start",
     "posttest": "[ -z \"$TRAVIS\" ] || codecov",
     "codecov": "codecov",
-    "bench": "cross-env BENCHMARK=true karma start --single-run"
+    "bench": "cross-env BENCHMARK=true karma start --single-run",
+    "size": "size-limit 5.6KB dist/jss.js"
   },
   "dependencies": {
     "is-in-browser": "^1.0.2",
