@@ -16,12 +16,46 @@ https://unpkg.com/jss/dist/jss.js
 Minified:
 https://unpkg.com/jss/dist/jss.min.js
 
-## Setup with plugins
+## Setup with the default preset
+
+Use the [default preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with recommended plugins.
+
+First install a preset from npm:
+
+```bash
+npm i jss-preset-default
+```
+
+Then setup JSS to use it:
+
+```javascript
+import jss from 'jss'
+import preset from 'jss-preset-default'
+
+jss.setup(preset())
+
+// Create your style.
+const style = {
+  myButton: {
+    color: 'green'
+  }
+}
+
+// Compile styles, apply plugins.
+const sheet = jss.createStyleSheet(style)
+
+// If you want to render on the client, insert it into DOM.
+sheet.attach()
+
+// If you want to render server-side, get the css text.
+sheet.toString()
+```
+
+## Setup with custom plugins
 
 You can use JSS with or without [plugins](https://github.com/cssinjs?q=plugin). Make sure you use the plugins in the [right order](https://github.com/cssinjs/jss/blob/master/docs/plugins.md#order-does-matter) or just use a [preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with default plugins.
 
 ```javascript
-
 import jss from 'jss'
 import camelCase from 'jss-camel-case'
 
