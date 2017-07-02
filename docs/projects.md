@@ -51,9 +51,7 @@
 
 [babel-plugin-jss-simple](https://github.com/ashaffer/babel-plugin-jss-simple) Add filename keys to your jss-simple declarations to help with hot reloading.
 
-[babel-plugin-jss-css](https://github.com/alexkuz/babel-plugin-jss-css) Babel plugin for
-
-[jss-css](https://github.com/alexkuz/jss-css) module.
+[babel-plugin-jss-css](https://github.com/alexkuz/babel-plugin-jss-css) Babel plugin for [jss-css](https://github.com/alexkuz/jss-css) module.
 
 [jss-loader](https://github.com/markdalgleish/jss-loader) Webpack loader - use JavaScript as your CSS preprocessor!
 
