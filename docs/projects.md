@@ -62,3 +62,5 @@
 ## Editor integrations
 
 [atom snippets](https://github.com/march213/jss-atom-snippets) Snippets for Atom
+
+[VS Code snippets](https://marketplace.visualstudio.com/items?itemName=visioncan.vscode-jss-snippets) Snippets for Visual Studio Code
