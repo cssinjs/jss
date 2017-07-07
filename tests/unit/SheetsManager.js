@@ -23,8 +23,8 @@ describe('Unit: SheetsManager', () => {
     it('should not add a duplcate', () => {
       const key = {}
       const sheet = {}
-      manager.add(sheet, key)
-      const index = manager.add(sheet, key)
+      manager.add(key, sheet)
+      const index = manager.add(key, sheet)
       expect(index).to.be(0)
     })
   })
@@ -34,11 +34,11 @@ describe('Unit: SheetsManager', () => {
       const manager = new SheetsManager()
       const key1 = {}
       const sheet1 = {}
-      manager.add(sheet1, key1)
+      manager.add(key1, sheet1)
       expect(manager.get(key1)).to.be(sheet1)
       const key2 = {}
       const sheet2 = {}
-      manager.add(sheet2, key2)
+      manager.add(key2, sheet2)
       expect(manager.get(key2)).to.be(sheet2)
     })
   })
@@ -48,7 +48,7 @@ describe('Unit: SheetsManager', () => {
       const manager = new SheetsManager()
       const key = {}
       const sheet = {attach: () => null}
-      manager.manage(sheet, key)
+      manager.manage(key, sheet)
       expect(manager.get(key)).to.be(sheet)
     })
 
@@ -61,9 +61,9 @@ describe('Unit: SheetsManager', () => {
           attached++
         }
       }
-      manager.manage(sheet, key)
+      manager.manage(key, sheet)
       expect(attached).to.be(1)
-      manager.manage(sheet, key)
+      manager.manage(key, sheet)
       expect(attached).to.be(1)
     })
   })
@@ -79,8 +79,8 @@ describe('Unit: SheetsManager', () => {
           detached++
         }
       }
-      manager.manage(sheet, key)
-      manager.manage(sheet, key)
+      manager.manage(key, sheet)
+      manager.manage(key, sheet)
       expect(detached).to.be(0)
       manager.unmanage(key)
       expect(detached).to.be(0)
