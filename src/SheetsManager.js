@@ -1,5 +1,5 @@
 /* @flow */
-import type {ToCssOptions} from './types'
+import warn from 'warning'
 import type StyleSheet from './StyleSheet'
 
 // 1. Use SheetsManager instance per createHoc
@@ -11,16 +11,16 @@ import type StyleSheet from './StyleSheet'
 export default class SheetsManager {
   sheets: Array<StyleSheet> = []
 
-  refs: Array<Number> = []
+  refs: Array<number> = []
 
   keys: Array<Object> = []
 
-  get(key) {
+  get(key: Object): StyleSheet {
     const index = this.keys.indexOf(key)
     return this.sheets[index]
   }
 
-  add(sheet: StyleSheet, key): number {
+  add(sheet: StyleSheet, key: Object): number {
     const {sheets, refs, keys} = this
     const index = sheets.indexOf(sheet)
 
@@ -33,17 +33,18 @@ export default class SheetsManager {
     return sheets.length - 1
   }
 
-  manage(sheet, key) {
+  manage(sheet: StyleSheet, key: Object): void {
     const index = this.add(sheet, key)
     if (this.refs[index] === 0) sheet.attach()
     this.refs[index]++
     if (!this.keys[index]) this.keys.splice(index, 0, key)
   }
 
-  unmanage(key) {
+  unmanage(key: Object): void {
     const index = this.keys.indexOf(key)
     if (index === -1) {
-      console.warn('SheetsManager: sheet not found by key', key)
+      // eslint-ignore-next-line no-console
+      warn('SheetsManager: can\'t find sheet to unmanage')
       return
     }
     if (this.refs[index] > 0) {
