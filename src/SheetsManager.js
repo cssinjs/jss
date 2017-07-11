@@ -33,13 +33,13 @@ export default class SheetsManager {
     return sheets.length - 1
   }
 
-  manage(key: Object): void {
+  manage(key: Object): StyleSheet {
     const index = this.keys.indexOf(key)
     const sheet = this.sheets[index]
     if (this.refs[index] === 0) sheet.attach()
     this.refs[index]++
     if (!this.keys[index]) this.keys.splice(index, 0, key)
-    return sheet;
+    return sheet
   }
 
   unmanage(key: Object): void {
