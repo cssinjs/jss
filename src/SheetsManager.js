@@ -2,12 +2,10 @@
 import warn from 'warning'
 import type StyleSheet from './StyleSheet'
 
-// 1. Use SheetsManager instance per createHoc
-// 1. Use theme as a key
-// 1. Handle dynamic styles
-// 1. Remove support for StyleSheet instance from injectSheet
-// 1. Use empty object as default for theme when used without styles creator
-
+/**
+ * SheetsManager is designed to count StyleSheet instances and attach/detach
+ * automatically.
+ */
 export default class SheetsManager {
   sheets: Array<StyleSheet> = []
 

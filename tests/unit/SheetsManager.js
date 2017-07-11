@@ -44,14 +44,6 @@ describe('Unit: SheetsManager', () => {
   })
 
   describe('.manage()', () => {
-    it('should add', () => {
-      const manager = new SheetsManager()
-      const key = {}
-      const sheet = {attach: () => null}
-      manager.manage(key, sheet)
-      expect(manager.get(key)).to.be(sheet)
-    })
-
     it('should call .attach()', () => {
       const manager = new SheetsManager()
       const key = {}
@@ -61,6 +53,7 @@ describe('Unit: SheetsManager', () => {
           attached++
         }
       }
+      manager.add(key, sheet)
       manager.manage(key, sheet)
       expect(attached).to.be(1)
       manager.manage(key, sheet)
@@ -79,6 +72,7 @@ describe('Unit: SheetsManager', () => {
           detached++
         }
       }
+      manager.add(key, sheet)
       manager.manage(key, sheet)
       manager.manage(key, sheet)
       expect(detached).to.be(0)
