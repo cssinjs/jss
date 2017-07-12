@@ -99,6 +99,28 @@ sheets.add(sheet)
 sheets.toString() // Returns CSS of all attached Style Sheets together.
 ```
 
+## Style Sheets Manager
+
+`SheetsManager`
+
+In order to count how many elements use the same StyleSheet and automatically attach/detach it. It also acts similar to a WeakMap, because one can use an object as a key. React-JSS is using a `theme` object as a key in order to identify a sheet by a theme.
+
+```javascript
+import jss, {SheetsManager} from 'jss'
+
+const manager = SheetsManager()
+const sheet = jss.createStyleSheet()
+const key = {}
+
+manager.add(key, sheet) // index
+manager.get(key) // sheet
+
+// Will attach the sheet and count refs.
+manager.manage(key) // sheet
+// Will detach the sheet if refs count is 0.
+manager.unmanage(key)
+```
+
 ## Remove a Style Sheet
 
 `jss.removeStyleSheet(sheet)`

@@ -54,9 +54,9 @@ describe('Unit: SheetsManager', () => {
         }
       }
       manager.add(key, sheet)
-      manager.manage(key, sheet)
+      manager.manage(key)
       expect(attached).to.be(1)
-      manager.manage(key, sheet)
+      manager.manage(key)
       expect(attached).to.be(1)
     })
   })
@@ -73,8 +73,8 @@ describe('Unit: SheetsManager', () => {
         }
       }
       manager.add(key, sheet)
-      manager.manage(key, sheet)
-      manager.manage(key, sheet)
+      manager.manage(key)
+      manager.manage(key)
       expect(detached).to.be(0)
       manager.unmanage(key)
       expect(detached).to.be(0)
