@@ -7,31 +7,32 @@
  * @license MIT
  */
 import Jss from './Jss'
-import SheetsRegistry from './SheetsRegistry'
-import RuleList from './RuleList'
-import sheets from './sheets'
 import type {JssOptions} from './types'
-import getDynamicStyles from './utils/getDynamicStyles'
 
 /**
  * Extracts a styles object with only rules that contain function values.
  */
-export {getDynamicStyles}
+export {default as getDynamicStyles} from './utils/getDynamicStyles'
 
 /**
  * SheetsRegistry for SSR.
  */
-export {SheetsRegistry}
+export {default as SheetsRegistry} from './SheetsRegistry'
+
+/**
+ * SheetsManager for react-jss and co.
+ */
+export {default as SheetsManager} from './SheetsManager'
 
 /**
  * RuleList for plugins.
  */
-export {RuleList}
+export {default as RuleList} from './RuleList'
 
 /**
  * Default global SheetsRegistry instance.
  */
-export {sheets}
+export {default as sheets} from './sheets'
 
 /**
  * Creates a new instance of Jss.
