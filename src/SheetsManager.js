@@ -3,8 +3,8 @@ import warn from 'warning'
 import type StyleSheet from './StyleSheet'
 
 /**
- * SheetsManager is designed to count StyleSheet instances and attach/detach
- * automatically.
+ * SheetsManager is like a WeakMap which is designed to count StyleSheet
+ * instances and attach/detach automatically.
  */
 export default class SheetsManager {
   sheets: Array<StyleSheet> = []
