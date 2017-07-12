@@ -1,3 +1,9 @@
+## 8.1.0 / 2017-067-12
+
+- Added webpackbin examples
+- Added size-limit tool
+- Added SheetsManager
+
 ## 8.0.0 / 2017-06-20
 
 - Option `insertionPoint` can now accept a DOM node
