@@ -2,13 +2,11 @@
 
 ## Integrations
 
-[React-JSS](https://github.com/cssinjs/react-jss) - HOC interface for React.
+[React-JSS](https://github.com/cssinjs/react-jss) - HOC interface for React with theming support.
 
 [Styled-JSS](https://github.com/cssinjs/styled-jss) - styled components interface for React.
 
 [Aphrodite-JSS](https://github.com/cssinjs/aphrodite-jss) - aphrodite like API.
-
-[Theme Reactor](https://github.com/nathanmarks/jss-theme-reactor) - experimental React integration with theming.
 
 [Aesthetic](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic) - a React style abstraction layer with theme support.
 

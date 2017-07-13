@@ -14,14 +14,9 @@
 
 ### Official
 
-- [React-JSS](https://github.com/cssinjs/react-jss) - HOC interface for React, try it on [webpackbin](https://www.webpackbin.com/bins/-Kn90iijPuAJO48ItgF-).
+- [React-JSS](https://github.com/cssinjs/react-jss) - HOC interface for React with theming, try it on [webpackbin](https://www.webpackbin.com/bins/-Kn90iijPuAJO48ItgF-).
 - [Styled-JSS](https://github.com/cssinjs/styled-jss) - styled components interface for React, try it on [webpackbin](https://www.webpackbin.com/bins/-KlrbQuwAZSK5eSzpCSy).
 - [Aphrodite-JSS](https://github.com/cssinjs/aphrodite-jss) - aphrodite like API.
-
-### External
-
-- [Theme Reactor](https://github.com/nathanmarks/jss-theme-reactor) - experimental React integration with theming.
-- [Aesthetic](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic) - a React style abstraction layer with theme support.
 
 ## TOC
 
