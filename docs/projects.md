@@ -42,7 +42,7 @@
 
 ## Style helpers
 
-[normalize-jss](https://github.com/cssinjs/normalize-jss]) JSS port of normalize.css
+[normalize-jss](https://github.com/cssinjs/normalize-jss) JSS port of normalize.css
 
 [perdido](https://github.com/wldcordeiro/perdido) JSS fractional grid system built with calc(), based on Lost PostCSS grid. Supports masonry, vertical, and waffle grids.
 
