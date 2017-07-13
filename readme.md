@@ -122,13 +122,17 @@ Result
 - ~~Make it easier for newcomers to setup jss with plugins (like presets).~~
 - ~~Make JSON DSL even better, for e.g. [jss-expand](https://github.com/typical000/jss-expand).~~
 - ~~Make it easy to see when changes in the core break plugins (integrate plugins test suite).~~
-- Make community create plugins (better plugins API documentation, infrastructure).
+- ~~Make community create plugins (better plugins API documentation, infrastructure).~~
+- ~~Introduce a way for theming with react-jss~~
+- Help release [material-ui](https://github.com/callemall/material-ui/tree/v1-alpha) alpha version.
+- Use [ISTF](https://github.com/cssinjs/istf-spec)
+- Better React Native support.
+- Stylelint integration #490.
+- Source maps #469
+- Flow and typescript typings for the JSON DSL #375 #361
 - Do more benchmarking, include plugins, always track perf regressions.
-- Introduce a way for theming with react-jss or replace it by [jss-theme-reactor](https://github.com/nathanmarks/jss-theme-reactor)
-- Make SSR even better (vendor prefixer, smaller critical CSS)
-- Make CLI tool better, allow integration of styles written in various preprocessing languages as well as pure css.
-- React Native support.
-- Add converters stylus, sass and co. to [cli](https://github.com/cssinjs/cli) with constants reuse.
+- Make SSR even better (vendor prefixer server-side, smaller critical CSS)
+- Make CLI tool better: allow integration of styles written in various preprocessing languages as well as pure css #166
 
 ## Browsers Support
 
