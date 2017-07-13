@@ -184,6 +184,8 @@ Support us with a monthly donation and help us continue our activities. [[Become
 
 ### Sponsors
 
+[![Chatgrape](https://ug-cdn.com/static/chatgrape/static/images/logo-grape-short-cg-fontrender.svg)](https://www.chatgrape.com/)
+
 Become a sponsor and get your logo on our README on Github with a link to your site. [[Become a sponsor](https://opencollective.com/jss#sponsor)]
 
 <a href="https://opencollective.com/jss/sponsor/0/website" target="_blank"><img src="https://opencollective.com/jss/sponsor/0/avatar.svg"></a>
