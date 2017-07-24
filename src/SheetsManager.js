@@ -13,6 +13,10 @@ export default class SheetsManager {
 
   keys: Array<Object> = []
 
+  size() {
+    return this.keys.length
+  }
+
   get(key: Object): StyleSheet {
     const index = this.keys.indexOf(key)
     return this.sheets[index]
