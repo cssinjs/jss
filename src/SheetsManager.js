@@ -13,7 +13,7 @@ export default class SheetsManager {
 
   keys: Array<Object> = []
 
-  size() {
+  get size(): number {
     return this.keys.length
   }
 

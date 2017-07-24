@@ -88,7 +88,7 @@ describe('Unit: SheetsManager', () => {
   describe('.size()', () => {
     it('should be 0 from the start', () => {
       const manager = new SheetsManager();
-      expect(manager.size()).to.be(0)
+      expect(manager.size).to.be(0)
     })
     it('should be increased after addition', () => {
       const manager = new SheetsManager();
@@ -100,7 +100,7 @@ describe('Unit: SheetsManager', () => {
         }
       }
       manager.add(key, sheet)
-      expect(manager.size()).to.be(1)
+      expect(manager.size).to.be(1)
     })
   });
 })

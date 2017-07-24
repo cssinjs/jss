@@ -109,12 +109,12 @@ In order to count how many elements use the same StyleSheet and automatically at
 import jss, {SheetsManager} from 'jss'
 
 const manager = SheetsManager()
-manager.size() // 0
+console.log(manager.size) // 0
 const sheet = jss.createStyleSheet()
 const key = {}
 
 manager.add(key, sheet) // index
-manager.size() // 1
+console.log(manager.size) // 1
 manager.get(key) // sheet
 
 // Will attach the sheet and count refs.
