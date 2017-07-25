@@ -1,4 +1,4 @@
-## 8.1.0 / 2017-067-12
+## 8.1.0 / 2017-07-12
 
 - Added webpackbin examples
 - Added size-limit tool
