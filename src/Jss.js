@@ -59,12 +59,12 @@ export default class Jss {
       index = sheets.index === 0 ? 0 : sheets.index + 1
     }
     const sheet = new StyleSheet(styles, {
-      ...options,
-      jss: (this: Jss),
-      generateClassName: options.generateClassName || this.generateClassName,
+      generateClassName: this.generateClassName,
       insertionPoint: this.options.insertionPoint,
-      Renderer: this.options.Renderer,
-      index
+      ...options,
+      index,
+      jss: (this: Jss),
+      Renderer: this.options.Renderer
     })
     this.plugins.onProcessSheet(sheet)
     return sheet

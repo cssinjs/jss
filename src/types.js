@@ -105,7 +105,8 @@ export type StyleSheetFactoryOptions = {
   index?: number,
   link?: boolean,
   element?: HTMLStyleElement,
-  generateClassName?: generateClassName
+  generateClassName?: generateClassName,
+  insertionPoint?: InsertionPoint
 }
 
 export type StyleSheetOptions = {
