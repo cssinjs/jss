@@ -26,5 +26,11 @@ export default class VirtualRenderer {
   deleteRule() {
     return true
   }
+  replaceRule() {
+    return false
+  }
   getRules() {}
+  indexOf() {
+    return -1
+  }
 }

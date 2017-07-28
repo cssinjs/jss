@@ -23,15 +23,17 @@ export type JssStyle = Object
 
 export interface Renderer {
   constructor(sheet?: StyleSheet): Renderer;
-  setStyle(rule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean;
-  getStyle(rule: HTMLElement|CSSStyleRule, prop: string): string;
-  setSelector(rule: CSSStyleRule, selectorText: string): boolean;
-  getSelector(rule: CSSStyleRule): string;
+  setStyle(cssRule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean;
+  getStyle(cssRule: HTMLElement|CSSStyleRule, prop: string): string;
+  setSelector(cssRule: CSSStyleRule, selectorText: string): boolean;
+  getSelector(cssRule: CSSStyleRule): string;
   attach(): void;
   detach(): void;
   deploy(sheet: StyleSheet): void;
   insertRule(rule: Rule): false|CSSStyleRule;
-  deleteRule(rule: CSSStyleRule): boolean;
+  deleteRule(cssRule: CSSStyleRule): boolean;
+  replaceRule(cssRule: CSSStyleRule, rule: Rule): false|CSSStyleRule;
+  indexOf(cssRule: CSSStyleRule): number;
   getRules(): CSSRuleList|void;
 }
 

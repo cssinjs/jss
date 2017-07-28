@@ -21,50 +21,32 @@ export default class StyleRule implements BaseRule {
   options: RuleOptions
 
   constructor(key: string, style: JssStyle, options: RuleOptions) {
-    const {generateClassName, sheet, Renderer, selector} = options
+    const {sheet, Renderer, selector} = options
     this.key = key
     this.options = options
     this.style = style
-    this.selectorText = selector || `.${generateClassName(this, sheet)}`
+    if (selector) this.selectorText = selector
     this.renderer = sheet ? sheet.renderer : new Renderer()
   }
 
   /**
    * Set selector string.
-   * TODO rewrite this #419
    * Attention: use this with caution. Most browsers didn't implement
    * selectorText setter, so this may result in rerendering of entire Style Sheet.
    */
   set selector(selector: string): void {
-    const {sheet} = this.options
-
-    // After we modify a selector, ref by old selector needs to be removed.
-    if (sheet) sheet.rules.unregister(this)
+    if (selector === this.selectorText) return
 
     this.selectorText = selector
 
-    if (!this.renderable) {
-      // Register the rule with new selector.
-      if (sheet) sheet.rules.register(this)
-      return
-    }
+    if (this.renderable) {
+      const hasChanged = this.renderer.setSelector(this.renderable, selector)
 
-    const changed = this.renderer.setSelector(this.renderable, selector)
-
-    if (changed && sheet) {
-      sheet.rules.register(this)
-      return
-    }
-
-    // If selector setter is not implemented, rerender the sheet.
-    // We need to delete renderable from the rule, because when sheet.deploy()
-    // calls rule.toString, it will get the old selector.
-    delete this.renderable
-    if (sheet) {
-      sheet.rules.register(this)
-      sheet
-        .deploy()
-        .link()
+      // If selector setter is not implemented, rerender the rule.
+      if (!hasChanged && this.renderable) {
+        const renderable = this.renderer.replaceRule(this.renderable, this)
+        if (renderable) this.renderable = renderable
+      }
     }
   }
 
@@ -72,10 +54,6 @@ export default class StyleRule implements BaseRule {
    * Get selector string.
    */
   get selector(): string {
-    if (this.renderable) {
-      return this.renderer.getSelector(this.renderable)
-    }
-
     return this.selectorText
   }
 
@@ -103,11 +81,13 @@ export default class StyleRule implements BaseRule {
 
     // Its a getter, read the value from the DOM if its not cached.
     if (this.renderable && currValue == null) {
+      /*
       // Cache the value after we have got it from the DOM first time.
       Object.defineProperty(this.style, $name, {
         value: this.renderer.getStyle(this.renderable, name),
         writable: true
       })
+      */
     }
 
     return this.style[$name]

@@ -12,9 +12,9 @@ type PriorityOptions = {
 /**
  * Get a style property.
  */
-function getStyle(rule: HTMLElement|CSSStyleRule, prop: string): string {
+function getStyle(cssRule: HTMLElement|CSSStyleRule, prop: string): string {
   try {
-    return rule.style.getPropertyValue(prop)
+    return cssRule.style.getPropertyValue(prop)
   }
   catch (err) {
     // IE may throw if property is unknown.
@@ -25,9 +25,9 @@ function getStyle(rule: HTMLElement|CSSStyleRule, prop: string): string {
 /**
  * Set a style property.
  */
-function setStyle(rule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean {
+function setStyle(cssRule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean {
   try {
-    rule.style.setProperty(prop, value)
+    cssRule.style.setProperty(prop, value)
   }
   catch (err) {
     // IE may throw if property is unknown.
@@ -48,32 +48,32 @@ const CSSRuleTypes = {
 /**
  * Get the selector.
  */
-function getSelector(rule: CSSOMRule): string {
-  if (rule.type === CSSRuleTypes.STYLE_RULE) return rule.selectorText
-  if (rule.type === CSSRuleTypes.KEYFRAMES_RULE) {
-    const {name} = rule
+function getSelector(cssRule: CSSOMRule): string {
+  if (cssRule.type === CSSRuleTypes.STYLE_RULE) return cssRule.selectorText
+  if (cssRule.type === CSSRuleTypes.KEYFRAMES_RULE) {
+    const {name} = cssRule
     if (name) return `@keyframes ${name}`
 
     // There is no rule.name in the following browsers:
     // - IE 9
     // - Safari 7.1.8
     // - Mobile Safari 9.0.0
-    const {cssText} = rule
+    const {cssText} = cssRule
     return `@${extractSelector(cssText, cssText.indexOf('keyframes'))}`
   }
 
-  return extractSelector(rule.cssText)
+  return extractSelector(cssRule.cssText)
 }
 
 /**
  * Set the selector.
  */
-function setSelector(rule: CSSStyleRule, selectorText: string): boolean {
-  rule.selectorText = selectorText
+function setSelector(cssRule: CSSStyleRule, selectorText: string): boolean {
+  cssRule.selectorText = selectorText
 
   // Return false if setter was not successful.
   // Currently works in chrome only.
-  return rule.selectorText === selectorText
+  return cssRule.selectorText === selectorText
 }
 
 /**
@@ -252,11 +252,11 @@ export default class DomRenderer {
   /**
    * Insert a rule into element.
    */
-  insertRule(rule: Rule): false|CSSStyleRule {
+  insertRule(rule: Rule, index?: number): false|CSSStyleRule {
     const {sheet} = this.element
     const {cssRules} = sheet
-    const index = cssRules.length
     const str = rule.toString()
+    if (!index) index = cssRules.length
 
     if (!str) return false
 
@@ -276,16 +276,33 @@ export default class DomRenderer {
   /**
    * Delete a rule.
    */
-  deleteRule(rule: CSSStyleRule): boolean {
+  deleteRule(cssRule: CSSStyleRule): boolean {
     const {sheet} = this.element
-    const {cssRules} = sheet
+    const index = this.indexOf(cssRule)
+    if (index === -1) return false
+    sheet.deleteRule(index)
+    return true
+  }
+
+  /**
+   * Get index of a CSS Rule.
+   */
+  indexOf(cssRule: CSSStyleRule): number {
+    const {cssRules} = this.element.sheet
     for (let index = 0; index < cssRules.length; index++) {
-      if (rule === cssRules[index]) {
-        sheet.deleteRule(index)
-        return true
-      }
+      if (cssRule === cssRules[index]) return index
     }
-    return false
+    return -1
+  }
+
+  /**
+   * Generate a new CSS rule and replace the existing one.
+   */
+  replaceRule(cssRule: CSSStyleRule, rule: Rule): false|CSSStyleRule {
+    const index = this.indexOf(cssRule)
+    const newCssRule = this.insertRule(rule, index)
+    this.element.sheet.deleteRule(index)
+    return newCssRule
   }
 
   /**

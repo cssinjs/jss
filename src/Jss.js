@@ -3,6 +3,7 @@ import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import rulesPlugins from './plugins/rules'
 import sheets from './sheets'
+import StyleRule from './rules/StyleRule'
 import createGenerateClassNameDefault from './utils/createGenerateClassName'
 import createRule from './utils/createRule'
 import findRenderer from './utils/findRenderer'
@@ -99,6 +100,11 @@ export default class Jss {
     if (!ruleOptions.generateClassName) ruleOptions.generateClassName = this.generateClassName
     if (!ruleOptions.classes) ruleOptions.classes = {}
     const rule = createRule(name, style, ruleOptions)
+
+    if (!ruleOptions.selector && rule instanceof StyleRule) {
+      rule.selector = `.${ruleOptions.generateClassName(rule)}`
+    }
+
     this.plugins.onProcessRule(rule)
 
     return rule
