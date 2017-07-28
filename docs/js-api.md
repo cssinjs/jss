@@ -312,7 +312,13 @@ console.log(sheet.toString())
 
 ## Generate your own class names
 
-Option `createGenerateClassName` allows you to specify a function which returns a class name generator function. This pattern is used to allow JSS reset the counter upon factory invocation, when needed. For e.g. it is used in [react-jss](https://github.com/cssinjs/react-jss) to reset the counter on each request for SSR.
+`createGenerateClassName()`
+
+Option `createGenerateClassName` allows you to specify a function which returns a class name generator function `generateClassName(rule, sheet)`. This pattern is used to allow JSS reset the counter upon factory invocation, when needed. For e.g. it is used in [react-jss](https://github.com/cssinjs/react-jss) to reset the counter on each request for SSR.
+
+Class names generator uses a simple counter to ensure uniqueness of the class names. It consists of `classNamePrefix` Style Sheet option + rule name + counter.
+
+__Note__: in production it uses just the "c" + rules counter.
 
 ```javascript
 import {create} from 'jss'
@@ -361,16 +367,6 @@ const dynamicStyles = getDynamicStyles({
   }
 }
 ```
-
-## Class names generator creator
-
-`createGenerateClassName()`
-
-Returns a `generateClassName(rule, sheet)` function which can be be passed to `jss.createStyleSheet()`.
-Class names generator uses a simple counter to ensure uniqueness of the class names. A new class name generator function has a reseted rules counter.
-It uses `classNamePrefix` Style Sheet option + rule name + counter.
-
-__Note__: in production, it uses just the "c" + rules counter.
 
 ## Plugins
 
