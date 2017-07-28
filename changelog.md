@@ -1,6 +1,7 @@
 ## Upcoming release
 
 - Added `SheetsManager.size` getter to get amount of items in `SheetsManager`
+- Refactored `StyleRule.selector` for better performance. Breaking change - it doesn't reregister rule in the classes map any more. It was used mainly in jss-isolate.
 
 ## 8.1.0 / 2017-07-12
 
