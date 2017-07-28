@@ -4,12 +4,14 @@ import type {Rule, generateClassName} from '../types'
 import StyleSheet from '../StyleSheet'
 
 const globalRef = typeof window === 'undefined' ? global : window
-const namespace = '__JSS_VERSION_COUNTER__'
-if (globalRef[namespace] == null) globalRef[namespace] = 0
+const ns = '2f1acc6c3a606b082e5eef5e54414ffb'
+if (globalRef[ns] == null) globalRef[ns] = 0
 // In case we have more than one JSS version.
-const jssCounter = globalRef[namespace]++
+const jssCounter = globalRef[ns]++
 
 const maxRules = 1e10
+
+const env = process.env.NODE_ENV
 
 /**
  * Returns a function which generates unique class names based on counters.
@@ -30,7 +32,7 @@ export default (): generateClassName => {
       )
     }
 
-    if (process.env.NODE_ENV === 'production') {
+    if (env === 'production') {
       return `c${jssCounter}${ruleCounter}`
     }
 

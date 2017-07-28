@@ -28,9 +28,9 @@ export default jss
 
 Options:
 
-  - `createGenerateClassName` function you can pass to generate your custom class name.
+  - `createGenerateClassName` a function which returns a function which generates unique class names.
   - `plugins` an array of functions, will be passed to `jss.use`.
-  - `virtual` if true, JSS will use VirtualRenderer
+  - `virtual` if true, JSS will use VirtualRenderer.
   - `insertionPoint` string value of a DOM comment node which marks the start of sheets or a rendered DOM node. Sheets rendered by this Jss instance are inserted after this point sequentially.
 
 See [setup examples](./setup#specify-dom-insertion-point).
@@ -55,8 +55,10 @@ Options:
 - `media` media query - attribute of style element.
 - `meta` meta information about this style - attribute of style element, for e.g. you could pass component name for easier debugging.
 - `link` link jss `Rule` instances with DOM `CSSRule` instances so that styles, can be modified dynamically, false by default because it has some performance cost.
-- `element` style element, will create one by default
-- `index` 0 by default - determines DOM rendering order, higher number = higher specificity (inserted after)
+- `element` style element, will create one by default.
+- `index` 0 by default - determines DOM rendering order, higher number = higher specificity (inserted after).
+- `generateClassName` a function that generates a unique class name.
+- `classNamePrefix` a string, which will be added at the beginning of the class name in development.
 
 ```javascript
 const sheet = jss.createStyleSheet({
@@ -359,6 +361,16 @@ const dynamicStyles = getDynamicStyles({
   }
 }
 ```
+
+## Class names generator creator
+
+`createGenerateClassName()`
+
+Returns a `generateClassName(rule, sheet)` function which can be be passed to `jss.createStyleSheet()`.
+Class names generator uses a simple counter to ensure uniqueness of the class names. A new class name generator function has a reseted rules counter.
+It uses `classNamePrefix` Style Sheet option + rule name + counter.
+
+__Note__: in production, it uses just the "c" + rules counter.
 
 ## Plugins
 
