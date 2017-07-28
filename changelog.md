@@ -1,6 +1,6 @@
-## upcoming release
+## Upcoming release
 
-- Added `SheetsManager.size()` method to get size of a `SheetsManager`
+- Added `SheetsManager.size` getter to get amount of items in `SheetsManager`
 
 ## 8.1.0 / 2017-07-12
 
