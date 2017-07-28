@@ -1,6 +1,7 @@
 /* @flow */
 import warning from 'warning'
 import type {Rule, generateClassName} from '../types'
+import StyleSheet from '../StyleSheet'
 
 const globalRef = typeof window === 'undefined' ? global : window
 const namespace = '__JSS_VERSION_COUNTER__'
@@ -18,7 +19,7 @@ const maxRules = 1e10
 export default (): generateClassName => {
   let ruleCounter = 0
 
-  return (rule: Rule): string => {
+  return (rule: Rule, sheet?: StyleSheet): string => {
     ruleCounter += 1
 
     if (ruleCounter > maxRules) {
@@ -33,6 +34,8 @@ export default (): generateClassName => {
       return `c${jssCounter}${ruleCounter}`
     }
 
-    return `${rule.key}-${jssCounter}-${ruleCounter}`
+    const prefix = sheet ? (sheet.options.classNamePrefix || '') : ''
+
+    return `${prefix}${rule.key}-${jssCounter}-${ruleCounter}`
   }
 }

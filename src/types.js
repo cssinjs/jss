@@ -107,7 +107,8 @@ export type StyleSheetFactoryOptions = {
   index?: number,
   link?: boolean,
   element?: HTMLStyleElement,
-  generateClassName?: generateClassName
+  generateClassName?: generateClassName,
+  classNamePrefix?: string
 }
 
 export type StyleSheetOptions = {
@@ -117,6 +118,7 @@ export type StyleSheetOptions = {
   element?: HTMLStyleElement,
   index: number,
   generateClassName: generateClassName,
+  classNamePrefix?: string,
   Renderer: Class<Renderer>,
   insertionPoint?: InsertionPoint,
   jss: Jss
@@ -131,6 +133,7 @@ export type InternalStyleSheetOptions = {
   insertionPoint?: InsertionPoint,
   Renderer: Class<Renderer>,
   generateClassName: generateClassName,
+  classNamePrefix?: string,
   jss: Jss,
   sheet: StyleSheet,
   parent: ConditionalRule|KeyframesRule|StyleSheet,
