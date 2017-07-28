@@ -321,15 +321,15 @@ Class names generator uses a simple counter to ensure uniqueness of the class na
 __Note__: in production it uses just the "c" + rules counter.
 
 ```javascript
-import {create} from 'jss'
+import {create, createGenerateClassName} from 'jss'
 
-const generateClassName => {
+const customCreateGenerateClassName => {
   let counter = 0
 
   return (rule, sheet) => `${rule.key}-${counter++}`
 }
 
-const jss = create({createGenerateClassName})
+const jss = create({createGenerateClassName: customCreateGenerateClassName})
 
 const sheet = jss.createStyleSheet({
   button: {
