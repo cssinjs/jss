@@ -1,4 +1,5 @@
 /* @flow */
+import warning from 'warning'
 import type {Rule, generateClassName} from '../types'
 
 const globalRef = typeof window === 'undefined' ? global : window
@@ -6,6 +7,8 @@ const namespace = '__JSS_VERSION_COUNTER__'
 if (globalRef[namespace] == null) globalRef[namespace] = 0
 // In case we have more than one JSS version.
 const jssCounter = globalRef[namespace]++
+
+const maxRules = 1e10
 
 /**
  * Returns a function which generates unique class names based on counters.
@@ -15,5 +18,21 @@ const jssCounter = globalRef[namespace]++
 export default (): generateClassName => {
   let ruleCounter = 0
 
-  return (rule: Rule): string => `${rule.key}-${jssCounter}-${ruleCounter++}`
+  return (rule: Rule): string => {
+    ruleCounter += 1
+
+    if (ruleCounter > maxRules) {
+      warning(
+        false,
+        'You might have a memory leak. Rule counter is at %s.',
+        ruleCounter
+      )
+    }
+
+    if (process.env.NODE_ENV === 'production') {
+      return `c${jssCounter}${ruleCounter}`
+    }
+
+    return `${rule.key}-${jssCounter}-${ruleCounter}`
+  }
 }
