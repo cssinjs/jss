@@ -62,32 +62,20 @@ export default class StyleRule implements BaseRule {
    */
   prop(name: string, nextValue?: string): StyleRule|string {
     const $name = typeof this.style[name] === 'function' ? `$${name}` : name
-    const currValue = this.style[$name]
 
     // Its a setter.
     if (nextValue != null) {
       // Don't do anything if the value has not changed.
-      if (currValue !== nextValue) {
+      if (this.style[$name] !== nextValue) {
         nextValue = this.options.jss.plugins.onChangeValue(nextValue, name, this)
         Object.defineProperty(this.style, $name, {
           value: nextValue,
           writable: true
         })
-        // Defined if StyleSheet option `link` is true.
+        // Renderable is defined if StyleSheet option `link` is true.
         if (this.renderable) this.renderer.setStyle(this.renderable, name, nextValue)
       }
       return this
-    }
-
-    // Its a getter, read the value from the DOM if its not cached.
-    if (this.renderable && currValue == null) {
-      /*
-      // Cache the value after we have got it from the DOM first time.
-      Object.defineProperty(this.style, $name, {
-        value: this.renderer.getStyle(this.renderable, name),
-        writable: true
-      })
-      */
     }
 
     return this.style[$name]
