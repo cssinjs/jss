@@ -121,7 +121,7 @@ describe('Functional: sheet', () => {
       expect(sheet.getRule('a').renderable).to.be.a(CSSStyleRule)
     })
 
-    it('should link the DOM node to added rule', () => {
+    it.only('should link the DOM node to added rule', () => {
       sheet.addRule('b', {color: 'red'})
       expect(sheet.getRule('b').renderable).to.be.a(CSSStyleRule)
     })
