@@ -1,7 +1,7 @@
 {
   "name": "jss",
   "description": "A lib for generating Style Sheets with JavaScript.",
-  "version": "8.1.0",
+  "version": "9.0.0-pre",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
