@@ -4,8 +4,6 @@ import sheets from '../sheets'
 import type StyleSheet from '../StyleSheet'
 import type {Rule, InsertionPoint} from '../types'
 
-const env = process.env.NODE_ENV
-
 type PriorityOptions = {
   index: number,
   insertionPoint?: InsertionPoint
@@ -262,25 +260,14 @@ export default class DomRenderer {
 
     if (!str) return false
 
-    if (env === 'production') {
-      try {
-        sheet.insertRule(str, index)
-      }
-      catch (err) {
-        warning(false, '[JSS] Can not insert an unsupported rule \n\r%s', rule)
-        return false
-      }
-      this.hasInsertedRules = true
+    try {
+      sheet.insertRule(str, index)
     }
-    else {
-      /*
-      this.element.insertBefore(
-        document.createTextNode(str),
-        this.element.childNodes[index + 1]
-      )*/
-
-      this.element.appendChild(document.createTextNode(str))
+    catch (err) {
+      warning(false, '[JSS] Can not insert an unsupported rule \n\r%s', rule)
+      return false
     }
+    this.hasInsertedRules = true
 
     return cssRules[index]
   }
