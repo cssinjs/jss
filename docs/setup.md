@@ -85,7 +85,7 @@ You can instruct JSS to render your stylesheets starting at a specific point in 
 
 This can be useful if you have another dependency that needs to come before or after the JSS Style Sheets for source order based specificity purposes.
 
-You can specify an `insertionPoint` during [jss.setup()](https://github.com/cssinjs/jss/blob/master/docs/js-api.md#setup-jss-instance) and [jss.createStyleSheeet()](https://github.com/cssinjs/jss/blob/master/docs/js-api.md#create-style-sheet).
+You can specify an `insertionPoint` during [jss.setup()](https://github.com/cssinjs/jss/blob/master/docs/js-api.md#setup-jss-instance).
 
 ```html
 <head>
