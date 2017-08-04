@@ -108,7 +108,7 @@ In order to count how many elements use the same StyleSheet and automatically at
 ```javascript
 import jss, {SheetsManager} from 'jss'
 
-const manager = SheetsManager()
+const manager = new SheetsManager()
 const sheet = jss.createStyleSheet()
 const key = {}
 
