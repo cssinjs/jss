@@ -351,4 +351,63 @@ describe('Integration: sheet', () => {
       expect(sheet.toString()).to.be('')
     })
   })
+
+  describe('template literals', () => {
+    it('should convert a simple template literal', () => {
+      const sheet = jss.createStyleSheet({
+        a: `
+          color: red;
+        `
+      })
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+        }
+      `)
+    })
+
+    it('should parse multiple props/values', () => {
+      const sheet = jss.createStyleSheet({
+        a: `
+          color: red;
+          float: left;
+        `
+      })
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+          float: left;
+        }
+      `)
+    })
+
+    it('should parse without semicolons', () => {
+      const sheet = jss.createStyleSheet({
+        a: `
+          color: red
+          float: left
+        `
+      })
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+          float: left;
+        }
+      `)
+    })
+
+    it('should parse without line breaks', () => {
+      const sheet = jss.createStyleSheet({
+        a: `
+          color: red; float: left;
+        `
+      })
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+          float: left;
+        }
+      `)
+    })
+  })
 })
