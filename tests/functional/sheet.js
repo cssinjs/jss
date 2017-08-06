@@ -109,21 +109,26 @@ describe('Functional: sheet', () => {
   describe('Option: {link: true}', () => {
     let sheet
 
-    beforeEach(() => {
-      sheet = jss.createStyleSheet({a: {float: 'left'}}, {link: true}).attach()
-    })
-
     afterEach(() => {
       sheet.detach()
     })
 
     it('should link the DOM node', () => {
+      sheet = jss.createStyleSheet({a: {float: 'left'}}, {link: true}).attach()
       expect(sheet.getRule('a').renderable).to.be.a(CSSStyleRule)
     })
 
     it('should link the DOM node to added rule', () => {
-      sheet.addRule('b', {color: 'red'})
-      expect(sheet.getRule('b').renderable).to.be.a(CSSStyleRule)
+      sheet = jss.createStyleSheet(null, {link: true}).attach()
+      sheet.addRule('a', {color: 'red'})
+      expect(sheet.getRule('a').renderable).to.be.a(CSSStyleRule)
+    })
+
+    it('should link a rule with escaped chars within selector', () => {
+      sheet = jss.createStyleSheet(null, {link: true})
+      const rule = sheet.addRule('a', {color: 'red'}, {selector: ':not(#\\20).test'})
+      sheet.attach()
+      expect(rule.renderable).to.not.be(undefined)
     })
   })
 
