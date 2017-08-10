@@ -26,7 +26,7 @@ export interface Renderer {
   setStyle(cssRule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean;
   getStyle(cssRule: HTMLElement|CSSStyleRule, prop: string): string;
   setSelector(cssRule: CSSStyleRule, selectorText: string): boolean;
-  getSelector(cssRule: CSSStyleRule): string;
+  getKey(cssRule: CSSStyleRule): string;
   attach(): void;
   detach(): void;
   deploy(sheet: StyleSheet): void;

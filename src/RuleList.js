@@ -147,9 +147,13 @@ export default class RuleList {
    * Link renderable rules with CSSRuleList.
    */
   link(cssRules: CSSRuleList): void {
+    const map = this.options.sheet.renderer.getUnescapedKeysMap(this.index)
+
     for (let i = 0; i < cssRules.length; i++) {
       const cssRule = cssRules[i]
-      const rule = this.get(this.options.sheet.renderer.getSelector(cssRule))
+      let key = this.options.sheet.renderer.getKey(cssRule)
+      if (map[key]) key = map[key]
+      const rule = this.map[key]
       if (rule) linkRule(rule, cssRule)
     }
   }

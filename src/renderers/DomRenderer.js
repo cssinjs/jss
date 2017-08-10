@@ -2,6 +2,7 @@
 import warning from 'warning'
 import sheets from '../sheets'
 import type StyleSheet from '../StyleSheet'
+import StyleRule from '../rules/StyleRule'
 import type {Rule, InsertionPoint} from '../types'
 
 type PriorityOptions = {
@@ -36,34 +37,38 @@ function setStyle(cssRule: HTMLElement|CSSStyleRule, prop: string, value: string
   return true
 }
 
-function extractSelector(cssText: string, from: number = 0) {
-  return cssText.substr(from, cssText.indexOf('{') - 1)
-}
-
 const CSSRuleTypes = {
   STYLE_RULE: 1,
   KEYFRAMES_RULE: 7
 }
 
 /**
- * Get the selector.
+ * Get the CSS Rule key.
  */
-function getSelector(cssRule: CSSOMRule): string {
-  if (cssRule.type === CSSRuleTypes.STYLE_RULE) return cssRule.selectorText
-  if (cssRule.type === CSSRuleTypes.KEYFRAMES_RULE) {
-    const {name} = cssRule
-    if (name) return `@keyframes ${name}`
 
-    // There is no rule.name in the following browsers:
-    // - IE 9
-    // - Safari 7.1.8
-    // - Mobile Safari 9.0.0
-    const {cssText} = cssRule
-    return `@${extractSelector(cssText, cssText.indexOf('keyframes'))}`
+const getKey = (() => {
+  const extractKey = (cssText: string, from: number = 0) => (
+    cssText.substr(from, cssText.indexOf('{') - 1)
+  )
+
+  return (cssRule: CSSOMRule): string => {
+    if (cssRule.type === CSSRuleTypes.STYLE_RULE) return cssRule.selectorText
+    if (cssRule.type === CSSRuleTypes.KEYFRAMES_RULE) {
+      const {name} = cssRule
+      if (name) return `@keyframes ${name}`
+
+      // There is no rule.name in the following browsers:
+      // - IE 9
+      // - Safari 7.1.8
+      // - Mobile Safari 9.0.0
+      const {cssText} = cssRule
+      return `@${extractKey(cssText, cssText.indexOf('keyframes'))}`
+    }
+
+    // Conditionals.
+    return extractKey(cssRule.cssText)
   }
-
-  return extractSelector(cssRule.cssText)
-}
+})()
 
 /**
  * Set the selector.
@@ -84,6 +89,51 @@ const getHead = (() => {
   return (): HTMLElement => {
     if (!head) head = document.head || document.getElementsByTagName('head')[0]
     return head
+  }
+})()
+
+/**
+ * Gets a map of rule keys, where the property is an unescaped key and value
+ * is a potentially escaped one.
+ * It is used to identify CSS rules and the corresponding JSS rules. As an identifier
+ * for CSSStyleRule we normally use `selectorText`. Though if original selector text
+ * contains escaped code points e.g. `:not(#\\20)`, CSSOM will compile it to `:not(# )`
+ * and so CSS rule's `selectorText` won't match JSS rule selector.
+ *
+ * https://www.w3.org/International/questions/qa-escapes#cssescapes
+ */
+const getUnescapedKeysMap = (() => {
+  // https://github.com/facebook/flow/issues/2696
+  const style = (document.createElement('style'): any)
+  const head = getHead()
+  let isAttached = false
+
+  return (rules: Array<Rule>): Object => {
+    const map = {}
+    for (let i = 0; i < rules.length; i++) {
+      const rule = rules[i]
+      if (!(rule instanceof StyleRule)) continue
+      const {selector} = rule
+      // Only unescape selector over CSSOM if it contains a back slash.
+      if (selector && selector.indexOf('\\') !== -1) {
+        // Lazilly attach when needed.
+        if (!isAttached) {
+          head.appendChild(style)
+          isAttached = true
+        }
+        style.textContent = `${selector} {}`
+        const {sheet} = style
+        if (sheet) {
+          const {cssRules} = sheet
+          if (cssRules) map[cssRules[0].selectorText] = selector
+        }
+      }
+    }
+    if (isAttached) {
+      head.removeChild(style)
+      isAttached = false
+    }
+    return map
   }
 })()
 
@@ -193,7 +243,9 @@ export default class DomRenderer {
 
   setSelector = setSelector
 
-  getSelector = getSelector
+  getKey = getKey
+
+  getUnescapedKeysMap = getUnescapedKeysMap
 
   // HTMLStyleElement needs fixing https://github.com/facebook/flow/issues/2696
   element: any

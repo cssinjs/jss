@@ -1,7 +1,7 @@
 {
   "name": "jss",
   "description": "A lib for generating Style Sheets with JavaScript.",
-  "version": "9.0.0-pre",
+  "version": "9.0.0-pre.1",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
@@ -102,7 +102,7 @@
     "posttest": "[ -z \"$TRAVIS\" ] || codecov",
     "codecov": "codecov",
     "bench": "cross-env BENCHMARK=true karma start --single-run",
-    "size": "size-limit 6KB dist/jss.js"
+    "size": "size-limit 6.2KB dist/jss.js"
   },
   "dependencies": {
     "is-in-browser": "^1.1.3",

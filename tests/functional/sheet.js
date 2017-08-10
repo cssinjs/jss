@@ -124,9 +124,9 @@ describe('Functional: sheet', () => {
       expect(sheet.getRule('a').renderable).to.be.a(CSSStyleRule)
     })
 
-    it('should link a rule with escaped chars within selector', () => {
+    it('should link a rule with CSS escaped chars within selector', () => {
       sheet = jss.createStyleSheet(null, {link: true})
-      const rule = sheet.addRule('a', {color: 'red'}, {selector: ':not(#\\20).test'})
+      const rule = sheet.addRule('a', {color: 'red'}, {selector: ':not(#\\20)'})
       sheet.attach()
       expect(rule.renderable).to.not.be(undefined)
     })
