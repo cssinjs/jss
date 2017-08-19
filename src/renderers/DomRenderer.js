@@ -125,7 +125,7 @@ const getUnescapedKeysMap = (() => {
         const {sheet} = style
         if (sheet) {
           const {cssRules} = sheet
-          if (cssRules) map[cssRules[0].selectorText] = selector
+          if (cssRules) map[cssRules[0].selectorText] = rule.key
         }
       }
     }
