@@ -312,7 +312,7 @@ console.log(sheet.toString())
 
 ## Generate your own class names
 
-`createGenerateClassName()`
+`createGenerateClassName`
 
 Option `createGenerateClassName` allows you to specify a function which returns a class name generator function `generateClassName(rule, sheet)`. This pattern is used to allow JSS reset the counter upon factory invocation, when needed. For e.g. it is used in [react-jss](https://github.com/cssinjs/react-jss) to reset the counter on each request for SSR.
 
@@ -321,9 +321,9 @@ Class names generator uses a simple counter to ensure uniqueness of the class na
 __Note__: in production it uses just the "c" + rules counter.
 
 ```javascript
-import {create, createGenerateClassName} from 'jss'
+import {create} from 'jss'
 
-const customCreateGenerateClassName => {
+const customCreateGenerateClassName = () => {
   let counter = 0
 
   return (rule, sheet) => `${rule.key}-${counter++}`
