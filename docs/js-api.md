@@ -229,7 +229,7 @@ sheet.update({
 
 `jss.createRule([name], style, [options])`
 
-In order to apply styles directly to the element but still be able to use jss s.
+In order to apply styles directly to the element but still be able to use JSS.
 
 ```javascript
 const rule = jss.createRule({
