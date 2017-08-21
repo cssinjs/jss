@@ -93,7 +93,7 @@ When rendering on the server, you will need to get all rendered styles as a CSS 
 SheetsRegistry classs allows you to __manually__ aggregate and stringify them. Read more about SSR [here](./ssr.md).
 
 ```javascript
-import jss, {SheetsRegistry} from jss
+import jss, {SheetsRegistry} from 'jss'
 
 const sheets = new SheetsRegistry()
 const sheet = jss.createStyleSheet()
