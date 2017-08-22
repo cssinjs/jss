@@ -103,13 +103,13 @@ const getHead = (() => {
  * https://www.w3.org/International/questions/qa-escapes#cssescapes
  */
 const getUnescapedKeysMap = (() => {
-  // https://github.com/facebook/flow/issues/2696
-  const style = (document.createElement('style'): any)
-  const head = getHead()
+  let style
   let isAttached = false
 
   return (rules: Array<Rule>): Object => {
     const map = {}
+    // https://github.com/facebook/flow/issues/2696
+    if (!style) style = (document.createElement('style'): any)
     for (let i = 0; i < rules.length; i++) {
       const rule = rules[i]
       if (!(rule instanceof StyleRule)) continue
@@ -118,7 +118,7 @@ const getUnescapedKeysMap = (() => {
       if (selector && selector.indexOf('\\') !== -1) {
         // Lazilly attach when needed.
         if (!isAttached) {
-          head.appendChild(style)
+          getHead().appendChild(style)
           isAttached = true
         }
         style.textContent = `${selector} {}`
@@ -130,7 +130,7 @@ const getUnescapedKeysMap = (() => {
       }
     }
     if (isAttached) {
-      head.removeChild(style)
+      getHead().removeChild(style)
       isAttached = false
     }
     return map
