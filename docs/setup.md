@@ -58,9 +58,10 @@ You can use JSS with or without [plugins](https://github.com/cssinjs?q=plugin). 
 ```javascript
 import jss from 'jss'
 import camelCase from 'jss-camel-case'
+import somePlugin from 'jss-some-plugin'
 
 // Use plugins.
-jss.use(camelCase())
+jss.use(camelCase(), somePlugin())
 
 // Create your style.
 const style = {
