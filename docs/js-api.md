@@ -16,8 +16,10 @@ See `.setup`for `options` description.
 
 ```javascript
 import {create} from 'jss'
+import camelCase from 'jss-camel-case'
+import somePlugin from 'jss-some-plugin'
 const jss = create()
-jss.use(somePlugin())
+jss.use(camelCase(), somePlugin())
 jss.createStyleSheet(...)
 export default jss
 ```
