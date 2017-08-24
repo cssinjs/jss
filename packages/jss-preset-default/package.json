@@ -28,8 +28,8 @@
   "license": "MIT",
   "main": "./lib/index.js",
   "devDependencies": {
-    "babel-cli": "^6.5.1",
-    "babel-core": "^6.5.1",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
     "babel-eslint": "^7.1.0",
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.9.0",
@@ -37,10 +37,10 @@
     "eslint": "^3.9.0",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-config-jss": "^3.0.0",
-    "eslint-plugin-import": "^2.0.1",
+    "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.4.1",
-    "jss": "^8.0.0",
+    "jss": "^8.1.0",
     "rimraf": "^2.5.4",
     "webpack": "^1.13.1"
   },
@@ -51,11 +51,12 @@
     "jss-camel-case": "^5.0.0",
     "jss-compose": "^4.0.0",
     "jss-default-unit": "^7.0.0",
-    "jss-expand": "^4.0.0",
+    "jss-expand": "^4.0.1",
     "jss-extend": "^5.0.0",
     "jss-global": "^2.0.0",
     "jss-nested": "^5.0.0",
     "jss-props-sort": "^5.0.0",
+    "jss-template": "^0.1.1",
     "jss-vendor-prefixer": "^6.0.0"
   }
 }
