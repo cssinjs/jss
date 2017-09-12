@@ -125,7 +125,7 @@ function findCommentNode(text: string): Comment|null {
   for (let i = 0; i < head.childNodes.length; i++) {
     const node = head.childNodes[i]
     if (node.nodeType === 8 && node.nodeValue.trim() === text) {
-      return node
+      return ((node:any):Comment)
     }
   }
   return null
