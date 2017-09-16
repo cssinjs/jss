@@ -53,7 +53,7 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.5.0",
     "expect.js": "^0.3.1",
-    "flow-bin": "^0.47.0",
+    "flow-bin": "^0.54.1",
     "flow-copy-source": "^1.1.0",
     "json-loader": "^0.5.4",
     "jss-cache": "^2.0.0",

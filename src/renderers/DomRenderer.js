@@ -170,7 +170,7 @@ function findHighestSheet(registry: Array<StyleSheet>, options: PriorityOptions)
 /**
  * Find a comment with "jss" inside.
  */
-function findCommentNode(text: string): Comment|null {
+function findCommentNode(text: string): Node|null {
   const head = getHead()
   for (let i = 0; i < head.childNodes.length; i++) {
     const node = head.childNodes[i]
