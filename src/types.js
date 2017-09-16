@@ -96,7 +96,7 @@ export type JssOptions = {
 
 export type InternalJssOptions = {
   createGenerateClassName: createGenerateClassName,
-  plugins?: Array<Plugin>,
+  plugins: Array<Plugin>,
   insertionPoint?: InsertionPoint,
   Renderer: Class<Renderer>
 }

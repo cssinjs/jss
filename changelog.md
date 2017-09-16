@@ -2,6 +2,7 @@
 
 - Added `SheetsManager.size` getter to get amount of items in `SheetsManager`
 - Refactored `StyleRule.selector` for better performance. Breaking change - it doesn't reregister rule in the classes map any more. It was used mainly in jss-isolate.
+- Method `jss.setup()` can now be called multiple times and will merge properly the options. Also it will avoid applying same plugins more than once by comparing the reference.
 
 ## 8.1.0 / 2017-07-12
 
