@@ -7,13 +7,34 @@
     "transform-es3-member-expression-literals",
     "transform-es3-property-literals",
     "transform-flow-strip-types",
-    "inline-version"
+    "inline-version",
+    "external-helpers",
+    "external-helpers-insert-require"
   ],
   "env": {
+    "production": {
+      "presets": [
+        "es2015",
+        "stage-0"
+      ]
+    },
+    "development": {
+      "presets": [
+        "es2015",
+        "stage-0"
+      ]
+    },
     "test": {
+      "presets": [
+        "es2015",
+        "stage-0"
+      ],
       "plugins": [
         "rewire"
       ]
+    },
+    "es": {
+      "presets": [["es2015", {"modules": false}], "stage-0"]
     }
   }
 }

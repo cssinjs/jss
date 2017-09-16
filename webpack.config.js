@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const path = require('path')
+const WebpackBabelExternalsPlugin = require('webpack-babel-external-helpers-2')
 
 const env = process.env.NODE_ENV
 const isProd = env === 'production'
@@ -12,7 +13,8 @@ const plugins = [
     __DEV__: isDev,
     __TEST__: isTest
   }),
-  new webpack.optimize.ModuleConcatenationPlugin()
+  new webpack.optimize.ModuleConcatenationPlugin(),
+  new WebpackBabelExternalsPlugin()
 ]
 
 if (isProd) {
@@ -31,7 +33,7 @@ module.exports = {
   },
   plugins,
   module: {
-    rules: [
+    loaders: [
       {
         loader: 'babel-loader',
         test: /\.js$/,
