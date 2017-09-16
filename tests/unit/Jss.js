@@ -128,8 +128,8 @@ describe('Integration: jss', () => {
     const plugin = {}
 
     beforeEach(() => {
-      jss.plugins.use = (plugin) => {
-        used = plugin
+      jss.plugins.use = (receivedPlugin) => {
+        used = receivedPlugin
       }
       jss.use(plugin)
     })

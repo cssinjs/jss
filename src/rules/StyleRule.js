@@ -1,6 +1,7 @@
 /* @flow */
 import toCss from '../utils/toCss'
 import toCssValue from '../utils/toCssValue'
+import isDynamicValue from '../utils/isDynamicValue'
 import type {ToCssOptions, RuleOptions, Renderer as RendererInterface, JssStyle, BaseRule} from '../types'
 
 export default class StyleRule implements BaseRule {
@@ -61,7 +62,9 @@ export default class StyleRule implements BaseRule {
    * Get or set a style property.
    */
   prop(name: string, nextValue?: string): StyleRule|string {
-    const $name = typeof this.style[name] === 'function' ? `$${name}` : name
+    // The result of a dynamic value is prefixed with $ and is not inumerable in
+    // order to be ignored by all plugins or during stringification.
+    const $name = isDynamicValue(this.style[name]) ? `$${name}` : name
 
     // Its a setter.
     if (nextValue != null) {
@@ -100,6 +103,7 @@ export default class StyleRule implements BaseRule {
     for (const prop in this.style) {
       const value = this.style[prop]
       const type = typeof value
+      // XXX
       if (type === 'function') json[prop] = this.style[`$${prop}`]
       else if (type !== 'object') json[prop] = value
       else if (Array.isArray(value)) json[prop] = toCssValue(value)

@@ -1,3 +1,4 @@
+import isObservable from 'is-observable'
 import type {JssStyle} from '../types'
 
 const {isArray} = Array
@@ -16,7 +17,7 @@ export default function cloneStyle(style: JssStyle): JssStyle {
   const newStyle = {}
   for (const name in style) {
     const value = style[name]
-    if (typeof value === 'object') {
+    if (typeof value === 'object' && !isObservable(value)) {
       newStyle[name] = cloneStyle(value)
       continue
     }

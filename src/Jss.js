@@ -3,6 +3,7 @@ import isInBrowser from 'is-in-browser'
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import rulesPlugins from './plugins/rules'
+import observablesPlugin from './plugins/observables'
 import sheets from './sheets'
 import StyleRule from './rules/StyleRule'
 import createGenerateClassNameDefault from './utils/createGenerateClassName'
@@ -38,7 +39,7 @@ export default class Jss {
 
   constructor(options?: JssOptions) {
     // eslint-disable-next-line prefer-spread
-    this.use.apply(this, rulesPlugins)
+    this.use.apply(this, rulesPlugins.concat([observablesPlugin]))
     this.setup(options)
   }
 
@@ -124,7 +125,7 @@ export default class Jss {
    * Register plugin. Passed function will be invoked with a rule instance.
    */
   use(...plugins: Array<Plugin>): this {
-    plugins.forEach(plugin => {
+    plugins.forEach((plugin) => {
       // Avoids applying same plugin twice, at least based on ref.
       if (this.options.plugins.indexOf(plugin) === -1) {
         this.options.plugins.push(plugin)

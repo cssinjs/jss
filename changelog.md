@@ -6,6 +6,7 @@
 - Fixed linker, which didn't work if selectors were escaped (#557).
 - In production `createGenerateClassName()` option will now produce short selectors and warn about memory leaks. (#546)
 - Update flow to v0.54.1.
+- Support observable values (#442).
 
 ## 8.1.0 / 2017-07-12
 
