@@ -4,7 +4,7 @@ function teardown() {
   this.sheets.reset()
 }
 
-suite.only('Create linked sheet', () => {
+suite('Create linked sheet', () => {
   benchmark('w/o linking', function benchmark() {
     this.sheets = sheets
     const sheet = jss.createStyleSheet()
