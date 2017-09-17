@@ -62,7 +62,7 @@ export default class StyleRule implements BaseRule {
    * Get or set a style property.
    */
   prop(name: string, nextValue?: string): StyleRule|string {
-    // The result of a dynamic value is prefixed with $ and is not inumerable in
+    // The result of a dynamic value is prefixed with $ and is not innumerable in
     // order to be ignored by all plugins or during stringification.
     const $name = isDynamicValue(this.style[name]) ? `$${name}` : name
 
@@ -102,10 +102,8 @@ export default class StyleRule implements BaseRule {
     const json = {}
     for (const prop in this.style) {
       const value = this.style[prop]
-      const type = typeof value
-      // XXX
-      if (type === 'function') json[prop] = this.style[`$${prop}`]
-      else if (type !== 'object') json[prop] = value
+      if (isDynamicValue(value)) json[prop] = this.style[`$${prop}`]
+      else if (typeof value !== 'object') json[prop] = value
       else if (Array.isArray(value)) json[prop] = toCssValue(value)
     }
     return json
