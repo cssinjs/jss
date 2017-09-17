@@ -24,6 +24,8 @@ import type {
 
 declare var __VERSION__: string
 
+const defaultPlugins = rulesPlugins.concat([observablesPlugin])
+
 export default class Jss {
   version = __VERSION__
 
@@ -39,7 +41,7 @@ export default class Jss {
 
   constructor(options?: JssOptions) {
     // eslint-disable-next-line prefer-spread
-    this.use.apply(this, rulesPlugins.concat([observablesPlugin]))
+    this.use.apply(this, defaultPlugins)
     this.setup(options)
   }
 
