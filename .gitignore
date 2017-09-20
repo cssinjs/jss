@@ -3,6 +3,7 @@ node_modules
 npm-debug.log
 tmp
 *~
+es
 lib
 dist
 .env
