@@ -21,7 +21,7 @@ export type generateClassName = (rule: Rule, sheet?: StyleSheet) => string
 export type JssStyle = Object
 
 export interface Renderer {
-  constructor(sheet?: StyleSheet): Renderer;
+  constructor(sheet?: StyleSheet): void;
   setStyle(cssRule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean;
   getStyle(cssRule: HTMLElement|CSSStyleRule, prop: string): string;
   setSelector(cssRule: CSSStyleRule, selectorText: string): boolean;
