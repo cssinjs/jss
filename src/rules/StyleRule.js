@@ -1,4 +1,5 @@
 /* @flow */
+import warning from 'warning'
 import toCss from '../utils/toCss'
 import toCssValue from '../utils/toCssValue'
 import isDynamicValue from '../utils/isDynamicValue'
@@ -77,6 +78,12 @@ export default class StyleRule implements BaseRule {
         })
         // Renderable is defined if StyleSheet option `link` is true.
         if (this.renderable) this.renderer.setStyle(this.renderable, name, nextValue)
+        else {
+         const {sheet} = this.options
+         if (sheet && sheet.attached) {
+           warning(false, 'Rule is not linked. Missing sheet option "link: true".')
+        }
+       }
       }
       return this
     }
