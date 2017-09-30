@@ -84,4 +84,18 @@ describe('Unit: SheetsManager', () => {
       expect(detached).to.be(1)
     })
   })
+
+  describe('.size', () => {
+    it('should be 0 from the start', () => {
+      const manager = new SheetsManager()
+      expect(manager.size).to.be(0)
+    })
+    it('should be increased after addition', () => {
+      const manager = new SheetsManager()
+      const key = {}
+      const sheet = {}
+      manager.add(key, sheet)
+      expect(manager.size).to.be(1)
+    })
+  })
 })

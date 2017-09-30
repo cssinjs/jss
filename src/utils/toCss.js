@@ -1,5 +1,6 @@
 /* @flow */
 import toCssValue from './toCssValue'
+import isDynamicValue from './isDynamicValue'
 import type {ToCssOptions as Options, JssStyle} from '../types'
 
 /**
@@ -50,20 +51,20 @@ export default function toCss(selector: string, style: JssStyle, options: Option
     }
   }
 
-  let hasFunctionValue = false
+  let hasDynamicValue = false
 
   for (const prop in style) {
     let value = style[prop]
-    if (typeof value === 'function') {
+    if (isDynamicValue(value)) {
       value = style[`$${prop}`]
-      hasFunctionValue = true
+      hasDynamicValue = true
     }
     if (value != null && prop !== 'fallbacks') {
       result += `\n${indentStr(`${prop}: ${toCssValue(value)};`, indent)}`
     }
   }
 
-  if (!result && !hasFunctionValue) return result
+  if (!result && !hasDynamicValue) return result
 
   indent--
   result = indentStr(`${selector} {${result}\n`, indent) + indentStr('}', indent)

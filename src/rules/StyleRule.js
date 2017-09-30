@@ -1,6 +1,8 @@
 /* @flow */
+import warning from 'warning'
 import toCss from '../utils/toCss'
 import toCssValue from '../utils/toCssValue'
+import isDynamicValue from '../utils/isDynamicValue'
 import type {ToCssOptions, RuleOptions, Renderer as RendererInterface, JssStyle, BaseRule} from '../types'
 
 export default class StyleRule implements BaseRule {
@@ -21,50 +23,32 @@ export default class StyleRule implements BaseRule {
   options: RuleOptions
 
   constructor(key: string, style: JssStyle, options: RuleOptions) {
-    const {generateClassName, sheet, Renderer, selector} = options
+    const {sheet, Renderer, selector} = options
     this.key = key
     this.options = options
     this.style = style
-    this.selectorText = selector || `.${generateClassName(this, sheet)}`
+    if (selector) this.selectorText = selector
     this.renderer = sheet ? sheet.renderer : new Renderer()
   }
 
   /**
    * Set selector string.
-   * TODO rewrite this #419
    * Attention: use this with caution. Most browsers didn't implement
    * selectorText setter, so this may result in rerendering of entire Style Sheet.
    */
   set selector(selector: string): void {
-    const {sheet} = this.options
-
-    // After we modify a selector, ref by old selector needs to be removed.
-    if (sheet) sheet.rules.unregister(this)
+    if (selector === this.selectorText) return
 
     this.selectorText = selector
 
-    if (!this.renderable) {
-      // Register the rule with new selector.
-      if (sheet) sheet.rules.register(this)
-      return
-    }
+    if (this.renderable) {
+      const hasChanged = this.renderer.setSelector(this.renderable, selector)
 
-    const changed = this.renderer.setSelector(this.renderable, selector)
-
-    if (changed && sheet) {
-      sheet.rules.register(this)
-      return
-    }
-
-    // If selector setter is not implemented, rerender the sheet.
-    // We need to delete renderable from the rule, because when sheet.deploy()
-    // calls rule.toString, it will get the old selector.
-    delete this.renderable
-    if (sheet) {
-      sheet.rules.register(this)
-      sheet
-        .deploy()
-        .link()
+      // If selector setter is not implemented, rerender the rule.
+      if (!hasChanged && this.renderable) {
+        const renderable = this.renderer.replaceRule(this.renderable, this)
+        if (renderable) this.renderable = renderable
+      }
     }
   }
 
@@ -72,10 +56,6 @@ export default class StyleRule implements BaseRule {
    * Get selector string.
    */
   get selector(): string {
-    if (this.renderable) {
-      return this.renderer.getSelector(this.renderable)
-    }
-
     return this.selectorText
   }
 
@@ -83,31 +63,29 @@ export default class StyleRule implements BaseRule {
    * Get or set a style property.
    */
   prop(name: string, nextValue?: string): StyleRule|string {
-    const $name = typeof this.style[name] === 'function' ? `$${name}` : name
-    const currValue = this.style[$name]
+    // The result of a dynamic value is prefixed with $ and is not innumerable in
+    // order to be ignored by all plugins or during stringification.
+    const $name = isDynamicValue(this.style[name]) ? `$${name}` : name
 
     // Its a setter.
     if (nextValue != null) {
       // Don't do anything if the value has not changed.
-      if (currValue !== nextValue) {
+      if (this.style[$name] !== nextValue) {
         nextValue = this.options.jss.plugins.onChangeValue(nextValue, name, this)
         Object.defineProperty(this.style, $name, {
           value: nextValue,
           writable: true
         })
-        // Defined if StyleSheet option `link` is true.
+        // Renderable is defined if StyleSheet option `link` is true.
         if (this.renderable) this.renderer.setStyle(this.renderable, name, nextValue)
+        else {
+         const {sheet} = this.options
+         if (sheet && sheet.attached) {
+           warning(false, 'Rule is not linked. Missing sheet option "link: true".')
+        }
+       }
       }
       return this
-    }
-
-    // Its a getter, read the value from the DOM if its not cached.
-    if (this.renderable && currValue == null) {
-      // Cache the value after we have got it from the DOM first time.
-      Object.defineProperty(this.style, $name, {
-        value: this.renderer.getStyle(this.renderable, name),
-        writable: true
-      })
     }
 
     return this.style[$name]
@@ -131,9 +109,8 @@ export default class StyleRule implements BaseRule {
     const json = {}
     for (const prop in this.style) {
       const value = this.style[prop]
-      const type = typeof value
-      if (type === 'function') json[prop] = this.style[`$${prop}`]
-      else if (type !== 'object') json[prop] = value
+      if (isDynamicValue(value)) json[prop] = this.style[`$${prop}`]
+      else if (typeof value !== 'object') json[prop] = value
       else if (Array.isArray(value)) json[prop] = toCssValue(value)
     }
     return json

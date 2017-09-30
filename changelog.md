@@ -1,4 +1,14 @@
-## 8.1.0 / 2017-067-12
+## Upcoming release
+
+- Added `SheetsManager.size` getter to get amount of items in `SheetsManager`.
+- Refactored `StyleRule.selector` for better performance. Breaking change - it doesn't reregister rule in the classes map any more. It was used mainly in jss-isolate (#419).
+- Method `jss.setup()` can now be called multiple times and will merge properly the options. Also it will avoid applying same plugins more than once by comparing the reference (#576).
+- Fixed linker, which didn't work if selectors were escaped (#557).
+- In production `createGenerateClassName()` option will now produce short selectors and warn about memory leaks. (#546)
+- Update flow to v0.54.1.
+- Support observable values (#442).
+
+## 8.1.0 / 2017-07-12
 
 - Added webpackbin examples
 - Added size-limit tool

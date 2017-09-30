@@ -20,18 +20,19 @@ export type generateClassName = (rule: Rule, sheet?: StyleSheet) => string
 // Find a way to declare all types: Object|string|Array<Object>
 export type JssStyle = Object
 
-
 export interface Renderer {
-  constructor(sheet?: StyleSheet): Renderer;
-  setStyle(rule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean;
-  getStyle(rule: HTMLElement|CSSStyleRule, prop: string): string;
-  setSelector(rule: CSSStyleRule, selectorText: string): boolean;
-  getSelector(rule: CSSStyleRule): string;
+  constructor(sheet?: StyleSheet): void;
+  setStyle(cssRule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean;
+  getStyle(cssRule: HTMLElement|CSSStyleRule, prop: string): string;
+  setSelector(cssRule: CSSStyleRule, selectorText: string): boolean;
+  getKey(cssRule: CSSStyleRule): string;
   attach(): void;
   detach(): void;
   deploy(sheet: StyleSheet): void;
   insertRule(rule: Rule): false|CSSStyleRule;
-  deleteRule(rule: CSSStyleRule): boolean;
+  deleteRule(cssRule: CSSStyleRule): boolean;
+  replaceRule(cssRule: CSSStyleRule, rule: Rule): false|CSSStyleRule;
+  indexOf(cssRule: CSSStyleRule): number;
   getRules(): CSSRuleList|void;
 }
 
@@ -94,7 +95,7 @@ export type JssOptions = {
 
 export type InternalJssOptions = {
   createGenerateClassName: createGenerateClassName,
-  plugins?: Array<Plugin>,
+  plugins: Array<Plugin>,
   insertionPoint?: InsertionPoint,
   Renderer: Class<Renderer>
 }
@@ -105,7 +106,8 @@ export type StyleSheetFactoryOptions = {
   index?: number,
   link?: boolean,
   element?: HTMLStyleElement,
-  generateClassName?: generateClassName
+  generateClassName?: generateClassName,
+  classNamePrefix?: string
 }
 
 export type StyleSheetOptions = {
@@ -115,6 +117,7 @@ export type StyleSheetOptions = {
   element?: HTMLStyleElement,
   index: number,
   generateClassName: generateClassName,
+  classNamePrefix?: string,
   Renderer: Class<Renderer>,
   insertionPoint?: InsertionPoint,
   jss: Jss
@@ -129,6 +132,7 @@ export type InternalStyleSheetOptions = {
   insertionPoint?: InsertionPoint,
   Renderer: Class<Renderer>,
   generateClassName: generateClassName,
+  classNamePrefix?: string,
   jss: Jss,
   sheet: StyleSheet,
   parent: ConditionalRule|KeyframesRule|StyleSheet,

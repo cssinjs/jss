@@ -2,6 +2,7 @@
 .*/tests/.*
 .*/lib/.*
 .*/node_modules/babel*
+.*/node_modules/kefir
 
 [include]
 src/

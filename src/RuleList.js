@@ -1,6 +1,6 @@
 /* @flow */
 import createRule from './utils/createRule'
-import updateRule from './utils/updateRule'
+import updateStyle from './utils/updateStyle'
 import linkRule from './utils/linkRule'
 import StyleRule from './rules/StyleRule'
 import type {
@@ -53,12 +53,21 @@ export default class RuleList {
       ...options
     }
 
-    if (!options.selector && this.classes[name]) options.selector = `.${this.classes[name]}`
+    if (!options.selector && this.classes[name]) {
+      options.selector = `.${this.classes[name]}`
+    }
 
     this.raw[name] = decl
 
     const rule = createRule(name, decl, options)
-    this.register(rule)
+    let className
+
+    if (!options.selector && rule instanceof StyleRule) {
+      className = generateClassName(rule, sheet)
+      rule.selector = `.${className}`
+    }
+
+    this.register(rule, className)
 
     const index = options.index === undefined ? this.index.length : options.index
     this.index.splice(index, 0, rule)
@@ -101,11 +110,11 @@ export default class RuleList {
   /**
    * Register a rule in `.map` and `.classes` maps.
    */
-  register(rule: Rule): void {
+  register(rule: Rule, className?: string): void {
     this.map[rule.key] = rule
     if (rule instanceof StyleRule) {
       this.map[rule.selector] = rule
-      this.classes[rule.key] = rule.selector.substr(1)
+      if (className) this.classes[rule.key] = className
     }
   }
 
@@ -114,8 +123,10 @@ export default class RuleList {
    */
   unregister(rule: Rule): void {
     delete this.map[rule.key]
-    delete this.classes[rule.key]
-    if (rule instanceof StyleRule) delete this.map[rule.selector]
+    if (rule instanceof StyleRule) {
+      delete this.map[rule.selector]
+      delete this.classes[rule.key]
+    }
   }
 
   /**
@@ -123,12 +134,12 @@ export default class RuleList {
    */
   update(name?: string, data?: Object): void {
     if (typeof name === 'string') {
-      updateRule(this.get(name), data, RuleList)
+      updateStyle(this.get(name), data, RuleList)
       return
     }
 
     for (let index = 0; index < this.index.length; index++) {
-      updateRule(this.index[index], name, RuleList)
+      updateStyle(this.index[index], name, RuleList)
     }
   }
 
@@ -136,9 +147,13 @@ export default class RuleList {
    * Link renderable rules with CSSRuleList.
    */
   link(cssRules: CSSRuleList): void {
+    const map = this.options.sheet.renderer.getUnescapedKeysMap(this.index)
+
     for (let i = 0; i < cssRules.length; i++) {
       const cssRule = cssRules[i]
-      const rule = this.get(this.options.sheet.renderer.getSelector(cssRule))
+      let key = this.options.sheet.renderer.getKey(cssRule)
+      if (map[key]) key = map[key]
+      const rule = this.map[key]
       if (rule) linkRule(rule, cssRule)
     }
   }

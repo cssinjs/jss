@@ -14,7 +14,7 @@ export default class VirtualRenderer {
   setSelector() {
     return true
   }
-  getSelector() {
+  getKey() {
     return ''
   }
   attach() {}
@@ -26,5 +26,11 @@ export default class VirtualRenderer {
   deleteRule() {
     return true
   }
+  replaceRule() {
+    return false
+  }
   getRules() {}
+  indexOf() {
+    return -1
+  }
 }

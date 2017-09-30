@@ -2,6 +2,7 @@
 import warning from 'warning'
 import sheets from '../sheets'
 import type StyleSheet from '../StyleSheet'
+import StyleRule from '../rules/StyleRule'
 import type {Rule, InsertionPoint} from '../types'
 
 type PriorityOptions = {
@@ -12,9 +13,9 @@ type PriorityOptions = {
 /**
  * Get a style property.
  */
-function getStyle(rule: HTMLElement|CSSStyleRule, prop: string): string {
+function getStyle(cssRule: HTMLElement|CSSStyleRule, prop: string): string {
   try {
-    return rule.style.getPropertyValue(prop)
+    return cssRule.style.getPropertyValue(prop)
   }
   catch (err) {
     // IE may throw if property is unknown.
@@ -25,9 +26,9 @@ function getStyle(rule: HTMLElement|CSSStyleRule, prop: string): string {
 /**
  * Set a style property.
  */
-function setStyle(rule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean {
+function setStyle(cssRule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean {
   try {
-    rule.style.setProperty(prop, value)
+    cssRule.style.setProperty(prop, value)
   }
   catch (err) {
     // IE may throw if property is unknown.
@@ -36,44 +37,48 @@ function setStyle(rule: HTMLElement|CSSStyleRule, prop: string, value: string): 
   return true
 }
 
-function extractSelector(cssText: string, from: number = 0) {
-  return cssText.substr(from, cssText.indexOf('{') - 1)
-}
-
 const CSSRuleTypes = {
   STYLE_RULE: 1,
   KEYFRAMES_RULE: 7
 }
 
 /**
- * Get the selector.
+ * Get the CSS Rule key.
  */
-function getSelector(rule: CSSOMRule): string {
-  if (rule.type === CSSRuleTypes.STYLE_RULE) return rule.selectorText
-  if (rule.type === CSSRuleTypes.KEYFRAMES_RULE) {
-    const {name} = rule
-    if (name) return `@keyframes ${name}`
 
-    // There is no rule.name in the following browsers:
-    // - IE 9
-    // - Safari 7.1.8
-    // - Mobile Safari 9.0.0
-    const {cssText} = rule
-    return `@${extractSelector(cssText, cssText.indexOf('keyframes'))}`
+const getKey = (() => {
+  const extractKey = (cssText: string, from: number = 0) => (
+    cssText.substr(from, cssText.indexOf('{') - 1)
+  )
+
+  return (cssRule: CSSOMRule): string => {
+    if (cssRule.type === CSSRuleTypes.STYLE_RULE) return cssRule.selectorText
+    if (cssRule.type === CSSRuleTypes.KEYFRAMES_RULE) {
+      const {name} = cssRule
+      if (name) return `@keyframes ${name}`
+
+      // There is no rule.name in the following browsers:
+      // - IE 9
+      // - Safari 7.1.8
+      // - Mobile Safari 9.0.0
+      const {cssText} = cssRule
+      return `@${extractKey(cssText, cssText.indexOf('keyframes'))}`
+    }
+
+    // Conditionals.
+    return extractKey(cssRule.cssText)
   }
-
-  return extractSelector(rule.cssText)
-}
+})()
 
 /**
  * Set the selector.
  */
-function setSelector(rule: CSSStyleRule, selectorText: string): boolean {
-  rule.selectorText = selectorText
+function setSelector(cssRule: CSSStyleRule, selectorText: string): boolean {
+  cssRule.selectorText = selectorText
 
   // Return false if setter was not successful.
   // Currently works in chrome only.
-  return rule.selectorText === selectorText
+  return cssRule.selectorText === selectorText
 }
 
 /**
@@ -84,6 +89,51 @@ const getHead = (() => {
   return (): HTMLElement => {
     if (!head) head = document.head || document.getElementsByTagName('head')[0]
     return head
+  }
+})()
+
+/**
+ * Gets a map of rule keys, where the property is an unescaped key and value
+ * is a potentially escaped one.
+ * It is used to identify CSS rules and the corresponding JSS rules. As an identifier
+ * for CSSStyleRule we normally use `selectorText`. Though if original selector text
+ * contains escaped code points e.g. `:not(#\\20)`, CSSOM will compile it to `:not(# )`
+ * and so CSS rule's `selectorText` won't match JSS rule selector.
+ *
+ * https://www.w3.org/International/questions/qa-escapes#cssescapes
+ */
+const getUnescapedKeysMap = (() => {
+  let style
+  let isAttached = false
+
+  return (rules: Array<Rule>): Object => {
+    const map = {}
+    // https://github.com/facebook/flow/issues/2696
+    if (!style) style = (document.createElement('style'): any)
+    for (let i = 0; i < rules.length; i++) {
+      const rule = rules[i]
+      if (!(rule instanceof StyleRule)) continue
+      const {selector} = rule
+      // Only unescape selector over CSSOM if it contains a back slash.
+      if (selector && selector.indexOf('\\') !== -1) {
+        // Lazilly attach when needed.
+        if (!isAttached) {
+          getHead().appendChild(style)
+          isAttached = true
+        }
+        style.textContent = `${selector} {}`
+        const {sheet} = style
+        if (sheet) {
+          const {cssRules} = sheet
+          if (cssRules) map[cssRules[0].selectorText] = rule.key
+        }
+      }
+    }
+    if (isAttached) {
+      getHead().removeChild(style)
+      isAttached = false
+    }
+    return map
   }
 })()
 
@@ -120,7 +170,7 @@ function findHighestSheet(registry: Array<StyleSheet>, options: PriorityOptions)
 /**
  * Find a comment with "jss" inside.
  */
-function findCommentNode(text: string): Comment|null {
+function findCommentNode(text: string): Node|null {
   const head = getHead()
   for (let i = 0; i < head.childNodes.length; i++) {
     const node = head.childNodes[i]
@@ -193,7 +243,9 @@ export default class DomRenderer {
 
   setSelector = setSelector
 
-  getSelector = getSelector
+  getKey = getKey
+
+  getUnescapedKeysMap = getUnescapedKeysMap
 
   // HTMLStyleElement needs fixing https://github.com/facebook/flow/issues/2696
   element: any
@@ -252,11 +304,11 @@ export default class DomRenderer {
   /**
    * Insert a rule into element.
    */
-  insertRule(rule: Rule): false|CSSStyleRule {
+  insertRule(rule: Rule, index?: number): false|CSSStyleRule {
     const {sheet} = this.element
     const {cssRules} = sheet
-    const index = cssRules.length
     const str = rule.toString()
+    if (!index) index = cssRules.length
 
     if (!str) return false
 
@@ -267,7 +319,6 @@ export default class DomRenderer {
       warning(false, '[JSS] Can not insert an unsupported rule \n\r%s', rule)
       return false
     }
-
     this.hasInsertedRules = true
 
     return cssRules[index]
@@ -276,16 +327,33 @@ export default class DomRenderer {
   /**
    * Delete a rule.
    */
-  deleteRule(rule: CSSStyleRule): boolean {
+  deleteRule(cssRule: CSSStyleRule): boolean {
     const {sheet} = this.element
-    const {cssRules} = sheet
+    const index = this.indexOf(cssRule)
+    if (index === -1) return false
+    sheet.deleteRule(index)
+    return true
+  }
+
+  /**
+   * Get index of a CSS Rule.
+   */
+  indexOf(cssRule: CSSStyleRule): number {
+    const {cssRules} = this.element.sheet
     for (let index = 0; index < cssRules.length; index++) {
-      if (rule === cssRules[index]) {
-        sheet.deleteRule(index)
-        return true
-      }
+      if (cssRule === cssRules[index]) return index
     }
-    return false
+    return -1
+  }
+
+  /**
+   * Generate a new CSS rule and replace the existing one.
+   */
+  replaceRule(cssRule: CSSStyleRule, rule: Rule): false|CSSStyleRule {
+    const index = this.indexOf(cssRule)
+    const newCssRule = this.insertRule(rule, index)
+    this.element.sheet.deleteRule(index)
+    return newCssRule
   }
 
   /**

@@ -24,12 +24,26 @@ Compiles to:
 
 ## Function values
 
-If you want dynamic behavior for your Style Sheet, you can use functions as a value which return the actual value. Use [sheet.update(data)](./js-api.md#update-function-values) in order to pass the data object.
+If you want dynamic behavior for your Style Sheet, you can use functions as a value which return the actual value. Use [sheet.update(data)](./js-api.md#update-function-values) in order to pass the data object. Sheet option `link: true` is required for this to function.
 
 ```javascript
 const styles = {
   button: {
     color: data => data.color
+  }
+}
+```
+
+## Observable values
+
+In order to create highly dynamic animations you may want to use streams. Take a look at the [tc39 observable proposal](https://github.com/tc39/proposal-observable). Sheet option `link: true` is required for this to function.
+
+```javascript
+const styles = {
+  button: {
+    color: new Observable((observer) => {
+      observer.next('red')
+    })
   }
 }
 ```

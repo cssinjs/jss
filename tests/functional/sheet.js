@@ -6,6 +6,7 @@ import vendorPrefixer from 'jss-vendor-prefixer'
 
 import {create} from '../../src'
 import DomRenderer from '../../src/renderers/DomRenderer'
+import StyleRule from '../../src/rules/StyleRule'
 import {
   createGenerateClassName,
   computeStyle,
@@ -109,21 +110,26 @@ describe('Functional: sheet', () => {
   describe('Option: {link: true}', () => {
     let sheet
 
-    beforeEach(() => {
-      sheet = jss.createStyleSheet({a: {float: 'left'}}, {link: true}).attach()
-    })
-
     afterEach(() => {
       sheet.detach()
     })
 
     it('should link the DOM node', () => {
+      sheet = jss.createStyleSheet({a: {float: 'left'}}, {link: true}).attach()
       expect(sheet.getRule('a').renderable).to.be.a(CSSStyleRule)
     })
 
     it('should link the DOM node to added rule', () => {
-      sheet.addRule('b', {color: 'red'})
-      expect(sheet.getRule('b').renderable).to.be.a(CSSStyleRule)
+      sheet = jss.createStyleSheet(null, {link: true}).attach()
+      sheet.addRule('a', {color: 'red'})
+      expect(sheet.getRule('a').renderable).to.be.a(CSSStyleRule)
+    })
+
+    it('should link a rule with CSS escaped chars within selector', () => {
+      sheet = jss.createStyleSheet(null, {link: true})
+      const rule = sheet.addRule('a', {color: 'red'}, {selector: ':not(#\\20)'})
+      sheet.attach()
+      expect(rule.renderable).to.not.be(undefined)
     })
   })
 
@@ -310,6 +316,7 @@ describe('Functional: sheet', () => {
     afterEach(() => {
       sheet.detach()
       DomRenderer.__ResetDependency__('warning')
+      warned = false
     })
 
     it('should not render', () => {
@@ -361,6 +368,7 @@ describe('Functional: sheet', () => {
     afterEach(() => {
       DomRenderer.__ResetDependency__('warning')
       sheet.detach()
+      warned = false
     })
 
     it('should not throw', () => {
@@ -478,10 +486,37 @@ describe('Functional: sheet', () => {
       rule.prop('color', 'red')
       expect(rule.style.color).to.be('red')
     })
+  })
 
-    it('should apply new prop to the DOM', () => {
-      rule.prop('color', 'red')
-      expect(rule.renderable.style.color).to.be('red')
+  describe('warn on rule.prop() call', () => {
+    let warned = false
+
+    beforeEach(() => {
+      StyleRule.__Rewire__('warning', () => {
+        warned = true
+      })
+    })
+
+    afterEach(() => {
+      warned = false
+      StyleRule.__ResetDependency__('warning')
+    })
+
+    it('should warn when sheet not linked but attached', () => {
+      const sheet = jss.createStyleSheet({a: {color: 'green'}}).attach()
+      sheet.getRule('a').prop('color', 'red')
+      expect(warned).to.be(true)
+    })
+
+    it('should not warn when sheet is not linked but also not attached', () => {
+      const sheet = jss.createStyleSheet({a: {color: 'green'}})
+      sheet.getRule('a').prop('color', 'red')
+      expect(warned).to.be(false)
+    })
+
+    it('should not warn when there is no sheet', () => {
+      jss.createRule({color: 'green'}).prop('color', 'red')
+      expect(warned).to.be(false)
     })
   })
 

@@ -1,11 +1,15 @@
 /* @flow */
+import isInBrowser from 'is-in-browser'
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import rulesPlugins from './plugins/rules'
+import observablesPlugin from './plugins/observables'
 import sheets from './sheets'
+import StyleRule from './rules/StyleRule'
 import createGenerateClassNameDefault from './utils/createGenerateClassName'
 import createRule from './utils/createRule'
-import findRenderer from './utils/findRenderer'
+import DomRenderer from './renderers/DomRenderer'
+import VirtualRenderer from './renderers/VirtualRenderer'
 import type {
   Rule,
   RuleFactoryOptions,
@@ -20,33 +24,42 @@ import type {
 
 declare var __VERSION__: string
 
+const defaultPlugins = rulesPlugins.concat([observablesPlugin])
+
 export default class Jss {
   version = __VERSION__
 
   plugins = new PluginsRegistry()
 
-  options: InternalJssOptions
+  options: InternalJssOptions = {
+    createGenerateClassName: createGenerateClassNameDefault,
+    Renderer: isInBrowser ? DomRenderer : VirtualRenderer,
+    plugins: []
+  }
 
-  generateClassName: generateClassName
+  generateClassName: generateClassName = createGenerateClassNameDefault()
 
   constructor(options?: JssOptions) {
     // eslint-disable-next-line prefer-spread
-    this.use.apply(this, rulesPlugins)
+    this.use.apply(this, defaultPlugins)
     this.setup(options)
   }
 
   setup(options?: JssOptions = {}): this {
-    const createGenerateClassName =
-      options.createGenerateClassName ||
-      createGenerateClassNameDefault
-    this.generateClassName = createGenerateClassName()
-    this.options = {
-      ...options,
-      createGenerateClassName,
-      Renderer: findRenderer(options)
+    if (options.createGenerateClassName) {
+      this.options.createGenerateClassName = options.createGenerateClassName
+      // $FlowFixMe
+      this.generateClassName = options.createGenerateClassName()
     }
+
+    if (options.insertionPoint != null) this.options.insertionPoint = options.insertionPoint
+    if (options.virtual || options.Renderer) {
+      this.options.Renderer = options.Renderer || (options.virtual ? VirtualRenderer : DomRenderer)
+    }
+
     // eslint-disable-next-line prefer-spread
     if (options.plugins) this.use.apply(this, options.plugins)
+
     return this
   }
 
@@ -67,6 +80,7 @@ export default class Jss {
       index
     })
     this.plugins.onProcessSheet(sheet)
+
     return sheet
   }
 
@@ -99,6 +113,11 @@ export default class Jss {
     if (!ruleOptions.generateClassName) ruleOptions.generateClassName = this.generateClassName
     if (!ruleOptions.classes) ruleOptions.classes = {}
     const rule = createRule(name, style, ruleOptions)
+
+    if (!ruleOptions.selector && rule instanceof StyleRule) {
+      rule.selector = `.${ruleOptions.generateClassName(rule)}`
+    }
+
     this.plugins.onProcessRule(rule)
 
     return rule
@@ -108,7 +127,14 @@ export default class Jss {
    * Register plugin. Passed function will be invoked with a rule instance.
    */
   use(...plugins: Array<Plugin>): this {
-    plugins.forEach(plugin => this.plugins.use(plugin))
+    plugins.forEach((plugin) => {
+      // Avoids applying same plugin twice, at least based on ref.
+      if (this.options.plugins.indexOf(plugin) === -1) {
+        this.options.plugins.push(plugin)
+        this.plugins.use(plugin)
+      }
+    })
+
     return this
   }
 }
