@@ -56,6 +56,7 @@
     "jss-global": "^3.0.0",
     "jss-nested": "^6.0.0",
     "jss-props-sort": "^6.0.0",
+    "jss-template": "^1.0.0",
     "jss-vendor-prefixer": "^7.0.0"
   }
 }
