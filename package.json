@@ -83,7 +83,7 @@
     "rimraf": "^2.5.4",
     "size-limit": "^0.2.0",
     "webpack": "^2.3.3",
-    "zen-observable": "^0.5.2"
+    "zen-observable": "^0.6.0"
   },
   "scripts": {
     "all": "npm run lint && npm run flow && npm run test && npm run build && npm run size",
