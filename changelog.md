@@ -7,6 +7,7 @@
 - In production `createGenerateClassName()` option will now produce short selectors and warn about memory leaks. (#546)
 - Update flow to v0.54.1.
 - Support observable values (#442).
+- Warn when dynamic properties update but link: true option is not set (#581)
 
 ## 8.1.0 / 2017-07-12
 
