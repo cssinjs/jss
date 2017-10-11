@@ -52,7 +52,7 @@
 ## Compared to server-side preprocessing languages (stylus/less/sass/css-modules and co.)
 
 1. Aforementioned benefits.
-1. There is no build step, as a result - no dependency to build tools at all.
+1. There is no build step, as a result—no dependency to build tools at all.
 1. Just one language, standardized by w3c.
 
     There is no need to learn new preprocessing languages. They all come with a burden of a new syntax for variables, functions, mixins, extends and others. At the same time there is nothing they can do JavaScript can't.
