@@ -36,7 +36,7 @@ const styles = {
 
 ## Observable values
 
-In order to create highly dynamic animations you may want to use streams. Take a look at the [tc39 observable proposal](https://github.com/tc39/proposal-observable). Sheet option `link: true` is required for this to function.
+In order to create highly dynamic animations, you may want to use streams. Take a look at the [tc39 observable proposal](https://github.com/tc39/proposal-observable). Sheet option `link: true` is required for this to function.
 
 ```javascript
 const styles = {
@@ -304,7 +304,7 @@ Compiles to:
 
 ## Writing global selectors
 
-Global selectors can be used when [jss-global](https://github.com/cssinjs/jss-global) plugin is installed.
+Global selectors can be used when the [jss-global](https://github.com/cssinjs/jss-global) plugin is installed.
 
 ## Pseudo and Nested Selectors
 
