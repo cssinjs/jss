@@ -100,7 +100,7 @@ console.log(sheet.classes.button) // button-d4f43g
 
 ## Create a Style Sheet with global selectors
 
-You need to have [jss-global](https://github.com/cssinjs/jss-global) plugin installed.
+You need to have the [jss-global](https://github.com/cssinjs/jss-global) plugin installed.
 
 ## Style Sheets registry
 
@@ -198,7 +198,7 @@ document.body.innerHTML = `<button class="${rule.className}">Button</button>`
 `sheet.deleteRule(name)`
 
 To remove a rule from the DOM, Style Sheet option `link: true` should be used.
-Returns `true` if rule has been removed from the DOM.
+Returns `true` if the rule has been removed from the DOM.
 
 ## Get a rule
 
@@ -298,7 +298,7 @@ sheet.getRule('a').prop('color', 'green')
 Returns JSON representation of a rule. Only regular rules are supported,
 no nested, conditionals, keyframes or fallbacks.
 
-Result of `toJSON` call can be used later to apply styles inline to the element.
+The result of `toJSON` call can be used later to apply styles inline to the element.
 It is used by `rule.applyTo()`.
 
 ## Convert to CSS
