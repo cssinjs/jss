@@ -20,7 +20,7 @@ https://unpkg.com/jss/dist/jss.min.js
 
 Use the [default preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with recommended plugins.
 
-First install a preset from npm:
+First, install a preset from npm:
 
 ```bash
 npm i jss-preset-default
