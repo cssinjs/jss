@@ -6,7 +6,7 @@ JSS has a number of performance advantages.
 
   - Incremental compilation and rendering (as soon as needed).
   - Rendered styles are cached. Compilation and DOM Rules creation happens only once.
-  - Only styles which are currently in use on your screen are also in the DOM (react-jss)
+  - Only styles which are currently in use on your screen are also in the DOM (react-jss).
   - Simple class selectors ensure high selectors [performance](#jsperf-simple-class-selectors) at scale.
 
 ## Run benchmarks locally
