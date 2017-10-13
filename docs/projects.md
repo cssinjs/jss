@@ -30,6 +30,8 @@
 
 [jss-color-rebeccapurple](https://github.com/joshgillies/jss-color-rebeccapurple) JSS plugin to transform the W3C CSS rebeccapurple color to rgb.
 
+[jss-rtl](https://github.com/alitaheri/jss-rtl) JSS plugin to convert the layout from ltr to rtl. 
+
 ## Convenience
 
 [jss-simple](https://github.com/ashaffer/jss-simple) Thin wrapper around jss that simplifies its interface and restricts you to a single, global stylesheet.
