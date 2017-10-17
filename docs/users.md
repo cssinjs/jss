@@ -2,7 +2,7 @@
 
 [Grape](https://chatgrape.com)
 
-[Material UI Next](https://github.com/callemall/material-ui/tree/next)
+[Material UI](https://github.com/callemall/material-ui)
 
 [React Styleguidist](https://github.com/styleguidist/react-styleguidist)
 
