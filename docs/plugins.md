@@ -23,7 +23,7 @@ In case you use any of the following plugins please bear in mind that they shoul
   1. jss-props-sort - JSS plugin, ensures alphabetical props order.
   1. jss-isolate - JSS plugin, gives you rules isolation through automatic properties reset.
 
-To make your life easier we made [jss-default-preset](https://www.npmjs.com/package/jss-preset-default) which is a ready to use and ordered preset of plugins.
+To make your life easier, we made [jss-default-preset](https://www.npmjs.com/package/jss-preset-default) which is a ready to use and ordered preset of plugins.
 
 ## Authoring plugins
 
@@ -33,7 +33,7 @@ You need to register a `plugin` only once per JSS instance. There is a number of
 
 1. Hook `onCreateRule(name, decl, options)`.
 
-    This hook is invoked when a rule is about to be created. If this object returns an object, it is supposed to be a rule instance. If empty value is returned, JSS will fall back to a regular rule.
+    This hook is invoked when a rule is about to be created. If this object returns an object, it is supposed to be a rule instance. If an empty value is returned, JSS will fall back to a regular rule.
 
     ```javascript
     jss.use({
@@ -58,7 +58,7 @@ You need to register a `plugin` only once per JSS instance. There is a number of
 
 1. Hook `onProcessStyle(style, rule, sheet)`.
 
-    This hook is invoked on every created rule with `style` as a primary argument. It is designed for `style` object transformations and rule manipulations. For performance reasons you are allowed to mutate the `style` object itself, though __NOT__ the nested objects. It is limited to the first level, because the `style` object is shallow-cloned in the core, but the nested objects have to be cloned by plugins if they need to mutate it. Use `jss.cloneStyle()` utility for style cloning. The returned object from the hook will replace `rule.style`.
+    This hook is invoked on every created rule with `style` as a primary argument. It is designed for `style` object transformations and rule manipulations. For performance reasons, you are allowed to mutate the `style` object itself, though __NOT__ the nested objects. It is limited to the first level because the `style` object is shallow-cloned in the core, but the nested objects have to be cloned by plugins if they need to mutate it. Use `jss.cloneStyle()` utility for style cloning. The returned object from the hook will replace `rule.style`.
 
     ```javascript
     jss.use({

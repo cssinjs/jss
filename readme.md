@@ -24,7 +24,7 @@ Feel free to ask any JSS related questions on twitter by using hashtag `#cssinjs
 
 ## TOC
 
-1. [Live examples](https://github.com/cssinjs/examples).
+1. [Live examples](https://github.com/cssinjs/examples)
 1. [Benefits](./docs/benefits.md)
 1. [Setup](./docs/setup.md)
 1. [JSON API (JSS Syntax)](./docs/json-api.md)
