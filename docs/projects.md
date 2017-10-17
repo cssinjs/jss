@@ -18,7 +18,7 @@
 
 ## UI libs
 
-[material-ui](https://github.com/callemall/material-ui/tree/next) Material UI
+[Material-UI](https://github.com/callemall/material-ui) React Components that Implement Google's Material Design
 
 [react-modal-dialog](https://github.com/qimingweng/react-modal-dialog) A modal dialog for ReactJS
 
