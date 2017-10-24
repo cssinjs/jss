@@ -19,3 +19,5 @@
 [livejournal](http://www.livejournal.com/post)
 
 [Showmax](https://www.showmax.com/)
+
+[Pathable](https://www.pathable.com/)
