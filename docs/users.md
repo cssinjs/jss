@@ -8,7 +8,7 @@
 
 [JavaScript Stack from Scratch](https://github.com/verekia/js-stack-from-scratch)
 
-[nordnet.se](https://www.nordnet.se)
+[Nordnet Bank](https://www.nordnet.se)
 
 [jcore.io](http://jcore.io/)
 
