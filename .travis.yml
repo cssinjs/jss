@@ -1,8 +1,11 @@
 language: node_js
 node_js:
-  - "5"
+- '5'
 branches:
   only:
-    - master
+  - master
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+- bash <(curl -s https://codecov.io/bash)
+env:
+  global:
+    secure: fl4UGag82aZeNArjKBGJUJzT0tNZtth8BgInYmxoXQuwPFUY7Q4P/Bva8lHpGaKLuGFPzQreVhLHtRUUbFQhJWR5EA7MPbWtKeQ3EBu5lz/7CFiJMRkr+xGxN6wpmkipiVkZ2SofL1tCZD67L7kxqoPgaMfoDHYUvKAmNhP6spU=
