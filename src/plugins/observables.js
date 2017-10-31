@@ -8,26 +8,23 @@ export default {
   onCreateRule(name: string, decl: JssStyle, options: RuleOptions): Rule | null {
     if (!isObservable(decl)) return null
 
-    // Cast `decl` to `Observable`, since it passed the type guard
-    const props$ = (decl: Observable<{[string]: string}>)
+    // Cast `decl` to `Observable`, since it passed the type guard.
+    const style$ = (decl: Observable<{[string]: string}>)
 
     // We know `rule` is a `StyleRule`, and the other types don't have a
-    // `prop` method, so we must explicitly cast to `StyleRule`
-    const rule = ((createRule(name, {}, options): any): StyleRule)
+    // `prop` method, so we must explicitly cast to `StyleRule`.
+    const rule = ((createRule(name, {}, {...options, isDynamic: true}): any): StyleRule)
 
-    // `stream.subscribe()` returns a subscription, which should be explicitly
+    // Call `stream.subscribe()` returns a subscription, which should be explicitly
     // unsubscribed from when we know this sheet is no longer needed, but I
     // don't see any hooks to do that in the plugin API.  The Observable props
     // implementation doesn't store its subscription either, so this is a TODO
     // for both.
-    props$.subscribe(
-      (props) => {
-        for (const key in props) {
-          const value = props[key]
-          rule.prop(key, value)
-        }
+    style$.subscribe((style: JssStyle) => {
+      for (const prop in style) {
+        rule.prop(prop, style[prop])
       }
-    )
+    })
 
     return rule
   },
