@@ -48,6 +48,21 @@ const styles = {
 }
 ```
 
+## Observable rules
+
+Similar to observable values, you can declare observable rules. Stream should contain in this case the style object. Sheet option `link: true` is required for this to function.
+
+```javascript
+const styles = {
+  button: new Observable((observer) => {
+    observer.next({
+      color: 'red',
+      opacity: 1
+    })
+  })
+}
+```
+
 ## Media Queries
 
 ```javascript
