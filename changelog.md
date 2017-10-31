@@ -1,3 +1,7 @@
+## Next
+
+- Added Observable rules. Now not only values can be an observable, but also the entire style object.
+
 ## 9.0.0 / 2017-09-30
 
 - Added `SheetsManager.size` getter to get amount of items in `SheetsManager`.
