@@ -22,11 +22,10 @@ export default {
     // for both.
     props$.subscribe(
       (props) => {
-        Object.entries(props).forEach(
-          // The typing here is gross because `Object.entries` is typed as
-          // `[string, mixed]`, even though `props` is `{[string]: string}`
-          ([key, value]) => rule.prop(key, ((value: any): string))
-        )
+        for (const key in props) {
+          const value = props[key]
+          rule.prop(key, value)
+        }
       }
     )
 
