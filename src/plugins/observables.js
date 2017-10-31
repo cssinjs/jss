@@ -10,10 +10,17 @@ export default {
 
     // Cast `decl` to `Observable`, since it passed the type guard.
     const style$ = (decl: Observable<{[string]: string}>)
+    const initialStyle = {}
+
+    // It can't be enumerable, otherwise it will be rendered.
+    Object.defineProperty(initialStyle, 'isDynamic', {
+      value: true,
+      writable: false
+    })
 
     // We know `rule` is a `StyleRule`, and the other types don't have a
     // `prop` method, so we must explicitly cast to `StyleRule`.
-    const rule = ((createRule(name, {}, {...options, isDynamic: true}): any): StyleRule)
+    const rule = ((createRule(name, initialStyle, options): any): StyleRule)
 
     // Call `stream.subscribe()` returns a subscription, which should be explicitly
     // unsubscribed from when we know this sheet is no longer needed, but I
