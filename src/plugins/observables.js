@@ -8,11 +8,11 @@ export default {
   onCreateRule(name: string, decl: JssStyle, options: RuleOptions): Rule | null {
     if (isObservable(decl)) {
       // Cast `decl` to `Observable`, since it passed the type guard
-      const props$ = (decl: Observable<{[string]: string}>);
+      const props$ = (decl: Observable<{[string]: string}>)
 
       // We know `rule` is a `StyleRule`, and the other types don't have a
       // `prop` method, so we must explicitly cast to `StyleRule`
-      const rule = ((createRule(name, {}, options): any): StyleRule);
+      const rule = ((createRule(name, {}, options): any): StyleRule)
 
       // `stream.subscribe()` returns a subscription, which should be explicitly
       // unsubscribed from when we know this sheet is no longer needed, but I
@@ -25,13 +25,13 @@ export default {
             // The typing here is gross because `Object.entries` is typed as
             // `[string, mixed]`, even though `props` is `{[string]: string}`
             ([key, value]) => rule.prop(key, ((value: any): string))
-          );
+          )
         }
-      );
+      )
 
-      return rule;
+      return rule
     } else {
-      return null;
+      return null
     }
   },
 
