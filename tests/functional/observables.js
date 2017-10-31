@@ -33,7 +33,7 @@ describe('Functional: Observable rules', () => {
     })
 
     it('should update the value 1', () => {
-      observer.next({ opacity: '0', height: '5px' })
+      observer.next({opacity: '0', height: '5px'})
 
       const result = computeStyle(sheet.classes.div)
 
@@ -42,7 +42,7 @@ describe('Functional: Observable rules', () => {
     })
 
     it('should update the value 2', () => {
-      observer.next({ opacity: '1', height: '10px' })
+      observer.next({opacity: '1', height: '10px'})
 
       const result = computeStyle(sheet.classes.div)
 
