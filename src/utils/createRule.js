@@ -9,7 +9,9 @@ import cloneStyle from '../utils/cloneStyle'
  */
 export default function createRule(name: string = 'unnamed', decl: JssStyle, options: RuleOptions): Rule {
   const {jss} = options
-  const declCopy = cloneStyle(decl)
+  // It has `isDynamic` property if an Observable rule was used, so no need to
+  // clone it.
+  const declCopy = decl && decl.isDynamic ? decl : cloneStyle(decl)
 
   const rule = jss.plugins.onCreateRule(name, declCopy, options)
   if (rule) return rule

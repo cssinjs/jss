@@ -2,7 +2,7 @@
 import warning from 'warning'
 import toCss from '../utils/toCss'
 import toCssValue from '../utils/toCssValue'
-import isDynamicValue from '../utils/isDynamicValue'
+import isDynamic from '../utils/isDynamic'
 import type {ToCssOptions, RuleOptions, Renderer as RendererInterface, JssStyle, BaseRule} from '../types'
 
 export default class StyleRule implements BaseRule {
@@ -65,7 +65,7 @@ export default class StyleRule implements BaseRule {
   prop(name: string, nextValue?: string): StyleRule|string {
     // The result of a dynamic value is prefixed with $ and is not innumerable in
     // order to be ignored by all plugins or during stringification.
-    const $name = isDynamicValue(this.style[name]) ? `$${name}` : name
+    const $name = isDynamic(this.style[name]) ? `$${name}` : name
 
     // Its a setter.
     if (nextValue != null) {
@@ -109,7 +109,7 @@ export default class StyleRule implements BaseRule {
     const json = {}
     for (const prop in this.style) {
       const value = this.style[prop]
-      if (isDynamicValue(value)) json[prop] = this.style[`$${prop}`]
+      if (isDynamic(value)) json[prop] = this.style[`$${prop}`]
       else if (typeof value !== 'object') json[prop] = value
       else if (Array.isArray(value)) json[prop] = toCssValue(value)
     }

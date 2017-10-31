@@ -14,6 +14,10 @@ export default function cloneStyle(style: JssStyle): JssStyle {
   // Support array for FontFaceRule.
   if (isArray(style)) return style.map(cloneStyle)
 
+  // Support Observable styles.  Observables are immutable, so we don't need to
+  // copy them.
+  if (isObservable(style)) return style
+
   const newStyle = {}
   for (const name in style) {
     const value = style[name]
