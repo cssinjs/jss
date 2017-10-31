@@ -1,4 +1,4 @@
-## Next
+## 9.1.0 / 2017-10-31
 
 - Added Observable rules. Now not only values can be an observable, but also the entire style object.
 
