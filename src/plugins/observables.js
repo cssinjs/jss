@@ -22,11 +22,9 @@ export default {
     // `prop` method, so we must explicitly cast to `StyleRule`.
     const rule = ((createRule(name, initialStyle, options): any): StyleRule)
 
+    // TODO
     // Call `stream.subscribe()` returns a subscription, which should be explicitly
-    // unsubscribed from when we know this sheet is no longer needed, but I
-    // don't see any hooks to do that in the plugin API.  The Observable props
-    // implementation doesn't store its subscription either, so this is a TODO
-    // for both.
+    // unsubscribed from when we know this sheet is no longer needed.
     style$.subscribe((style: JssStyle) => {
       for (const prop in style) {
         rule.prop(prop, style[prop])
