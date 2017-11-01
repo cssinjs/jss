@@ -128,7 +128,7 @@ Result
 - ~~Make it easy to see when changes in the core break plugins (integrate plugins test suite).~~
 - ~~Make community create plugins (better plugins API documentation, infrastructure).~~
 - ~~Introduce a way for theming with react-jss~~
-- Help release [material-ui](https://github.com/callemall/material-ui/tree/v1-alpha) alpha version.
+- ~~Help release [material-ui](https://github.com/callemall/material-ui/tree/v1-alpha) alpha version.~~
 - Use [ISTF](https://github.com/cssinjs/istf-spec)
 - Better React Native support.
 - Stylelint integration #490.
