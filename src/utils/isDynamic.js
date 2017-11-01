@@ -1,3 +1,3 @@
-import isObservable from 'is-observable'
+import isObservable from './isObservable'
 
 export default value => typeof value === 'function' || isObservable(value)

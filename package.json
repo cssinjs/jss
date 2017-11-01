@@ -107,7 +107,7 @@
   },
   "dependencies": {
     "is-in-browser": "^1.1.3",
-    "is-observable": "^0.2.0",
+    "symbol-observable": "^1.0.4",
     "warning": "^3.0.0"
   },
   "files": [
