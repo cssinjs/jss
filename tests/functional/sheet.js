@@ -486,6 +486,16 @@ describe('Functional: sheet', () => {
       rule.prop('color', 'red')
       expect(rule.style.color).to.be('red')
     })
+
+    it('should return a new prop from toString()', () => {
+      rule.prop('display', 'flex')
+      expect(rule.toString()).to.be(stripIndent`
+        .a-id {
+          color: green;
+          display: flex;
+        }
+      `)
+    })
   })
 
   describe('warn on rule.prop() call', () => {

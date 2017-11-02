@@ -101,7 +101,6 @@ describe('Functional: Observable rules', () => {
           obs.next({display: 'flex'})
         })
       }, {link: true}).attach()
-
       expect(computeStyle(sheet.classes.div).display).to.be('flex')
     })
 

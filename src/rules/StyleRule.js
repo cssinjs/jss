@@ -65,17 +65,23 @@ export default class StyleRule implements BaseRule {
   prop(name: string, nextValue?: string): StyleRule|string {
     // The result of a dynamic value is prefixed with $ and is not enumerable in
     // order to be ignored by all plugins or during stringification.
-    const $name = isDynamic(this.style[name]) ? `$${name}` : name
+    const isDynamicValue = isDynamic(this.style[name])
+    const $name = isDynamicValue ? `$${name}` : name
 
     // It's a setter.
     if (nextValue != null) {
       // Don't do anything if the value has not changed.
       if (this.style[$name] !== nextValue) {
         nextValue = this.options.jss.plugins.onChangeValue(nextValue, name, this)
-        Object.defineProperty(this.style, $name, {
-          value: nextValue,
-          writable: true
-        })
+        if (isDynamicValue) {
+          Object.defineProperty(this.style, $name, {
+            value: nextValue,
+            writable: true
+          })
+        }
+        // This one needs to be enumerable, otherwise it won't appear in .toString().
+        else this.style[$name] = nextValue
+
         // Renderable is defined if StyleSheet option `link` is true.
         if (this.renderable) this.renderer.setStyle(this.renderable, name, nextValue)
         else {
