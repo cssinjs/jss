@@ -10,7 +10,12 @@ export default {
 
     // Cast `decl` to `Observable`, since it passed the type guard.
     const style$ = (decl: Observable<{[string]: string}>)
-    const initialStyle = {}
+
+    // `style$` needs to be subscribed to before `rule` is created. Otherwise,
+    // any emissions that occur synchronously will be called on an unlinked
+    // `rule`, which will ignore them.
+    let rule: StyleRule
+    let initialStyle = {}
 
     // It can't be enumerable, otherwise it will be rendered.
     Object.defineProperty(initialStyle, 'isDynamic', {
@@ -18,18 +23,19 @@ export default {
       writable: false
     })
 
-    // We know `rule` is a `StyleRule`, and the other types don't have a
-    // `prop` method, so we must explicitly cast to `StyleRule`.
-    const rule = ((createRule(name, initialStyle, options): any): StyleRule)
-
     // TODO
     // Call `stream.subscribe()` returns a subscription, which should be explicitly
     // unsubscribed from when we know this sheet is no longer needed.
     style$.subscribe((style: JssStyle) => {
-      for (const prop in style) {
-        rule.prop(prop, style[prop])
+      if (rule) {
+        for (const prop in style) {
+          rule.prop(prop, style[prop])
+        }
       }
+      else if (Object.keys(style).length) initialStyle = style
     })
+
+    rule = (createRule(name, initialStyle, options): any)
 
     return rule
   },
