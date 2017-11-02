@@ -25,14 +25,14 @@ describe('Functional: Observable rules', () => {
         div: new Observable((obs) => {
           observer = obs
         }),
-      }, {link: true}).attach()
+      }).attach().link()
     })
 
     it('should subscribe the observer', () => {
       expect(observer).to.be.an(Object)
     })
 
-    it('should update the value 1', () => {
+    it('should update the value', () => {
       observer.next({opacity: '0', height: '5px'})
 
       const result = computeStyle(sheet.classes.div)
@@ -41,13 +41,81 @@ describe('Functional: Observable rules', () => {
       expect(result.height).to.be('5px')
     })
 
-    it('should update the value 2', () => {
+    it('should update the value when it receives a new emission', () => {
+      observer.next({opacity: '0', height: '5px'})
       observer.next({opacity: '1', height: '10px'})
 
       const result = computeStyle(sheet.classes.div)
 
       expect(result.opacity).to.be('1')
       expect(result.height).to.be('10px')
+    })
+
+    it('should work with multiple rules', () => {
+      let divObs
+      let buttonObs
+
+      sheet = jss.createStyleSheet({
+        div: new Observable((obs) => {
+          divObs = obs
+        }),
+        button: new Observable((obs) => {
+          buttonObs = obs
+        })
+      }).attach().link()
+
+      divObs.next({ display: 'flex' })
+      buttonObs.next({ height: '3px' })
+
+      expect(computeStyle(sheet.classes.div).display).to.be('flex')
+      expect(computeStyle(sheet.classes.button).height).to.be('3px')
+    })
+
+    it('should work with mixed sheets', () => {
+      let divObs
+      let buttonObs
+
+      sheet = jss.createStyleSheet({
+        div: new Observable((obs) => {
+          divObs = obs
+        }),
+        button: new Observable((obs) => {
+          buttonObs = obs
+        }),
+        a: {
+          opacity: '0',
+        }
+      }).attach().link()
+
+      divObs.next({ display: 'flex' })
+      buttonObs.next({ height: '3px' })
+
+      expect(computeStyle(sheet.classes.div).display).to.be('flex')
+      expect(computeStyle(sheet.classes.button).height).to.be('3px')
+      expect(computeStyle(sheet.classes.a).opacity).to.be('0')
+    })
+
+    it('should accept synchronous values', () => {
+      sheet = jss.createStyleSheet({
+        div: new Observable((obs) => {
+          obs.next({ display: 'flex' })
+        })
+      }).attach().link()
+
+      expect(computeStyle(sheet.classes.div).display).to.be('flex')
+    })
+
+    it('should update synchronous values when it receives a new emission', () => {
+      sheet = jss.createStyleSheet({
+        div: new Observable((obs) => {
+          obs.next({ display: 'flex' })
+          observer = obs
+        })
+      }).attach().link()
+
+      observer.next({ display: 'inline-flex' })
+
+      expect(computeStyle(sheet.classes.div).display).to.be('inline-flex')
     })
   })
 })
@@ -70,7 +138,7 @@ describe('Functional: Observable props', () => {
             observer = obs
           })
         }
-      }, {link: true}).attach()
+      }).attach().link()
     })
 
     it('should subscribe the observer', () => {
