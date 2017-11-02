@@ -63,11 +63,11 @@ export default class StyleRule implements BaseRule {
    * Get or set a style property.
    */
   prop(name: string, nextValue?: string): StyleRule|string {
-    // The result of a dynamic value is prefixed with $ and is not innumerable in
+    // The result of a dynamic value is prefixed with $ and is not enumerable in
     // order to be ignored by all plugins or during stringification.
     const $name = isDynamic(this.style[name]) ? `$${name}` : name
 
-    // Its a setter.
+    // It's a setter.
     if (nextValue != null) {
       // Don't do anything if the value has not changed.
       if (this.style[$name] !== nextValue) {
