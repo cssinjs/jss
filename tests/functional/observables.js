@@ -25,7 +25,7 @@ describe('Functional: Observable rules', () => {
         div: new Observable((obs) => {
           observer = obs
         }),
-      }).attach().link()
+      }, {link: true}).attach()
     })
 
     it('should subscribe the observer', () => {
@@ -62,7 +62,7 @@ describe('Functional: Observable rules', () => {
         button: new Observable((obs) => {
           buttonObs = obs
         })
-      }).attach().link()
+      }, {link: true}).attach()
 
       divObs.next({ display: 'flex' })
       buttonObs.next({ height: '3px' })
@@ -85,7 +85,7 @@ describe('Functional: Observable rules', () => {
         a: {
           opacity: '0',
         }
-      }).attach().link()
+      }, {link: true}).attach()
 
       divObs.next({ display: 'flex' })
       buttonObs.next({ height: '3px' })
@@ -100,7 +100,7 @@ describe('Functional: Observable rules', () => {
         div: new Observable((obs) => {
           obs.next({ display: 'flex' })
         })
-      }).attach().link()
+      }, {link: true}).attach()
 
       expect(computeStyle(sheet.classes.div).display).to.be('flex')
     })
@@ -111,7 +111,7 @@ describe('Functional: Observable rules', () => {
           obs.next({ display: 'flex' })
           observer = obs
         })
-      }).attach().link()
+      }, {link: true}).attach()
 
       observer.next({ display: 'inline-flex' })
 
@@ -138,7 +138,7 @@ describe('Functional: Observable props', () => {
             observer = obs
           })
         }
-      }).attach().link()
+      }, {link: true}).attach()
     })
 
     it('should subscribe the observer', () => {
