@@ -23,3 +23,5 @@
 [Showmax](https://www.showmax.com/)
 
 [Pathable](https://www.pathable.com/)
+
+[Trioxis](https://www.trioxis.com/)
