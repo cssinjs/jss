@@ -126,6 +126,9 @@ export default class StyleRule implements BaseRule {
    * Generates a CSS string.
    */
   toString(options?: ToCssOptions): string {
-    return toCss(this.selector, this.style, options)
+    const {sheet} = this.options
+    const link = sheet ? sheet.options.link : false
+    const opts = link ? {...options, allowEmpty: true} : options
+    return toCss(this.selector, this.style, opts)
   }
 }

@@ -51,13 +51,10 @@ export default function toCss(selector: string, style: JssStyle, options: Option
     }
   }
 
-  let hasDynamicValue = false
-
   for (const prop in style) {
     let value = style[prop]
     if (isDynamic(value)) {
       value = style[`$${prop}`]
-      hasDynamicValue = true
     }
     if (value != null && prop !== 'fallbacks') {
       result += `\n${indentStr(`${prop}: ${toCssValue(value)};`, indent)}`
@@ -65,7 +62,7 @@ export default function toCss(selector: string, style: JssStyle, options: Option
   }
 
   // Allow empty style in this case, because properties will be added dynamically.
-  if (!result && !hasDynamicValue && !style.$isDynamic) return result
+  if (!result && !options.allowEmpty) return result
 
   indent--
   result = indentStr(`${selector} {${result}\n`, indent) + indentStr('}', indent)

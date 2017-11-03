@@ -9,17 +9,9 @@ export default {
     if (!isObservable(decl)) return null
 
     // Cast `decl` to `Observable`, since it passed the type guard.
-    const style$ = (decl: Observable<{[string]: string}>)
+    const style$ = (decl: Observable<{[string]: string|number}>)
 
-    const initialStyle = {}
-
-    // It can't be enumerable, otherwise it will be rendered.
-    Object.defineProperty(initialStyle, '$isDynamic', {
-      value: true,
-      writable: false
-    })
-
-    const rule = ((createRule(name, initialStyle, options): any): StyleRule)
+    const rule = ((createRule(name, {}, options): any): StyleRule)
 
     // TODO
     // Call `stream.subscribe()` returns a subscription, which should be explicitly
