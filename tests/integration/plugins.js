@@ -5,7 +5,7 @@ import StyleSheet from '../../src/StyleSheet'
 import {createGenerateClassName} from '../utils'
 import PluginsRegistry from '../../src/PluginsRegistry'
 
-describe('Integration: hooks', () => {
+describe('Integration: plugins', () => {
   let jss
 
   beforeEach(() => {
@@ -366,6 +366,54 @@ describe('Integration: hooks', () => {
       })
       expect(sheet.getRule('a').style).to.be(newStyle)
       expect(passedStyle).to.be(newStyle)
+    })
+  })
+
+  describe('onUpdate (internal)', () => {
+    let receivedData
+    let receivedRule
+    let receivedSheet
+    let executed = 0
+    let sheet
+
+    beforeEach(() => {
+      jss.use({
+        onUpdate: (data, rule, styleSheet) => {
+          receivedData = data
+          receivedRule = rule
+          receivedSheet = styleSheet
+          executed++
+        }
+      })
+      sheet = jss.createStyleSheet({
+        a: {
+          color: data => data.color
+        }
+      })
+    })
+
+    it('should be executed just once', () => {
+      sheet.update({})
+      expect(executed).to.be(1)
+    })
+
+    it('should receive correct arguments', () => {
+      const data = {color: 'green'}
+      const rule = sheet.getRule('a')
+      sheet.update(data)
+      expect(receivedData).to.be(data)
+      expect(receivedRule).to.be(rule)
+      expect(receivedSheet).to.be(sheet)
+      expect(rule.prop('color')).to.be('green')
+    })
+
+    it('should compile to correct CSS string', () => {
+      sheet.update({color: 'green'})
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: green;
+        }
+      `)
     })
   })
 })

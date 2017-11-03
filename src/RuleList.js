@@ -132,14 +132,14 @@ export default class RuleList {
    * Update the function values with a new data.
    */
   update(name?: string|Object, data?: Object): void {
-    const {plugins} = this.options.jss
+    const {jss: {plugins}, sheet} = this.options
     if (typeof name === 'string') {
-      plugins.onUpdate(data, this.get(name))
+      plugins.onUpdate(data, this.get(name), sheet)
       return
     }
 
     for (let index = 0; index < this.index.length; index++) {
-      plugins.onUpdate(name, this.index[index])
+      plugins.onUpdate(name, this.index[index], sheet)
     }
   }
 

@@ -1,24 +1,23 @@
 /* @flow */
 import RuleList from '../RuleList'
 import StyleRule from '../rules/StyleRule'
-import type {Rule} from '../types'
+import type {Rule, JssStyle} from '../types'
 import kebabCase from '../utils/kebabCase'
 
 const ns = `fnValues${Date.now()}`
 
 export default {
-  onProcessRule(rule: Rule) {
-    if (!(rule instanceof StyleRule)) return
-    const {style} = rule
-    const fnValues = {}
+  onProcessStyle(style: JssStyle, rule: Rule): JssStyle {
+    const fn = {}
     for (const prop in style) {
       const value = style[prop]
       if (typeof value !== 'function') continue
       delete style[prop]
-      fnValues[kebabCase(prop)] = value
+      fn[kebabCase(prop)] = value
     }
     // $FlowFixMe
-    rule[ns] = fnValues
+    rule[ns] = fn
+    return style
   },
 
   onUpdate(data: Object, rule: Rule) {
