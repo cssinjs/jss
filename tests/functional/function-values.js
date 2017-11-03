@@ -53,7 +53,7 @@ describe('Functional: Function values', () => {
     let sheet
 
     beforeEach(() => {
-      sheet = jss.createStyleSheet().attach().link()
+      sheet = jss.createStyleSheet(null, {link: true}).attach()
       sheet.addRule('a', {color: ({color}) => color})
       style = getStyle()
     })

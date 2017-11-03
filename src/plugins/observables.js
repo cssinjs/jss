@@ -27,14 +27,15 @@ export default {
 
   onProcessRule(rule: Rule) {
     if (!(rule instanceof StyleRule)) return
-    const {style} = rule
+    const styleRule = ((rule: any): StyleRule)
+    const {style} = styleRule
     for (const prop in style) {
       const value = style[prop]
       if (!isObservable(value)) continue
+      delete style[prop]
       value.subscribe({
         next: (nextValue) => {
-          // $FlowFixMe
-          rule.prop(prop, nextValue)
+          styleRule.prop(prop, nextValue)
         }
       })
     }

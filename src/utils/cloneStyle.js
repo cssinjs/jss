@@ -21,7 +21,7 @@ export default function cloneStyle(style: JssStyle): JssStyle {
   const newStyle = {}
   for (const name in style) {
     const value = style[name]
-    if (typeof value === 'object' && !isObservable(value)) {
+    if (typeof value === 'object') {
       newStyle[name] = cloneStyle(value)
       continue
     }

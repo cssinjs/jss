@@ -2,7 +2,6 @@
 import warning from 'warning'
 import toCss from '../utils/toCss'
 import toCssValue from '../utils/toCssValue'
-import isDynamic from '../utils/isDynamic'
 import type {ToCssOptions, RuleOptions, Renderer as RendererInterface, JssStyle, BaseRule} from '../types'
 
 export default class StyleRule implements BaseRule {
@@ -63,24 +62,12 @@ export default class StyleRule implements BaseRule {
    * Get or set a style property.
    */
   prop(name: string, nextValue?: string): StyleRule|string {
-    // The result of a dynamic value is prefixed with $ and is not enumerable in
-    // order to be ignored by all plugins or during stringification.
-    const isDynamicValue = isDynamic(this.style[name])
-    const $name = isDynamicValue ? `$${name}` : name
-
     // It's a setter.
     if (nextValue != null) {
       // Don't do anything if the value has not changed.
-      if (this.style[$name] !== nextValue) {
+      if (this.style[name] !== nextValue) {
         nextValue = this.options.jss.plugins.onChangeValue(nextValue, name, this)
-        if (isDynamicValue) {
-          Object.defineProperty(this.style, $name, {
-            value: nextValue,
-            writable: true
-          })
-        }
-        // This one needs to be enumerable, otherwise it won't appear in .toString().
-        else this.style[$name] = nextValue
+        this.style[name] = nextValue
 
         // Renderable is defined if StyleSheet option `link` is true.
         if (this.renderable) this.renderer.setStyle(this.renderable, name, nextValue)
@@ -94,7 +81,7 @@ export default class StyleRule implements BaseRule {
       return this
     }
 
-    return this.style[$name]
+    return this.style[name]
   }
 
   /**
@@ -115,8 +102,7 @@ export default class StyleRule implements BaseRule {
     const json = {}
     for (const prop in this.style) {
       const value = this.style[prop]
-      if (isDynamic(value)) json[prop] = this.style[`$${prop}`]
-      else if (typeof value !== 'object') json[prop] = value
+      if (typeof value !== 'object') json[prop] = value
       else if (Array.isArray(value)) json[prop] = toCssValue(value)
     }
     return json

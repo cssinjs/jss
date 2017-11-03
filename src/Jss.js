@@ -4,6 +4,7 @@ import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import rulesPlugins from './plugins/rules'
 import observablesPlugin from './plugins/observables'
+import functionsPlugin from './plugins/functions'
 import sheets from './sheets'
 import StyleRule from './rules/StyleRule'
 import createGenerateClassNameDefault from './utils/createGenerateClassName'
@@ -24,7 +25,7 @@ import type {
 
 declare var __VERSION__: string
 
-const defaultPlugins = rulesPlugins.concat([observablesPlugin])
+const defaultPlugins = rulesPlugins.concat([observablesPlugin, functionsPlugin])
 
 export default class Jss {
   version = __VERSION__

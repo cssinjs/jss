@@ -1,6 +1,5 @@
 /* @flow */
 import createRule from './utils/createRule'
-import updateStyle from './utils/updateStyle'
 import linkRule from './utils/linkRule'
 import StyleRule from './rules/StyleRule'
 import type {
@@ -132,14 +131,15 @@ export default class RuleList {
   /**
    * Update the function values with a new data.
    */
-  update(name?: string, data?: Object): void {
+  update(name?: string|Object, data?: Object): void {
+    const {plugins} = this.options.jss
     if (typeof name === 'string') {
-      updateStyle(this.get(name), data, RuleList)
+      plugins.onUpdate(data, this.get(name))
       return
     }
 
     for (let index = 0; index < this.index.length; index++) {
-      updateStyle(this.index[index], name, RuleList)
+      plugins.onUpdate(name, this.index[index])
     }
   }
 
