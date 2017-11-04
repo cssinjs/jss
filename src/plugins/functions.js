@@ -5,15 +5,25 @@ import type {Rule, JssStyle, RuleOptions} from '../types'
 import kebabCase from '../utils/kebabCase'
 import createRule from '../utils/createRule'
 
+// A symbol replacement.
 let now = Date.now()
 const fnValuesNs = `fnValues${now}`
 const fnStyleNs = `fnStyle${++now}`
 
+declare class StyleRuleWithRuleFunction extends StyleRule {
+  [key: string]: Function
+}
+
+declare class StyleRuleWithFunctionValues extends StyleRule {
+  [key: string]: {
+    [key: string]: Function
+  }
+}
+
 export default {
   onCreateRule(name: string, decl: JssStyle, options: RuleOptions): Rule|null {
     if (typeof decl !== 'function') return null
-    const rule = ((createRule(name, {}, options): any): StyleRule)
-    // $FlowFixMe
+    const rule = ((createRule(name, {}, options): any): StyleRuleWithRuleFunction)
     rule[fnStyleNs] = decl
     return rule
   },
@@ -26,7 +36,7 @@ export default {
       delete style[prop]
       fn[kebabCase(prop)] = value
     }
-    // $FlowFixMe
+    rule = ((rule: any): StyleRuleWithFunctionValues)
     rule[fnValuesNs] = fn
     return style
   },
@@ -39,14 +49,21 @@ export default {
     }
     if (!(rule instanceof StyleRule)) return
 
-    // $FlowFixMe
-    for (const prop in rule[fnValuesNs]) {
-      rule.prop(prop, rule[fnValuesNs][prop](data))
+    rule = ((rule: any): StyleRuleWithFunctionValues)
+
+    // If we have a fn values map, it is a rule with function values.
+    if (rule[fnValuesNs]) {
+      for (const prop in rule[fnValuesNs]) {
+        rule.prop(prop, rule[fnValuesNs][prop](data))
+      }
     }
 
-    // $FlowFixMe
+    rule = ((rule: any): StyleRuleWithRuleFunction)
+
     const fnStyle = rule[fnStyleNs]
 
+    // If we have a style function, the entire rule is dynamic and style object
+    // will be returned from that function.
     if (fnStyle) {
       const style = fnStyle(data)
       for (const prop in style) {
