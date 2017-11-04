@@ -1,12 +1,23 @@
 /* @flow */
 import RuleList from '../RuleList'
 import StyleRule from '../rules/StyleRule'
-import type {Rule, JssStyle} from '../types'
+import type {Rule, JssStyle, RuleOptions} from '../types'
 import kebabCase from '../utils/kebabCase'
+import createRule from '../utils/createRule'
 
-const ns = `fnValues${Date.now()}`
+let now = Date.now()
+const fnValuesNs = `fnValues${now}`
+const fnStyleNs = `fnStyle${++now}`
 
 export default {
+  onCreateRule(name: string, decl: JssStyle, options: RuleOptions): Rule|null {
+    if (typeof decl !== 'function') return null
+    const rule = ((createRule(name, {}, options): any): StyleRule)
+    // $FlowFixMe
+    rule[fnStyleNs] = decl
+    return rule
+  },
+
   onProcessStyle(style: JssStyle, rule: Rule): JssStyle {
     const fn = {}
     for (const prop in style) {
@@ -16,7 +27,7 @@ export default {
       fn[kebabCase(prop)] = value
     }
     // $FlowFixMe
-    rule[ns] = fn
+    rule[fnValuesNs] = fn
     return style
   },
 
@@ -27,9 +38,20 @@ export default {
       return
     }
     if (!(rule instanceof StyleRule)) return
+
     // $FlowFixMe
-    for (const prop in rule[ns]) {
-      rule.prop(prop, rule[ns][prop](data))
+    for (const prop in rule[fnValuesNs]) {
+      rule.prop(prop, rule[fnValuesNs][prop](data))
+    }
+
+    // $FlowFixMe
+    const fnStyle = rule[fnStyleNs]
+
+    if (fnStyle) {
+      const style = fnStyle(data)
+      for (const prop in style) {
+        rule.prop(prop, style[prop])
+      }
     }
   }
 }

@@ -9,7 +9,10 @@ export default function cloneStyle(style: JssStyle): JssStyle {
 
   // Support string value for SimpleRule.
   const typeOfStyle = typeof style
-  if (typeOfStyle === 'string' || typeOfStyle === 'number') return style
+
+  if (typeOfStyle === 'string' || typeOfStyle === 'number' || typeOfStyle === 'function') {
+    return style
+  }
 
   // Support array for FontFaceRule.
   if (isArray(style)) return style.map(cloneStyle)
