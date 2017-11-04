@@ -10,11 +10,9 @@ let now = Date.now()
 const fnValuesNs = `fnValues${now}`
 const fnStyleNs = `fnStyle${++now}`
 
-declare class StyleRuleWithRuleFunction extends StyleRule {
-  [key: string]: Function
-}
+type StyleRuleWithRuleFunction = StyleRule & {[key: string]: Function}
 
-declare class StyleRuleWithFunctionValues extends StyleRule {
+type StyleRuleWithFunctionValues = StyleRule & {
   [key: string]: {
     [key: string]: Function
   }
