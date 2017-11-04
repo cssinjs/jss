@@ -20,7 +20,7 @@ describe('Functional: Function rules', () => {
     jss = create(settings)
   })
 
-  describe('.createStyleSheet() with a function rule', () => {
+  describe('.createStyleSheet()', () => {
     let style
     let sheet
 
@@ -35,7 +35,7 @@ describe('Functional: Function rules', () => {
       sheet.detach()
     })
 
-    it('should return correct toString()', () => {
+    it('should compile correctly', () => {
       sheet.update({color: 'red'})
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
@@ -47,6 +47,86 @@ describe('Functional: Function rules', () => {
 
     it('should render', () => {
       sheet.update({color: 'red'})
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+    })
+  })
+
+  describe('.addRule() with styleRule', () => {
+    let style
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet(null, {link: true}).attach()
+      sheet.addRule('a', (data) => ({
+        color: data.primary ? 'black' : 'white'
+      }))
+      style = getStyle()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should compile correct CSS', () => {
+      sheet.update({primary: true})
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: black;
+        }
+      `)
+    })
+
+    it('should render', () => {
+      sheet.update({primary: true})
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+    })
+
+    it('should render rule with updated color', () => {
+      sheet.update({primary: false})
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: white;
+        }
+      `)
+    })
+  })
+
+  describe('.addRule() with @media', () => {
+    let style
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet({}, {link: true}).attach()
+      sheet.addRule('@media screen',  {
+        b: (data) => ({
+          color: data.primary ? 'black' : 'white'
+        })
+      })
+      style = getStyle()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should compile correct CSS', () => {
+      sheet.update({primary: true})
+      expect(sheet.toString()).to.be(stripIndent`
+        @media screen {
+          .b-id {
+            color: black;
+          }
+        }
+      `)
+    })
+
+    it('should render', () => {
+      sheet.update({primary: true})
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+    })
+
+    it('should update', () => {
+      sheet.update({primary: false})
       expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
     })
   })
