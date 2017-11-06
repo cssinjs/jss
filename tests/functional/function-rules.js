@@ -26,7 +26,7 @@ describe('Functional: Function rules', () => {
 
     beforeEach(() => {
       sheet = jss.createStyleSheet({
-        a: data => ({color: data.color, display: 'flex'})
+        a: data => ({color: data.color, display: 'block'})
       }, {link: true}).attach()
       style = getStyle()
     })
@@ -40,7 +40,7 @@ describe('Functional: Function rules', () => {
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
           color: red;
-          display: flex;
+          display: block;
         }
       `)
     })

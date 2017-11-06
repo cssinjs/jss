@@ -42,11 +42,11 @@ describe('Functional: sheet', () => {
     it('should render sheet with media query', () => {
       check({
         a: {color: 'red'},
-        '@media (min-width: 1024px)': {
+        '@media all and (min-width: 1024px)': {
           a: {color: 'blue'},
           b: {color: 'white'}
         },
-        '@media (min-width: 100px)': {
+        '@media all and (min-width: 100px)': {
           a: {color: 'green'}
         }
       })
@@ -412,11 +412,11 @@ describe('Functional: sheet', () => {
     })
 
     it('should return a new prop from toString()', () => {
-      rule.prop('display', 'flex')
+      rule.prop('display', 'block')
       expect(rule.toString()).to.be(stripIndent`
         .a-id {
           color: green;
-          display: flex;
+          display: block;
         }
       `)
     })

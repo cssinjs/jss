@@ -64,10 +64,10 @@ describe('Functional: Observable rules', () => {
         })
       }, {link: true}).attach()
 
-      divObs.next({display: 'flex'})
+      divObs.next({display: 'block'})
       buttonObs.next({height: '3px'})
 
-      expect(computeStyle(sheet.classes.div).display).to.be('flex')
+      expect(computeStyle(sheet.classes.div).display).to.be('block')
       expect(computeStyle(sheet.classes.button).height).to.be('3px')
     })
 
@@ -87,10 +87,10 @@ describe('Functional: Observable rules', () => {
         }
       }, {link: true}).attach()
 
-      divObs.next({display: 'flex'})
+      divObs.next({display: 'block'})
       buttonObs.next({height: '3px'})
 
-      expect(computeStyle(sheet.classes.div).display).to.be('flex')
+      expect(computeStyle(sheet.classes.div).display).to.be('block')
       expect(computeStyle(sheet.classes.button).height).to.be('3px')
       expect(computeStyle(sheet.classes.a).opacity).to.be('0')
     })
@@ -98,23 +98,23 @@ describe('Functional: Observable rules', () => {
     it('should accept synchronous values', () => {
       sheet = jss.createStyleSheet({
         div: new Observable((obs) => {
-          obs.next({display: 'flex'})
+          obs.next({display: 'block'})
         })
       }, {link: true}).attach()
-      expect(computeStyle(sheet.classes.div).display).to.be('flex')
+      expect(computeStyle(sheet.classes.div).display).to.be('block')
     })
 
     it('should update synchronous values when it receives a new emission', () => {
       sheet = jss.createStyleSheet({
         div: new Observable((obs) => {
-          obs.next({display: 'flex'})
+          obs.next({display: 'block'})
           observer = obs
         })
       }, {link: true}).attach()
 
-      observer.next({display: 'inline-flex'})
+      observer.next({display: 'inline-block'})
 
-      expect(computeStyle(sheet.classes.div).display).to.be('inline-flex')
+      expect(computeStyle(sheet.classes.div).display).to.be('inline-block')
     })
   })
 })
