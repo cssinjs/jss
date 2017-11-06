@@ -15,10 +15,9 @@ export function getCss(style) {
   // by using `.addRule()` API.
   // Others do not update .innerHTML result when `.addRule()` was used.
   // We use what we can get.
-  return removeWhitespace(style.innerHTML) ||
-    getRules(style)
-      .map(rule => removeWhitespace(rule.cssText))
-      .join('')
+  return getRules(style)
+    .map(rule => removeWhitespace(rule.cssText))
+    .join('')
 }
 
 export function getCssFromSheet(sheet) {

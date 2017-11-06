@@ -34,6 +34,19 @@ const styles = {
 }
 ```
 
+## Function rules
+
+Similar to function values, you can use a function to return a dynamic style object. Use [sheet.update(data)](./js-api.md#update-function-values) in order to pass the data object. Sheet option `link: true` is required for this to function.
+
+```javascript
+const styles = {
+  button: (data) => ({
+    position: 'flex',
+    color: data.color
+  })
+}
+```
+
 ## Observable values
 
 In order to create highly dynamic animations, you may want to use streams. Take a look at the [tc39 observable proposal](https://github.com/tc39/proposal-observable). Sheet option `link: true` is required for this to function.

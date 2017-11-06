@@ -9,7 +9,8 @@ export default class PluginsRegistry {
     onProcessRule: [],
     onProcessStyle: [],
     onProcessSheet: [],
-    onChangeValue: []
+    onChangeValue: [],
+    onUpdate: []
   }
 
   /**
@@ -58,6 +59,15 @@ export default class PluginsRegistry {
   onProcessSheet(sheet: StyleSheet): void {
     for (let i = 0; i < this.hooks.onProcessSheet.length; i++) {
       this.hooks.onProcessSheet[i](sheet)
+    }
+  }
+
+  /**
+   * Call `onUpdate` hooks.
+   */
+  onUpdate(data: Object, rule: Rule, sheet: StyleSheet): void {
+    for (let i = 0; i < this.hooks.onUpdate.length; i++) {
+      this.hooks.onUpdate[i](data, rule, sheet)
     }
   }
 
