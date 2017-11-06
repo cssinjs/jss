@@ -1,7 +1,7 @@
 /* @flow */
-import isObservable from 'is-observable'
 import StyleRule from '../rules/StyleRule'
 import createRule from '../utils/createRule'
+import isObservable from '../utils/isObservable'
 import type {Observable, Rule, RuleOptions, JssStyle} from '../types'
 
 export default {
@@ -9,18 +9,9 @@ export default {
     if (!isObservable(decl)) return null
 
     // Cast `decl` to `Observable`, since it passed the type guard.
-    const style$ = (decl: Observable<{[string]: string}>)
-    const initialStyle = {}
+    const style$ = (decl: Observable<{[string]: string|number}>)
 
-    // It can't be enumerable, otherwise it will be rendered.
-    Object.defineProperty(initialStyle, 'isDynamic', {
-      value: true,
-      writable: false
-    })
-
-    // We know `rule` is a `StyleRule`, and the other types don't have a
-    // `prop` method, so we must explicitly cast to `StyleRule`.
-    const rule = ((createRule(name, initialStyle, options): any): StyleRule)
+    const rule = ((createRule(name, {}, options): any): StyleRule)
 
     // TODO
     // Call `stream.subscribe()` returns a subscription, which should be explicitly

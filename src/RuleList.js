@@ -163,13 +163,15 @@ export default class RuleList {
    */
   toString(options?: ToCssOptions): string {
     let str = ''
+    const {sheet} = this.options
+    const link = sheet ? sheet.options.link : false
 
     for (let index = 0; index < this.index.length; index++) {
       const rule = this.index[index]
       const css = rule.toString(options)
 
       // No need to render an empty rule.
-      if (!css) continue
+      if (!css && !link) continue
 
       if (str) str += '\n'
       str += css

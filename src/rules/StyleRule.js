@@ -63,19 +63,25 @@ export default class StyleRule implements BaseRule {
    * Get or set a style property.
    */
   prop(name: string, nextValue?: string): StyleRule|string {
-    // The result of a dynamic value is prefixed with $ and is not innumerable in
+    // The result of a dynamic value is prefixed with $ and is not enumerable in
     // order to be ignored by all plugins or during stringification.
-    const $name = isDynamic(this.style[name]) ? `$${name}` : name
+    const isDynamicValue = isDynamic(this.style[name])
+    const $name = isDynamicValue ? `$${name}` : name
 
-    // Its a setter.
+    // It's a setter.
     if (nextValue != null) {
       // Don't do anything if the value has not changed.
       if (this.style[$name] !== nextValue) {
         nextValue = this.options.jss.plugins.onChangeValue(nextValue, name, this)
-        Object.defineProperty(this.style, $name, {
-          value: nextValue,
-          writable: true
-        })
+        if (isDynamicValue) {
+          Object.defineProperty(this.style, $name, {
+            value: nextValue,
+            writable: true
+          })
+        }
+        // This one needs to be enumerable, otherwise it won't appear in .toString().
+        else this.style[$name] = nextValue
+
         // Renderable is defined if StyleSheet option `link` is true.
         if (this.renderable) this.renderer.setStyle(this.renderable, name, nextValue)
         else {
@@ -120,6 +126,9 @@ export default class StyleRule implements BaseRule {
    * Generates a CSS string.
    */
   toString(options?: ToCssOptions): string {
-    return toCss(this.selector, this.style, options)
+    const {sheet} = this.options
+    const link = sheet ? sheet.options.link : false
+    const opts = link ? {...options, allowEmpty: true} : options
+    return toCss(this.selector, this.style, opts)
   }
 }
