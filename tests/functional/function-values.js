@@ -149,7 +149,7 @@ describe('Functional: Function values', () => {
     })
 
     it('should return correct .toString() before .update()', () => {
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(removeVendorPrefixes(sheet.toString())).to.be(stripIndent`
         .a-id {
         }
         @media all {
@@ -212,7 +212,7 @@ describe('Functional: Function values', () => {
 
     it('should render sheet with updated props', () => {
       sheet.update({color: 'green'}).attach()
-      expect(getCss(getStyle())).to.be(removeWhitespace(sheet.toString()))
+      expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
     })
 
     it('should update specific rule', () => {
@@ -238,7 +238,7 @@ describe('Functional: Function values', () => {
 
     it('should render updated rule', () => {
       sheet.update('a', {color: 'green'}).attach()
-      expect(getCss(getStyle())).to.be(removeWhitespace(sheet.toString()))
+      expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
     })
 
     describe('sheet.update() after attach', () => {
