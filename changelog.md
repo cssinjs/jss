@@ -1,3 +1,9 @@
+## 9.2.0 / 2017-11-06
+
+- Allow empty rules when option {link: true} is used.
+- Simplify internal logic for function values.
+- Introduce function rules - similar to function values, now function can return the entire style object.
+
 ## 9.1.0 / 2017-10-31
 
 - Added Observable rules. Now not only values can be an observable, but also the entire style object.
