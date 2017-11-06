@@ -57,7 +57,7 @@ describe('Functional: Function rules', () => {
 
     beforeEach(() => {
       sheet = jss.createStyleSheet(null, {link: true}).attach()
-      sheet.addRule('a', (data) => ({
+      sheet.addRule('a', data => ({
         color: data.primary ? 'black' : 'white'
       }))
       style = getStyle()
@@ -97,8 +97,8 @@ describe('Functional: Function rules', () => {
 
     beforeEach(() => {
       sheet = jss.createStyleSheet({}, {link: true}).attach()
-      sheet.addRule('@media screen',  {
-        b: (data) => ({
+      sheet.addRule('@media screen', {
+        b: data => ({
           color: data.primary ? 'black' : 'white'
         })
       })
