@@ -2,13 +2,16 @@
 
 import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
+import vendorPrefixer from 'jss-vendor-prefixer'
 
 import {create} from '../../src'
 import {
   createGenerateClassName,
   getStyle,
   getCss,
-  removeWhitespace
+  getCssFromSheet,
+  removeWhitespace,
+  removeVendorPrefixes
 } from '../utils'
 
 const settings = {createGenerateClassName}
@@ -39,6 +42,7 @@ describe('Functional: Function values', () => {
     })
 
     it('should render', () => {
+      sheet.update({primary: true})
       expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
     })
 
@@ -115,6 +119,157 @@ describe('Functional: Function values', () => {
         }
       `)
       expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+    })
+  })
+
+  describe('sheet.update()', () => {
+    const styles = {
+      a: {
+        color: theme => theme.color
+      },
+      '@media all': {
+        b: {
+          color: theme => theme.color
+        }
+      },
+      '@keyframes test': {
+        '0%': {
+          color: theme => theme.color
+        }
+      }
+    }
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet(styles, {link: true})
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should return correct .toString() before .update()', () => {
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+        }
+        @media all {
+          .b-id {
+          }
+        }
+        @keyframes test {
+          0% {
+          }
+        }
+      `)
+    })
+
+    it('should return correct .toString() after single .update()', () => {
+      sheet.update({
+        color: 'green'
+      })
+
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: green;
+        }
+        @media all {
+          .b-id {
+            color: green;
+          }
+        }
+        @keyframes test {
+          0% {
+            color: green;
+          }
+        }
+      `)
+    })
+
+    it('should return correct .toString() after double .update()', () => {
+      sheet.update({
+        color: 'green'
+      })
+      sheet.update({
+        color: 'yellow'
+      })
+
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: yellow;
+        }
+        @media all {
+          .b-id {
+            color: yellow;
+          }
+        }
+        @keyframes test {
+          0% {
+            color: yellow;
+          }
+        }
+      `)
+    })
+
+    it('should render sheet with updated props', () => {
+      sheet.update({color: 'green'}).attach()
+      expect(getCss(getStyle())).to.be(removeWhitespace(sheet.toString()))
+    })
+
+    it('should update specific rule', () => {
+      sheet.update({color: 'yellow'})
+      sheet.update('a', {color: 'green'})
+
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: green;
+        }
+        @media all {
+          .b-id {
+            color: yellow;
+          }
+        }
+        @keyframes test {
+          0% {
+            color: yellow;
+          }
+        }
+      `)
+    })
+
+    it('should render updated rule', () => {
+      sheet.update('a', {color: 'green'}).attach()
+      expect(getCss(getStyle())).to.be(removeWhitespace(sheet.toString()))
+    })
+
+    describe('sheet.update() after attach', () => {
+      const assertSheet = () => {
+        // skip this test for browsers,
+        // that could not apply keyframes rule w/ or w/o prefix (like IE9)
+        if (sheet.renderer.getRules().length < 3) return
+
+        const [actual, expected] = [
+          getCssFromSheet(sheet),
+          removeWhitespace(sheet.toString())
+        ].map(removeVendorPrefixes)
+
+        expect(actual).to.be(expected)
+      }
+
+      beforeEach(() => {
+        // we need to use vendor-prefixer, because keyframes rule may not to work
+        // in some browsers wihtout prefix (like Safari 7.1.8)
+        sheet = jss.use(vendorPrefixer()).createStyleSheet(styles, {link: true})
+      })
+
+      it('should render sheet with updated props after attach', () => {
+        sheet.attach().update({color: 'green'})
+        assertSheet()
+      })
+
+      it('should render updated rule after attach', () => {
+        sheet.attach().update('a', {color: 'green'})
+        assertSheet()
+      })
     })
   })
 })

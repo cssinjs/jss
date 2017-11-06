@@ -10,14 +10,17 @@ export function getStyle() {
   return document.getElementsByTagName('style')[0]
 }
 
-export function getCss(style) {
-  // IE doesn't provide correct rules list when at-rules have been added
+export function getCss(style, useDom) {
+  // IE doesn't provide correct `sheet.cssRules` when at-rules have been added
   // by using `.addRule()` API.
-  // Others do not update .innerHTML result when `.addRule()` was used.
-  // We use what we can get.
-  return getRules(style)
+  // Others do not update .textContent result when `.addRule()` was used.
+  const textContent = removeWhitespace(style.textContent)
+  const cssText = getRules(style)
     .map(rule => removeWhitespace(rule.cssText))
     .join('')
+  // We try to use the most complete version.
+  // Potentially this is fragile too.
+  return textContent.length > cssText.length ? textContent : cssText
 }
 
 export function getCssFromSheet(sheet) {
