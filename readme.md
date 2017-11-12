@@ -17,7 +17,7 @@ Feel free to ask any JSS related questions on twitter by using hashtag `#cssinjs
 
 ## Integrations
 
-- [React-JSS](https://github.com/cssinjs/react-jss) - HOC interface for React with theming, try it on [playground](https://j3l06yyqpw.codesandbox.io/).
+- [React-JSS](https://github.com/cssinjs/react-jss) - HOC interface for React with theming, try it on [playground](https://codesandbox.io/s/j3l06yyqpw).
 - [Styled-JSS](https://github.com/cssinjs/styled-jss) - styled components interface for React, try it on [playground](https://codesandbox.io/s/xl89zx8zz4).
 - [Aphrodite-JSS](https://github.com/cssinjs/aphrodite-jss) - aphrodite like API.
 
