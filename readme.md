@@ -6,6 +6,7 @@
 [![bitHound Score](https://www.bithound.io/cssinjs/jss/badges/score.svg)](https://www.bithound.io/cssinjs/jss)
 [![OpenCollective](https://opencollective.com/jss/backers/badge.svg)](#backers)
 [![OpenCollective](https://opencollective.com/jss/sponsors/badge.svg)](#sponsors)
+
 <a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/yHSURRBaaXYK5KyrNZXn4iHe/cssinjs/jss'>
   <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/yHSURRBaaXYK5KyrNZXn4iHe/cssinjs/jss.svg' />
 </a>
