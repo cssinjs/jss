@@ -16,6 +16,13 @@ https://unpkg.com/jss/dist/jss.js
 Minified:
 https://unpkg.com/jss/dist/jss.min.js
 
+Polyfills:
+
+Only in development mode:
+
+[CSS.escape](https://github.com/mathiasbynens/CSS.escape)
+
+
 ## Setup with the default preset
 
 Use the [default preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with recommended plugins.

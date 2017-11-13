@@ -13,6 +13,8 @@ const maxRules = 1e10
 
 const env = process.env.NODE_ENV
 
+const CSS = (window.CSS: any)
+
 /**
  * Returns a function which generates unique class names based on counters.
  * When new generator function is created, rule counter is reseted.
@@ -37,7 +39,6 @@ export default (): generateClassName => {
     }
 
     const prefix = sheet ? (sheet.options.classNamePrefix || '') : ''
-
-    return `${prefix}${rule.key}-${jssCounter}-${ruleCounter}`
+    return `${CSS.escape(prefix + rule.key)}-${jssCounter}-${ruleCounter}`
   }
 }

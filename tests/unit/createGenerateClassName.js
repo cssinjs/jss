@@ -31,4 +31,9 @@ describe('Unit: jss - createGenerateClassName', () => {
     expect(generate()).to.be('c01')
     createGenerateClassName.__ResetDependency__('env')
   })
+
+  it('should escape class name', () => {
+    const generate = createGenerateClassName()
+    expect(generate({key: 'a('}, {options: {classNamePrefix: 'p)'}})).to.be('p\\)a\\(-0-1')
+  })
 })

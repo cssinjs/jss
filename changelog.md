@@ -1,3 +1,7 @@
+## 9.2.1 / 2017-11-13
+
+- Add CSS class name escaping for dev mode (#624)
+
 ## 9.2.0 / 2017-11-06
 
 - Allow empty rules when option {link: true} is used.
