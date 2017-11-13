@@ -121,8 +121,8 @@ describe('Functional: sheet', () => {
     })
 
     it('should have rendered attributes', () => {
-      expect(style.getAttribute('media'), 'screen')
-      expect(style.getAttribute('data-meta'), 'test')
+      expect(style.getAttribute('media')).to.be('screen')
+      expect(style.getAttribute('data-meta')).to.be('test')
     })
   })
 
