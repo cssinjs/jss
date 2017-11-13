@@ -481,4 +481,22 @@ describe('Functional: sheet', () => {
       expect(sheet.classes.a, 'test')
     })
   })
+
+  describe('allow emojis as a key', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet(
+        {'😅': {width: '1px'}}
+      ).attach()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should apply selector to the DOM', () => {
+      expect(computeStyle(sheet.classes['😅']).width).to.be('1px')
+    })
+  })
 })
