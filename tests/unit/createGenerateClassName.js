@@ -36,4 +36,16 @@ describe('Unit: jss - createGenerateClassName', () => {
     const generate = createGenerateClassName()
     expect(generate({key: 'a('}, {options: {classNamePrefix: 'p)'}})).to.be('p\\)a\\(-0-1')
   })
+
+  it('should warn when CSS.escape is not available', () => {
+    if (CSS && CSS.escape) return
+    let warned
+    createGenerateClassName.__Rewire__('warning', () => {
+      warned = true
+    })
+    const generate = createGenerateClassName()
+    generate({key: 'a'})
+    expect(warned).to.be(true)
+    createGenerateClassName.__ResetDependency__('warning')
+  })
 })
