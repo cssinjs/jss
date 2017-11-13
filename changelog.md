@@ -1,3 +1,7 @@
+## 9.3.1 / 2017-11-13
+
+- Never use window object directly
+
 ## 9.3.0 / 2017-11-13
 
 - Add CSS class name escaping for dev mode also we support emoji now! (#624)
