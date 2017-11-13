@@ -13,6 +13,21 @@ const maxRules = 1e10
 
 const env = process.env.NODE_ENV
 
+const CSS = (window.CSS: any)
+
+const escape = (str) => {
+  if (!CSS || !CSS.escape) {
+    warning(
+      false,
+      '[JSS] CSS.escape polyfill in DEV mode is required in this browser, ' +
+      'check out https://github.com/mathiasbynens/CSS.escape'
+    )
+    return str
+  }
+
+  return CSS.escape(str)
+}
+
 /**
  * Returns a function which generates unique class names based on counters.
  * When new generator function is created, rule counter is reseted.
@@ -37,7 +52,6 @@ export default (): generateClassName => {
     }
 
     const prefix = sheet ? (sheet.options.classNamePrefix || '') : ''
-
-    return `${prefix}${rule.key}-${jssCounter}-${ruleCounter}`
+    return `${escape(prefix + rule.key)}-${jssCounter}-${ruleCounter}`
   }
 }

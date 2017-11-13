@@ -10,7 +10,7 @@ export function getStyle() {
   return document.getElementsByTagName('style')[0]
 }
 
-export function getCss(style, useDom) {
+export function getCss(style) {
   // IE doesn't provide correct `sheet.cssRules` when at-rules have been added
   // by using `.addRule()` API.
   // Others do not update .textContent result when `.addRule()` was used.

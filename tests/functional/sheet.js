@@ -2,7 +2,6 @@
 
 import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
-import vendorPrefixer from 'jss-vendor-prefixer'
 
 import {create} from '../../src'
 import DomRenderer from '../../src/renderers/DomRenderer'
@@ -12,10 +11,8 @@ import {
   computeStyle,
   getStyle,
   getCss,
-  getCssFromSheet,
   getRules,
-  removeWhitespace,
-  removeVendorPrefixes
+  removeWhitespace
 } from '../utils'
 
 const settings = {createGenerateClassName}
@@ -501,6 +498,24 @@ describe('Functional: sheet', () => {
 
     it('should register the class name in sheet.classes', () => {
       expect(sheet.classes.a, 'test')
+    })
+  })
+
+  describe('allow emojis as a key', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet(
+        {'😅': {width: '1px'}}
+      ).attach()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should apply selector to the DOM', () => {
+      expect(computeStyle(sheet.classes['😅']).width).to.be('1px')
     })
   })
 })
