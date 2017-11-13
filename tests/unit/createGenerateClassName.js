@@ -38,7 +38,8 @@ describe('Unit: jss - createGenerateClassName', () => {
   })
 
   it('should warn when CSS.escape is not available', () => {
-    if (CSS && CSS.escape) return
+    const {escape} = CSS
+    delete CSS.escape
     let warned
     createGenerateClassName.__Rewire__('warning', () => {
       warned = true
@@ -47,5 +48,6 @@ describe('Unit: jss - createGenerateClassName', () => {
     generate({key: 'a'})
     expect(warned).to.be(true)
     createGenerateClassName.__ResetDependency__('warning')
+    CSS.escape = escape
   })
 })
