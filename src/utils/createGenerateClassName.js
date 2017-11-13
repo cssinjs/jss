@@ -13,7 +13,7 @@ const maxRules = 1e10
 
 const env = process.env.NODE_ENV
 
-const CSS = (window.CSS: any)
+const CSS = (globalRef.CSS: any)
 
 const escape = (str) => {
   if (!CSS || !CSS.escape) {
