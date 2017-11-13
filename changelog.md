@@ -1,6 +1,7 @@
-## 9.2.1 / 2017-11-13
+## 9.3.0 / 2017-11-13
 
-- Add CSS class name escaping for dev mode (#624)
+- Add CSS class name escaping for dev mode also we support emoji now! (#624)
+- Added CSP over webpack (#559)
 
 ## 9.2.0 / 2017-11-06
 
