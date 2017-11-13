@@ -83,6 +83,25 @@ describe('Functional: sheet', () => {
     })
   })
 
+  describe('sheet.attach() with nonce', () => {
+    let sheet
+    let style
+
+    beforeEach(() => {
+      window.__webpack_nonce__ = 'test'
+      sheet = jss.createStyleSheet().attach()
+      style = getStyle()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should have a nonce attribute if webpack nonce is found', () => {
+      expect(style.getAttribute('nonce')).to.be('test')
+    })
+  })
+
   describe('Options: {media, meta}', () => {
     let sheet
     let style

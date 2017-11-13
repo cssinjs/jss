@@ -265,6 +265,9 @@ export default class DomRenderer {
     this.element.setAttribute('data-jss', '')
     if (media) this.element.setAttribute('media', media)
     if (meta) this.element.setAttribute('data-meta', meta)
+    // eslint-disable-next-line no-underscore-dangle
+    const nonce = window !== undefined && window.__webpack_nonce__
+    if (nonce) this.element.setAttribute('nonce', nonce)
   }
 
   /**
