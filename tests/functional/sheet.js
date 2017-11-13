@@ -2,7 +2,6 @@
 
 import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
-import vendorPrefixer from 'jss-vendor-prefixer'
 
 import {create} from '../../src'
 import DomRenderer from '../../src/renderers/DomRenderer'
@@ -12,10 +11,8 @@ import {
   computeStyle,
   getStyle,
   getCss,
-  getCssFromSheet,
   getRules,
-  removeWhitespace,
-  removeVendorPrefixes
+  removeWhitespace
 } from '../utils'
 
 const settings = {createGenerateClassName}
