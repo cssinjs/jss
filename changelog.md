@@ -1,3 +1,7 @@
+## 9.3.2 / 2017-11-14
+
+- Don't put escaped class names into classes hash
+
 ## 9.3.1 / 2017-11-13
 
 - Never use window object directly
