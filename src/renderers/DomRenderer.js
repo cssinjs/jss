@@ -29,7 +29,12 @@ function getStyle(cssRule: HTMLElement|CSSStyleRule, prop: string): string {
  */
 function setStyle(cssRule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean {
   try {
-    cssRule.style.setProperty(prop, value)
+    if (value && value.toLocaleLowerCase().indexOf("!important") >= 0) {
+      value = value.substr(0, value.toLocaleLowerCase().indexOf("!important")).trim()
+      cssRule.style.setProperty(prop, value, "important")
+    }
+    else
+      cssRule.style.setProperty(prop, value)
   }
   catch (err) {
     // IE may throw if property is unknown.
