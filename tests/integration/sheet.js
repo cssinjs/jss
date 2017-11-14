@@ -230,7 +230,7 @@ describe('Integration: sheet', () => {
       let id
       const options = {
         generateClassName: () => {
-          id = Math.random().toString()
+          id = `c${Math.random().toString().substr(2)}`
           return id
         }
       }
@@ -349,6 +349,30 @@ describe('Integration: sheet', () => {
         }
       })
       expect(sheet.toString()).to.be('')
+    })
+  })
+
+  describe('escape class names', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet({
+        'a()': {
+          color: 'red'
+        }
+      })
+    })
+
+    it('should escape class name', () => {
+      expect(sheet.toString()).to.be(stripIndent`
+        .a\\(\\)-id {
+          color: red;
+        }
+      `)
+    })
+
+    it('should not escape class ref', () => {
+      expect(sheet.classes['a()']).to.be('a()-id')
     })
   })
 })

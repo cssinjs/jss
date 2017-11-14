@@ -9,6 +9,7 @@ import type {
   RuleOptions,
   JssStyle
 } from './types'
+import escape from './utils/escape'
 
 /**
  * Contains rules objects and allows adding/removing etc.
@@ -53,17 +54,18 @@ export default class RuleList {
     }
 
     if (!options.selector && this.classes[name]) {
-      options.selector = `.${this.classes[name]}`
+      options.selector = `.${escape(this.classes[name])}`
     }
 
     this.raw[name] = decl
 
     const rule = createRule(name, decl, options)
+
     let className
 
     if (!options.selector && rule instanceof StyleRule) {
       className = generateClassName(rule, sheet)
-      rule.selector = `.${className}`
+      rule.selector = `.${escape(className)}`
     }
 
     this.register(rule, className)

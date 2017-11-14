@@ -6,6 +6,7 @@ import expect from 'expect.js'
 import {create} from '../../src'
 import DomRenderer from '../../src/renderers/DomRenderer'
 import StyleRule from '../../src/rules/StyleRule'
+import escape from '../../src/utils/escape'
 import {
   createGenerateClassName,
   computeStyle,
@@ -345,15 +346,17 @@ describe('Functional: sheet', () => {
       DomRenderer.__Rewire__('warning', () => {
         warned = true
       })
+      escape.__Rewire__('env', 'production')
     })
 
     afterEach(() => {
       DomRenderer.__ResetDependency__('warning')
+      escape.__ResetDependency__('env')
       sheet.detach()
       warned = false
     })
 
-    it('should not throw', () => {
+    it('should warn', () => {
       sheet = jss.createStyleSheet().attach()
       sheet.addRule('%%%%', {color: 'red'})
       expect(warned).to.be(true)
@@ -501,21 +504,41 @@ describe('Functional: sheet', () => {
     })
   })
 
-  describe('allow emojis as a key', () => {
-    let sheet
+  describe('escaping', () => {
+    describe('escape class names', () => {
+      let sheet
 
-    beforeEach(() => {
-      sheet = jss.createStyleSheet(
-        {'😅': {width: '1px'}}
-      ).attach()
+      beforeEach(() => {
+        sheet = jss.createStyleSheet(
+          {'test()': {width: '1px'}}
+        ).attach()
+      })
+
+      afterEach(() => {
+        sheet.detach()
+      })
+
+      it('should apply selector to the DOM', () => {
+        expect(computeStyle(sheet.classes['test()']).width).to.be('1px')
+      })
     })
 
-    afterEach(() => {
-      sheet.detach()
-    })
+    describe('allow emojis as a key', () => {
+      let sheet
 
-    it('should apply selector to the DOM', () => {
-      expect(computeStyle(sheet.classes['😅']).width).to.be('1px')
+      beforeEach(() => {
+        sheet = jss.createStyleSheet(
+          {'😅': {width: '1px'}}
+        ).attach()
+      })
+
+      afterEach(() => {
+        sheet.detach()
+      })
+
+      it('should apply selector to the DOM', () => {
+        expect(computeStyle(sheet.classes['😅']).width).to.be('1px')
+      })
     })
   })
 })

@@ -4,6 +4,7 @@ import sheets from '../sheets'
 import type StyleSheet from '../StyleSheet'
 import StyleRule from '../rules/StyleRule'
 import type {Rule, InsertionPoint} from '../types'
+import global from '../utils/global'
 
 type PriorityOptions = {
   index: number,
@@ -266,7 +267,7 @@ export default class DomRenderer {
     if (media) this.element.setAttribute('media', media)
     if (meta) this.element.setAttribute('data-meta', meta)
     // eslint-disable-next-line no-underscore-dangle
-    const nonce = window !== undefined && window.__webpack_nonce__
+    const nonce = global.__webpack_nonce__
     if (nonce) this.element.setAttribute('nonce', nonce)
   }
 
