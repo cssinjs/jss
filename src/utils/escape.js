@@ -1,4 +1,3 @@
-import warning from 'warning'
 import global from './global'
 
 const CSS = (global.CSS: any)

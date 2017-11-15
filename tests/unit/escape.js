@@ -19,7 +19,6 @@ describe('Unit: jss - escape', () => {
   })
 
   describe('without CSS.escape', () => {
-    let warned
     beforeEach(() => {
       delete CSS.escape
     })
