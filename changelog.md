@@ -1,3 +1,7 @@
+## 9.3.3 / 2017-11-15
+
+- Added CSS.escape fallback, so that polyfill is not required.
+
 ## 9.3.2 / 2017-11-14
 
 - Don't put escaped class names into classes hash
