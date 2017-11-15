@@ -22,26 +22,15 @@ describe('Unit: jss - escape', () => {
     let warned
     beforeEach(() => {
       delete CSS.escape
-      escape.__Rewire__('warning', () => {
-        warned = true
-      })
     })
 
     afterEach(() => {
-      escape.__ResetDependency__('warning')
       CSS.escape = originalEscape
-      warned = false
     })
 
-    it('should warn when CSS.escape is not available', () => {
+    it('should escape', () => {
       escape('test()')
-      expect(warned).to.be(true)
-    })
-
-    it('should not warn in production', () => {
-      escape.__Rewire__('env', 'production')
-      expect(warned).to.be(false)
-      escape.__ResetDependency__('env')
+      expect(escape('test()')).to.be('test\\(\\)')
     })
   })
 })
