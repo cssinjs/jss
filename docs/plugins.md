@@ -92,3 +92,15 @@ You need to register a `plugin` only once per JSS instance. There is a number of
       }
     })
     ```
+
+1. Hook `onUpdate(data, rule, sheet)`.
+
+    This hook is invoked on every created rule when `sheet.update(data)` is called, with the passed data as an argument. It allows you to transform style object after every update of dynamic values or dynamic style objects.
+
+    ```javascript
+    jss.use({
+      onUpdate: (data, rule, sheet) => {
+        // Do something here.
+      }
+    })
+    ```
