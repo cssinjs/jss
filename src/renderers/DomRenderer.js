@@ -32,15 +32,17 @@ function setStyle(cssRule: HTMLElement|CSSStyleRule, prop: string, value: string
   try {
     if (Array.isArray(value)) {
       let cssValue = toCssValue(value)
-      if (value[value.length - 1] === "!important") {
+      if (Array.isArray(value[value.length - 1]) && value[value.length - 1][value[value.length - 1].length - 1] === '!important') {
         cssValue = cssValue.substr(0, cssValue.length - 10)
-        cssRule.style.setProperty(prop, cssValue, "important")
+        cssRule.style.setProperty(prop, cssValue, 'important')
       }
-      else
+      else {
         cssRule.style.setProperty(prop, cssValue)
+      }
     }
-    else
+    else {
       cssRule.style.setProperty(prop, value)
+    }
   }
   catch (err) {
     // IE may throw if property is unknown.
