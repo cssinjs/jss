@@ -5,6 +5,7 @@ import type StyleSheet from '../StyleSheet'
 import StyleRule from '../rules/StyleRule'
 import type {Rule, InsertionPoint} from '../types'
 import global from '../utils/global'
+import toCssValue from '../utils/toCssValue'
 
 type PriorityOptions = {
   index: number,
@@ -29,9 +30,14 @@ function getStyle(cssRule: HTMLElement|CSSStyleRule, prop: string): string {
  */
 function setStyle(cssRule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean {
   try {
-    if (value && value.toLocaleLowerCase().indexOf("!important") >= 0) {
-      value = value.substr(0, value.toLocaleLowerCase().indexOf("!important")).trim()
-      cssRule.style.setProperty(prop, value, "important")
+    if (Array.isArray(value)) {
+      let cssValue = toCssValue(value)
+      if (value[value.length - 1] === "!important") {
+        cssValue = cssValue.substr(0, cssValue.length - 10)
+        cssRule.style.setProperty(prop, cssValue, "important")
+      }
+      else
+        cssRule.style.setProperty(prop, cssValue)
     }
     else
       cssRule.style.setProperty(prop, value)
