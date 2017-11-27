@@ -34,6 +34,16 @@ const styles = {
 }
 ```
 
+To use the '!important' modifier with function values, you must use [array syntax](./js-api.md#alternative-syntax-for-space-and-comma-separated-values):
+
+```
+const styles = {
+  button: {
+    color: data => [[data.color, '!important']]
+  }
+}
+```
+
 ## Function rules
 
 Similar to function values, you can use a function to return a dynamic style object. Use [sheet.update(data)](./js-api.md#update-function-values) in order to pass the data object. Sheet option `link: true` is required for this to function.
@@ -42,7 +52,8 @@ Similar to function values, you can use a function to return a dynamic style obj
 const styles = {
   button: (data) => ({
     position: 'flex',
-    color: data.color
+    color: data.color,
+	background: [[data.background, '!important']]
   })
 }
 ```
