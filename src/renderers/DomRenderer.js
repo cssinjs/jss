@@ -37,6 +37,8 @@ function setStyle(cssRule: HTMLElement|CSSStyleRule, prop: string, value: string
         cssRule.style.setProperty(prop, cssValue, 'important')
         return true
       }
+      cssRule.style.setProperty(prop, cssValue)
+      return true
     }
     cssRule.style.setProperty(prop, value)
   }
