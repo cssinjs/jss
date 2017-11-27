@@ -35,14 +35,10 @@ function setStyle(cssRule: HTMLElement|CSSStyleRule, prop: string, value: string
       if (Array.isArray(value[value.length - 1]) && value[value.length - 1][value[value.length - 1].length - 1] === '!important') {
         cssValue = cssValue.substr(0, cssValue.length - 10)
         cssRule.style.setProperty(prop, cssValue, 'important')
-      }
-      else {
-        cssRule.style.setProperty(prop, cssValue)
+        return true
       }
     }
-    else {
-      cssRule.style.setProperty(prop, value)
-    }
+    cssRule.style.setProperty(prop, value)
   }
   catch (err) {
     // IE may throw if property is unknown.
