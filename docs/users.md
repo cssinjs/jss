@@ -10,6 +10,8 @@
 
 [Nordnet Bank](https://www.nordnet.se)
 
+[Rambler](https://www.rambler.ru)
+
 [jcore.io](http://jcore.io/)
 
 [tbrandstudio.com](http://www.tbrandstudio.com/)
