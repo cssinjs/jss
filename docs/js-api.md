@@ -235,8 +235,25 @@ sheet.addRules({
 If you use [function values](./json-api.md#function-values), you will want to update them with new data. This method will call all your function values, pass the `data` param and update the CSS Rule if needed.
 
 ```javascript
+const styles = {
+  container: {
+    height: 200,
+    width: data => data.width
+  },
+  button: {
+    color: data => data.button.color,
+    padding: data => data.button.padding
+  }
+}
+
+const sheet = jss.createStyleSheet(styles, {link: true}).attach()
+
 sheet.update({
-  // Any data here.
+  width: 100,
+  button: {
+    color: 'red',
+    padding: 20
+  }
 })
 ```
 
