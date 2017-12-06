@@ -32,11 +32,12 @@ export default (): generateClassName => {
       )
     }
 
+    const prefix = sheet ? (sheet.options.classNamePrefix || '') : ''
+
     if (env === 'production') {
-      return `c${jssCounter}${ruleCounter}`
+      return `${prefix}c${jssCounter}${ruleCounter}`
     }
 
-    const prefix = sheet ? (sheet.options.classNamePrefix || '') : ''
     return `${prefix + rule.key}-${jssCounter}-${ruleCounter}`
   }
 }
