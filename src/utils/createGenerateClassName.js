@@ -20,6 +20,7 @@ const env = process.env.NODE_ENV
  */
 export default (): generateClassName => {
   let ruleCounter = 0
+  const defaultPrefix = env === 'production' ? 'c' : ''
 
   return (rule: Rule, sheet?: StyleSheet): string => {
     ruleCounter += 1
@@ -32,11 +33,12 @@ export default (): generateClassName => {
       )
     }
 
+    const prefix = sheet ? (sheet.options.classNamePrefix || defaultPrefix) : defaultPrefix
+
     if (env === 'production') {
-      return `c${jssCounter}${ruleCounter}`
+      return `${prefix}${jssCounter}${ruleCounter}`
     }
 
-    const prefix = sheet ? (sheet.options.classNamePrefix || '') : ''
     return `${prefix + rule.key}-${jssCounter}-${ruleCounter}`
   }
 }
