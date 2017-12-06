@@ -78,7 +78,8 @@ export type Plugin = {
   onProcessRule?: (rule: Rule, sheet?: StyleSheet) => void,
   onProcessStyle?: (style: JssStyle, rule: Rule, sheet?: StyleSheet) => JssStyle,
   onProcessSheet?: (sheet?: StyleSheet) => void,
-  onChangeValue?: (value: string, prop: string, rule: Rule) => string
+  onChangeValue?: (value: string, prop: string, rule: Rule) => string,
+  onUpdate?: (data: Object, rule: Rule, sheet?: StyleSheet) => void
 }
 
 export type InsertionPoint = string|HTMLElement
