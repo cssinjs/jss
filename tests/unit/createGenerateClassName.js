@@ -35,7 +35,7 @@ describe('Unit: jss - createGenerateClassName', () => {
   it('should add prefix a production class name', () => {
     createGenerateClassName.__Rewire__('env', 'production')
     const generate = createGenerateClassName()
-    expect(generate({key: 'a'}, {options: {classNamePrefix: 'p'}})).to.be('pc01')
+    expect(generate({key: 'a'}, {options: {classNamePrefix: 'p'}})).to.be('p01')
     createGenerateClassName.__ResetDependency__('env')
   })
 })
