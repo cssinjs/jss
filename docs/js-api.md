@@ -75,7 +75,7 @@ Options:
 - `element` - style element, will create one by default.
 - `index` - 0 by default - determines DOM rendering order, higher number = higher specificity (inserted after).
 - `generateClassName` - a function that generates a unique class name.
-- `classNamePrefix` - a string, which will be added at the beginning of the class name in development.
+- `classNamePrefix` - a string, which will be added at the beginning of the class name.
 
 ```javascript
 const sheet = jss.createStyleSheet({
