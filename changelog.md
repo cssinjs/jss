@@ -1,3 +1,7 @@
+## 9.4.0 / 2017-12-10
+
+- Added array values support when used with function values. (#629)
+
 ## 9.3.3 / 2017-11-15
 
 - Added CSS.escape fallback, so that polyfill is not required.
