@@ -122,7 +122,7 @@ describe('Functional: Function values', () => {
     })
   })
 
-  describe('.addRule() with arrays as function values', () => {
+  describe('.addRule() with arrays returned from function values', () => {
     let style
     let sheet
 
@@ -140,7 +140,7 @@ describe('Functional: Function values', () => {
       expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
     })
 
-    it('should render rule with updated color from the array with single value', () => {
+    it('should return correct CSS from an array with a single value', () => {
       sheet.update({color: ['blue']})
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
@@ -149,8 +149,8 @@ describe('Functional: Function values', () => {
       `)
     })
 
-    it('should render rule with updated color from the array with !important', () => {
-      sheet.update({color: [['blue', '!important']]})
+    it('should return correct CSS from an array with !important', () => {
+      sheet.update({color: [['blue'], '!important']})
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
           color: blue !important;
@@ -159,12 +159,17 @@ describe('Functional: Function values', () => {
     })
 
     it('should return a property value from the CSSOM getPropertyValue function of "green"', () => {
-      sheet.update({color: [['green', '!important']]})
+      sheet.update({color: [['green'], '!important']})
       expect(document.styleSheets[0].cssRules[0].style.getPropertyValue('color')).to.be('green')
     })
 
-    it('should return a property value from the CSSOM getPropertyPriority function of "!important"', () => {
-      sheet.update({color: [['red', '!important']]})
+    it('should return a property value from the CSSOM getPropertyValue function of "green"', () => {
+      sheet.update({color: ['green']})
+      expect(document.styleSheets[0].cssRules[0].style.getPropertyValue('color')).to.be('green')
+    })
+
+    it('should return a correct priority', () => {
+      sheet.update({color: [['red'], '!important']})
       expect(document.styleSheets[0].cssRules[0].style.getPropertyPriority('color')).to.be('important')
     })
   })

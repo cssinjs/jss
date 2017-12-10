@@ -32,7 +32,7 @@ function setStyle(cssRule: HTMLElement|CSSStyleRule, prop: string, value: string
   try {
     if (Array.isArray(value)) {
       let cssValue = toCssValue(value)
-      if (Array.isArray(value[value.length - 1]) && value[value.length - 1][value[value.length - 1].length - 1] === '!important') {
+      if (value[value.length - 1] === '!important') {
         cssValue = cssValue.substr(0, cssValue.length - 10)
         cssRule.style.setProperty(prop, cssValue, 'important')
         return true
