@@ -1,5 +1,15 @@
 /* @flow */
-const joinWithSpace = (value: Array<string|number>): string => value.join(' ')
+
+const join = (value, by) => {
+  let result = ''
+  for (let i = 0; i < value.length; i++) {
+    // Remove !important from the value, it will be readded later.
+    if (value[i] === '!important') break
+    if (result) result += by
+    result += value[i]
+  }
+  return result
+}
 
 /**
  * Converts array values to string.
@@ -9,21 +19,23 @@ const joinWithSpace = (value: Array<string|number>): string => value.join(' ')
  * `margin: [['5px', '10px'], '!important']` > `margin: 5px 10px !important;`
  * `color: ['red', !important]` > `color: red !important;`
  */
-export default function toCssValue(value: any, important: boolean = false) {
+export default function toCssValue(value: any) {
   if (!Array.isArray(value)) return value
 
-  if (value[value.length - 1] === '!important') {
-    important = true
-    value = value.slice(0, value.length - 1)
-  }
+  let cssValue = ''
 
-  // Support space separated values.
+  // Support space separated values via `[['5px', '10px']]`.
   if (Array.isArray(value[0])) {
-    return toCssValue(value.map(joinWithSpace), important)
+    for (let i = 0; i < value.length; i++) {
+      if (value[i] === '!important') break
+      if (cssValue) cssValue += ', '
+      cssValue += join(value[i], ' ')
+    }
   }
+  else cssValue = join(value, ', ')
 
-  let cssValue = value.join(', ')
-  if (important) cssValue += ' !important'
+  // Add !important, because it was ignored.
+  if (value[value.length - 1] === '!important') cssValue += ' !important'
 
   return cssValue
 }

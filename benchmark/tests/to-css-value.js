@@ -6,20 +6,38 @@ const doubleArray = [['10px', '20px']]
 const doubleArrayImportant = [['10px', '20px'], '!important']
 const string = '10px 20px !important'
 
-suite.only('toCssValue', () => {
-  benchmark('singleArray', () => {
+suite('toCssValue single array', () => {
+  benchmark('array', () => {
     toCssValue(singleArray) === 'red'
   })
 
-  benchmark('singleArrayImportant', () => {
-    toCssValue(singleArrayImportant) === 'red !important'
+  benchmark('string', () => {
+    toCssValue(string) === '10px 20px !important'
+  })
+})
+
+suite('toCssValue signle array with important', () => {
+  benchmark('array', () => {
+    toCssValue(singleArrayImportant) === 'red'
   })
 
-  benchmark('doubleArray', () => {
-    toCssValue(doubleArray) === '10px 20px'
+  benchmark('string', () => {
+    toCssValue(string) === '10px 20px !important'
+  })
+})
+
+suite('toCssValue double array', () => {
+  benchmark('array', () => {
+    toCssValue(doubleArray) === 'red'
   })
 
-  benchmark('doubleArrayImportant', () => {
+  benchmark('string', () => {
+    toCssValue(string) === '10px 20px !important'
+  })
+})
+
+suite('toCssValue double array with important', () => {
+  benchmark('array', () => {
     toCssValue(doubleArrayImportant) === '10px 20px !important'
   })
 
