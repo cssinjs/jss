@@ -34,6 +34,18 @@ const styles = {
 }
 ```
 
+### Support of "!important"
+
+To use the `!important` modifier with function values, you must use [array syntax](./js-api.md#alternative-syntax-for-space-and-comma-separated-values):
+
+```javascript
+const styles = {
+  button: {
+    color: data => [data.color, '!important']
+  }
+}
+```
+
 ## Function rules
 
 Similar to function values, you can use a function to return a dynamic style object. Use [sheet.update(data)](./js-api.md#update-function-values) in order to pass the data object. Sheet option `link: true` is required for this to function.
@@ -272,6 +284,8 @@ There are some advantages in using this syntax:
 1. Plugin `jss-default-unit` is able to set default unit effectively for numeric values.
 2. You can use variables inside of a value declaration without string templates or concatenations.
 
+### Comma separated values
+
 ```javascript
 const styles = {
   button: {
@@ -313,6 +327,8 @@ Compiles to:
 }
 ```
 
+### Space separated values
+
 ```javascript
 const styles = {
   button: {
@@ -327,6 +343,26 @@ Compiles to:
 ```css
 .button-12345 {
   margin: 5px 10px;
+}
+```
+
+### Modifier "!important"
+
+```javascript
+const styles = {
+  button: {
+    color: ['red', '!important'],
+    margin: [[5, 10], '!important']
+  }
+}
+```
+
+Compiles to:
+
+```css
+.button-12345 {
+  color: red !important;
+  margin: 5px 10px !important;
 }
 ```
 

@@ -3,8 +3,9 @@ import warning from 'warning'
 import sheets from '../sheets'
 import type StyleSheet from '../StyleSheet'
 import StyleRule from '../rules/StyleRule'
-import type {Rule, InsertionPoint} from '../types'
+import type {Rule, JssValue, InsertionPoint} from '../types'
 import global from '../utils/global'
+import toCssValue from '../utils/toCssValue'
 
 type PriorityOptions = {
   index: number,
@@ -27,9 +28,20 @@ function getStyle(cssRule: HTMLElement|CSSStyleRule, prop: string): string {
 /**
  * Set a style property.
  */
-function setStyle(cssRule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean {
+function setStyle(cssRule: HTMLElement|CSSStyleRule, prop: string, value: JssValue): boolean {
   try {
-    cssRule.style.setProperty(prop, value)
+    let cssValue = ((value:any): string)
+
+    if (Array.isArray(value)) {
+      cssValue = toCssValue(value, true)
+
+      if (value[value.length - 1] === '!important') {
+        cssRule.style.setProperty(prop, cssValue, 'important')
+        return true
+      }
+    }
+
+    cssRule.style.setProperty(prop, cssValue)
   }
   catch (err) {
     // IE may throw if property is unknown.

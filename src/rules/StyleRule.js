@@ -1,8 +1,8 @@
-/* @flow */
+ /* @flow */
 import warning from 'warning'
 import toCss from '../utils/toCss'
 import toCssValue from '../utils/toCssValue'
-import type {ToCssOptions, RuleOptions, Renderer as RendererInterface, JssStyle, BaseRule} from '../types'
+import type {ToCssOptions, RuleOptions, Renderer as RendererInterface, JssStyle, JssValue, BaseRule} from '../types'
 
 export default class StyleRule implements BaseRule {
   type = 'style'
@@ -61,7 +61,7 @@ export default class StyleRule implements BaseRule {
   /**
    * Get or set a style property.
    */
-  prop(name: string, nextValue?: string): StyleRule|string {
+  prop(name: string, nextValue?: JssValue): StyleRule|string {
     // It's a setter.
     if (nextValue != null) {
       // Don't do anything if the value has not changed.

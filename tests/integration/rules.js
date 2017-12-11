@@ -58,50 +58,54 @@ describe('Integration: rules', () => {
       expect(rule.toString()).to.be('.a-id {\n  float: left;\n  width: 1px;\n}')
     })
 
-    it('should return CSS with fallbacks object', () => {
-      const rule = jss.createRule('a', {
-        display: 'run-in',
-        fallbacks: {display: 'inline'}
-      })
-      expect(rule.toString()).to.be('.a-id {\n  display: inline;\n  display: run-in;\n}')
-    })
-
-    it('should return CSS with fallbacks array', () => {
-      const rule = jss.createRule('a', {
-        display: 'run-in',
-        fallbacks: [{display: 'inline'}]
-      })
-      expect(rule.toString()).to.be('.a-id {\n  display: inline;\n  display: run-in;\n}')
-    })
-
-    it('should return CSS with comma separated values', () => {
-      const rule = jss.createRule('a', {
-        border: ['1px solid red', '1px solid blue']
-      })
-      expect(rule.toString()).to.be('.a-id {\n  border: 1px solid red, 1px solid blue;\n}')
-    })
-
-    it('should return CSS with comma separated values inside of fallbacks', () => {
-      let rule = jss.createRule('a', {
-        fallbacks: {
+    describe('array values', () => {
+      it('should return CSS with comma separated values', () => {
+        const rule = jss.createRule('a', {
           border: ['1px solid red', '1px solid blue']
-        }
+        })
+        expect(rule.toString()).to.be('.a-id {\n  border: 1px solid red, 1px solid blue;\n}')
       })
-      expect(rule.toString()).to.be('.a-id {\n  border: 1px solid red, 1px solid blue;\n}')
 
-      rule = jss.createRule('a', {
-        fallbacks: [{
-          border: ['1px solid red', '1px solid blue']
-        }]
+      it('should return CSS with space separated values', () => {
+        const rule = jss.createRule('a', {
+          margin: [['5px', '10px']]
+        })
+        expect(rule.toString()).to.be('.a-id {\n  margin: 5px 10px;\n}')
       })
-      expect(rule.toString()).to.be('.a-id {\n  border: 1px solid red, 1px solid blue;\n}')
     })
 
-    it('should return CSS with space separated values', () => {
-      const rule = jss.createRule('a', {
-        margin: [['5px', '10px']]
+    describe('fallbacks', () => {
+      it('should return CSS with fallbacks object', () => {
+        const rule = jss.createRule('a', {
+          display: 'run-in',
+          fallbacks: {display: 'inline'}
+        })
+        expect(rule.toString()).to.be('.a-id {\n  display: inline;\n  display: run-in;\n}')
       })
-      expect(rule.toString()).to.be('.a-id {\n  margin: 5px 10px;\n}')
+
+      it('should return CSS with fallbacks array', () => {
+        const rule = jss.createRule('a', {
+          display: 'run-in',
+          fallbacks: [{display: 'inline'}]
+        })
+        expect(rule.toString()).to.be('.a-id {\n  display: inline;\n  display: run-in;\n}')
+      })
+
+      it('should return CSS with comma separated values inside of fallbacks', () => {
+        let rule = jss.createRule('a', {
+          fallbacks: {
+            border: ['1px solid red', '1px solid blue']
+          }
+        })
+        expect(rule.toString()).to.be('.a-id {\n  border: 1px solid red, 1px solid blue;\n}')
+
+        rule = jss.createRule('a', {
+          fallbacks: [{
+            border: ['1px solid red', '1px solid blue']
+          }]
+        })
+        expect(rule.toString()).to.be('.a-id {\n  border: 1px solid red, 1px solid blue;\n}')
+      })
     })
 
     it('should return CSS from @charset rule', () => {
