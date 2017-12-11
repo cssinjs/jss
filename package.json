@@ -120,7 +120,7 @@
     "LICENSE"
   ],
   "lint-staged": {
-    "./src ./tests ./benchmark ./*.js": [
+    "./src/**/*.js ./tests/**/*.js ./benchmark/**/*.js ./*.js": [
       "eslint",
       "git add"
     ]

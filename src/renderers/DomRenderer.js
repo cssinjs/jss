@@ -31,13 +31,9 @@ function getStyle(cssRule: HTMLElement|CSSStyleRule, prop: string): string {
 function setStyle(cssRule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean {
   try {
     if (Array.isArray(value)) {
-      let cssValue = toCssValue(value)
-      if (value[value.length - 1] === '!important') {
-        cssValue = cssValue.substr(0, cssValue.length - 10)
-        cssRule.style.setProperty(prop, cssValue, 'important')
-        return true
-      }
-      cssRule.style.setProperty(prop, cssValue)
+      const priority = value[value.length - 1] === '!important' ? 'important' : undefined
+      const cssValue = toCssValue(value, true)
+      cssRule.style.setProperty(prop, cssValue, priority)
       return true
     }
     cssRule.style.setProperty(prop, value)

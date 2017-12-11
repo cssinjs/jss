@@ -19,7 +19,7 @@ const join = (value, by) => {
  * `margin: [['5px', '10px'], '!important']` > `margin: 5px 10px !important;`
  * `color: ['red', !important]` > `color: red !important;`
  */
-export default function toCssValue(value: any) {
+export default function toCssValue(value: any, ignoreImportant: boolean = false) {
   if (!Array.isArray(value)) return value
 
   let cssValue = ''
@@ -35,7 +35,9 @@ export default function toCssValue(value: any) {
   else cssValue = join(value, ', ')
 
   // Add !important, because it was ignored.
-  if (value[value.length - 1] === '!important') cssValue += ' !important'
+  if (!ignoreImportant && value[value.length - 1] === '!important') {
+    cssValue += ' !important'
+  }
 
   return cssValue
 }
