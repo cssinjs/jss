@@ -27,7 +27,11 @@ declare var __VERSION__: string
 
 const defaultPlugins = rulesPlugins.concat([observablesPlugin, functionsPlugin])
 
+let instanceCounter = 0
+
 export default class Jss {
+  id = instanceCounter++
+
   version = __VERSION__
 
   plugins = new PluginsRegistry()
