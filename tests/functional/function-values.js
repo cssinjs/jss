@@ -149,8 +149,17 @@ describe('Functional: Function values', () => {
       `)
     })
 
-    it('should return correct CSS from an array with !important', () => {
+    it('should return correct CSS from a double array with !important', () => {
       sheet.update({color: [['blue'], '!important']})
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: blue !important;
+        }
+      `)
+    })
+
+    it('should return correct CSS from an array with !important', () => {
+      sheet.update({color: ['blue', '!important']})
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
           color: blue !important;
