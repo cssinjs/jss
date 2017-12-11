@@ -20,9 +20,11 @@ export type generateClassName = (rule: Rule, sheet?: StyleSheet) => string
 // Find a way to declare all types: Object|string|Array<Object>
 export type JssStyle = Object
 
+export type JssValue = string|number|Array<string|number|Array<string|number>|'!important'>
+
 export interface Renderer {
   constructor(sheet?: StyleSheet): void;
-  setStyle(cssRule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean;
+  setStyle(cssRule: HTMLElement|CSSStyleRule, prop: string, value: JssValue): boolean;
   getStyle(cssRule: HTMLElement|CSSStyleRule, prop: string): string;
   setSelector(cssRule: CSSStyleRule, selectorText: string): boolean;
   getKey(cssRule: CSSStyleRule): string;
