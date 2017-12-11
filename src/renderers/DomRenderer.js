@@ -30,13 +30,14 @@ function getStyle(cssRule: HTMLElement|CSSStyleRule, prop: string): string {
  */
 function setStyle(cssRule: HTMLElement|CSSStyleRule, prop: string, value: string): boolean {
   try {
-    if (Array.isArray(value)) {
-      const priority = value[value.length - 1] === '!important' ? 'important' : undefined
-      const cssValue = toCssValue(value, true)
-      cssRule.style.setProperty(prop, cssValue, priority)
+    const cssValue = toCssValue(value, true)
+
+    if (value[value.length - 1] === '!important') {
+      cssRule.style.setProperty(prop, cssValue, 'important')
       return true
     }
-    cssRule.style.setProperty(prop, value)
+
+    cssRule.style.setProperty(prop, cssValue)
   }
   catch (err) {
     // IE may throw if property is unknown.

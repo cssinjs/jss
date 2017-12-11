@@ -167,7 +167,7 @@ describe('Functional: Function values', () => {
       `)
     })
 
-    it('should return a property value from the CSSOM getPropertyValue function of "green"', () => {
+    it('should return a property value from the CSSOM getPropertyValue function of "green" with important', () => {
       sheet.update({color: [['green'], '!important']})
       expect(document.styleSheets[0].cssRules[0].style.getPropertyValue('color')).to.be('green')
     })
