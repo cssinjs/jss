@@ -1,7 +1,7 @@
 /* @flow */
+import isObservable from 'is-observable'
 import StyleRule from '../rules/StyleRule'
 import createRule from '../utils/createRule'
-import isObservable from '../utils/isObservable'
 import type {Observable, Rule, RuleOptions, JssStyle} from '../types'
 
 export default {

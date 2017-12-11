@@ -1,6 +1,9 @@
 ## 9.4.0 / 2017-12-10
 
 - Added array values support when used with function values. (#629)
+- Use `classNamePrefix` option in production mode (#638)
+- Added `onUpdate` to docs and types, now officially supported
+- Use `is-observable` package as it is now more correct
 
 ## 9.3.3 / 2017-11-15
 
