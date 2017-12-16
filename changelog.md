@@ -1,4 +1,4 @@
-## Next
+## 9.4.0 / 2017-12-16
 
 - Added array values support when used with function values. (#629)
 - Use classNamePrefix option in production mode (#638)
