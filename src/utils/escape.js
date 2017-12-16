@@ -1,5 +1,3 @@
-import global from './global'
-
 const CSS = (global.CSS: any)
 
 const env = process.env.NODE_ENV

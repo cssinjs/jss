@@ -4,7 +4,6 @@ import sheets from '../sheets'
 import type StyleSheet from '../StyleSheet'
 import StyleRule from '../rules/StyleRule'
 import type {Rule, JssValue, InsertionPoint} from '../types'
-import global from '../utils/global'
 import toCssValue from '../utils/toCssValue'
 
 type PriorityOptions = {
