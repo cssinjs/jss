@@ -1,4 +1,4 @@
-import isObservable from 'is-observable'
+import isObservable from './isObservable'
 import type {JssStyle} from '../types'
 
 const {isArray} = Array
