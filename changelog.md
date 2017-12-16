@@ -1,6 +1,6 @@
 ## 9.4.0 / 2017-12-16
 
-- Added array values support when used with function values. It now also supports proprity option "!important" (#629)
+- Added array values support when used with function values. It now also supports priority option "!important" (#629)
 - Use classNamePrefix option in production mode (#638)
 - Added onUpdate to docs and types, now officially supported
 - Fixed class names collisions with multiple jss instances (#644)
