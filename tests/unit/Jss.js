@@ -18,6 +18,10 @@ describe('Integration: jss', () => {
       expect(jss).to.be.a(Jss)
     })
 
+    it('should have an id', () => {
+      expect(jss.id).to.be.a('number')
+    })
+
     it('should have .plugins registry instance', () => {
       expect(jss.plugins).to.be.a(PluginsRegistry)
     })

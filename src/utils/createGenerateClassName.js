@@ -2,12 +2,7 @@
 import warning from 'warning'
 import type {Rule, generateClassName} from '../types'
 import StyleSheet from '../StyleSheet'
-import global from './global'
-
-const ns = '2f1acc6c3a606b082e5eef5e54414ffb'
-if (global[ns] == null) global[ns] = 0
-// In case we have more than one JSS version.
-const jssCounter = global[ns]++
+import moduleId from './moduleId'
 
 const maxRules = 1e10
 
@@ -33,12 +28,18 @@ export default (): generateClassName => {
       )
     }
 
-    const prefix = sheet ? (sheet.options.classNamePrefix || defaultPrefix) : defaultPrefix
+    let prefix = defaultPrefix
+    let jssId = ''
 
-    if (env === 'production') {
-      return `${prefix}${jssCounter}${ruleCounter}`
+    if (sheet) {
+      prefix = sheet.options.classNamePrefix || defaultPrefix
+      if (sheet.options.jss.id != null) jssId += sheet.options.jss.id
     }
 
-    return `${prefix + rule.key}-${jssCounter}-${ruleCounter}`
+    if (env === 'production') {
+      return `${prefix}${moduleId}${jssId}${ruleCounter}`
+    }
+
+    return `${prefix + rule.key}-${moduleId}${jssId && `-${jssId}`}-${ruleCounter}`
   }
 }
