@@ -1,6 +1,8 @@
-## 9.4.0 / 2017-12-10
+## Next
 
 - Added array values support when used with function values. (#629)
+- Use classNamePrefix option in production mode (#638)
+- Added onUpdate to docs and types, now officially supported
 
 ## 9.3.3 / 2017-11-15
 
