@@ -1,9 +1,14 @@
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
+import jssNested from 'jss-nested'
 import {create} from '../../src'
 import StyleSheet from '../../src/StyleSheet'
-import {createGenerateClassName} from '../utils'
 import PluginsRegistry from '../../src/PluginsRegistry'
+import {
+  createGenerateClassName,
+  getCssFromSheet,
+  removeWhitespace
+} from '../utils'
 
 describe('Integration: plugins', () => {
   let jss
@@ -414,6 +419,31 @@ describe('Integration: plugins', () => {
           color: green;
         }
       `)
+    })
+  })
+
+  describe('jss-nested', () => {
+    let sheet
+
+    beforeEach(() => {
+      jss.use(jssNested())
+
+      sheet = jss.createStyleSheet({}, {
+        link: true,
+      }).attach()
+
+      sheet.addRule('b', {color: 'green'})
+      sheet.addRule('a', {
+        '&:hover': {
+          '& $b': {
+            color: 'red',
+          },
+        },
+      })
+    })
+
+    it('should save the added nested rules order', () => {
+      expect(getCssFromSheet(sheet)).to.be(removeWhitespace(sheet.toString()))
     })
   })
 })
