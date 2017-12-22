@@ -89,7 +89,7 @@ export default class StyleSheet {
       if (!this.deployed) return rule
       // Don't insert rule directly if there is no stringified version yet.
       // It will be inserted all together when .attach is called.
-      if (queue) queue.push(rule)
+      if (queue) queue.unshift(rule)
       else {
         this.insertRule(rule)
         if (this.queue) {
