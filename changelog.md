@@ -1,3 +1,7 @@
+## 9.5.0 / 2018-01-02
+
+- Export `toCssValue` utility function for css-vendor package.
+
 ## 9.4.0 / 2017-12-16
 
 - Added array values support when used with function values. It now also supports priority option "!important" (#629)

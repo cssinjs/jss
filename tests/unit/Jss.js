@@ -6,7 +6,7 @@ import sheets from '../../src/sheets'
 import DomRenderer from '../../src/renderers/DomRenderer'
 import VirtualRenderer from '../../src/renderers/VirtualRenderer'
 
-describe('Integration: jss', () => {
+describe('Unit: jss', () => {
   let jss
 
   beforeEach(() => {

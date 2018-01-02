@@ -15,6 +15,11 @@ import type {JssOptions} from './types'
 export {default as getDynamicStyles} from './utils/getDynamicStyles'
 
 /**
+ * Converts JSS array value to a CSS string.
+ */
+export {default as toCssValue} from './utils/toCssValue'
+
+/**
  * SheetsRegistry for SSR.
  */
 export {default as SheetsRegistry} from './SheetsRegistry'
