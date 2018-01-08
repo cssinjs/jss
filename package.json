@@ -98,13 +98,14 @@
     "flow:copy-src": "flow-copy-source -i './src/**' src lib",
     "lint": "eslint ./src ./tests ./benchmark ./*.js && npm run flow",
     "lint:staged": "lint-staged && npm run flow",
-    "prepublishOnly": "npm run all",
     "test": "cross-env NODE_ENV=test karma start --single-run",
     "test:watch": "cross-env NODE_ENV=test karma start",
     "posttest": "[ -z \"$TRAVIS\" ] || codecov",
     "codecov": "codecov",
     "bench": "cross-env BENCHMARK=true karma start --single-run",
-    "size": "size-limit 7.1KB dist/jss.js"
+    "size": "size-limit 7.1KB dist/jss.js",
+    "prepublishOnly": "npm run all",
+    "postinstall": "node -e \"console.log('\\u001b[35m\\u001b[1mLove JSS? You can now support us on open collective:\\u001b[22m\\u001b[39m\\n > \\u001b[34mhttps://opencollective.com/jss/donate\\u001b[0m')\""
   },
   "dependencies": {
     "is-in-browser": "^1.1.3",

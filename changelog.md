@@ -1,3 +1,7 @@
+## 9.5.1 / 2018-01-08
+
+- Add postinstall script with donation log. 
+
 ## 9.5.0 / 2018-01-02
 
 - Export `toCssValue` utility function for css-vendor package.
