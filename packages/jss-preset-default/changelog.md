@@ -1,3 +1,7 @@
+## 4.1.0 / 2018-01-17
+
+- updated jss, jss-default-unit, jss-expand, jss-extend, jss-template
+
 ## 4.0.1 / 2017-10-07
 
 - jss-nested@6.0.1

@@ -45,18 +45,18 @@
     "webpack": "^1.13.1"
   },
   "peerDependencies": {
-    "jss": "^9.0.0"
+    "jss": "^9.5.1"
   },
   "dependencies": {
     "jss-camel-case": "^6.0.0",
     "jss-compose": "^5.0.0",
-    "jss-default-unit": "^8.0.0",
-    "jss-expand": "^5.0.0",
-    "jss-extend": "^6.0.1",
+    "jss-default-unit": "^8.0.2",
+    "jss-expand": "^5.1.0",
+    "jss-extend": "^6.1.0",
     "jss-global": "^3.0.0",
     "jss-nested": "^6.0.1",
     "jss-props-sort": "^6.0.0",
-    "jss-template": "^1.0.0",
-    "jss-vendor-prefixer": "^7.0.0"
+    "jss-vendor-prefixer": "^7.0.0",
+    "jss-template": "^1.0.1"
   }
 }
