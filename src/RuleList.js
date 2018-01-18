@@ -155,7 +155,9 @@ export default class RuleList {
       const cssRule = cssRules[i]
       let key = this.options.sheet.renderer.getKey(cssRule)
       if (map[key]) key = map[key]
-      const rule = this.map[key]
+
+      const mappedGlobal: any = this.map['@global']
+      const rule = mappedGlobal ? mappedGlobal.rules.map[key] || this.map[key] : this.map[key]
       if (rule) linkRule(rule, cssRule)
     }
   }
