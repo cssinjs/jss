@@ -112,7 +112,7 @@ You might still have some CSP violations if you use style/css/sass in addition t
 
 ## Resources
 
-[MDN: Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
-[Helmet CSP configuration](https://helmetjs.github.io/docs/csp/)
-[Webpack nonce support PR](https://github.com/webpack/webpack/pull/3210)
-[JSS nonce support discussion](https://github.com/cssinjs/jss/issues/559)
+* [MDN: Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
+* [Helmet CSP configuration](https://helmetjs.github.io/docs/csp/)
+* [Webpack nonce support PR](https://github.com/webpack/webpack/pull/3210)
+* [JSS nonce support discussion](https://github.com/cssinjs/jss/issues/559)
