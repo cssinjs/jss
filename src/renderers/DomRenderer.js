@@ -248,6 +248,14 @@ function insertStyle(style: HTMLElement, options: PriorityOptions) {
   getHead().insertBefore(style, prevNode)
 }
 
+/**
+ * Read jss nonce setting from the page if the user has set it.
+ */
+function getNonceFromPage() : ? string {
+  const nonceTag = document.querySelector('meta[property="csp-nonce"]')
+  return nonceTag ? nonceTag.getAttribute('content') : null
+}
+
 export default class DomRenderer {
   getStyle = getStyle
 
@@ -277,8 +285,7 @@ export default class DomRenderer {
     this.element.setAttribute('data-jss', '')
     if (media) this.element.setAttribute('media', media)
     if (meta) this.element.setAttribute('data-meta', meta)
-    // eslint-disable-next-line no-underscore-dangle
-    const nonce = global.__webpack_nonce__
+    const nonce = getNonceFromPage()
     if (nonce) this.element.setAttribute('nonce', nonce)
   }
 
