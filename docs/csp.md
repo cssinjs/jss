@@ -1,6 +1,6 @@
 # Setting up Content Security Policy with JSS
 
-Content Security Policy (CSP) is a way of whitelisting what resources the browser should allow to load (and reach out to). There are many good resouces on CSP for more information. [This explanation](https://helmetjs.github.io/docs/csp/) is a good place to start.
+Content Security Policy (CSP) is a way of whitelisting what resources the browser should allow to load (and reach out to). There are many good resources on CSP for more information. [This explanation](https://helmetjs.github.io/docs/csp/) is a good place to start.
 
 In the case of JSS we need to set the `style-src` CSP directive. We don't want to just set it to `unsafe-inline` which will allow everything.
 
