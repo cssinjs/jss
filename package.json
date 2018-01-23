@@ -46,12 +46,13 @@
     "css.escape": "^1.5.1",
     "detect-browser": "^1.5.0",
     "es5-shim": "^4.5.9",
-    "eslint": "^3.11.1",
+    "eslint": "^3.19.0",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-config-jss": "^3.0.0",
     "eslint-plugin-flowtype": "^2.29.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-markdown": "^1.0.0-beta.6",
     "eslint-plugin-react": "^6.5.0",
     "expect.js": "^0.3.1",
     "flow-bin": "^0.57.3",
@@ -96,7 +97,7 @@
     "clean": "rimraf '{lib,dist,tmp}/*'",
     "flow": "flow --show-all-errors",
     "flow:copy-src": "flow-copy-source -i './src/**' src lib",
-    "lint": "eslint ./src ./tests ./benchmark ./*.js && npm run flow",
+    "lint": "eslint ./src ./tests ./benchmark ./docs/**/*.md ./*.js && npm run flow",
     "lint:staged": "lint-staged && npm run flow",
     "test": "cross-env NODE_ENV=test karma start --single-run",
     "test:watch": "cross-env NODE_ENV=test karma start",
@@ -121,7 +122,7 @@
     "LICENSE"
   ],
   "lint-staged": {
-    "./src/**/*.js ./tests/**/*.js ./benchmark/**/*.js ./*.js": [
+    "./src/**/*.js ./tests/**/*.js ./benchmark/**/*.js ./*.js ./docs/**/*.md": [
       "eslint",
       "git add"
     ]

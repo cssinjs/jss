@@ -10,5 +10,5 @@
     "__VERSION__": true,
     "CSS": true
   },
-  "plugins": ["flowtype"]
+  "plugins": ["flowtype", "markdown"]
 }
