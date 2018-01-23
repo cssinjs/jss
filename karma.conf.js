@@ -9,6 +9,7 @@ const isTravis = process.env.TRAVIS
 const travisBuildNumber = process.env.TRAVIS_BUILD_NUMBER
 const travisBuildId = process.env.TRAVIS_BUILD_ID
 const travisJobNumber = process.env.TRAVIS_JOB_NUMBER
+const isPullRequest = process.env.TRAVIS_PULL_REQUEST !== 'false'
 
 module.exports = (config) => {
   config.set({
@@ -50,7 +51,7 @@ module.exports = (config) => {
     })
   }
 
-  if (useCloud) {
+  if (useCloud && !isPullRequest) {
     Object.assign(config, {
       browsers: Object.keys(browsers),
       browserDisconnectTolerance: 3,
