@@ -1,0 +1,6 @@
+node_modules/
+coverage/
+build/
+lib/
+# npm install does it's own formatting, which can conflict with prettier
+package*.json
