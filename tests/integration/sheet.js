@@ -332,7 +332,11 @@ describe('Integration: sheet', () => {
           a: { color: 'red' },
           '@media print': {},
         })
-        expect(sheet.toString()).to.be('.a-id {\n' + '  color: red;\n' + '}')
+        expect(sheet.toString()).to.be(
+          '.a-id {\n' + //
+            '  color: red;\n' +
+            '}'
+        )
       })
     })
   })
@@ -345,7 +349,11 @@ describe('Integration: sheet', () => {
           color: null,
         },
       })
-      expect(sheet.toString()).to.be('.a-id {\n' + '  margin: 0;\n' + '}')
+      expect(sheet.toString()).to.be(
+        '.a-id {\n' + //
+          '  margin: 0;\n' +
+          '}'
+      )
     })
 
     it('should skip rule if empty value was skipped', () => {
