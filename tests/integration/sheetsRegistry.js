@@ -106,7 +106,11 @@ describe('Integration: sheetsRegistry', () => {
       )
       sheets.add(sheet1)
       sheets.add(sheet2)
-      expect(sheets.toString()).to.be('.a-id {\n' + '  color: red;\n' + '}')
+      expect(sheets.toString()).to.be(
+        '.a-id {\n' + //
+          '  color: red;\n' +
+          '}'
+      )
     })
   })
 })

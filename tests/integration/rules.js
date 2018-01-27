@@ -320,7 +320,10 @@ describe('Integration: rules', () => {
           color: 'red',
         })
         expect(warned).to.be(true)
-        const css = '.@unknown-id {\n' + '  color: red;\n' + '}'
+        const css =
+          '.@unknown-id {\n' + //
+          '  color: red;\n' +
+          '}'
         expect(rule.toString()).to.be(css)
       })
 
@@ -353,7 +356,11 @@ describe('Integration: rules', () => {
         })
         expect(rule.type).to.be('viewport')
         expect(rule.key).to.be('@viewport')
-        expect(rule.toString()).to.be('@viewport {\n' + '  zoom: 1;\n' + '}')
+        expect(rule.toString()).to.be(
+          '@viewport {\n' + //
+            '  zoom: 1;\n' +
+            '}'
+        )
       })
 
       it('should return CSS from @-ms-viewport rule', () => {
@@ -363,7 +370,9 @@ describe('Integration: rules', () => {
         expect(rule.type).to.be('viewport')
         expect(rule.key).to.be('@-ms-viewport')
         expect(rule.toString()).to.be(
-          '@-ms-viewport {\n' + '  zoom: 1;\n' + '}'
+          '@-ms-viewport {\n' + //
+            '  zoom: 1;\n' +
+            '}'
         )
       })
     })
