@@ -1,17 +1,17 @@
 /* eslint-disable no-underscore-dangle */
 
-import {stripIndent} from 'common-tags'
+import { stripIndent } from 'common-tags'
 import expect from 'expect.js'
 
-import {create} from '../../src'
+import { create } from '../../src'
 import {
   createGenerateClassName,
   getStyle,
   getCss,
-  removeWhitespace
+  removeWhitespace,
 } from '../utils'
 
-const settings = {createGenerateClassName}
+const settings = { createGenerateClassName }
 
 describe('Functional: Function rules', () => {
   let jss
@@ -25,9 +25,14 @@ describe('Functional: Function rules', () => {
     let sheet
 
     beforeEach(() => {
-      sheet = jss.createStyleSheet({
-        a: data => ({color: data.color, display: 'block'})
-      }, {link: true}).attach()
+      sheet = jss
+        .createStyleSheet(
+          {
+            a: data => ({ color: data.color, display: 'block' }),
+          },
+          { link: true }
+        )
+        .attach()
       style = getStyle()
     })
 
@@ -36,7 +41,7 @@ describe('Functional: Function rules', () => {
     })
 
     it('should compile correctly', () => {
-      sheet.update({color: 'red'})
+      sheet.update({ color: 'red' })
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
           color: red;
@@ -46,7 +51,7 @@ describe('Functional: Function rules', () => {
     })
 
     it('should render', () => {
-      sheet.update({color: 'red'})
+      sheet.update({ color: 'red' })
       expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
     })
   })
@@ -56,9 +61,9 @@ describe('Functional: Function rules', () => {
     let sheet
 
     beforeEach(() => {
-      sheet = jss.createStyleSheet(null, {link: true}).attach()
+      sheet = jss.createStyleSheet(null, { link: true }).attach()
       sheet.addRule('a', data => ({
-        color: data.primary ? 'black' : 'white'
+        color: data.primary ? 'black' : 'white',
       }))
       style = getStyle()
     })
@@ -68,7 +73,7 @@ describe('Functional: Function rules', () => {
     })
 
     it('should compile correct CSS', () => {
-      sheet.update({primary: true})
+      sheet.update({ primary: true })
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
           color: black;
@@ -77,12 +82,12 @@ describe('Functional: Function rules', () => {
     })
 
     it('should render', () => {
-      sheet.update({primary: true})
+      sheet.update({ primary: true })
       expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
     })
 
     it('should render rule with updated color', () => {
-      sheet.update({primary: false})
+      sheet.update({ primary: false })
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
           color: white;
@@ -96,11 +101,11 @@ describe('Functional: Function rules', () => {
     let sheet
 
     beforeEach(() => {
-      sheet = jss.createStyleSheet({}, {link: true}).attach()
+      sheet = jss.createStyleSheet({}, { link: true }).attach()
       sheet.addRule('@media screen', {
         b: data => ({
-          color: data.primary ? 'black' : 'white'
-        })
+          color: data.primary ? 'black' : 'white',
+        }),
       })
       style = getStyle()
     })
@@ -110,7 +115,7 @@ describe('Functional: Function rules', () => {
     })
 
     it('should compile correct CSS', () => {
-      sheet.update({primary: true})
+      sheet.update({ primary: true })
       expect(sheet.toString()).to.be(stripIndent`
         @media screen {
           .b-id {
@@ -121,12 +126,12 @@ describe('Functional: Function rules', () => {
     })
 
     it('should render', () => {
-      sheet.update({primary: true})
+      sheet.update({ primary: true })
       expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
     })
 
     it('should update', () => {
-      sheet.update({primary: false})
+      sheet.update({ primary: false })
       expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
     })
   })

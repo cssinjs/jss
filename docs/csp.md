@@ -22,18 +22,18 @@ A conundrum for now is how to generate a unique nonce value for every page visit
 
 ```js
 // server.js
-import helmet from "helmet";
+import helmet from 'helmet'
 
-const WEBPACK_NONCE = "N2M0MDhkN2EtMmRkYi00MTExLWFhM2YtNDhkNTc4NGJhMjA3";
+const WEBPACK_NONCE = 'N2M0MDhkN2EtMmRkYi00MTExLWFhM2YtNDhkNTc4NGJhMjA3'
 
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
       /* ... */
-      styleSrc: ["'self'", `'nonce-${WEBPACK_NONCE}'`]
-    }
+      styleSrc: ["'self'", `'nonce-${WEBPACK_NONCE}'`],
+    },
   })
-);
+)
 ```
 
 (The above example uses [Helmet](https://helmetjs.github.io/) to set CSP directives).

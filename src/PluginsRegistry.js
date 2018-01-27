@@ -1,22 +1,26 @@
 /* @flow */
 import warning from 'warning'
 import type StyleSheet from './StyleSheet'
-import type {Plugin, Rule, RuleOptions, JssStyle} from './types'
+import type { Plugin, Rule, RuleOptions, JssStyle } from './types'
 
 export default class PluginsRegistry {
-  hooks: {[key: string]: Array<Function>} = {
+  hooks: { [key: string]: Array<Function> } = {
     onCreateRule: [],
     onProcessRule: [],
     onProcessStyle: [],
     onProcessSheet: [],
     onChangeValue: [],
-    onUpdate: []
+    onUpdate: [],
   }
 
   /**
    * Call `onCreateRule` hooks and return an object if returned by a hook.
    */
-  onCreateRule(name?: string, decl: JssStyle, options: RuleOptions): Rule|null {
+  onCreateRule(
+    name?: string,
+    decl: JssStyle,
+    options: RuleOptions
+  ): Rule | null {
     for (let i = 0; i < this.hooks.onCreateRule.length; i++) {
       const rule = this.hooks.onCreateRule[i](name, decl, options)
       if (rule) return rule
@@ -29,7 +33,7 @@ export default class PluginsRegistry {
    */
   onProcessRule(rule: Rule): void {
     if (rule.isProcessed) return
-    const {sheet} = rule.options
+    const { sheet } = rule.options
     for (let i = 0; i < this.hooks.onProcessRule.length; i++) {
       this.hooks.onProcessRule[i](rule, sheet)
     }

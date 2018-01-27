@@ -1,6 +1,6 @@
 /* @flow */
 import warning from 'warning'
-import type {Rule, generateClassName} from '../types'
+import type { Rule, generateClassName } from '../types'
 import StyleSheet from '../StyleSheet'
 import moduleId from './moduleId'
 
@@ -40,6 +40,7 @@ export default (): generateClassName => {
       return `${prefix}${moduleId}${jssId}${ruleCounter}`
     }
 
-    return `${prefix + rule.key}-${moduleId}${jssId && `-${jssId}`}-${ruleCounter}`
+    return `${prefix + rule.key}-${moduleId}${jssId &&
+      `-${jssId}`}-${ruleCounter}`
   }
 }

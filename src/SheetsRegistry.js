@@ -1,5 +1,5 @@
 /* @flow */
-import type {ToCssOptions} from './types'
+import type { ToCssOptions } from './types'
 import type StyleSheet from './StyleSheet'
 
 /**
@@ -12,15 +12,17 @@ export default class SheetsRegistry {
    * Current highest index number.
    */
   get index(): number {
-    return this.registry.length === 0 ? 0 : this.registry[this.registry.length - 1].options.index
+    return this.registry.length === 0
+      ? 0
+      : this.registry[this.registry.length - 1].options.index
   }
 
   /**
    * Register a Style Sheet.
    */
   add(sheet: StyleSheet): void {
-    const {registry} = this
-    const {index} = sheet.options
+    const { registry } = this
+    const { index } = sheet.options
 
     if (registry.indexOf(sheet) !== -1) return
 

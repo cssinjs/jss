@@ -20,7 +20,7 @@ import type {
   JssOptions,
   InternalJssOptions,
   JssStyle,
-  generateClassName
+  generateClassName,
 } from './types'
 
 declare var __VERSION__: string
@@ -39,7 +39,7 @@ export default class Jss {
   options: InternalJssOptions = {
     createGenerateClassName: createGenerateClassNameDefault,
     Renderer: isInBrowser ? DomRenderer : VirtualRenderer,
-    plugins: []
+    plugins: [],
   }
 
   generateClassName: generateClassName = createGenerateClassNameDefault()
@@ -57,9 +57,11 @@ export default class Jss {
       this.generateClassName = options.createGenerateClassName()
     }
 
-    if (options.insertionPoint != null) this.options.insertionPoint = options.insertionPoint
+    if (options.insertionPoint != null)
+      this.options.insertionPoint = options.insertionPoint
     if (options.virtual || options.Renderer) {
-      this.options.Renderer = options.Renderer || (options.virtual ? VirtualRenderer : DomRenderer)
+      this.options.Renderer =
+        options.Renderer || (options.virtual ? VirtualRenderer : DomRenderer)
     }
 
     // eslint-disable-next-line prefer-spread
@@ -71,7 +73,10 @@ export default class Jss {
   /**
    * Create a Style Sheet.
    */
-  createStyleSheet(styles: Object, options: StyleSheetFactoryOptions = {}): StyleSheet {
+  createStyleSheet(
+    styles: Object,
+    options: StyleSheetFactoryOptions = {}
+  ): StyleSheet {
     let index = options.index
     if (typeof index !== 'number') {
       index = sheets.index === 0 ? 0 : sheets.index + 1
@@ -82,7 +87,7 @@ export default class Jss {
       generateClassName: options.generateClassName || this.generateClassName,
       insertionPoint: this.options.insertionPoint,
       Renderer: this.options.Renderer,
-      index
+      index,
     })
     this.plugins.onProcessSheet(sheet)
 
@@ -101,7 +106,11 @@ export default class Jss {
   /**
    * Create a rule without a Style Sheet.
    */
-  createRule(name?: string, style?: JssStyle = {}, options?: RuleFactoryOptions = {}): Rule {
+  createRule(
+    name?: string,
+    style?: JssStyle = {},
+    options?: RuleFactoryOptions = {}
+  ): Rule {
     // Enable rule without name for inline styles.
     if (typeof name === 'object') {
       options = style
@@ -115,7 +124,8 @@ export default class Jss {
 
     ruleOptions.jss = this
     ruleOptions.Renderer = this.options.Renderer
-    if (!ruleOptions.generateClassName) ruleOptions.generateClassName = this.generateClassName
+    if (!ruleOptions.generateClassName)
+      ruleOptions.generateClassName = this.generateClassName
     if (!ruleOptions.classes) ruleOptions.classes = {}
     const rule = createRule(name, style, ruleOptions)
 
@@ -132,7 +142,7 @@ export default class Jss {
    * Register plugin. Passed function will be invoked with a rule instance.
    */
   use(...plugins: Array<Plugin>): this {
-    plugins.forEach((plugin) => {
+    plugins.forEach(plugin => {
       // Avoids applying same plugin twice, at least based on ref.
       if (this.options.plugins.indexOf(plugin) === -1) {
         this.options.plugins.push(plugin)
