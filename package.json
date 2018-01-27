@@ -125,9 +125,12 @@
     "LICENSE"
   ],
   "lint-staged": {
-    "./src/**/*.js ./tests/**/*.js ./benchmark/**/*.js ./*.js": [
+    "**/*.js": [
       "eslint",
-      "git add"
+      "prettier -l"
+    ],
+    "**/*.{jsx,ts,tsx,vue,json,css,scss,less,md}": [
+      "prettier -l"
     ]
   },
   "pre-commit": "lint:staged"
