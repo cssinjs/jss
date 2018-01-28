@@ -256,9 +256,9 @@ function insertStyle(style: HTMLElement, options: PriorityOptions) {
 /**
  * Read jss nonce setting from the page if the user has set it.
  */
-const getNonceFromPage = memoize((): ? string => {
-  const nonceTag = document.querySelector('meta[property="csp-nonce"]')
-  return nonceTag ? nonceTag.getAttribute('content') : null
+const getNonce = memoize((): ? string => {
+  const node = document.querySelector('meta[property="csp-nonce"]')
+  return node ? node.getAttribute('content') : null
 })
 
 export default class DomRenderer {
@@ -290,7 +290,7 @@ export default class DomRenderer {
     this.element.setAttribute('data-jss', '')
     if (media) this.element.setAttribute('media', media)
     if (meta) this.element.setAttribute('data-meta', meta)
-    const nonce = getNonceFromPage()
+    const nonce = getNonce()
     if (nonce) this.element.setAttribute('nonce', nonce)
   }
 
