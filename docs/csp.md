@@ -21,7 +21,6 @@ In order to communicate the nonce value to JSS, we're going use some basic templ
 
 ```js
 // server.js
-<<<<<<< HEAD
 import helmet from "helmet"
 import uuidv4 from "uuid/v4"
 
@@ -30,12 +29,7 @@ app.use(function(req, res, next) {
   res.locals.styleNonce = new Buffer(uuidv4()).toString("base64")
   next()
 })
-=======
-import helmet from 'helmet'
 
-const WEBPACK_NONCE = 'N2M0MDhkN2EtMmRkYi00MTExLWFhM2YtNDhkNTc4NGJhMjA3'
-
->>>>>>> master
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
