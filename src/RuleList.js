@@ -7,7 +7,7 @@ import type {
   ToCssOptions,
   Rule,
   RuleOptions,
-  JssStyle
+  JssStyle,
 } from './types'
 import escape from './utils/escape'
 
@@ -18,10 +18,10 @@ import escape from './utils/escape'
 export default class RuleList {
   // Rules registry for access by .get() method.
   // It contains the same rule registered by name and by selector.
-  map: {[key: string]: Rule} = {}
+  map: { [key: string]: Rule } = {}
 
   // Original styles object.
-  raw: {[key: string]: JssStyle} = {}
+  raw: { [key: string]: JssStyle } = {}
 
   // Used to ensure correct rules order.
   index: Array<Rule> = []
@@ -41,7 +41,7 @@ export default class RuleList {
    * Will not render after Style Sheet was rendered the first time.
    */
   add(name: string, decl: JssStyle, options?: RuleOptions): Rule {
-    const {parent, sheet, jss, Renderer, generateClassName} = this.options
+    const { parent, sheet, jss, Renderer, generateClassName } = this.options
 
     options = {
       classes: this.classes,
@@ -50,7 +50,7 @@ export default class RuleList {
       jss,
       Renderer,
       generateClassName,
-      ...options
+      ...options,
     }
 
     if (!options.selector && this.classes[name]) {
@@ -70,7 +70,8 @@ export default class RuleList {
 
     this.register(rule, className)
 
-    const index = options.index === undefined ? this.index.length : options.index
+    const index =
+      options.index === undefined ? this.index.length : options.index
     this.index.splice(index, 0, rule)
 
     return rule
@@ -102,7 +103,7 @@ export default class RuleList {
    * Run `onProcessRule()` plugins on every rule.
    */
   process(): void {
-    const {plugins} = this.options.jss
+    const { plugins } = this.options.jss
     // We need to clone array because if we modify the index somewhere else during a loop
     // we end up with very hard-to-track-down side effects.
     this.index.slice(0).forEach(plugins.onProcessRule, plugins)
@@ -133,8 +134,8 @@ export default class RuleList {
   /**
    * Update the function values with a new data.
    */
-  update(name?: string|Object, data?: Object): void {
-    const {jss: {plugins}, sheet} = this.options
+  update(name?: string | Object, data?: Object): void {
+    const { jss: { plugins }, sheet } = this.options
     if (typeof name === 'string') {
       plugins.onUpdate(data, this.get(name), sheet)
       return
@@ -165,7 +166,7 @@ export default class RuleList {
    */
   toString(options?: ToCssOptions): string {
     let str = ''
-    const {sheet} = this.options
+    const { sheet } = this.options
     const link = sheet ? sheet.options.link : false
 
     for (let index = 0; index < this.index.length; index++) {

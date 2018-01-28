@@ -1,6 +1,6 @@
-import {sheets} from '../src'
+import { sheets } from '../src'
 
-const {slice} = []
+const { slice } = []
 
 export function getRules(style) {
   return slice.call(style.sheet.cssRules)

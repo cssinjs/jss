@@ -22,7 +22,6 @@ Only in development mode:
 
 [CSS.escape](https://github.com/mathiasbynens/CSS.escape)
 
-
 ## Setup with the default preset
 
 Use the [default preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with recommended plugins.
@@ -44,8 +43,8 @@ jss.setup(preset())
 // Create your style.
 const style = {
   myButton: {
-    color: 'green'
-  }
+    color: 'green',
+  },
 }
 
 // Compile styles, apply plugins.
@@ -73,8 +72,8 @@ jss.use(camelCase(), somePlugin())
 // Create your style.
 const style = {
   myButton: {
-    color: 'green'
-  }
+    color: 'green',
+  },
 }
 
 // Compile styles, apply plugins.
@@ -103,13 +102,13 @@ You can specify an `insertionPoint` during [jss.setup()](https://github.com/cssi
 ```
 
 ```js
-jss.setup({insertionPoint: 'custom-insertion-point'})
+jss.setup({ insertionPoint: 'custom-insertion-point' })
 ```
 
 Here is another example, with the insertion point moved to the `body`:
 
 ```html
-<head>    
+<head>
   <title>JSS in body</title>
 </head>
 <body>  
@@ -121,7 +120,7 @@ Here is another example, with the insertion point moved to the `body`:
 
 ```js
 jss.setup({
-  insertionPoint: document.getElementById('insertion-point')
+  insertionPoint: document.getElementById('insertion-point'),
 })
 ```
 

@@ -1,4 +1,4 @@
-import {create, sheets} from 'jss'
+import { create, sheets } from 'jss'
 
 function teardown() {
   this.sheet.detach()
@@ -7,24 +7,33 @@ function teardown() {
 
 function createSheet() {
   let colorSwitch = true
-  return create().createStyleSheet({
-    button: {
-      color: () => {
-        // Need to change color each time to avoid caching.
-        colorSwitch = !colorSwitch
-        return colorSwitch ? 'green' : 'red'
-      }
-    }
-  }, {link: true}).attach()
+  return create()
+    .createStyleSheet(
+      {
+        button: {
+          color: () => {
+            // Need to change color each time to avoid caching.
+            colorSwitch = !colorSwitch
+            return colorSwitch ? 'green' : 'red'
+          },
+        },
+      },
+      { link: true }
+    )
+    .attach()
 }
 
 suite('Update', () => {
-  benchmark('sheet.update()', function benchmark() {
-    if (!this.sheet) {
-      this.sheet = createSheet()
-      this.sheets = sheets
-    }
+  benchmark(
+    'sheet.update()',
+    function benchmark() {
+      if (!this.sheet) {
+        this.sheet = createSheet()
+        this.sheets = sheets
+      }
 
-    this.sheet.update()
-  }, {teardown})
+      this.sheet.update()
+    },
+    { teardown }
+  )
 })

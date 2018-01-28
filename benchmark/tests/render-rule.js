@@ -3,7 +3,9 @@ function setup() {
   this.style.type = 'text/css'
   document.head.appendChild(this.style)
   this.getCss = () => `
-    .container-${Math.random().toString().substr(2)} {
+    .container-${Math.random()
+      .toString()
+      .substr(2)} {
       position:fixed;
       top:0;
       right:0;
@@ -23,12 +25,20 @@ function teardown() {
 }
 
 suite('Render rule', () => {
-  benchmark('.insertRule()', function benchmark() {
-    const {sheet} = this.style
-    sheet.insertRule(this.getCss(), sheet.cssRules.length)
-  }, {setup, teardown})
+  benchmark(
+    '.insertRule()',
+    function benchmark() {
+      const { sheet } = this.style
+      sheet.insertRule(this.getCss(), sheet.cssRules.length)
+    },
+    { setup, teardown }
+  )
 
-  benchmark('.createTextNode()', function benchmark() {
-    this.style.appendChild(document.createTextNode(this.getCss()))
-  }, {setup, teardown})
+  benchmark(
+    '.createTextNode()',
+    function benchmark() {
+      this.style.appendChild(document.createTextNode(this.getCss()))
+    },
+    { setup, teardown }
+  )
 })

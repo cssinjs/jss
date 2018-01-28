@@ -10,7 +10,7 @@ const travisBuildNumber = process.env.TRAVIS_BUILD_NUMBER
 const travisBuildId = process.env.TRAVIS_BUILD_ID
 const travisJobNumber = process.env.TRAVIS_JOB_NUMBER
 
-module.exports = (config) => {
+module.exports = config => {
   config.set({
     customLaunchers: browsers,
     browsers: ['Chrome'],
@@ -25,17 +25,17 @@ module.exports = (config) => {
       'tests/index.js': ['webpack', 'sourcemap'],
     },
     webpack: Object.assign(webpackConfig, {
-      devtool: 'inline-source-map'
+      devtool: 'inline-source-map',
     }),
     webpackServer: {
-      noInfo: true
+      noInfo: true,
     },
     reporters: ['mocha', 'coverage'],
     coverageReporter: {
       dir: 'coverage',
       file: 'coverage.json',
-      type: 'json'
-    }
+      type: 'json',
+    },
   })
   if (isBench) {
     Object.assign(config, {
@@ -43,10 +43,10 @@ module.exports = (config) => {
       frameworks: ['benchmark'],
       // Using a fixed position for a file name, m.b. should use an args parser later.
       files: [process.argv[4] || 'benchmark/**/*.js'],
-      preprocessors: {'benchmark/**/*.js': ['webpack']},
+      preprocessors: { 'benchmark/**/*.js': ['webpack'] },
       reporters: ['benchmark'],
       // Some tests are slow.
-      browserNoActivityTimeout: 20000
+      browserNoActivityTimeout: 20000,
     })
   }
 
@@ -56,19 +56,19 @@ module.exports = (config) => {
       browserDisconnectTolerance: 3,
       // My current OS plan allows max 2 parallel connections.
       concurrency: 2,
-      retryLimit: 3
+      retryLimit: 3,
     })
 
     config.browserStack = {
       username: browserStackUserName,
       accessKey: browserStackAccessKey,
-      captureTimeout: 10000
+      captureTimeout: 10000,
     }
 
     if (isTravis) {
       Object.assign(config.browserStack, {
         build: `TRAVIS #${travisBuildNumber} (${travisBuildId})`,
-        name: travisJobNumber
+        name: travisJobNumber,
       })
     }
   }

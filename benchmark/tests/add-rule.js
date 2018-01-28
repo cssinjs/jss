@@ -1,4 +1,4 @@
-import {create, sheets} from 'jss'
+import { create, sheets } from 'jss'
 import styles from '../fixtures/regular.json'
 
 function teardown() {
@@ -8,9 +8,17 @@ function teardown() {
 }
 
 suite('Add rule', () => {
-  benchmark('.insertRule()', function benchmark() {
-    this.sheets = sheets
-    this.sheet = this.sheet || create().createStyleSheet().attach()
-    this.sheet.addRule('modal', styles.modal)
-  }, {teardown})
+  benchmark(
+    '.insertRule()',
+    function benchmark() {
+      this.sheets = sheets
+      this.sheet =
+        this.sheet ||
+        create()
+          .createStyleSheet()
+          .attach()
+      this.sheet.addRule('modal', styles.modal)
+    },
+    { teardown }
+  )
 })

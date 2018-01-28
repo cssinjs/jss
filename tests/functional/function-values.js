@@ -1,20 +1,20 @@
 /* eslint-disable no-underscore-dangle */
 
-import {stripIndent} from 'common-tags'
+import { stripIndent } from 'common-tags'
 import expect from 'expect.js'
 import vendorPrefixer from 'jss-vendor-prefixer'
 
-import {create} from '../../src'
+import { create } from '../../src'
 import {
   createGenerateClassName,
   getStyle,
   getCss,
   getCssFromSheet,
   removeWhitespace,
-  removeVendorPrefixes
+  removeVendorPrefixes,
 } from '../utils'
 
-const settings = {createGenerateClassName}
+const settings = { createGenerateClassName }
 
 describe('Functional: Function values', () => {
   let jss
@@ -28,11 +28,11 @@ describe('Functional: Function values', () => {
     let sheet
 
     beforeEach(() => {
-      sheet = jss.createStyleSheet({}, {link: true}).attach()
+      sheet = jss.createStyleSheet({}, { link: true }).attach()
       sheet.addRule('@media screen', {
         b: {
-          color: props => (props.primary ? 'black' : 'white')
-        }
+          color: props => (props.primary ? 'black' : 'white'),
+        },
       })
       style = getStyle()
     })
@@ -42,12 +42,12 @@ describe('Functional: Function values', () => {
     })
 
     it('should render', () => {
-      sheet.update({primary: true})
+      sheet.update({ primary: true })
       expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
     })
 
     it('should update', () => {
-      sheet.update({primary: true})
+      sheet.update({ primary: true })
       expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
     })
   })
@@ -57,8 +57,8 @@ describe('Functional: Function values', () => {
     let sheet
 
     beforeEach(() => {
-      sheet = jss.createStyleSheet(null, {link: true}).attach()
-      sheet.addRule('a', {color: ({color}) => color})
+      sheet = jss.createStyleSheet(null, { link: true }).attach()
+      sheet.addRule('a', { color: ({ color }) => color })
       style = getStyle()
     })
 
@@ -71,7 +71,7 @@ describe('Functional: Function values', () => {
     })
 
     it('should render rule with updated color', () => {
-      sheet.update({color: 'red'})
+      sheet.update({ color: 'red' })
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
           color: red;
@@ -92,11 +92,11 @@ describe('Functional: Function values', () => {
           if (rule.key === ruleName) return
 
           ruleSheet.addRule(ruleName, {
-            color: props => props.color
+            color: props => props.color,
           })
-        }
+        },
       })
-      sheet = jss.createStyleSheet({}, {link: true}).attach()
+      sheet = jss.createStyleSheet({}, { link: true }).attach()
     })
 
     afterEach(() => {
@@ -105,9 +105,9 @@ describe('Functional: Function values', () => {
 
     it('should render color for rule by plugin', () => {
       sheet.addRule('rule', {
-        color: props => props.color
+        color: props => props.color,
       })
-      sheet.update({color: 'red'})
+      sheet.update({ color: 'red' })
       style = getStyle()
 
       expect(sheet.toString()).to.be(stripIndent`
@@ -127,8 +127,8 @@ describe('Functional: Function values', () => {
     let sheet
 
     beforeEach(() => {
-      sheet = jss.createStyleSheet(null, {link: true}).attach()
-      sheet.addRule('a', {color: ({color}) => color})
+      sheet = jss.createStyleSheet(null, { link: true }).attach()
+      sheet.addRule('a', { color: ({ color }) => color })
       style = getStyle()
     })
 
@@ -141,7 +141,7 @@ describe('Functional: Function values', () => {
     })
 
     it('should return correct CSS from an array with a single value', () => {
-      sheet.update({color: ['blue']})
+      sheet.update({ color: ['blue'] })
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
           color: blue;
@@ -150,7 +150,7 @@ describe('Functional: Function values', () => {
     })
 
     it('should return correct CSS from a double array with !important', () => {
-      sheet.update({color: [['blue'], '!important']})
+      sheet.update({ color: [['blue'], '!important'] })
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
           color: blue !important;
@@ -159,7 +159,7 @@ describe('Functional: Function values', () => {
     })
 
     it('should return correct CSS from an array with !important', () => {
-      sheet.update({color: ['blue', '!important']})
+      sheet.update({ color: ['blue', '!important'] })
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
           color: blue !important;
@@ -168,41 +168,47 @@ describe('Functional: Function values', () => {
     })
 
     it('should return a property value from the CSSOM getPropertyValue function of "green" with important', () => {
-      sheet.update({color: [['green'], '!important']})
-      expect(document.styleSheets[0].cssRules[0].style.getPropertyValue('color')).to.be('green')
+      sheet.update({ color: [['green'], '!important'] })
+      expect(
+        document.styleSheets[0].cssRules[0].style.getPropertyValue('color')
+      ).to.be('green')
     })
 
     it('should return a property value from the CSSOM getPropertyValue function of "green"', () => {
-      sheet.update({color: ['green']})
-      expect(document.styleSheets[0].cssRules[0].style.getPropertyValue('color')).to.be('green')
+      sheet.update({ color: ['green'] })
+      expect(
+        document.styleSheets[0].cssRules[0].style.getPropertyValue('color')
+      ).to.be('green')
     })
 
     it('should return a correct priority', () => {
-      sheet.update({color: [['red'], '!important']})
-      expect(document.styleSheets[0].cssRules[0].style.getPropertyPriority('color')).to.be('important')
+      sheet.update({ color: [['red'], '!important'] })
+      expect(
+        document.styleSheets[0].cssRules[0].style.getPropertyPriority('color')
+      ).to.be('important')
     })
   })
 
   describe('sheet.update()', () => {
     const styles = {
       a: {
-        color: theme => theme.color
+        color: theme => theme.color,
       },
       '@media all': {
         b: {
-          color: theme => theme.color
-        }
+          color: theme => theme.color,
+        },
       },
       '@keyframes test': {
         '0%': {
-          color: theme => theme.color
-        }
-      }
+          color: theme => theme.color,
+        },
+      },
     }
     let sheet
 
     beforeEach(() => {
-      sheet = jss.createStyleSheet(styles, {link: true})
+      sheet = jss.createStyleSheet(styles, { link: true })
     })
 
     afterEach(() => {
@@ -226,7 +232,7 @@ describe('Functional: Function values', () => {
 
     it('should return correct .toString() after single .update()', () => {
       sheet.update({
-        color: 'green'
+        color: 'green',
       })
 
       expect(sheet.toString()).to.be(stripIndent`
@@ -248,10 +254,10 @@ describe('Functional: Function values', () => {
 
     it('should return correct .toString() after double .update()', () => {
       sheet.update({
-        color: 'green'
+        color: 'green',
       })
       sheet.update({
-        color: 'yellow'
+        color: 'yellow',
       })
 
       expect(sheet.toString()).to.be(stripIndent`
@@ -272,13 +278,15 @@ describe('Functional: Function values', () => {
     })
 
     it('should render sheet with updated props', () => {
-      sheet.update({color: 'green'}).attach()
-      expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
+      sheet.update({ color: 'green' }).attach()
+      expect(removeVendorPrefixes(getCss(getStyle()))).to.be(
+        removeWhitespace(sheet.toString())
+      )
     })
 
     it('should update specific rule', () => {
-      sheet.update({color: 'yellow'})
-      sheet.update('a', {color: 'green'})
+      sheet.update({ color: 'yellow' })
+      sheet.update('a', { color: 'green' })
 
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
@@ -298,8 +306,10 @@ describe('Functional: Function values', () => {
     })
 
     it('should render updated rule', () => {
-      sheet.update('a', {color: 'green'}).attach()
-      expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
+      sheet.update('a', { color: 'green' }).attach()
+      expect(removeVendorPrefixes(getCss(getStyle()))).to.be(
+        removeWhitespace(sheet.toString())
+      )
     })
 
     describe('sheet.update() after attach', () => {
@@ -310,7 +320,7 @@ describe('Functional: Function values', () => {
 
         const [actual, expected] = [
           getCssFromSheet(sheet),
-          removeWhitespace(sheet.toString())
+          removeWhitespace(sheet.toString()),
         ].map(removeVendorPrefixes)
 
         expect(actual).to.be(expected)
@@ -319,16 +329,18 @@ describe('Functional: Function values', () => {
       beforeEach(() => {
         // we need to use vendor-prefixer, because keyframes rule may not to work
         // in some browsers wihtout prefix (like Safari 7.1.8)
-        sheet = jss.use(vendorPrefixer()).createStyleSheet(styles, {link: true})
+        sheet = jss
+          .use(vendorPrefixer())
+          .createStyleSheet(styles, { link: true })
       })
 
       it('should render sheet with updated props after attach', () => {
-        sheet.attach().update({color: 'green'})
+        sheet.attach().update({ color: 'green' })
         assertSheet()
       })
 
       it('should render updated rule after attach', () => {
-        sheet.attach().update('a', {color: 'green'})
+        sheet.attach().update('a', { color: 'green' })
         assertSheet()
       })
     })

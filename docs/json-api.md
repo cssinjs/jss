@@ -8,8 +8,8 @@ JSS is designed to stay as close as possible to the CSS syntax, however there ar
 const styles = {
   button: {
     color: 'red',
-    'font-size': '12px'
-  }
+    'font-size': '12px',
+  },
 }
 ```
 
@@ -29,8 +29,8 @@ If you want dynamic behavior for your Style Sheet, you can use functions as a va
 ```javascript
 const styles = {
   button: {
-    color: data => data.color
-  }
+    color: data => data.color,
+  },
 }
 ```
 
@@ -41,8 +41,8 @@ To use the `!important` modifier with function values, you must use [array synta
 ```javascript
 const styles = {
   button: {
-    color: data => [data.color, '!important']
-  }
+    color: data => [data.color, '!important'],
+  },
 }
 ```
 
@@ -52,10 +52,10 @@ Similar to function values, you can use a function to return a dynamic style obj
 
 ```javascript
 const styles = {
-  button: (data) => ({
+  button: data => ({
     position: 'flex',
-    color: data.color
-  })
+    color: data.color,
+  }),
 }
 ```
 
@@ -66,10 +66,10 @@ In order to create highly dynamic animations, you may want to use streams. Take 
 ```javascript
 const styles = {
   button: {
-    color: new Observable((observer) => {
+    color: new Observable(observer => {
       observer.next('red')
-    })
-  }
+    }),
+  },
 }
 ```
 
@@ -79,12 +79,12 @@ Similar to observable values, you can declare observable rules. Stream should co
 
 ```javascript
 const styles = {
-  button: new Observable((observer) => {
+  button: new Observable(observer => {
     observer.next({
       color: 'red',
-      opacity: 1
+      opacity: 1,
     })
-  })
+  }),
 }
 ```
 
@@ -93,13 +93,13 @@ const styles = {
 ```javascript
 const styles = {
   button: {
-    width: 100
+    width: 100,
   },
   '@media (min-width: 1024px)': {
     button: {
-      width: 200
-    }
-  }
+      width: 200,
+    },
+  },
 }
 ```
 
@@ -110,13 +110,13 @@ const minWidth = 1024
 
 const styles = {
   button: {
-    width: 100
+    width: 100,
   },
   [`@media (min-width: ${minWidth}px)`]: {
     button: {
-      width: 200
-    }
-  }
+      width: 200,
+    },
+  },
 }
 ```
 
@@ -126,7 +126,7 @@ Compiles to:
 .button-jss-0 {
   width: 100px;
 }
-@media (min-width: 1024px): {
+@media (min-width: 1024px) : {
   .button-jss-0 {
     width: 200px;
   }
@@ -140,9 +140,9 @@ Note: keyframe id is still global and may conflict.
 ```javascript
 const styles = {
   '@keyframes my-animation': {
-    from: {opacity: 0},
-    to: {opacity: 1}
-  }
+    from: { opacity: 0 },
+    to: { opacity: 1 },
+  },
 }
 ```
 
@@ -163,8 +163,12 @@ Compiles to:
 
 ```css
 @keyframes my-animation {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 ```
 
@@ -207,8 +211,8 @@ Compiles to:
 const styles = {
   '@font-face': {
     fontFamily: 'MyWebFont',
-    src: 'url(webfont.eot)'
-  }
+    src: 'url(webfont.eot)',
+  },
 }
 ```
 
@@ -227,13 +231,13 @@ const styles = {
   '@font-face': [
     {
       fontFamily: 'MyWebFont',
-      src: 'url(webfont.eot)'
+      src: 'url(webfont.eot)',
     },
     {
       fontFamily: 'MySecondFont',
-      src: 'url(webfont2.eot)'
-    }
-  ]
+      src: 'url(webfont2.eot)',
+    },
+  ],
 }
 ```
 
@@ -257,10 +261,10 @@ const styles = {
     fontFamily: 'MyWebFont',
     src: 'url(webfont.eot)',
     fallbacks: [
-      {src: 'url(webfont.eot?#iefix) format(embedded-opentype)'},
-      {src: 'url(webfont.woff2) format(woff2)'}
-    ]
-  }
+      { src: 'url(webfont.eot?#iefix) format(embedded-opentype)' },
+      { src: 'url(webfont.woff2) format(woff2)' },
+    ],
+  },
 }
 ```
 
@@ -290,11 +294,8 @@ There are some advantages in using this syntax:
 const styles = {
   button: {
     // Comma separated value with regular CSS strings inside.
-    border: [
-      '1px solid red',
-      '1px solid blue'
-    ]
-  }
+    border: ['1px solid red', '1px solid blue'],
+  },
 }
 ```
 
@@ -313,9 +314,9 @@ const styles = {
     border: [
       // Numbers can become default unit automatically.
       [1, 'solid', 'red'],
-      [1, 'solid', 'blue']
-    ]
-  }
+      [1, 'solid', 'blue'],
+    ],
+  },
 }
 ```
 
@@ -333,8 +334,8 @@ Compiles to:
 const styles = {
   button: {
     // Space separated value.
-    margin: [[5, 10]]
-  }
+    margin: [[5, 10]],
+  },
 }
 ```
 
@@ -352,8 +353,8 @@ Compiles to:
 const styles = {
   button: {
     color: ['red', '!important'],
-    margin: [[5, 10], '!important']
-  }
+    margin: [[5, 10], '!important'],
+  },
 }
 ```
 
@@ -382,9 +383,9 @@ When assigning a string to the content property it requires double or single quo
 const styles = {
   button: {
     '&:after': {
-      content: '"JSS"'
-    }
-  }
+      content: '"JSS"',
+    },
+  },
 }
 ```
 
@@ -392,7 +393,7 @@ Compiles to:
 
 ```css
 .button-jss-0-1:after {
-  content: "JSS"
+  content: 'JSS';
 }
 ```
 
@@ -405,8 +406,10 @@ import color from 'color'
 
 const styles = {
   button: {
-    color: color('blue').darken(0.3).hex()
-  }
+    color: color('blue')
+      .darken(0.3)
+      .hex(),
+  },
 }
 ```
 
@@ -414,7 +417,7 @@ Compiles to:
 
 ```css
 .button-jss-0-1 {
-  color: '#0000B3'
+  color: '#0000B3';
 }
 ```
 
