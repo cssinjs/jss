@@ -1,6 +1,11 @@
+## 9.6.0 / 2018-01-28
+
+* Added prettier
+* Added a new, correct way of handling CSP
+
 ## 9.5.1 / 2018-01-08
 
-* Add postinstall script with donation log.
+* Added postinstall script with donation log.
 
 ## 9.5.0 / 2018-01-02
 
