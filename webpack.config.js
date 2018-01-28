@@ -10,23 +10,25 @@ const plugins = [
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(env),
     __DEV__: isDev,
-    __TEST__: isTest
-  })
+    __TEST__: isTest,
+  }),
 ]
 
 if (isProd) {
-  plugins.push(new webpack.optimize.UglifyJsPlugin({
-    compress: {
-      warnings: false
-    }
-  }))
+  plugins.push(
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+      },
+    })
+  )
 }
 
 module.exports = {
   entry: './src/index',
   output: {
     library: 'jss',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
   },
   plugins,
   module: {
@@ -34,19 +36,19 @@ module.exports = {
       {
         loader: 'babel-loader',
         test: /\.js$/,
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
         loader: 'json-loader',
-        test: /\.json$/
-      }
-    ]
+        test: /\.json$/,
+      },
+    ],
   },
   devtool: 'source-map',
   resolve: {
     alias: {
       // For plugins tests.
-      jss: path.join(__dirname, 'src')
-    }
-  }
+      jss: path.join(__dirname, 'src'),
+    },
+  },
 }

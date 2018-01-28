@@ -3,15 +3,15 @@
 import expect from 'expect.js'
 import Observable from 'zen-observable'
 
-import {create} from '../../src'
+import { create } from '../../src'
 import createRule from '../../src/utils/createRule'
-import {createGenerateClassName} from '../utils'
+import { createGenerateClassName } from '../utils'
 
 describe('Integration: rules', () => {
   let jss
 
   beforeEach(() => {
-    jss = create({createGenerateClassName})
+    jss = create({ createGenerateClassName })
   })
 
   describe('.createRule()', () => {
@@ -22,7 +22,7 @@ describe('Integration: rules', () => {
     })
 
     it('should accept styles only', () => {
-      const style = {float: 'left'}
+      const style = { float: 'left' }
       const rule = jss.createRule(style)
       expect(rule.style).to.eql(style)
       expect(rule.type).to.be('style')
@@ -30,8 +30,8 @@ describe('Integration: rules', () => {
     })
 
     it('should accept styles and options', () => {
-      const style = {float: 'left'}
-      const options = {something: true}
+      const style = { float: 'left' }
+      const options = { something: true }
       const rule = jss.createRule(style, options)
       expect(rule.style).to.eql(style)
       expect(rule.type).to.be('style')
@@ -41,8 +41,8 @@ describe('Integration: rules', () => {
     })
 
     it('should accept all params', () => {
-      const style = {float: 'left'}
-      const options = {someOption: true}
+      const style = { float: 'left' }
+      const options = { someOption: true }
       const rule = jss.createRule('a', style, options)
       expect(rule.style).to.eql(style)
       expect(rule.type).to.be('style')
@@ -54,21 +54,23 @@ describe('Integration: rules', () => {
 
   describe('rule.toString()', () => {
     it('should return CSS', () => {
-      const rule = jss.createRule('a', {float: 'left', width: '1px'})
+      const rule = jss.createRule('a', { float: 'left', width: '1px' })
       expect(rule.toString()).to.be('.a-id {\n  float: left;\n  width: 1px;\n}')
     })
 
     describe('array values', () => {
       it('should return CSS with comma separated values', () => {
         const rule = jss.createRule('a', {
-          border: ['1px solid red', '1px solid blue']
+          border: ['1px solid red', '1px solid blue'],
         })
-        expect(rule.toString()).to.be('.a-id {\n  border: 1px solid red, 1px solid blue;\n}')
+        expect(rule.toString()).to.be(
+          '.a-id {\n  border: 1px solid red, 1px solid blue;\n}'
+        )
       })
 
       it('should return CSS with space separated values', () => {
         const rule = jss.createRule('a', {
-          margin: [['5px', '10px']]
+          margin: [['5px', '10px']],
         })
         expect(rule.toString()).to.be('.a-id {\n  margin: 5px 10px;\n}')
       })
@@ -78,33 +80,43 @@ describe('Integration: rules', () => {
       it('should return CSS with fallbacks object', () => {
         const rule = jss.createRule('a', {
           display: 'run-in',
-          fallbacks: {display: 'inline'}
+          fallbacks: { display: 'inline' },
         })
-        expect(rule.toString()).to.be('.a-id {\n  display: inline;\n  display: run-in;\n}')
+        expect(rule.toString()).to.be(
+          '.a-id {\n  display: inline;\n  display: run-in;\n}'
+        )
       })
 
       it('should return CSS with fallbacks array', () => {
         const rule = jss.createRule('a', {
           display: 'run-in',
-          fallbacks: [{display: 'inline'}]
+          fallbacks: [{ display: 'inline' }],
         })
-        expect(rule.toString()).to.be('.a-id {\n  display: inline;\n  display: run-in;\n}')
+        expect(rule.toString()).to.be(
+          '.a-id {\n  display: inline;\n  display: run-in;\n}'
+        )
       })
 
       it('should return CSS with comma separated values inside of fallbacks', () => {
         let rule = jss.createRule('a', {
           fallbacks: {
-            border: ['1px solid red', '1px solid blue']
-          }
+            border: ['1px solid red', '1px solid blue'],
+          },
         })
-        expect(rule.toString()).to.be('.a-id {\n  border: 1px solid red, 1px solid blue;\n}')
+        expect(rule.toString()).to.be(
+          '.a-id {\n  border: 1px solid red, 1px solid blue;\n}'
+        )
 
         rule = jss.createRule('a', {
-          fallbacks: [{
-            border: ['1px solid red', '1px solid blue']
-          }]
+          fallbacks: [
+            {
+              border: ['1px solid red', '1px solid blue'],
+            },
+          ],
         })
-        expect(rule.toString()).to.be('.a-id {\n  border: 1px solid red, 1px solid blue;\n}')
+        expect(rule.toString()).to.be(
+          '.a-id {\n  border: 1px solid red, 1px solid blue;\n}'
+        )
       })
     })
 
@@ -128,106 +140,100 @@ describe('Integration: rules', () => {
       })
 
       it('should return CSS from @import with array value', () => {
-        const value = [
-          'url("something") print',
-          'url("something") screen'
-        ]
+        const value = ['url("something") print', 'url("something") screen']
         const rule = jss.createRule('@import', value)
         expect(rule.type).to.be('simple')
         expect(rule.key).to.be('@import')
         expect(rule.value).to.eql(value)
         expect(rule.toString()).to.be(
           '@import url("something") print;\n' +
-          '@import url("something") screen;'
+            '@import url("something") screen;'
         )
       })
     })
 
     it('should return CSS from @namespace rule', () => {
-      const rule = jss.createRule('@namespace', 'svg url(http://www.w3.org/2000/svg)')
+      const rule = jss.createRule(
+        '@namespace',
+        'svg url(http://www.w3.org/2000/svg)'
+      )
       expect(rule.type).to.be('simple')
       expect(rule.key).to.be('@namespace')
       expect(rule.value).to.be('svg url(http://www.w3.org/2000/svg)')
-      expect(rule.toString()).to.be('@namespace svg url(http://www.w3.org/2000/svg);')
+      expect(rule.toString()).to.be(
+        '@namespace svg url(http://www.w3.org/2000/svg);'
+      )
     })
 
     it('should return CSS from @keyframes rule', () => {
       const rule = jss.createRule('@keyframes id', {
-        from: {top: 0},
-        '30%': {top: 30},
-        '60%, 70%': {top: 80}
+        from: { top: 0 },
+        '30%': { top: 30 },
+        '60%, 70%': { top: 80 },
       })
       expect(rule.type).to.be('keyframes')
       expect(rule.key).to.be('@keyframes id')
       expect(rule.toString()).to.be(
         '@keyframes id {\n' +
-        '  from {\n' +
-        '    top: 0;\n' +
-        '  }\n' +
-        '  30% {\n' +
-        '    top: 30;\n' +
-        '  }\n' +
-        '  60%, 70% {\n' +
-        '    top: 80;\n' +
-        '  }\n' +
-        '}'
+          '  from {\n' +
+          '    top: 0;\n' +
+          '  }\n' +
+          '  30% {\n' +
+          '    top: 30;\n' +
+          '  }\n' +
+          '  60%, 70% {\n' +
+          '    top: 80;\n' +
+          '  }\n' +
+          '}'
       )
     })
 
     describe('@media rule', () => {
       it('should return CSS from unnamed rule', () => {
-        const rule = jss.createRule(
-          '@media print',
-          {a: {display: 'none'}}
-        )
+        const rule = jss.createRule('@media print', { a: { display: 'none' } })
         expect(rule.type).to.be('conditional')
         expect(rule.key).to.be('@media print')
         expect(rule.toString()).to.be(
           '@media print {\n' +
-          '  .a-id {\n' +
-          '    display: none;\n' +
-          '  }\n' +
-          '}'
+            '  .a-id {\n' +
+            '    display: none;\n' +
+            '  }\n' +
+            '}'
         )
       })
 
       it('should return CSS from named rule', () => {
-        const rule = jss.createRule(
-          '@media print',
-          {button: {display: 'none'}}
-        )
+        const rule = jss.createRule('@media print', {
+          button: { display: 'none' },
+        })
         expect(rule.type).to.be('conditional')
         expect(rule.key).to.be('@media print')
         expect(rule.toString()).to.be(
           '@media print {\n' +
-          '  .button-id {\n' +
-          '    display: none;\n' +
-          '  }\n' +
-          '}'
+            '  .button-id {\n' +
+            '    display: none;\n' +
+            '  }\n' +
+            '}'
         )
       })
 
       it('should support @media without space', () => {
-        const rule = jss.createRule(
-          '@media(max-width: 715px)',
-          {a: {color: 'red'}}
-        )
+        const rule = jss.createRule('@media(max-width: 715px)', {
+          a: { color: 'red' },
+        })
         expect(rule.type).to.be('conditional')
         expect(rule.key).to.be('@media(max-width: 715px)')
         expect(rule.toString()).to.be(
           '@media(max-width: 715px) {\n' +
-          '  .a-id {\n' +
-          '    color: red;\n' +
-          '  }\n' +
-          '}'
+            '  .a-id {\n' +
+            '    color: red;\n' +
+            '  }\n' +
+            '}'
         )
       })
 
       it('should return CSS from named rule without empty rule', () => {
-        const rule = jss.createRule(
-          '@media print',
-          {button: {}}
-        )
+        const rule = jss.createRule('@media print', { button: {} })
         expect(rule.type).to.be('conditional')
         expect(rule.key).to.be('@media print')
         expect(rule.toString()).to.be('')
@@ -236,42 +242,50 @@ describe('Integration: rules', () => {
 
     describe('@font-face rule', () => {
       function checkSingle(options) {
-        const rule = jss.createRule('@font-face', {
-          'font-family': 'MyHelvetica',
-          src: 'local("Helvetica")'
-        }, options)
+        const rule = jss.createRule(
+          '@font-face',
+          {
+            'font-family': 'MyHelvetica',
+            src: 'local("Helvetica")',
+          },
+          options
+        )
         expect(rule.type).to.be('font-face')
         expect(rule.key).to.be('@font-face')
         expect(rule.toString()).to.be(
           '@font-face {\n' +
-          '  font-family: MyHelvetica;\n' +
-          '  src: local("Helvetica");\n' +
-          '}'
+            '  font-family: MyHelvetica;\n' +
+            '  src: local("Helvetica");\n' +
+            '}'
         )
       }
 
       function checkMulti(options) {
-        const rule = jss.createRule('@font-face', [
-          {
-            'font-family': 'MyHelvetica',
-            src: 'local("Helvetica")'
-          },
-          {
-            'font-family': 'MyComicSans',
-            src: 'local("ComicSans")'
-          },
-        ], options)
+        const rule = jss.createRule(
+          '@font-face',
+          [
+            {
+              'font-family': 'MyHelvetica',
+              src: 'local("Helvetica")',
+            },
+            {
+              'font-family': 'MyComicSans',
+              src: 'local("ComicSans")',
+            },
+          ],
+          options
+        )
         expect(rule.type).to.be('font-face')
         expect(rule.key).to.be('@font-face')
         expect(rule.toString()).to.be(
           '@font-face {\n' +
-          '  font-family: MyHelvetica;\n' +
-          '  src: local("Helvetica");\n' +
-          '}\n' +
-          '@font-face {\n' +
-          '  font-family: MyComicSans;\n' +
-          '  src: local("ComicSans");\n' +
-          '}'
+            '  font-family: MyHelvetica;\n' +
+            '  src: local("Helvetica");\n' +
+            '}\n' +
+            '@font-face {\n' +
+            '  font-family: MyComicSans;\n' +
+            '  src: local("ComicSans");\n' +
+            '}'
         )
       }
 
@@ -280,7 +294,7 @@ describe('Integration: rules', () => {
       })
 
       it('should return CSS from unnamed rule', () => {
-        checkSingle({named: false})
+        checkSingle({ named: false })
       })
 
       it('should handle multiple font-faces from named rule', () => {
@@ -288,7 +302,7 @@ describe('Integration: rules', () => {
       })
 
       it('should handle multiple font-faces from unnamed rule', () => {
-        checkMulti({named: false})
+        checkMulti({ named: false })
       })
     })
 
@@ -303,11 +317,11 @@ describe('Integration: rules', () => {
 
       it('should warn', () => {
         const rule = jss.createRule('@unknown', {
-          color: 'red'
+          color: 'red',
         })
         expect(warned).to.be(true)
         const css =
-          '.@unknown-id {\n' +
+          '.@unknown-id {\n' + //
           '  color: red;\n' +
           '}'
         expect(rule.toString()).to.be(css)
@@ -321,8 +335,8 @@ describe('Integration: rules', () => {
     it('should return CSS from @supports rule', () => {
       const rule = jss.createRule('@supports ( display: flexbox )', {
         button: {
-          display: 'none'
-        }
+          display: 'none',
+        },
       })
       expect(rule.type).to.be('conditional')
       expect(rule.key).to.be('@supports ( display: flexbox )')
@@ -338,27 +352,27 @@ describe('Integration: rules', () => {
     describe('@viewport rule', () => {
       it('should return CSS from @viewport rule', () => {
         const rule = jss.createRule('@viewport', {
-          zoom: 1
+          zoom: 1,
         })
         expect(rule.type).to.be('viewport')
         expect(rule.key).to.be('@viewport')
         expect(rule.toString()).to.be(
-          '@viewport {\n' +
-          '  zoom: 1;\n' +
-          '}'
+          '@viewport {\n' + //
+            '  zoom: 1;\n' +
+            '}'
         )
       })
 
       it('should return CSS from @-ms-viewport rule', () => {
         const rule = jss.createRule('@-ms-viewport', {
-          zoom: 1
+          zoom: 1,
         })
         expect(rule.type).to.be('viewport')
         expect(rule.key).to.be('@-ms-viewport')
         expect(rule.toString()).to.be(
-          '@-ms-viewport {\n' +
-          '  zoom: 1;\n' +
-          '}'
+          '@-ms-viewport {\n' + //
+            '  zoom: 1;\n' +
+            '}'
         )
       })
     })
@@ -366,54 +380,54 @@ describe('Integration: rules', () => {
 
   describe('rule.toJSON()', () => {
     it('should return style', () => {
-      const style = {color: 'red'}
+      const style = { color: 'red' }
       const rule = jss.createRule(style)
       expect(rule.toJSON()).to.eql(style)
     })
 
     it('should skip nested rules', () => {
-      const style = {color: 'red', '&:hover': {color: 'blue'}}
+      const style = { color: 'red', '&:hover': { color: 'blue' } }
       const rule = jss.createRule(style)
-      expect(rule.toJSON()).to.eql({color: 'red'})
+      expect(rule.toJSON()).to.eql({ color: 'red' })
     })
 
     it('should skip fallbacks', () => {
       const rule = jss.createRule({
         display: 'run-in',
-        fallbacks: {display: 'inline'}
+        fallbacks: { display: 'inline' },
       })
-      expect(rule.toJSON()).to.eql({display: 'run-in'})
+      expect(rule.toJSON()).to.eql({ display: 'run-in' })
     })
 
     it('should have proper comma separated values', () => {
       const rule = jss.createRule({
-        border: ['1px solid red', '1px solid blue']
+        border: ['1px solid red', '1px solid blue'],
       })
-      expect(rule.toJSON()).to.eql({border: '1px solid red, 1px solid blue'})
+      expect(rule.toJSON()).to.eql({ border: '1px solid red, 1px solid blue' })
     })
 
     it('should have proper space separated values', () => {
       const rule = jss.createRule({
-        margin: [['5px', '10px']]
+        margin: [['5px', '10px']],
       })
-      expect(rule.toJSON()).to.eql({margin: '5px 10px'})
+      expect(rule.toJSON()).to.eql({ margin: '5px 10px' })
     })
 
     it('should handle function values', () => {
       const sheet = jss.createStyleSheet({
-        a: {color: () => 'red'}
+        a: { color: () => 'red' },
       })
       sheet.update()
-      expect(sheet.getRule('a').toJSON()).to.eql({color: 'red'})
+      expect(sheet.getRule('a').toJSON()).to.eql({ color: 'red' })
     })
 
     it('should handle observable values', () => {
       const rule = jss.createRule({
-        color: new Observable((observer) => {
+        color: new Observable(observer => {
           observer.next('red')
-        })
+        }),
       })
-      expect(rule.toJSON()).to.eql({color: 'red'})
+      expect(rule.toJSON()).to.eql({ color: 'red' })
     })
   })
 

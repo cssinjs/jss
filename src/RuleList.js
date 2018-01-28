@@ -70,7 +70,8 @@ export default class RuleList {
 
     this.register(rule, className)
 
-    const index = options.index === undefined ? this.index.length : options.index
+    const index =
+      options.index === undefined ? this.index.length : options.index
     this.index.splice(index, 0, rule)
 
     return rule
@@ -133,7 +134,7 @@ export default class RuleList {
   /**
    * Update the function values with a new data.
    */
-  update(name?: string|Object, data?: Object): void {
+  update(name?: string | Object, data?: Object): void {
     const {jss: {plugins}, sheet} = this.options
     if (typeof name === 'string') {
       plugins.onUpdate(data, this.get(name), sheet)

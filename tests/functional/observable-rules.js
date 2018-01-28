@@ -1,13 +1,10 @@
 import expect from 'expect.js'
 import Observable from 'zen-observable'
 
-import {create} from '../../src'
-import {
-  createGenerateClassName,
-  computeStyle
-} from '../utils'
+import { create } from '../../src'
+import { createGenerateClassName, computeStyle } from '../utils'
 
-const settings = {createGenerateClassName}
+const settings = { createGenerateClassName }
 
 describe('Functional: Observable rules', () => {
   let jss
@@ -21,11 +18,16 @@ describe('Functional: Observable rules', () => {
     let observer
 
     beforeEach(() => {
-      sheet = jss.createStyleSheet({
-        div: new Observable((obs) => {
-          observer = obs
-        }),
-      }, {link: true}).attach()
+      sheet = jss
+        .createStyleSheet(
+          {
+            div: new Observable(obs => {
+              observer = obs
+            }),
+          },
+          { link: true }
+        )
+        .attach()
     })
 
     it('should subscribe the observer', () => {
@@ -33,7 +35,7 @@ describe('Functional: Observable rules', () => {
     })
 
     it('should update the value', () => {
-      observer.next({opacity: '0', height: '5px'})
+      observer.next({ opacity: '0', height: '5px' })
 
       const result = computeStyle(sheet.classes.div)
 
@@ -42,8 +44,8 @@ describe('Functional: Observable rules', () => {
     })
 
     it('should update the value when it receives a new emission', () => {
-      observer.next({opacity: '0', height: '5px'})
-      observer.next({opacity: '1', height: '10px'})
+      observer.next({ opacity: '0', height: '5px' })
+      observer.next({ opacity: '1', height: '10px' })
 
       const result = computeStyle(sheet.classes.div)
 
@@ -55,17 +57,22 @@ describe('Functional: Observable rules', () => {
       let divObs
       let buttonObs
 
-      sheet = jss.createStyleSheet({
-        div: new Observable((obs) => {
-          divObs = obs
-        }),
-        button: new Observable((obs) => {
-          buttonObs = obs
-        })
-      }, {link: true}).attach()
+      sheet = jss
+        .createStyleSheet(
+          {
+            div: new Observable(obs => {
+              divObs = obs
+            }),
+            button: new Observable(obs => {
+              buttonObs = obs
+            }),
+          },
+          { link: true }
+        )
+        .attach()
 
-      divObs.next({display: 'block'})
-      buttonObs.next({height: '3px'})
+      divObs.next({ display: 'block' })
+      buttonObs.next({ height: '3px' })
 
       expect(computeStyle(sheet.classes.div).display).to.be('block')
       expect(computeStyle(sheet.classes.button).height).to.be('3px')
@@ -75,20 +82,25 @@ describe('Functional: Observable rules', () => {
       let divObs
       let buttonObs
 
-      sheet = jss.createStyleSheet({
-        div: new Observable((obs) => {
-          divObs = obs
-        }),
-        button: new Observable((obs) => {
-          buttonObs = obs
-        }),
-        a: {
-          opacity: '0',
-        }
-      }, {link: true}).attach()
+      sheet = jss
+        .createStyleSheet(
+          {
+            div: new Observable(obs => {
+              divObs = obs
+            }),
+            button: new Observable(obs => {
+              buttonObs = obs
+            }),
+            a: {
+              opacity: '0',
+            },
+          },
+          { link: true }
+        )
+        .attach()
 
-      divObs.next({display: 'block'})
-      buttonObs.next({height: '3px'})
+      divObs.next({ display: 'block' })
+      buttonObs.next({ height: '3px' })
 
       expect(computeStyle(sheet.classes.div).display).to.be('block')
       expect(computeStyle(sheet.classes.button).height).to.be('3px')
@@ -96,23 +108,33 @@ describe('Functional: Observable rules', () => {
     })
 
     it('should accept synchronous values', () => {
-      sheet = jss.createStyleSheet({
-        div: new Observable((obs) => {
-          obs.next({display: 'block'})
-        })
-      }, {link: true}).attach()
+      sheet = jss
+        .createStyleSheet(
+          {
+            div: new Observable(obs => {
+              obs.next({ display: 'block' })
+            }),
+          },
+          { link: true }
+        )
+        .attach()
       expect(computeStyle(sheet.classes.div).display).to.be('block')
     })
 
     it('should update synchronous values when it receives a new emission', () => {
-      sheet = jss.createStyleSheet({
-        div: new Observable((obs) => {
-          obs.next({display: 'block'})
-          observer = obs
-        })
-      }, {link: true}).attach()
+      sheet = jss
+        .createStyleSheet(
+          {
+            div: new Observable(obs => {
+              obs.next({ display: 'block' })
+              observer = obs
+            }),
+          },
+          { link: true }
+        )
+        .attach()
 
-      observer.next({display: 'inline-block'})
+      observer.next({ display: 'inline-block' })
 
       expect(computeStyle(sheet.classes.div).display).to.be('inline-block')
     })

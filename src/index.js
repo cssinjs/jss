@@ -42,7 +42,9 @@ export {default as sheets} from './sheets'
 /**
  * Class name generator creator.
  */
-export {default as createGenerateClassName} from './utils/createGenerateClassName'
+export {
+  default as createGenerateClassName
+} from './utils/createGenerateClassName'
 
 /**
  * Creates a new instance of Jss.

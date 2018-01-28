@@ -22,7 +22,6 @@ Only in development mode:
 
 [CSS.escape](https://github.com/mathiasbynens/CSS.escape)
 
-
 ## Setup with the default preset
 
 Use the [default preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with recommended plugins.
@@ -109,7 +108,7 @@ jss.setup({insertionPoint: 'custom-insertion-point'})
 Here is another example, with the insertion point moved to the `body`:
 
 ```html
-<head>    
+<head>
   <title>JSS in body</title>
 </head>
 <body>  

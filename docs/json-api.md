@@ -52,7 +52,7 @@ Similar to function values, you can use a function to return a dynamic style obj
 
 ```javascript
 const styles = {
-  button: (data) => ({
+  button: data => ({
     position: 'flex',
     color: data.color
   })
@@ -66,7 +66,7 @@ In order to create highly dynamic animations, you may want to use streams. Take 
 ```javascript
 const styles = {
   button: {
-    color: new Observable((observer) => {
+    color: new Observable(observer => {
       observer.next('red')
     })
   }
@@ -79,7 +79,7 @@ Similar to observable values, you can declare observable rules. Stream should co
 
 ```javascript
 const styles = {
-  button: new Observable((observer) => {
+  button: new Observable(observer => {
     observer.next({
       color: 'red',
       opacity: 1
@@ -126,7 +126,7 @@ Compiles to:
 .button-jss-0 {
   width: 100px;
 }
-@media (min-width: 1024px): {
+@media (min-width: 1024px) : {
   .button-jss-0 {
     width: 200px;
   }
@@ -163,8 +163,12 @@ Compiles to:
 
 ```css
 @keyframes my-animation {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 ```
 
@@ -290,10 +294,7 @@ There are some advantages in using this syntax:
 const styles = {
   button: {
     // Comma separated value with regular CSS strings inside.
-    border: [
-      '1px solid red',
-      '1px solid blue'
-    ]
+    border: ['1px solid red', '1px solid blue']
   }
 }
 ```
@@ -392,7 +393,7 @@ Compiles to:
 
 ```css
 .button-jss-0-1:after {
-  content: "JSS"
+  content: 'JSS';
 }
 ```
 
@@ -405,7 +406,9 @@ import color from 'color'
 
 const styles = {
   button: {
-    color: color('blue').darken(0.3).hex()
+    color: color('blue')
+      .darken(0.3)
+      .hex()
   }
 }
 ```
@@ -414,7 +417,7 @@ Compiles to:
 
 ```css
 .button-jss-0-1 {
-  color: '#0000B3'
+  color: '#0000B3';
 }
 ```
 

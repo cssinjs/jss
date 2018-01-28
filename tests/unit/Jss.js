@@ -46,24 +46,24 @@ describe('Unit: jss', () => {
     it('should setup generateClassName', () => {
       const generateClassName = () => null
       const createGenerateClassName = () => generateClassName
-      jss.setup({createGenerateClassName})
+      jss.setup({ createGenerateClassName })
       expect(jss.options.createGenerateClassName).to.be(createGenerateClassName)
       expect(jss.generateClassName).to.be(generateClassName)
     })
 
     it('should setup insertionPoint', () => {
-      jss.setup({insertionPoint: 'test'})
+      jss.setup({ insertionPoint: 'test' })
       expect(jss.options.insertionPoint).to.be('test')
     })
 
     it('should setup custom Renderer', () => {
       class Renderer {}
-      jss.setup({Renderer})
+      jss.setup({ Renderer })
       expect(jss.options.Renderer).to.be(Renderer)
     })
 
     it('should setup virtual Renderer', () => {
-      jss.setup({virtual: true})
+      jss.setup({ virtual: true })
       expect(jss.options.Renderer).to.be(VirtualRenderer)
     })
 
@@ -75,7 +75,7 @@ describe('Unit: jss', () => {
       const plugin1 = {
         onProcessRule: () => {
           p1 = true
-        }
+        },
       }
       const plugin2 = {
         onCreateRule: () => {
@@ -83,10 +83,10 @@ describe('Unit: jss', () => {
         },
         onProcessRule: () => {
           p2 = true
-        }
+        },
       }
       jss.setup({
-        plugins: [plugin1, plugin2]
+        plugins: [plugin1, plugin2],
       })
 
       jss.createRule()
@@ -100,9 +100,9 @@ describe('Unit: jss', () => {
       const plugin = {
         onCreateRule: () => {
           called++
-        }
+        },
       }
-      jss.setup({plugins: [plugin, plugin]})
+      jss.setup({ plugins: [plugin, plugin] })
       jss.createRule()
       expect(called).to.be(1)
     })
@@ -132,7 +132,7 @@ describe('Unit: jss', () => {
     const plugin = {}
 
     beforeEach(() => {
-      jss.plugins.use = (receivedPlugin) => {
+      jss.plugins.use = receivedPlugin => {
         used = receivedPlugin
       }
       jss.use(plugin)

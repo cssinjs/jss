@@ -48,7 +48,7 @@ export default class SheetsManager {
     const index = this.keys.indexOf(key)
     if (index === -1) {
       // eslint-ignore-next-line no-console
-      warn(false, 'SheetsManager: can\'t find sheet to unmanage')
+      warn(false, "SheetsManager: can't find sheet to unmanage")
       return
     }
     if (this.refs[index] > 0) {
