@@ -1,13 +1,13 @@
 import expect from 'expect.js'
-import {create, SheetsRegistry} from '../../src'
-import {createGenerateClassName} from '../utils'
+import { create, SheetsRegistry } from '../../src'
+import { createGenerateClassName } from '../utils'
 
 describe('Integration: sheetsRegistry', () => {
   let jss
   let sheets
 
   beforeEach(() => {
-    jss = create({createGenerateClassName})
+    jss = create({ createGenerateClassName })
     sheets = new SheetsRegistry()
   })
 
@@ -31,8 +31,8 @@ describe('Integration: sheetsRegistry', () => {
     })
 
     it('should add 2 sheets with specific index', () => {
-      const sheet0 = jss.createStyleSheet(null, {index: 1})
-      const sheet1 = jss.createStyleSheet(null, {index: 0})
+      const sheet0 = jss.createStyleSheet(null, { index: 1 })
+      const sheet1 = jss.createStyleSheet(null, { index: 0 })
       sheets.add(sheet0)
       sheets.add(sheet1)
       expect(sheets.registry[0]).to.be(sheet1)
@@ -40,9 +40,9 @@ describe('Integration: sheetsRegistry', () => {
     })
 
     it('should add a sheet with index between 2 others', () => {
-      const sheet0 = jss.createStyleSheet(null, {index: 0})
-      const sheet1 = jss.createStyleSheet(null, {index: 2})
-      const sheet2 = jss.createStyleSheet(null, {index: 1})
+      const sheet0 = jss.createStyleSheet(null, { index: 0 })
+      const sheet1 = jss.createStyleSheet(null, { index: 2 })
+      const sheet2 = jss.createStyleSheet(null, { index: 1 })
       sheets.add(sheet0)
       sheets.add(sheet1)
       sheets.add(sheet2)
@@ -78,41 +78,38 @@ describe('Integration: sheetsRegistry', () => {
 
   describe('.toString()', () => {
     it('should convert to CSS string', () => {
-      const sheet1 = jss.createStyleSheet(
-        {a: {color: 'red'}},
-        {virtual: true}
-      ).attach()
-      const sheet2 = jss.createStyleSheet(
-        {a: {color: 'blue'}},
-        {virtual: true}
-      ).attach()
+      const sheet1 = jss
+        .createStyleSheet({ a: { color: 'red' } }, { virtual: true })
+        .attach()
+      const sheet2 = jss
+        .createStyleSheet({ a: { color: 'blue' } }, { virtual: true })
+        .attach()
       sheets.add(sheet1)
       sheets.add(sheet2)
       expect(sheets.toString()).to.be(
         '.a-id {\n' +
-        '  color: red;\n' +
-        '}\n' +
-        '.a-id {\n' +
-        '  color: blue;\n' +
-        '}'
+          '  color: red;\n' +
+          '}\n' +
+          '.a-id {\n' +
+          '  color: blue;\n' +
+          '}'
       )
     })
 
     it('should not stringify detached sheets', () => {
-      const sheet1 = jss.createStyleSheet(
-        {a: {color: 'red'}},
-        {virtual: true}
-      ).attach()
+      const sheet1 = jss
+        .createStyleSheet({ a: { color: 'red' } }, { virtual: true })
+        .attach()
       const sheet2 = jss.createStyleSheet(
-        {a: {color: 'blue'}},
-        {virtual: true}
+        { a: { color: 'blue' } },
+        { virtual: true }
       )
       sheets.add(sheet1)
       sheets.add(sheet2)
       expect(sheets.toString()).to.be(
-        '.a-id {\n' +
-        '  color: red;\n' +
-        '}'
+        '.a-id {\n' + //
+          '  color: red;\n' +
+          '}'
       )
     })
   })

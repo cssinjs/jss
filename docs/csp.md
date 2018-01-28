@@ -1,39 +1,48 @@
 # Setting up Content Security Policy with JSS
 
-Content Security Policy (CSP) is a way of whitelisting what resources the browser should allow to load (and reach out to). There are many good resouces on CSP for more information. [This explanation](https://helmetjs.github.io/docs/csp/) is a good place to start.
+Content Security Policy (CSP) is a way of whitelisting what resources the browser should allow to load (and reach out to). There are many good resources on CSP for more information. [This explanation](https://helmetjs.github.io/docs/csp/) is a good place to start.
+
+In general you should start with `Content-Security-Policy: default-src 'self';` and enable things as needed from there.
 
 In the case of JSS we need to set the `style-src` CSP directive. We don't want to just set it to `unsafe-inline` which will allow everything.
 
-The solution is to include a _nonce_:
+The solution is to include a _nonce_ (number used once):
 
 [MDN/CSP/style-src](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/style-src) notes the following:
 
 > 'nonce-{base64-value}'
 > A whitelist for specific inline scripts using a cryptographic nonce (number used once). **The server must generate a unique nonce value each time it transmits a policy. It is critical to provide an unguessable nonce, as bypassing a resource’s policy is otherwise trivial**. See [unsafe inline](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src#Unsafe_inline_script) script for an example.
 
-A conundrum for now is how to generate a unique nonce value for every page visit, as webpack must know the nonce at bundle time, while the server must know the nonce value at runtime for including it in the CSP rules. For this tutorial, we'll use a hard-coded Base64-encoded GUID value.
+Because the nonce must be generated to be unique and random for every request, this is not something that we can do at build time. Previously the docs suggested using the `__webpack_nonce__` variable with Webpack. However that is insecure because it never changes, so it could be trivially bypassed by an attacker, as noted in the Mozilla docs above.
 
-1. Generate a Base64 guid:
+In order to communicate the nonce value to JSS, we're going use some basic templating with an express server.
 
-   * Get a guid: https://www.guidgenerator.com/online-guid-generator.aspx
-   * Encode the guid: https://www.base64encode.org/
-
-1. In server startup:
+1. In the server startup, we'll add middleware to generate the nonce.
 
 ```js
 // server.js
-import helmet from "helmet";
+import helmet from 'helmet'
+import uuidv4 from 'uuid/v4'
 
-const WEBPACK_NONCE = "N2M0MDhkN2EtMmRkYi00MTExLWFhM2YtNDhkNTc4NGJhMjA3";
-
+app.use(function(req, res, next) {
+  // nonce should be base64 encoded
+  res.locals.styleNonce = new Buffer(uuidv4()).toString('base64')
+  next()
+})
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
+      defaultSrc: ["'self'"],
       /* ... */
-      styleSrc: ["'self'", `'nonce-${WEBPACK_NONCE}'`]
-    }
+      styleSrc: [
+        "'self'",
+        function(req, res) {
+          return "'nonce-" + res.locals.styleNonce + "'"
+        },
+      ],
+    },
   })
-);
+)
 ```
 
 (The above example uses [Helmet](https://helmetjs.github.io/) to set CSP directives).
@@ -41,27 +50,36 @@ app.use(
 When loading the initial index page, the `Content-Security-Policy` header should now contain the nonce:
 
 ```
-style-src 'self' 'nonce-N2M0MDhkN2EtMmRkYi00MTExLWFhM2YtNDhkNTc4NGJhMjA3'
+default-src 'self'; style-src 'self' 'nonce-N2M0MDhkN2EtMmRkYi00MTExLWFhM2YtNDhkNTc4NGJhMjA3';
 ```
 
-2. In webpack config:
+1. Now we want to include this value in our page so that JSS can pick it up at runtime.
 
-Set the `global.__webpack_nonce__` variable to the same nonce value:
+You can use any templating engine, or if you have SSR that should work too. For this example we'll use the [Nunjucks](https://github.com/mozilla/nunjucks) template engine.
+
+1. First create the template html file.
+
+```html
+<head>
+  <meta property="csp-nonce" content="{{ styleNonce }}">
+</head>
+...
+```
+
+1. Now update the server to render the template with the `styleNonce` variable to be interpolated with the nonce generated from our middleware `res.locals.styleNonce`.
 
 ```js
-// webpack.config.js
-const WEBPACK_NONCE = 'N2M0MDhkN2EtMmRkYi00MTExLWFhM2YtNDhkNTc4NGJhMjA3'
-module.exports = {
-  /* ... */
-  plugins: {
-    new webpack.DefinePlugin({
-      'global.__webpack_nonce__': JSON.stringify(WEBPACK_NONCE),
-    }),
-  },
-}
+const express = require('express')
+const expressNunjucks = require('express-nunjucks')
+//...
+app.get('/', function(req, res) {
+  res.render('index', { styleNonce: res.locals.styleNonce })
+})
 ```
 
-(`__webpack_nonce__` is a poorly documented variable which, when set, JSS will read and apply to `<style />` elements: `<style nonce={webpack-nonce-value} />`).
+The tag must have `property="csp-nonce"` and have a `content` attribute with the string value to use as the nonce.
+
+Now JSS can apply the nonce to `<style />` elements: `<style nonce={nonce-value} />`
 
 At this point, the style blocks generated by JSS should render with the nonce value (`<style nonce />`) when you inspect the page.
 
@@ -69,9 +87,10 @@ The browser might not show the nonce value inside the style tag when you inspect
 
 ## Setting the nonce attribute in styling loaded by Webpack
 
-You might still have some CSP violations if you use style/css/sass in addition to JSS. To fix this, set Webpack's `style-loader` to also set the nonce attribute:
+You might still have some CSP violations if you use style/css/sass in addition to JSS. To fix this, set Webpack's `style-loader` to also set the nonce attribute to the placeholder template that we used above `{{ styleNonce }}`. This way, when the express server renders your html page as a template, it will fill in the proper nonce value.
 
 ```js
+// webpack config
 {
   test: /\.css$/,
   use: [
@@ -79,7 +98,7 @@ You might still have some CSP violations if you use style/css/sass in addition t
       loader: 'style-loader',
       options: {
         attrs: {
-          nonce: WEBPACK_NONCE,
+          nonce: "{{ styleNonce }}",
         },
       },
     },
@@ -94,7 +113,7 @@ You might still have some CSP violations if you use style/css/sass in addition t
       loader: 'style-loader',
       options: {
         attrs: {
-          nonce: WEBPACK_NONCE,
+          nonce: "{{ styleNonce }}",
         },
       },
     },

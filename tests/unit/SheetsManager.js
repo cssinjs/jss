@@ -51,7 +51,7 @@ describe('Unit: SheetsManager', () => {
       const sheet = {
         attach: () => {
           attached++
-        }
+        },
       }
       manager.add(key, sheet)
       manager.manage(key)
@@ -70,7 +70,7 @@ describe('Unit: SheetsManager', () => {
         attach: () => null,
         detach: () => {
           detached++
-        }
+        },
       }
       manager.add(key, sheet)
       manager.manage(key)

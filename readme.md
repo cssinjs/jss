@@ -13,9 +13,9 @@ Feel free to ask any JSS related questions on twitter by using hashtag `#cssinjs
 
 ## Integrations
 
-- [React-JSS](https://github.com/cssinjs/react-jss) - HOC interface for React with theming, try it on [playground](https://codesandbox.io/s/j3l06yyqpw).
-- [Styled-JSS](https://github.com/cssinjs/styled-jss) - styled components interface for React, try it on [playground](https://codesandbox.io/s/xl89zx8zz4).
-- [Aphrodite-JSS](https://github.com/cssinjs/aphrodite-jss) - aphrodite like API.
+* [React-JSS](https://github.com/cssinjs/react-jss) - HOC interface for React with theming, try it on [playground](https://codesandbox.io/s/j3l06yyqpw).
+* [Styled-JSS](https://github.com/cssinjs/styled-jss) - styled components interface for React, try it on [playground](https://codesandbox.io/s/xl89zx8zz4).
+* [Aphrodite-JSS](https://github.com/cssinjs/aphrodite-jss) - aphrodite like API.
 
 ## TOC
 
@@ -50,23 +50,25 @@ const styles = {
   button: {
     fontSize: 12,
     '&:hover': {
-      background: 'blue'
-    }
+      background: 'blue',
+    },
   },
   ctaButton: {
     extend: 'button',
     '&:hover': {
-      background: color('blue').darken(0.3).hex()
-    }
+      background: color('blue')
+        .darken(0.3)
+        .hex(),
+    },
   },
   '@media (min-width: 1024px)': {
     button: {
-      width: 200
-    }
-  }
+      width: 200,
+    },
+  },
 }
 
-const {classes} = jss.createStyleSheet(styles).attach()
+const { classes } = jss.createStyleSheet(styles).attach()
 
 document.body.innerHTML = `
   <button class="${classes.button}">Button</button>
@@ -103,34 +105,35 @@ Result
   <button class="ctaButton-789012">CTA Button</button>
 </body>
 ```
+
 ## When should I use it?
 
-- You build a JavaScript heavy application.
-- You use components based architecture.
-- You build a reusable UI library.
-- You need a collision free CSS (external content, third-party UI components ...).
-- You need code sharing between js and css.
-- Minimal download size is important to you.
-- Robustness and code reuse is important to you.
-- Ease of maintenance is important to you.
-- You just want to use any of its [benefits](./docs/benefits.md)
+* You build a JavaScript heavy application.
+* You use components based architecture.
+* You build a reusable UI library.
+* You need a collision free CSS (external content, third-party UI components ...).
+* You need code sharing between js and css.
+* Minimal download size is important to you.
+* Robustness and code reuse is important to you.
+* Ease of maintenance is important to you.
+* You just want to use any of its [benefits](./docs/benefits.md)
 
 ## Roadmap
 
-- ~~Make it easier for newcomers to setup jss with plugins (like presets).~~
-- ~~Make JSON DSL even better, for e.g. [jss-expand](https://github.com/typical000/jss-expand).~~
-- ~~Make it easy to see when changes in the core break plugins (integrate plugins test suite).~~
-- ~~Make community create plugins (better plugins API documentation, infrastructure).~~
-- ~~Introduce a way for theming with react-jss~~
-- Help release [material-ui](https://github.com/callemall/material-ui/tree/v1-alpha) alpha version.
-- Use [ISTF](https://github.com/cssinjs/istf-spec)
-- Better React Native support.
-- Stylelint integration #490.
-- Source maps #469
-- Flow and typescript typings for the JSON DSL #375 #361
-- Do more benchmarking, include plugins, always track perf regressions.
-- Make SSR even better (vendor prefixer server-side, smaller critical CSS)
-- Make CLI tool better: allow integration of styles written in various preprocessing languages as well as pure css #166
+* ~~Make it easier for newcomers to setup jss with plugins (like presets).~~
+* ~~Make JSON DSL even better, for e.g. [jss-expand](https://github.com/typical000/jss-expand).~~
+* ~~Make it easy to see when changes in the core break plugins (integrate plugins test suite).~~
+* ~~Make community create plugins (better plugins API documentation, infrastructure).~~
+* ~~Introduce a way for theming with react-jss~~
+* Help release [material-ui](https://github.com/callemall/material-ui/tree/v1-alpha) alpha version.
+* Use [ISTF](https://github.com/cssinjs/istf-spec)
+* Better React Native support.
+* Stylelint integration #490.
+* Source maps #469
+* Flow and typescript typings for the JSON DSL #375 #361
+* Do more benchmarking, include plugins, always track perf regressions.
+* Make SSR even better (vendor prefixer server-side, smaller critical CSS)
+* Make CLI tool better: allow integration of styles written in various preprocessing languages as well as pure css #166
 
 ## Browsers Support
 

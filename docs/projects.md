@@ -30,7 +30,7 @@
 
 [jss-color-rebeccapurple](https://github.com/joshgillies/jss-color-rebeccapurple) JSS plugin to transform the W3C CSS rebeccapurple color to rgb.
 
-[jss-rtl](https://github.com/alitaheri/jss-rtl) JSS plugin to convert the layout from ltr to rtl. 
+[jss-rtl](https://github.com/alitaheri/jss-rtl) JSS plugin to convert the layout from ltr to rtl.
 
 ## Convenience
 
@@ -45,7 +45,6 @@
 [normalize-jss](https://github.com/cssinjs/normalize-jss) JSS port of normalize.css
 
 [perdido](https://github.com/wldcordeiro/perdido) JSS fractional grid system built with calc(), based on Lost PostCSS grid. Supports masonry, vertical, and waffle grids.
-
 
 ## Build tools
 

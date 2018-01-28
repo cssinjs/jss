@@ -1,8 +1,15 @@
- /* @flow */
+/* @flow */
 import warning from 'warning'
 import toCss from '../utils/toCss'
 import toCssValue from '../utils/toCssValue'
-import type {ToCssOptions, RuleOptions, Renderer as RendererInterface, JssStyle, JssValue, BaseRule} from '../types'
+import type {
+  ToCssOptions,
+  RuleOptions,
+  Renderer as RendererInterface,
+  JssStyle,
+  JssValue,
+  BaseRule,
+} from '../types'
 
 export default class StyleRule implements BaseRule {
   type = 'style'
@@ -22,7 +29,7 @@ export default class StyleRule implements BaseRule {
   options: RuleOptions
 
   constructor(key: string, style: JssStyle, options: RuleOptions) {
-    const {sheet, Renderer, selector} = options
+    const { sheet, Renderer, selector } = options
     this.key = key
     this.options = options
     this.style = style
@@ -61,20 +68,28 @@ export default class StyleRule implements BaseRule {
   /**
    * Get or set a style property.
    */
-  prop(name: string, nextValue?: JssValue): StyleRule|string {
+  prop(name: string, nextValue?: JssValue): StyleRule | string {
     // It's a setter.
     if (nextValue != null) {
       // Don't do anything if the value has not changed.
       if (this.style[name] !== nextValue) {
-        nextValue = this.options.jss.plugins.onChangeValue(nextValue, name, this)
+        nextValue = this.options.jss.plugins.onChangeValue(
+          nextValue,
+          name,
+          this
+        )
         this.style[name] = nextValue
 
         // Renderable is defined if StyleSheet option `link` is true.
-        if (this.renderable) this.renderer.setStyle(this.renderable, name, nextValue)
+        if (this.renderable)
+          this.renderer.setStyle(this.renderable, name, nextValue)
         else {
-          const {sheet} = this.options
+          const { sheet } = this.options
           if (sheet && sheet.attached) {
-            warning(false, 'Rule is not linked. Missing sheet option "link: true".')
+            warning(
+              false,
+              'Rule is not linked. Missing sheet option "link: true".'
+            )
           }
         }
       }
@@ -89,7 +104,8 @@ export default class StyleRule implements BaseRule {
    */
   applyTo(renderable: HTMLElement): this {
     const json = this.toJSON()
-    for (const prop in json) this.renderer.setStyle(renderable, prop, json[prop])
+    for (const prop in json)
+      this.renderer.setStyle(renderable, prop, json[prop])
     return this
   }
 
@@ -112,9 +128,9 @@ export default class StyleRule implements BaseRule {
    * Generates a CSS string.
    */
   toString(options?: ToCssOptions): string {
-    const {sheet} = this.options
+    const { sheet } = this.options
     const link = sheet ? sheet.options.link : false
-    const opts = link ? {...options, allowEmpty: true} : options
+    const opts = link ? { ...options, allowEmpty: true } : options
     return toCss(this.selector, this.style, opts)
   }
 }

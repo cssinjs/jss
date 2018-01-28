@@ -1,5 +1,5 @@
 /* @flow */
-import type {RuleOptions, ToCssOptions, BaseRule} from '../types'
+import type { RuleOptions, ToCssOptions, BaseRule } from '../types'
 
 export default class SimpleRule implements BaseRule {
   type = 'simple'
@@ -23,7 +23,7 @@ export default class SimpleRule implements BaseRule {
   /**
    * Generates a CSS string.
    */
-   // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line no-unused-vars
   toString(options?: ToCssOptions): string {
     if (Array.isArray(this.value)) {
       let str = ''

@@ -170,7 +170,8 @@
   },
   "@font-face": {
     "font-family": "'Glyphicons Halflings'",
-    "src": "url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg')"
+    "src":
+      "url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg')"
   },
   ".glyphicon": {
     "position": "relative",
@@ -1482,15 +1483,19 @@
     "border-radius": "4px",
     "-webkit-box-shadow": "inset 0 1px 1px rgba(0, 0, 0, .075)",
     "box-shadow": "inset 0 1px 1px rgba(0, 0, 0, .075)",
-    "-webkit-transition": "border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s",
-    "-o-transition": "border-color ease-in-out .15s, box-shadow ease-in-out .15s",
+    "-webkit-transition":
+      "border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s",
+    "-o-transition":
+      "border-color ease-in-out .15s, box-shadow ease-in-out .15s",
     "transition": "border-color ease-in-out .15s, box-shadow ease-in-out .15s"
   },
   ".form-control:focus": {
     "border-color": "#66afe9",
     "outline": "0",
-    "-webkit-box-shadow": "inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6)",
-    "box-shadow": "inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6)"
+    "-webkit-box-shadow":
+      "inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6)",
+    "box-shadow":
+      "inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6)"
   },
   ".form-control::-moz-placeholder": {
     "color": "#999",
@@ -1648,7 +1653,8 @@
   },
   ".has-success .form-control:focus": {
     "border-color": "#2b542c",
-    "-webkit-box-shadow": "inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #67b168",
+    "-webkit-box-shadow":
+      "inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #67b168",
     "box-shadow": "inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #67b168"
   },
   ".has-success .input-group-addon": {
@@ -1669,7 +1675,8 @@
   },
   ".has-warning .form-control:focus": {
     "border-color": "#66512c",
-    "-webkit-box-shadow": "inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #c0a16b",
+    "-webkit-box-shadow":
+      "inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #c0a16b",
     "box-shadow": "inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #c0a16b"
   },
   ".has-warning .input-group-addon": {
@@ -1690,7 +1697,8 @@
   },
   ".has-error .form-control:focus": {
     "border-color": "#843534",
-    "-webkit-box-shadow": "inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483",
+    "-webkit-box-shadow":
+      "inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483",
     "box-shadow": "inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483"
   },
   ".has-error .input-group-addon": {
@@ -2607,8 +2615,10 @@
     "margin-left": "-15px",
     "border-top": "1px solid transparent",
     "border-bottom": "1px solid transparent",
-    "-webkit-box-shadow": "inset 0 1px 0 rgba(255, 255, 255, .1), 0 1px 0 rgba(255, 255, 255, .1)",
-    "box-shadow": "inset 0 1px 0 rgba(255, 255, 255, .1), 0 1px 0 rgba(255, 255, 255, .1)"
+    "-webkit-box-shadow":
+      "inset 0 1px 0 rgba(255, 255, 255, .1), 0 1px 0 rgba(255, 255, 255, .1)",
+    "box-shadow":
+      "inset 0 1px 0 rgba(255, 255, 255, .1), 0 1px 0 rgba(255, 255, 255, .1)"
   },
   ".navbar-nav > li > .dropdown-menu": {
     "margin-top": "0",
@@ -3137,7 +3147,8 @@
     "transition": "width .6s ease"
   },
   ".progress-striped .progress-bar, .progress-bar-striped": {
-    "background-image": "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)",
+    "background-image":
+      "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)",
     "-webkit-background-size": "40px 40px",
     "background-size": "40px 40px"
   },
@@ -3150,25 +3161,29 @@
     "background-color": "#5cb85c"
   },
   ".progress-striped .progress-bar-success": {
-    "background-image": "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
+    "background-image":
+      "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
   },
   ".progress-bar-info": {
     "background-color": "#5bc0de"
   },
   ".progress-striped .progress-bar-info": {
-    "background-image": "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
+    "background-image":
+      "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
   },
   ".progress-bar-warning": {
     "background-color": "#f0ad4e"
   },
   ".progress-striped .progress-bar-warning": {
-    "background-image": "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
+    "background-image":
+      "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
   },
   ".progress-bar-danger": {
     "background-color": "#d9534f"
   },
   ".progress-striped .progress-bar-danger": {
-    "background-image": "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
+    "background-image":
+      "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
   },
   ".media": {
     "margin-top": "15px"
@@ -4062,15 +4077,19 @@
     "opacity": ".5"
   },
   ".carousel-control.left": {
-    "background-image": "linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .0001) 100%)",
-    "filter": "progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1)",
+    "background-image":
+      "linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .0001) 100%)",
+    "filter":
+      "progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1)",
     "background-repeat": "repeat-x"
   },
   ".carousel-control.right": {
     "right": "0",
     "left": "auto",
-    "background-image": "linear-gradient(to right, rgba(0, 0, 0, .0001) 0%, rgba(0, 0, 0, .5) 100%)",
-    "filter": "progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=1)",
+    "background-image":
+      "linear-gradient(to right, rgba(0, 0, 0, .0001) 0%, rgba(0, 0, 0, .5) 100%)",
+    "filter":
+      "progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=1)",
     "background-repeat": "repeat-x"
   },
   ".carousel-control:hover, .carousel-control:focus": {
