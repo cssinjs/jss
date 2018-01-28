@@ -76,11 +76,11 @@ You can use any templating engine, or if you have SSR that should work too. For 
 1. Now update the server to render the template with the `styleNonce` variable to be interpolated with the nonce generated from our middleware `res.locals.styleNonce`.
 
 ```js
-const express = require("express")
-const expressNunjucks = require("express-nunjucks")
+const express = require('express')
+const expressNunjucks = require('express-nunjucks')
 //...
-app.get("/", function(req, res) {
-  res.render("index", { styleNonce: res.locals.styleNonce })
+app.get('/', function(req, res) {
+  res.render('index', {styleNonce: res.locals.styleNonce})
 })
 ```
 
