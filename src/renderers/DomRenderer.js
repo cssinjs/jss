@@ -251,10 +251,16 @@ function insertStyle(style: HTMLElement, options: PriorityOptions) {
 /**
  * Read jss nonce setting from the page if the user has set it.
  */
-function getNonceFromPage() : ? string {
-  const nonceTag = document.querySelector('meta[property="csp-nonce"]')
-  return nonceTag ? nonceTag.getAttribute('content') : null
-}
+const getNonceFromPage = (() => {
+  let nonce
+  return (): ? string => {
+    if (!nonce) {
+      const nonceTag = document.querySelector('meta[property="csp-nonce"]')
+      nonce = nonceTag ? nonceTag.getAttribute('content') : null
+    }
+    return nonce
+  }
+})()
 
 export default class DomRenderer {
   getStyle = getStyle
