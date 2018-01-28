@@ -84,18 +84,25 @@ describe('Functional: sheet', () => {
   describe('sheet.attach() with nonce', () => {
     let sheet
     let style
+    let nonceMetaTag
 
     beforeEach(() => {
-      window.__webpack_nonce__ = 'test'
+      nonceMetaTag = document.createElement('meta')
+      nonceMetaTag.setAttribute('property', 'csp-nonce')
+      nonceMetaTag.setAttribute('content', 'test')
+      document.head.appendChild(nonceMetaTag)
+
       sheet = jss.createStyleSheet().attach()
       style = getStyle()
     })
 
     afterEach(() => {
       sheet.detach()
+
+      nonceMetaTag.remove()
     })
 
-    it('should have a nonce attribute if webpack nonce is found', () => {
+    it('should have a nonce attribute if nonce is found', () => {
       expect(style.getAttribute('nonce')).to.be('test')
     })
   })
