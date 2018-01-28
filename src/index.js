@@ -7,43 +7,43 @@
  * @license MIT
  */
 import Jss from './Jss'
-import type { JssOptions } from './types'
+import type {JssOptions} from './types'
 
 /**
  * Extracts a styles object with only rules that contain function values.
  */
-export { default as getDynamicStyles } from './utils/getDynamicStyles'
+export {default as getDynamicStyles} from './utils/getDynamicStyles'
 
 /**
  * Converts JSS array value to a CSS string.
  */
-export { default as toCssValue } from './utils/toCssValue'
+export {default as toCssValue} from './utils/toCssValue'
 
 /**
  * SheetsRegistry for SSR.
  */
-export { default as SheetsRegistry } from './SheetsRegistry'
+export {default as SheetsRegistry} from './SheetsRegistry'
 
 /**
  * SheetsManager for react-jss and co.
  */
-export { default as SheetsManager } from './SheetsManager'
+export {default as SheetsManager} from './SheetsManager'
 
 /**
  * RuleList for plugins.
  */
-export { default as RuleList } from './RuleList'
+export {default as RuleList} from './RuleList'
 
 /**
  * Default global SheetsRegistry instance.
  */
-export { default as sheets } from './sheets'
+export {default as sheets} from './sheets'
 
 /**
  * Class name generator creator.
  */
 export {
-  default as createGenerateClassName,
+  default as createGenerateClassName
 } from './utils/createGenerateClassName'
 
 /**

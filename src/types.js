@@ -9,7 +9,7 @@ import SimpleRule from './rules/SimpleRule'
 import FontFaceRule from './rules/FontFaceRule'
 
 export type ToCssOptions = {
-  indent?: number,
+  indent?: number
 }
 
 export type Rule =
@@ -58,7 +58,7 @@ export type RuleFactoryOptions = {
   index?: number,
   jss?: Jss,
   generateClassName?: generateClassName,
-  Renderer?: Class<Renderer>,
+  Renderer?: Class<Renderer>
 }
 
 export type RuleOptions = {
@@ -68,7 +68,7 @@ export type RuleOptions = {
   classes: Object,
   jss: Jss,
   generateClassName: generateClassName,
-  Renderer: Class<Renderer>,
+  Renderer: Class<Renderer>
 }
 
 export type RuleListOptions = {
@@ -77,7 +77,7 @@ export type RuleListOptions = {
   Renderer: Class<Renderer>,
   jss: Jss,
   sheet: StyleSheet,
-  parent: ConditionalRule | KeyframesRule | StyleSheet,
+  parent: ConditionalRule | KeyframesRule | StyleSheet
 }
 
 export interface BaseRule {
@@ -102,7 +102,7 @@ export type Plugin = {
   ) => JssStyle,
   onProcessSheet?: (sheet?: StyleSheet) => void,
   onChangeValue?: (value: string, prop: string, rule: Rule) => string,
-  onUpdate?: (data: Object, rule: Rule, sheet?: StyleSheet) => void,
+  onUpdate?: (data: Object, rule: Rule, sheet?: StyleSheet) => void
 }
 
 export type InsertionPoint = string | HTMLElement
@@ -114,14 +114,14 @@ export type JssOptions = {
   plugins?: Array<Plugin>,
   insertionPoint?: InsertionPoint,
   Renderer?: Class<Renderer>,
-  virtual?: Boolean,
+  virtual?: Boolean
 }
 
 export type InternalJssOptions = {
   createGenerateClassName: createGenerateClassName,
   plugins: Array<Plugin>,
   insertionPoint?: InsertionPoint,
-  Renderer: Class<Renderer>,
+  Renderer: Class<Renderer>
 }
 
 export type StyleSheetFactoryOptions = {
@@ -131,7 +131,7 @@ export type StyleSheetFactoryOptions = {
   link?: boolean,
   element?: HTMLStyleElement,
   generateClassName?: generateClassName,
-  classNamePrefix?: string,
+  classNamePrefix?: string
 }
 
 export type StyleSheetOptions = {
@@ -144,7 +144,7 @@ export type StyleSheetOptions = {
   classNamePrefix?: string,
   Renderer: Class<Renderer>,
   insertionPoint?: InsertionPoint,
-  jss: Jss,
+  jss: Jss
 }
 
 export type InternalStyleSheetOptions = {
@@ -160,18 +160,18 @@ export type InternalStyleSheetOptions = {
   jss: Jss,
   sheet: StyleSheet,
   parent: ConditionalRule | KeyframesRule | StyleSheet,
-  classes: Object,
+  classes: Object
 }
 
 // These types are imported from indefinite-observable.  They should probably
 // be moved to flow-typed.
 
 export type Observable<T> = {
-  subscribe(observerOrNext: ObserverOrNext<T>): Subscription,
+  subscribe(observerOrNext: ObserverOrNext<T>): Subscription
 }
 
 export type Observer<T> = {
-  next: NextChannel<T>,
+  next: NextChannel<T>
 }
 
 export type NextChannel<T> = (value: T) => void
@@ -179,5 +179,5 @@ export type ObserverOrNext<T> = Observer<T> | NextChannel<T>
 
 export type Unsubscribe = () => void
 export type Subscription = {
-  unsubscribe: Unsubscribe,
+  unsubscribe: Unsubscribe
 }

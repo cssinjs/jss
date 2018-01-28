@@ -23,7 +23,7 @@ export default class SheetsManager {
   }
 
   add(key: Object, sheet: StyleSheet): number {
-    const { sheets, refs, keys } = this
+    const {sheets, refs, keys} = this
     const index = sheets.indexOf(sheet)
 
     if (index !== -1) return index

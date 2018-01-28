@@ -1,6 +1,8 @@
 node_modules/
 coverage/
-build/
 lib/
+dist/
+tmp/
+*.html
 # npm install does it's own formatting, which can conflict with prettier
 package*.json

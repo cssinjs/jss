@@ -20,7 +20,7 @@ import type {
   JssOptions,
   InternalJssOptions,
   JssStyle,
-  generateClassName,
+  generateClassName
 } from './types'
 
 declare var __VERSION__: string
@@ -39,7 +39,7 @@ export default class Jss {
   options: InternalJssOptions = {
     createGenerateClassName: createGenerateClassNameDefault,
     Renderer: isInBrowser ? DomRenderer : VirtualRenderer,
-    plugins: [],
+    plugins: []
   }
 
   generateClassName: generateClassName = createGenerateClassNameDefault()
@@ -87,7 +87,7 @@ export default class Jss {
       generateClassName: options.generateClassName || this.generateClassName,
       insertionPoint: this.options.insertionPoint,
       Renderer: this.options.Renderer,
-      index,
+      index
     })
     this.plugins.onProcessSheet(sheet)
 

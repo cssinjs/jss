@@ -50,25 +50,25 @@ const styles = {
   button: {
     fontSize: 12,
     '&:hover': {
-      background: 'blue',
-    },
+      background: 'blue'
+    }
   },
   ctaButton: {
     extend: 'button',
     '&:hover': {
       background: color('blue')
         .darken(0.3)
-        .hex(),
-    },
+        .hex()
+    }
   },
   '@media (min-width: 1024px)': {
     button: {
-      width: 200,
-    },
-  },
+      width: 200
+    }
+  }
 }
 
-const { classes } = jss.createStyleSheet(styles).attach()
+const {classes} = jss.createStyleSheet(styles).attach()
 
 document.body.innerHTML = `
   <button class="${classes.button}">Button</button>

@@ -1,5 +1,5 @@
 /* @flow */
-import type { ToCssOptions } from './types'
+import type {ToCssOptions} from './types'
 import type StyleSheet from './StyleSheet'
 
 /**
@@ -21,8 +21,8 @@ export default class SheetsRegistry {
    * Register a Style Sheet.
    */
   add(sheet: StyleSheet): void {
-    const { registry } = this
-    const { index } = sheet.options
+    const {registry} = this
+    const {index} = sheet.options
 
     if (registry.indexOf(sheet) !== -1) return
 

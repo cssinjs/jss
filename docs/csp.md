@@ -30,8 +30,8 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       /* ... */
-      styleSrc: ["'self'", `'nonce-${WEBPACK_NONCE}'`],
-    },
+      styleSrc: ["'self'", `'nonce-${WEBPACK_NONCE}'`]
+    }
   })
 )
 ```

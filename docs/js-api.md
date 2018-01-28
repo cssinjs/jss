@@ -15,7 +15,7 @@ Use an own instance if the component you build should be reusable within a diffe
 See `jss.setup()` below for `options` object description.
 
 ```javascript
-import { create } from 'jss'
+import {create} from 'jss'
 import camelCase from 'jss-camel-case'
 import somePlugin from 'jss-some-plugin'
 const jss = create()
@@ -84,10 +84,10 @@ const sheet = jss
       // "button" is a rule name, class is generated.
       button: {
         width: 100,
-        height: 100,
-      },
+        height: 100
+      }
     },
-    { media: 'print' }
+    {media: 'print'}
   )
   .attach()
 
@@ -115,7 +115,7 @@ When rendering on the server, you will need to get all rendered styles as a CSS 
 SheetsRegistry class allows you to **manually** aggregate and stringify them. Read [more about SSR](./ssr.md).
 
 ```javascript
-import jss, { SheetsRegistry } from 'jss'
+import jss, {SheetsRegistry} from 'jss'
 
 const sheets = new SheetsRegistry()
 const sheet = jss.createStyleSheet()
@@ -130,7 +130,7 @@ sheets.toString() // Returns CSS of all attached Style Sheets together.
 Counts how many elements use the same Style Sheet and automatically attach or detach it. It also acts similar to a WeakMap, because one can use an object as a key. React-JSS is using a `theme` object as a key to identify a sheet by a theme.
 
 ```javascript
-import jss, { SheetsManager } from 'jss'
+import jss, {SheetsManager} from 'jss'
 
 const manager = SheetsManager()
 manager.size // 0
@@ -170,8 +170,8 @@ Detaching unused Style Sheets will speedup every DOM node insertion and manipula
 Sheet 1 has a higher index (priority), and as such will come **after** sheet 2 in the resulting DOM.
 
 ```javascript
-const sheet1 = jss.createStyleSheet({}, { index: 5, meta: 'sheet-1' }).attach()
-const sheet2 = jss.createStyleSheet({}, { index: 1, meta: 'sheet-2' }).attach()
+const sheet1 = jss.createStyleSheet({}, {index: 5, meta: 'sheet-1'}).attach()
+const sheet2 = jss.createStyleSheet({}, {index: 1, meta: 'sheet-2'}).attach()
 ```
 
 ```html
@@ -193,7 +193,7 @@ const sheet2 = jss.createStyleSheet({}, { index: 1, meta: 'sheet-2' }).attach()
 ```javascript
 const rule = sheet.addRule({
   padding: 20,
-  background: 'blue',
+  background: 'blue'
 })
 document.body.innerHTML = `<button class="${rule.className}">Button</button>`
 ```
@@ -225,11 +225,11 @@ In case you want to add rules to the sheet separately or even at runtime.
 ```javascript
 sheet.addRules({
   myButton: {
-    float: 'left',
+    float: 'left'
   },
   something: {
-    display: 'none',
-  },
+    display: 'none'
+  }
 })
 ```
 
@@ -243,22 +243,22 @@ If you use [function values](./json-api.md#function-values), you will want to up
 const styles = {
   container: {
     height: 200,
-    width: data => data.width,
+    width: data => data.width
   },
   button: {
     color: data => data.button.color,
-    padding: data => data.button.padding,
-  },
+    padding: data => data.button.padding
+  }
 }
 
-const sheet = jss.createStyleSheet(styles, { link: true }).attach()
+const sheet = jss.createStyleSheet(styles, {link: true}).attach()
 
 sheet.update({
   width: 100,
   button: {
     color: 'red',
-    padding: 20,
-  },
+    padding: 20
+  }
 })
 ```
 
@@ -271,13 +271,13 @@ Apply styles directly to the element but still be able to use JSS.
 ```javascript
 const rule = jss.createRule({
   padding: 20,
-  background: 'blue',
+  background: 'blue'
 })
 
 const rule = jss.createRule('@media', {
   button: {
-    color: 'red',
-  },
+    color: 'red'
+  }
 })
 ```
 
@@ -290,7 +290,7 @@ This is equivalent to `element.style.background = 'blue'` except that you could 
 ```javascript
 jss
   .createRule({
-    background: 'blue',
+    background: 'blue'
   })
   .applyTo(element)
 ```
@@ -305,10 +305,10 @@ When the `link` option is true, after Style Sheet is attached, linker saves refe
 const sheet = jss.createStyleSheet(
   {
     a: {
-      color: 'red',
-    },
+      color: 'red'
+    }
   },
-  { link: true }
+  {link: true}
 )
 
 // Get the color.
@@ -339,8 +339,8 @@ import jss from 'jss'
 
 const sheet = jss.createStyleSheet({
   button: {
-    float: 'left',
-  },
+    float: 'left'
+  }
 })
 
 console.log(sheet.toString())
@@ -369,12 +369,12 @@ const createGenerateClassName = () => {
   return (rule, sheet) => `pizza--${rule.key}-${counter++}`
 }
 
-jss.setup({ createGenerateClassName })
+jss.setup({createGenerateClassName})
 
 const sheet = jss.createStyleSheet({
   button: {
-    float: 'left',
-  },
+    float: 'left'
+  }
 })
 
 console.log(sheet.toString())
@@ -396,8 +396,8 @@ Extracts a styles object with only props that contain function values. Useful wh
 const dynamicStyles = getDynamicStyles({
   button: {
     fontSize: 12,
-    color: data => data.color,
-  },
+    color: data => data.color
+  }
 })
 
 // Returns only styles with dynamic values.

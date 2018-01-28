@@ -23,7 +23,7 @@ declare interface CSSRuleBase<T> {
   static REGION_STYLE_RULE: 16;
 }
 
-declare interface CSSStyleRule extends CSSRuleBase<{ type: 1 | 1 }> {
+declare interface CSSStyleRule extends CSSRuleBase<{type: 1 | 1}> {
   +type: 1;
   +style: CSSStyleDeclaration;
   selectorText: DOMString;
@@ -40,13 +40,13 @@ declare interface CSSGroupingRule<T> extends CSSRuleBase<T> {
   deleteRule(index: number): void;
 }
 
-declare interface CSSKeyframeRule extends CSSRuleBase<{ type: 8 | 8 }> {
+declare interface CSSKeyframeRule extends CSSRuleBase<{type: 8 | 8}> {
   +type: 8;
   +style: CSSStyleDeclaration;
   keyText: DOMString;
 }
 
-declare interface CSSKeyframesRule extends CSSRuleBase<{ type: 7 | 7 }> {
+declare interface CSSKeyframesRule extends CSSRuleBase<{type: 7 | 7}> {
   +type: 7;
   +cssRules: CSSRuleList;
   name: DOMString;
@@ -55,14 +55,14 @@ declare interface CSSKeyframesRule extends CSSRuleBase<{ type: 7 | 7 }> {
   findRule(key: DOMString): CSSKeyframeRule;
 }
 
-declare interface CSSMediaRule extends CSSGroupingRule<{ type: 4 | 4 }> {
+declare interface CSSMediaRule extends CSSGroupingRule<{type: 4 | 4}> {
   +type: 4;
   +mediaList: {
     +mediaText: DOMString,
     length: number,
     item?: DOMString,
     appendMedium(medium: DOMString): void,
-    deleteMedium(medium: DOMString): void,
+    deleteMedium(medium: DOMString): void
   };
 }
 

@@ -98,10 +98,9 @@
     "clean": "rimraf '{lib,dist,tmp}/*'",
     "flow": "flow --show-all-errors",
     "flow:copy-src": "flow-copy-source -i './src/**' src lib",
-    "lint": "eslint ./src ./tests ./benchmark ./*.js && npm run flow && prettier -l **/*.{js,jsx,ts,tsx,vue,json,css,scss,less,md}",
+    "lint": "eslint ./src ./tests ./benchmark ./*.js && npm run flow && npm run format",
     "lint:staged": "lint-staged && npm run flow",
-    "lint:fix": "eslint --fix ./src ./tests ./benchmark ./*.js",
-    "format": "prettier --write **/*.{js,jsx,ts,tsx,vue,json,css,scss,less,md}",
+    "format": "prettier --write **/*",
     "test": "cross-env NODE_ENV=test karma start --single-run",
     "test:watch": "cross-env NODE_ENV=test karma start",
     "posttest": "[ -z \"$TRAVIS\" ] || codecov",
@@ -125,12 +124,11 @@
     "LICENSE"
   ],
   "lint-staged": {
-    "**/*.js": [
-      "eslint",
-      "prettier -l"
+    "**/*.{js,md,json}": [
+      "prettier"
     ],
-    "**/*.{jsx,ts,tsx,vue,json,css,scss,less,md}": [
-      "prettier -l"
+    "**/*.js": [
+      "eslint"
     ]
   },
   "pre-commit": "lint:staged"

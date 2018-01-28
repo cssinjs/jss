@@ -40,7 +40,7 @@ You need to register a `plugin` only once per JSS instance. There is a number of
      onCreateRule: (name, decl, options) => {
        // Do something here.
        return newRule
-     },
+     }
    })
    ```
 
@@ -52,7 +52,7 @@ You need to register a `plugin` only once per JSS instance. There is a number of
    jss.use({
      onProcessRule: (rule, sheet) => {
        // Do something here.
-     },
+     }
    })
    ```
 
@@ -65,7 +65,7 @@ You need to register a `plugin` only once per JSS instance. There is a number of
      onProcessStyle: (style, rule, sheet) => {
        // Do something here.
        return style
-     },
+     }
    })
    ```
 
@@ -77,7 +77,7 @@ You need to register a `plugin` only once per JSS instance. There is a number of
    jss.use({
      onProcessSheet: sheet => {
        // Do something here.
-     },
+     }
    })
    ```
 
@@ -90,7 +90,7 @@ You need to register a `plugin` only once per JSS instance. There is a number of
      onChangeValue: (value, prop, rule) => {
        // Do something here.
        return newValue
-     },
+     }
    })
    ```
 
@@ -102,6 +102,6 @@ You need to register a `plugin` only once per JSS instance. There is a number of
    jss.use({
      onUpdate: (data, rule, sheet) => {
        // Do something here.
-     },
+     }
    })
    ```
