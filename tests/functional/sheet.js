@@ -84,13 +84,13 @@ describe('Functional: sheet', () => {
   describe('sheet.attach() with nonce', () => {
     let sheet
     let style
-    let nonceMetaTag
+    let nonce
 
     beforeEach(() => {
-      nonceMetaTag = document.createElement('meta')
-      nonceMetaTag.setAttribute('property', 'csp-nonce')
-      nonceMetaTag.setAttribute('content', 'test')
-      document.head.appendChild(nonceMetaTag)
+      nonce = document.createElement('meta')
+      nonce.setAttribute('property', 'csp-nonce')
+      nonce.setAttribute('content', 'test')
+      document.head.appendChild(nonce)
 
       sheet = jss.createStyleSheet().attach()
       style = getStyle()
@@ -98,8 +98,7 @@ describe('Functional: sheet', () => {
 
     afterEach(() => {
       sheet.detach()
-
-      nonceMetaTag.remove()
+      nonce.parentNode.removeChild(nonce)
     })
 
     it('should have a nonce attribute if nonce is found', () => {
