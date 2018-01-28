@@ -12,6 +12,17 @@ type PriorityOptions = {
 }
 
 /**
+ * Cache the value from the first time a function is called.
+ */
+const memoize = (fn) => {
+  let value
+  return () => {
+    if (!value) value = fn()
+    return value
+  }
+}
+
+/**
  * Get a style property.
  */
 function getStyle(cssRule: HTMLElement|CSSStyleRule, prop: string): string {
@@ -96,13 +107,7 @@ function setSelector(cssRule: CSSStyleRule, selectorText: string): boolean {
 /**
  * Gets the `head` element upon the first call and caches it.
  */
-const getHead = (() => {
-  let head
-  return (): HTMLElement => {
-    if (!head) head = document.head || document.getElementsByTagName('head')[0]
-    return head
-  }
-})()
+const getHead = memoize((): HTMLElement => document.head || document.getElementsByTagName('head')[0])
 
 /**
  * Gets a map of rule keys, where the property is an unescaped key and value
@@ -251,16 +256,10 @@ function insertStyle(style: HTMLElement, options: PriorityOptions) {
 /**
  * Read jss nonce setting from the page if the user has set it.
  */
-const getNonceFromPage = (() => {
-  let nonce
-  return (): ? string => {
-    if (!nonce) {
-      const nonceTag = document.querySelector('meta[property="csp-nonce"]')
-      nonce = nonceTag ? nonceTag.getAttribute('content') : null
-    }
-    return nonce
-  }
-})()
+const getNonceFromPage = memoize((): ? string => {
+  const nonceTag = document.querySelector('meta[property="csp-nonce"]')
+  return nonceTag ? nonceTag.getAttribute('content') : null
+})
 
 export default class DomRenderer {
   getStyle = getStyle
