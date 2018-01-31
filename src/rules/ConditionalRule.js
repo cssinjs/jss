@@ -5,7 +5,7 @@ import type {
   RuleOptions,
   ToCssOptions,
   JssStyle,
-  BaseRule,
+  BaseRule
 } from '../types'
 
 /**
@@ -27,7 +27,7 @@ export default class ConditionalRule implements BaseRule {
   constructor(key: string, styles: Object, options: RuleOptions) {
     this.key = key
     this.options = options
-    this.rules = new RuleList({ ...options, parent: this })
+    this.rules = new RuleList({...options, parent: this})
 
     for (const name in styles) {
       this.rules.add(name, styles[name])
@@ -62,7 +62,7 @@ export default class ConditionalRule implements BaseRule {
   /**
    * Generates a CSS string.
    */
-  toString(options?: ToCssOptions = { indent: 1 }): string {
+  toString(options?: ToCssOptions = {indent: 1}): string {
     const inner = this.rules.toString(options)
     return inner ? `${this.key} {\n${inner}\n}` : ''
   }

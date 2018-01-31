@@ -3,12 +3,12 @@ import warning from 'warning'
 import sheets from '../sheets'
 import type StyleSheet from '../StyleSheet'
 import StyleRule from '../rules/StyleRule'
-import type { Rule, JssValue, InsertionPoint } from '../types'
+import type {Rule, JssValue, InsertionPoint} from '../types'
 import toCssValue from '../utils/toCssValue'
 
 type PriorityOptions = {
   index: number,
-  insertionPoint?: InsertionPoint,
+  insertionPoint?: InsertionPoint
 }
 
 /**
@@ -64,7 +64,7 @@ function setStyle(
 
 const CSSRuleTypes = {
   STYLE_RULE: 1,
-  KEYFRAMES_RULE: 7,
+  KEYFRAMES_RULE: 7
 }
 
 /**
@@ -78,14 +78,14 @@ const getKey = (() => {
   return (cssRule: CSSOMRule): string => {
     if (cssRule.type === CSSRuleTypes.STYLE_RULE) return cssRule.selectorText
     if (cssRule.type === CSSRuleTypes.KEYFRAMES_RULE) {
-      const { name } = cssRule
+      const {name} = cssRule
       if (name) return `@keyframes ${name}`
 
       // There is no rule.name in the following browsers:
       // - IE 9
       // - Safari 7.1.8
       // - Mobile Safari 9.0.0
-      const { cssText } = cssRule
+      const {cssText} = cssRule
       return `@${extractKey(cssText, cssText.indexOf('keyframes'))}`
     }
 
@@ -108,7 +108,9 @@ function setSelector(cssRule: CSSStyleRule, selectorText: string): boolean {
 /**
  * Gets the `head` element upon the first call and caches it.
  */
-const getHead = memoize((): HTMLElement => document.head || document.getElementsByTagName('head')[0])
+const getHead = memoize(
+  (): HTMLElement => document.head || document.getElementsByTagName('head')[0]
+)
 
 /**
  * Gets a map of rule keys, where the property is an unescaped key and value
@@ -131,7 +133,7 @@ const getUnescapedKeysMap = (() => {
     for (let i = 0; i < rules.length; i++) {
       const rule = rules[i]
       if (!(rule instanceof StyleRule)) continue
-      const { selector } = rule
+      const {selector} = rule
       // Only unescape selector over CSSOM if it contains a back slash.
       if (selector && selector.indexOf('\\') !== -1) {
         // Lazilly attach when needed.
@@ -140,9 +142,9 @@ const getUnescapedKeysMap = (() => {
           isAttached = true
         }
         style.textContent = `${selector} {}`
-        const { sheet } = style
+        const {sheet} = style
         if (sheet) {
-          const { cssRules } = sheet
+          const {cssRules} = sheet
           if (cssRules) map[cssRules[0].selectorText] = rule.key
         }
       }
@@ -212,7 +214,7 @@ function findCommentNode(text: string): Node | null {
  * Find a node before which we can insert the sheet.
  */
 function findPrevNode(options: PriorityOptions): ?Node | null {
-  const { registry } = sheets
+  const {registry} = sheets
 
   if (registry.length > 0) {
     // Try to insert before the next higher sheet.
@@ -225,7 +227,7 @@ function findPrevNode(options: PriorityOptions): ?Node | null {
   }
 
   // Try to find a comment placeholder if registry is empty.
-  const { insertionPoint } = options
+  const {insertionPoint} = options
   if (insertionPoint && typeof insertionPoint === 'string') {
     const comment = findCommentNode(insertionPoint)
     if (comment) return comment.nextSibling
@@ -245,11 +247,11 @@ function findPrevNode(options: PriorityOptions): ?Node | null {
  * Insert style element into the DOM.
  */
 function insertStyle(style: HTMLElement, options: PriorityOptions) {
-  const { insertionPoint } = options
+  const {insertionPoint} = options
   const prevNode = findPrevNode(options)
 
   if (prevNode) {
-    const { parentNode } = prevNode
+    const {parentNode} = prevNode
     if (parentNode) parentNode.insertBefore(style, prevNode)
     return
   }
@@ -258,7 +260,7 @@ function insertStyle(style: HTMLElement, options: PriorityOptions) {
   if (insertionPoint && typeof insertionPoint.nodeType === 'number') {
     // https://stackoverflow.com/questions/41328728/force-casting-in-flow
     const insertionPointElement: HTMLElement = (insertionPoint: any)
-    const { parentNode } = insertionPointElement
+    const {parentNode} = insertionPointElement
     if (parentNode)
       parentNode.insertBefore(style, insertionPointElement.nextSibling)
     else warning(false, '[JSS] Insertion point is not in the DOM.')
@@ -271,7 +273,7 @@ function insertStyle(style: HTMLElement, options: PriorityOptions) {
 /**
  * Read jss nonce setting from the page if the user has set it.
  */
-const getNonce = memoize((): ? string => {
+const getNonce = memoize((): ?string => {
   const node = document.querySelector('meta[property="csp-nonce"]')
   return node ? node.getAttribute('content') : null
 })
@@ -299,7 +301,7 @@ export default class DomRenderer {
     if (sheet) sheets.add(sheet)
 
     this.sheet = sheet
-    const { media, meta, element } = this.sheet ? this.sheet.options : {}
+    const {media, meta, element} = this.sheet ? this.sheet.options : {}
     this.element = element || document.createElement('style')
     this.element.type = 'text/css'
     this.element.setAttribute('data-jss', '')
@@ -347,8 +349,8 @@ export default class DomRenderer {
    * Insert a rule into element.
    */
   insertRule(rule: Rule, index?: number): false | CSSStyleRule {
-    const { sheet } = this.element
-    const { cssRules } = sheet
+    const {sheet} = this.element
+    const {cssRules} = sheet
     const str = rule.toString()
     if (!index) index = cssRules.length
 
@@ -369,7 +371,7 @@ export default class DomRenderer {
    * Delete a rule.
    */
   deleteRule(cssRule: CSSStyleRule): boolean {
-    const { sheet } = this.element
+    const {sheet} = this.element
     const index = this.indexOf(cssRule)
     if (index === -1) return false
     sheet.deleteRule(index)
@@ -380,7 +382,7 @@ export default class DomRenderer {
    * Get index of a CSS Rule.
    */
   indexOf(cssRule: CSSStyleRule): number {
-    const { cssRules } = this.element.sheet
+    const {cssRules} = this.element.sheet
     for (let index = 0; index < cssRules.length; index++) {
       if (cssRule === cssRules[index]) return index
     }

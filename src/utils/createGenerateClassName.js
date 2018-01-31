@@ -1,6 +1,6 @@
 /* @flow */
 import warning from 'warning'
-import type { Rule, generateClassName } from '../types'
+import type {Rule, generateClassName} from '../types'
 import StyleSheet from '../StyleSheet'
 import moduleId from './moduleId'
 

@@ -1,4 +1,4 @@
-import { create, sheets } from 'jss'
+import {create, sheets} from 'jss'
 import styles from '../fixtures/regular.json'
 
 function teardown() {
@@ -15,6 +15,6 @@ suite('Batch mode vs. single', () => {
         .attach()
         .detach()
     },
-    { teardown }
+    {teardown}
   )
 })

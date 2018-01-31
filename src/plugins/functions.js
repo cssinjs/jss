@@ -1,7 +1,7 @@
 /* @flow */
 import RuleList from '../RuleList'
 import StyleRule from '../rules/StyleRule'
-import type { Rule, JssStyle, RuleOptions } from '../types'
+import type {Rule, JssStyle, RuleOptions} from '../types'
 import kebabCase from '../utils/kebabCase'
 import createRule from '../utils/createRule'
 
@@ -10,12 +10,12 @@ let now = Date.now()
 const fnValuesNs = `fnValues${now}`
 const fnStyleNs = `fnStyle${++now}`
 
-type StyleRuleWithRuleFunction = StyleRule & { [key: string]: Function }
+type StyleRuleWithRuleFunction = StyleRule & {[key: string]: Function}
 
 type StyleRuleWithFunctionValues = StyleRule & {
   [key: string]: {
-    [key: string]: Function,
-  },
+    [key: string]: Function
+  }
 }
 
 export default {
@@ -76,5 +76,5 @@ export default {
         rule.prop(prop, style[prop])
       }
     }
-  },
+  }
 }

@@ -1,4 +1,4 @@
-import { create, sheets } from 'jss'
+import {create, sheets} from 'jss'
 
 function teardown() {
   this.sheet.detach()
@@ -15,10 +15,10 @@ function createSheet() {
             // Need to change color each time to avoid caching.
             colorSwitch = !colorSwitch
             return colorSwitch ? 'green' : 'red'
-          },
-        },
+          }
+        }
       },
-      { link: true }
+      {link: true}
     )
     .attach()
 }
@@ -34,6 +34,6 @@ suite('Update', () => {
 
       this.sheet.update()
     },
-    { teardown }
+    {teardown}
   )
 })

@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
 import expect from 'expect.js'
-import { create } from '../../src'
+import {create} from '../../src'
 import DomRenderer from '../../src/renderers/DomRenderer'
 
 describe('Functional: dom priority', () => {
@@ -24,11 +24,11 @@ describe('Functional: dom priority', () => {
     })
 
     it('should append sheets to the end of the document head after other stylesheets', () => {
-      jss.createStyleSheet({}, { meta: 'sheet1', index: 50 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet2', index: 1 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet3', index: 40 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet4', index: 75 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet5', index: 35 }).attach()
+      jss.createStyleSheet({}, {meta: 'sheet1', index: 50}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet2', index: 1}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet3', index: 40}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet4', index: 75}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet5', index: 35}).attach()
 
       const styleElements = document.head.getElementsByTagName('style')
 
@@ -51,7 +51,7 @@ describe('Functional: dom priority', () => {
 
     beforeEach(() => {
       createDummySheets()
-      jss = create({ insertionPoint: 'jss' })
+      jss = create({insertionPoint: 'jss'})
     })
 
     afterEach(() => {
@@ -63,11 +63,11 @@ describe('Functional: dom priority', () => {
 
       document.head.insertBefore(comment, document.head.querySelector('style'))
 
-      jss.createStyleSheet({}, { meta: 'sheet1', index: 50 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet2', index: 1 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet3', index: 40 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet4', index: 75 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet5', index: 35 }).attach()
+      jss.createStyleSheet({}, {meta: 'sheet1', index: 50}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet2', index: 1}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet3', index: 40}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet4', index: 75}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet5', index: 35}).attach()
 
       const styleElements = document.head.getElementsByTagName('style')
 
@@ -86,11 +86,11 @@ describe('Functional: dom priority', () => {
       comment = document.createComment('jss')
       document.head.appendChild(comment)
 
-      jss.createStyleSheet({}, { meta: 'sheet1', index: 50 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet2', index: 1 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet3', index: 40 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet4', index: 75 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet5', index: 35 }).attach()
+      jss.createStyleSheet({}, {meta: 'sheet1', index: 50}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet2', index: 1}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet3', index: 40}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet4', index: 75}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet5', index: 35}).attach()
 
       const styleElements = document.head.getElementsByTagName('style')
 
@@ -113,11 +113,11 @@ describe('Functional: dom priority', () => {
         document.head.querySelectorAll('style')[1]
       )
 
-      jss.createStyleSheet({}, { meta: 'sheet1', index: 50 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet2', index: 1 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet3', index: 40 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet4', index: 75 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet5', index: 35 }).attach()
+      jss.createStyleSheet({}, {meta: 'sheet1', index: 50}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet2', index: 1}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet3', index: 40}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet4', index: 75}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet5', index: 35}).attach()
 
       const styleElements = document.head.getElementsByTagName('style')
 
@@ -142,8 +142,8 @@ describe('Functional: dom priority', () => {
     let comment2
 
     beforeEach(() => {
-      jss1 = create({ insertionPoint: 'jss' })
-      jss2 = create({ insertionPoint: 'jss2' })
+      jss1 = create({insertionPoint: 'jss'})
+      jss2 = create({insertionPoint: 'jss2'})
       comment1 = document.head.appendChild(document.createComment('jss'))
       comment2 = document.head.appendChild(document.createComment('jss2'))
     })
@@ -154,8 +154,8 @@ describe('Functional: dom priority', () => {
     })
 
     it('should insert sheets in the correct order', () => {
-      jss2.createStyleSheet({}, { meta: 'sheet2' }).attach()
-      jss1.createStyleSheet({}, { meta: 'sheet1' }).attach()
+      jss2.createStyleSheet({}, {meta: 'sheet2'}).attach()
+      jss1.createStyleSheet({}, {meta: 'sheet1'}).attach()
 
       const styleElements = document.head.getElementsByTagName('style')
 
@@ -180,13 +180,13 @@ describe('Functional: dom priority', () => {
     })
 
     it('should warn when string insertion point not found', () => {
-      const jss = create({ insertionPoint: 'something' })
+      const jss = create({insertionPoint: 'something'})
       jss.createStyleSheet().attach()
       expect(warned).to.be(true)
     })
 
     it('should warn when element insertion point not found', () => {
-      const jss = create({ insertionPoint: document.createElement('div') })
+      const jss = create({insertionPoint: document.createElement('div')})
       jss.createStyleSheet().attach()
       expect(warned).to.be(true)
     })
@@ -196,9 +196,9 @@ describe('Functional: dom priority', () => {
     let insertionPoint
     beforeEach(() => {
       insertionPoint = document.body.appendChild(document.createElement('div'))
-      const jss = create({ insertionPoint })
-      jss.createStyleSheet({}, { meta: 'sheet2', index: 2 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet1', index: 1 }).attach()
+      const jss = create({insertionPoint})
+      jss.createStyleSheet({}, {meta: 'sheet2', index: 2}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet1', index: 1}).attach()
     })
 
     afterEach(() => {
@@ -225,9 +225,9 @@ describe('Functional: dom priority', () => {
       iDoc = iframe.contentWindow.document
       const body = iDoc.body || iDoc.appendChild(iDoc.createElement('body'))
       insertionPoint = body.appendChild(iDoc.createElement('div'))
-      const jss = create({ insertionPoint })
-      jss.createStyleSheet({}, { meta: 'sheet2', index: 2 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet1', index: 1 }).attach()
+      const jss = create({insertionPoint})
+      jss.createStyleSheet({}, {meta: 'sheet2', index: 2}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet1', index: 1}).attach()
     })
 
     afterEach(() => {
@@ -251,8 +251,8 @@ describe('Functional: dom priority', () => {
     })
 
     it('should insert sheets in the correct order', () => {
-      jss.createStyleSheet({}, { meta: 'sheet0' }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet1' }).attach()
+      jss.createStyleSheet({}, {meta: 'sheet0'}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet1'}).attach()
 
       const styleElements = document.head.getElementsByTagName('style')
 
@@ -271,8 +271,8 @@ describe('Functional: dom priority', () => {
     })
 
     it('should insert sheets in the correct order', () => {
-      jss.createStyleSheet({}, { meta: 'sheet0' }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet1' }).attach()
+      jss.createStyleSheet({}, {meta: 'sheet0'}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet1'}).attach()
 
       const styleElements = document.head.getElementsByTagName('style')
 
@@ -291,11 +291,11 @@ describe('Functional: dom priority', () => {
     })
 
     it('should insert sheets in the correct order', () => {
-      jss.createStyleSheet({}, { meta: 'sheet1', index: 0 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet2', index: -5 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet3', index: -999 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet4', index: 3 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet5', index: 312 }).attach()
+      jss.createStyleSheet({}, {meta: 'sheet1', index: 0}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet2', index: -5}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet3', index: -999}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet4', index: 3}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet5', index: 312}).attach()
 
       const styleElements = document.head.getElementsByTagName('style')
 
@@ -317,11 +317,11 @@ describe('Functional: dom priority', () => {
     })
 
     it('should insert sheets with the same index after existing', () => {
-      jss.createStyleSheet({}, { meta: 'sheet1', index: 50 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet2', index: 40 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet3', index: 40 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet4', index: 20 }).attach()
-      jss.createStyleSheet({}, { meta: 'sheet5', index: 40 }).attach()
+      jss.createStyleSheet({}, {meta: 'sheet1', index: 50}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet2', index: 40}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet3', index: 40}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet4', index: 20}).attach()
+      jss.createStyleSheet({}, {meta: 'sheet5', index: 40}).attach()
 
       const styleElements = document.head.getElementsByTagName('style')
 

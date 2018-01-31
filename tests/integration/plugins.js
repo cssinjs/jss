@@ -1,20 +1,20 @@
 import expect from 'expect.js'
-import { stripIndent } from 'common-tags'
-import { create } from '../../src'
+import {stripIndent} from 'common-tags'
+import {create} from '../../src'
 import StyleSheet from '../../src/StyleSheet'
-import { createGenerateClassName } from '../utils'
+import {createGenerateClassName} from '../utils'
 import PluginsRegistry from '../../src/PluginsRegistry'
 
 describe('Integration: plugins', () => {
   let jss
 
   beforeEach(() => {
-    jss = create({ createGenerateClassName })
+    jss = create({createGenerateClassName})
   })
 
   describe('common', () => {
     it('should not call hooks twice on the same rule', () => {
-      const styles = { a: { color: 'red' } }
+      const styles = {a: {color: 'red'}}
       let receivedRule
       let processed = 0
       jss.use({
@@ -22,7 +22,7 @@ describe('Integration: plugins', () => {
         onProcessRule: rule => {
           receivedRule = rule
           processed++
-        },
+        }
       })
       // Process rules once.
       jss.createStyleSheet(styles)
@@ -34,21 +34,21 @@ describe('Integration: plugins', () => {
       jss.use({
         onProcessRule: rule => {
           if (rule.key === 'a') {
-            rule.options.sheet.addRule('b', { color: 'green' }, { index: 1 })
+            rule.options.sheet.addRule('b', {color: 'green'}, {index: 1})
           }
-        },
+        }
       })
 
       const selectors = []
       jss.use({
         onProcessRule: rule => {
           selectors.push(rule.selector)
-        },
+        }
       })
 
       const sheet = jss.createStyleSheet({
-        a: { color: 'red' },
-        c: { color: 'blue' },
+        a: {color: 'red'},
+        c: {color: 'blue'}
       })
 
       expect(sheet.indexOf(sheet.getRule('a'))).to.be(0)
@@ -75,9 +75,9 @@ describe('Integration: plugins', () => {
         receivedWarning = warning
       })
       jss.use({
-        unknownHook: () => null,
+        unknownHook: () => null
       })
-      jss.createStyleSheet({ a: { color: 'red' } })
+      jss.createStyleSheet({a: {color: 'red'}})
       expect(receivedWarning).to.be('[JSS] Unknown hook "%s".')
     })
   })
@@ -94,10 +94,10 @@ describe('Integration: plugins', () => {
           receivedRule = rule
           receivedSheet = passedSheet
           executed++
-        },
+        }
       })
       sheet = jss.createStyleSheet({
-        a: { color: 'red' },
+        a: {color: 'red'}
       })
     })
 
@@ -124,10 +124,10 @@ describe('Integration: plugins', () => {
           receivedDecl = decl
           receivedOptions = options
           executed++
-        },
+        }
       })
       jss.createStyleSheet({
-        a: { float: 'left' },
+        a: {float: 'left'}
       })
     })
 
@@ -137,7 +137,7 @@ describe('Integration: plugins', () => {
 
     it('should pass right arguments', () => {
       expect(receivedName).to.be('a')
-      expect(receivedDecl).to.eql({ float: 'left' })
+      expect(receivedDecl).to.eql({float: 'left'})
       expect(receivedOptions).to.be.an(Object)
     })
   })
@@ -151,10 +151,10 @@ describe('Integration: plugins', () => {
         onProcessSheet: sheet => {
           receivedSheet = sheet
           executed++
-        },
+        }
       })
       jss.createStyleSheet({
-        a: { float: 'left' },
+        a: {float: 'left'}
       })
     })
 
@@ -177,7 +177,7 @@ describe('Integration: plugins', () => {
         onProcessRule: rule => {
           receivedRule = rule
           executed++
-        },
+        }
       })
     })
 
@@ -189,7 +189,7 @@ describe('Integration: plugins', () => {
 
     it('should run plugins on @media rule', () => {
       const rule = jss.createRule('@media', {
-        button: { float: 'left' },
+        button: {float: 'left'}
       })
       expect(rule).to.be(receivedRule)
       expect(executed).to.be(2)
@@ -197,8 +197,8 @@ describe('Integration: plugins', () => {
 
     it('should run plugins on @keyframes rule', () => {
       const rule = jss.createRule('@keyframes', {
-        from: { top: 0 },
-        to: { top: 10 },
+        from: {top: 0},
+        to: {top: 10}
       })
       expect(rule).to.be(receivedRule)
       expect(executed).to.be(3)
@@ -210,12 +210,12 @@ describe('Integration: plugins', () => {
       const plugin1 = {
         onProcessRule: rule => {
           receivedRule1 = rule
-        },
+        }
       }
       const plugin2 = {
         onProcessRule: rule => {
           receivedRule2 = rule
-        },
+        }
       }
       jss.use(plugin1, plugin2)
       const rule = jss.createRule()
@@ -239,10 +239,10 @@ describe('Integration: plugins', () => {
           receivedRule = rule
           executed++
           return value
-        },
+        }
       })
       sheet = jss.createStyleSheet({
-        a: { color: 'red' },
+        a: {color: 'red'}
       })
     })
 
@@ -274,8 +274,8 @@ describe('Integration: plugins', () => {
     })
 
     it('should pass the new value to the next hook', () => {
-      jss.use({ onChangeValue: value => `${value}-first` })
-      jss.use({ onChangeValue: value => `${value}-second` })
+      jss.use({onChangeValue: value => `${value}-first`})
+      jss.use({onChangeValue: value => `${value}-second`})
       sheet.getRule('a').prop('color', 'green')
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
@@ -291,7 +291,7 @@ describe('Integration: plugins', () => {
     let receivedSheet
     let executed = 0
     let sheet
-    const newStyle = { color: 'green' }
+    const newStyle = {color: 'green'}
 
     beforeEach(() => {
       jss.use({
@@ -301,10 +301,10 @@ describe('Integration: plugins', () => {
           receivedSheet = passedSheet
           executed++
           return newStyle
-        },
+        }
       })
       sheet = jss.createStyleSheet({
-        a: { color: 'red' },
+        a: {color: 'red'}
       })
     })
 
@@ -313,7 +313,7 @@ describe('Integration: plugins', () => {
     })
 
     it('should receive correct arguments', () => {
-      expect(receivedStyle).to.eql({ color: 'red' })
+      expect(receivedStyle).to.eql({color: 'red'})
       expect(receivedRule).to.be(sheet.getRule('a'))
       expect(receivedSheet).to.be(sheet)
     })
@@ -339,12 +339,12 @@ describe('Integration: plugins', () => {
           receivedSheet = passedSheet
           localExecuted++
           return style
-        },
+        }
       })
       sheet = jss.createStyleSheet({
         '@media all': {
-          a: { color: 'red' },
-        },
+          a: {color: 'red'}
+        }
       })
 
       expect(receivedStyle).to.be(newStyle)
@@ -359,10 +359,10 @@ describe('Integration: plugins', () => {
         onProcessStyle: style => {
           passedStyle = style
           return style
-        },
+        }
       })
       sheet = jss.createStyleSheet({
-        a: { color: 'red' },
+        a: {color: 'red'}
       })
       expect(sheet.getRule('a').style).to.be(newStyle)
       expect(passedStyle).to.be(newStyle)
@@ -383,12 +383,12 @@ describe('Integration: plugins', () => {
           receivedRule = rule
           receivedSheet = styleSheet
           executed++
-        },
+        }
       })
       sheet = jss.createStyleSheet({
         a: {
-          color: data => data.color,
-        },
+          color: data => data.color
+        }
       })
     })
 
@@ -398,7 +398,7 @@ describe('Integration: plugins', () => {
     })
 
     it('should receive correct arguments', () => {
-      const data = { color: 'green' }
+      const data = {color: 'green'}
       const rule = sheet.getRule('a')
       sheet.update(data)
       expect(receivedData).to.be(data)
@@ -408,7 +408,7 @@ describe('Integration: plugins', () => {
     })
 
     it('should compile to correct CSS string', () => {
-      sheet.update({ color: 'green' })
+      sheet.update({color: 'green'})
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
           color: green;

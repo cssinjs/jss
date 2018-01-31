@@ -28,10 +28,10 @@ suite('Render rule', () => {
   benchmark(
     '.insertRule()',
     function benchmark() {
-      const { sheet } = this.style
+      const {sheet} = this.style
       sheet.insertRule(this.getCss(), sheet.cssRules.length)
     },
-    { setup, teardown }
+    {setup, teardown}
   )
 
   benchmark(
@@ -39,6 +39,6 @@ suite('Render rule', () => {
     function benchmark() {
       this.style.appendChild(document.createTextNode(this.getCss()))
     },
-    { setup, teardown }
+    {setup, teardown}
   )
 })

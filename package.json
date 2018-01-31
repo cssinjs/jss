@@ -100,7 +100,7 @@
     "flow:copy-src": "flow-copy-source -i './src/**' src lib",
     "lint": "eslint ./src ./tests ./benchmark ./*.js && npm run flow && npm run format",
     "lint:staged": "lint-staged && npm run flow",
-    "format": "prettier --write **/*",
+    "format": "prettier --write */**/*",
     "test": "cross-env NODE_ENV=test karma start --single-run",
     "test:watch": "cross-env NODE_ENV=test karma start",
     "posttest": "[ -z \"$TRAVIS\" ] || codecov",

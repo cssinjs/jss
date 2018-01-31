@@ -4,7 +4,7 @@ import KeyframesRule from '../rules/KeyframesRule'
 import ConditionalRule from '../rules/ConditionalRule'
 import FontFaceRule from '../rules/FontFaceRule'
 import ViewportRule from '../rules/ViewportRule'
-import type { Plugin, RuleOptions, Rule, JssStyle } from '../types'
+import type {Plugin, RuleOptions, Rule, JssStyle} from '../types'
 
 const classes = {
   '@charset': SimpleRule,
@@ -15,7 +15,7 @@ const classes = {
   '@supports': ConditionalRule,
   '@font-face': FontFaceRule,
   '@viewport': ViewportRule,
-  '@-ms-viewport': ViewportRule,
+  '@-ms-viewport': ViewportRule
 }
 
 /**
@@ -30,5 +30,5 @@ export default Object.keys(classes).map((key: string): Plugin => {
     options: RuleOptions
   ): Rule | null =>
     re.test(name) ? new classes[key](name, decl, options) : null
-  return { onCreateRule }
+  return {onCreateRule}
 })

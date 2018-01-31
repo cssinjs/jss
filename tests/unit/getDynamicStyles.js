@@ -10,61 +10,61 @@ describe('Unit: jss - getDynamicStyles', () => {
         margin: [5, 10],
         color,
         '@media screen': {
-          width: null,
+          width: null
         },
         '@media print': {
           width: undefined,
-          color,
+          color
         },
         '& a': {
           color: 'red',
           '& b': {
-            color,
-          },
-        },
+            color
+          }
+        }
       },
       '@media': {
         button: {
           width: 2,
-          color,
-        },
+          color
+        }
       },
       nested: {
         '& a': {
-          color: 'red',
-        },
-      },
+          color: 'red'
+        }
+      }
     }
     expect(getDynamicStyles(styles)).to.eql({
       button: {
         color,
         '@media print': {
-          color,
+          color
         },
         '& a': {
           '& b': {
-            color,
-          },
-        },
+            color
+          }
+        }
       },
       '@media': {
         button: {
-          color,
-        },
-      },
+          color
+        }
+      }
     })
   })
 
   it('should return null if there are no function values', () => {
     const styles = {
       button: {
-        float: 'left',
+        float: 'left'
       },
       '@media': {
         button: {
-          width: 2,
-        },
-      },
+          width: 2
+        }
+      }
     }
     expect(getDynamicStyles(styles)).to.be(null)
   })

@@ -1,6 +1,6 @@
 /* @flow */
 import toCssValue from './toCssValue'
-import type { ToCssOptions as Options, JssStyle } from '../types'
+import type {ToCssOptions as Options, JssStyle} from '../types'
 
 /**
  * Indent a string.
@@ -24,8 +24,8 @@ export default function toCss(
 
   if (!style) return result
 
-  let { indent = 0 } = options
-  const { fallbacks } = style
+  let {indent = 0} = options
+  const {fallbacks} = style
 
   indent++
 

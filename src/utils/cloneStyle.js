@@ -1,7 +1,7 @@
 import isObservable from './isObservable'
-import type { JssStyle } from '../types'
+import type {JssStyle} from '../types'
 
-const { isArray } = Array
+const {isArray} = Array
 
 export default function cloneStyle(style: JssStyle): JssStyle {
   // Support empty values in case user ends up with them by accident.

@@ -1,6 +1,6 @@
 /* @flow */
 import RuleList from '../RuleList'
-import type { RuleOptions, ToCssOptions, BaseRule } from '../types'
+import type {RuleOptions, ToCssOptions, BaseRule} from '../types'
 
 /**
  * Rule for @keyframes
@@ -21,13 +21,13 @@ export default class KeyframesRule implements BaseRule {
   constructor(key: string, frames: Object, options: RuleOptions) {
     this.key = key
     this.options = options
-    this.rules = new RuleList({ ...options, parent: this })
+    this.rules = new RuleList({...options, parent: this})
 
     for (const name in frames) {
       this.rules.add(name, frames[name], {
         ...this.options,
         parent: this,
-        selector: name,
+        selector: name
       })
     }
 
@@ -37,7 +37,7 @@ export default class KeyframesRule implements BaseRule {
   /**
    * Generates a CSS string.
    */
-  toString(options?: ToCssOptions = { indent: 1 }): string {
+  toString(options?: ToCssOptions = {indent: 1}): string {
     let inner = this.rules.toString(options)
     if (inner) inner += '\n'
     return `${this.key} {\n${inner}}`

@@ -3,7 +3,7 @@ import cloneStyle from '../../src/utils/cloneStyle'
 
 describe('Unit: jss - cloneStyle', () => {
   it('should return a cloned object', () => {
-    const style = { color: 'red' }
+    const style = {color: 'red'}
     const clonedStyle = cloneStyle(style)
     expect(clonedStyle).not.to.be(style)
     expect(clonedStyle).to.eql(style)
@@ -13,8 +13,8 @@ describe('Unit: jss - cloneStyle', () => {
     const style = {
       color: 'red',
       '@media': {
-        color: 'green',
-      },
+        color: 'green'
+      }
     }
     const clonedStyle = cloneStyle(style)
     expect(clonedStyle).to.eql(style)
@@ -24,12 +24,12 @@ describe('Unit: jss - cloneStyle', () => {
     const style = [
       {
         'font-family': 'MyHelvetica',
-        src: 'local("Helvetica")',
+        src: 'local("Helvetica")'
       },
       {
         'font-family': 'MyComicSans',
-        src: 'local("ComicSans")',
-      },
+        src: 'local("ComicSans")'
+      }
     ]
     const clonedStyle = cloneStyle(style)
     expect(clonedStyle).to.eql(style)

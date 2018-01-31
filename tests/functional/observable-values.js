@@ -1,10 +1,10 @@
 import expect from 'expect.js'
 import Observable from 'zen-observable'
 
-import { create } from '../../src'
-import { createGenerateClassName, computeStyle } from '../utils'
+import {create} from '../../src'
+import {createGenerateClassName, computeStyle} from '../utils'
 
-const settings = { createGenerateClassName }
+const settings = {createGenerateClassName}
 
 describe('Functional: Observable values', () => {
   let jss
@@ -24,10 +24,10 @@ describe('Functional: Observable values', () => {
             a: {
               height: new Observable(obs => {
                 observer = obs
-              }),
-            },
+              })
+            }
           },
-          { link: true }
+          {link: true}
         )
         .attach()
     })

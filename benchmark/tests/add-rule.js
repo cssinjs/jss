@@ -1,4 +1,4 @@
-import { create, sheets } from 'jss'
+import {create, sheets} from 'jss'
 import styles from '../fixtures/regular.json'
 
 function teardown() {
@@ -19,6 +19,6 @@ suite('Add rule', () => {
           .attach()
       this.sheet.addRule('modal', styles.modal)
     },
-    { teardown }
+    {teardown}
   )
 })

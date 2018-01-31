@@ -8,7 +8,7 @@ import type {
   Renderer as RendererInterface,
   JssStyle,
   JssValue,
-  BaseRule,
+  BaseRule
 } from '../types'
 
 export default class StyleRule implements BaseRule {
@@ -29,7 +29,7 @@ export default class StyleRule implements BaseRule {
   options: RuleOptions
 
   constructor(key: string, style: JssStyle, options: RuleOptions) {
-    const { sheet, Renderer, selector } = options
+    const {sheet, Renderer, selector} = options
     this.key = key
     this.options = options
     this.style = style
@@ -84,7 +84,7 @@ export default class StyleRule implements BaseRule {
         if (this.renderable)
           this.renderer.setStyle(this.renderable, name, nextValue)
         else {
-          const { sheet } = this.options
+          const {sheet} = this.options
           if (sheet && sheet.attached) {
             warning(
               false,
@@ -128,9 +128,9 @@ export default class StyleRule implements BaseRule {
    * Generates a CSS string.
    */
   toString(options?: ToCssOptions): string {
-    const { sheet } = this.options
+    const {sheet} = this.options
     const link = sheet ? sheet.options.link : false
-    const opts = link ? { ...options, allowEmpty: true } : options
+    const opts = link ? {...options, allowEmpty: true} : options
     return toCss(this.selector, this.style, opts)
   }
 }

@@ -7,7 +7,7 @@ describe('Functional: rules', () => {
       const div = document.createElement('div')
       jss
         .createRule({
-          float: 'left',
+          float: 'left'
         })
         .applyTo(div)
       expect(div.style.float).to.be('left')
