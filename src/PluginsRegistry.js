@@ -69,9 +69,9 @@ export default class PluginsRegistry {
   /**
    * Call `onUpdate` hooks.
    */
-  onUpdate(data: Object, rule: Rule, sheet: StyleSheet): void {
+  onUpdate(data: Object, rule: Rule, sheet: StyleSheet, style: JssStyle): void {
     for (let i = 0; i < this.hooks.onUpdate.length; i++) {
-      this.hooks.onUpdate[i](data, rule, sheet)
+      this.hooks.onUpdate[i](data, rule, sheet, style)
     }
   }
 
