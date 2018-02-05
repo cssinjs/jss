@@ -23,9 +23,12 @@ const memoize = <Value>(fn: () => Value): (() => Value) => {
 }
 
 /**
- * Get a style property.
+ * Get a style property value.
  */
-function getStyle(cssRule: HTMLElement | CSSStyleRule, prop: string): string {
+function getPropertyValue(
+  cssRule: HTMLElement | CSSStyleRule,
+  prop: string
+): string {
   try {
     return cssRule.style.getPropertyValue(prop)
   } catch (err) {
@@ -37,7 +40,7 @@ function getStyle(cssRule: HTMLElement | CSSStyleRule, prop: string): string {
 /**
  * Set a style property.
  */
-function setStyle(
+function setProperty(
   cssRule: HTMLElement | CSSStyleRule,
   prop: string,
   value: JssValue
@@ -60,6 +63,22 @@ function setStyle(
     return false
   }
   return true
+}
+
+/**
+ * Remove a style property.
+ */
+function removeProperty(cssRule: HTMLElement | CSSStyleRule, prop: string) {
+  try {
+    cssRule.style.removeProperty(prop)
+  } catch (err) {
+    warning(
+      false,
+      '[JSS] DOMException "%s" was thrown. Tried to remove property "%s".',
+      err.message,
+      prop
+    )
+  }
 }
 
 const CSSRuleTypes = {
@@ -279,9 +298,11 @@ const getNonce = memoize((): ?string => {
 })
 
 export default class DomRenderer {
-  getStyle = getStyle
+  getPropertyValue = getPropertyValue
 
-  setStyle = setStyle
+  setProperty = setProperty
+
+  removeProperty = removeProperty
 
   setSelector = setSelector
 

@@ -190,6 +190,8 @@ describe('Functional: Function values', () => {
   })
 
   describe('sheet.update()', () => {
+    let sheet
+
     const styles = {
       a: {
         color: theme => theme.color
@@ -205,7 +207,6 @@ describe('Functional: Function values', () => {
         }
       }
     }
-    let sheet
 
     beforeEach(() => {
       sheet = jss.createStyleSheet(styles, {link: true})
@@ -215,101 +216,151 @@ describe('Functional: Function values', () => {
       sheet.detach()
     })
 
-    it('should return correct .toString() before .update()', () => {
-      expect(removeVendorPrefixes(sheet.toString())).to.be(stripIndent`
-        .a-id {
-        }
-        @media all {
-          .b-id {
+    describe('.toString()', () => {
+      it('should return correct .toString() before .update()', () => {
+        expect(removeVendorPrefixes(sheet.toString())).to.be(stripIndent`
+          .a-id {
           }
-        }
-        @keyframes test {
-          0% {
+          @media all {
+            .b-id {
+            }
           }
-        }
-      `)
-    })
-
-    it('should return correct .toString() after single .update()', () => {
-      sheet.update({
-        color: 'green'
+          @keyframes test {
+            0% {
+            }
+          }
+        `)
       })
 
-      expect(sheet.toString()).to.be(stripIndent`
-        .a-id {
-          color: green;
-        }
-        @media all {
-          .b-id {
+      it('should return correct .toString() after single .update()', () => {
+        sheet.update({
+          color: 'green'
+        })
+
+        expect(sheet.toString()).to.be(stripIndent`
+          .a-id {
             color: green;
           }
-        }
-        @keyframes test {
-          0% {
+          @media all {
+            .b-id {
+              color: green;
+            }
+          }
+          @keyframes test {
+            0% {
+              color: green;
+            }
+          }
+        `)
+      })
+
+      it('should return correct .toString() after double .update()', () => {
+        sheet.update({
+          color: 'green'
+        })
+        sheet.update({
+          color: 'yellow'
+        })
+
+        expect(sheet.toString()).to.be(stripIndent`
+          .a-id {
+            color: yellow;
+          }
+          @media all {
+            .b-id {
+              color: yellow;
+            }
+          }
+          @keyframes test {
+            0% {
+              color: yellow;
+            }
+          }
+        `)
+      })
+
+      it('should update specific rule', () => {
+        sheet.update({color: 'yellow'})
+        sheet.update('a', {color: 'green'})
+
+        expect(sheet.toString()).to.be(stripIndent`
+          .a-id {
             color: green;
           }
-        }
-      `)
-    })
-
-    it('should return correct .toString() after double .update()', () => {
-      sheet.update({
-        color: 'green'
+          @media all {
+            .b-id {
+              color: yellow;
+            }
+          }
+          @keyframes test {
+            0% {
+              color: yellow;
+            }
+          }
+        `)
       })
-      sheet.update({
-        color: 'yellow'
+
+      it('should remove declarations when value is null', () => {
+        sheet.update({color: null})
+
+        expect(sheet.toString()).to.be(stripIndent`
+          .a-id {
+          }
+          @media all {
+            .b-id {
+            }
+          }
+          @keyframes test {
+            0% {
+            }
+          }
+        `)
       })
 
-      expect(sheet.toString()).to.be(stripIndent`
-        .a-id {
-          color: yellow;
-        }
-        @media all {
-          .b-id {
-            color: yellow;
-          }
-        }
-        @keyframes test {
-          0% {
-            color: yellow;
-          }
-        }
-      `)
-    })
+      it('should remove declarations when value is undefined', () => {
+        sheet.update({color: undefined})
 
-    it('should render sheet with updated props', () => {
-      sheet.update({color: 'green'}).attach()
-      expect(removeVendorPrefixes(getCss(getStyle()))).to.be(
-        removeWhitespace(sheet.toString())
-      )
-    })
-
-    it('should update specific rule', () => {
-      sheet.update({color: 'yellow'})
-      sheet.update('a', {color: 'green'})
-
-      expect(sheet.toString()).to.be(stripIndent`
-        .a-id {
-          color: green;
-        }
-        @media all {
-          .b-id {
-            color: yellow;
+        expect(sheet.toString()).to.be(stripIndent`
+          .a-id {
           }
-        }
-        @keyframes test {
-          0% {
-            color: yellow;
+          @media all {
+            .b-id {
+            }
           }
-        }
-      `)
-    })
+          @keyframes test {
+            0% {
+            }
+          }
+        `)
+      })
 
-    it('should render updated rule', () => {
-      sheet.update('a', {color: 'green'}).attach()
-      expect(removeVendorPrefixes(getCss(getStyle()))).to.be(
-        removeWhitespace(sheet.toString())
-      )
+      it('should render sheet with updated rules', () => {
+        sheet.update({color: 'green'}).attach()
+        expect(removeVendorPrefixes(getCss(getStyle()))).to.be(
+          removeWhitespace(sheet.toString())
+        )
+      })
+
+      it('should render updated specific rule', () => {
+        sheet.update('a', {color: 'green'}).attach()
+        expect(removeVendorPrefixes(getCss(getStyle()))).to.be(
+          removeWhitespace(sheet.toString())
+        )
+      })
+
+      it('should render sheet with removed rules when value is null', () => {
+        sheet.update({color: null}).attach()
+        expect(removeVendorPrefixes(getCss(getStyle()))).to.be(
+          removeWhitespace(sheet.toString())
+        )
+      })
+
+      it('should render sheet with removed rules when value is undefined', () => {
+        sheet.update({color: undefined}).attach()
+        expect(removeVendorPrefixes(getCss(getStyle()))).to.be(
+          removeWhitespace(sheet.toString())
+        )
+      })
     })
 
     describe('sheet.update() after attach', () => {

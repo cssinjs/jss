@@ -28,7 +28,10 @@ describe('Functional: Function rules', () => {
       sheet = jss
         .createStyleSheet(
           {
-            a: data => ({color: data.color, display: 'block'})
+            a: data => ({
+              color: data.color,
+              display: 'display' in data ? data.display : 'block'
+            })
           },
           {link: true}
         )

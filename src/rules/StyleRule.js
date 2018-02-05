@@ -68,19 +68,31 @@ export default class StyleRule implements BaseRule {
   /**
    * Get or set a style property.
    */
-  prop(name: string, nextValue?: JssValue): StyleRule | string {
+  prop(name: string, value?: JssValue): StyleRule | string {
     // It's a getter.
-    if (nextValue == null) return this.style[name]
+    if (value === undefined) return this.style[name]
 
     // Don't do anything if the value has not changed.
-    if (this.style[name] === nextValue) return this
+    if (this.style[name] === value) return this
 
-    nextValue = this.options.jss.plugins.onChangeValue(nextValue, name, this)
-    this.style[name] = nextValue
+    value = this.options.jss.plugins.onChangeValue(value, name, this)
+
+    const isEmpty = value == null
+    const isDefined = name in this.style
+
+    // Value is empty and wasn't defined before.
+    if (isEmpty && !isDefined) return this
+
+    // We are going to remove this value.
+    const remove = isEmpty && isDefined
+
+    if (remove) delete this.style[name]
+    else this.style[name] = value
 
     // Renderable is defined if StyleSheet option `link` is true.
     if (this.renderable) {
-      this.renderer.setStyle(this.renderable, name, nextValue)
+      if (remove) this.renderer.removeProperty(this.renderable, name)
+      else this.renderer.setProperty(this.renderable, name, value)
       return this
     }
 
@@ -97,7 +109,7 @@ export default class StyleRule implements BaseRule {
   applyTo(renderable: HTMLElement): this {
     const json = this.toJSON()
     for (const prop in json)
-      this.renderer.setStyle(renderable, prop, json[prop])
+      this.renderer.setProperty(renderable, prop, json[prop])
     return this
   }
 

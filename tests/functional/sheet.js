@@ -416,7 +416,15 @@ describe('Functional: sheet', () => {
     let sheet
 
     beforeEach(() => {
-      sheet = jss.createStyleSheet({a: {color: 'green'}}, {link: true})
+      sheet = jss.createStyleSheet(
+        {
+          a: {
+            'max-width': '50px',
+            width: '10px'
+          }
+        },
+        {link: true}
+      )
       rule = sheet.getRule('a')
       sheet.attach()
     })
@@ -426,15 +434,15 @@ describe('Functional: sheet', () => {
     })
 
     it('should have initial color', () => {
-      expect(rule.style.color).to.be('green')
+      expect(computeStyle(sheet.classes.a).width).to.be('10px')
     })
 
     it('should apply a style prop', () => {
-      rule.prop('color', 'red')
-      expect(rule.prop('color')).to.be('red')
+      rule.prop('width', '12px')
+      expect(computeStyle(sheet.classes.a).width).to.be('12px')
     })
 
-    it('should cache the new prop', () => {
+    it('should set the new prop on style', () => {
       rule.prop('color', 'red')
       expect(rule.style.color).to.be('red')
     })
@@ -443,10 +451,16 @@ describe('Functional: sheet', () => {
       rule.prop('display', 'block')
       expect(rule.toString()).to.be(stripIndent`
         .a-id {
-          color: green;
+          max-width: 50px;
+          width: 10px;
           display: block;
         }
       `)
+    })
+
+    it('should remove a prop when null value is passed', () => {
+      rule.prop('width', null)
+      expect(computeStyle(sheet.classes.a).width).to.be('50px')
     })
   })
 
