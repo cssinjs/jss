@@ -69,34 +69,26 @@ export default class StyleRule implements BaseRule {
    * Get or set a style property.
    */
   prop(name: string, nextValue?: JssValue): StyleRule | string {
-    // It's a setter.
-    if (nextValue != null) {
-      // Don't do anything if the value has not changed.
-      if (this.style[name] !== nextValue) {
-        nextValue = this.options.jss.plugins.onChangeValue(
-          nextValue,
-          name,
-          this
-        )
-        this.style[name] = nextValue
+    // It's a getter.
+    if (nextValue == null) return this.style[name]
 
-        // Renderable is defined if StyleSheet option `link` is true.
-        if (this.renderable)
-          this.renderer.setStyle(this.renderable, name, nextValue)
-        else {
-          const {sheet} = this.options
-          if (sheet && sheet.attached) {
-            warning(
-              false,
-              'Rule is not linked. Missing sheet option "link: true".'
-            )
-          }
-        }
-      }
+    // Don't do anything if the value has not changed.
+    if (this.style[name] === nextValue) return this
+
+    nextValue = this.options.jss.plugins.onChangeValue(nextValue, name, this)
+    this.style[name] = nextValue
+
+    // Renderable is defined if StyleSheet option `link` is true.
+    if (this.renderable) {
+      this.renderer.setStyle(this.renderable, name, nextValue)
       return this
     }
 
-    return this.style[name]
+    const {sheet} = this.options
+    if (sheet && sheet.attached) {
+      warning(false, 'Rule is not linked. Missing sheet option "link: true".')
+    }
+    return this
   }
 
   /**
