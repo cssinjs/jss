@@ -24,7 +24,7 @@ Compiles to:
 
 ## Function values
 
-If you want dynamic behavior for your Style Sheet, you can use functions as a value which return the actual value. Use [sheet.update(data)](./js-api.md#update-function-values) in order to pass the data object. Sheet option `link: true` is required for this to function.
+If you want dynamic behavior for your Style Sheet, you can use functions as a value which return the actual value. If function values returns `null|undefined|false` - property will be removed. Use [sheet.update(data)](./js-api.md#update-function-values) in order to pass the data object. Sheet option `link: true` is required for this to function.
 
 ```javascript
 const styles = {
