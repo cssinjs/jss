@@ -30,7 +30,7 @@ describe('Functional: Function rules', () => {
           {
             a: data => ({
               color: data.color,
-              display: 'display' in data ? data.display : 'block'
+              display: 'block'
             })
           },
           {link: true}
