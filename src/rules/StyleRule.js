@@ -77,7 +77,7 @@ export default class StyleRule implements BaseRule {
 
     value = this.options.jss.plugins.onChangeValue(value, name, this)
 
-    const isEmpty = value == null
+    const isEmpty = value == null || value === false
     const isDefined = name in this.style
 
     // Value is empty and wasn't defined before.

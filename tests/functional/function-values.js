@@ -334,6 +334,22 @@ describe('Functional: Function values', () => {
         `)
       })
 
+      it('should remove declarations when value is false', () => {
+        sheet.update({color: false})
+
+        expect(sheet.toString()).to.be(stripIndent`
+          .a-id {
+          }
+          @media all {
+            .b-id {
+            }
+          }
+          @keyframes test {
+            0% {
+            }
+          }
+        `)
+      })
       it('should render sheet with updated rules', () => {
         sheet.update({color: 'green'}).attach()
         expect(removeVendorPrefixes(getCss(getStyle()))).to.be(
@@ -357,6 +373,13 @@ describe('Functional: Function values', () => {
 
       it('should render sheet with removed rules when value is undefined', () => {
         sheet.update({color: undefined}).attach()
+        expect(removeVendorPrefixes(getCss(getStyle()))).to.be(
+          removeWhitespace(sheet.toString())
+        )
+      })
+
+      it('should render sheet with removed rules when value is false', () => {
+        sheet.update({color: false}).attach()
         expect(removeVendorPrefixes(getCss(getStyle()))).to.be(
           removeWhitespace(sheet.toString())
         )
