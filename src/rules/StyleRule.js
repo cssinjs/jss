@@ -47,14 +47,14 @@ export default class StyleRule implements BaseRule {
 
     this.selectorText = selector
 
-    if (this.renderable) {
-      const hasChanged = this.renderer.setSelector(this.renderable, selector)
+    if (!this.renderable) return
 
-      // If selector setter is not implemented, rerender the rule.
-      if (!hasChanged && this.renderable) {
-        const renderable = this.renderer.replaceRule(this.renderable, this)
-        if (renderable) this.renderable = renderable
-      }
+    const hasChanged = this.renderer.setSelector(this.renderable, selector)
+
+    // If selector setter is not implemented, rerender the rule.
+    if (!hasChanged && this.renderable) {
+      const renderable = this.renderer.replaceRule(this.renderable, this)
+      if (renderable) this.renderable = renderable
     }
   }
 
