@@ -1,3 +1,7 @@
+## 9.7.0 / 2018-01-06
+
+* Allow function values return falsy values in order to remove a property.
+
 ## 9.6.0 / 2018-01-28
 
 * Added prettier
