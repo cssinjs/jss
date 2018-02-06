@@ -1,3 +1,7 @@
+## 4.2.0 / 2018-02-06
+
+- updated jss and jss-expand
+
 ## 4.1.0 / 2018-01-17
 
 - updated jss, jss-default-unit, jss-expand, jss-extend, jss-template
