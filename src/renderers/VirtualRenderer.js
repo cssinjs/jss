@@ -5,12 +5,13 @@
  * Rendering backend to do nothing in nodejs.
  */
 export default class VirtualRenderer {
-  setStyle() {
+  setProperty() {
     return true
   }
-  getStyle() {
+  getPropertyValue() {
     return ''
   }
+  removeProperty() {}
   setSelector() {
     return true
   }

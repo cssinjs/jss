@@ -432,12 +432,67 @@ describe('Integration: rules', () => {
   })
 
   describe('rule.prop()', () => {
-    it('should get and set prop', () => {
-      const rule = jss.createRule()
-      rule.prop('float', 'left')
-      expect(rule.prop('float')).to.be('left')
-      rule.prop('width', 0)
-      expect(rule.prop('width')).to.be(0)
+    describe('get and set prop', () => {
+      it('should get a prop', () => {
+        const rule = jss.createRule({color: 'red'})
+        expect(rule.prop('color')).to.be('red')
+      })
+
+      it('should set a prop', () => {
+        const rule = jss.createRule({color: 'red'})
+        rule.prop('color', 'green')
+        expect(rule.prop('color')).to.be('green')
+      })
+    })
+
+    describe('handle null or undefined value', () => {
+      it("should ignore null when prop wasn't defined before", () => {
+        const rule = jss.createRule()
+        rule.prop('abc', null)
+        expect('abc' in rule.style).to.be(false)
+      })
+
+      it("should ignore undefined when prop wasn't defined before", () => {
+        const rule = jss.createRule()
+        rule.prop('abc', undefined)
+        expect('abc' in rule.style).to.be(false)
+      })
+
+      it('should remove prop when null was passed and prop was defined before', () => {
+        const rule = jss.createRule({color: 'red'})
+        rule.prop('color', null)
+        expect('color' in rule.style).to.be(false)
+      })
+    })
+
+    describe('handle null or undefined returned from fn value', () => {
+      it("should not use null when prop wasn't defined before", () => {
+        jss.use({onChangeValue: () => null})
+        const rule = jss.createRule()
+        rule.prop('abc', 'red')
+        expect('abc' in rule.style).to.be(false)
+      })
+
+      it("should not use undefined when prop wasn't defined before", () => {
+        jss.use({onChangeValue: () => undefined})
+        const rule = jss.createRule()
+        rule.prop('abc', 'red')
+        expect('abc' in rule.style).to.be(false)
+      })
+
+      it('should use null to remove the prop when it was defined before', () => {
+        jss.use({onChangeValue: () => null})
+        const rule = jss.createRule({color: 'red'})
+        rule.prop('color', 'anything')
+        expect('color' in rule.style).to.be(false)
+      })
+
+      it('should use undefined to remove the prop when it was defined before', () => {
+        jss.use({onChangeValue: () => undefined})
+        const rule = jss.createRule({color: 'red'})
+        rule.prop('color', 'anything')
+        expect('color' in rule.style).to.be(false)
+      })
     })
   })
 })

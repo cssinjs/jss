@@ -33,12 +33,13 @@ export type JssValue =
 
 export interface Renderer {
   constructor(sheet?: StyleSheet): void;
-  setStyle(
+  setProperty(
     cssRule: HTMLElement | CSSStyleRule,
     prop: string,
     value: JssValue
   ): boolean;
-  getStyle(cssRule: HTMLElement | CSSStyleRule, prop: string): string;
+  getPropertyValue(cssRule: HTMLElement | CSSStyleRule, prop: string): string;
+  removeProperty(cssRule: HTMLElement | CSSStyleRule, prop: string): void;
   setSelector(cssRule: CSSStyleRule, selectorText: string): boolean;
   getKey(cssRule: CSSStyleRule): string;
   attach(): void;
