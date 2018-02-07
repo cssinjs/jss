@@ -21,11 +21,7 @@ export default (): generateClassName => {
     ruleCounter += 1
 
     if (ruleCounter > maxRules) {
-      warning(
-        false,
-        '[JSS] You might have a memory leak. Rule counter is at %s.',
-        ruleCounter
-      )
+      warning(false, '[JSS] You might have a memory leak. Rule counter is at %s.', ruleCounter)
     }
 
     let prefix = defaultPrefix
@@ -40,7 +36,6 @@ export default (): generateClassName => {
       return `${prefix}${moduleId}${jssId}${ruleCounter}`
     }
 
-    return `${prefix + rule.key}-${moduleId}${jssId &&
-      `-${jssId}`}-${ruleCounter}`
+    return `${prefix + rule.key}-${moduleId}${jssId && `-${jssId}`}-${ruleCounter}`
   }
 }

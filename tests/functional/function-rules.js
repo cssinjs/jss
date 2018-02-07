@@ -4,12 +4,7 @@ import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
 
 import {create} from '../../src'
-import {
-  createGenerateClassName,
-  getStyle,
-  getCss,
-  removeWhitespace
-} from '../utils'
+import {createGenerateClassName, getStyle, getCss, removeWhitespace} from '../utils'
 
 const settings = {createGenerateClassName}
 

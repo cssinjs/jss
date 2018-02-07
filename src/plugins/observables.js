@@ -5,11 +5,7 @@ import isObservable from '../utils/isObservable'
 import type {Observable, Rule, RuleOptions, JssStyle} from '../types'
 
 export default {
-  onCreateRule(
-    name: string,
-    decl: JssStyle,
-    options: RuleOptions
-  ): Rule | null {
+  onCreateRule(name: string, decl: JssStyle, options: RuleOptions): Rule | null {
     if (!isObservable(decl)) return null
 
     // Cast `decl` to `Observable`, since it passed the type guard.

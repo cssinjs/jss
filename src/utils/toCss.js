@@ -15,11 +15,7 @@ function indentStr(str: string, indent: number): string {
 /**
  * Converts a Rule to CSS string.
  */
-export default function toCss(
-  selector: string,
-  style: JssStyle,
-  options: Options = {}
-): string {
+export default function toCss(selector: string, style: JssStyle, options: Options = {}): string {
   let result = ''
 
   if (!style) return result
@@ -64,8 +60,7 @@ export default function toCss(
   if (!result && !options.allowEmpty) return result
 
   indent--
-  result =
-    indentStr(`${selector} {${result}\n`, indent) + indentStr('}', indent)
+  result = indentStr(`${selector} {${result}\n`, indent) + indentStr('}', indent)
 
   return result
 }

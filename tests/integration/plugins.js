@@ -54,17 +54,17 @@ describe('Integration: plugins', () => {
       expect(sheet.indexOf(sheet.getRule('a'))).to.be(0)
       expect(sheet.indexOf(sheet.getRule('b'))).to.be(1)
       expect(sheet.indexOf(sheet.getRule('c'))).to.be(2)
-      expect(sheet.toString()).to.be(
-        '.a-id {\n' +
-          '  color: red;\n' +
-          '}\n' +
-          '.b-id {\n' +
-          '  color: green;\n' +
-          '}\n' +
-          '.c-id {\n' +
-          '  color: blue;\n' +
-          '}'
-      )
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+        }
+        .b-id {
+          color: green;
+        }
+        .c-id {
+          color: blue;
+        }
+      `)
       expect(selectors).to.eql(['.b-id', '.a-id', '.c-id'])
     })
 

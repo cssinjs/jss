@@ -19,17 +19,9 @@ type StyleRuleWithFunctionValues = StyleRule & {
 }
 
 export default {
-  onCreateRule(
-    name: string,
-    decl: JssStyle,
-    options: RuleOptions
-  ): Rule | null {
+  onCreateRule(name: string, decl: JssStyle, options: RuleOptions): Rule | null {
     if (typeof decl !== 'function') return null
-    const rule = ((createRule(
-      name,
-      {},
-      options
-    ): any): StyleRuleWithRuleFunction)
+    const rule = ((createRule(name, {}, options): any): StyleRuleWithRuleFunction)
     rule[fnStyleNs] = decl
     return rule
   },

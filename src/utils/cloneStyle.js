@@ -10,11 +10,7 @@ export default function cloneStyle(style: JssStyle): JssStyle {
   // Support string value for SimpleRule.
   const typeOfStyle = typeof style
 
-  if (
-    typeOfStyle === 'string' ||
-    typeOfStyle === 'number' ||
-    typeOfStyle === 'function'
-  ) {
+  if (typeOfStyle === 'string' || typeOfStyle === 'number' || typeOfStyle === 'function') {
     return style
   }
 

@@ -25,10 +25,7 @@ suite('toCssValue double array', () => {
 })
 
 suite('toCssValue double array with important', () => {
-  benchmark(
-    'array',
-    () => toCssValue(doubleArrayImportant) === '10px 20px !important'
-  )
+  benchmark('array', () => toCssValue(doubleArrayImportant) === '10px 20px !important')
 
   benchmark('string', () => toCssValue(string) === '10px 20px !important')
 })

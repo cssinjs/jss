@@ -111,9 +111,7 @@ describe('Functional: sheet', () => {
     let style
 
     beforeEach(() => {
-      sheet = jss
-        .createStyleSheet(null, {media: 'screen', meta: 'test'})
-        .attach()
+      sheet = jss.createStyleSheet(null, {media: 'screen', meta: 'test'}).attach()
       style = getStyle()
     })
 
@@ -400,9 +398,7 @@ describe('Functional: sheet', () => {
 
   describe('.deleteRule()', () => {
     it('should delete a rule from the sheet and DOM', () => {
-      const sheet = jss
-        .createStyleSheet({a: {width: '1px'}}, {link: true})
-        .attach()
+      const sheet = jss.createStyleSheet({a: {width: '1px'}}, {link: true}).attach()
       expect(computeStyle(sheet.classes.a).width).to.be('1px')
       expect(sheet.deleteRule('a')).to.be(true)
       expect(sheet.getRule('a')).to.be(undefined)

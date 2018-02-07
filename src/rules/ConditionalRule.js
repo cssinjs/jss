@@ -1,12 +1,6 @@
 /* @flow */
 import RuleList from '../RuleList'
-import type {
-  Rule,
-  RuleOptions,
-  ToCssOptions,
-  JssStyle,
-  BaseRule
-} from '../types'
+import type {Rule, RuleOptions, ToCssOptions, JssStyle, BaseRule} from '../types'
 
 /**
  * Conditional rule for @media, @supports

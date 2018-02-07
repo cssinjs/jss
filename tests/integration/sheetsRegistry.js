@@ -1,3 +1,4 @@
+import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
 import {create, SheetsRegistry} from '../../src'
 import {createGenerateClassName} from '../utils'
@@ -78,36 +79,30 @@ describe('Integration: sheetsRegistry', () => {
 
   describe('.toString()', () => {
     it('should convert to CSS string', () => {
-      const sheet1 = jss
-        .createStyleSheet({a: {color: 'red'}}, {virtual: true})
-        .attach()
-      const sheet2 = jss
-        .createStyleSheet({a: {color: 'blue'}}, {virtual: true})
-        .attach()
+      const sheet1 = jss.createStyleSheet({a: {color: 'red'}}, {virtual: true}).attach()
+      const sheet2 = jss.createStyleSheet({a: {color: 'blue'}}, {virtual: true}).attach()
       sheets.add(sheet1)
       sheets.add(sheet2)
-      expect(sheets.toString()).to.be(
-        '.a-id {\n' +
-          '  color: red;\n' +
-          '}\n' +
-          '.a-id {\n' +
-          '  color: blue;\n' +
-          '}'
-      )
+      expect(sheets.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+        }
+        .a-id {
+          color: blue;
+        }
+      `)
     })
 
     it('should not stringify detached sheets', () => {
-      const sheet1 = jss
-        .createStyleSheet({a: {color: 'red'}}, {virtual: true})
-        .attach()
+      const sheet1 = jss.createStyleSheet({a: {color: 'red'}}, {virtual: true}).attach()
       const sheet2 = jss.createStyleSheet({a: {color: 'blue'}}, {virtual: true})
       sheets.add(sheet1)
       sheets.add(sheet2)
-      expect(sheets.toString()).to.be(
-        '.a-id {\n' + //
-          '  color: red;\n' +
-          '}'
-      )
+      expect(sheets.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+        }
+      `)
     })
   })
 })

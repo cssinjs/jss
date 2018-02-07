@@ -108,8 +108,7 @@ export default class StyleRule implements BaseRule {
    */
   applyTo(renderable: HTMLElement): this {
     const json = this.toJSON()
-    for (const prop in json)
-      this.renderer.setProperty(renderable, prop, json[prop])
+    for (const prop in json) this.renderer.setProperty(renderable, prop, json[prop])
     return this
   }
 

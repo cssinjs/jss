@@ -108,10 +108,7 @@ describe('Functional: dom priority', () => {
 
     it('should insert sheets between other stylesheets', () => {
       comment = document.createComment('jss')
-      document.head.insertBefore(
-        comment,
-        document.head.querySelectorAll('style')[1]
-      )
+      document.head.insertBefore(comment, document.head.querySelectorAll('style')[1])
 
       jss.createStyleSheet({}, {meta: 'sheet1', index: 50}).attach()
       jss.createStyleSheet({}, {meta: 'sheet2', index: 1}).attach()

@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
+import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
 import Observable from 'zen-observable'
 
@@ -55,7 +56,12 @@ describe('Integration: rules', () => {
   describe('rule.toString()', () => {
     it('should return CSS', () => {
       const rule = jss.createRule('a', {float: 'left', width: '1px'})
-      expect(rule.toString()).to.be('.a-id {\n  float: left;\n  width: 1px;\n}')
+      expect(rule.toString()).to.be(stripIndent`
+        .a-id {
+          float: left;
+          width: 1px;
+        }
+      `)
     })
 
     describe('array values', () => {
@@ -63,16 +69,22 @@ describe('Integration: rules', () => {
         const rule = jss.createRule('a', {
           border: ['1px solid red', '1px solid blue']
         })
-        expect(rule.toString()).to.be(
-          '.a-id {\n  border: 1px solid red, 1px solid blue;\n}'
-        )
+        expect(rule.toString()).to.be(stripIndent`
+          .a-id {
+            border: 1px solid red, 1px solid blue;
+          }
+        `)
       })
 
       it('should return CSS with space separated values', () => {
         const rule = jss.createRule('a', {
           margin: [['5px', '10px']]
         })
-        expect(rule.toString()).to.be('.a-id {\n  margin: 5px 10px;\n}')
+        expect(rule.toString()).to.be(stripIndent`
+          .a-id {
+            margin: 5px 10px;
+          }
+        `)
       })
     })
 
@@ -82,9 +94,12 @@ describe('Integration: rules', () => {
           display: 'run-in',
           fallbacks: {display: 'inline'}
         })
-        expect(rule.toString()).to.be(
-          '.a-id {\n  display: inline;\n  display: run-in;\n}'
-        )
+        expect(rule.toString()).to.be(stripIndent`
+          .a-id {
+            display: inline;
+            display: run-in;
+          }
+        `)
       })
 
       it('should return CSS with fallbacks array', () => {
@@ -92,9 +107,12 @@ describe('Integration: rules', () => {
           display: 'run-in',
           fallbacks: [{display: 'inline'}]
         })
-        expect(rule.toString()).to.be(
-          '.a-id {\n  display: inline;\n  display: run-in;\n}'
-        )
+        expect(rule.toString()).to.be(stripIndent`
+          .a-id {
+            display: inline;
+            display: run-in;
+          }
+        `)
       })
 
       it('should return CSS with comma separated values inside of fallbacks', () => {
@@ -103,9 +121,11 @@ describe('Integration: rules', () => {
             border: ['1px solid red', '1px solid blue']
           }
         })
-        expect(rule.toString()).to.be(
-          '.a-id {\n  border: 1px solid red, 1px solid blue;\n}'
-        )
+        expect(rule.toString()).to.be(stripIndent`
+          .a-id {
+            border: 1px solid red, 1px solid blue;
+          }
+        `)
 
         rule = jss.createRule('a', {
           fallbacks: [
@@ -114,9 +134,11 @@ describe('Integration: rules', () => {
             }
           ]
         })
-        expect(rule.toString()).to.be(
-          '.a-id {\n  border: 1px solid red, 1px solid blue;\n}'
-        )
+        expect(rule.toString()).to.be(stripIndent`
+          .a-id {
+            border: 1px solid red, 1px solid blue;
+          }
+        `)
       })
     })
 
@@ -145,24 +167,19 @@ describe('Integration: rules', () => {
         expect(rule.type).to.be('simple')
         expect(rule.key).to.be('@import')
         expect(rule.value).to.eql(value)
-        expect(rule.toString()).to.be(
-          '@import url("something") print;\n' +
-            '@import url("something") screen;'
-        )
+        expect(rule.toString()).to.be(stripIndent`
+          @import url("something") print;
+          @import url("something") screen;
+        `)
       })
     })
 
     it('should return CSS from @namespace rule', () => {
-      const rule = jss.createRule(
-        '@namespace',
-        'svg url(http://www.w3.org/2000/svg)'
-      )
+      const rule = jss.createRule('@namespace', 'svg url(http://www.w3.org/2000/svg)')
       expect(rule.type).to.be('simple')
       expect(rule.key).to.be('@namespace')
       expect(rule.value).to.be('svg url(http://www.w3.org/2000/svg)')
-      expect(rule.toString()).to.be(
-        '@namespace svg url(http://www.w3.org/2000/svg);'
-      )
+      expect(rule.toString()).to.be('@namespace svg url(http://www.w3.org/2000/svg);')
     })
 
     it('should return CSS from @keyframes rule', () => {
@@ -173,19 +190,19 @@ describe('Integration: rules', () => {
       })
       expect(rule.type).to.be('keyframes')
       expect(rule.key).to.be('@keyframes id')
-      expect(rule.toString()).to.be(
-        '@keyframes id {\n' +
-          '  from {\n' +
-          '    top: 0;\n' +
-          '  }\n' +
-          '  30% {\n' +
-          '    top: 30;\n' +
-          '  }\n' +
-          '  60%, 70% {\n' +
-          '    top: 80;\n' +
-          '  }\n' +
-          '}'
-      )
+      expect(rule.toString()).to.be(stripIndent`
+        @keyframes id {
+          from {
+            top: 0;
+          }
+          30% {
+            top: 30;
+          }
+          60%, 70% {
+            top: 80;
+          }
+        }
+      `)
     })
 
     describe('@media rule', () => {
@@ -193,13 +210,13 @@ describe('Integration: rules', () => {
         const rule = jss.createRule('@media print', {a: {display: 'none'}})
         expect(rule.type).to.be('conditional')
         expect(rule.key).to.be('@media print')
-        expect(rule.toString()).to.be(
-          '@media print {\n' +
-            '  .a-id {\n' +
-            '    display: none;\n' +
-            '  }\n' +
-            '}'
-        )
+        expect(rule.toString()).to.be(stripIndent`
+          @media print {
+            .a-id {
+              display: none;
+            }
+          }
+        `)
       })
 
       it('should return CSS from named rule', () => {
@@ -208,13 +225,13 @@ describe('Integration: rules', () => {
         })
         expect(rule.type).to.be('conditional')
         expect(rule.key).to.be('@media print')
-        expect(rule.toString()).to.be(
-          '@media print {\n' +
-            '  .button-id {\n' +
-            '    display: none;\n' +
-            '  }\n' +
-            '}'
-        )
+        expect(rule.toString()).to.be(stripIndent`
+          @media print {
+            .button-id {
+              display: none;
+            }
+          }
+        `)
       })
 
       it('should support @media without space', () => {
@@ -223,13 +240,13 @@ describe('Integration: rules', () => {
         })
         expect(rule.type).to.be('conditional')
         expect(rule.key).to.be('@media(max-width: 715px)')
-        expect(rule.toString()).to.be(
-          '@media(max-width: 715px) {\n' +
-            '  .a-id {\n' +
-            '    color: red;\n' +
-            '  }\n' +
-            '}'
-        )
+        expect(rule.toString()).to.be(stripIndent`
+          @media(max-width: 715px) {
+            .a-id {
+              color: red;
+            }
+          }
+        `)
       })
 
       it('should return CSS from named rule without empty rule', () => {
@@ -252,12 +269,12 @@ describe('Integration: rules', () => {
         )
         expect(rule.type).to.be('font-face')
         expect(rule.key).to.be('@font-face')
-        expect(rule.toString()).to.be(
-          '@font-face {\n' +
-            '  font-family: MyHelvetica;\n' +
-            '  src: local("Helvetica");\n' +
-            '}'
-        )
+        expect(rule.toString()).to.be(stripIndent`
+          @font-face {
+            font-family: MyHelvetica;
+            src: local("Helvetica");
+          }
+        `)
       }
 
       function checkMulti(options) {
@@ -277,16 +294,16 @@ describe('Integration: rules', () => {
         )
         expect(rule.type).to.be('font-face')
         expect(rule.key).to.be('@font-face')
-        expect(rule.toString()).to.be(
-          '@font-face {\n' +
-            '  font-family: MyHelvetica;\n' +
-            '  src: local("Helvetica");\n' +
-            '}\n' +
-            '@font-face {\n' +
-            '  font-family: MyComicSans;\n' +
-            '  src: local("ComicSans");\n' +
-            '}'
-        )
+        expect(rule.toString()).to.be(stripIndent`
+          @font-face {
+            font-family: MyHelvetica;
+            src: local("Helvetica");
+          }
+          @font-face {
+            font-family: MyComicSans;
+            src: local("ComicSans");
+          }
+        `)
       }
 
       it('should return CSS from named rule', () => {
@@ -340,13 +357,13 @@ describe('Integration: rules', () => {
       })
       expect(rule.type).to.be('conditional')
       expect(rule.key).to.be('@supports ( display: flexbox )')
-      const css =
-        '@supports ( display: flexbox ) {\n' +
-        '  .button-id {\n' +
-        '    display: none;\n' +
-        '  }\n' +
-        '}'
-      expect(rule.toString()).to.be(css)
+      expect(rule.toString()).to.be(stripIndent`
+        @supports ( display: flexbox ) {
+          .button-id {
+            display: none;
+          }
+        }
+      `)
     })
 
     describe('@viewport rule', () => {
@@ -356,11 +373,11 @@ describe('Integration: rules', () => {
         })
         expect(rule.type).to.be('viewport')
         expect(rule.key).to.be('@viewport')
-        expect(rule.toString()).to.be(
-          '@viewport {\n' + //
-            '  zoom: 1;\n' +
-            '}'
-        )
+        expect(rule.toString()).to.be(stripIndent`
+          @viewport {
+            zoom: 1;
+          }
+        `)
       })
 
       it('should return CSS from @-ms-viewport rule', () => {
@@ -369,11 +386,11 @@ describe('Integration: rules', () => {
         })
         expect(rule.type).to.be('viewport')
         expect(rule.key).to.be('@-ms-viewport')
-        expect(rule.toString()).to.be(
-          '@-ms-viewport {\n' + //
-            '  zoom: 1;\n' +
-            '}'
-        )
+        expect(rule.toString()).to.be(stripIndent`
+          @-ms-viewport {
+            zoom: 1;
+          }
+        `)
       })
     })
   })

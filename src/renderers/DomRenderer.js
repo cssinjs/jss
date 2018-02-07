@@ -25,10 +25,7 @@ const memoize = <Value>(fn: () => Value): (() => Value) => {
 /**
  * Get a style property value.
  */
-function getPropertyValue(
-  cssRule: HTMLElement | CSSStyleRule,
-  prop: string
-): string {
+function getPropertyValue(cssRule: HTMLElement | CSSStyleRule, prop: string): string {
   try {
     return cssRule.style.getPropertyValue(prop)
   } catch (err) {
@@ -40,11 +37,7 @@ function getPropertyValue(
 /**
  * Set a style property.
  */
-function setProperty(
-  cssRule: HTMLElement | CSSStyleRule,
-  prop: string,
-  value: JssValue
-): boolean {
+function setProperty(cssRule: HTMLElement | CSSStyleRule, prop: string, value: JssValue): boolean {
   try {
     let cssValue = ((value: any): string)
 
@@ -179,10 +172,7 @@ const getUnescapedKeysMap = (() => {
 /**
  * Find attached sheet with an index higher than the passed one.
  */
-function findHigherSheet(
-  registry: Array<StyleSheet>,
-  options: PriorityOptions
-): StyleSheet | null {
+function findHigherSheet(registry: Array<StyleSheet>, options: PriorityOptions): StyleSheet | null {
   for (let i = 0; i < registry.length; i++) {
     const sheet = registry[i]
     if (
@@ -205,10 +195,7 @@ function findHighestSheet(
 ): StyleSheet | null {
   for (let i = registry.length - 1; i >= 0; i--) {
     const sheet = registry[i]
-    if (
-      sheet.attached &&
-      sheet.options.insertionPoint === options.insertionPoint
-    ) {
+    if (sheet.attached && sheet.options.insertionPoint === options.insertionPoint) {
       return sheet
     }
   }
@@ -252,11 +239,7 @@ function findPrevNode(options: PriorityOptions): ?Node | null {
     if (comment) return comment.nextSibling
     // If user specifies an insertion point and it can't be found in the document -
     // bad specificity issues may appear.
-    warning(
-      insertionPoint === 'jss',
-      '[JSS] Insertion point "%s" not found.',
-      insertionPoint
-    )
+    warning(insertionPoint === 'jss', '[JSS] Insertion point "%s" not found.', insertionPoint)
   }
 
   return null
@@ -280,8 +263,7 @@ function insertStyle(style: HTMLElement, options: PriorityOptions) {
     // https://stackoverflow.com/questions/41328728/force-casting-in-flow
     const insertionPointElement: HTMLElement = (insertionPoint: any)
     const {parentNode} = insertionPointElement
-    if (parentNode)
-      parentNode.insertBefore(style, insertionPointElement.nextSibling)
+    if (parentNode) parentNode.insertBefore(style, insertionPointElement.nextSibling)
     else warning(false, '[JSS] Insertion point is not in the DOM.')
     return
   }

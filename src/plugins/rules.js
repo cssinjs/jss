@@ -24,11 +24,7 @@ const classes = {
 export default Object.keys(classes).map((key: string): Plugin => {
   // https://jsperf.com/indexof-vs-substr-vs-regex-at-the-beginning-3
   const re = new RegExp(`^${key}`)
-  const onCreateRule = (
-    name: string,
-    decl: JssStyle,
-    options: RuleOptions
-  ): Rule | null =>
+  const onCreateRule = (name: string, decl: JssStyle, options: RuleOptions): Rule | null =>
     re.test(name) ? new classes[key](name, decl, options) : null
   return {onCreateRule}
 })

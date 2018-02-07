@@ -102,17 +102,17 @@ describe('Integration: sheet', () => {
       expect(sheet.indexOf(sheet.getRule('a'))).to.be(0)
       expect(sheet.indexOf(sheet.getRule('b'))).to.be(1)
       expect(sheet.indexOf(sheet.getRule('c'))).to.be(2)
-      expect(sheet.toString()).to.equal(
-        '.a-id {\n' +
-          '  color: red;\n' +
-          '}\n' +
-          '.b-id {\n' +
-          '  color: green;\n' +
-          '}\n' +
-          '.c-id {\n' +
-          '  color: blue;\n' +
-          '}'
-      )
+      expect(sheet.toString()).to.equal(stripIndent`
+        .a-id {
+          color: red;
+        }
+        .b-id {
+          color: green;
+        }
+        .c-id {
+          color: blue;
+        }
+      `)
     })
   })
 
@@ -153,29 +153,46 @@ describe('Integration: sheet', () => {
         {named: false}
       )
 
-      expect(sheet.toString()).to.be(
-        '@charset "utf-8";\n' +
-          '@import bla;\n' +
-          '@namespace bla;\n' +
-          '.a-id {\n  float: left;\n}\n' +
-          '@font-face {\n  font-family: MyHelvetica;\n  src: local("Helvetica");\n}\n' +
-          '@keyframes id {\n  from {\n    top: 0;\n  }\n}\n' +
-          '@media print {\n  .b-id {\n    display: none;\n  }\n}\n' +
-          '@supports ( display: flexbox ) {\n  .c-id {\n    display: none;\n  }\n}'
-      )
+      expect(sheet.toString()).to.be(stripIndent`
+        @charset "utf-8";
+        @import bla;
+        @namespace bla;
+        .a-id {
+          float: left;
+        }
+        @font-face {
+          font-family: MyHelvetica;
+          src: local("Helvetica");
+        }
+        @keyframes id {
+          from {
+            top: 0;
+          }
+        }
+        @media print {
+          .b-id {
+            display: none;
+          }
+        }
+        @supports ( display: flexbox ) {
+          .c-id {
+            display: none;
+          }
+        }
+      `)
     })
 
     it('should compile a single media query', () => {
       const sheet = jss.createStyleSheet({
         '@media (min-width: 1024px)': {a: {color: 'blue'}}
       })
-      expect(sheet.toString()).to.be(
-        '@media (min-width: 1024px) {\n' +
-          '  .a-id {\n' +
-          '    color: blue;\n' +
-          '  }\n' +
-          '}'
-      )
+      expect(sheet.toString()).to.be(stripIndent`
+        @media (min-width: 1024px) {
+          .a-id {
+            color: blue;
+          }
+        }
+      `)
     })
 
     it('should compile multiple media queries in unnamed sheet', () => {
@@ -184,21 +201,21 @@ describe('Integration: sheet', () => {
         '@media (min-width: 1024px)': {a: {color: 'blue'}},
         '@media (min-width: 1000px)': {a: {color: 'green'}}
       })
-      expect(sheet.toString()).to.be(
-        '.a-id {\n' +
-          '  color: red;\n' +
-          '}\n' +
-          '@media (min-width: 1024px) {\n' +
-          '  .a-id {\n' +
-          '    color: blue;\n' +
-          '  }\n' +
-          '}\n' +
-          '@media (min-width: 1000px) {\n' +
-          '  .a-id {\n' +
-          '    color: green;\n' +
-          '  }\n' +
-          '}'
-      )
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+        }
+        @media (min-width: 1024px) {
+          .a-id {
+            color: blue;
+          }
+        }
+        @media (min-width: 1000px) {
+          .a-id {
+            color: green;
+          }
+        }
+      `)
     })
 
     it('should compile multiple media queries in named sheet', () => {
@@ -207,21 +224,21 @@ describe('Integration: sheet', () => {
         '@media (min-width: 1024px)': {a: {color: 'blue'}},
         '@media (min-width: 1000px)': {a: {color: 'green'}}
       })
-      expect(sheet.toString()).to.be(
-        '.a-id {\n' +
-          '  color: red;\n' +
-          '}\n' +
-          '@media (min-width: 1024px) {\n' +
-          '  .a-id {\n' +
-          '    color: blue;\n' +
-          '  }\n' +
-          '}\n' +
-          '@media (min-width: 1000px) {\n' +
-          '  .a-id {\n' +
-          '    color: green;\n' +
-          '  }\n' +
-          '}'
-      )
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+        }
+        @media (min-width: 1024px) {
+          .a-id {
+            color: blue;
+          }
+        }
+        @media (min-width: 1000px) {
+          .a-id {
+            color: green;
+          }
+        }
+      `)
     })
 
     it('should not throw when rule is undefined', () => {
@@ -297,14 +314,14 @@ describe('Integration: sheet', () => {
           c: {color: 'green'},
           d: {}
         })
-        expect(sheet.toString()).to.be(
-          '.a-id {\n' +
-            '  color: red;\n' +
-            '}\n' +
-            '.c-id {\n' +
-            '  color: green;\n' +
-            '}'
-        )
+        expect(sheet.toString()).to.be(stripIndent`
+          .a-id {
+            color: red;
+          }
+          .c-id {
+            color: green;
+          }
+        `)
       })
 
       it('should skip empty font-face rule', () => {
@@ -314,14 +331,14 @@ describe('Integration: sheet', () => {
           c: {color: 'green'},
           '@font-face': {}
         })
-        expect(sheet.toString()).to.be(
-          '.a-id {\n' +
-            '  color: red;\n' +
-            '}\n' +
-            '.c-id {\n' +
-            '  color: green;\n' +
-            '}'
-        )
+        expect(sheet.toString()).to.be(stripIndent`
+          .a-id {
+            color: red;
+          }
+          .c-id {
+            color: green;
+          }
+        `)
       })
 
       it('should skip empty conditional rule', () => {
@@ -329,11 +346,11 @@ describe('Integration: sheet', () => {
           a: {color: 'red'},
           '@media print': {}
         })
-        expect(sheet.toString()).to.be(
-          '.a-id {\n' + //
-            '  color: red;\n' +
-            '}'
-        )
+        expect(sheet.toString()).to.be(stripIndent`
+          .a-id {
+            color: red;
+          }
+        `)
       })
     })
   })
@@ -346,11 +363,11 @@ describe('Integration: sheet', () => {
           color: null
         }
       })
-      expect(sheet.toString()).to.be(
-        '.a-id {\n' + //
-          '  margin: 0;\n' +
-          '}'
-      )
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          margin: 0;
+        }
+      `)
     })
 
     it('should skip rule if empty value was skipped', () => {

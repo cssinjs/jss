@@ -169,23 +169,19 @@ describe('Functional: Function values', () => {
 
     it('should return a property value from the CSSOM getPropertyValue function of "green" with important', () => {
       sheet.update({color: [['green'], '!important']})
-      expect(
-        document.styleSheets[0].cssRules[0].style.getPropertyValue('color')
-      ).to.be('green')
+      expect(document.styleSheets[0].cssRules[0].style.getPropertyValue('color')).to.be('green')
     })
 
     it('should return a property value from the CSSOM getPropertyValue function of "green"', () => {
       sheet.update({color: ['green']})
-      expect(
-        document.styleSheets[0].cssRules[0].style.getPropertyValue('color')
-      ).to.be('green')
+      expect(document.styleSheets[0].cssRules[0].style.getPropertyValue('color')).to.be('green')
     })
 
     it('should return a correct priority', () => {
       sheet.update({color: [['red'], '!important']})
-      expect(
-        document.styleSheets[0].cssRules[0].style.getPropertyPriority('color')
-      ).to.be('important')
+      expect(document.styleSheets[0].cssRules[0].style.getPropertyPriority('color')).to.be(
+        'important'
+      )
     })
   })
 
@@ -352,37 +348,27 @@ describe('Functional: Function values', () => {
       })
       it('should render sheet with updated rules', () => {
         sheet.update({color: 'green'}).attach()
-        expect(removeVendorPrefixes(getCss(getStyle()))).to.be(
-          removeWhitespace(sheet.toString())
-        )
+        expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
       })
 
       it('should render updated specific rule', () => {
         sheet.update('a', {color: 'green'}).attach()
-        expect(removeVendorPrefixes(getCss(getStyle()))).to.be(
-          removeWhitespace(sheet.toString())
-        )
+        expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
       })
 
       it('should render sheet with removed rules when value is null', () => {
         sheet.update({color: null}).attach()
-        expect(removeVendorPrefixes(getCss(getStyle()))).to.be(
-          removeWhitespace(sheet.toString())
-        )
+        expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
       })
 
       it('should render sheet with removed rules when value is undefined', () => {
         sheet.update({color: undefined}).attach()
-        expect(removeVendorPrefixes(getCss(getStyle()))).to.be(
-          removeWhitespace(sheet.toString())
-        )
+        expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
       })
 
       it('should render sheet with removed rules when value is false', () => {
         sheet.update({color: false}).attach()
-        expect(removeVendorPrefixes(getCss(getStyle()))).to.be(
-          removeWhitespace(sheet.toString())
-        )
+        expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
       })
     })
 
@@ -392,10 +378,9 @@ describe('Functional: Function values', () => {
         // that could not apply keyframes rule w/ or w/o prefix (like IE9)
         if (sheet.renderer.getRules().length < 3) return
 
-        const [actual, expected] = [
-          getCssFromSheet(sheet),
-          removeWhitespace(sheet.toString())
-        ].map(removeVendorPrefixes)
+        const [actual, expected] = [getCssFromSheet(sheet), removeWhitespace(sheet.toString())].map(
+          removeVendorPrefixes
+        )
 
         expect(actual).to.be(expected)
       }
