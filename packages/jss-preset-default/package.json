@@ -48,7 +48,7 @@
     "jss": "^9.7.0"
   },
   "dependencies": {
-    "jss-camel-case": "^6.0.0",
+    "jss-camel-case": "^6.1.0",
     "jss-compose": "^5.0.0",
     "jss-default-unit": "^8.0.2",
     "jss-expand": "^5.1.0",
