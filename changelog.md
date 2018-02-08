@@ -1,3 +1,7 @@
+## 9.8.0 / 2018-02-08
+
+* Remove hyphenation from the core, moved it to jss-camel-case. Now any function values and `rule.prop()` will get hyphenation automatically.
+
 ## 9.7.0 / 2018-01-06
 
 * Allow function values return falsy values in order to remove a property.

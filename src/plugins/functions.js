@@ -2,7 +2,6 @@
 import RuleList from '../RuleList'
 import StyleRule from '../rules/StyleRule'
 import type {Rule, JssStyle, RuleOptions} from '../types'
-import kebabCase from '../utils/kebabCase'
 import createRule from '../utils/createRule'
 
 // A symbol replacement.
@@ -32,7 +31,7 @@ export default {
       const value = style[prop]
       if (typeof value !== 'function') continue
       delete style[prop]
-      fn[kebabCase(prop)] = value
+      fn[prop] = value
     }
     rule = ((rule: any): StyleRuleWithFunctionValues)
     rule[fnValuesNs] = fn

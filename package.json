@@ -59,7 +59,7 @@
     "flow-copy-source": "^1.1.0",
     "json-loader": "^0.5.4",
     "jss-cache": "^2.0.0",
-    "jss-camel-case": "^5.0.0",
+    "jss-camel-case": "^6.1.0",
     "jss-compose": "^4.0.0",
     "jss-default-unit": "^7.0.0",
     "jss-expand": "^4.0.0",
