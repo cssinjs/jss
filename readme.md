@@ -14,16 +14,16 @@ Feel free to ask any JSS related questions on twitter by using hashtag `#cssinjs
 ## Key features
 
 * Framework agnostic
-* [Plugins support](./docs/plugins.md)
 * [Scoped selectors by default](./docs/json-api.md#regular-rule-without-plugins)
-* [Global CSS](https://github.com/cssinjs/jss-global)
-* [Expanded syntax](https://github.com/cssinjs/jss-expand)
-* [Composition syntax optional](https://github.com/cssinjs/jss-compose)
-* [Template strings syntax optional](https://github.com/cssinjs/jss-template)
-* [Isolation](https://github.com/cssinjs/jss-isolate)
 * [Function values and rules](./docs/json-api.md#function-values)
 * [Observables](./docs/json-api.md#observable-values)
 * [SSR](./docs/ssr.md)
+* [Plugins support](./docs/plugins.md)
+* [Global CSS](https://github.com/cssinjs/jss-global)
+* [Expanded syntax](https://github.com/cssinjs/jss-expand)
+* [Composition syntax](https://github.com/cssinjs/jss-compose)
+* [Template strings syntax](https://github.com/cssinjs/jss-template)
+* [Isolation](https://github.com/cssinjs/jss-isolate)
 
 ## Integrations
 
