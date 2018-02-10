@@ -11,6 +11,20 @@
 
 Feel free to ask any JSS related questions on twitter by using hashtag `#cssinjs` and mentioning [@oleg008](https://twitter.com/oleg008), [watch my latest talk](https://www.youtube.com/watch?v=i3TIrcnMIng) about "Unique Value Proposition of CSSinJS" and try it on a [playground](https://codesandbox.io/s/z21lpmvv33).
 
+## Key features
+
+* Framework agnostic
+* [Plugins support](./docs/plugins.md)
+* [Scoped selectors by default](./docs/json-api.md#regular-rule-without-plugins)
+* [Global CSS](https://github.com/cssinjs/jss-global)
+* [Expanded syntax](https://github.com/cssinjs/jss-expand)
+* [Composition syntax optional](https://github.com/cssinjs/jss-compose)
+* [Template strings syntax optional](https://github.com/cssinjs/jss-template)
+* [Isolation](https://github.com/cssinjs/jss-isolate)
+* [Function values and rules](./docs/json-api.md#function-values)
+* [Observables](./docs/json-api.md#observable-values)
+* [SSR](./docs/ssr.md)
+
 ## Integrations
 
 * [React-JSS](https://github.com/cssinjs/react-jss) - HOC interface for React with theming, try it on [playground](https://codesandbox.io/s/j3l06yyqpw).
