@@ -8,6 +8,8 @@
 
 [Aphrodite-JSS](https://github.com/cssinjs/aphrodite-jss) - aphrodite like API.
 
+[glamor-jss](https://github.com/dan-lee/glamor-jss) - glamor like API.
+
 [Aesthetic](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic) - a React style abstraction layer with theme support.
 
 [CSSX](https://github.com/krasimir/cssx) CSS syntax which can use JSS for rendering.
