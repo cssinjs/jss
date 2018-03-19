@@ -9,7 +9,8 @@ import SimpleRule from './rules/SimpleRule'
 import FontFaceRule from './rules/FontFaceRule'
 
 export type ToCssOptions = {
-  indent?: number
+  indent?: number,
+  allowEmpty?: boolean
 }
 
 export type Rule =
