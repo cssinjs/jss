@@ -1,3 +1,7 @@
+## 9.8.1 / 2018-03-19
+
+- Upgrade to flow 0.68.0
+
 ## 9.8.0 / 2018-02-08
 
 * Remove hyphenation from the core, moved it to jss-camel-case. Now any function values and `rule.prop()` will get hyphenation automatically.
