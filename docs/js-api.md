@@ -132,7 +132,7 @@ Counts how many elements use the same Style Sheet and automatically attach or de
 ```javascript
 import jss, {SheetsManager} from 'jss'
 
-const manager = SheetsManager()
+const manager = new SheetsManager()
 manager.size // 0
 const sheet = jss.createStyleSheet()
 const key = {}
