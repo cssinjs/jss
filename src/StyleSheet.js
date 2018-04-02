@@ -183,7 +183,7 @@ export default class StyleSheet {
   /**
    * Update the function values with a new data.
    */
-  update(name?: string, data?: Object): this {
+  update(name?: string | Object, data?: Object): this {
     this.rules.update(name, data)
     return this
   }
