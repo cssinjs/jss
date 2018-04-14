@@ -53,7 +53,7 @@ Similar to function values, you can use a function to return a dynamic style obj
 ```javascript
 const styles = {
   button: data => ({
-    position: 'flex',
+    display: 'flex',
     color: data.color
   })
 }
