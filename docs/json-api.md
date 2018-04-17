@@ -36,12 +36,12 @@ const styles = {
 
 ### Support of "!important"
 
-To use the `!important` modifier with function values, you must use [array syntax](./js-api.md#alternative-syntax-for-space-and-comma-separated-values):
+To use the `!important` modifier with function values, you must use [array syntax](#alternative-syntax-for-space-and-comma-separated-values):
 
 ```javascript
 const styles = {
   button: {
-    color: data => [data.color, '!important']
+    color: data => [[data.color], '!important']
   }
 }
 ```
@@ -352,7 +352,7 @@ Compiles to:
 ```javascript
 const styles = {
   button: {
-    color: ['red', '!important'],
+    color: [['red'], '!important'],
     margin: [[5, 10], '!important']
   }
 }
