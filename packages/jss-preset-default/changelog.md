@@ -1,3 +1,7 @@
+## 4.4.0 / 2018-05-05
+
+- updated jss-expand
+
 ## 4.3.0 / 2018-02-08
 
 - updated jss and jss-camel-case
