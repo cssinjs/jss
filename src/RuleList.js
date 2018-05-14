@@ -2,14 +2,10 @@
 import createRule from './utils/createRule'
 import linkRule from './utils/linkRule'
 import StyleRule from './rules/StyleRule'
-import type {
-  RuleListOptions,
-  ToCssOptions,
-  Rule,
-  RuleOptions,
-  JssStyle
-} from './types'
+import type {RuleListOptions, ToCssOptions, Rule, RuleOptions, JssStyle} from './types'
 import escape from './utils/escape'
+
+type Update = ((name: string, data?: Object) => void) & ((data?: Object) => void)
 
 /**
  * Contains rules objects and allows adding/removing etc.
@@ -70,8 +66,7 @@ export default class RuleList {
 
     this.register(rule, className)
 
-    const index =
-      options.index === undefined ? this.index.length : options.index
+    const index = options.index === undefined ? this.index.length : options.index
     this.index.splice(index, 0, rule)
 
     return rule
@@ -134,15 +129,14 @@ export default class RuleList {
   /**
    * Update the function values with a new data.
    */
-  update(name?: string | Object, data?: Object): void {
+  update: Update = (name, data) => {
     const {jss: {plugins}, sheet} = this.options
     if (typeof name === 'string') {
       plugins.onUpdate(data, this.get(name), sheet)
-      return
-    }
-
-    for (let index = 0; index < this.index.length; index++) {
-      plugins.onUpdate(name, this.index[index], sheet)
+    } else {
+      for (let index = 0; index < this.index.length; index++) {
+        plugins.onUpdate(name, this.index[index], sheet)
+      }
     }
   }
 

@@ -3,7 +3,8 @@
   "parser": "babel-eslint",
   "rules": {
     "import/no-unresolved": 0,
-    "flowtype/define-flow-type": 1
+    "flowtype/define-flow-type": 1,
+    "flowtype/use-flow-type": 1
   },
   "globals": {
     "benchmark": true,
