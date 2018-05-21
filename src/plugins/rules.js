@@ -21,10 +21,13 @@ const classes = {
 /**
  * Generate plugins which will register all rules.
  */
-export default Object.keys(classes).map((key: string): Plugin => {
+const plugins: $ReadOnlyArray<Plugin> = Object.keys(classes).map((key: string) => {
   // https://jsperf.com/indexof-vs-substr-vs-regex-at-the-beginning-3
   const re = new RegExp(`^${key}`)
+  const RuleClass = classes[key]
   const onCreateRule = (name: string, decl: JssStyle, options: RuleOptions): Rule | null =>
-    re.test(name) ? new classes[key](name, decl, options) : null
+    re.test(name) ? new RuleClass(name, decl, options) : null
   return {onCreateRule}
 })
+
+export default plugins

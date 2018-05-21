@@ -10,6 +10,9 @@ import type {
   JssStyle
 } from './types'
 
+/* eslint-disable-next-line no-use-before-define */
+type Update = ((name: string, data?: Object) => StyleSheet) & ((data?: Object) => StyleSheet)
+
 export default class StyleSheet {
   options: InternalStyleSheetOptions
 
@@ -183,8 +186,12 @@ export default class StyleSheet {
   /**
    * Update the function values with a new data.
    */
-  update(name?: string | Object, data?: Object): this {
-    this.rules.update(name, data)
+  update: Update = (name, data) => {
+    if (typeof name === 'string') {
+      this.rules.update(name, data)
+    } else {
+      this.rules.update(name)
+    }
     return this
   }
 
