@@ -187,7 +187,7 @@ Support us with a monthly donation and help us continue our activities. [[Become
 
 ### Sponsors
 
-[![Chatgrape](https://ug-cdn.com/static/chatgrape/static/images/logo-grape-short-cg-fontrender.svg)](https://www.chatgrape.com/)
+[![Chatgrape](https://ug-cdn.com/static/chatgrape/static/images/logo-grape-short-cg-fontrender.svg)](https://www.chatgrape.com/) [![Greenkeeper badge](https://badges.greenkeeper.io/cssinjs/jss.svg)](https://greenkeeper.io/)
 
 Become a sponsor and get your logo on our README on Github with a link to your site. [[Become a sponsor](https://opencollective.com/jss#sponsor)]
 
