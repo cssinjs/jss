@@ -12,9 +12,7 @@ export default class SheetsRegistry {
    * Current highest index number.
    */
   get index(): number {
-    return this.registry.length === 0
-      ? 0
-      : this.registry[this.registry.length - 1].options.index
+    return this.registry.length === 0 ? 0 : this.registry[this.registry.length - 1].options.index
   }
 
   /**

@@ -16,11 +16,7 @@ export default class PluginsRegistry {
   /**
    * Call `onCreateRule` hooks and return an object if returned by a hook.
    */
-  onCreateRule(
-    name?: string,
-    decl: JssStyle,
-    options: RuleOptions
-  ): Rule | null {
+  onCreateRule(name?: string, decl: JssStyle, options: RuleOptions): Rule | null {
     for (let i = 0; i < this.hooks.onCreateRule.length; i++) {
       const rule = this.hooks.onCreateRule[i](name, decl, options)
       if (rule) return rule
