@@ -3,6 +3,7 @@
 [include]
 
 [libs]
+packages/jss/flow-typed
 
 [options]
 include_warnings=true

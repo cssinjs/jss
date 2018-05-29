@@ -34,11 +34,7 @@ export type JssValue =
 
 export interface Renderer {
   constructor(sheet?: StyleSheet): void;
-  setProperty(
-    cssRule: HTMLElement | CSSStyleRule,
-    prop: string,
-    value: JssValue
-  ): boolean;
+  setProperty(cssRule: HTMLElement | CSSStyleRule, prop: string, value: JssValue): boolean;
   getPropertyValue(cssRule: HTMLElement | CSSStyleRule, prop: string): string;
   removeProperty(cssRule: HTMLElement | CSSStyleRule, prop: string): void;
   setSelector(cssRule: CSSStyleRule, selectorText: string): boolean;
@@ -91,17 +87,9 @@ export interface BaseRule {
 }
 
 export type Plugin = {
-  onCreateRule?: (
-    name: string,
-    decl: JssStyle,
-    options: RuleOptions
-  ) => Rule | null,
+  onCreateRule?: (name: string, decl: JssStyle, options: RuleOptions) => Rule | null,
   onProcessRule?: (rule: Rule, sheet?: StyleSheet) => void,
-  onProcessStyle?: (
-    style: JssStyle,
-    rule: Rule,
-    sheet?: StyleSheet
-  ) => JssStyle,
+  onProcessStyle?: (style: JssStyle, rule: Rule, sheet?: StyleSheet) => JssStyle,
   onProcessSheet?: (sheet?: StyleSheet) => void,
   onChangeValue?: (value: string, prop: string, rule: Rule) => string,
   onUpdate?: (data: Object, rule: Rule, sheet?: StyleSheet) => void

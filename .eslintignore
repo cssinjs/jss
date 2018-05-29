@@ -1,1 +1,4 @@
-flow-typed/
+packages/jss/flow-typed/
+packages/**/node_modules/
+packages/**/dist/
+packages/**/lib/
