@@ -1,5 +1,5 @@
-const webpackConfig = require('./webpack.config')
-const browsers = require('./browsers')
+const webpackConfig = require('../../webpack.config')
+const browsers = require('../../browsers')
 
 const isBench = process.env.BENCHMARK === 'true'
 const useCloud = process.env.USE_CLOUD === 'true'
@@ -16,10 +16,10 @@ module.exports = config => {
     browsers: ['Chrome'],
     frameworks: ['mocha'],
     files: [
-      'node_modules/es5-shim/es5-shim.js',
-      'node_modules/es5-shim/es5-sham.js',
-      'node_modules/css.escape/css.escape.js',
-      'tests/index.js'
+      '../../node_modules/es5-shim/es5-shim.js',
+      '../../node_modules/es5-shim/es5-sham.js',
+      '../../node_modules/css.escape/css.escape.js',
+      './tests/index.js'
     ],
     preprocessors: {
       'tests/index.js': ['webpack', 'sourcemap']

@@ -6,3 +6,4 @@ tmp/
 packages/jss/tests/index.html
 # npm install does it's own formatting, which can conflict with prettier
 package*.json
+packages/jss/.bithoundrc

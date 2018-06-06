@@ -5,15 +5,13 @@
   "scripts": {
     "lerna": "lerna",
     "bootstrap": "lerna bootstrap",
+    "publish": "npm run lint && npm run test && lerna publish",
     "typecheck": "flow check --max-warnings=0",
     "lint": "eslint ./src ./tests ./benchmark ./*.js && npm run typecheck && npm run format",
     "lint:staged": "lint-staged && npm run typecheck",
-    "format": "prettier --write \"packages/*/**/*\"",
-    "test": "cross-env NODE_ENV=test karma start --single-run",
-    "test:watch": "cross-env NODE_ENV=test karma start",
-    "posttest": "cross-env SNAPSHOT=match rollup -c && [ -z \"$TRAVIS\" ] || codecov",
-    "codecov": "codecov",
-    "bench": "cross-env BENCHMARK=true karma start --single-run"
+    "format": "prettier --write \"packages/*/**/*.*\"",
+    "test": "lerna run test",
+    "build": "lerna run build"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",

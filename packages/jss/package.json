@@ -27,14 +27,18 @@
     "node": ">=4"
   },
   "scripts": {
-    "all": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "test": "cross-env NODE_ENV=test karma start --single-run",
+    "test:watch": "cross-env NODE_ENV=test karma start",
+    "posttest": "cross-env SNAPSHOT=match rollup -c && [ -z \"$TRAVIS\" ] || codecov",
+    "codecov": "codecov",
+    "bench": "cross-env BENCHMARK=true karma start --single-run",
     "build": "npm run clean && npm run build:lib && npm run build:umd && npm run build:tests",
-    "build:lib": "babel src --out-dir lib && npm run build:flow",
+    "build:lib": "babel src -d lib && npm run build:flow",
     "build:umd": "rollup -c",
     "build:tests": "cross-env NODE_ENV=test webpack tests/index.js tmp/tests.js",
     "build:flow": "echo \"// @flow\n\nexport * from '../src';\" > lib/index.js.flow",
     "clean": "rimraf '{lib,dist,tmp}/*'",
-    "prepublishOnly": "npm run all",
+    "prepublishOnly": "npm run build",
     "postinstall": "node -e \"console.log('\\u001b[35m\\u001b[1mLove JSS? You can now support us on open collective:\\u001b[22m\\u001b[39m\\n > \\u001b[34mhttps://opencollective.com/jss/donate\\u001b[0m')\""
   },
   "dependencies": {
