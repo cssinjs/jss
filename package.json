@@ -1,7 +1,7 @@
 {
   "name": "jss",
   "description": "A lib for generating Style Sheets with JavaScript.",
-  "version": "9.8.1",
+  "version": "9.8.2",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
@@ -58,7 +58,7 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.5.0",
     "expect.js": "^0.3.1",
-    "flow-bin": "^0.72.0",
+    "flow-bin": "^0.73.0",
     "json-loader": "^0.5.4",
     "jss-cache": "^2.0.0",
     "jss-camel-case": "^6.1.0",

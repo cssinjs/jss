@@ -1,6 +1,12 @@
+## 9.8.2 / 2018-06-01
+
+* Fixed typings for RuleList.update method.
+* Migrated from webpack to rollup.
+* Upgraded to flow 0.72
+
 ## 9.8.1 / 2018-03-19
 
-- Upgrade to flow 0.68.0
+* Upgrade to flow 0.68.0
 
 ## 9.8.0 / 2018-02-08
 
