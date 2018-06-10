@@ -1,6 +1,6 @@
 /* @flow */
 import toCss from '../utils/toCss'
-import type {RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
+import type {CSSStyleRule, RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
 
 export default class ViewportRule implements BaseRule {
   type = 'viewport'

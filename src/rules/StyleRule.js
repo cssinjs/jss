@@ -3,6 +3,7 @@ import warning from 'warning'
 import toCss from '../utils/toCss'
 import toCssValue from '../utils/toCssValue'
 import type {
+  CSSStyleRule,
   ToCssOptions,
   RuleOptions,
   Renderer as RendererInterface,

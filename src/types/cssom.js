@@ -1,36 +1,38 @@
-declare type DOMString = string
+// @flow
 
-declare interface CSSRuleBase<T> {
+export type DOMString = string
+
+export interface CSSRuleBase<T> {
   +type: $PropertyType<T, 'type'>;
   +CSSRule: ?CSSRule;
   +CSSStyleSheet: ?CSSStyleSheet;
   cssText: DOMString;
 }
 
-declare interface CSSStyleRule extends CSSRuleBase<{type: 1 | 1}> {
+export interface CSSStyleRule extends CSSRuleBase<{type: 1 | 1}> {
   +type: 1;
   +style: CSSStyleDeclaration;
   selectorText: DOMString;
 }
 
-declare interface CSSRuleList {
+export interface CSSRuleList {
   length: number;
   [index: number]: CSSStyleRule;
 }
 
-declare interface CSSGroupingRule<T> extends CSSRuleBase<T> {
+export interface CSSGroupingRule<T> extends CSSRuleBase<T> {
   +cssRules: CSSRuleList;
   insertRule(rule: DOMString, index: number): number;
   deleteRule(index: number): void;
 }
 
-declare interface CSSKeyframeRule extends CSSRuleBase<{type: 8 | 8}> {
+export interface CSSKeyframeRule extends CSSRuleBase<{type: 8 | 8}> {
   +type: 8;
   +style: CSSStyleDeclaration;
   keyText: DOMString;
 }
 
-declare interface CSSKeyframesRule extends CSSRuleBase<{type: 7 | 7}> {
+export interface CSSKeyframesRule extends CSSRuleBase<{type: 7 | 7}> {
   +type: 7;
   +cssRules: CSSRuleList;
   name: DOMString;
@@ -39,7 +41,7 @@ declare interface CSSKeyframesRule extends CSSRuleBase<{type: 7 | 7}> {
   findRule(key: DOMString): CSSKeyframeRule;
 }
 
-declare interface CSSMediaRule extends CSSGroupingRule<{type: 4 | 4}> {
+export interface CSSMediaRule extends CSSGroupingRule<{type: 4 | 4}> {
   +type: 4;
   +mediaList: {
     +mediaText: DOMString,
@@ -50,4 +52,4 @@ declare interface CSSMediaRule extends CSSGroupingRule<{type: 4 | 4}> {
   };
 }
 
-declare type CSSOMRule = CSSStyleRule | CSSMediaRule | CSSKeyframesRule
+export type CSSOMRule = CSSStyleRule | CSSMediaRule | CSSKeyframesRule

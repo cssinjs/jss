@@ -1,6 +1,6 @@
 /* @flow */
 import RuleList from '../RuleList'
-import type {RuleOptions, ToCssOptions, BaseRule} from '../types'
+import type {CSSStyleRule, RuleOptions, ToCssOptions, BaseRule} from '../types'
 
 /**
  * Rule for @keyframes
