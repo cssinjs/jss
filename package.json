@@ -125,7 +125,6 @@
     "dist",
     "lib",
     "src",
-    "flow-typed",
     "readme.md",
     "changelog.md",
     "LICENSE"

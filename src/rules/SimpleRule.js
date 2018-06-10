@@ -1,4 +1,5 @@
 /* @flow */
+import type {CSSStyleRule} from '../cssom'
 import type {RuleOptions, ToCssOptions, BaseRule} from '../types'
 
 export default class SimpleRule implements BaseRule {

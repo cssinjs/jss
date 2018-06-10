@@ -1,5 +1,6 @@
 /* @flow */
 import RuleList from '../RuleList'
+import type { CSSStyleRule } from '../cssom';
 import type {RuleOptions, ToCssOptions, BaseRule} from '../types'
 
 /**

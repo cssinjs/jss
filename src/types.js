@@ -7,6 +7,7 @@ import StyleRule from './rules/StyleRule'
 import ViewportRule from './rules/ViewportRule'
 import SimpleRule from './rules/SimpleRule'
 import FontFaceRule from './rules/FontFaceRule'
+import type { CSSStyleRule } from './cssom'
 
 export type ToCssOptions = {
   indent?: number,
