@@ -1,3 +1,7 @@
+## 9.8.3 / 2018-06-10
+
+* Fix CSSOM local typings (flow stopped looking into node_modules if types are not imported directly since v0.57.0)
+
 ## 9.8.2 / 2018-06-01
 
 * Fixed typings for RuleList.update method.
