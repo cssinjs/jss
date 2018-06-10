@@ -1,7 +1,6 @@
 /* @flow */
 import RuleList from '../RuleList'
-import type { CSSStyleRule } from '../cssom';
-import type {Rule, RuleOptions, ToCssOptions, JssStyle, BaseRule} from '../types'
+import type {CSSStyleRule, Rule, RuleOptions, ToCssOptions, JssStyle, BaseRule} from '../types'
 
 /**
  * Conditional rule for @media, @supports

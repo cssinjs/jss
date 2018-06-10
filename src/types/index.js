@@ -1,13 +1,16 @@
 /* @flow */
-import Jss from './Jss'
-import StyleSheet from './StyleSheet'
-import ConditionalRule from './rules/ConditionalRule'
-import KeyframesRule from './rules/KeyframesRule'
-import StyleRule from './rules/StyleRule'
-import ViewportRule from './rules/ViewportRule'
-import SimpleRule from './rules/SimpleRule'
-import FontFaceRule from './rules/FontFaceRule'
+import Jss from '../Jss'
+import StyleSheet from '../StyleSheet'
+import ConditionalRule from '../rules/ConditionalRule'
+import KeyframesRule from '../rules/KeyframesRule'
+import StyleRule from '../rules/StyleRule'
+import ViewportRule from '../rules/ViewportRule'
+import SimpleRule from '../rules/SimpleRule'
+import FontFaceRule from '../rules/FontFaceRule'
 import type { CSSStyleRule } from './cssom'
+
+export * from './observable.js';
+export * from './cssom.js';
 
 export type ToCssOptions = {
   indent?: number,
@@ -164,23 +167,4 @@ export type InternalStyleSheetOptions = {
   sheet: StyleSheet,
   parent: ConditionalRule | KeyframesRule | StyleSheet,
   classes: Object
-}
-
-// These types are imported from indefinite-observable.  They should probably
-// be moved to flow-typed.
-
-export type Observable<T> = {
-  subscribe(observerOrNext: ObserverOrNext<T>): Subscription
-}
-
-export type Observer<T> = {
-  next: NextChannel<T>
-}
-
-export type NextChannel<T> = (value: T) => void
-export type ObserverOrNext<T> = Observer<T> | NextChannel<T>
-
-export type Unsubscribe = () => void
-export type Subscription = {
-  unsubscribe: Unsubscribe
 }

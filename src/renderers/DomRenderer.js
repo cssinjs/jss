@@ -3,8 +3,7 @@ import warning from 'warning'
 import sheets from '../sheets'
 import type StyleSheet from '../StyleSheet'
 import StyleRule from '../rules/StyleRule'
-import type { CSSStyleRule, CSSOMRule } from '../cssom';
-import type {Rule, JssValue, InsertionPoint} from '../types'
+import type {CSSStyleRule, CSSOMRule, Rule, JssValue, InsertionPoint} from '../types'
 import toCssValue from '../utils/toCssValue'
 
 type PriorityOptions = {
