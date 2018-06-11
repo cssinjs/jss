@@ -274,10 +274,12 @@ function insertStyle(style: HTMLElement, options: PriorityOptions) {
 /**
  * Read jss nonce setting from the page if the user has set it.
  */
-const getNonce = memoize((): ?string => {
-  const node = document.querySelector('meta[property="csp-nonce"]')
-  return node ? node.getAttribute('content') : null
-})
+const getNonce = memoize(
+  (): ?string => {
+    const node = document.querySelector('meta[property="csp-nonce"]')
+    return node ? node.getAttribute('content') : null
+  }
+)
 
 export default class DomRenderer {
   getPropertyValue = getPropertyValue

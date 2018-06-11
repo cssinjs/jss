@@ -32,7 +32,7 @@ export default [
       commonjs({include: '**/node_modules/**'}),
       babel(getBabelOptions()),
       replace({'process.env.NODE_ENV': JSON.stringify('development')}),
-      sizeSnapshot({ matchSnapshot })
+      sizeSnapshot({matchSnapshot})
     ]
   },
 
@@ -49,7 +49,7 @@ export default [
       commonjs({include: '**/node_modules/**'}),
       babel(getBabelOptions()),
       replace({'process.env.NODE_ENV': JSON.stringify('production')}),
-      sizeSnapshot({ matchSnapshot }),
+      sizeSnapshot({matchSnapshot}),
       uglify()
     ]
   }
