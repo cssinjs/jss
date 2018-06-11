@@ -11,6 +11,8 @@
 
 Feel free to ask any JSS related questions on twitter by using hashtag `#cssinjs` and mentioning [@oleg008](https://twitter.com/oleg008), [watch my latest talk](https://www.youtube.com/watch?v=i3TIrcnMIng) about "Unique Value Proposition of CSSinJS" and try it on a [playground](https://codesandbox.io/s/z21lpmvv33).
 
+If you are a Sass (SCSS) user, this course will show how to express popular Sass language features using latest JavaScript features: [Convert SCSS (Sass) to CSS-in-JS](https://egghead.io/courses/convert-scss-sass-to-css-in-js).
+
 ## Key features
 
 * Framework agnostic
