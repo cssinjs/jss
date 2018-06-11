@@ -111,7 +111,7 @@ Here is another example, with the insertion point moved to the `body`:
 <head>
   <title>JSS in body</title>
 </head>
-<body>  
+<body>
   <div id="insertion-point">
     This might be any DOM node of your choice which can serve as an insertion point.
   </div>

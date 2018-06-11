@@ -107,7 +107,7 @@
     "typecheck": "flow check --max-warnings=0",
     "lint": "eslint ./src ./tests ./benchmark ./*.js && npm run typecheck && npm run format",
     "lint:staged": "lint-staged && npm run typecheck",
-    "format": "prettier --write */**/*",
+    "format": "prettier --write **/*.{js,md,json}",
     "test": "cross-env NODE_ENV=test karma start --single-run",
     "test:watch": "cross-env NODE_ENV=test karma start",
     "posttest": "cross-env SNAPSHOT=match rollup -c && [ -z \"$TRAVIS\" ] || codecov",

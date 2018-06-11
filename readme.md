@@ -15,38 +15,38 @@ If you are a Sass (SCSS) user, this course will show how to express popular Sass
 
 ## Key features
 
-* Framework agnostic
-* [Scoped selectors by default](./docs/json-api.md#regular-rule-without-plugins)
-* [Function values and rules](./docs/json-api.md#function-values)
-* [Observables](./docs/json-api.md#observable-values)
-* [SSR](./docs/ssr.md)
-* [Plugins support](./docs/plugins.md)
-* [Global CSS](https://github.com/cssinjs/jss-global)
-* [Expanded syntax](https://github.com/cssinjs/jss-expand)
-* [Composition syntax](https://github.com/cssinjs/jss-compose)
-* [Template strings syntax](https://github.com/cssinjs/jss-template)
-* [Isolation](https://github.com/cssinjs/jss-isolate)
+- Framework agnostic
+- [Scoped selectors by default](./docs/json-api.md#regular-rule-without-plugins)
+- [Function values and rules](./docs/json-api.md#function-values)
+- [Observables](./docs/json-api.md#observable-values)
+- [SSR](./docs/ssr.md)
+- [Plugins support](./docs/plugins.md)
+- [Global CSS](https://github.com/cssinjs/jss-global)
+- [Expanded syntax](https://github.com/cssinjs/jss-expand)
+- [Composition syntax](https://github.com/cssinjs/jss-compose)
+- [Template strings syntax](https://github.com/cssinjs/jss-template)
+- [Isolation](https://github.com/cssinjs/jss-isolate)
 
 ## Integrations
 
-* [React-JSS](https://github.com/cssinjs/react-jss) - HOC interface for React with theming, try it on [playground](https://codesandbox.io/s/j3l06yyqpw).
-* [Styled-JSS](https://github.com/cssinjs/styled-jss) - styled components interface for React, try it on [playground](https://codesandbox.io/s/xl89zx8zz4).
-* [Aphrodite-JSS](https://github.com/cssinjs/aphrodite-jss) - aphrodite like API.
+- [React-JSS](https://github.com/cssinjs/react-jss) - HOC interface for React with theming, try it on [playground](https://codesandbox.io/s/j3l06yyqpw).
+- [Styled-JSS](https://github.com/cssinjs/styled-jss) - styled components interface for React, try it on [playground](https://codesandbox.io/s/xl89zx8zz4).
+- [Aphrodite-JSS](https://github.com/cssinjs/aphrodite-jss) - aphrodite like API.
 
 ## TOC
 
-1. [Live examples](https://github.com/cssinjs/examples)
-1. [Benefits](./docs/benefits.md)
-1. [Setup](./docs/setup.md)
-1. [JSON API (JSS Syntax)](./docs/json-api.md)
-1. [JavaScript API](./docs/js-api.md)
-1. [Server-side rendering](./docs/ssr.md)
-1. [Performance](./docs/performance.md)
-1. [Plugins API](./docs/plugins.md)
-1. [Official plugins](https://github.com/cssinjs?q=plugin)
-1. [All related projects](./docs/projects.md)
-1. [CLI Converter](https://github.com/cssinjs/cli)
-1. [Contributing](./contributing.md)
+1.  [Live examples](https://github.com/cssinjs/examples)
+1.  [Benefits](./docs/benefits.md)
+1.  [Setup](./docs/setup.md)
+1.  [JSON API (JSS Syntax)](./docs/json-api.md)
+1.  [JavaScript API](./docs/js-api.md)
+1.  [Server-side rendering](./docs/ssr.md)
+1.  [Performance](./docs/performance.md)
+1.  [Plugins API](./docs/plugins.md)
+1.  [Official plugins](https://github.com/cssinjs?q=plugin)
+1.  [All related projects](./docs/projects.md)
+1.  [CLI Converter](https://github.com/cssinjs/cli)
+1.  [Contributing](./contributing.md)
 
 ## Example
 
@@ -124,15 +124,15 @@ Result
 
 ## When should I use it?
 
-* You build a JavaScript heavy application.
-* You use components based architecture.
-* You build a reusable UI library.
-* You need a collision free CSS (external content, third-party UI components ...).
-* You need code sharing between js and css.
-* Minimal download size is important to you.
-* Robustness and code reuse is important to you.
-* Ease of maintenance is important to you.
-* You just want to use any of its [benefits](./docs/benefits.md)
+- You build a JavaScript heavy application.
+- You use components based architecture.
+- You build a reusable UI library.
+- You need a collision free CSS (external content, third-party UI components ...).
+- You need code sharing between js and css.
+- Minimal download size is important to you.
+- Robustness and code reuse is important to you.
+- Ease of maintenance is important to you.
+- You just want to use any of its [benefits](./docs/benefits.md)
 
 ## Roadmap
 
