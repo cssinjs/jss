@@ -1,3 +1,8 @@
+## 9.8.4 / 2018-06-12
+
+* Add link to the egghead course
+* Upgrade prettier and format code (#726)
+
 ## 9.8.3 / 2018-06-10
 
 * Fix CSSOM local typings (flow stopped looking into node_modules if types are not imported directly since v0.57.0)
