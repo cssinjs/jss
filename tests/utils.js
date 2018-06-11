@@ -24,9 +24,7 @@ export function getCss(style) {
 }
 
 export function getCssFromSheet(sheet) {
-  return [...sheet.renderer.getRules()]
-    .map(rule => removeWhitespace(rule.cssText))
-    .join('')
+  return [...sheet.renderer.getRules()].map(rule => removeWhitespace(rule.cssText)).join('')
 }
 
 /**
