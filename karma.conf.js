@@ -22,7 +22,7 @@ module.exports = config => {
       './packages/jss/tests/index.js'
     ],
     preprocessors: {
-      'tests/index.js': ['webpack', 'sourcemap']
+      './packages/jss/tests/index.js': ['webpack', 'sourcemap']
     },
     webpack: Object.assign(webpackConfig, {
       devtool: 'inline-source-map'
