@@ -8,7 +8,7 @@ import pkg from './package.json'
 
 const matchSnapshot = process.env.SNAPSHOT === 'match'
 
-const input = './src/index.js'
+const input = matchSnapshot ? './packages/jss/src/index.js' : './src/index.js'
 
 const getBabelOptions = () => ({
   exclude: '**/node_modules/**',
@@ -32,7 +32,10 @@ export default [
       commonjs({include: '**/node_modules/**'}),
       babel(getBabelOptions()),
       replace({'process.env.NODE_ENV': JSON.stringify('development')}),
-      sizeSnapshot({matchSnapshot})
+      sizeSnapshot({
+        matchSnapshot,
+        snapshotPath: './packages/jss/.size-snapshot.json'
+      })
     ]
   },
 
@@ -49,7 +52,10 @@ export default [
       commonjs({include: '**/node_modules/**'}),
       babel(getBabelOptions()),
       replace({'process.env.NODE_ENV': JSON.stringify('production')}),
-      sizeSnapshot({matchSnapshot}),
+      sizeSnapshot({
+        matchSnapshot,
+        snapshotPath: './packages/jss/.size-snapshot.json'
+      }),
       uglify()
     ]
   }
