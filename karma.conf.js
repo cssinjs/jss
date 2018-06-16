@@ -19,7 +19,7 @@ module.exports = config => {
       'node_modules/es5-shim/es5-shim.js',
       'node_modules/es5-shim/es5-sham.js',
       'node_modules/css.escape/css.escape.js',
-      'tests/index.js'
+      './packages/jss/tests/index.js'
     ],
     preprocessors: {
       'tests/index.js': ['webpack', 'sourcemap']
