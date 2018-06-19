@@ -31,7 +31,10 @@ export default [
       nodeResolve(),
       commonjs({include: '**/node_modules/**'}),
       babel(getBabelOptions()),
-      replace({'process.env.NODE_ENV': JSON.stringify('development')}),
+      replace({
+        'process.env.NODE_ENV': JSON.stringify('development'),
+        __VERSION__: JSON.stringify(pkg.version)
+      }),
       sizeSnapshot({matchSnapshot})
     ]
   },
@@ -48,7 +51,10 @@ export default [
       nodeResolve(),
       commonjs({include: '**/node_modules/**'}),
       babel(getBabelOptions()),
-      replace({'process.env.NODE_ENV': JSON.stringify('production')}),
+      replace({
+        'process.env.NODE_ENV': JSON.stringify('production'),
+        __VERSION__: JSON.stringify(pkg.version)
+      }),
       sizeSnapshot({matchSnapshot}),
       uglify()
     ]
