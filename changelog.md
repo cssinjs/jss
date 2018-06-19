@@ -1,3 +1,7 @@
+## 9.8.6 / 2018-06-19
+
+* Remove type attribute from style element (#724)
+
 ## 9.8.5 / 2018-06-19
 
 * Fix version un the dist version (#730)
