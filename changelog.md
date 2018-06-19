@@ -1,3 +1,7 @@
+## 9.8.5 / 2018-06-19
+
+* Fix version un the dist version (#730)
+
 ## 9.8.4 / 2018-06-12
 
 * Add link to the egghead course
