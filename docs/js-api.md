@@ -175,8 +175,8 @@ const sheet2 = jss.createStyleSheet({}, {index: 1, meta: 'sheet-2'}).attach()
 ```
 
 ```html
-<style type="text/css" data-meta="sheet-2"></style>
-<style type="text/css" data-meta="sheet-1"></style>
+<style data-meta="sheet-2"></style>
+<style data-meta="sheet-1"></style>
 ```
 
 ## Add a rule to an existing Style Sheet

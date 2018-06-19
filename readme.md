@@ -95,7 +95,7 @@ Result
 
 ```html
 <head>
-  <style type="text/css">
+  <style>
     .button-123456 {
       font-size: 12px;
     }
