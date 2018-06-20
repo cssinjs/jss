@@ -2,7 +2,7 @@
 import createRule from './utils/createRule'
 import linkRule from './utils/linkRule'
 import StyleRule from './rules/StyleRule'
-import type {RuleListOptions, ToCssOptions, Rule, RuleOptions, JssStyle} from './types'
+import type {RuleListOptions, ToCssOptions, Rule, RuleOptions, JssStyle, Classes} from './types'
 import escape from './utils/escape'
 
 type Update = ((name: string, data?: Object) => void) & ((data?: Object) => void)
@@ -24,7 +24,7 @@ export default class RuleList {
 
   options: RuleListOptions
 
-  classes: Object
+  classes: Classes
 
   constructor(options: RuleListOptions) {
     this.options = options
