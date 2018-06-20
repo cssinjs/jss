@@ -26,7 +26,7 @@ export default class StyleSheet {
 
   renderer: Object
 
-  classes: Object
+  classes: { [string]: string }
 
   queue: ?Array<Rule>
 

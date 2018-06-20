@@ -24,7 +24,7 @@ export default class RuleList {
 
   options: RuleListOptions
 
-  classes: Object
+  classes: { [string]: string }
 
   constructor(options: RuleListOptions) {
     this.options = options

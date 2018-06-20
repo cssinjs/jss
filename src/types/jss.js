@@ -64,14 +64,14 @@ export type RuleOptions = {
   selector?: string,
   sheet?: StyleSheet,
   index?: number,
-  classes: Object,
+  classes: { [string]: string },
   jss: Jss,
   generateClassName: generateClassName,
   Renderer: Class<Renderer>
 }
 
 export type RuleListOptions = {
-  classes: Object,
+  classes: { [string]: string },
   generateClassName: generateClassName,
   Renderer: Class<Renderer>,
   jss: Jss,
@@ -151,5 +151,5 @@ export type InternalStyleSheetOptions = {
   jss: Jss,
   sheet: StyleSheet,
   parent: ConditionalRule | KeyframesRule | StyleSheet,
-  classes: Object
+  classes: { [string]: string }
 }
