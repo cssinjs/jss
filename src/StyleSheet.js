@@ -8,7 +8,7 @@ import type {
   RuleOptions,
   StyleSheetOptions,
   JssStyle,
-  Classes,
+  Classes
 } from './types'
 
 /* eslint-disable-next-line no-use-before-define */
