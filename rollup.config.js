@@ -30,7 +30,7 @@ export default [
     },
     plugins: [
       nodeResolve(),
-      commonjs({include: '**/node_modules/**'}),
+      commonjs({include: '**/node_modules/**', ignoreGlobal: true}),
       babel(getBabelOptions()),
       globals(),
       replace({
@@ -51,7 +51,7 @@ export default [
     },
     plugins: [
       nodeResolve(),
-      commonjs({include: '**/node_modules/**'}),
+      commonjs({include: '**/node_modules/**', ignoreGlobal: true}),
       babel(getBabelOptions()),
       globals(),
       replace({
