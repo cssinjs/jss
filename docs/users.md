@@ -2,6 +2,8 @@
 
 [Grape](https://chatgrape.com)
 
+[Kijiji](https://www.kijiji.ca/)
+
 [Material UI](https://github.com/callemall/material-ui)
 
 [React Styleguidist](https://github.com/styleguidist/react-styleguidist)

@@ -4,6 +4,7 @@ import babel from 'rollup-plugin-babel'
 import replace from 'rollup-plugin-replace'
 import uglify from 'rollup-plugin-uglify'
 import {sizeSnapshot} from 'rollup-plugin-size-snapshot'
+import globals from 'rollup-plugin-node-globals'
 import pkg from './package.json'
 
 const matchSnapshot = process.env.SNAPSHOT === 'match'
@@ -29,9 +30,13 @@ export default [
     },
     plugins: [
       nodeResolve(),
-      commonjs({include: '**/node_modules/**'}),
+      commonjs({include: '**/node_modules/**', ignoreGlobal: true}),
       babel(getBabelOptions()),
-      replace({'process.env.NODE_ENV': JSON.stringify('development')}),
+      globals(),
+      replace({
+        'process.env.NODE_ENV': JSON.stringify('development'),
+        __VERSION__: JSON.stringify(pkg.version)
+      }),
       sizeSnapshot({
         matchSnapshot,
         snapshotPath: './packages/jss/.size-snapshot.json'
@@ -49,9 +54,13 @@ export default [
     },
     plugins: [
       nodeResolve(),
-      commonjs({include: '**/node_modules/**'}),
+      commonjs({include: '**/node_modules/**', ignoreGlobal: true}),
       babel(getBabelOptions()),
-      replace({'process.env.NODE_ENV': JSON.stringify('production')}),
+      globals(),
+      replace({
+        'process.env.NODE_ENV': JSON.stringify('production'),
+        __VERSION__: JSON.stringify(pkg.version)
+      }),
       sizeSnapshot({
         matchSnapshot,
         snapshotPath: './packages/jss/.size-snapshot.json'

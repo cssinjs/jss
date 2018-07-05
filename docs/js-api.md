@@ -175,13 +175,17 @@ const sheet2 = jss.createStyleSheet({}, {index: 1, meta: 'sheet-2'}).attach()
 ```
 
 ```html
-<style type="text/css" data-meta="sheet-2"></style>
-<style type="text/css" data-meta="sheet-1"></style>
+<style data-meta="sheet-2"></style>
+<style data-meta="sheet-1"></style>
 ```
 
 ## Add a rule to an existing Style Sheet
 
 `sheet.addRule([name], style, [options])`
+
+This function will use [insertRule](https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/insertRule) API if your Style Sheet is already attached to the DOM. In this case **you will not see this CSS Rule in the "Elements" view of the dev tools**. You can always verify correct rendering by using the selector on some DOM Node and watch styles applied as well as in the "Styles" inspector.
+
+If you use `addRule()` before you call `attach()`, styles will be rendered in one batch using `textContent` API which will not have the obove described side effect.
 
 ### Options
 

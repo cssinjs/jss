@@ -1,3 +1,15 @@
+## 9.8.7 / 2018-06-24
+
+* Fix `global` access in the dist version (#736)
+
+## 9.8.6 / 2018-06-19
+
+* Remove type attribute from style element (#724)
+
+## 9.8.5 / 2018-06-19
+
+* Fix version in the dist version (#730)
+
 ## 9.8.4 / 2018-06-12
 
 - Add link to the egghead course

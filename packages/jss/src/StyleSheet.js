@@ -7,7 +7,8 @@ import type {
   ToCssOptions,
   RuleOptions,
   StyleSheetOptions,
-  JssStyle
+  JssStyle,
+  Classes
 } from './types'
 
 /* eslint-disable-next-line no-use-before-define */
@@ -26,7 +27,7 @@ export default class StyleSheet {
 
   renderer: Object
 
-  classes: Object
+  classes: Classes
 
   queue: ?Array<Rule>
 

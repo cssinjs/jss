@@ -308,7 +308,6 @@ export default class DomRenderer {
     this.sheet = sheet
     const {media, meta, element} = this.sheet ? this.sheet.options : {}
     this.element = element || document.createElement('style')
-    this.element.type = 'text/css'
     this.element.setAttribute('data-jss', '')
     if (media) this.element.setAttribute('media', media)
     if (meta) this.element.setAttribute('data-meta', meta)

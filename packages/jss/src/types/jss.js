@@ -9,6 +9,8 @@ import SimpleRule from '../rules/SimpleRule'
 import FontFaceRule from '../rules/FontFaceRule'
 import type {CSSStyleRule} from './cssom'
 
+export type Classes = { [string]: string }
+
 export type ToCssOptions = {
   indent?: number,
   allowEmpty?: boolean
@@ -64,14 +66,14 @@ export type RuleOptions = {
   selector?: string,
   sheet?: StyleSheet,
   index?: number,
-  classes: Object,
+  classes: Classes,
   jss: Jss,
   generateClassName: generateClassName,
   Renderer: Class<Renderer>
 }
 
 export type RuleListOptions = {
-  classes: Object,
+  classes: Classes,
   generateClassName: generateClassName,
   Renderer: Class<Renderer>,
   jss: Jss,
@@ -151,5 +153,5 @@ export type InternalStyleSheetOptions = {
   jss: Jss,
   sheet: StyleSheet,
   parent: ConditionalRule | KeyframesRule | StyleSheet,
-  classes: Object
+  classes: Classes
 }
