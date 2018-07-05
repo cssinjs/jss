@@ -41,7 +41,7 @@
     "src",
     "readme.md",
     "changelog.md",
-    "license.md"
+    "LICENSE"
   ],
   "lint-staged": {
     "**/*.{js,md,json}": [
