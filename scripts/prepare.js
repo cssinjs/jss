@@ -20,7 +20,7 @@ function removeDist() {
 }
 
 function copyLicence() {
-  const licence = path.join(__dirname, '..', 'license.md')
+  const licence = path.join(__dirname, '..', 'LICENSE')
 
   shell.cp(licence, './')
 }
