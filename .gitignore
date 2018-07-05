@@ -8,3 +8,4 @@ dist
 .env
 coverage
 packages/**/lincense.md
+lerna-debug.log

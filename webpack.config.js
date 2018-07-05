@@ -1,3 +1,7 @@
+/*
+  TODO We are migrating to rollup, webpack is still used for tests and needs to be migrated.
+*/
+
 const webpack = require('webpack')
 const path = require('path')
 
