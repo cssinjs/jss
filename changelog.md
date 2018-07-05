@@ -12,8 +12,8 @@
 
 ## 9.8.4 / 2018-06-12
 
-* Add link to the egghead course
-* Upgrade prettier and format code (#726)
+- Add link to the egghead course
+- Upgrade prettier and format code (#726)
 
 ## 9.8.3 / 2018-06-10
 

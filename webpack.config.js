@@ -25,7 +25,7 @@ if (isProd) {
 }
 
 module.exports = {
-  entry: './src/index',
+  entry: './packages/jss/src/index',
   output: {
     library: 'jss',
     libraryTarget: 'umd'
@@ -48,7 +48,7 @@ module.exports = {
   resolve: {
     alias: {
       // For plugins tests.
-      jss: path.join(__dirname, 'src')
+      jss: path.join(__dirname, 'packages/jss/src')
     }
   }
 }

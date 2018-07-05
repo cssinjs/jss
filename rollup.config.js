@@ -9,7 +9,7 @@ import pkg from './package.json'
 
 const matchSnapshot = process.env.SNAPSHOT === 'match'
 
-const input = './src/index.js'
+const input = matchSnapshot ? './packages/jss/src/index.js' : './src/index.js'
 
 const getBabelOptions = () => ({
   exclude: '**/node_modules/**',
@@ -37,7 +37,10 @@ export default [
         'process.env.NODE_ENV': JSON.stringify('development'),
         __VERSION__: JSON.stringify(pkg.version)
       }),
-      sizeSnapshot({matchSnapshot})
+      sizeSnapshot({
+        matchSnapshot,
+        snapshotPath: './packages/jss/.size-snapshot.json'
+      })
     ]
   },
 
@@ -58,7 +61,10 @@ export default [
         'process.env.NODE_ENV': JSON.stringify('production'),
         __VERSION__: JSON.stringify(pkg.version)
       }),
-      sizeSnapshot({matchSnapshot}),
+      sizeSnapshot({
+        matchSnapshot,
+        snapshotPath: './packages/jss/.size-snapshot.json'
+      }),
       uglify()
     ]
   }

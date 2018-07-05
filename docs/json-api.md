@@ -423,4 +423,4 @@ Compiles to:
 
 ## Plugins
 
-JSS plugins give you even more features, [read about them](./plugins.md).
+JSS plugins give you even more features, [read about them](plugins.md).

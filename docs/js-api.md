@@ -112,7 +112,7 @@ You need to have the [jss-global](https://github.com/cssinjs/jss-global) plugin 
 `SheetsRegistry`
 
 When rendering on the server, you will need to get all rendered styles as a CSS string.
-SheetsRegistry class allows you to **manually** aggregate and stringify them. Read [more about SSR](./ssr.md).
+SheetsRegistry class allows you to **manually** aggregate and stringify them. Read [more about SSR](ssr.md).
 
 ```javascript
 import jss, {SheetsRegistry} from 'jss'
@@ -414,4 +414,4 @@ const dynamicStyles = getDynamicStyles({
 
 ## Plugins
 
-See [plugins](./plugins.md) documentation.
+See [plugins](plugins.md) documentation.

@@ -126,7 +126,7 @@ jss.setup({
 
 ## Configuring Content Security Policy
 
-You might need to set the `style-src` CSP directive, but do not want to set it to `unsafe-inline`. See [these instructions for configuring CSP](./csp.md).
+You might need to set the `style-src` CSP directive, but do not want to set it to `unsafe-inline`. See [these instructions for configuring CSP](csp.md).
 
 ## CLI
 

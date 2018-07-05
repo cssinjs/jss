@@ -1,5 +1,5 @@
 {
-  "extends": "../.babelrc",
+  "extends": "../../../.babelrc",
   "env": {
     "test": {
       "plugins": [

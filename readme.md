@@ -6,7 +6,7 @@
 [![OpenCollective](https://opencollective.com/jss/backers/badge.svg)](#backers)
 [![OpenCollective](https://opencollective.com/jss/sponsors/badge.svg)](#sponsors)
 
-[JSS is a more powerful abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It uses JavaScript as a language to describe styles in a declarative and maintainable way. It is a [high performance](https://github.com/cssinjs/jss/blob/master/docs/performance.md) JS to CSS compiler which works at runtime and server-side. This core library is low level and framework agnostic. It is about 6KB (minified and gzipped) and is extensible via [plugins](./docs/plugins.md) API.
+[JSS is a more powerful abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It uses JavaScript as a language to describe styles in a declarative and maintainable way. It is a [high performance](https://github.com/cssinjs/jss/blob/master/docs/performance.md) JS to CSS compiler which works at runtime and server-side. This core library is low level and framework agnostic. It is about 6KB (minified and gzipped) and is extensible via [plugins](docs/plugins.md) API.
 
 Feel free to ask any JSS related questions on twitter by using hashtag `#cssinjs` and mentioning [@oleg008](https://twitter.com/oleg008), [watch my latest talk](https://www.youtube.com/watch?v=i3TIrcnMIng) about "Unique Value Proposition of CSSinJS" and try it on a [playground](https://codesandbox.io/s/z21lpmvv33).
 
@@ -15,11 +15,11 @@ If you are a Sass (SCSS) user, this course will show how to express popular Sass
 ## Key features
 
 - Framework agnostic
-- [Scoped selectors by default](./docs/json-api.md#regular-rule-without-plugins)
-- [Function values and rules](./docs/json-api.md#function-values)
-- [Observables](./docs/json-api.md#observable-values)
-- [SSR](./docs/ssr.md)
-- [Plugins support](./docs/plugins.md)
+- [Scoped selectors by default](docs/json-api.md#regular-rule-without-plugins)
+- [Function values and rules](docs/json-api.md#function-values)
+- [Observables](docs/json-api.md#observable-values)
+- [SSR](docs/ssr.md)
+- [Plugins support](docs/plugins.md)
 - [Global CSS](https://github.com/cssinjs/jss-global)
 - [Expanded syntax](https://github.com/cssinjs/jss-expand)
 - [Composition syntax](https://github.com/cssinjs/jss-compose)
@@ -35,22 +35,22 @@ If you are a Sass (SCSS) user, this course will show how to express popular Sass
 ## TOC
 
 1.  [Live examples](https://github.com/cssinjs/examples)
-1.  [Benefits](./docs/benefits.md)
-1.  [Setup](./docs/setup.md)
-1.  [JSON API (JSS Syntax)](./docs/json-api.md)
-1.  [JavaScript API](./docs/js-api.md)
-1.  [Server-side rendering](./docs/ssr.md)
-1.  [Performance](./docs/performance.md)
-1.  [Plugins API](./docs/plugins.md)
+1.  [Benefits](docs/benefits.md)
+1.  [Setup](docs/setup.md)
+1.  [JSON API (JSS Syntax)](docs/json-api.md)
+1.  [JavaScript API](docs/js-api.md)
+1.  [Server-side rendering](docs/ssr.md)
+1.  [Performance](docs/performance.md)
+1.  [Plugins API](docs/plugins.md)
 1.  [Official plugins](https://github.com/cssinjs?q=plugin)
-1.  [All related projects](./docs/projects.md)
+1.  [All related projects](docs/projects.md)
 1.  [CLI Converter](https://github.com/cssinjs/cli)
 1.  [Contributing](./contributing.md)
 
 ## Example
 
 Try it out on [playground](https://codesandbox.io/s/z21lpmvv33).
-You need to [setup plugins](./docs/setup.md#setup-with-plugins) before.
+You need to [setup plugins](docs/setup.md#setup-with-plugins) before.
 You can use a [preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with default plugins.
 
 ```javascript
@@ -131,7 +131,7 @@ Result
 - Minimal download size is important to you.
 - Robustness and code reuse is important to you.
 - Ease of maintenance is important to you.
-- You just want to use any of its [benefits](./docs/benefits.md)
+- You just want to use any of its [benefits](docs/benefits.md)
 
 ## Roadmap
 

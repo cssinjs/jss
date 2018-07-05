@@ -12,7 +12,7 @@
 
 1.  **Avoids slow selectors.**
 
-    Because JSS rules are collision free, there is no need to write deeply nested selectors. This leads to stable [performance](./performance.md) at scale.
+    Because JSS rules are collision free, there is no need to write deeply nested selectors. This leads to stable [performance](performance.md) at scale.
 
 1.  **Code reuse, expressiveness.**
 
@@ -81,7 +81,7 @@
 
 1.  **Performance.**
 
-    Inline styles are [slower](./performance.md) than class names.
+    Inline styles are [slower](performance.md) than class names.
 
 ## Compared to Radium
 
