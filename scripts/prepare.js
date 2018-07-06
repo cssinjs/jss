@@ -29,11 +29,9 @@ function logError(type) {
   log.error(`FAILED to ${type}: ${chalk.bold(`${packageJson.name}@${packageJson.version}`)}`)
 }
 
-// console.log(packageJson);
-
 removeLib()
 removeDist()
-buildLib({errorCallback: () => logError('build commonjs', packageJson)})
+buildLib({errorCallback: () => logError('build commonjs')})
 createFlowFile({errorCallback: () => logError('create flow file')})
 buildUmd({errorCallback: () => logError('build umd')})
 copyLicence()

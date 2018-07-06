@@ -1,3 +1,5 @@
+// @flow
+
 import template from 'jss-template'
 import global from 'jss-global'
 import extend from 'jss-extend'
@@ -9,7 +11,20 @@ import expand from 'jss-expand'
 import vendorPrefixer from 'jss-vendor-prefixer'
 import propsSort from 'jss-props-sort'
 
-export default (options = {}) => ({
+type Options = {
+  template?: {},
+  global?: {},
+  extend?: {},
+  nested?: {},
+  compose?: {},
+  camelCase?: {},
+  defaultUnit?: {},
+  expand?: {},
+  vendorPrefixer?: {},
+  propsSort?: {}
+}
+
+export default (options: Options = {}) => ({
   plugins: [
     template(options.template),
     global(options.global),

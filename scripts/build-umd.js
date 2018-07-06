@@ -5,7 +5,7 @@ const shell = require('shelljs')
 
 function getCommand() {
   const rollup = path.join(__dirname, '..', 'node_modules', '.bin', 'rollup')
-  const args = ['-c', '--config ../../rollup.config.js']
+  const args = ['--config ../../rollup.config.js']
 
   return `${rollup} ${args.join(' ')}`
 }
