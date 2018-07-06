@@ -18,6 +18,14 @@
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
+  "files": [
+    "dist",
+    "lib",
+    "src",
+    "readme.md",
+    "changelog.md",
+    "LICENSE"
+  ],
   "license": "MIT",
   "main": "./lib/index.js",
   "devDependencies": {

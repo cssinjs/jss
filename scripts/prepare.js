@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 const path = require('path')
 const shell = require('shelljs')
 const chalk = require('chalk')
@@ -7,16 +6,16 @@ const log = require('npmlog')
 const {buildLib} = require('./build-lib')
 const {createFlowFile} = require('./create-flow-file')
 const {buildUmd} = require('./build-umd')
-const getPackageJson = require('./get-package-json')
+const {getPackageJson} = require('./get-package-json')
 
-const packageJson = getPackageJson()
+const pkg = getPackageJson()
 
 function removeLib() {
-  shell.rm('-rf', 'lib/')
+  shell.rm('-rf', './lib/')
 }
 
 function removeDist() {
-  shell.rm('-rf', 'dist/')
+  shell.rm('-rf', './dist/')
 }
 
 function copyLicence() {
@@ -26,14 +25,14 @@ function copyLicence() {
 }
 
 function logError(type) {
-  log.error(`FAILED to ${type}: ${chalk.bold(`${packageJson.name}@${packageJson.version}`)}`)
+  log.error(`FAILED to ${type}: ${chalk.bold(`${pkg.name}@${pkg.version}`)}`)
 }
 
 removeLib()
 removeDist()
+copyLicence()
 buildLib({errorCallback: () => logError('build commonjs')})
 createFlowFile({errorCallback: () => logError('create flow file')})
 buildUmd({errorCallback: () => logError('build umd')})
-copyLicence()
 
-console.log(chalk.gray(`Built: ${chalk.bold(`${packageJson.name}@${packageJson.version}`)}`))
+log.info(chalk.gray(`Built: ${chalk.bold(`${pkg.name}@${pkg.version}`)}`))

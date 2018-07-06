@@ -1,3 +1,4 @@
+import path from 'path'
 import nodeResolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
 import babel from 'rollup-plugin-babel'
@@ -5,8 +6,11 @@ import replace from 'rollup-plugin-replace'
 import uglify from 'rollup-plugin-uglify'
 import {sizeSnapshot} from 'rollup-plugin-size-snapshot'
 import globals from 'rollup-plugin-node-globals'
-import pkg from './package.json'
 
+const {getPackageJson} = require('./scripts/get-package-json');
+
+const pkg = getPackageJson();
+const rootPath = path.resolve('./');
 const matchSnapshot = process.env.SNAPSHOT === 'match'
 
 function toCamelCase(name) {
@@ -14,7 +18,7 @@ function toCamelCase(name) {
 }
 
 const base = {
-  input: './src/index.js',
+  input: path.join(rootPath, './src/index.js'),
   plugins: [
     nodeResolve(),
     commonjs({include: '**/node_modules/**', ignoreGlobal: true}),
@@ -40,7 +44,7 @@ export default [
   {
     ...base,
     output: {
-      file: `./dist/${pkg.name}.js`,
+      file: `dist/${pkg.name}.js`,
       format: 'umd',
       sourcemap: true,
       exports: 'named',
@@ -51,7 +55,7 @@ export default [
     ...base,
     plugins: [...base.plugins, uglify()],
     output: {
-      file: `./dist/${pkg.name}.min.js`,
+      file: `dist/${pkg.name}.min.js`,
       format: 'umd',
       exports: 'named',
       name: toCamelCase(pkg.name)
