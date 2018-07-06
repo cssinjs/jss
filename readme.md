@@ -30,6 +30,7 @@ If you are a Sass (SCSS) user, this course will show how to express popular Sass
 
 - [React-JSS](https://github.com/cssinjs/react-jss) - HOC interface for React with theming, try it on [playground](https://codesandbox.io/s/j3l06yyqpw).
 - [Styled-JSS](https://github.com/cssinjs/styled-jss) - styled components interface for React, try it on [playground](https://codesandbox.io/s/xl89zx8zz4).
+- [Glamor-JSS](https://github.com/dan-lee/glamor-jss) - glamor flavored CSS with JSS under the hood.
 - [Aphrodite-JSS](https://github.com/cssinjs/aphrodite-jss) - aphrodite like API.
 
 ## TOC
