@@ -29,7 +29,7 @@
   "license": "MIT",
   "main": "./lib/index.js",
   "devDependencies": {
-    "jss": "^9.8.0"
+    "jss": "^9.7.0"
   },
   "peerDependencies": {
     "jss": "^9.7.0"
