@@ -110,7 +110,7 @@
     "format": "prettier --write *.{js,md,json} {docs,packages,scripts}/**/*.{js,md,json}",
     "test": "cross-env NODE_ENV=test karma start --single-run",
     "test:watch": "cross-env NODE_ENV=test karma start",
-    "posttest": "cross-env SNAPSHOT=match rollup -c && [ -z \"$TRAVIS\" ] || codecov",
+    "posttest": "lerna exec -- cross-env SNAPSHOT=match rollup --config ../../rollup.config.js && [ -z \"$TRAVIS\" ] || codecov",
     "codecov": "codecov",
     "bench": "cross-env BENCHMARK=true karma start --single-run"
   },
