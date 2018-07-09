@@ -1,0 +1,55 @@
+{
+  "name": "jss-observable",
+  "description": "JSS plugin for TC39 Observables support",
+  "version": "0.1.0",
+  "author": {
+    "name": "Oleg Slobodskoi",
+    "email": "oleg008@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cssinjs/jss.git"
+  },
+  "keywords": [
+    "jss",
+    "style",
+    "sheet",
+    "stylesheet",
+    "css",
+    "components",
+    "composable",
+    "css in js",
+    "css-in-js",
+    "observable",
+    "reactive",
+    "rxjs"
+  ],
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "engines": {
+    "node": ">=4"
+  },
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "symbol-observable": "^1.1.0"
+  },
+  "files": [
+    "dist",
+    "lib",
+    "src",
+    "readme.md",
+    "changelog.md",
+    "LICENSE"
+  ],
+  "lint-staged": {
+    "**/*.{js,md,json}": [
+      "prettier"
+    ],
+    "**/*.js": [
+      "eslint"
+    ]
+  },
+  "pre-commit": "lint:staged"
+}
