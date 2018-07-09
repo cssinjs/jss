@@ -1,7 +1,7 @@
-/* eslint-disable no-console */
 const fs = require('fs')
 const path = require('path')
 const shell = require('shelljs')
+const log = require('npmlog')
 
 function getCommand() {
   const babel = path.join(__dirname, '..', 'node_modules', '.bin', 'babel')
@@ -25,7 +25,7 @@ function buildLib(options = {}) {
 
   if (!fs.existsSync('src')) {
     if (!silent) {
-      console.log('No src dir')
+      log.error('No src dir')
     }
 
     return

@@ -7,14 +7,14 @@ import uglify from 'rollup-plugin-uglify'
 import {sizeSnapshot} from 'rollup-plugin-size-snapshot'
 import globals from 'rollup-plugin-node-globals'
 
-const {getPackageJson} = require('./scripts/get-package-json');
+const {getPackageJson} = require('./scripts/get-package-json')
 
-const pkg = getPackageJson();
-const rootPath = path.resolve('./');
+const pkg = getPackageJson()
+const rootPath = path.resolve('./')
 const matchSnapshot = process.env.SNAPSHOT === 'match'
 
 function toCamelCase(name) {
-  return name.replace(/-(\w)/g, (match, letter) => letter.toUpperCase());
+  return name.replace(/-(\w)/g, (match, letter) => letter.toUpperCase())
 }
 
 const base = {
@@ -35,7 +35,7 @@ const base = {
     }),
     sizeSnapshot({
       matchSnapshot,
-      snapshotPath: './.size-snapshot.json',
+      snapshotPath: './.size-snapshot.json'
     })
   ]
 }

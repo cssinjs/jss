@@ -1,11 +1,11 @@
-/* eslint-disable no-console */
 const fs = require('fs')
 const path = require('path')
 const shell = require('shelljs')
+const log = require('npmlog')
 
 function getCommand() {
   const rollup = path.join(__dirname, '../node_modules/.bin/rollup')
-  const args = ['-c ../../rollup.config.js']
+  const args = ['--config "../../rollup.config.js"']
 
   return `${rollup} ${args.join(' ')}`
 }
@@ -21,11 +21,11 @@ function handleExit(code, errorCallback) {
 }
 
 function buildUmd(options = {}) {
-  const {silent = true, errorCallback} = options
+  const {silent = false, errorCallback} = options
 
   if (!fs.existsSync('src')) {
     if (!silent) {
-      console.log('No src dir')
+      log.error('No src dir')
     }
 
     return
