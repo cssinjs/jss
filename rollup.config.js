@@ -41,8 +41,7 @@ const base = {
 }
 
 export default [
-  {
-    ...base,
+  Object.assign({}, base, {
     output: {
       file: `dist/${pkg.name}.js`,
       format: 'umd',
@@ -50,15 +49,14 @@ export default [
       exports: 'named',
       name: toCamelCase(pkg.name)
     }
-  },
-  {
-    ...base,
-    plugins: [...base.plugins, uglify()],
+  }),
+  Object.assign({}, base, {
+    plugins: [].concat(base.plugins, uglify()),
     output: {
       file: `dist/${pkg.name}.min.js`,
       format: 'umd',
       exports: 'named',
       name: toCamelCase(pkg.name)
     }
-  }
+  }),
 ]
