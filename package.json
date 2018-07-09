@@ -102,8 +102,7 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "prepublish": "npm run lint && npm run test",
-    "publish": "lerna publish",
+    "publish": "npm run lint && npm run test && lerna publish",
     "typecheck": "flow check --max-warnings=0",
     "lint": "eslint scripts/ packages/ && npm run typecheck && npm run format",
     "lint:staged": "lint-staged && npm run typecheck",
