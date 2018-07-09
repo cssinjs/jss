@@ -32,6 +32,12 @@
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
+  "peerDependencies": {
+    "jss": "^9.7.0"
+  },
+  "devDependencies": {
+    "jss": "^9.7.0"
+  },
   "dependencies": {
     "symbol-observable": "^1.1.0"
   },
@@ -42,14 +48,5 @@
     "readme.md",
     "changelog.md",
     "LICENSE"
-  ],
-  "lint-staged": {
-    "**/*.{js,md,json}": [
-      "prettier"
-    ],
-    "**/*.js": [
-      "eslint"
-    ]
-  },
-  "pre-commit": "lint:staged"
+  ]
 }
