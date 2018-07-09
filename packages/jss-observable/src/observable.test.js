@@ -1,8 +1,8 @@
 import expect from 'expect.js'
 import Observable from 'zen-observable'
 
-import {create} from '../../src'
-import {createGenerateClassName, computeStyle} from '../utils'
+import {create} from 'jss'
+import {createGenerateClassName, computeStyle} from 'jss/lib/utils'
 
 const settings = {createGenerateClassName}
 

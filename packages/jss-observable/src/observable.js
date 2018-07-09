@@ -1,8 +1,12 @@
 /* @flow */
-import StyleRule from '../rules/StyleRule'
-import createRule from '../utils/createRule'
-import isObservable from '../utils/isObservable'
-import type {Observable, Rule, RuleOptions, JssStyle} from '../types'
+import $$observable from 'symbol-observable'
+import StyleRule from 'jss/lib/rules/StyleRule'
+import createRule from 'jss/lib/utils/createRule'
+import type {Observable, Rule, RuleOptions, JssStyle} from 'jss/src/types'
+
+function isObservable(value) {
+  return value && value[$$observable] && value === value[$$observable]();
+}
 
 export default {
   onCreateRule(name: string, decl: JssStyle, options: RuleOptions): Rule | null {
