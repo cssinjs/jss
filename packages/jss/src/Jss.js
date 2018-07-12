@@ -23,8 +23,6 @@ import type {
   generateClassName
 } from './types'
 
-declare var __VERSION__: string
-
 const defaultPlugins = rulesPlugins.concat([observablesPlugin, functionsPlugin])
 
 let instanceCounter = 0
@@ -32,7 +30,7 @@ let instanceCounter = 0
 export default class Jss {
   id = instanceCounter++
 
-  version = __VERSION__
+  version = process.env.VERSION
 
   plugins = new PluginsRegistry()
 

@@ -1,7 +1,4 @@
 {
-  "name": "jss",
-  "description": "A lib for generating Style Sheets with JavaScript.",
-  "version": "9.8.7",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
@@ -10,18 +7,28 @@
     "type": "git",
     "url": "git@github.com:cssinjs/jss.git"
   },
-  "keywords": [
-    "jss",
-    "style",
-    "sheet",
-    "stylesheet",
-    "css",
-    "components",
-    "composable",
-    "css in js",
-    "css-in-js"
-  ],
-  "license": "MIT",
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "publish": "npm run lint && npm run test && lerna publish",
+    "typecheck": "flow check --max-warnings=0",
+    "lint": "eslint scripts/ packages/ && npm run typecheck && npm run format",
+    "lint:staged": "lint-staged && npm run typecheck",
+    "format": "prettier --write *.{js,md,json} {docs,packages,scripts}/**/*.{js,md,json}",
+    "test": "cross-env NODE_ENV=test karma start --single-run",
+    "test:watch": "cross-env NODE_ENV=test karma start",
+    "posttest": "lerna exec -- cross-env SNAPSHOT=match rollup --config ../../rollup.config.js && [ -z \"$TRAVIS\" ] || codecov",
+    "codecov": "codecov",
+    "bench": "cross-env BENCHMARK=true karma start --single-run"
+  },
+  "lint-staged": {
+    "**/*.{js,md,json}": [
+      "prettier"
+    ],
+    "**/*.js": [
+      "eslint"
+    ]
+  },
+  "pre-commit": "lint:staged",
   "engines": {
     "node": ">=4"
   },
@@ -99,28 +106,5 @@
     "shelljs": "^0.8.2",
     "webpack": "^2.3.3",
     "zen-observable": "^0.6.0"
-  },
-  "scripts": {
-    "bootstrap": "lerna bootstrap",
-    "prepublish": "npm run lint && npm run test",
-    "publish": "lerna publish",
-    "typecheck": "flow check --max-warnings=0",
-    "lint": "eslint scripts/ packages/ && npm run typecheck && npm run format",
-    "lint:staged": "lint-staged && npm run typecheck",
-    "format": "prettier --write *.{js,md,json} {docs,packages,scripts}/**/*.{js,md,json}",
-    "test": "cross-env NODE_ENV=test karma start --single-run",
-    "test:watch": "cross-env NODE_ENV=test karma start",
-    "posttest": "cross-env SNAPSHOT=match rollup -c && [ -z \"$TRAVIS\" ] || codecov",
-    "codecov": "codecov",
-    "bench": "cross-env BENCHMARK=true karma start --single-run"
-  },
-  "lint-staged": {
-    "**/*.{js,md,json}": [
-      "prettier"
-    ],
-    "**/*.js": [
-      "eslint"
-    ]
-  },
-  "pre-commit": "lint:staged"
+  }
 }
