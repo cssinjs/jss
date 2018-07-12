@@ -1,11 +1,14 @@
 language: node_js
 node_js:
-- '5'
+- '6'
 branches:
   only:
   - master
 after_success:
 - bash <(curl -s https://codecov.io/bash)
+install:
+- npm install
+- npm run bootstrap
 env:
   global:
     secure: fl4UGag82aZeNArjKBGJUJzT0tNZtth8BgInYmxoXQuwPFUY7Q4P/Bva8lHpGaKLuGFPzQreVhLHtRUUbFQhJWR5EA7MPbWtKeQ3EBu5lz/7CFiJMRkr+xGxN6wpmkipiVkZ2SofL1tCZD67L7kxqoPgaMfoDHYUvKAmNhP6spU=
