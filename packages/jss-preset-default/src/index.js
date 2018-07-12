@@ -1,7 +1,7 @@
 // @flow
 
 import template from 'jss-template'
-import global from 'jss-global'
+// import global from 'jss-global'
 import extend from 'jss-extend'
 import nested from 'jss-nested'
 import compose from 'jss-compose'
@@ -27,7 +27,7 @@ type Options = {
 export default (options: Options = {}) => ({
   plugins: [
     template(options.template),
-    global(options.global),
+    // global(options.global),
     extend(options.extend),
     nested(options.nested),
     compose(options.compose),
