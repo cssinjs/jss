@@ -3,7 +3,6 @@ import isInBrowser from 'is-in-browser'
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import rulesPlugins from './plugins/rules'
-import observablesPlugin from './plugins/observables'
 import functionsPlugin from './plugins/functions'
 import sheets from './sheets'
 import StyleRule from './rules/StyleRule'
@@ -23,7 +22,7 @@ import type {
   generateClassName
 } from './types'
 
-const defaultPlugins = rulesPlugins.concat([observablesPlugin, functionsPlugin])
+const defaultPlugins = rulesPlugins.concat([functionsPlugin])
 
 let instanceCounter = 0
 

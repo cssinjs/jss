@@ -2,7 +2,8 @@ import expect from 'expect.js'
 import Observable from 'zen-observable'
 
 import {create} from 'jss'
-import {createGenerateClassName, computeStyle} from 'jss/lib/utils'
+import observable from './'
+import {createGenerateClassName, computeStyle} from '../../jss/tests/utils'
 
 const settings = {createGenerateClassName}
 
@@ -10,7 +11,7 @@ describe('jss-observable', () => {
   let jss
 
   beforeEach(() => {
-    jss = create(settings)
+    jss = create(settings).use(observable())
   })
 
   describe('Observable rules', () => {
@@ -175,6 +176,17 @@ describe('jss-observable', () => {
     it('should update the value 2', () => {
       observer.next('20px')
       expect(computeStyle(sheet.classes.a).height).to.be('20px')
+    })
+  })
+
+  describe('rule.toJSON()', () => {
+    it('should handle observable values', () => {
+      const rule = jss.createRule({
+        color: new Observable(observer => {
+          observer.next('red')
+        })
+      })
+      expect(rule.toJSON()).to.eql({color: 'red'})
     })
   })
 })

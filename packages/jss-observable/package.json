@@ -38,9 +38,6 @@
   "devDependencies": {
     "jss": "^9.7.0"
   },
-  "dependencies": {
-    "symbol-observable": "^1.1.0"
-  },
   "files": [
     "dist",
     "lib",
@@ -48,5 +45,8 @@
     "readme.md",
     "changelog.md",
     "LICENSE"
-  ]
+  ],
+  "dependencies": {
+    "is-observable": "^1.1.0"
+  }
 }

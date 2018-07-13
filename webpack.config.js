@@ -49,10 +49,11 @@ module.exports = {
     ]
   },
   devtool: 'source-map',
+
   resolve: {
     alias: {
       // For plugins tests.
-      jss: path.join(__dirname, 'packages/jss/src')
+      jss: path.join(__dirname, 'packages/jss')
     }
   }
 }

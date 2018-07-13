@@ -1,0 +1,12 @@
+{
+  "dist/jss-observable.js": {
+    "bundled": 17729,
+    "minified": 5672,
+    "gzipped": 2094
+  },
+  "dist/jss-observable.min.js": {
+    "bundled": 17729,
+    "minified": 5672,
+    "gzipped": 2094
+  }
+}

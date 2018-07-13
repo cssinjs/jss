@@ -19,10 +19,12 @@ module.exports = config => {
       'node_modules/es5-shim/es5-shim.js',
       'node_modules/es5-shim/es5-sham.js',
       'node_modules/css.escape/css.escape.js',
-      './packages/jss/tests/index.js'
+      './packages/jss/tests/index.js',
+      './packages/jss-observable/src/observable.test.js'
     ],
     preprocessors: {
-      './packages/jss/tests/index.js': ['webpack', 'sourcemap']
+      './packages/jss/tests/index.js': ['webpack', 'sourcemap'],
+      './packages/jss-observable/src/observable.test.js': ['webpack', 'sourcemap']
     },
     webpack: Object.assign(webpackConfig, {
       devtool: 'inline-source-map'

@@ -21,13 +21,13 @@ const base = {
   input: path.join(rootPath, './src/index.js'),
   plugins: [
     nodeResolve(),
-    commonjs({include: '**/node_modules/**', ignoreGlobal: true}),
     babel({
-      exclude: '**/node_modules/**',
+      exclude: ['**/node_modules/**'],
       babelrc: false,
       presets: [['env', {modules: false}], 'stage-0', 'flow'],
       plugins: ['external-helpers']
     }),
+    commonjs({ignoreGlobal: true}),
     globals(),
     replace({
       'process.env.NODE_ENV': JSON.stringify('development'),
@@ -58,5 +58,5 @@ export default [
       exports: 'named',
       name: toCamelCase(pkg.name)
     }
-  }),
+  })
 ]
