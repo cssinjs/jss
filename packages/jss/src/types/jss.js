@@ -9,7 +9,7 @@ import SimpleRule from '../rules/SimpleRule'
 import FontFaceRule from '../rules/FontFaceRule'
 import type {CSSStyleRule} from './cssom'
 
-export type Classes = { [string]: string }
+export type Classes = {[string]: string}
 
 export type ToCssOptions = {
   indent?: number,

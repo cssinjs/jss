@@ -2,7 +2,6 @@
 
 import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
-import Observable from 'zen-observable'
 
 import {create} from '../../src'
 import createRule from '../../src/utils/createRule'
@@ -436,15 +435,6 @@ describe('Integration: rules', () => {
       })
       sheet.update()
       expect(sheet.getRule('a').toJSON()).to.eql({color: 'red'})
-    })
-
-    it('should handle observable values', () => {
-      const rule = jss.createRule({
-        color: new Observable(observer => {
-          observer.next('red')
-        })
-      })
-      expect(rule.toJSON()).to.eql({color: 'red'})
     })
   })
 
