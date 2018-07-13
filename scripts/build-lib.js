@@ -1,13 +1,16 @@
-/* eslint-disable no-console */
 const fs = require('fs')
 const path = require('path')
 const shell = require('shelljs')
+const log = require('npmlog')
+const {getPackageJson} = require('./get-package-json')
+
+const pkg = getPackageJson()
 
 function getCommand() {
-  const babel = path.join(__dirname, '..', 'node_modules', '.bin', 'babel')
+  const babel = path.join(__dirname, '../node_modules/.bin/babel')
   const args = ['./src --out-dir ./lib', '--extends "../../.babelrc"']
 
-  return `${babel} ${args.join(' ')}`
+  return `VERSION="${pkg.version}" ${babel} ${args.join(' ')}`
 }
 
 function handleExit(code, errorCallback) {
@@ -25,7 +28,7 @@ function buildLib(options = {}) {
 
   if (!fs.existsSync('src')) {
     if (!silent) {
-      console.log('No src dir')
+      log.error('No src dir')
     }
 
     return
