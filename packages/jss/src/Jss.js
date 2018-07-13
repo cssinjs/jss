@@ -21,8 +21,6 @@ import type {
   generateClassName
 } from './types'
 
-const defaultPlugins = rulesPlugins
-
 let instanceCounter = 0
 
 export default class Jss {
@@ -42,7 +40,7 @@ export default class Jss {
 
   constructor(options?: JssOptions) {
     // eslint-disable-next-line prefer-spread
-    this.use.apply(this, defaultPlugins)
+    this.use.apply(this, rulesPlugins)
     this.setup(options)
   }
 
