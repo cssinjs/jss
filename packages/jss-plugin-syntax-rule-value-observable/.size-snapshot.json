@@ -8,5 +8,15 @@
     "bundled": 17742,
     "minified": 5671,
     "gzipped": 2070
+  },
+  "dist/jss-plugin-syntax-rule-value-observable.js": {
+    "bundled": 17858,
+    "minified": 5692,
+    "gzipped": 2083
+  },
+  "dist/jss-plugin-syntax-rule-value-observable.min.js": {
+    "bundled": 17858,
+    "minified": 5692,
+    "gzipped": 2083
   }
 }
