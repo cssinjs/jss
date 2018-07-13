@@ -47,6 +47,6 @@
     "LICENSE"
   ],
   "dependencies": {
-    "is-observable": "^1.1.0"
+    "symbol-observable": "^1.2.0"
   }
 }
