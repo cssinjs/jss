@@ -9,7 +9,8 @@
   "globals": {
     "benchmark": true,
     "__VERSION__": true,
-    "CSS": true
+    "CSS": true,
+    "expect": true
   },
   "plugins": ["flowtype"]
 }
