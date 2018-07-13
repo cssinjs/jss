@@ -7,14 +7,14 @@ import {createGenerateClassName, computeStyle} from '../../jss/tests/utils'
 
 const settings = {createGenerateClassName}
 
-describe('jss-observable', () => {
+describe('jss-plugin-syntax-rule-value-observable', () => {
   let jss
 
   beforeEach(() => {
     jss = create(settings).use(observable())
   })
 
-  describe('Observable rules', () => {
+  describe('Rules', () => {
     let sheet
     let observer
 
@@ -141,7 +141,7 @@ describe('jss-observable', () => {
     })
   })
 
-  describe('Observable values', () => {
+  describe('Values', () => {
     let sheet
     let observer
 
