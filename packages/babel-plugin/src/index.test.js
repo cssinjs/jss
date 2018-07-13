@@ -32,7 +32,7 @@ describe('index', () => {
     expect(transform(before)).toBe(after)
   })
 
-  test('accept identifier names over configuration', () => {
+  test('accept custom identifier names over configuration', () => {
     const before = stripIndent`
       xyz({
         a: {
@@ -48,7 +48,7 @@ describe('index', () => {
     expect(transform(before, {identifiers: ['xyz']})).toBe(after)
   })
 
-  test('extract static rules', () => {
+  test('extract static rule, dynamic rule is an arrow function', () => {
     const before = stripIndent`
       createStyleSheet({
         a: {
@@ -70,9 +70,68 @@ describe('index', () => {
     expect(transform(before)).toBe(after)
   })
 
-  test('accept call without arguments', () => {})
+  test('extract static rule, dynamic rule is a function', () => {
+    const before = stripIndent`
+      createStyleSheet({
+        a: {
+          color: 'red'
+        },
+        b: {
+          color: function () {}
+        }
+      });
+    `
+    const after = stripIndent`
+      createStyleSheet({
+        "@raw": ".a-id {\\n  color: red;\\n}",
+        b: {
+          color: function () {}
+        }
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
 
-  test('accept call with null as styles', () => {})
+  test('extract static rule, dynamic rule is a ref', () => {
+    const before = stripIndent`
+      function f() {}
+
+      createStyleSheet({
+        a: {
+          color: 'red'
+        },
+        b: {
+          color: f
+        }
+      });
+    `
+    const after = stripIndent`
+      function f() {}
+
+      createStyleSheet({
+        "@raw": ".a-id {\\n  color: red;\\n}",
+        b: {
+          color: f
+        }
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
+
+  test('accept call without arguments', () => {
+    const code = `createStyleSheet();`
+    expect(transform(code)).toBe(code)
+  })
+
+  test('accept null as styles argument', () => {
+    const code = `createStyleSheet(null);`
+    expect(transform(code)).toBe(code)
+  })
+
+  test('accept undefined as styles argument', () => {
+    const code = `createStyleSheet(undefined);`
+    expect(transform(code)).toBe(code)
+  })
 
   test('accept jss.setup options over configuration', () => {
     let called
@@ -84,11 +143,53 @@ describe('index', () => {
     expect(called).toBe(true)
   })
 
+  test('support property identifier', () => {
+    const before = stripIndent`
+      const prop = 'a'
+      createStyleSheet({
+        [prop]: {
+          color: 'red'
+        }
+      });
+    `
+    const after = stripIndent`
+      const prop = 'a';
+      createStyleSheet({
+        "@raw": ".a-id {\\n  color: red;\\n}"
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
+
+  test('support numeric value', () => {
+    const before = stripIndent`
+      createStyleSheet({
+        a: {
+          width: 0
+        }
+      });
+    `
+    const after = stripIndent`
+      createStyleSheet({
+        "@raw": ".a-id {\\n  width: 0;\\n}"
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
+
+  test('support array value', () => {})
+
   test('extract styles with references', () => {})
+
+  test('extract styles with nested references', () => {})
 
   test('extract static properties', () => {})
 
   test('add sheet options with classes when there was no options', () => {})
 
   test('add sheet options with classes when there was options', () => {})
+
+  test('make sure identifier is imported from a specific package', () => {})
+
+  test('support configurable package name', () => {})
 })
