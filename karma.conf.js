@@ -22,11 +22,16 @@ module.exports = config => {
       './packages/jss/tests/index.js',
       './packages/jss-observable/src/observable.test.js',
       './packages/jss-plugin-syntax-rule-value-function/src/index.test.js'
+      './packages/jss-plugin-syntax-rule-value-observable/src/observable.test.js'
     ],
     preprocessors: {
       './packages/jss/tests/index.js': ['webpack', 'sourcemap'],
       './packages/jss-observable/src/observable.test.js': ['webpack', 'sourcemap'],
       './packages/jss-plugin-syntax-rule-value-function/src/index.test.js': [
+        'webpack',
+        'sourcemap'
+      ]
+      './packages/jss-plugin-syntax-rule-value-observable/src/observable.test.js': [
         'webpack',
         'sourcemap'
       ]
