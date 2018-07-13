@@ -1,32 +1,12 @@
 {
-  "dist/jss-observable.js": {
-    "bundled": 17742,
-    "minified": 5671,
-    "gzipped": 2070
-  },
-  "dist/jss-observable.min.js": {
-    "bundled": 17742,
-    "minified": 5671,
-    "gzipped": 2070
-  },
-  "dist/jss-function.js": {
-    "bundled": 48426,
-    "minified": 19395,
-    "gzipped": 5022
-  },
-  "dist/jss-function.min.js": {
-    "bundled": 48426,
-    "minified": 19395,
-    "gzipped": 5022
-  },
   "dist/jss-plugin-syntax-rule-value-function.js": {
-    "bundled": 48496,
-    "minified": 19349,
-    "gzipped": 4997
+    "bundled": 48457,
+    "minified": 19343,
+    "gzipped": 4994
   },
   "dist/jss-plugin-syntax-rule-value-function.min.js": {
-    "bundled": 48496,
-    "minified": 19349,
-    "gzipped": 4997
+    "bundled": 48457,
+    "minified": 19343,
+    "gzipped": 4994
   }
 }
