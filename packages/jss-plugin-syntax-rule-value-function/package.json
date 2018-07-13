@@ -1,0 +1,49 @@
+{
+  "name": "jss-plugin-syntax-rule-value-function",
+  "description": "JSS plugin for function syntax",
+  "version": "0.1.0",
+  "author": {
+    "name": "Oleg Slobodskoi",
+    "email": "oleg008@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cssinjs/jss.git"
+  },
+  "keywords": [
+    "jss",
+    "style",
+    "sheet",
+    "stylesheet",
+    "css",
+    "components",
+    "composable",
+    "css in js",
+    "css-in-js",
+    "observable",
+    "reactive",
+    "rxjs"
+  ],
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "engines": {
+    "node": ">=4"
+  },
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "peerDependencies": {
+    "jss": "^9.7.0"
+  },
+  "devDependencies": {
+    "jss": "^9.7.0"
+  },
+  "files": [
+    "dist",
+    "lib",
+    "src",
+    "readme.md",
+    "changelog.md",
+    "LICENSE"
+  ]
+}
