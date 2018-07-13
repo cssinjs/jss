@@ -428,14 +428,6 @@ describe('Integration: rules', () => {
       })
       expect(rule.toJSON()).to.eql({margin: '5px 10px'})
     })
-
-    it('should handle function values', () => {
-      const sheet = jss.createStyleSheet({
-        a: {color: () => 'red'}
-      })
-      sheet.update()
-      expect(sheet.getRule('a').toJSON()).to.eql({color: 'red'})
-    })
   })
 
   describe('rule.prop()', () => {

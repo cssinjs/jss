@@ -27,8 +27,14 @@ module.exports = config => {
     preprocessors: {
       './packages/jss/tests/index.js': ['webpack', 'sourcemap'],
       './packages/jss-observable/src/observable.test.js': ['webpack', 'sourcemap'],
-      './packages/jss-plugin-syntax-rule-value-function/src/function-rules.test.js': ['webpack', 'sourcemap'],
-      './packages/jss-plugin-syntax-rule-value-function/src/function-values.test.js': ['webpack', 'sourcemap']
+      './packages/jss-plugin-syntax-rule-value-function/src/function-rules.test.js': [
+        'webpack',
+        'sourcemap'
+      ],
+      './packages/jss-plugin-syntax-rule-value-function/src/function-values.test.js': [
+        'webpack',
+        'sourcemap'
+      ]
     },
     webpack: Object.assign(webpackConfig, {
       devtool: 'inline-source-map'
