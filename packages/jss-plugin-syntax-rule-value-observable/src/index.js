@@ -7,7 +7,7 @@ import type {Observable} from './types'
 
 const isObservable = value => value && value[$$observable] && value === value[$$observable]()
 
-export default function observable() {
+export default function observablePlugin() {
   return {
     onCreateRule(name: string, decl: JssStyle, options: RuleOptions): Rule | null {
       if (!isObservable(decl)) return null

@@ -1,5 +1,5 @@
 {
-  "name": "jss-observable",
+  "name": "jss-plugin-syntax-rule-value-observable",
   "description": "JSS plugin for TC39 Observables support",
   "version": "0.1.0",
   "author": {
