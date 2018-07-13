@@ -26,21 +26,21 @@ export default declare(({types: t, ...api}, {identifiers = defaultIdentifiers, j
       }
 
       if (t.isObjectExpression(value)) {
-        // eslint-disable-next-line no-use-before-define
-        return serializeObject(value)
+        return value.properties.reduce((serialized, property) => {
+          serialized[getPropertyName(property)] = serializeValue(property.value)
+          return serialized
+        }, {})
+      }
+
+      if (t.isArrayExpression(value)) {
+        return value.elements.map(serializeValue)
       }
 
       // TODO array
       return null
     }
 
-    const serializeObject = object =>
-      object.properties.reduce((serialized, property) => {
-        serialized[getPropertyName(property)] = serializeValue(property.value)
-        return serialized
-      }, {})
-
-    return serializeObject(stylesArg)
+    return serializeValue(stylesArg)
   }
 
   const jss = createJss(jssOptions)

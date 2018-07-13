@@ -177,7 +177,37 @@ describe('index', () => {
     expect(transform(before)).toBe(after)
   })
 
-  test('support array value', () => {})
+  test('support array value', () => {
+    const before = stripIndent`
+      createStyleSheet({
+        a: {
+          x: [0, 1]
+        }
+      });
+    `
+    const after = stripIndent`
+      createStyleSheet({
+        "@raw": ".a-id {\\n  x: 0, 1;\\n}"
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
+
+  test('support array in array value', () => {
+    const before = stripIndent`
+      createStyleSheet({
+        a: {
+          x: [[0, 1]]
+        }
+      });
+    `
+    const after = stripIndent`
+      createStyleSheet({
+        "@raw": ".a-id {\\n  x: 0 1;\\n}"
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
 
   test('extract styles with references', () => {})
 
