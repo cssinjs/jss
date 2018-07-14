@@ -1,9 +1,6 @@
 /* eslint-disable import/first */
 import './utils'
 
-import 'jss-props-sort/tests/index.test'
-// import 'jss-isolate/tests/index.test'
-
 import './integration/rules'
 import './integration/sheet'
 import './integration/sheetsRegistry'
