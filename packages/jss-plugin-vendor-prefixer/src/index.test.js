@@ -34,10 +34,6 @@ describe('jss-plugin-vendor-prefixer', () => {
     })
 
     it('should generate correct CSS', () => {
-      if (isIEorEdge) {
-        expect(sheet.toString()).to.be('@keyframes a {\n}')
-        return
-      }
       const prefixedProp = cssVendor.supportedProperty('animation')
       expect(sheet.toString()).to.be(`.a-id {\n  ${prefixedProp}: yyy;\n}`)
     })
@@ -53,6 +49,10 @@ describe('jss-plugin-vendor-prefixer', () => {
     })
 
     it('should generate correct CSS', () => {
+      if (isIEorEdge) {
+        expect(sheet.toString()).to.be('@keyframes a {\n}')
+        return
+      }
       const prefixedKeyframes = `@${cssVendor.prefix.css}keyframes`
       expect(sheet.toString()).to.be(`${prefixedKeyframes} a {\n}`)
     })
