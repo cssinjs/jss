@@ -9,7 +9,7 @@ import {propArray, propArrayInObj, propObj, customPropObj} from './props'
  * @return {String} mapped values
  */
 function mapValuesByProp(value, prop, rule) {
-  return value.map((item) => objectToArray(item, prop, rule, false, true))
+  return value.map(item => objectToArray(item, prop, rule, false, true))
 }
 
 /**
@@ -57,11 +57,10 @@ function objectToArray(value, prop, rule, isFallback, isInArray) {
     for (const baseProp in propObj[prop]) {
       if (value[baseProp]) {
         if (Array.isArray(value[baseProp])) {
-          result.push(propArrayInObj[baseProp] === null ?
-            value[baseProp] :
-            value[baseProp].join(' '))
-        }
-        else result.push(value[baseProp])
+          result.push(
+            propArrayInObj[baseProp] === null ? value[baseProp] : value[baseProp].join(' ')
+          )
+        } else result.push(value[baseProp])
         continue
       }
 
@@ -91,9 +90,12 @@ function customPropsToStyle(value, rule, customProps, isFallback) {
 
     // If current property doesn't exist already in rule - add new one
     if (typeof value[prop] !== 'undefined' && (isFallback || !rule.prop(propName))) {
-      const appendedValue = styleDetector({
-        [propName]: value[prop]
-      }, rule)[propName]
+      const appendedValue = styleDetector(
+        {
+          [propName]: value[prop]
+        },
+        rule
+      )[propName]
 
       // Add style directly in rule
       if (isFallback) rule.style.fallbacks[propName] = appendedValue
@@ -122,7 +124,7 @@ function styleDetector(style, rule, isFallback) {
       // Check double arrays to avoid recursion.
       if (!Array.isArray(value[0])) {
         if (prop === 'fallbacks') {
-          for (let index = 0; index < style.fallbacks.length; index ++) {
+          for (let index = 0; index < style.fallbacks.length; index++) {
             style.fallbacks[index] = styleDetector(style.fallbacks[index], rule, true)
           }
           continue
@@ -132,8 +134,7 @@ function styleDetector(style, rule, isFallback) {
         // Avoid creating properties with empty values
         if (!style[prop].length) delete style[prop]
       }
-    }
-    else if (typeof value === 'object') {
+    } else if (typeof value === 'object') {
       if (prop === 'fallbacks') {
         style.fallbacks = styleDetector(style.fallbacks, rule, true)
         continue

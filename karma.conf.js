@@ -27,7 +27,7 @@ module.exports = config => {
       './packages/jss-plugin-syntax-camel-case/src/index.test.js'
     ],
     preprocessors: {
-      './packages/**/*.js': ['webpack', 'sourcemap'],
+      './packages/**/*.js': ['webpack', 'sourcemap']
     },
     webpack: Object.assign(webpackConfig, {
       devtool: 'inline-source-map'

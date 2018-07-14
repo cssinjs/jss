@@ -34,6 +34,7 @@ const styles = {
   }
 }
 ```
+
 Compiles to:
 
 ```css
@@ -47,49 +48,53 @@ Compiles to:
 
 ## Features
 
-1. Expanded object notation for all properties.
+1.  Expanded object notation for all properties.
 
-  ```javascript
-  border: {
-    width: '1px',
-    style: 'solid',
-    color: 'red'
-  }
-  ```
+```javascript
+border: {
+  width: '1px',
+  style: 'solid',
+  color: 'red'
+}
+```
 
-  will be converted to
+will be converted to
 
-  ```css
-  border: 1px solid red;
-  ```
+```css
+border: 1px solid red;
+```
 
-1. Array notation for properties like `margin`, `padding` and others.
+1.  Array notation for properties like `margin`, `padding` and others.
 
-  ```javascript
-  padding: [20, 10],
-  borderRadius: ['50%', '10%']
-  ```
+```javascript
+padding: [20, 10],
+borderRadius: ['50%', '10%']
+```
 
-1. Expanded arrays for multi value properties.
+1.  Expanded arrays for multi value properties.
 
-  ```javascript
-  transition: [{
+```javascript
+transition: [
+  {
     property: 'opacity',
     duration: '200ms'
-  }, {
+  },
+  {
     property: 'width',
     duration: '300ms'
-  }]
-  ```
-  will be converted to
+  }
+]
+```
 
-  ```css
-  transition: opacity 200ms, width 300ms;
-  ```
+will be converted to
 
-1. Default unit support.
+```css
+transition: opacity 200ms, width 300ms;
+```
 
-  Now, using expanded arrays and objects syntax, you don't need to use quotes for the most numeric values! This is achieved in combination with [jss-default-unit](https://github.com/cssinjs/jss-default-unit) plugin.
+1.  Default unit support.
+
+Now, using expanded arrays and objects syntax, you don't need to use quotes for the most numeric values! This is achieved in combination with [jss-default-unit](https://github.com/cssinjs/jss-default-unit) plugin.
 
 ## Issues
 

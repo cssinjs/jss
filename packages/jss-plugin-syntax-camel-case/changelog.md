@@ -17,7 +17,7 @@
 
 ## 3.0.0 / 2016-12-09
 
--  remove dep to named option
+- remove dep to named option
 
 ## 2.0.2 / 2016-11-05
 

@@ -209,6 +209,6 @@ export const customPropObj = {
     rowGap: 'grid-row-gap',
 
     'column-gap': 'grid-column-gap',
-    columnGap: 'grid-column-gap',
+    columnGap: 'grid-column-gap'
   }
 }
