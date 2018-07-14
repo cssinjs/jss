@@ -1,4 +1,3 @@
-/* eslint-disable import/first */
 import './utils'
 
 import './integration/rules'

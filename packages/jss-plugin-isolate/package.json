@@ -1,0 +1,37 @@
+{
+  "name": "jss-plugin-isolate",
+  "description": "True rules isolation through automatic properties reset.",
+  "version": "5.1.0",
+  "author": {
+    "name": "Maksim Koretskiy",
+    "email": "mr.green.tv@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cssinjs/jss-isolate.git"
+  },
+  "keywords": [
+    "cssinjs",
+    "css-in-js",
+    "css in js",
+    "jss",
+    "plugin",
+    "isolation",
+    "reset"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "license": "MIT",
+  "main": "lib/index.js",
+  "devDependencies": {
+    "jss": "^9.0.0",
+    "jss-plugin-syntax-nested": "^6.0.0"
+  },
+  "peerDependencies": {
+    "jss": "^9.0.0"
+  },
+  "dependencies": {
+    "css-initials": "^0.2.0"
+  }
+}
