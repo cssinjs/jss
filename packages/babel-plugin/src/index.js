@@ -123,12 +123,12 @@ export default declare(
           if (!styles) return
 
           const sheet = jss.createStyleSheet(styles)
+
           insertRawRule(stylesNode, sheet)
           removeNonFunctionProps(callPath, stylesNode)
           removeEmptyObjects(stylesNode)
           replaceCallWithNewArgs(callPath, sheet)
-          // This will avoid circular traversing after r
-          // TODO to support multiple calls this won't work?
+
           callPath.stop()
         }
       }

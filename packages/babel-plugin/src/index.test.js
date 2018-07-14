@@ -272,7 +272,37 @@ describe('index', () => {
     expect(transform(before)).toBe(after)
   })
 
-  test('support multiple calls', () => {})
+  test('support multiple calls', () => {
+    const before = stripIndent`
+      createStyleSheet({
+        a: {
+          color: 'red'
+        }
+      });
+      createStyleSheet({
+        a: {
+          color: 'red'
+        }
+      });
+    `
+    const after = stripIndent`
+      createStyleSheet({
+        "@raw": ".a-id {\\n  color: red;\\n}"
+      }, {
+        "classes": {
+          "a": "a-id"
+        }
+      });
+      createStyleSheet({
+        "@raw": ".a-id {\\n  color: red;\\n}"
+      }, {
+        "classes": {
+          "a": "a-id"
+        }
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
 
   test('resolve styles ref', () => {
     const before = stripIndent`
