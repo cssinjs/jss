@@ -1,5 +1,5 @@
 /**
- * Generated jss-default-unit CSS property units
+ * Generated jss-plugin-syntax-default-unit CSS property units
  *
  * @type object
  */

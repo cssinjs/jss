@@ -23,7 +23,7 @@ module.exports = config => {
       './packages/jss-plugin-syntax-rule-value-function/src/index.test.js',
       './packages/jss-plugin-syntax-rule-value-observable/src/observable.test.js',
       './packages/jss-plugin-syntax-expand/src/index.test.js',
-      './packages/jss-default-unit/src/index.test.js'
+      'packages/jss-plugin-syntax-default-unit/src/index.test.js'
     ],
     preprocessors: {
       './packages/**/*.js': ['webpack', 'sourcemap'],

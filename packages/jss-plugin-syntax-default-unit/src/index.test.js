@@ -12,7 +12,7 @@ const settings = {
   createGenerateClassName: () => rule => `${rule.key}-id`
 }
 
-describe('jss-default-unit', () => {
+describe('jss-plugin-syntax-default-unit', () => {
   let jss
 
   beforeEach(() => {

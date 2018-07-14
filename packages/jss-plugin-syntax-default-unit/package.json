@@ -1,5 +1,5 @@
 {
-  "name": "jss-default-unit",
+  "name": "jss-plugin-syntax-default-unit",
   "description": "JSS plugin that adds default custom unit to numeric values where needed",
   "version": "8.0.2",
   "author": {
@@ -20,7 +20,6 @@
     "unit",
     "default-unit"
   ],
-  "engines": {},
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
