@@ -1,0 +1,38 @@
+{
+  "name": "jss-plugin-syntax-global",
+  "version": "3.0.0",
+  "description": "Global styles for JSS",
+  "main": "lib/index.js",
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cssinjs/jss-global.git"
+  },
+  "keywords": [
+    "cssinjs",
+    "css-in-js",
+    "css in js",
+    "jss",
+    "plugin",
+    "global",
+    "unscoped"
+  ],
+  "author": {
+    "name": "Oleg Slobodskoi",
+    "email": "oleg008@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-global]"
+  },
+  "homepage": "https://github.com/cssinjs/jss-global",
+  "peerDependencies": {
+    "jss": "^9.0.0"
+  },
+  "devDependencies": {
+    "jss": "^9.0.0",
+    "jss-plugin-syntax-nested": "^6.0.0"
+  }
+}

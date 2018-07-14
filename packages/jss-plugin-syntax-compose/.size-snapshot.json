@@ -1,0 +1,12 @@
+{
+  "dist/jss-plugin-syntax-compose.js": {
+    "bundled": 5530,
+    "minified": 1560,
+    "gzipped": 849
+  },
+  "dist/jss-plugin-syntax-compose.min.js": {
+    "bundled": 5530,
+    "minified": 1560,
+    "gzipped": 849
+  }
+}
