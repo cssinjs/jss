@@ -1,5 +1,5 @@
 {
-  "name": "jss-expand",
+  "name": "jss-plugin-syntax-expand",
   "description": "JSS plugin that gives you a better syntax than CSS.",
   "version": "5.3.0",
   "author": {

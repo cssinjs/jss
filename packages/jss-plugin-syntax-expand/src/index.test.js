@@ -9,7 +9,7 @@ const settings = {
   createGenerateClassName: () => (rule) => `${rule.key}-id`
 }
 
-describe('jss-expand', () => {
+describe('jss-plugin-syntax-expand', () => {
   let jss
 
   beforeEach(() => {
