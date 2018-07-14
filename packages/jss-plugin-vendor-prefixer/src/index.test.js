@@ -13,7 +13,7 @@ const settings = {
 const isIE9 = browser.name === 'ie' && browser.version === '9.0.0'
 const isIEorEdge = browser.name === 'edge' || browser.name === 'ie'
 
-describe('jss-vendor-prefixer', () => {
+describe('jss-plugin-vendor-prefixer', () => {
   let jss
 
   beforeEach(() => {
