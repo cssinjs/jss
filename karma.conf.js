@@ -32,7 +32,8 @@ module.exports = config => {
       './packages/jss-plugin-vendor-prefixer/src/index.test.js',
       './packages/jss-plugin-cache/src/index.test.js',
       './packages/jss-plugin-props-sort/src/index.test.js',
-      './packages/jss-plugin-isolate/src/index.test.js'
+      './packages/jss-plugin-isolate/src/index.test.js',
+      './packages/jss-plugin-syntax-template/src/index.test.js'
     ],
     preprocessors: {
       './packages/**/*.js': ['webpack', 'sourcemap']

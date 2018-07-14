@@ -1,0 +1,35 @@
+{
+  "name": "jss-plugin-syntax-template",
+  "description": "JSS plugin enables string templates",
+  "version": "1.0.1",
+  "author": {
+    "name": "Oleg Slobodskoi",
+    "email": "oleg008@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cssinjs/jss-template.git"
+  },
+  "keywords": [
+    "cssinjs",
+    "css-in-js",
+    "css in js",
+    "jss",
+    "plugin",
+    "template"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "devDependencies": {
+    "jss": "^9.0.0"
+  },
+  "peerDependencies": {
+    "jss": "^9.0.0"
+  },
+  "dependencies": {
+    "warning": "^3.0.0"
+  }
+}
