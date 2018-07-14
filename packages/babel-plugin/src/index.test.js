@@ -27,6 +27,10 @@ describe('index', () => {
     const after = stripIndent`
       createStyleSheet({
         "@raw": ".a-id {\\n  color: red;\\n}"
+      }, {
+        "classes": {
+          "a": "a-id"
+        }
       });
     `
     expect(transform(before)).toBe(after)
@@ -43,6 +47,10 @@ describe('index', () => {
     const after = stripIndent`
       xyz({
         "@raw": ".a-id {\\n  color: red;\\n}"
+      }, {
+        "classes": {
+          "a": "a-id"
+        }
       });
     `
     expect(transform(before, {identifiers: ['xyz']})).toBe(after)
@@ -65,6 +73,11 @@ describe('index', () => {
         b: {
           color: () => {}
         }
+      }, {
+        "classes": {
+          "a": "a-id",
+          "b": "b-id"
+        }
       });
     `
     expect(transform(before)).toBe(after)
@@ -86,6 +99,11 @@ describe('index', () => {
         "@raw": ".a-id {\\n  color: red;\\n}",
         b: {
           color: function () {}
+        }
+      }, {
+        "classes": {
+          "a": "a-id",
+          "b": "b-id"
         }
       });
     `
@@ -112,6 +130,11 @@ describe('index', () => {
         "@raw": ".a-id {\\n  color: red;\\n}",
         b: {
           color: f
+        }
+      }, {
+        "classes": {
+          "a": "a-id",
+          "b": "b-id"
         }
       });
     `
@@ -156,6 +179,10 @@ describe('index', () => {
       const prop = 'a';
       createStyleSheet({
         "@raw": ".a-id {\\n  color: red;\\n}"
+      }, {
+        "classes": {
+          "a": "a-id"
+        }
       });
     `
     expect(transform(before)).toBe(after)
@@ -172,6 +199,10 @@ describe('index', () => {
     const after = stripIndent`
       createStyleSheet({
         "@raw": ".a-id {\\n  width: 0;\\n}"
+      }, {
+        "classes": {
+          "a": "a-id"
+        }
       });
     `
     expect(transform(before)).toBe(after)
@@ -188,6 +219,10 @@ describe('index', () => {
     const after = stripIndent`
       createStyleSheet({
         "@raw": ".a-id {\\n  x: 0, 1;\\n}"
+      }, {
+        "classes": {
+          "a": "a-id"
+        }
       });
     `
     expect(transform(before)).toBe(after)
@@ -204,18 +239,44 @@ describe('index', () => {
     const after = stripIndent`
       createStyleSheet({
         "@raw": ".a-id {\\n  x: 0 1;\\n}"
+      }, {
+        "classes": {
+          "a": "a-id"
+        }
       });
     `
     expect(transform(before)).toBe(after)
   })
 
+  test('extract static properties from mixed rules', () => {
+    const before = stripIndent`
+      createStyleSheet({
+        a: {
+          color: 'red',
+          width: () => {}
+        }
+      });
+    `
+    const after = stripIndent`
+      createStyleSheet({
+        "@raw": ".a-id {\\n  color: red;\\n}",
+        a: {
+          width: () => {}
+        }
+      }, {
+        "classes": {
+          "a": "a-id"
+        }
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
+
+  test('support multiple calls', () => {})
+
   test('extract styles with references', () => {})
 
   test('extract styles with nested references', () => {})
-
-  test('extract static properties', () => {})
-
-  test('add sheet options with classes when there was no options', () => {})
 
   test('add sheet options with classes when there was options', () => {})
 

@@ -47,26 +47,26 @@ export default declare(({types: t, ...api}, {identifiers = defaultIdentifiers, j
 
   return {
     visitor: {
-      CallExpression(path) {
-        const {name} = path.node.callee
-        if (!identifiers.includes(name)) return
+      CallExpression(callPath) {
+        if (!identifiers.includes(callPath.node.callee.name)) return
 
-        const styles = extracStaticStylesObject(path)
+        const styles = extracStaticStylesObject(callPath)
         if (!styles) return
-        const css = jss.createStyleSheet(styles).toString()
+
+        const sheet = jss.createStyleSheet(styles)
 
         // Insert @raw before the first rule in styles.
-        path.traverse({
+        callPath.traverse({
           ObjectProperty(propPath) {
             propPath.insertBefore(
-              t.objectProperty(t.stringLiteral(rawRuleName), t.stringLiteral(css))
+              t.objectProperty(t.stringLiteral(rawRuleName), t.stringLiteral(sheet.toString()))
             )
             propPath.stop()
           }
         })
 
         // Remove none-function properties
-        path.traverse({
+        callPath.traverse({
           ObjectProperty(propPath) {
             const {value} = propPath.node
             if (
@@ -83,7 +83,7 @@ export default declare(({types: t, ...api}, {identifiers = defaultIdentifiers, j
         })
 
         // Remove empty objects
-        path.traverse({
+        callPath.traverse({
           ObjectProperty(propPath) {
             const {value} = propPath.node
             if (t.isObjectExpression(value) && value.properties.length === 0) {
@@ -91,6 +91,24 @@ export default declare(({types: t, ...api}, {identifiers = defaultIdentifiers, j
             }
           }
         })
+
+        // Insert options argument.
+        const optionsNode = t.objectExpression([
+          t.objectProperty(
+            t.stringLiteral('classes'),
+            t.objectExpression(
+              Object.keys(sheet.classes).map(name =>
+                t.objectProperty(t.stringLiteral(name), t.stringLiteral(sheet.classes[name]))
+              )
+            )
+          )
+        ])
+
+        const args = [callPath.node.arguments[0], optionsNode]
+        callPath.replaceWith(t.callExpression(callPath.node.callee, args))
+        // This will avoid circular traversing.
+        // TODO to support multiple calls this won't work?
+        callPath.stop()
       }
     }
   }
