@@ -3,7 +3,6 @@ import './utils'
 
 import 'jss-cache/tests/index.test'
 import 'jss-props-sort/tests/index.test'
-import 'jss-vendor-prefixer/tests/index.test'
 // import 'jss-isolate/tests/index.test'
 
 import './integration/rules'
