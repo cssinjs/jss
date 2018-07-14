@@ -1,0 +1,38 @@
+{
+  "name": "jss-plugin-syntax-extend",
+  "description": "JSS plugin that enables mixing in styles.",
+  "version": "6.2.0",
+  "author": {
+    "name": "Oleg Slobodskoi",
+    "email": "oleg008@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cssinjs/jss-extend.git"
+  },
+  "keywords": [
+    "jss",
+    "plugin",
+    "extend",
+    "css-in-js",
+    "cssinjs",
+    "css in js"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "devDependencies": {
+    "jss": "^9.7.0",
+    "jss-plugin-syntax-expand": "^5.1.0",
+    "jss-plugin-syntax-nested": "^6.0.1",
+    "jss-plugin-syntax-rule-value-function": "^0.1.0"
+  },
+  "peerDependencies": {
+    "jss": "^9.7.0"
+  },
+  "dependencies": {
+    "warning": "^3.0.0"
+  }
+}
