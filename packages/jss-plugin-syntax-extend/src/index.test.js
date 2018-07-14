@@ -200,8 +200,10 @@ describe('jss-plugin-syntax-extend', () => {
       expect(sheet.getRule('a')).to.not.be(undefined)
       expect(sheet.toString()).to.be(
         '.a-id {\n' +
-          '  border: 1px solid red;\n' +
           '  width: 2px;\n' +
+          '  border-width: 1px;\n' +
+          '  border-style: solid;\n' +
+          '  border-color: red;\n' +
           '}\n' +
           '.a-id:hover {\n' +
           '  width: 2px;\n' +
