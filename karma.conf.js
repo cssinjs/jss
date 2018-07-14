@@ -29,7 +29,8 @@ module.exports = config => {
       './packages/jss-plugin-syntax-extend/src/index.test.js',
       './packages/jss-plugin-syntax-compose/src/index.test.js',
       './packages/jss-plugin-syntax-global/src/index.test.js',
-      './packages/jss-plugin-vendor-prefixer/src/index.test.js'
+      './packages/jss-plugin-vendor-prefixer/src/index.test.js',
+      './packages/jss-plugin-cache/src/index.test.js'
     ],
     preprocessors: {
       './packages/**/*.js': ['webpack', 'sourcemap']
