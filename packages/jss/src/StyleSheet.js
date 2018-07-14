@@ -35,7 +35,7 @@ export default class StyleSheet {
     this.attached = false
     this.deployed = false
     this.linked = false
-    this.classes = {}
+    this.classes = options.classes || {}
     this.options = {
       ...options,
       sheet: this,

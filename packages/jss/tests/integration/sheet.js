@@ -59,16 +59,24 @@ describe('Integration: sheet', () => {
       const sheet = jss.createStyleSheet(null, {generateClassName})
       expect(sheet.options.generateClassName).to.be(generateClassName)
     })
+
+    it('should allow classes override', () => {
+      const classes = {}
+      const sheet = jss.createStyleSheet(null, {classes})
+      expect(sheet.classes).to.be(classes)
+    })
+
+    it('should use predefined class name', () => {
+      const styles = {bar: {color: 'red'}}
+      const classes = {bar: 'bar-predefined-id'}
+      const sheet = jss.createStyleSheet(styles, {classes})
+      expect(sheet.classes.bar).to.be('bar-predefined-id')
+    })
   })
 
   describe('sheet.getRule()', () => {
-    it('should return a rule by name and selector from named sheet', () => {
+    it('should return a rule by name and selector', () => {
       const sheet = jss.createStyleSheet({a: {float: 'left'}})
-      expect(sheet.getRule('a')).to.be.a(StyleRule)
-    })
-
-    it('should return a rule by selector from unnamed sheet', () => {
-      const sheet = jss.createStyleSheet({a: {float: 'left'}}, {named: false})
       expect(sheet.getRule('a')).to.be.a(StyleRule)
     })
   })
@@ -126,32 +134,30 @@ describe('Integration: sheet', () => {
 
   describe('sheet.toString()', () => {
     it('should compile all rule types to CSS', () => {
-      const sheet = jss.createStyleSheet(
-        {
-          '@charset': '"utf-8"',
-          '@import': 'bla',
-          '@namespace': 'bla',
-          a: {
-            float: 'left'
-          },
-          '@font-face': {
-            'font-family': 'MyHelvetica',
-            src: 'local("Helvetica")'
-          },
-          '@keyframes id': {
-            from: {top: 0}
-          },
-          '@media print': {
-            b: {display: 'none'}
-          },
-          '@supports ( display: flexbox )': {
-            c: {
-              display: 'none'
-            }
+      const sheet = jss.createStyleSheet({
+        '@charset': '"utf-8"',
+        '@import': 'bla',
+        '@namespace': 'bla',
+        a: {
+          float: 'left'
+        },
+        '@font-face': {
+          'font-family': 'MyHelvetica',
+          src: 'local("Helvetica")'
+        },
+        '@keyframes id': {
+          from: {top: 0}
+        },
+        '@media print': {
+          b: {display: 'none'}
+        },
+        '@supports ( display: flexbox )': {
+          c: {
+            display: 'none'
           }
         },
-        {named: false}
-      )
+        '@raw': '.a {color: red;}'
+      })
 
       expect(sheet.toString()).to.be(stripIndent`
         @charset "utf-8";
@@ -179,6 +185,7 @@ describe('Integration: sheet', () => {
             display: none;
           }
         }
+        .a {color: red;}
       `)
     })
 
@@ -195,30 +202,7 @@ describe('Integration: sheet', () => {
       `)
     })
 
-    it('should compile multiple media queries in unnamed sheet', () => {
-      const sheet = jss.createStyleSheet({
-        a: {color: 'red'},
-        '@media (min-width: 1024px)': {a: {color: 'blue'}},
-        '@media (min-width: 1000px)': {a: {color: 'green'}}
-      })
-      expect(sheet.toString()).to.be(stripIndent`
-        .a-id {
-          color: red;
-        }
-        @media (min-width: 1024px) {
-          .a-id {
-            color: blue;
-          }
-        }
-        @media (min-width: 1000px) {
-          .a-id {
-            color: green;
-          }
-        }
-      `)
-    })
-
-    it('should compile multiple media queries in named sheet', () => {
+    it('should compile multiple media queries', () => {
       const sheet = jss.createStyleSheet({
         a: {color: 'red'},
         '@media (min-width: 1024px)': {a: {color: 'blue'}},

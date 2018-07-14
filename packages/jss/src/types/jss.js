@@ -132,6 +132,7 @@ export type StyleSheetOptions = {
   meta?: string,
   link?: boolean,
   element?: HTMLStyleElement,
+  classes?: Classes,
   index: number,
   generateClassName: generateClassName,
   classNamePrefix?: string,

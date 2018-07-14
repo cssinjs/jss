@@ -4,6 +4,7 @@ import KeyframesRule from '../rules/KeyframesRule'
 import ConditionalRule from '../rules/ConditionalRule'
 import FontFaceRule from '../rules/FontFaceRule'
 import ViewportRule from '../rules/ViewportRule'
+import RawRule from '../rules/RawRule'
 import type {Plugin, RuleOptions, Rule, JssStyle} from '../types'
 
 const classes = {
@@ -15,7 +16,8 @@ const classes = {
   '@supports': ConditionalRule,
   '@font-face': FontFaceRule,
   '@viewport': ViewportRule,
-  '@-ms-viewport': ViewportRule
+  '@-ms-viewport': ViewportRule,
+  '@raw': RawRule
 }
 
 /**
