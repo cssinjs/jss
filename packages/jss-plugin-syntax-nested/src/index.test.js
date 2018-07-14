@@ -2,7 +2,7 @@
 
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
-import jssExtend from 'jss-extend'
+// import jssExtend from 'jss-plugin-syntax-extend'
 import {create} from 'jss'
 import functionPlugin from 'jss-plugin-syntax-rule-value-function'
 import nested from './'
@@ -449,6 +449,7 @@ describe('jss-plugin-syntax-nested', () => {
     })
   })
 
+  /*
   describe('nesting conditionals in combination with extend plugin', () => {
     let sheet
 
@@ -498,13 +499,13 @@ describe('jss-plugin-syntax-nested', () => {
       )
     })
   })
+  */
 
   describe('deep nesting', () => {
     let sheet
 
     beforeEach(() => {
-      const localJss = create(settings).use(jssExtend(), nested())
-      sheet = localJss.createStyleSheet({
+      sheet = jss.createStyleSheet({
         button: {
           color: 'black',
           '& .a': {

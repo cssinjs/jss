@@ -2,7 +2,6 @@
 
 import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
-import vendorPrefixer from 'jss-vendor-prefixer'
 
 import {create} from 'jss'
 import functionPlugin from './'
@@ -10,7 +9,6 @@ import {
   createGenerateClassName,
   getStyle,
   getCss,
-  getCssFromSheet,
   removeWhitespace,
   removeVendorPrefixes
 } from '../../jss/tests/utils'
@@ -374,32 +372,35 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
     })
 
     describe('sheet.update() after attach', () => {
-      const assertSheet = () => {
-        // skip this test for browsers,
-        // that could not apply keyframes rule w/ or w/o prefix (like IE9)
-        if (sheet.renderer.getRules().length < 3) return
-
-        const [actual, expected] = [getCssFromSheet(sheet), removeWhitespace(sheet.toString())].map(
-          removeVendorPrefixes
-        )
-
-        expect(actual).to.be(expected)
-      }
-
       beforeEach(() => {
-        // we need to use vendor-prefixer, because keyframes rule may not to work
-        // in some browsers wihtout prefix (like Safari 7.1.8)
-        sheet = jss.use(vendorPrefixer()).createStyleSheet(styles, {link: true})
+        sheet = jss.createStyleSheet(
+          {
+            a: {
+              color: theme => theme.color
+            }
+          },
+          {link: true}
+        )
       })
 
       it('should render sheet with updated props after attach', () => {
         sheet.attach().update({color: 'green'})
-        assertSheet()
+
+        expect(sheet.toString()).to.be(stripIndent`
+          .a-id {
+            color: green;
+          }
+        `)
       })
 
       it('should render updated rule after attach', () => {
         sheet.attach().update('a', {color: 'green'})
-        assertSheet()
+
+        expect(sheet.toString()).to.be(stripIndent`
+          .a-id {
+            color: green;
+          }
+        `)
       })
     })
   })
