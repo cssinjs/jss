@@ -1,0 +1,12 @@
+{
+  "dist/jss-default-unit.js": {
+    "bundled": 6022,
+    "minified": 3393,
+    "gzipped": 1152
+  },
+  "dist/jss-default-unit.min.js": {
+    "bundled": 6022,
+    "minified": 3393,
+    "gzipped": 1152
+  }
+}
