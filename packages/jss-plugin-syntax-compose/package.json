@@ -1,0 +1,36 @@
+{
+  "name": "jss-plugin-syntax-compose",
+  "description": "JSS plugin for classes composition",
+  "version": "5.0.0",
+  "author": {
+    "name": "Pavel Davydov",
+    "email": "typical000@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cssinjs/jss-compose.git"
+  },
+  "keywords": [
+    "cssinnjs",
+    "css-in-js",
+    "css in js",
+    "jss",
+    "plugin",
+    "compose",
+    "composition"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "devDependencies": {
+    "jss": "^9.0.0"
+  },
+  "peerDependencies": {
+    "jss": "^9.0.0"
+  },
+  "dependencies": {
+    "warning": "^3.0.0"
+  }
+}

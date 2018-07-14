@@ -26,7 +26,8 @@ module.exports = config => {
       './packages/jss-plugin-syntax-default-unit/src/index.test.js',
       './packages/jss-plugin-syntax-camel-case/src/index.test.js',
       './packages/jss-plugin-syntax-nested/src/index.test.js',
-      './packages/jss-plugin-syntax-extend/src/index.test.js'
+      './packages/jss-plugin-syntax-extend/src/index.test.js',
+      './packages/jss-plugin-syntax-compose/src/index.test.js'
     ],
     preprocessors: {
       './packages/**/*.js': ['webpack', 'sourcemap']
