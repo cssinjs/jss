@@ -1,18 +1,17 @@
-/* eslint-disable no-underscore-dangle */
-
-import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
+import {stripIndent} from 'common-tags'
 
-import {create} from '../../src'
-import {createGenerateClassName, getStyle, getCss, removeWhitespace} from '../utils'
+import {create} from 'jss'
+import functionPlugin from './'
+import {createGenerateClassName, getStyle, getCss, removeWhitespace} from '../../jss/tests/utils'
 
 const settings = {createGenerateClassName}
 
-describe('Functional: Function rules', () => {
+describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
   let jss
 
   beforeEach(() => {
-    jss = create(settings)
+    jss = create(settings).use(functionPlugin())
   })
 
   describe('.createStyleSheet()', () => {

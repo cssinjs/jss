@@ -3,7 +3,6 @@ import isInBrowser from 'is-in-browser'
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import rulesPlugins from './plugins/rules'
-import functionsPlugin from './plugins/functions'
 import sheets from './sheets'
 import StyleRule from './rules/StyleRule'
 import createGenerateClassNameDefault from './utils/createGenerateClassName'
@@ -21,8 +20,6 @@ import type {
   JssStyle,
   generateClassName
 } from './types'
-
-const defaultPlugins = rulesPlugins.concat([functionsPlugin])
 
 let instanceCounter = 0
 
@@ -43,7 +40,7 @@ export default class Jss {
 
   constructor(options?: JssOptions) {
     // eslint-disable-next-line prefer-spread
-    this.use.apply(this, defaultPlugins)
+    this.use.apply(this, rulesPlugins)
     this.setup(options)
   }
 
