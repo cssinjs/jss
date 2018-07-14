@@ -1,0 +1,41 @@
+{
+  "name": "jss-plugin-syntax-camel-case",
+  "description": "JSS plugin that allows to write camel cased rule properties",
+  "version": "6.1.0",
+  "author": {
+    "name": "Oleg Slobodskoi",
+    "email": "oleg008@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cssinjs/jss-camel-case.git"
+  },
+  "files": [
+    "lib",
+    "dist",
+    "src"
+  ],
+  "keywords": [
+    "cssinjs",
+    "css-in-js",
+    "css in js",
+    "jss",
+    "plugin",
+    "camel case"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "license": "MIT",
+  "main": "lib/index.js",
+  "devDependencies": {
+    "jss": "^9.7.0",
+    "jss-plugin-syntax-rule-value-function": "^0.1.0"
+  },
+  "peerDependencies": {
+    "jss": "^9.7.0"
+  },
+  "dependencies": {
+    "hyphenate-style-name": "^1.0.2"
+  }
+}
