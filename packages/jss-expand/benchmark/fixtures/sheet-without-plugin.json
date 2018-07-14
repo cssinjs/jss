@@ -1,0 +1,30 @@
+{
+  ".link": {
+    "background": "rgba(0, 0, 0, 0.3) url(test.jpg) no-repeat 0 0",
+    "border": "1px solid black",
+    "border-left": 0,
+    "clear": "both",
+    "margin": [[ 0, 0, "5px", 0 ]],
+    "text-decoration": "none",
+    "display": "block",
+    "transition": ["opacity 0.5s linear", "background 1s ease"]
+  },
+  ".element": {
+    "transition": [
+        [["opacity", "1s", "linear"]],
+        [["background", "0.5s", "ease"]]
+    ],
+    "background": "#fff",
+    "opacity": 1,
+    "padding": [[ "10px", 0 ]],
+    "font": "bold 16px/30px Helvetica, Arial, sans-serif",
+    "box-shadow": "0 0 25px rgba(0, 0, 0, 0.5) inset",
+    "text-shadow": "0 1px 0 #fff"
+  },
+  ".container": {
+    "margin": [[ "5px", "10px", 0, "5px"]],
+    "margin": [[ "15px", "15px", 0, "15px"]],
+    "max-width": "1180px",
+    "width": "100%"
+  }
+}
