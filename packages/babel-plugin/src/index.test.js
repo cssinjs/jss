@@ -274,7 +274,27 @@ describe('index', () => {
 
   test('support multiple calls', () => {})
 
-  test('extract styles with references', () => {})
+  test('resolve styles ref', () => {
+    const before = stripIndent`
+      const styles = {
+        a: {
+          color: 'red'
+        }
+      };
+      createStyleSheet(styles);
+    `
+    const after = stripIndent`
+      const styles = {
+        "@raw": ".a-id {\\n  color: red;\\n}"
+      };
+      createStyleSheet(styles, {
+        "classes": {
+          "a": "a-id"
+        }
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
 
   test('extract styles with nested references', () => {})
 
@@ -283,4 +303,14 @@ describe('index', () => {
   test('make sure identifier is imported from a specific package', () => {})
 
   test('support configurable package name', () => {})
+
+  test('support styles creator function', () => {})
+
+  test('support theme over babel config', () => {})
+
+  test('resolve refs from a different module', () => {})
+
+  test('handle refs from an external module', () => {})
+
+  test('handle nested refs', () => {})
 })
