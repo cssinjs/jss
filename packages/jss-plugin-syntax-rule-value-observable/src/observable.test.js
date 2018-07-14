@@ -1,19 +1,20 @@
 import expect from 'expect.js'
 import Observable from 'zen-observable'
 
-import {create} from '../../src'
-import {createGenerateClassName, computeStyle} from '../utils'
+import {create} from 'jss'
+import observable from './'
+import {createGenerateClassName, computeStyle} from '../../jss/tests/utils'
 
 const settings = {createGenerateClassName}
 
-describe('Functional: Observable rules', () => {
+describe('jss-plugin-syntax-rule-value-observable', () => {
   let jss
 
   beforeEach(() => {
-    jss = create(settings)
+    jss = create(settings).use(observable())
   })
 
-  describe('Observables', () => {
+  describe('Rules', () => {
     let sheet
     let observer
 
@@ -137,6 +138,55 @@ describe('Functional: Observable rules', () => {
       observer.next({display: 'inline-block'})
 
       expect(computeStyle(sheet.classes.div).display).to.be('inline-block')
+    })
+  })
+
+  describe('Values', () => {
+    let sheet
+    let observer
+
+    beforeEach(() => {
+      sheet = jss
+        .createStyleSheet(
+          {
+            a: {
+              height: new Observable(obs => {
+                observer = obs
+              })
+            }
+          },
+          {link: true}
+        )
+        .attach()
+    })
+
+    it('should subscribe the observer', () => {
+      expect(observer).to.be.an(Object)
+    })
+
+    it('should accept an observable', () => {
+      expect(computeStyle(sheet.classes.a).height).to.be('0px')
+    })
+
+    it('should update the value 1', () => {
+      observer.next('10px')
+      expect(computeStyle(sheet.classes.a).height).to.be('10px')
+    })
+
+    it('should update the value 2', () => {
+      observer.next('20px')
+      expect(computeStyle(sheet.classes.a).height).to.be('20px')
+    })
+  })
+
+  describe('rule.toJSON()', () => {
+    it('should handle observable values', () => {
+      const rule = jss.createRule({
+        color: new Observable(observer => {
+          observer.next('red')
+        })
+      })
+      expect(rule.toJSON()).to.eql({color: 'red'})
     })
   })
 })

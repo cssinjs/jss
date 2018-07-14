@@ -4,7 +4,8 @@ import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
 import vendorPrefixer from 'jss-vendor-prefixer'
 
-import {create} from '../../src'
+import {create} from 'jss'
+import functionPlugin from './'
 import {
   createGenerateClassName,
   getStyle,
@@ -12,15 +13,15 @@ import {
   getCssFromSheet,
   removeWhitespace,
   removeVendorPrefixes
-} from '../utils'
+} from '../../jss/tests/utils'
 
 const settings = {createGenerateClassName}
 
-describe('Functional: Function values', () => {
+describe('jss-plugin-syntax-rule-value-function: Function values', () => {
   let jss
 
   beforeEach(() => {
-    jss = create(settings)
+    jss = create(settings).use(functionPlugin())
   })
 
   describe('.addRule() with @media with function values', () => {

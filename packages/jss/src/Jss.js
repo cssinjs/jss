@@ -3,8 +3,6 @@ import isInBrowser from 'is-in-browser'
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import rulesPlugins from './plugins/rules'
-import observablesPlugin from './plugins/observables'
-import functionsPlugin from './plugins/functions'
 import sheets from './sheets'
 import StyleRule from './rules/StyleRule'
 import createGenerateClassNameDefault from './utils/createGenerateClassName'
@@ -23,16 +21,12 @@ import type {
   generateClassName
 } from './types'
 
-declare var __VERSION__: string
-
-const defaultPlugins = rulesPlugins.concat([observablesPlugin, functionsPlugin])
-
 let instanceCounter = 0
 
 export default class Jss {
   id = instanceCounter++
 
-  version = __VERSION__
+  version = process.env.VERSION
 
   plugins = new PluginsRegistry()
 
@@ -46,7 +40,7 @@ export default class Jss {
 
   constructor(options?: JssOptions) {
     // eslint-disable-next-line prefer-spread
-    this.use.apply(this, defaultPlugins)
+    this.use.apply(this, rulesPlugins)
     this.setup(options)
   }
 

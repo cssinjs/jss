@@ -7,4 +7,4 @@ function getPackageJson() {
   return require(path.join(modulePath, 'package.json'))
 }
 
-module.exports = getPackageJson
+module.exports = {getPackageJson}

@@ -76,6 +76,9 @@ export default class StyleRule implements BaseRule {
     // Don't do anything if the value has not changed.
     if (this.style[name] === value) return this
 
+    // Flow started complaining because onChangeValue expects a string and JssValue can
+    // be an array as well. Don't know why this didn't report before
+    // $FlowFixMe
     value = this.options.jss.plugins.onChangeValue(value, name, this)
 
     const isEmpty = value == null || value === false

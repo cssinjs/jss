@@ -387,7 +387,7 @@ describe('Integration: plugins', () => {
       })
       sheet = jss.createStyleSheet({
         a: {
-          color: data => data.color
+          color: 'green'
         }
       })
     })
