@@ -10,13 +10,13 @@
     "gzipped": 2744
   },
   "dist/jss-plugin-isolate.js": {
-    "bundled": 14609,
+    "bundled": 14537,
     "minified": 9709,
-    "gzipped": 2748
+    "gzipped": 2749
   },
   "dist/jss-plugin-isolate.min.js": {
-    "bundled": 14609,
+    "bundled": 14537,
     "minified": 9709,
-    "gzipped": 2748
+    "gzipped": 2749
   }
 }

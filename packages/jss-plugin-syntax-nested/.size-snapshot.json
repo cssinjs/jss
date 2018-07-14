@@ -1,11 +1,11 @@
 {
   "dist/jss-plugin-syntax-nested.js": {
-    "bundled": 7426,
+    "bundled": 7266,
     "minified": 2112,
     "gzipped": 1120
   },
   "dist/jss-plugin-syntax-nested.min.js": {
-    "bundled": 7426,
+    "bundled": 7266,
     "minified": 2112,
     "gzipped": 1120
   }
