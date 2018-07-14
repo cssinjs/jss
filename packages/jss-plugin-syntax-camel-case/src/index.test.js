@@ -44,12 +44,12 @@ describe('jss-plugin-syntax-camel-case', () => {
         '@font-face': [
           {
             fontFamily: 'Lato-Light',
-            src: 'url("/fonts/Lato-Light.ttf") format("truetype")',
+            src: 'url("/fonts/Lato-Light.ttf") format("truetype")'
           },
           {
             fontFamily: 'Lato-Bold',
-            src: 'url("/fonts/Lato-Bold.ttf") format("truetype")',
-          },
+            src: 'url("/fonts/Lato-Bold.ttf") format("truetype")'
+          }
         ]
       })
     })
@@ -57,13 +57,13 @@ describe('jss-plugin-syntax-camel-case', () => {
     it('should generate correct CSS', () => {
       expect(sheet.toString()).to.be(
         '@font-face {\n' +
-        '  font-family: Lato-Light;\n' +
-        '  src: url("/fonts/Lato-Light.ttf") format("truetype");\n' +
-        '}\n' +
-        '@font-face {\n' +
-        '  font-family: Lato-Bold;\n' +
-        '  src: url("/fonts/Lato-Bold.ttf") format("truetype");\n' +
-        '}'
+          '  font-family: Lato-Light;\n' +
+          '  src: url("/fonts/Lato-Light.ttf") format("truetype");\n' +
+          '}\n' +
+          '@font-face {\n' +
+          '  font-family: Lato-Bold;\n' +
+          '  src: url("/fonts/Lato-Bold.ttf") format("truetype");\n' +
+          '}'
       )
     })
   })
@@ -76,7 +76,7 @@ describe('jss-plugin-syntax-camel-case', () => {
         '@font-face': {
           fontFamily: 'MyWebFont',
           fallbacks: {
-            fontFamily: 'MyWebFontFallback',
+            fontFamily: 'MyWebFontFallback'
           }
         }
       })
@@ -85,9 +85,9 @@ describe('jss-plugin-syntax-camel-case', () => {
     it('should generate correct CSS', () => {
       expect(sheet.toString()).to.be(
         '@font-face {\n' +
-        '  font-family: MyWebFontFallback;\n' +
-        '  font-family: MyWebFont;\n' +
-        '}'
+          '  font-family: MyWebFontFallback;\n' +
+          '  font-family: MyWebFont;\n' +
+          '}'
       )
     })
   })
@@ -107,9 +107,9 @@ describe('jss-plugin-syntax-camel-case', () => {
     it('should generate correct CSS', () => {
       expect(sheet.toString()).to.be(
         '@font-face {\n' +
-        '  font-family: MyWebFontFallback;\n' +
-        '  font-family: MyWebFont;\n' +
-        '}'
+          '  font-family: MyWebFontFallback;\n' +
+          '  font-family: MyWebFont;\n' +
+          '}'
       )
     })
   })
@@ -119,21 +119,23 @@ describe('jss-plugin-syntax-camel-case', () => {
 
     beforeEach(() => {
       sheet = jss.createStyleSheet({
-        '@font-face': [{
-          fontFamily: 'MyWebFont',
-          fallbacks: {
-            fontFamily: 'MyWebFontFallback',
+        '@font-face': [
+          {
+            fontFamily: 'MyWebFont',
+            fallbacks: {
+              fontFamily: 'MyWebFontFallback'
+            }
           }
-        }]
+        ]
       })
     })
 
     it('should generate correct CSS', () => {
       expect(sheet.toString()).to.be(
         '@font-face {\n' +
-        '  font-family: MyWebFontFallback;\n' +
-        '  font-family: MyWebFont;\n' +
-        '}'
+          '  font-family: MyWebFontFallback;\n' +
+          '  font-family: MyWebFont;\n' +
+          '}'
       )
     })
   })

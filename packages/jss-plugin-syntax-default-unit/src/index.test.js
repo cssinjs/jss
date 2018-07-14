@@ -35,11 +35,7 @@ describe('jss-plugin-syntax-default-unit', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
-        '.a-id {\n' +
-        '  zoom: 1;\n' +
-        '}'
-      )
+      expect(sheet.toString()).to.be('.a-id {\n  zoom: 1;\n}')
     })
   })
 
@@ -59,11 +55,7 @@ describe('jss-plugin-syntax-default-unit', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
-        '.a-id {\n' +
-        '  width: 10px;\n' +
-        '}'
-      )
+      expect(sheet.toString()).to.be('.a-id {\n  width: 10px;\n}')
     })
   })
 
@@ -83,11 +75,7 @@ describe('jss-plugin-syntax-default-unit', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
-        '.a-id {\n' +
-        '  animation-duration: 200ms;\n' +
-        '}'
-      )
+      expect(sheet.toString()).to.be('.a-id {\n  animation-duration: 200ms;\n}')
     })
   })
 
@@ -107,11 +95,7 @@ describe('jss-plugin-syntax-default-unit', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
-        '.a-id {\n' +
-        '  transform-origin-x: 50%;\n' +
-        '}'
-      )
+      expect(sheet.toString()).to.be('.a-id {\n  transform-origin-x: 50%;\n}')
     })
   })
 
@@ -141,26 +125,26 @@ describe('jss-plugin-syntax-default-unit', () => {
     it('should generate correct CSS', () => {
       expect(sheet.toString()).to.be(
         '@font-face {\n' +
-        '  font-family: MyHelvetica;\n' +
-        '  src: local("Helvetica");\n' +
-        '}\n' +
-        '@media print {\n' +
-        '  .a-id {\n' +
-        '    border-left: 1px;\n' +
-        '    border: 3px;\n' +
-        '  }\n' +
-        '}\n' +
-        '@keyframes id {\n' +
-        '  from {\n' +
-        '    top: 0;\n' +
-        '  }\n' +
-        '  30% {\n' +
-        '    top: 30px;\n' +
-        '  }\n' +
-        '  60%, 70% {\n' +
-        '    top: 80px;\n' +
-        '  }\n' +
-        '}'
+          '  font-family: MyHelvetica;\n' +
+          '  src: local("Helvetica");\n' +
+          '}\n' +
+          '@media print {\n' +
+          '  .a-id {\n' +
+          '    border-left: 1px;\n' +
+          '    border: 3px;\n' +
+          '  }\n' +
+          '}\n' +
+          '@keyframes id {\n' +
+          '  from {\n' +
+          '    top: 0;\n' +
+          '  }\n' +
+          '  30% {\n' +
+          '    top: 30px;\n' +
+          '  }\n' +
+          '  60%, 70% {\n' +
+          '    top: 80px;\n' +
+          '  }\n' +
+          '}'
       )
     })
   })
@@ -181,11 +165,7 @@ describe('jss-plugin-syntax-default-unit', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
-        '.a-id {\n' +
-        '  background-size: 10px, 15px;\n' +
-        '}'
-      )
+      expect(sheet.toString()).to.be('.a-id {\n  background-size: 10px, 15px;\n}')
     })
   })
 
@@ -205,11 +185,7 @@ describe('jss-plugin-syntax-default-unit', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
-        '.a-id {\n' +
-        '  background-size: 10px 5px;\n' +
-        '}'
-      )
+      expect(sheet.toString()).to.be('.a-id {\n  background-size: 10px 5px;\n}')
     })
   })
 
@@ -229,11 +205,7 @@ describe('jss-plugin-syntax-default-unit', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
-        '.a-id {\n' +
-        '  min-width: 20pc;\n' +
-        '}'
-      )
+      expect(sheet.toString()).to.be('.a-id {\n  min-width: 20pc;\n}')
     })
   })
 
@@ -254,11 +226,7 @@ describe('jss-plugin-syntax-default-unit', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
-        '.a-id {\n' +
-        '  padding: 10px;\n' +
-        '}'
-      )
+      expect(sheet.toString()).to.be('.a-id {\n  padding: 10px;\n}')
     })
   })
 
@@ -276,10 +244,7 @@ describe('jss-plugin-syntax-default-unit', () => {
         },
         b: {
           padding: 1,
-          fallbacks: [
-            {padding: 5},
-            {padding: 10}
-          ]
+          fallbacks: [{padding: 5}, {padding: 10}]
         }
       })
     })
@@ -292,14 +257,14 @@ describe('jss-plugin-syntax-default-unit', () => {
     it('should generate correct CSS', () => {
       expect(sheet.toString()).to.be(
         '.a-id {\n' +
-        '  padding: 5px;\n' +
-        '  padding: 1px;\n' +
-        '}\n' +
-        '.b-id {\n' +
-        '  padding: 5px;\n' +
-        '  padding: 10px;\n' +
-        '  padding: 1px;\n' +
-        '}'
+          '  padding: 5px;\n' +
+          '  padding: 1px;\n' +
+          '}\n' +
+          '.b-id {\n' +
+          '  padding: 5px;\n' +
+          '  padding: 10px;\n' +
+          '  padding: 1px;\n' +
+          '}'
       )
     })
   })
@@ -326,11 +291,7 @@ describe('jss-plugin-syntax-default-unit', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
-        '.a-id {\n' +
-        '  padding: 5rem 10px 15px 0;\n' +
-        '}'
-      )
+      expect(sheet.toString()).to.be('.a-id {\n  padding: 5rem 10px 15px 0;\n}')
     })
   })
 
@@ -341,16 +302,19 @@ describe('jss-plugin-syntax-default-unit', () => {
       const localJss = create(settings).use(defaultUnit(), expand())
       sheet = localJss.createStyleSheet({
         a: {
-          transition: [{
-            timingFunction: 'linear',
-            delay: 100,
-            property: 'opacity',
-            duration: 200
-          }, {
-            timingFunction: 'linear',
-            property: 'transform',
-            duration: 300
-          }]
+          transition: [
+            {
+              timingFunction: 'linear',
+              delay: 100,
+              property: 'opacity',
+              duration: 200
+            },
+            {
+              timingFunction: 'linear',
+              property: 'transform',
+              duration: 300
+            }
+          ]
         }
       })
     })
@@ -361,9 +325,7 @@ describe('jss-plugin-syntax-default-unit', () => {
 
     it('should generate correct CSS', () => {
       expect(sheet.toString()).to.be(
-        '.a-id {\n' +
-        '  transition: opacity 200ms linear 100ms, transform 300ms linear;\n' +
-        '}'
+        '.a-id {\n  transition: opacity 200ms linear 100ms, transform 300ms linear;\n}'
       )
     })
   })
@@ -375,11 +337,7 @@ describe('jss-plugin-syntax-default-unit', () => {
           borderBottom: 10
         }
       })
-      expect(sheet.toString()).to.be(
-        '.a-id {\n' +
-        '  borderBottom: 10px;\n' +
-        '}'
-      )
+      expect(sheet.toString()).to.be('.a-id {\n  borderBottom: 10px;\n}')
     })
 
     it('should work with user units', () => {
@@ -391,11 +349,7 @@ describe('jss-plugin-syntax-default-unit', () => {
         }
       })
 
-      expect(sheet.toString()).to.be(
-        '.a-id {\n' +
-        '  borderBottom: 10pc;\n' +
-        '}'
-      )
+      expect(sheet.toString()).to.be('.a-id {\n  borderBottom: 10pc;\n}')
     })
   })
 
@@ -430,7 +384,7 @@ describe('jss-plugin-syntax-default-unit', () => {
 
       sheet = jss.createStyleSheet({
         a: {
-          width: new Observable((observer) => {
+          width: new Observable(observer => {
             observer.next(1)
           })
         }

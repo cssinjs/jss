@@ -6,7 +6,7 @@ import observablePlugin from 'jss-plugin-syntax-rule-value-observable'
 import expand from './'
 
 const settings = {
-  createGenerateClassName: () => (rule) => `${rule.key}-id`
+  createGenerateClassName: () => rule => `${rule.key}-id`
 }
 
 describe('jss-plugin-syntax-expand', () => {
@@ -24,7 +24,7 @@ describe('jss-plugin-syntax-expand', () => {
         a: {
           padding: [20, 10],
           'background-size': [10, 'auto'],
-          'border-radius': [10, 15, 20, 20],
+          'border-radius': [10, 15, 20, 20]
         }
       })
     })
@@ -36,10 +36,10 @@ describe('jss-plugin-syntax-expand', () => {
     it('should generate correct CSS', () => {
       expect(sheet.toString()).to.be(
         '.a-id {\n' +
-        '  padding: 20 10;\n' +
-        '  background-size: 10 auto;\n' +
-        '  border-radius: 10 15 20 20;\n' +
-        '}'
+          '  padding: 20 10;\n' +
+          '  background-size: 10 auto;\n' +
+          '  border-radius: 10 15 20 20;\n' +
+          '}'
       )
     })
   })
@@ -50,10 +50,7 @@ describe('jss-plugin-syntax-expand', () => {
     beforeEach(() => {
       sheet = jss.createStyleSheet({
         a: {
-          transition: [
-            ['opacity', 1, 'linear'],
-            ['transform', 300, 'ease']
-          ]
+          transition: [['opacity', 1, 'linear'], ['transform', 300, 'ease']]
         }
       })
     })
@@ -64,9 +61,7 @@ describe('jss-plugin-syntax-expand', () => {
 
     it('should generate correct CSS', () => {
       expect(sheet.toString()).to.be(
-        '.a-id {\n' +
-        '  transition: opacity 1 linear, transform 300 ease;\n' +
-        '}'
+        '.a-id {\n  transition: opacity 1 linear, transform 300 ease;\n}'
       )
     })
   })
@@ -93,10 +88,10 @@ describe('jss-plugin-syntax-expand', () => {
     it('should generate correct CSS', () => {
       expect(sheet.toString()).to.be(
         '.a-id {\n' +
-        '  border-width: 1;\n' +
-        '  border-style: solid;\n' +
-        '  border-color: #f00;\n' +
-        '}'
+          '  border-width: 1;\n' +
+          '  border-style: solid;\n' +
+          '  border-color: #f00;\n' +
+          '}'
       )
     })
   })
@@ -107,15 +102,18 @@ describe('jss-plugin-syntax-expand', () => {
     beforeEach(() => {
       sheet = jss.createStyleSheet({
         a: {
-          transition: [{
-            property: 'all',
-            delay: 2,
-            duration: 5,
-            timingFunction: 'linear'
-          }, {
-            property: 'opacity',
-            duration: 1
-          }]
+          transition: [
+            {
+              property: 'all',
+              delay: 2,
+              duration: 5,
+              timingFunction: 'linear'
+            },
+            {
+              property: 'opacity',
+              duration: 1
+            }
+          ]
         }
       })
     })
@@ -125,11 +123,7 @@ describe('jss-plugin-syntax-expand', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
-        '.a-id {\n' +
-        '  transition: all 5 linear 2, opacity 1;\n' +
-        '}'
-      )
+      expect(sheet.toString()).to.be('.a-id {\n  transition: all 5 linear 2, opacity 1;\n}')
     })
   })
 
@@ -156,9 +150,9 @@ describe('jss-plugin-syntax-expand', () => {
     it('should generate correct CSS', () => {
       expect(sheet.toString()).to.be(
         '.a-id {\n' +
-        '  background: #000 0 0 no-repeat;\n' +
-        '  background-image: url(test.jpg);\n' +
-        '}'
+          '  background: #000 0 0 no-repeat;\n' +
+          '  background-image: url(test.jpg);\n' +
+          '}'
       )
     })
   })
@@ -170,7 +164,7 @@ describe('jss-plugin-syntax-expand', () => {
       sheet = jss.createStyleSheet({
         a: {
           background: {
-            color: 'rgba(255, 255, 255, 0.8)',
+            color: 'rgba(255, 255, 255, 0.8)'
           },
           padding: 50,
           fallbacks: {
@@ -190,11 +184,11 @@ describe('jss-plugin-syntax-expand', () => {
     it('should generate correct CSS', () => {
       expect(sheet.toString()).to.be(
         '.a-id {\n' +
-        '  background: white;\n' +
-        '  padding: 20;\n' +
-        '  background: rgba(255, 255, 255, 0.8);\n' +
-        '  padding: 50;\n' +
-        '}'
+          '  background: white;\n' +
+          '  padding: 20;\n' +
+          '  background: rgba(255, 255, 255, 0.8);\n' +
+          '  padding: 50;\n' +
+          '}'
       )
     })
   })
@@ -229,10 +223,10 @@ describe('jss-plugin-syntax-expand', () => {
     it('should generate correct CSS', () => {
       expect(sheet.toString()).to.be(
         '.a-id {\n' +
-        '  background: red;\n' +
-        '  background: url(test.png) 0 0 no-repeat;\n' +
-        '  background: linear-gradient(red 0%, green 100%);\n' +
-        '}'
+          '  background: red;\n' +
+          '  background: url(test.png) 0 0 no-repeat;\n' +
+          '  background: linear-gradient(red 0%, green 100%);\n' +
+          '}'
       )
     })
   })
@@ -251,7 +245,7 @@ describe('jss-plugin-syntax-expand', () => {
             background: {
               image: 'url(gradient.png)',
               size: 'auto'
-            },
+            }
           }
         }
       })
@@ -264,11 +258,11 @@ describe('jss-plugin-syntax-expand', () => {
     it('should generate correct CSS', () => {
       expect(sheet.toString()).to.be(
         '.a-id {\n' +
-        '  background-size: auto;\n' +
-        '  background-image: url(gradient.png);\n' +
-        '  background-size: 10 20;\n' +
-        '  background-image: linear-gradient(red 0%, green 100%);\n' +
-        '}'
+          '  background-size: auto;\n' +
+          '  background-image: url(gradient.png);\n' +
+          '  background-size: 10 20;\n' +
+          '  background-image: linear-gradient(red 0%, green 100%);\n' +
+          '}'
       )
     })
   })
@@ -294,11 +288,7 @@ describe('jss-plugin-syntax-expand', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
-        '.a-id {\n' +
-        '  transition: opacity 200ms linear 300ms;\n' +
-        '}'
-      )
+      expect(sheet.toString()).to.be('.a-id {\n  transition: opacity 200ms linear 300ms;\n}')
     })
   })
 
@@ -325,11 +315,11 @@ describe('jss-plugin-syntax-expand', () => {
     it('should generate correct CSS', () => {
       expect(sheet.toString()).to.be(
         '.a-id {\n' +
-        '  border-radius: 5px 10px;\n' +
-        '  border-width: 2px 3px;\n' +
-        '  border-style: solid;\n' +
-        '  border-color: black;\n' +
-        '}'
+          '  border-radius: 5px 10px;\n' +
+          '  border-width: 2px 3px;\n' +
+          '  border-style: solid;\n' +
+          '  border-color: black;\n' +
+          '}'
       )
     })
   })
@@ -353,11 +343,7 @@ describe('jss-plugin-syntax-expand', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
-        '.a-id {\n' +
-        '  border-radius: 10px;\n' +
-        '}'
-      )
+      expect(sheet.toString()).to.be('.a-id {\n  border-radius: 10px;\n}')
     })
   })
 
@@ -383,12 +369,7 @@ describe('jss-plugin-syntax-expand', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
-        '.a-id {\n' +
-        '  margin: 0;\n' +
-        '  border-radius: 10px;\n' +
-        '}'
-      )
+      expect(sheet.toString()).to.be('.a-id {\n  margin: 0;\n  border-radius: 10px;\n}')
     })
   })
 
@@ -400,7 +381,7 @@ describe('jss-plugin-syntax-expand', () => {
 
       sheet = jss.createStyleSheet({
         a: {
-          width: new Observable((observer) => {
+          width: new Observable(observer => {
             observer.next(1)
           })
         }
@@ -408,11 +389,7 @@ describe('jss-plugin-syntax-expand', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
-        '.a-id {\n' +
-        '  width: 1;\n' +
-        '}'
-      )
+      expect(sheet.toString()).to.be('.a-id {\n  width: 1;\n}')
     })
   })
 })

@@ -30,7 +30,7 @@ const styles = {
   container: {
     'line-height': 3,
     'font-size': 1.7,
-    'height': 200,
+    height: 200,
     'z-index': 1
   }
 }
