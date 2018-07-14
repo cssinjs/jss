@@ -1,0 +1,37 @@
+{
+  "name": "jss-plugin-syntax-nested",
+  "description": "JSS plugin that enables support for nested selectors",
+  "version": "6.0.1",
+  "author": {
+    "name": "Oleg Slobodskoi",
+    "email": "oleg008@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cssinjs/jss-nested.git"
+  },
+  "keywords": [
+    "cssinjs",
+    "css-in-js",
+    "css in js",
+    "jss",
+    "plugin",
+    "nested",
+    "nesting"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "devDependencies": {
+    "jss": "^9.0.0",
+    "jss-plugin-syntax-rule-value-function": "^0.1.0"
+  },
+  "peerDependencies": {
+    "jss": "^9.0.0"
+  },
+  "dependencies": {
+    "warning": "^3.0.0"
+  }
+}
