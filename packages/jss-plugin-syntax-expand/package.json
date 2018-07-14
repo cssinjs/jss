@@ -1,0 +1,33 @@
+{
+  "name": "jss-plugin-syntax-expand",
+  "description": "JSS plugin that gives you a better syntax than CSS.",
+  "version": "5.3.0",
+  "author": {
+    "name": "Pavel Davydov",
+    "email": "typical000@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cssinjs/jss-expand.git"
+  },
+  "keywords": [
+    "cssinjs",
+    "css-in-js",
+    "css in js",
+    "jss",
+    "plugin",
+    "expand"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "devDependencies": {
+    "jss": "^9.4.0",
+    "jss-plugin-syntax-rule-value-observable": "^0.1.0"
+  },
+  "peerDependencies": {
+    "jss": "^9.4.0"
+  }
+}

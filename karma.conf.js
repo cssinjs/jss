@@ -21,18 +21,11 @@ module.exports = config => {
       'node_modules/css.escape/css.escape.js',
       './packages/jss/tests/index.js',
       './packages/jss-plugin-syntax-rule-value-function/src/index.test.js',
-      './packages/jss-plugin-syntax-rule-value-observable/src/observable.test.js'
+      './packages/jss-plugin-syntax-rule-value-observable/src/observable.test.js',
+      'packages/jss-plugin-syntax-expand/src/index.test.js'
     ],
     preprocessors: {
-      './packages/jss/tests/index.js': ['webpack', 'sourcemap'],
-      './packages/jss-plugin-syntax-rule-value-function/src/index.test.js': [
-        'webpack',
-        'sourcemap'
-      ],
-      './packages/jss-plugin-syntax-rule-value-observable/src/observable.test.js': [
-        'webpack',
-        'sourcemap'
-      ]
+      './packages/**/*.js': ['webpack', 'sourcemap'],
     },
     webpack: Object.assign(webpackConfig, {
       devtool: 'inline-source-map'
