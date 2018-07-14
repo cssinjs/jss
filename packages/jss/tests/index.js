@@ -1,7 +1,6 @@
 /* eslint-disable import/first */
 import './utils'
 
-import 'jss-cache/tests/index.test'
 import 'jss-props-sort/tests/index.test'
 // import 'jss-isolate/tests/index.test'
 
