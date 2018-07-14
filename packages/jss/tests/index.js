@@ -1,7 +1,6 @@
 /* eslint-disable import/first */
 import './utils'
 
-import 'jss-default-unit/tests/index.test'
 import 'jss-nested/tests/index.test'
 import 'jss-extend/tests/index.test'
 import 'jss-compose/tests/index.test'
