@@ -354,7 +354,26 @@ describe('index', () => {
     expect(transform(before)).toBe(after)
   })
 
-  test('extend options object literal', () => {})
+  test('extend options object literal', () => {
+    const before = stripIndent`
+      createStyleSheet({
+        a: {
+          width: 0
+        }
+      }, {a: 1});
+    `
+    const after = stripIndent`
+      createStyleSheet({
+        "@raw": ".a-id {\\n  width: 0;\\n}"
+      }, {
+        a: 1,
+        "classes": {
+          "a": "a-id"
+        }
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
 
   test('extend options object ref', () => {})
 
@@ -371,4 +390,6 @@ describe('index', () => {
   test('handle refs from an external module', () => {})
 
   test('handle nested refs', () => {})
+
+  test('values as a result of a function call', () => {})
 })
