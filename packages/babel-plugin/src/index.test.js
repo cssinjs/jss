@@ -366,16 +366,41 @@ describe('index', () => {
       createStyleSheet({
         "@raw": ".a-id {\\n  width: 0;\\n}"
       }, {
-        a: 1,
         "classes": {
           "a": "a-id"
-        }
+        },
+        a: 1
       });
     `
     expect(transform(before)).toBe(after)
   })
 
-  test('extend options object ref', () => {})
+  test('extend options object ref', () => {
+    const before = stripIndent`
+      const options = {
+        a: 1
+      };
+      createStyleSheet({
+        a: {
+          width: 0
+        }
+      }, options);
+    `
+    const after = stripIndent`
+      const options = {
+        a: 1
+      };
+      createStyleSheet({
+        "@raw": ".a-id {\\n  width: 0;\\n}"
+      }, {
+        "classes": {
+          "a": "a-id"
+        },
+        a: 1
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
 
   test('make sure identifier is imported from a specific package', () => {})
 

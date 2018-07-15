@@ -95,17 +95,23 @@ export default declare(
 
     const replaceCallWithNewArgs = (callPath, sheet) => {
       // Build options = {classes: {ruleName: className}}
-      const optionsNode = callPath.node.arguments[1] || t.objectExpression([])
-      const classesNode = t.objectProperty(
-        t.stringLiteral('classes'),
-        t.objectExpression(
-          Object.keys(sheet.classes).map(name =>
-            t.objectProperty(t.stringLiteral(name), t.stringLiteral(sheet.classes[name]))
+      const nextOptionsNode = t.objectExpression([
+        t.objectProperty(
+          t.stringLiteral('classes'),
+          t.objectExpression(
+            Object.keys(sheet.classes).map(name =>
+              t.objectProperty(t.stringLiteral(name), t.stringLiteral(sheet.classes[name]))
+            )
           )
         )
-      )
-      optionsNode.properties.push(classesNode)
-      const args = [callPath.node.arguments[0], optionsNode]
+      ])
+
+      const prevOptionsNode = resolveRef(callPath, callPath.node.arguments[1])
+      if (t.isObjectExpression(prevOptionsNode)) {
+        nextOptionsNode.properties = [...nextOptionsNode.properties, ...prevOptionsNode.properties]
+      }
+
+      const args = [callPath.node.arguments[0], nextOptionsNode]
       // We have to replace the call because it seems there is no way to just
       // add an argument.
       callPath.replaceWith(t.callExpression(callPath.node.callee, args))
