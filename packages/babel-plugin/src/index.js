@@ -15,11 +15,6 @@ export default declare(
   ({types: t, ...api}, {identifiers = defaultIdentifiers, jssOptions = defaultJssOptions}) => {
     api.assertVersion(7)
 
-    const isFunction = node =>
-      t.isArrowFunctionExpression(node) ||
-      t.isFunctionExpression(node) ||
-      t.isFunctionDeclaration(node)
-
     const resolveRef = (path, node) => {
       if (t.isIdentifier(node) && node.name !== 'undefined') {
         const refNode = path.scope.getBinding(node.name).path.node
@@ -64,7 +59,7 @@ export default declare(
 
     const removeNonFunctionProps = (path, stylesNode) => {
       stylesNode.properties = stylesNode.properties.filter(node => {
-        if (node.key.value === rawRuleName || isFunction(node.value)) {
+        if (node.key.value === rawRuleName || t.isFunction(node.value)) {
           return true
         }
         if (t.isObjectExpression(node.value)) {
@@ -73,7 +68,7 @@ export default declare(
         }
         if (t.isIdentifier(node.value)) {
           const refNode = resolveRef(path, node.value)
-          return isFunction(refNode)
+          return t.isFunction(refNode)
         }
 
         return false
