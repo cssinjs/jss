@@ -23,6 +23,7 @@
   },
   "license": "MIT",
   "main": "./lib/index.js",
+  "module": "./esm/index.js",
   "devDependencies": {
     "jss": "^9.0.0"
   },

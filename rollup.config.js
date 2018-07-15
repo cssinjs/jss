@@ -24,8 +24,12 @@ const base = {
     babel({
       exclude: ['**/node_modules/**'],
       babelrc: false,
-      presets: [['env', {modules: false}], 'stage-0', 'flow'],
-      plugins: ['external-helpers']
+      presets: [['@babel/preset-env', {modules: false}], '@babel/preset-flow'],
+
+      plugins: [
+        '@babel/plugin-proposal-class-properties',
+        '@babel/plugin-proposal-export-default-from'
+      ]
     }),
     commonjs({ignoreGlobal: true}),
     globals(),

@@ -6,9 +6,9 @@ const pkg = getPackageJson()
 
 function getCommand() {
   const babel = path.join(__dirname, '../node_modules/.bin/babel')
-  const args = ['./src --out-dir ./lib', '--config-file "../../babel.config.js"']
+  const args = ['./src --out-dir ./esm', '--config-file "../../babel.config.js"']
 
-  return `MODULES="commonjs" VERSION="${pkg.version}" ${babel} ${args.join(' ')}`
+  return `MODULES="false" VERSION="${pkg.version}" ${babel} ${args.join(' ')}`
 }
 
 function handleExit(code, errorCallback) {
@@ -19,7 +19,7 @@ function handleExit(code, errorCallback) {
   }
 }
 
-function buildLib(options = {}) {
+function buildModules(options = {}) {
   const {silent = true, errorCallback} = options
   const command = getCommand()
   const {code} = shell.exec(command, {silent})
@@ -27,4 +27,4 @@ function buildLib(options = {}) {
   handleExit(code, errorCallback)
 }
 
-module.exports = {buildLib}
+module.exports = {buildModules}

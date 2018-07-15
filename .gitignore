@@ -5,6 +5,7 @@ tmp
 *~
 lib
 dist
+esm
 .env
 coverage
 packages/**/lincense.md
