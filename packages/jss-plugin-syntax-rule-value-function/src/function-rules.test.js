@@ -28,7 +28,6 @@ describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
           {link: true}
         )
         .attach()
-      // style = getStyle()
     })
 
     afterEach(() => {
