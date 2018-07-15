@@ -400,6 +400,14 @@ describe('index', () => {
     expect(transform(before)).toBe(after)
   })
 
+  test('unresolvable ref', () => {
+    const code = stripIndent`
+      import styles from 'styles';
+      createStyleSheet(styles);
+    `
+    expect(transform(code)).toBe(code)
+  })
+
   test('resolve refs from a different module', () => {})
 
   test('make sure identifier is imported from a specific package', () => {})
