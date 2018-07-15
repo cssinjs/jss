@@ -93,28 +93,25 @@ export default declare(
       })
     }
 
-    const replaceCallWithNewArgs = (callPath, sheet) => {
-      // Build options = {classes: {ruleName: className}}
-      const nextOptionsNode = t.objectExpression([
-        t.objectProperty(
-          t.stringLiteral('classes'),
-          t.objectExpression(
-            Object.keys(sheet.classes).map(name =>
-              t.objectProperty(t.stringLiteral(name), t.stringLiteral(sheet.classes[name]))
-            )
+    // {classes: {ruleName: className}}
+    const buildClassesNode = sheet =>
+      t.objectProperty(
+        t.stringLiteral('classes'),
+        t.objectExpression(
+          Object.keys(sheet.classes).map(name =>
+            t.objectProperty(t.stringLiteral(name), t.stringLiteral(sheet.classes[name]))
           )
         )
-      ])
+      )
 
+    const extendOptions = (callPath, classesNode) => {
       const prevOptionsNode = resolveRef(callPath, callPath.node.arguments[1])
       if (t.isObjectExpression(prevOptionsNode)) {
-        nextOptionsNode.properties = [...nextOptionsNode.properties, ...prevOptionsNode.properties]
+        prevOptionsNode.properties.unshift(classesNode)
+        return
       }
 
-      const args = [callPath.node.arguments[0], nextOptionsNode]
-      // We have to replace the call because it seems there is no way to just
-      // add an argument.
-      callPath.replaceWith(t.callExpression(callPath.node.callee, args))
+      callPath.node.arguments.push(t.objectExpression([classesNode]))
     }
 
     const jss = createJss(jssOptions)
@@ -133,9 +130,7 @@ export default declare(
           insertRawRule(stylesNode, sheet)
           removeNonFunctionProps(callPath, stylesNode)
           removeEmptyObjects(stylesNode)
-          replaceCallWithNewArgs(callPath, sheet)
-
-          callPath.stop()
+          extendOptions(callPath, buildClassesNode(sheet))
         }
       }
     }

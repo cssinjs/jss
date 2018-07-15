@@ -388,19 +388,19 @@ describe('index', () => {
     `
     const after = stripIndent`
       const options = {
-        a: 1
-      };
-      createStyleSheet({
-        "@raw": ".a-id {\\n  width: 0;\\n}"
-      }, {
         "classes": {
           "a": "a-id"
         },
         a: 1
-      });
+      };
+      createStyleSheet({
+        "@raw": ".a-id {\\n  width: 0;\\n}"
+      }, options);
     `
     expect(transform(before)).toBe(after)
   })
+
+  test('resolve refs from a different module', () => {})
 
   test('make sure identifier is imported from a specific package', () => {})
 
@@ -409,8 +409,6 @@ describe('index', () => {
   test('support styles creator function', () => {})
 
   test('support theme over babel config as arg', () => {})
-
-  test('resolve refs from a different module', () => {})
 
   test('handle refs from an external module', () => {})
 
