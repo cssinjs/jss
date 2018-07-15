@@ -400,12 +400,34 @@ describe('index', () => {
     expect(transform(before)).toBe(after)
   })
 
-  test('unresolvable ref', () => {
+  test('unresolvable styles ref', () => {
     const code = stripIndent`
       import styles from 'styles';
       createStyleSheet(styles);
     `
     expect(transform(code)).toBe(code)
+  })
+
+  test('extend imported options ref', () => {
+    const before = stripIndent`
+      import options from 'options';
+      createStyleSheet({
+        a: {
+          color: 'red'
+        }
+      }, options);
+    `
+    const after = stripIndent`
+      import options from 'options';
+      createStyleSheet({
+        "@raw": ".a-id {\\n  color: red;\\n}"
+      }, Object.assign({
+        "classes": {
+          "a": "a-id"
+        }
+      }, options));
+    `
+    expect(transform(before)).toBe(after)
   })
 
   test('resolve refs from a different module', () => {})

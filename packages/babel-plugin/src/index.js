@@ -104,10 +104,23 @@ export default declare(
         )
       )
 
+    const isImport = node => t.isImportSpecifier(node) || t.isImportDefaultSpecifier(node)
+
     const extendOptions = (callPath, classesNode) => {
       const prevOptionsNode = resolveRef(callPath, callPath.node.arguments[1])
+
       if (t.isObjectExpression(prevOptionsNode)) {
         prevOptionsNode.properties.unshift(classesNode)
+        return
+      }
+
+      // Convert an imported `options` identifier to Object.assign({classes}, options)
+      if (isImport(prevOptionsNode)) {
+        const assignCall = t.callExpression(
+          t.memberExpression(t.identifier('Object'), t.identifier('assign')),
+          [t.objectExpression([classesNode]), prevOptionsNode.local]
+        )
+        callPath.node.arguments[1] = assignCall
         return
       }
 
