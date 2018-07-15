@@ -2,7 +2,7 @@
   "name": "jss-plugin-syntax-global",
   "version": "3.0.0",
   "description": "Global styles for JSS",
-  "main": "lib/index.js",
+  "main": "./lib/index.js",
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
