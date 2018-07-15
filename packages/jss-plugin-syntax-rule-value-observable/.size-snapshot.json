@@ -1,12 +1,12 @@
 {
   "dist/jss-plugin-syntax-rule-value-observable.js": {
-    "bundled": 18075,
-    "minified": 5692,
-    "gzipped": 2083
+    "bundled": 19389,
+    "minified": 6065,
+    "gzipped": 2204
   },
   "dist/jss-plugin-syntax-rule-value-observable.min.js": {
-    "bundled": 18075,
-    "minified": 5692,
-    "gzipped": 2083
+    "bundled": 19389,
+    "minified": 6065,
+    "gzipped": 2204
   }
 }

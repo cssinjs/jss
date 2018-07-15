@@ -1,11 +1,11 @@
 {
   "dist/jss-plugin-syntax-template.js": {
-    "bundled": 4432,
+    "bundled": 4405,
     "minified": 1338,
     "gzipped": 757
   },
   "dist/jss-plugin-syntax-template.min.js": {
-    "bundled": 4432,
+    "bundled": 4405,
     "minified": 1338,
     "gzipped": 757
   }

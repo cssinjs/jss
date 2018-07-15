@@ -2,6 +2,7 @@ node_modules/
 coverage/
 lib/
 dist/
+esm/
 tmp/
 *.html
 # npm install does it's own formatting, which can conflict with prettier

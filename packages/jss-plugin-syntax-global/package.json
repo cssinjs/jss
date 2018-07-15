@@ -3,6 +3,7 @@
   "version": "3.0.0",
   "description": "Global styles for JSS",
   "main": "./lib/index.js",
+  "module": "./esm/index.js",
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },

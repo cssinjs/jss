@@ -23,6 +23,7 @@
   ],
   "license": "MIT",
   "main": "./lib/index.js",
+  "module": "./esm/index.js",
   "engines": {
     "node": ">=4"
   },

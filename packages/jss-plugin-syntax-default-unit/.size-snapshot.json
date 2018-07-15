@@ -1,12 +1,12 @@
 {
   "dist/jss-plugin-syntax-default-unit.js": {
-    "bundled": 6048,
-    "minified": 3405,
-    "gzipped": 1162
+    "bundled": 6163,
+    "minified": 3422,
+    "gzipped": 1169
   },
   "dist/jss-plugin-syntax-default-unit.min.js": {
-    "bundled": 6048,
-    "minified": 3405,
-    "gzipped": 1162
+    "bundled": 6163,
+    "minified": 3422,
+    "gzipped": 1169
   }
 }

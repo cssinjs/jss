@@ -2,3 +2,4 @@ flow-typed/
 **/node_modules/**
 packages/**/lib/
 packages/**/dist/
+packages/**/esm/
