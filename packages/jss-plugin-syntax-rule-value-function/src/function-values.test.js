@@ -5,15 +5,8 @@ import expect from 'expect.js'
 
 import {create} from 'jss'
 import functionPlugin from './'
-import {
-  createGenerateClassName,
-  getStyle,
-  getCss,
-  removeWhitespace,
-  removeVendorPrefixes
-} from '../../jss/tests/utils'
 
-const settings = {createGenerateClassName}
+const settings = {createGenerateClassName: () => rule => `${rule.key}-id`}
 
 describe('jss-plugin-syntax-rule-value-function: Function values', () => {
   let jss
@@ -23,7 +16,6 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
   })
 
   describe('.addRule() with @media with function values', () => {
-    let style
     let sheet
 
     beforeEach(() => {
@@ -33,32 +25,19 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
           color: props => (props.primary ? 'black' : 'white')
         }
       })
-      style = getStyle()
     })
 
     afterEach(() => {
       sheet.detach()
     })
-
-    it('should render', () => {
-      sheet.update({primary: true})
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
-    })
-
-    it('should update', () => {
-      sheet.update({primary: true})
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
-    })
   })
 
   describe('.addRule() with function values and attached sheet', () => {
-    let style
     let sheet
 
     beforeEach(() => {
       sheet = jss.createStyleSheet(null, {link: true}).attach()
       sheet.addRule('a', {color: ({color}) => color})
-      style = getStyle()
     })
 
     afterEach(() => {
@@ -66,7 +45,10 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
     })
 
     it('should render an empty rule', () => {
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+        }
+      `)
     })
 
     it('should render rule with updated color', () => {
@@ -80,7 +62,6 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
   })
 
   describe('.addRule() with function values for rules from plugins queue', () => {
-    let style
     let sheet
 
     beforeEach(() => {
@@ -107,7 +88,6 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
         color: props => props.color
       })
       sheet.update({color: 'red'})
-      style = getStyle()
 
       expect(sheet.toString()).to.be(stripIndent`
         .rule-id {
@@ -117,18 +97,15 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
           color: red;
         }
       `)
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
     })
   })
 
   describe('.addRule() with arrays returned from function values', () => {
-    let style
     let sheet
 
     beforeEach(() => {
       sheet = jss.createStyleSheet(null, {link: true}).attach()
       sheet.addRule('a', {color: ({color}) => color})
-      style = getStyle()
     })
 
     afterEach(() => {
@@ -136,7 +113,10 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
     })
 
     it('should render an empty rule', () => {
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+        }
+      `)
     })
 
     it('should return correct CSS from an array with a single value', () => {
@@ -168,19 +148,32 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
 
     it('should return a property value from the CSSOM getPropertyValue function of "green" with important', () => {
       sheet.update({color: [['green'], '!important']})
-      expect(document.styleSheets[0].cssRules[0].style.getPropertyValue('color')).to.be('green')
+
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: green !important;
+        }
+      `)
     })
 
     it('should return a property value from the CSSOM getPropertyValue function of "green"', () => {
       sheet.update({color: ['green']})
-      expect(document.styleSheets[0].cssRules[0].style.getPropertyValue('color')).to.be('green')
+
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: green;
+        }
+      `)
     })
 
     it('should return a correct priority', () => {
       sheet.update({color: [['red'], '!important']})
-      expect(document.styleSheets[0].cssRules[0].style.getPropertyPriority('color')).to.be(
-        'important'
-      )
+
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: red !important;
+        }
+      `)
     })
   })
 
@@ -213,7 +206,7 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
 
     describe('.toString()', () => {
       it('should return correct .toString() before .update()', () => {
-        expect(removeVendorPrefixes(sheet.toString())).to.be(stripIndent`
+        expect(sheet.toString()).to.be(stripIndent`
           .a-id {
           }
           @media all {
@@ -344,30 +337,6 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
             }
           }
         `)
-      })
-      it('should render sheet with updated rules', () => {
-        sheet.update({color: 'green'}).attach()
-        expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
-      })
-
-      it('should render updated specific rule', () => {
-        sheet.update('a', {color: 'green'}).attach()
-        expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
-      })
-
-      it('should render sheet with removed rules when value is null', () => {
-        sheet.update({color: null}).attach()
-        expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
-      })
-
-      it('should render sheet with removed rules when value is undefined', () => {
-        sheet.update({color: undefined}).attach()
-        expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
-      })
-
-      it('should render sheet with removed rules when value is false', () => {
-        sheet.update({color: false}).attach()
-        expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
       })
     })
 

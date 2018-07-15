@@ -1,11 +1,11 @@
 import expect from 'expect.js'
+import {stripIndent} from 'common-tags'
 import Observable from 'zen-observable'
 
 import {create} from 'jss'
 import observable from './'
-import {createGenerateClassName, computeStyle} from '../../jss/tests/utils'
 
-const settings = {createGenerateClassName}
+const settings = {createGenerateClassName: () => rule => `${rule.key}-id`}
 
 describe('jss-plugin-syntax-rule-value-observable', () => {
   let jss
@@ -38,20 +38,24 @@ describe('jss-plugin-syntax-rule-value-observable', () => {
     it('should update the value', () => {
       observer.next({opacity: '0', height: '5px'})
 
-      const result = computeStyle(sheet.classes.div)
-
-      expect(result.opacity).to.be('0')
-      expect(result.height).to.be('5px')
+      expect(sheet.toString()).to.be(stripIndent`
+        .div-id {
+          opacity: 0;
+          height: 5px;
+        }
+      `)
     })
 
     it('should update the value when it receives a new emission', () => {
       observer.next({opacity: '0', height: '5px'})
       observer.next({opacity: '1', height: '10px'})
 
-      const result = computeStyle(sheet.classes.div)
-
-      expect(result.opacity).to.be('1')
-      expect(result.height).to.be('10px')
+      expect(sheet.toString()).to.be(stripIndent`
+        .div-id {
+          opacity: 1;
+          height: 10px;
+        }
+      `)
     })
 
     it('should work with multiple rules', () => {
@@ -75,8 +79,14 @@ describe('jss-plugin-syntax-rule-value-observable', () => {
       divObs.next({display: 'block'})
       buttonObs.next({height: '3px'})
 
-      expect(computeStyle(sheet.classes.div).display).to.be('block')
-      expect(computeStyle(sheet.classes.button).height).to.be('3px')
+      expect(sheet.toString()).to.be(stripIndent`
+        .div-id {
+          display: block;
+        }
+        .button-id {
+          height: 3px;
+        }
+      `)
     })
 
     it('should work with mixed sheets', () => {
@@ -103,9 +113,17 @@ describe('jss-plugin-syntax-rule-value-observable', () => {
       divObs.next({display: 'block'})
       buttonObs.next({height: '3px'})
 
-      expect(computeStyle(sheet.classes.div).display).to.be('block')
-      expect(computeStyle(sheet.classes.button).height).to.be('3px')
-      expect(computeStyle(sheet.classes.a).opacity).to.be('0')
+      expect(sheet.toString()).to.be(stripIndent`
+        .div-id {
+          display: block;
+        }
+        .button-id {
+          height: 3px;
+        }
+        .a-id {
+          opacity: 0;
+        } 
+      `)
     })
 
     it('should accept synchronous values', () => {
@@ -119,7 +137,12 @@ describe('jss-plugin-syntax-rule-value-observable', () => {
           {link: true}
         )
         .attach()
-      expect(computeStyle(sheet.classes.div).display).to.be('block')
+
+      expect(sheet.toString()).to.be(stripIndent`
+        .div-id {
+          display: block;
+        }
+      `)
     })
 
     it('should update synchronous values when it receives a new emission', () => {
@@ -137,7 +160,11 @@ describe('jss-plugin-syntax-rule-value-observable', () => {
 
       observer.next({display: 'inline-block'})
 
-      expect(computeStyle(sheet.classes.div).display).to.be('inline-block')
+      expect(sheet.toString()).to.be(stripIndent`
+        .div-id {
+          display: inline-block;
+        }
+      `)
     })
   })
 
@@ -165,17 +192,30 @@ describe('jss-plugin-syntax-rule-value-observable', () => {
     })
 
     it('should accept an observable', () => {
-      expect(computeStyle(sheet.classes.a).height).to.be('0px')
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+        }
+      `)
     })
 
     it('should update the value 1', () => {
       observer.next('10px')
-      expect(computeStyle(sheet.classes.a).height).to.be('10px')
+
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          height: 10px;
+        }
+      `)
     })
 
     it('should update the value 2', () => {
       observer.next('20px')
-      expect(computeStyle(sheet.classes.a).height).to.be('20px')
+
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          height: 20px;
+        }
+      `)
     })
   })
 
@@ -186,6 +226,7 @@ describe('jss-plugin-syntax-rule-value-observable', () => {
           observer.next('red')
         })
       })
+
       expect(rule.toJSON()).to.eql({color: 'red'})
     })
   })
