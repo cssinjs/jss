@@ -31,6 +31,12 @@ export default declare(
       }
 
       return (path, node) => {
+        if (t.isIdentifier(node)) {
+          const refNode = resolveRef(path, node)
+          if (refNode.name !== 'undefined') return serializeNode(path, refNode)
+          return null
+        }
+
         if (t.isStringLiteral(node) || t.isNumericLiteral(node)) {
           return node.value
         }
