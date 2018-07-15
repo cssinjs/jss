@@ -127,13 +127,45 @@ export default declare(
       callPath.node.arguments.push(t.objectExpression([classesNode]))
     }
 
+    const findStylesNode = callPath => {
+      const node = resolveRef(callPath, callPath.node.arguments[0])
+
+      // injectSheet({})
+      if (t.isObjectExpression(node)) {
+        return node
+      }
+
+      // Unsupported type.
+      if (!t.isFunction(node)) {
+        return null
+      }
+
+      // injectSheet(() => ({}))
+      if (t.isObjectExpression(node.body)) {
+        return node.body
+      }
+
+      // Find all return values in a function.
+      let returnNode
+      callPath.traverse({
+        ReturnStatement(path) {
+          if (t.isObjectExpression(path.node.argument)) {
+            returnNode = path.node.argument
+          }
+        }
+      })
+
+      return returnNode
+    }
+
     const jss = createJss(jssOptions)
 
     return {
       visitor: {
         CallExpression(callPath) {
           if (!identifiers.includes(callPath.node.callee.name)) return
-          const stylesNode = resolveRef(callPath, callPath.node.arguments[0])
+
+          const stylesNode = findStylesNode(callPath)
           const styles = serializeNode(callPath, stylesNode)
 
           if (!styles) return

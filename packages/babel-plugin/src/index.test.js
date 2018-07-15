@@ -430,19 +430,85 @@ describe('index', () => {
     expect(transform(before)).toBe(after)
   })
 
+  test('support styles creator arrow function', () => {
+    const before = stripIndent`
+      injectSheet(() => ({
+        a: {
+          color: 'red'
+        }
+      }));
+    `
+    const after = stripIndent`
+      injectSheet(() => ({
+        "@raw": ".a-id {\\n  color: red;\\n}"
+      }), {
+        "classes": {
+          "a": "a-id"
+        }
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
+
+  test('support styles creator arrow function with return', () => {
+    const before = stripIndent`
+      injectSheet(() => {
+        return {
+          a: {
+            color: 'red'
+          }
+        };
+      });
+    `
+    const after = stripIndent`
+      injectSheet(() => {
+        return {
+          "@raw": ".a-id {\\n  color: red;\\n}"
+        };
+      }, {
+        "classes": {
+          "a": "a-id"
+        }
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
+
+  test('support styles creator function expression', () => {
+    const before = stripIndent`
+      injectSheet(function () {
+        return {
+          a: {
+            color: 'red'
+          }
+        };
+      });
+    `
+    const after = stripIndent`
+      injectSheet(function () {
+        return {
+          "@raw": ".a-id {\\n  color: red;\\n}"
+        };
+      }, {
+        "classes": {
+          "a": "a-id"
+        }
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
+
   test('resolve refs from a different module', () => {})
 
   test('make sure identifier is imported from a specific package', () => {})
 
   test('support configurable package name', () => {})
 
-  test('support styles creator function', () => {})
-
   test('support theme over babel config as arg', () => {})
 
   test('handle refs from an external module', () => {})
 
-  test('handle nested refs', () => {})
-
   test('values as a result of a function call', () => {})
+
+  test('decorators?', () => {})
 })
