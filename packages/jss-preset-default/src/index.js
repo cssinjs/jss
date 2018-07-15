@@ -1,5 +1,5 @@
-import functionPlugin from 'jss-plugin-syntax-rule-value-function'
-import observablePlugin from 'jss-plugin-syntax-rule-value-observable'
+import functions from 'jss-plugin-syntax-rule-value-function'
+import observable from 'jss-plugin-syntax-rule-value-observable'
 import template from 'jss-plugin-syntax-template'
 import global from 'jss-plugin-syntax-global'
 import extend from 'jss-plugin-syntax-extend'
@@ -13,8 +13,8 @@ import propsSort from 'jss-plugin-props-sort'
 
 export default (options = {}) => ({
   plugins: [
-    functionPlugin(options.function),
-    observablePlugin(options.observable),
+    functions(options.function),
+    observable(options.observable),
     template(options.template),
     global(options.global),
     extend(options.extend),
