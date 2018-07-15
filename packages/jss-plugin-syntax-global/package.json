@@ -3,7 +3,6 @@
   "version": "3.0.0",
   "description": "Global styles for JSS",
   "main": "./lib/index.js",
-  "module": "./src/index.js",
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },

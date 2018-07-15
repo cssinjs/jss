@@ -20,7 +20,6 @@
   },
   "license": "MIT",
   "main": "./lib/index.js",
-  "module": "./src/index.js",
   "devDependencies": {
     "jss": "^9.7.0"
   },
