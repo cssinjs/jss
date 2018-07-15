@@ -27,7 +27,8 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "license": "MIT",
-  "main": "lib/index.js",
+  "main": "./lib/index.js",
+  "module": "./src/index.js",
   "devDependencies": {
     "jss": "^9.7.0",
     "jss-plugin-syntax-rule-value-function": "^0.1.0"

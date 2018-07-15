@@ -24,6 +24,7 @@
   },
   "license": "MIT",
   "main": "./lib/index.js",
+  "module": "./src/index.js",
   "devDependencies": {
     "jss": "^9.0.0",
     "jss-plugin-syntax-rule-value-function": "^0.1.0"

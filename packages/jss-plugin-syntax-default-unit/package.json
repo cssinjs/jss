@@ -24,7 +24,8 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "license": "MIT",
-  "main": "lib/index.js",
+  "main": "./lib/index.js",
+  "module": "./src/index.js",
   "devDependencies": {
     "jss": "^9.4.0",
     "jss-plugin-syntax-expand": "^5.3.0",

@@ -1,12 +1,12 @@
 {
   "dist/jss-plugin-syntax-rule-value-function.js": {
-    "bundled": 84259,
-    "minified": 33791,
-    "gzipped": 7429
+    "bundled": 88410,
+    "minified": 25141,
+    "gzipped": 6769
   },
   "dist/jss-plugin-syntax-rule-value-function.min.js": {
-    "bundled": 84259,
-    "minified": 33791,
-    "gzipped": 7429
+    "bundled": 88410,
+    "minified": 25141,
+    "gzipped": 6769
   }
 }

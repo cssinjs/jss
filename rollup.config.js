@@ -24,7 +24,8 @@ const base = {
     babel({
       exclude: ['**/node_modules/**'],
       babelrc: false,
-      presets: [['env', {modules: false}], 'stage-0', 'flow']
+      presets: [['env', {modules: false}], 'stage-0', 'flow'],
+      plugins: ['external-helpers']
     }),
     commonjs({ignoreGlobal: true}),
     globals(),
