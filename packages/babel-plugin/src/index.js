@@ -4,15 +4,11 @@ import preset from 'jss-preset-default'
 import get from 'lodash/get'
 
 const rawRuleName = '@raw'
-const defaultIdentifiers = [
-  // Core JSS.
-  'createStyleSheet',
-  // React-JSS
-  'injectSheet',
-  // Material-UI
-  'withStyles',
-  'createStyled'
-]
+const defaultIdentifiers = {
+  jss: ['createStyleSheet'],
+  'react-jss': ['injectSheet'],
+  '@material-ui': ['withStyles', 'createStyled']
+}
 
 export default declare(
   ({types: t, ...api}, {identifiers = defaultIdentifiers, jssOptions = preset(), theme = {}}) => {
@@ -215,12 +211,17 @@ export default declare(
       return returnNodes[returnNodes.length - 1].argument
     }
 
+    const isSupportedCallIdentifier = callPath =>
+      Object.values(identifiers)
+        .reduce((allNames, names) => [...allNames, ...names], [])
+        .includes(callPath.node.callee.name)
+
     const jss = createJss(jssOptions)
 
     return {
       visitor: {
         CallExpression(callPath) {
-          if (!identifiers.includes(callPath.node.callee.name)) return
+          if (!isSupportedCallIdentifier(callPath)) return
 
           const stylesNode = findStylesNode(callPath)
           const styles = serializeNode(callPath, stylesNode)

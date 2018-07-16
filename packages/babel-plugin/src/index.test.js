@@ -56,7 +56,8 @@ describe('index', () => {
         }
       });
     `
-    expect(transform(before, {identifiers: ['xyz']})).toBe(after)
+    const options = {identifiers: {somePackage: ['xyz']}}
+    expect(transform(before, options)).toBe(after)
   })
 
   test('extract static rule, dynamic rule is an arrow function', () => {
