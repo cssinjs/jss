@@ -1,30 +1,30 @@
 {
   "dist/jss-plugin-isolate.js": {
-    "bundled": 14609,
-    "minified": 9709,
-    "gzipped": 2748
+    "bundled": 15176,
+    "minified": 9975,
+    "gzipped": 2837
   },
   "dist/jss-plugin-isolate.min.js": {
-    "bundled": 14609,
-    "minified": 9709,
-    "gzipped": 2748
+    "bundled": 15176,
+    "minified": 9975,
+    "gzipped": 2837
   },
   "dist/jss-plugin-isolate.cjs.js": {
-    "bundled": 4462,
-    "minified": 2101,
-    "gzipped": 916
+    "bundled": 4991,
+    "minified": 2420,
+    "gzipped": 996
   },
   "dist/jss-plugin-isolate.esm.js": {
-    "bundled": 4224,
-    "minified": 1918,
-    "gzipped": 850,
+    "bundled": 4753,
+    "minified": 2233,
+    "gzipped": 938,
     "treeshaked": {
       "rollup": {
         "code": 56,
         "import_statements": 56
       },
       "webpack": {
-        "code": 1164
+        "code": 1107
       }
     }
   }

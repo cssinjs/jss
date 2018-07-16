@@ -1,30 +1,30 @@
 {
   "dist/jss-plugin-syntax-extend.js": {
-    "bundled": 7106,
-    "minified": 2270,
-    "gzipped": 1079
+    "bundled": 5609,
+    "minified": 2278,
+    "gzipped": 1084
   },
   "dist/jss-plugin-syntax-extend.min.js": {
-    "bundled": 5568,
-    "minified": 1750,
-    "gzipped": 813
+    "bundled": 4431,
+    "minified": 1758,
+    "gzipped": 819
   },
   "dist/jss-plugin-syntax-extend.cjs.js": {
-    "bundled": 3457,
-    "minified": 1667,
-    "gzipped": 732
+    "bundled": 3530,
+    "minified": 1685,
+    "gzipped": 729
   },
   "dist/jss-plugin-syntax-extend.esm.js": {
-    "bundled": 3239,
-    "minified": 1499,
-    "gzipped": 662,
+    "bundled": 3312,
+    "minified": 1513,
+    "gzipped": 657,
     "treeshaked": {
       "rollup": {
         "code": 16,
         "import_statements": 16
       },
       "webpack": {
-        "code": 1054
+        "code": 1037
       }
     }
   }
