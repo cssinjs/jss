@@ -1,21 +1,21 @@
 {
   "dist/jss-plugin-syntax-camel-case.js": {
-    "bundled": 2275,
+    "bundled": 2283,
     "minified": 753,
     "gzipped": 438
   },
   "dist/jss-plugin-syntax-camel-case.min.js": {
-    "bundled": 2275,
+    "bundled": 2283,
     "minified": 753,
     "gzipped": 438
   },
   "dist/jss-plugin-syntax-camel-case.cjs.js": {
-    "bundled": 1589,
+    "bundled": 1593,
     "minified": 682,
     "gzipped": 371
   },
   "dist/jss-plugin-syntax-camel-case.esm.js": {
-    "bundled": 1371,
+    "bundled": 1375,
     "minified": 510,
     "gzipped": 283,
     "treeshaked": {

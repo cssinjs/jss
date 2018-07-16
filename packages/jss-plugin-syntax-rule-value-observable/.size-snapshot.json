@@ -1,21 +1,21 @@
 {
   "dist/jss-plugin-syntax-rule-value-observable.js": {
-    "bundled": 3483,
+    "bundled": 3444,
     "minified": 1102,
     "gzipped": 530
   },
   "dist/jss-plugin-syntax-rule-value-observable.min.js": {
-    "bundled": 3483,
+    "bundled": 3444,
     "minified": 1102,
     "gzipped": 530
   },
   "dist/jss-plugin-syntax-rule-value-observable.cjs.js": {
-    "bundled": 1681,
+    "bundled": 1666,
     "minified": 749,
     "gzipped": 394
   },
   "dist/jss-plugin-syntax-rule-value-observable.esm.js": {
-    "bundled": 1467,
+    "bundled": 1452,
     "minified": 586,
     "gzipped": 314,
     "treeshaked": {
