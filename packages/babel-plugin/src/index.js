@@ -33,6 +33,35 @@ export default declare(
         return resolveRef(path, property.key).value
       }
 
+      const hasThemeArg = (argNode, name) =>
+        argNode.params.length !== 0 && name === argNode.params[0].name
+
+      const serializePropAcces = node => {
+        // Find the `theme` object.
+        let object = node
+        // Aggregate a props access chain: `theme.x[0].color` => `['theme', 'c', 0, 'color']`
+        const props = [object.property.name || object.property.value]
+        while (object.object) {
+          // Find the first object we are accessing.
+          object = object.object
+          props.unshift(object.name || object.property.name || object.property.value)
+        }
+        return {object, props}
+      }
+
+      const getValueByPath = (path, data, props) => {
+        const value = get(data, props)
+        if (value === undefined) {
+          throw new Error(
+            [
+              `[JSS] Detected undefined property access: "${props.join('.')}".`,
+              `Code: ${path.hub.file.code}`
+            ].join('\n')
+          )
+        }
+        return value
+      }
+
       return (path, node) => {
         if (t.isIdentifier(node)) {
           const refNode = resolveRef(path, node)
@@ -59,33 +88,17 @@ export default declare(
         // `injectSheet((theme) => ({a: {color: theme.primary}}))`.
         // We enter this on `theme.primary`.
         if (t.isMemberExpression(node)) {
-          // If stlyes are not returned from a function, we don't care?
-          const firstArgNode = resolveRef(path, path.node.arguments[0])
-          if (!t.isFunction(firstArgNode)) return null
+          const {object, props} = serializePropAcces(node)
 
-          // Find the `theme` object.
-          let object = node
-          // Aggregate a props access chain: `theme.x[0].color` => `['theme', 'c', 0, 'color']`
-          const props = [object.property.name || object.property.value]
-          while (object.object) {
-            // Find the first object we are accessing.
-            object = object.object
-            props.unshift(object.name || object.property.name || object.property.value)
+          if (props[0] in path.scope.bindings) {
+            const data = serializeNode(path, path.scope.bindings[props[0]].identifier)
+            return getValueByPath(path, data, props.slice(1))
           }
 
           // When object name we are accessing is the argument name.
-          if (object.name === firstArgNode.params[0].name) {
-            const value = get(theme, props.slice(1))
-            if (value === undefined) {
-              throw new Error(
-                [
-                  `[JSS] Detected undefined property access on theme object .`,
-                  `Path: "${props.join('.')}"`,
-                  `Code: ${path.hub.file.code}`
-                ].join('\n')
-              )
-            }
-            return value
+          const firstArgNode = resolveRef(path, path.node.arguments[0])
+          if (t.isFunction(firstArgNode) && hasThemeArg(firstArgNode, object.name)) {
+            return getValueByPath(path, theme, props.slice(1))
           }
         }
 

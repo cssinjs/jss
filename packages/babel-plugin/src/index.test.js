@@ -354,6 +354,32 @@ describe('index', () => {
     expect(transform(before)).toBe(after)
   })
 
+  test('resolve property access', () => {
+    const before = stripIndent`
+      const config = {
+        primary: 'red'
+      };
+      createStyleSheet({
+        a: {
+          color: config.primary
+        }
+      });
+    `
+    const after = stripIndent`
+      const config = {
+        primary: 'red'
+      };
+      createStyleSheet({
+        "@raw": ".a-id {\\n  color: red;\\n}"
+      }, {
+        "classes": {
+          "a": "a-id"
+        }
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
+
   test('extend options object literal', () => {
     const before = stripIndent`
       createStyleSheet({
@@ -526,6 +552,32 @@ describe('index', () => {
     expect(transform(before)).toBe(after)
   })
 
+  test('support object prop access inside styles creator fn', () => {
+    const before = stripIndent`
+      const config = {
+        primary: 'red'
+      };
+      injectSheet(() => ({
+        a: {
+          color: config.primary
+        }
+      }));
+    `
+    const after = stripIndent`
+      const config = {
+        primary: 'red'
+      };
+      injectSheet(() => ({
+        "@raw": ".a-id {\\n  color: red;\\n}"
+      }), {
+        "classes": {
+          "a": "a-id"
+        }
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
+
   test('support theme prop access over babel config as fn arg', () => {
     const before = stripIndent`
       injectSheet(theme => ({
@@ -577,6 +629,8 @@ describe('index', () => {
     expect(() => transform(before, {})).toThrowError()
   })
 
+  test('support object prop access', () => {})
+
   test('resolve refs from a different module', () => {})
 
   test('make sure identifier is imported from a specific package', () => {})
@@ -585,7 +639,8 @@ describe('index', () => {
 
   test('handle refs from an external module', () => {})
 
-  test('values as a result of a function call', () => {})
+  test('styles returned from a function call', () => {})
+  test('property returned from a function call', () => {})
 
   test('decorators?', () => {})
 })
