@@ -26,6 +26,22 @@ export default declare(
       return node
     }
 
+    const isFromImport = node =>
+      t.isImportDeclaration(node) || t.isImportSpecifier(node) || t.isImportDefaultSpecifier(node)
+
+    const serializePropAcces = node => {
+      // Find the `theme` object.
+      let object = node
+      // Aggregate a props access chain: `theme.x[0].color` => `['theme', 'c', 0, 'color']`
+      const props = [object.property.name || object.property.value]
+      while (object.object) {
+        // Find the first object we are accessing.
+        object = object.object
+        props.unshift(object.name || object.property.name || object.property.value)
+      }
+      return {object, props}
+    }
+
     const serializeNode = (() => {
       const getPropertyName = (path, property) => {
         const {name} = property.key
@@ -35,19 +51,6 @@ export default declare(
 
       const hasThemeArg = (argNode, name) =>
         argNode.params.length !== 0 && name === argNode.params[0].name
-
-      const serializePropAcces = node => {
-        // Find the `theme` object.
-        let object = node
-        // Aggregate a props access chain: `theme.x[0].color` => `['theme', 'c', 0, 'color']`
-        const props = [object.property.name || object.property.value]
-        while (object.object) {
-          // Find the first object we are accessing.
-          object = object.object
-          props.unshift(object.name || object.property.name || object.property.value)
-        }
-        return {object, props}
-      }
 
       const getValueByPath = (path, data, props) => {
         const value = get(data, props)
@@ -132,6 +135,14 @@ export default declare(
           return t.isFunction(refNode)
         }
 
+        if (t.isMemberExpression(node.value)) {
+          const {props} = serializePropAcces(node.value)
+          const binding = path.scope.bindings[props[0]]
+          if (binding && isFromImport(binding.path.parent)) {
+            return true
+          }
+        }
+
         return false
       })
     }
@@ -159,8 +170,6 @@ export default declare(
         )
       )
 
-    const isImport = node => t.isImportSpecifier(node) || t.isImportDefaultSpecifier(node)
-
     const extendOptions = (callPath, classesNode) => {
       const prevOptionsNode = resolveRef(callPath, callPath.node.arguments[1])
 
@@ -170,7 +179,7 @@ export default declare(
       }
 
       // Convert an imported `options` identifier to Object.assign({classes}, options)
-      if (isImport(prevOptionsNode)) {
+      if (isFromImport(prevOptionsNode)) {
         const assignCall = t.callExpression(
           t.memberExpression(t.identifier('Object'), t.identifier('assign')),
           [t.objectExpression([classesNode]), prevOptionsNode.local]
@@ -215,9 +224,6 @@ export default declare(
 
           const stylesNode = findStylesNode(callPath)
           const styles = serializeNode(callPath, stylesNode)
-
-          if (!styles) return
-
           const sheet = jss.createStyleSheet(styles)
 
           if (!sheet.toString()) return

@@ -392,6 +392,61 @@ describe('index', () => {
     expect(transform(code)).toBe(code)
   })
 
+  test('partially bail out per property on property access from imports', () => {
+    const before = stripIndent`
+      import config from 'config';
+      createStyleSheet({
+        a: {
+          width: 1,
+          color: config.primary
+        }
+      });
+    `
+    const after = stripIndent`
+      import config from 'config';
+      createStyleSheet({
+        \"@raw\": \".a-id {\\n  width: 1;\\n}\",
+        a: {
+          color: config.primary
+        }
+      }, {
+        "classes": {
+          "a": "a-id"
+        }
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
+
+  test('partially bail out per rule on property access from imports', () => {
+    const before = stripIndent`
+      import config from 'config';
+      createStyleSheet({
+        a: {
+          width: 1,
+        },
+        b: {
+          color: config.primary
+        }
+      });
+    `
+    const after = stripIndent`
+      import config from 'config';
+      createStyleSheet({
+        \"@raw\": \".a-id {\\n  width: 1;\\n}\",
+        b: {
+          color: config.primary
+        }
+      }, {
+        "classes": {
+          "a": "a-id",
+          "b": "b-id"
+        }
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
+
   test('extend options object literal', () => {
     const before = stripIndent`
       createStyleSheet({
