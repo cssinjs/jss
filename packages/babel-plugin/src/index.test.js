@@ -6,7 +6,10 @@ import plugin from './index'
 const createGenerateClassName = () => rule => `${rule.key}-id`
 
 const transform = (source, pluginOptions) => {
-  const plugins = [[plugin, {jssOptions: {createGenerateClassName}, ...pluginOptions}]]
+  const plugins = [
+    [plugin, {jssOptions: {createGenerateClassName}, ...pluginOptions}],
+    'syntax-decorators'
+  ]
   const {code} = babel7.transform(source, {ast: true, plugins})
   return code
 }
@@ -696,15 +699,57 @@ describe('index', () => {
     expect(() => transform(before, {})).toThrowError()
   })
 
+  test.skip('decorators (add syntax-decorators to the package)', () => {
+    const before = stripIndent`
+      @injectSheet({
+        a: {
+          color: 'red'
+        }
+      })
+      class A {}
+
+      ;
+    `
+    const after = stripIndent`
+      @injectSheet({
+        "@raw": ".a-id {\\n  color: red;\\n}"
+      }, {
+        "classes": {
+          "a": "a-id"
+        }
+      })
+      class A {}
+
+      ;
+    `
+    expect(transform(before)).toBe(after)
+  })
+
   test('make sure identifier is imported from a specific package', () => {})
 
   test('support configurable package name', () => {})
 
-  test('calculated values', () => {})
+  test.skip('calculated values', () => {
+    const before = stripIndent`
+      createStyleSheet({
+        a: {
+          width: 5 + 10
+        }
+      });
+    `
+    const after = stripIndent`
+      createStyleSheet({
+        "@raw": ".a-id {\\n  width: 15;\\n}"
+      }), {
+        "classes": {
+          "a": "a-id"
+        }
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
 
   test('styles returned from a function call', () => {})
 
   test('property returned from a function call', () => {})
-
-  test('decorators?', () => {})
 })
