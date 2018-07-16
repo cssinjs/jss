@@ -566,6 +566,17 @@ describe('index', () => {
     expect(transform(before, {theme: {x: [{color: 'red'}]}})).toBe(after)
   })
 
+  test('throw prop access error complex theme prop access over babel config as fn arg', () => {
+    const before = stripIndent`
+      injectSheet(theme => ({
+        a: {
+          color: theme.x[0].color
+        }
+      }));
+    `
+    expect(() => transform(before, {})).toThrowError()
+  })
+
   test('resolve refs from a different module', () => {})
 
   test('make sure identifier is imported from a specific package', () => {})
