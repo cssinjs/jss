@@ -23,7 +23,8 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "license": "MIT",
-  "main": "./lib/index.js",
+  "main": "dist/jss-plugin-syntax-compose.cjs.js",
+  "module": "dist/jss-plugin-syntax-compose.esm.js",
   "devDependencies": {
     "jss": "^9.0.0"
   },

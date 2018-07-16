@@ -8,5 +8,24 @@
     "bundled": 5667,
     "minified": 2354,
     "gzipped": 1014
+  },
+  "dist/jss-plugin-syntax-global.cjs.js": {
+    "bundled": 5037,
+    "minified": 2597,
+    "gzipped": 1036
+  },
+  "dist/jss-plugin-syntax-global.esm.js": {
+    "bundled": 4957,
+    "minified": 2531,
+    "gzipped": 1005,
+    "treeshaked": {
+      "rollup": {
+        "code": 1297,
+        "import_statements": 31
+      },
+      "webpack": {
+        "code": 2273
+      }
+    }
   }
 }

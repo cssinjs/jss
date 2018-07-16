@@ -22,7 +22,8 @@
     "css-in-js"
   ],
   "license": "MIT",
-  "main": "./lib/index.js",
+  "main": "dist/jss.cjs.js",
+  "module": "dist/jss.esm.js",
   "engines": {
     "node": ">=4"
   },
@@ -37,9 +38,7 @@
   },
   "files": [
     "dist",
-    "lib",
     "src",
-    "readme.md",
     "changelog.md",
     "LICENSE"
   ],

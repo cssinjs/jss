@@ -24,7 +24,8 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "license": "MIT",
-  "main": "./lib/index.js",
+  "main": "dist/jss-plugin-syntax-default-unit.cjs.js",
+  "module": "dist/jss-plugin-syntax-default-unit.esm.js",
   "devDependencies": {
     "jss": "^9.4.0",
     "jss-plugin-syntax-expand": "^5.3.0",

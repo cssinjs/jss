@@ -2,15 +2,12 @@ const fs = require('fs')
 const path = require('path')
 const shell = require('shelljs')
 const log = require('npmlog')
-const {getPackageJson} = require('./get-package-json')
-
-const pkg = getPackageJson()
 
 function getCommand() {
-  const babel = path.join(__dirname, '../node_modules/.bin/babel')
-  const args = ['./src --out-dir ./lib', '--extends "../../.babelrc"']
+  const rollup = path.join(__dirname, '../node_modules/.bin/rollup')
+  const args = ['--config "../../rollup.config.js"']
 
-  return `VERSION="${pkg.version}" ${babel} ${args.join(' ')}`
+  return `${rollup} ${args.join(' ')}`
 }
 
 function handleExit(code, errorCallback) {
@@ -23,8 +20,8 @@ function handleExit(code, errorCallback) {
   }
 }
 
-function buildLib(options = {}) {
-  const {silent = true, errorCallback} = options
+function build(options = {}) {
+  const {silent = false, errorCallback} = options
 
   if (!fs.existsSync('src')) {
     if (!silent) {
@@ -40,4 +37,4 @@ function buildLib(options = {}) {
   handleExit(code, errorCallback)
 }
 
-module.exports = {buildLib}
+module.exports = {build}

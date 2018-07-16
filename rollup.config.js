@@ -1,11 +1,12 @@
+import fs from 'fs'
 import path from 'path'
 import nodeResolve from 'rollup-plugin-node-resolve'
+import nodeGlobals from 'rollup-plugin-node-globals'
 import commonjs from 'rollup-plugin-commonjs'
 import babel from 'rollup-plugin-babel'
 import replace from 'rollup-plugin-replace'
-import uglify from 'rollup-plugin-uglify'
+import {uglify} from 'rollup-plugin-uglify'
 import {sizeSnapshot} from 'rollup-plugin-size-snapshot'
-import nodeGlobals from 'rollup-plugin-node-globals'
 
 const {getPackageJson} = require('./scripts/get-package-json')
 
@@ -26,6 +27,8 @@ const globals = Object.keys(pkg.peerDependencies || {}).reduce(
   {}
 )
 
+const external = id => !id.startsWith('\0') && !id.startsWith('.') && !id.startsWith('/')
+
 const getBabelOptions = () => ({
   exclude: '**/node_modules/**',
   babelrc: false,
@@ -40,6 +43,14 @@ const commonjsOptions = {
 const snapshotOptions = {
   matchSnapshot,
   snapshotPath: './.size-snapshot.json'
+}
+
+const createFlowBundlePlugin = {
+  transformBundle(code, outputOptions) {
+    const file = path.join(rootPath, `${outputOptions.file}.flow`)
+    const content = "// @flow\n\nexport * from '../src';"
+    fs.writeFileSync(file, content)
+  }
 }
 
 export default [
@@ -88,6 +99,29 @@ export default [
       }),
       sizeSnapshot(snapshotOptions),
       uglify()
+    ]
+  },
+
+  {
+    input,
+    output: {file: pkg.main, format: 'cjs', exports: 'named'},
+    external,
+    plugins: [
+      createFlowBundlePlugin,
+      babel(getBabelOptions()),
+      replace({'process.env.VERSION': JSON.stringify(pkg.version)}),
+      sizeSnapshot(snapshotOptions)
+    ]
+  },
+
+  {
+    input,
+    output: {file: pkg.module, format: 'esm'},
+    external,
+    plugins: [
+      babel(getBabelOptions()),
+      replace({'process.env.VERSION': JSON.stringify(pkg.version)}),
+      sizeSnapshot(snapshotOptions)
     ]
   }
 ]

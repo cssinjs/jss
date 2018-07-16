@@ -22,7 +22,8 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "license": "MIT",
-  "main": "./lib/index.js",
+  "main": "dist/jss-plugin-syntax-template.cjs.js",
+  "module": "dist/jss-plugin-syntax-template.esm.js",
   "devDependencies": {
     "jss": "^9.0.0"
   },

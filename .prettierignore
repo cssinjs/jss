@@ -1,6 +1,5 @@
 node_modules/
 coverage/
-lib/
 dist/
 tmp/
 *.html

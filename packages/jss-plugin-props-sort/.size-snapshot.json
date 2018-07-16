@@ -8,5 +8,24 @@
     "bundled": 879,
     "minified": 452,
     "gzipped": 293
+  },
+  "dist/jss-plugin-props-sort.cjs.js": {
+    "bundled": 563,
+    "minified": 303,
+    "gzipped": 221
+  },
+  "dist/jss-plugin-props-sort.esm.js": {
+    "bundled": 481,
+    "minified": 234,
+    "gzipped": 180,
+    "treeshaked": {
+      "rollup": {
+        "code": 0,
+        "import_statements": 0
+      },
+      "webpack": {
+        "code": 951
+      }
+    }
   }
 }
