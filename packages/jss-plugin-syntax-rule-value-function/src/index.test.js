@@ -3,13 +3,12 @@
 import expect from 'expect.js'
 
 import {create} from 'jss'
-import {createGenerateClassName} from '../../jss/tests/utils'
 import functionPlugin from './'
 
 import './function-rules.test'
 import './function-values.test'
 
-const settings = {createGenerateClassName}
+const settings = {createGenerateClassName: () => rule => `${rule.key}-id`}
 
 describe('jss-plugin-syntax-rule-value-function: Integration', () => {
   let jss

@@ -3,9 +3,8 @@ import {stripIndent} from 'common-tags'
 
 import {create} from 'jss'
 import functionPlugin from './'
-import {createGenerateClassName, getStyle, getCss, removeWhitespace} from '../../jss/tests/utils'
 
-const settings = {createGenerateClassName}
+const settings = {createGenerateClassName: () => rule => `${rule.key}-id`}
 
 describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
   let jss
@@ -15,7 +14,6 @@ describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
   })
 
   describe('.createStyleSheet()', () => {
-    let style
     let sheet
 
     beforeEach(() => {
@@ -30,7 +28,6 @@ describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
           {link: true}
         )
         .attach()
-      style = getStyle()
     })
 
     afterEach(() => {
@@ -46,15 +43,9 @@ describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
         }
       `)
     })
-
-    it('should render', () => {
-      sheet.update({color: 'red'})
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
-    })
   })
 
   describe('.addRule() with styleRule', () => {
-    let style
     let sheet
 
     beforeEach(() => {
@@ -62,7 +53,6 @@ describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
       sheet.addRule('a', data => ({
         color: data.primary ? 'black' : 'white'
       }))
-      style = getStyle()
     })
 
     afterEach(() => {
@@ -78,11 +68,6 @@ describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
       `)
     })
 
-    it('should render', () => {
-      sheet.update({primary: true})
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
-    })
-
     it('should render rule with updated color', () => {
       sheet.update({primary: false})
       expect(sheet.toString()).to.be(stripIndent`
@@ -94,7 +79,6 @@ describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
   })
 
   describe('.addRule() with @media', () => {
-    let style
     let sheet
 
     beforeEach(() => {
@@ -104,7 +88,6 @@ describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
           color: data.primary ? 'black' : 'white'
         })
       })
-      style = getStyle()
     })
 
     afterEach(() => {
@@ -120,16 +103,6 @@ describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
           }
         }
       `)
-    })
-
-    it('should render', () => {
-      sheet.update({primary: true})
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
-    })
-
-    it('should update', () => {
-      sheet.update({primary: false})
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
     })
   })
 })
