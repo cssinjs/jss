@@ -25,7 +25,8 @@
   "dependencies": {
     "css-vendor": "^1.1.0"
   },
-  "main": "./lib/index.js",
+  "main": "dist/jss-plugin-vendor-prefixer.cjs.js",
+  "module": "dist/jss-plugin-vendor-prefixer.esm.js",
   "devDependencies": {
     "jss": "^9.5.0",
     "jss-plugin-syntax-rule-value-function": "^0.1.0"

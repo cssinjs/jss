@@ -19,7 +19,8 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "license": "MIT",
-  "main": "./lib/index.js",
+  "main": "dist/jss-preset-default.cjs.js",
+  "module": "dist/jss-preset-default.esm.js",
   "devDependencies": {
     "jss": "^9.7.0"
   },

@@ -26,7 +26,8 @@
     "animation"
   ],
   "license": "MIT",
-  "main": "./lib/index.js",
+  "main": "dist/jss-plugin-syntax-rule-value-function.cjs.js",
+  "module": "dist/jss-plugin-syntax-rule-value-function.esm.js",
   "engines": {
     "node": ">=4"
   },
@@ -41,9 +42,7 @@
   },
   "files": [
     "dist",
-    "lib",
     "src",
-    "readme.md",
     "changelog.md",
     "LICENSE"
   ]

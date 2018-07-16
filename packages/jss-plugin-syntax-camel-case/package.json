@@ -11,7 +11,6 @@
     "url": "git@github.com:cssinjs/jss-camel-case.git"
   },
   "files": [
-    "lib",
     "dist",
     "src"
   ],
@@ -27,7 +26,8 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "license": "MIT",
-  "main": "./lib/index.js",
+  "main": "dist/jss-plugin-syntax-camel-case.cjs.js",
+  "module": "dist/jss-plugin-syntax-camel-case.esm.js",
   "devDependencies": {
     "jss": "^9.7.0",
     "jss-plugin-syntax-rule-value-function": "^0.1.0"

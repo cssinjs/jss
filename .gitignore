@@ -3,9 +3,7 @@ node_modules
 npm-debug.log
 tmp
 *~
-lib
 dist
 .env
 coverage
-packages/**/lincense.md
 lerna-debug.log
