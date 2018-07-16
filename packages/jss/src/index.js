@@ -20,6 +20,11 @@ export {default as getDynamicStyles} from './utils/getDynamicStyles'
 export {default as toCssValue} from './utils/toCssValue'
 
 /**
+ * Create a rule instance.
+ */
+export {default as createRule} from './utils/createRule'
+
+/**
  * SheetsRegistry for SSR.
  */
 export {default as SheetsRegistry} from './SheetsRegistry'

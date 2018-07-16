@@ -1,8 +1,8 @@
 /* @flow */
 import $$observable from 'symbol-observable'
+import {createRule} from 'jss'
 import type StyleRule from 'jss/src/rules/StyleRule'
-import createRule from 'jss/lib/utils/createRule'
-import type {Rule, RuleOptions, JssStyle} from '../../jss/src/types'
+import type {Rule, RuleOptions, JssStyle} from 'jss/src/types'
 import type {Observable} from './types'
 
 const isObservable = value => value && value[$$observable] && value === value[$$observable]()
