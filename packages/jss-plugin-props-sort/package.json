@@ -2,14 +2,27 @@
   "name": "jss-plugin-props-sort",
   "description": "JSS plugin that ensures style properties extend each other instead of override",
   "version": "6.0.0",
+  "license": "MIT",
+  "main": "dist/jss-plugin-props-sort.cjs.js",
+  "module": "dist/jss-plugin-props-sort.esm.js",
+  "homepage": "http://cssinjs.org/jss-props-sort",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:cssinjs/jss-props-sort.git"
+    "url": "git@github.com:cssinjs/jss.git"
   },
+  "bugs": {
+    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-props-sort]"
+  },
+  "files": [
+    "dist",
+    "src",
+    "changelog.md",
+    "LICENSE"
+  ],
   "keywords": [
     "cssinjs",
     "css-in-js",
@@ -22,9 +35,6 @@
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
-  "license": "MIT",
-  "main": "dist/jss-plugin-props-sort.cjs.js",
-  "module": "dist/jss-plugin-props-sort.esm.js",
   "devDependencies": {
     "jss": "^9.0.0"
   },

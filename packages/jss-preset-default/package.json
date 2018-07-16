@@ -2,14 +2,27 @@
   "name": "jss-preset-default",
   "description": "Default preset for JSS with selected plugins.",
   "version": "4.5.0",
+  "license": "MIT",
+  "homepage": "http://cssinjs.org/jss-preset-default",
+  "main": "dist/jss-preset-default.cjs.js",
+  "module": "dist/jss-preset-default.esm.js",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:cssinjs/jss-preset-default.git"
+    "url": "git@github.com:cssinjs/jss.git"
   },
+  "bugs": {
+    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-cache]"
+  },
+  "files": [
+    "dist",
+    "src",
+    "changelog.md",
+    "LICENSE"
+  ],
   "keywords": [
     "jss",
     "preset",
@@ -18,9 +31,6 @@
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
-  "license": "MIT",
-  "main": "dist/jss-preset-default.cjs.js",
-  "module": "dist/jss-preset-default.esm.js",
   "devDependencies": {
     "jss": "^9.7.0"
   },

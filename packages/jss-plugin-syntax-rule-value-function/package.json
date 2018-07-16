@@ -2,6 +2,10 @@
   "name": "jss-plugin-syntax-rule-value-function",
   "description": "JSS plugin for function value and rule syntax",
   "version": "0.1.0",
+  "license": "MIT",
+  "homepage": "http://cssinjs.org/",
+  "main": "dist/jss-plugin-syntax-rule-value-function.cjs.js",
+  "module": "dist/jss-plugin-syntax-rule-value-function.esm.js",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
@@ -10,6 +14,15 @@
     "type": "git",
     "url": "git@github.com:cssinjs/jss.git"
   },
+  "bugs": {
+    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-syntax-rule-value-function]"
+  },
+  "files": [
+    "dist",
+    "src",
+    "changelog.md",
+    "LICENSE"
+  ],
   "keywords": [
     "jss",
     "style",
@@ -25,12 +38,6 @@
     "reactive",
     "animation"
   ],
-  "license": "MIT",
-  "main": "dist/jss-plugin-syntax-rule-value-function.cjs.js",
-  "module": "dist/jss-plugin-syntax-rule-value-function.esm.js",
-  "engines": {
-    "node": ">=4"
-  },
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
@@ -39,11 +46,5 @@
   },
   "devDependencies": {
     "jss": "^9.7.0"
-  },
-  "files": [
-    "dist",
-    "src",
-    "changelog.md",
-    "LICENSE"
-  ]
+  }
 }

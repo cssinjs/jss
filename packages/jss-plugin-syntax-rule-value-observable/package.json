@@ -2,6 +2,10 @@
   "name": "jss-plugin-syntax-rule-value-observable",
   "description": "JSS plugin for TC39 Observables support",
   "version": "0.1.0",
+  "license": "MIT",
+  "homepage": "http://cssinjs.org/",
+  "main": "dist/jss-plugin-syntax-rule-value-observable.cjs.js",
+  "module": "dist/jss-plugin-syntax-rule-value-observable.esm.js",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
@@ -10,6 +14,15 @@
     "type": "git",
     "url": "git@github.com:cssinjs/jss.git"
   },
+  "bugs": {
+    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-syntax-rule-value-observable]"
+  },
+  "files": [
+    "dist",
+    "src",
+    "changelog.md",
+    "LICENSE"
+  ],
   "keywords": [
     "jss",
     "style",
@@ -24,12 +37,6 @@
     "reactive",
     "rxjs"
   ],
-  "license": "MIT",
-  "main": "dist/jss-plugin-syntax-rule-value-observable.cjs.js",
-  "module": "dist/jss-plugin-syntax-rule-value-observable.esm.js",
-  "engines": {
-    "node": ">=4"
-  },
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
@@ -39,12 +46,6 @@
   "devDependencies": {
     "jss": "^9.7.0"
   },
-  "files": [
-    "dist",
-    "src",
-    "changelog.md",
-    "LICENSE"
-  ],
   "dependencies": {
     "symbol-observable": "^1.2.0"
   }
