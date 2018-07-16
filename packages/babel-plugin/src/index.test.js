@@ -354,7 +354,7 @@ describe('index', () => {
     expect(transform(before)).toBe(after)
   })
 
-  test('resolve property access', () => {
+  test('resolve property access from scope var', () => {
     const before = stripIndent`
       const config = {
         primary: 'red'
@@ -378,6 +378,18 @@ describe('index', () => {
       });
     `
     expect(transform(before)).toBe(after)
+  })
+
+  test('bail out on property access from imports', () => {
+    const code = stripIndent`
+      import config from 'config';
+      createStyleSheet({
+        a: {
+          color: config.primary
+        }
+      });
+    `
+    expect(transform(code)).toBe(code)
   })
 
   test('extend options object literal', () => {

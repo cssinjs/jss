@@ -75,7 +75,11 @@ export default declare(
 
         if (t.isObjectExpression(node)) {
           return node.properties.reduce((serialized, property) => {
-            serialized[getPropertyName(path, property)] = serializeNode(path, property.value)
+            const value = serializeNode(path, property.value)
+            if (value !== null) {
+              const key = getPropertyName(path, property)
+              serialized[key] = value
+            }
             return serialized
           }, {})
         }
@@ -92,6 +96,7 @@ export default declare(
 
           if (props[0] in path.scope.bindings) {
             const data = serializeNode(path, path.scope.bindings[props[0]].identifier)
+            if (!data) return null
             return getValueByPath(path, data, props.slice(1))
           }
 
@@ -214,6 +219,8 @@ export default declare(
           if (!styles) return
 
           const sheet = jss.createStyleSheet(styles)
+
+          if (!sheet.toString()) return
 
           insertRawRule(stylesNode, sheet)
           removeNonFunctionProps(callPath, stylesNode)
