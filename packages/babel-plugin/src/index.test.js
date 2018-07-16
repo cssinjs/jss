@@ -498,6 +498,34 @@ describe('index', () => {
     expect(transform(before)).toBe(after)
   })
 
+  test('support styles creator function ref', () => {
+    const before = stripIndent`
+      function getStyles() {
+        return {
+          a: {
+            color: 'red'
+          }
+        };
+      }
+
+      injectSheet(getStyles);
+    `
+    const after = stripIndent`
+      function getStyles() {
+        return {
+          "@raw": ".a-id {\\n  color: red;\\n}"
+        };
+      }
+
+      injectSheet(getStyles, {
+        "classes": {
+          "a": "a-id"
+        }
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
+
   test('resolve refs from a different module', () => {})
 
   test('make sure identifier is imported from a specific package', () => {})

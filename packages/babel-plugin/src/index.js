@@ -145,17 +145,10 @@ export default declare(
         return node.body
       }
 
-      // Find all return values in a function.
-      let returnNode
-      callPath.traverse({
-        ReturnStatement(path) {
-          if (t.isObjectExpression(path.node.argument)) {
-            returnNode = path.node.argument
-          }
-        }
-      })
+      const returnNodes = node.body.body.filter(t.isReturnStatement)
 
-      return returnNode
+      // Currently we take only the last return value
+      return returnNodes[returnNodes.length - 1].argument
     }
 
     const jss = createJss(jssOptions)
