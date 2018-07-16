@@ -696,17 +696,14 @@ describe('index', () => {
     expect(() => transform(before, {})).toThrowError()
   })
 
-  test('support object prop access', () => {})
-
-  test('resolve refs from a different module', () => {})
-
   test('make sure identifier is imported from a specific package', () => {})
 
   test('support configurable package name', () => {})
 
-  test('handle refs from an external module', () => {})
+  test('calculated values', () => {})
 
   test('styles returned from a function call', () => {})
+
   test('property returned from a function call', () => {})
 
   test('decorators?', () => {})
