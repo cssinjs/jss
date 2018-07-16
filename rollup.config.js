@@ -5,7 +5,7 @@ import babel from 'rollup-plugin-babel'
 import replace from 'rollup-plugin-replace'
 import uglify from 'rollup-plugin-uglify'
 import {sizeSnapshot} from 'rollup-plugin-size-snapshot'
-import globals from 'rollup-plugin-node-globals'
+import nodeGlobals from 'rollup-plugin-node-globals'
 
 const {getPackageJson} = require('./scripts/get-package-json')
 
@@ -17,46 +17,77 @@ function toCamelCase(name) {
   return name.replace(/-(\w)/g, (match, letter) => letter.toUpperCase())
 }
 
-const base = {
-  input: path.join(rootPath, './src/index.js'),
-  plugins: [
-    nodeResolve(),
-    babel({
-      exclude: ['**/node_modules/**'],
-      babelrc: false,
-      presets: [['env', {modules: false}], 'stage-0', 'flow'],
-      plugins: ['external-helpers']
-    }),
-    commonjs({ignoreGlobal: true}),
-    globals(),
-    replace({
-      'process.env.NODE_ENV': JSON.stringify('development'),
-      'process.env.VERSION': JSON.stringify(pkg.version)
-    }),
-    sizeSnapshot({
-      matchSnapshot,
-      snapshotPath: './.size-snapshot.json'
-    })
-  ]
+const input = path.join(rootPath, './src/index.js')
+
+const name = toCamelCase(pkg.name)
+
+const globals = Object.keys(pkg.peerDependencies || {}).reduce(
+  (acc, key) => Object.assign({}, acc, {[key]: toCamelCase(key)}),
+  {}
+)
+
+const getBabelOptions = () => ({
+  exclude: '**/node_modules/**',
+  babelrc: false,
+  presets: [['env', {modules: false}], 'stage-0', 'flow'],
+  plugins: ['external-helpers']
+})
+
+const commonjsOptions = {
+  ignoreGlobal: true
+}
+
+const snapshotOptions = {
+  matchSnapshot,
+  snapshotPath: './.size-snapshot.json'
 }
 
 export default [
-  Object.assign({}, base, {
+  {
+    input,
     output: {
       file: `dist/${pkg.name}.js`,
       format: 'umd',
       sourcemap: true,
       exports: 'named',
-      name: toCamelCase(pkg.name)
-    }
-  }),
-  Object.assign({}, base, {
-    plugins: [].concat(base.plugins, uglify()),
+      name,
+      globals
+    },
+    external: Object.keys(globals),
+    plugins: [
+      nodeResolve(),
+      babel(getBabelOptions()),
+      commonjs(commonjsOptions),
+      nodeGlobals(),
+      replace({
+        'process.env.NODE_ENV': JSON.stringify('development'),
+        'process.env.VERSION': JSON.stringify(pkg.version)
+      }),
+      sizeSnapshot(snapshotOptions)
+    ]
+  },
+
+  {
+    input,
     output: {
       file: `dist/${pkg.name}.min.js`,
       format: 'umd',
       exports: 'named',
-      name: toCamelCase(pkg.name)
-    }
-  })
+      name,
+      globals
+    },
+    external: Object.keys(globals),
+    plugins: [
+      nodeResolve(),
+      babel(getBabelOptions()),
+      commonjs(commonjsOptions),
+      nodeGlobals(),
+      replace({
+        'process.env.NODE_ENV': JSON.stringify('production'),
+        'process.env.VERSION': JSON.stringify(pkg.version)
+      }),
+      sizeSnapshot(snapshotOptions),
+      uglify()
+    ]
+  }
 ]

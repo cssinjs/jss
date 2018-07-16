@@ -1,8 +1,7 @@
 /* @flow */
-import {RuleList} from 'jss'
+import {RuleList, createRule} from 'jss'
 import type StyleRule from 'jss/src/rules/StyleRule'
 import type {Rule, JssStyle, RuleOptions} from 'jss/src/types'
-import createRule from 'jss/lib/utils/createRule'
 
 // A symbol replacement.
 let now = Date.now()

@@ -5,8 +5,8 @@
     "gzipped": 757
   },
   "dist/jss-plugin-syntax-template.min.js": {
-    "bundled": 4432,
-    "minified": 1338,
-    "gzipped": 757
+    "bundled": 4431,
+    "minified": 826,
+    "gzipped": 480
   }
 }
