@@ -526,13 +526,51 @@ describe('index', () => {
     expect(transform(before)).toBe(after)
   })
 
+  test('support theme prop access over babel config as fn arg', () => {
+    const before = stripIndent`
+      injectSheet(theme => ({
+        a: {
+          color: theme.primary
+        }
+      }));
+    `
+    const after = stripIndent`
+      injectSheet(theme => ({
+        "@raw": ".a-id {\\n  color: red;\\n}"
+      }), {
+        "classes": {
+          "a": "a-id"
+        }
+      });
+    `
+    expect(transform(before, {theme: {primary: 'red'}})).toBe(after)
+  })
+
+  test('support complex theme prop access over babel config as fn arg', () => {
+    const before = stripIndent`
+      injectSheet(theme => ({
+        a: {
+          color: theme.x[0].color
+        }
+      }));
+    `
+    const after = stripIndent`
+      injectSheet(theme => ({
+        "@raw": ".a-id {\\n  color: red;\\n}"
+      }), {
+        "classes": {
+          "a": "a-id"
+        }
+      });
+    `
+    expect(transform(before, {theme: {x: [{color: 'red'}]}})).toBe(after)
+  })
+
   test('resolve refs from a different module', () => {})
 
   test('make sure identifier is imported from a specific package', () => {})
 
   test('support configurable package name', () => {})
-
-  test('support theme over babel config as arg', () => {})
 
   test('handle refs from an external module', () => {})
 

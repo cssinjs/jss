@@ -12,7 +12,10 @@ const defaultJssOptions = preset()
 defaultJssOptions.plugins.unshift(pluginRuleValueFn())
 
 export default declare(
-  ({types: t, ...api}, {identifiers = defaultIdentifiers, jssOptions = defaultJssOptions}) => {
+  (
+    {types: t, ...api},
+    {identifiers = defaultIdentifiers, jssOptions = defaultJssOptions, theme = {}}
+  ) => {
     api.assertVersion(7)
 
     const resolveRef = (path, node) => {
@@ -50,6 +53,28 @@ export default declare(
 
         if (t.isArrayExpression(node)) {
           return node.elements.map(elementNode => serializeNode(path, elementNode))
+        }
+
+        if (t.isMemberExpression(node)) {
+          const firstArgNode = resolveRef(path, path.node.arguments[0])
+          if (!t.isFunction(firstArgNode)) return null
+
+          let object = node
+          const props = [object.property.name || object.property.value]
+          while (object.object) {
+            // Find the first object we are accessing.
+            object = object.object
+            props.unshift(object.name || object.property.name || object.property.value)
+          }
+
+          // We are accessing the first argument property, which is a theme object.
+          if (object.name === firstArgNode.params[0].name) {
+            let value = theme
+            props.slice(1).forEach(prop => {
+              value = value[prop]
+            })
+            return value
+          }
         }
 
         return null
