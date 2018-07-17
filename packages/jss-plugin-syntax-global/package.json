@@ -1,16 +1,28 @@
 {
   "name": "jss-plugin-syntax-global",
-  "version": "3.0.0",
   "description": "Global styles for JSS",
+  "version": "3.0.0",
+  "license": "MIT",
+  "homepage": "http://cssinjs.org/jss-global",
   "main": "dist/jss-plugin-syntax-global.cjs.js",
   "module": "dist/jss-plugin-syntax-global.esm.js",
-  "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+  "author": {
+    "name": "Oleg Slobodskoi",
+    "email": "oleg008@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cssinjs/jss-global.git"
+    "url": "git@github.com:cssinjs/jss.git"
   },
+  "bugs": {
+    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-syntax-global]"
+  },
+  "files": [
+    "dist",
+    "src",
+    "changelog.md",
+    "LICENSE"
+  ],
   "keywords": [
     "cssinjs",
     "css-in-js",
@@ -20,15 +32,9 @@
     "global",
     "unscoped"
   ],
-  "author": {
-    "name": "Oleg Slobodskoi",
-    "email": "oleg008@gmail.com"
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
   },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-global]"
-  },
-  "homepage": "https://github.com/cssinjs/jss-global",
   "peerDependencies": {
     "jss": "^9.0.0"
   },

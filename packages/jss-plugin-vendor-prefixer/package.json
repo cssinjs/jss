@@ -2,14 +2,27 @@
   "name": "jss-plugin-vendor-prefixer",
   "description": "JSS plugin that handles vendor prefixes in the browser",
   "version": "8.0.1",
+  "license": "MIT",
+  "homepage": "http://cssinjs.org/jss-vendor-prefixer",
+  "main": "dist/jss-plugin-vendor-prefixer.cjs.js",
+  "module": "dist/jss-plugin-vendor-prefixer.esm.js",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:cssinjs/jss-vendor-prefixer.git"
+    "url": "git@github.com:cssinjs/jss.git"
   },
+  "bugs": {
+    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-cache]"
+  },
+  "files": [
+    "dist",
+    "src",
+    "changelog.md",
+    "LICENSE"
+  ],
   "keywords": [
     "cssinjs",
     "jss",
@@ -17,16 +30,12 @@
     "vendor",
     "prefixer"
   ],
-  "engines": {},
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
-  "license": "MIT",
   "dependencies": {
     "css-vendor": "^1.1.0"
   },
-  "main": "dist/jss-plugin-vendor-prefixer.cjs.js",
-  "module": "dist/jss-plugin-vendor-prefixer.esm.js",
   "devDependencies": {
     "jss": "^9.5.0",
     "jss-plugin-syntax-rule-value-function": "^0.1.0"

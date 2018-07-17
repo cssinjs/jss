@@ -1,12 +1,4 @@
 {
-  "author": {
-    "name": "Oleg Slobodskoi",
-    "email": "oleg008@gmail.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:cssinjs/jss.git"
-  },
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "publish": "npm run lint && npm run test && lerna publish",

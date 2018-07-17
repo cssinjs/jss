@@ -2,14 +2,27 @@
   "name": "jss-plugin-syntax-compose",
   "description": "JSS plugin for classes composition",
   "version": "5.0.0",
+  "license": "MIT",
+  "homepage": "http://cssinjs.org/jss-compose",
+  "main": "dist/jss-plugin-syntax-compose.cjs.js",
+  "module": "dist/jss-plugin-syntax-compose.esm.js",
   "author": {
     "name": "Pavel Davydov",
     "email": "typical000@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:cssinjs/jss-compose.git"
+    "url": "git@github.com:cssinjs/jss.git"
   },
+  "bugs": {
+    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-syntax-compose]"
+  },
+  "files": [
+    "dist",
+    "src",
+    "changelog.md",
+    "LICENSE"
+  ],
   "keywords": [
     "cssinnjs",
     "css-in-js",
@@ -22,9 +35,6 @@
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
-  "license": "MIT",
-  "main": "dist/jss-plugin-syntax-compose.cjs.js",
-  "module": "dist/jss-plugin-syntax-compose.esm.js",
   "devDependencies": {
     "jss": "^9.0.0"
   },

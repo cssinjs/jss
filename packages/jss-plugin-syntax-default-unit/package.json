@@ -2,14 +2,27 @@
   "name": "jss-plugin-syntax-default-unit",
   "description": "JSS plugin that adds default custom unit to numeric values where needed",
   "version": "8.0.2",
+  "license": "MIT",
+  "homepage": "http://cssinjs.org/jss-default-unit",
+  "main": "dist/jss-plugin-syntax-default-unit.cjs.js",
+  "module": "dist/jss-plugin-syntax-default-unit.esm.js",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:cssinjs/jss-default-unit.git"
+    "url": "git@github.com:cssinjs/jss.git"
   },
+  "bugs": {
+    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-syntax-default-unit]"
+  },
+  "files": [
+    "dist",
+    "src",
+    "changelog.md",
+    "LICENSE"
+  ],
   "keywords": [
     "cssinjs",
     "css-in-js",
@@ -23,9 +36,6 @@
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
-  "license": "MIT",
-  "main": "dist/jss-plugin-syntax-default-unit.cjs.js",
-  "module": "dist/jss-plugin-syntax-default-unit.esm.js",
   "devDependencies": {
     "jss": "^9.4.0",
     "jss-plugin-syntax-expand": "^5.3.0",

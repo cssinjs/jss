@@ -2,14 +2,27 @@
   "name": "jss-plugin-syntax-expand",
   "description": "JSS plugin that gives you a better syntax than CSS.",
   "version": "5.3.0",
+  "license": "MIT",
+  "homepage": "http://cssinjs.org/jss-expand",
+  "main": "dist/jss-plugin-syntax-expand.cjs.js",
+  "module": "dist/jss-plugin-syntax-expand.esm.js",
   "author": {
     "name": "Pavel Davydov",
     "email": "typical000@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:cssinjs/jss-expand.git"
+    "url": "git@github.com:cssinjs/jss.git"
   },
+  "bugs": {
+    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-syntax-expand]"
+  },
+  "files": [
+    "dist",
+    "src",
+    "changelog.md",
+    "LICENSE"
+  ],
   "keywords": [
     "cssinjs",
     "css-in-js",
@@ -21,9 +34,6 @@
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
-  "license": "MIT",
-  "main": "dist/jss-plugin-syntax-expand.cjs.js",
-  "module": "dist/jss-plugin-syntax-expand.esm.js",
   "devDependencies": {
     "jss": "^9.4.0",
     "jss-plugin-syntax-rule-value-observable": "^0.1.0"

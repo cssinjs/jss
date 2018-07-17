@@ -2,14 +2,27 @@
   "name": "jss-plugin-cache",
   "description": "JSS plugin that caches the rules and delivers insane performance.",
   "version": "3.0.0",
+  "license": "MIT",
+  "homepage": "http://cssinjs.org/jss-cache",
+  "main": "dist/jss-plugin-cache.cjs.js",
+  "module": "dist/jss-plugin-cache.esm.js",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:cssinjs/jss-cache.git"
+    "url": "git@github.com:cssinjs/jss.git"
   },
+  "bugs": {
+    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-cache]"
+  },
+  "files": [
+    "dist",
+    "src",
+    "changelog.md",
+    "LICENSE"
+  ],
   "keywords": [
     "cssinjs",
     "css-in-js",
@@ -22,9 +35,6 @@
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
-  "license": "MIT",
-  "main": "dist/jss-plugin-cache.cjs.js",
-  "module": "dist/jss-plugin-cache.esm.js",
   "devDependencies": {
     "jss": "^9.0.0"
   },
