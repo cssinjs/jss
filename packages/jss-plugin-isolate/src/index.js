@@ -47,7 +47,7 @@ const ignoreParents = {
 const shouldIsolate = (rule: StyleRule, sheet, options) => {
   const {parent} = rule.options
 
-  if (parent && ignoreParents[parent.type]) {
+  if (parent && typeof parent.type === 'string' && ignoreParents[parent.type]) {
     return false
   }
 
