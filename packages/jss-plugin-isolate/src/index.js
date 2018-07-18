@@ -1,8 +1,7 @@
 // @flow
 import inheritedInitials from 'css-initials/inherited'
 import allInitials from 'css-initials/all'
-import type {Plugin} from 'jss'
-import type StyleRule from 'jss/src/rules/StyleRule'
+import type {Plugin, StyleRule} from 'jss'
 
 type Options = {
   isolate?: boolean | string,
