@@ -39,15 +39,10 @@ const getStyle = (option = 'inherited') => {
   return inheritedInitials
 }
 
-const ignoreParents = {
-  keyframes: true,
-  conditional: true
-}
-
 const shouldIsolate = (rule: StyleRule, sheet, options) => {
   const {parent} = rule.options
 
-  if (parent && typeof parent.type === 'string' && ignoreParents[parent.type]) {
+  if (parent && (parent.type === 'keyframes' || parent.type === 'conditional')) {
     return false
   }
 

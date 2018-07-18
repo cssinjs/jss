@@ -1,21 +1,21 @@
 {
   "dist/jss-plugin-syntax-rule-value-function.js": {
-    "bundled": 2112,
+    "bundled": 2085,
     "minified": 842,
     "gzipped": 479
   },
   "dist/jss-plugin-syntax-rule-value-function.min.js": {
-    "bundled": 2112,
+    "bundled": 2085,
     "minified": 842,
     "gzipped": 479
   },
   "dist/jss-plugin-syntax-rule-value-function.cjs.js": {
-    "bundled": 1709,
+    "bundled": 1684,
     "minified": 752,
     "gzipped": 416
   },
   "dist/jss-plugin-syntax-rule-value-function.esm.js": {
-    "bundled": 1637,
+    "bundled": 1612,
     "minified": 693,
     "gzipped": 369,
     "treeshaked": {
