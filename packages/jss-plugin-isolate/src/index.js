@@ -1,5 +1,12 @@
+// @flow
 import inheritedInitials from 'css-initials/inherited'
 import allInitials from 'css-initials/all'
+import type {Plugin, StyleRule} from 'jss'
+
+type Options = {
+  isolate?: boolean | string,
+  reset?: 'all' | 'inherited' | Object | ['all' | 'inherited', Object]
+}
 
 const resetSheetOptions = {
   meta: 'jss-isolate',
@@ -32,19 +39,15 @@ const getStyle = (option = 'inherited') => {
   return inheritedInitials
 }
 
-const ignoreParents = {
-  keyframes: true,
-  conditional: true
-}
-
-const shouldIsolate = (rule, sheet, options) => {
+const shouldIsolate = (rule: StyleRule, sheet, options) => {
   const {parent} = rule.options
 
-  if (parent && ignoreParents[parent.type]) {
+  if (parent && (parent.type === 'keyframes' || parent.type === 'conditional')) {
     return false
   }
 
   let isolate = options.isolate == null ? true : options.isolate
+  // $FlowFixMe: isolate is only added as an option by this plugin which means we can't type it in jss
   if (sheet.options.isolate != null) isolate = sheet.options.isolate
   if (rule.style.isolate != null) {
     isolate = rule.style.isolate
@@ -77,11 +80,11 @@ const createDebounced = (fn, delay = 3) => {
   }
 }
 
-export default function jssIsolate(options = {}) {
+export default function jssIsolate(options: Options = {}): Plugin {
   let setSelectorDone = false
   const selectors = []
   let resetSheet
-  let resetRule
+  let resetRule: StyleRule
 
   const setSelector = () => {
     resetRule.selector = selectors.join(',\n')
@@ -92,17 +95,20 @@ export default function jssIsolate(options = {}) {
   function onProcessRule(rule, sheet) {
     if (!sheet || sheet === resetSheet || rule.type !== 'style') return
 
+    // Type it as a StyleRule
+    rule = ((rule: any): StyleRule)
+
     if (!shouldIsolate(rule, sheet, options)) return
 
     // Create a reset Style Sheet once and use it for all rules.
     if (!resetRule) {
-      resetSheet = rule.options.jss.createStyleSheet(null, resetSheetOptions)
-      resetRule = resetSheet.addRule('reset', getStyle(options.reset))
+      resetSheet = rule.options.jss.createStyleSheet({}, resetSheetOptions)
+      resetRule = ((resetSheet.addRule('reset', getStyle(options.reset)): any): StyleRule)
       resetSheet.attach()
     }
 
     // Add reset rule class name to the classes map of users Style Sheet.
-    const {selector} = rule
+    const {selector} = (rule: StyleRule)
     if (selectors.indexOf(selector) === -1) {
       selectors.push(selector)
       setSelectorDone = setSelectorDebounced()
