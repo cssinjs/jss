@@ -66,7 +66,7 @@ export type RuleOptions = {
   selector?: string,
   sheet?: StyleSheet,
   index?: number,
-  parent?: ConditionalRule | KeyframesRule,
+  parent?: ConditionalRule | KeyframesRule | StyleSheet,
   classes: Classes,
   jss: Jss,
   generateClassName: generateClassName,
