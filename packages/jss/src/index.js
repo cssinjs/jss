@@ -7,7 +7,13 @@
  * @license MIT
  */
 import Jss from './Jss'
-import StyleSheet from './StyleSheet'
+import type StyleSheet from './StyleSheet'
+import type ConditionalRule from './rules/ConditionalRule'
+import type KeyframesRule from './rules/KeyframesRule'
+import type StyleRule from './rules/StyleRule'
+import type ViewportRule from './rules/ViewportRule'
+import type SimpleRule from './rules/SimpleRule'
+import type FontFaceRule from './rules/FontFaceRule'
 import type {JssOptions} from './types'
 
 /**
@@ -26,7 +32,16 @@ export type {
   RuleOptions,
   Classes
 } from './types'
-export type {Jss, StyleSheet}
+export type {
+  Jss,
+  StyleSheet,
+  ConditionalRule,
+  KeyframesRule,
+  StyleRule,
+  ViewportRule,
+  SimpleRule,
+  FontFaceRule
+}
 
 /**
  * Extracts a styles object with only rules that contain function values.
