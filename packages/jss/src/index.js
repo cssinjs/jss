@@ -7,7 +7,39 @@
  * @license MIT
  */
 import Jss from './Jss'
-import type {JssOptions} from './types'
+import StyleSheet from './StyleSheet'
+import type {
+  JssOptions,
+  StyleSheetOptions,
+  JssStyle,
+  Plugin,
+  generateClassName,
+  Rule,
+  RuleOptions,
+  Classes,
+  Renderer,
+  RuleListOptions,
+  JssValue
+} from './types'
+
+/**
+ * Export types for better typing inside plugins and integrations.
+ */
+export type {
+  StyleSheetOptions,
+  JssValue,
+  JssOptions,
+  JssStyle,
+  Plugin,
+  generateClassName,
+  RuleListOptions,
+  Rule,
+  Renderer,
+  RuleOptions,
+  Classes,
+  Jss,
+  StyleSheet
+}
 
 /**
  * Extracts a styles object with only rules that contain function values.
