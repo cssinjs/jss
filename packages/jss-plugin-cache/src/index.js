@@ -1,3 +1,6 @@
+// @flow
+import type {Plugin} from 'jss'
+
 /**
  * Tiny WeakMap like cache using arrays.
  * Required because we have frozen style objects in dev, which are not extensible,
@@ -20,7 +23,7 @@ class Cache {
   }
 }
 
-export default function cachePlugin() {
+export default function cachePlugin(): Plugin {
   const cache = new Cache()
 
   function onCreateRule(name, decl, {parent}) {
