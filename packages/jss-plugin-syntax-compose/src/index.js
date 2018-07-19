@@ -30,8 +30,6 @@ function registerClass(rule, className) {
 
   const {parent} = ((rule.options: any): {parent: StyleSheet})
 
-  // parent = ((parent: any): StyleSheet)
-
   // It is a ref to a local rule.
   if (className[0] === '$') {
     const refRule = parent.getRule(className.substr(1))
