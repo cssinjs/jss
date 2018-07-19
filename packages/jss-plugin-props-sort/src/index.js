@@ -13,7 +13,7 @@ export default function jssPropsSort(): Plugin {
     if (rule.type !== 'style') return style
 
     const newStyle = {}
-    const props: string[] = Object.keys(style).sort(sort)
+    const props = Object.keys(style).sort(sort)
     for (const prop of props) {
       newStyle[prop] = style[prop]
     }
