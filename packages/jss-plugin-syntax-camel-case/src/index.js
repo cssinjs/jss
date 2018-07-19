@@ -1,3 +1,5 @@
+// @flow
+import type {Plugin} from 'jss'
 import hyphenate from 'hyphenate-style-name'
 
 /**
@@ -26,7 +28,7 @@ function convertCase(style) {
  *
  * @param {Rule} rule
  */
-export default function camelCase() {
+export default function camelCase(): Plugin {
   function onProcessStyle(style) {
     if (Array.isArray(style)) {
       // Handle rules like @font-face, which can have multiple styles in an array
