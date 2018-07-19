@@ -1,4 +1,6 @@
+// @flow
 import warning from 'warning'
+import type {Plugin, StyleSheet} from 'jss'
 
 /**
  * Set selector.
@@ -26,7 +28,7 @@ function registerClass(rule, className) {
     return registerClass(rule, className.split(' '))
   }
 
-  const {parent} = rule.options
+  const {parent} = ((rule.options: any): {parent: StyleSheet})
 
   // It is a ref to a local rule.
   if (className[0] === '$') {
@@ -47,7 +49,7 @@ function registerClass(rule, className) {
     return true
   }
 
-  rule.options.parent.classes[rule.key] += ` ${className}`
+  parent.classes[rule.key] += ` ${className}`
 
   return true
 }
@@ -58,7 +60,7 @@ function registerClass(rule, className) {
  * @param {Rule} rule
  * @api public
  */
-export default function jssCompose() {
+export default function jssCompose(): Plugin {
   function onProcessStyle(style, rule) {
     if (!style.composes) return style
     registerClass(rule, style.composes)
