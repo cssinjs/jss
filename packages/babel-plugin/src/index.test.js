@@ -21,14 +21,38 @@ describe('index', () => {
 
   test('support default createStyleSheet identifier', () => {
     const before = stripIndent`
-      createStyleSheet({
+      import jss from 'jss';
+      jss.createStyleSheet({
         a: {
           color: 'red'
         }
       });
     `
     const after = stripIndent`
-      createStyleSheet({
+      import jss from 'jss';
+      jss.createStyleSheet({
+        "@raw": ".a-id {\\n  color: red;\\n}"
+      }, {
+        "classes": {
+          "a": "a-id"
+        }
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
+
+  test('support package name with path to a module', () => {
+    const before = stripIndent`
+      import jss from 'jss/something';
+      jss.createStyleSheet({
+        a: {
+          color: 'red'
+        }
+      });
+    `
+    const after = stripIndent`
+      import jss from 'jss/something';
+      jss.createStyleSheet({
         "@raw": ".a-id {\\n  color: red;\\n}"
       }, {
         "classes": {
@@ -41,6 +65,7 @@ describe('index', () => {
 
   test('accept custom identifier names over configuration', () => {
     const before = stripIndent`
+      import xyz from 'x';
       xyz({
         a: {
           color: 'red'
@@ -48,6 +73,7 @@ describe('index', () => {
       });
     `
     const after = stripIndent`
+      import xyz from 'x';
       xyz({
         "@raw": ".a-id {\\n  color: red;\\n}"
       }, {
@@ -56,12 +82,13 @@ describe('index', () => {
         }
       });
     `
-    const options = {identifiers: {somePackage: ['xyz']}}
+    const options = {identifiers: [{package: /x/, functions: ['xyz']}]}
     expect(transform(before, options)).toBe(after)
   })
 
   test('extract static rule, dynamic rule is an arrow function', () => {
     const before = stripIndent`
+      import jss from 'jss';
       createStyleSheet({
         a: {
           color: 'red'
@@ -72,6 +99,7 @@ describe('index', () => {
       });
     `
     const after = stripIndent`
+      import jss from 'jss';
       createStyleSheet({
         "@raw": ".a-id {\\n  color: red;\\n}",
         b: {
@@ -89,6 +117,7 @@ describe('index', () => {
 
   test('extract static rule, dynamic rule is a function', () => {
     const before = stripIndent`
+      import jss from 'jss';
       createStyleSheet({
         a: {
           color: 'red'
@@ -99,6 +128,7 @@ describe('index', () => {
       });
     `
     const after = stripIndent`
+      import jss from 'jss';
       createStyleSheet({
         "@raw": ".a-id {\\n  color: red;\\n}",
         b: {
@@ -116,6 +146,8 @@ describe('index', () => {
 
   test('extract static rule, dynamic rule is a ref', () => {
     const before = stripIndent`
+      import jss from 'jss';
+
       function f() {}
 
       createStyleSheet({
@@ -128,6 +160,8 @@ describe('index', () => {
       });
     `
     const after = stripIndent`
+      import jss from 'jss';
+
       function f() {}
 
       createStyleSheet({
@@ -151,12 +185,18 @@ describe('index', () => {
   })
 
   test('accept null as styles argument', () => {
-    const code = `createStyleSheet(null);`
+    const code = stripIndent`
+      import jss from 'jss';
+      createStyleSheet(null);
+    `
     expect(transform(code)).toBe(code)
   })
 
   test('accept undefined as styles argument', () => {
-    const code = `createStyleSheet(undefined);`
+    const code = stripIndent`
+      import jss from 'jss';
+      createStyleSheet(undefined);
+    `
     expect(transform(code)).toBe(code)
   })
 
@@ -166,12 +206,19 @@ describe('index', () => {
       called = true
     }
     const jssOptions = {plugins: [{onProcessSheet}]}
-    transform('createStyleSheet({})', {jssOptions})
+    transform(
+      stripIndent`
+        import jss from 'jss';
+        createStyleSheet({});
+      `,
+      {jssOptions}
+    )
     expect(called).toBe(true)
   })
 
   test('support property identifier', () => {
     const before = stripIndent`
+      import jss from 'jss';
       const prop = 'a'
       createStyleSheet({
         [prop]: {
@@ -180,6 +227,7 @@ describe('index', () => {
       });
     `
     const after = stripIndent`
+      import jss from 'jss';
       const prop = 'a';
       createStyleSheet({
         "@raw": ".a-id {\\n  color: red;\\n}"
@@ -194,6 +242,7 @@ describe('index', () => {
 
   test('support numeric value', () => {
     const before = stripIndent`
+      import jss from 'jss';
       createStyleSheet({
         a: {
           width: 0
@@ -201,6 +250,7 @@ describe('index', () => {
       });
     `
     const after = stripIndent`
+      import jss from 'jss';
       createStyleSheet({
         "@raw": ".a-id {\\n  width: 0;\\n}"
       }, {
@@ -214,6 +264,7 @@ describe('index', () => {
 
   test('support array value', () => {
     const before = stripIndent`
+      import jss from 'jss';
       createStyleSheet({
         a: {
           x: [0, 1]
@@ -221,6 +272,7 @@ describe('index', () => {
       });
     `
     const after = stripIndent`
+      import jss from 'jss';
       createStyleSheet({
         "@raw": ".a-id {\\n  x: 0, 1;\\n}"
       }, {
@@ -234,6 +286,7 @@ describe('index', () => {
 
   test('support array in array value', () => {
     const before = stripIndent`
+      import jss from 'jss';
       createStyleSheet({
         a: {
           x: [[0, 1]]
@@ -241,6 +294,7 @@ describe('index', () => {
       });
     `
     const after = stripIndent`
+      import jss from 'jss';
       createStyleSheet({
         "@raw": ".a-id {\\n  x: 0 1;\\n}"
       }, {
@@ -254,6 +308,7 @@ describe('index', () => {
 
   test('extract static properties from mixed rules', () => {
     const before = stripIndent`
+      import jss from 'jss';
       createStyleSheet({
         a: {
           color: 'red',
@@ -262,6 +317,7 @@ describe('index', () => {
       });
     `
     const after = stripIndent`
+      import jss from 'jss';
       createStyleSheet({
         "@raw": ".a-id {\\n  color: red;\\n}",
         a: {
@@ -278,6 +334,7 @@ describe('index', () => {
 
   test('support multiple calls', () => {
     const before = stripIndent`
+      import jss from 'jss';
       createStyleSheet({
         a: {
           color: 'red'
@@ -290,6 +347,7 @@ describe('index', () => {
       });
     `
     const after = stripIndent`
+      import jss from 'jss';
       createStyleSheet({
         "@raw": ".a-id {\\n  color: red;\\n}"
       }, {
@@ -310,6 +368,7 @@ describe('index', () => {
 
   test('resolve styles ref', () => {
     const before = stripIndent`
+      import jss from 'jss';
       const styles = {
         a: {
           color: 'red'
@@ -318,6 +377,7 @@ describe('index', () => {
       createStyleSheet(styles);
     `
     const after = stripIndent`
+      import jss from 'jss';
       const styles = {
         "@raw": ".a-id {\\n  color: red;\\n}"
       };
@@ -332,6 +392,7 @@ describe('index', () => {
 
   test('extract styles with nested references', () => {
     const before = stripIndent`
+      import jss from 'jss';
       const color = 'red';
       const a = {
         color: color
@@ -342,6 +403,7 @@ describe('index', () => {
       createStyleSheet(styles);
     `
     const after = stripIndent`
+      import jss from 'jss';
       const color = 'red';
       const a = {
         color: color
@@ -360,6 +422,7 @@ describe('index', () => {
 
   test('resolve property access from scope var', () => {
     const before = stripIndent`
+      import jss from 'jss';
       const config = {
         primary: 'red'
       };
@@ -370,6 +433,7 @@ describe('index', () => {
       });
     `
     const after = stripIndent`
+      import jss from 'jss';
       const config = {
         primary: 'red'
       };
@@ -386,6 +450,7 @@ describe('index', () => {
 
   test('bail out on property access from imports', () => {
     const code = stripIndent`
+      import jss from 'jss';
       import config from 'config';
       createStyleSheet({
         a: {
@@ -398,6 +463,7 @@ describe('index', () => {
 
   test('partially bail out per property on property access from imports', () => {
     const before = stripIndent`
+      import jss from 'jss';
       import config from 'config';
       createStyleSheet({
         a: {
@@ -407,6 +473,7 @@ describe('index', () => {
       });
     `
     const after = stripIndent`
+      import jss from 'jss';
       import config from 'config';
       createStyleSheet({
         \"@raw\": \".a-id {\\n  width: 1;\\n}\",
@@ -424,6 +491,7 @@ describe('index', () => {
 
   test('partially bail out per rule on property access from imports', () => {
     const before = stripIndent`
+      import jss from 'jss';
       import config from 'config';
       createStyleSheet({
         a: {
@@ -435,6 +503,7 @@ describe('index', () => {
       });
     `
     const after = stripIndent`
+      import jss from 'jss';
       import config from 'config';
       createStyleSheet({
         \"@raw\": \".a-id {\\n  width: 1;\\n}\",
@@ -453,6 +522,7 @@ describe('index', () => {
 
   test('extend options object literal', () => {
     const before = stripIndent`
+      import jss from 'jss';
       createStyleSheet({
         a: {
           width: 0
@@ -460,6 +530,7 @@ describe('index', () => {
       }, {a: 1});
     `
     const after = stripIndent`
+      import jss from 'jss';
       createStyleSheet({
         "@raw": ".a-id {\\n  width: 0;\\n}"
       }, {
@@ -474,6 +545,7 @@ describe('index', () => {
 
   test('extend options object ref', () => {
     const before = stripIndent`
+      import jss from 'jss';
       const options = {
         a: 1
       };
@@ -484,6 +556,7 @@ describe('index', () => {
       }, options);
     `
     const after = stripIndent`
+      import jss from 'jss';
       const options = {
         "classes": {
           "a": "a-id"
@@ -499,6 +572,7 @@ describe('index', () => {
 
   test('unresolvable styles ref', () => {
     const code = stripIndent`
+      import jss from 'jss';
       import styles from 'styles';
       createStyleSheet(styles);
     `
@@ -507,6 +581,7 @@ describe('index', () => {
 
   test('extend imported options ref', () => {
     const before = stripIndent`
+      import jss from 'jss';
       import options from 'options';
       createStyleSheet({
         a: {
@@ -515,6 +590,7 @@ describe('index', () => {
       }, options);
     `
     const after = stripIndent`
+      import jss from 'jss';
       import options from 'options';
       createStyleSheet({
         "@raw": ".a-id {\\n  color: red;\\n}"
@@ -529,6 +605,7 @@ describe('index', () => {
 
   test('support styles creator arrow function', () => {
     const before = stripIndent`
+      import injectSheet from 'react-jss';
       injectSheet(() => ({
         a: {
           color: 'red'
@@ -536,6 +613,7 @@ describe('index', () => {
       }));
     `
     const after = stripIndent`
+      import injectSheet from 'react-jss';
       injectSheet(() => ({
         "@raw": ".a-id {\\n  color: red;\\n}"
       }), {
@@ -549,6 +627,7 @@ describe('index', () => {
 
   test('support styles creator arrow function with return', () => {
     const before = stripIndent`
+      import injectSheet from 'react-jss';
       injectSheet(() => {
         return {
           a: {
@@ -558,6 +637,7 @@ describe('index', () => {
       });
     `
     const after = stripIndent`
+      import injectSheet from 'react-jss';
       injectSheet(() => {
         return {
           "@raw": ".a-id {\\n  color: red;\\n}"
@@ -573,6 +653,7 @@ describe('index', () => {
 
   test('support styles creator function expression', () => {
     const before = stripIndent`
+      import injectSheet from 'react-jss';
       injectSheet(function () {
         return {
           a: {
@@ -582,6 +663,7 @@ describe('index', () => {
       });
     `
     const after = stripIndent`
+      import injectSheet from 'react-jss';
       injectSheet(function () {
         return {
           "@raw": ".a-id {\\n  color: red;\\n}"
@@ -597,6 +679,8 @@ describe('index', () => {
 
   test('support styles creator function ref', () => {
     const before = stripIndent`
+      import injectSheet from 'react-jss';
+
       function getStyles() {
         return {
           a: {
@@ -608,6 +692,8 @@ describe('index', () => {
       injectSheet(getStyles);
     `
     const after = stripIndent`
+      import injectSheet from 'react-jss';
+
       function getStyles() {
         return {
           "@raw": ".a-id {\\n  color: red;\\n}"
@@ -625,6 +711,7 @@ describe('index', () => {
 
   test('support object prop access inside styles creator fn', () => {
     const before = stripIndent`
+      import injectSheet from 'react-jss';
       const config = {
         primary: 'red'
       };
@@ -635,6 +722,7 @@ describe('index', () => {
       }));
     `
     const after = stripIndent`
+      import injectSheet from 'react-jss';
       const config = {
         primary: 'red'
       };
@@ -651,6 +739,7 @@ describe('index', () => {
 
   test('support theme prop access over babel config as fn arg', () => {
     const before = stripIndent`
+      import injectSheet from 'react-jss';
       injectSheet(theme => ({
         a: {
           color: theme.primary
@@ -658,6 +747,7 @@ describe('index', () => {
       }));
     `
     const after = stripIndent`
+      import injectSheet from 'react-jss';
       injectSheet(theme => ({
         "@raw": ".a-id {\\n  color: red;\\n}"
       }), {
@@ -671,6 +761,7 @@ describe('index', () => {
 
   test('support complex theme prop access over babel config as fn arg', () => {
     const before = stripIndent`
+      import injectSheet from 'react-jss';
       injectSheet(theme => ({
         a: {
           color: theme.x[0].color
@@ -678,6 +769,7 @@ describe('index', () => {
       }));
     `
     const after = stripIndent`
+      import injectSheet from 'react-jss';
       injectSheet(theme => ({
         "@raw": ".a-id {\\n  color: red;\\n}"
       }), {
@@ -691,6 +783,7 @@ describe('index', () => {
 
   test('throw prop access error complex theme prop access over babel config as fn arg', () => {
     const before = stripIndent`
+      import injectSheet from 'react-jss';
       injectSheet(theme => ({
         a: {
           color: theme.x[0].color
@@ -700,8 +793,10 @@ describe('index', () => {
     expect(() => transform(before, {})).toThrowError()
   })
 
-  test.skip('decorators (add syntax-decorators to the package)', () => {
+  test('decorators (add syntax-decorators to the package)', () => {
     const before = stripIndent`
+      import injectSheet from 'react-jss';
+
       @injectSheet({
         a: {
           color: 'red'
@@ -712,6 +807,8 @@ describe('index', () => {
       ;
     `
     const after = stripIndent`
+      import injectSheet from 'react-jss';
+
       @injectSheet({
         "@raw": ".a-id {\\n  color: red;\\n}"
       }, {
@@ -726,12 +823,9 @@ describe('index', () => {
     expect(transform(before)).toBe(after)
   })
 
-  test('make sure identifier is imported from a specific package', () => {})
-
-  test('support configurable package name', () => {})
-
   test.skip('calculated values', () => {
     const before = stripIndent`
+      import jss from 'jss';
       createStyleSheet({
         a: {
           width: 5 + 10
@@ -739,6 +833,7 @@ describe('index', () => {
       });
     `
     const after = stripIndent`
+      import jss from 'jss';
       createStyleSheet({
         "@raw": ".a-id {\\n  width: 15;\\n}"
       }), {
@@ -753,4 +848,6 @@ describe('index', () => {
   test('styles returned from a function call', () => {})
 
   test('property returned from a function call', () => {})
+
+  test('resolve imports avilable modules?', () => {})
 })

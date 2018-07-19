@@ -4,12 +4,26 @@ import preset from 'jss-preset-default'
 import get from 'lodash/get'
 
 const rawRuleName = '@raw'
-const defaultIdentifiers = {
+const defaultIdentifiers = [
+  {
+    package: /^jss/,
+    functions: ['createStyleSheet']
+  },
+  {
+    package: /^react-jss/,
+    functions: ['injectSheet']
+  },
+  {
+    package: /^@material-ui/,
+    functions: ['injectSheet']
+  }
+]
+/*
   jss: ['createStyleSheet'],
   'react-jss': ['injectSheet'],
   '@material-ui': ['withStyles', 'createStyled']
 }
-
+*/
 export default declare(
   ({types: t, ...api}, {identifiers = defaultIdentifiers, jssOptions = preset(), theme = {}}) => {
     api.assertVersion(7)
@@ -205,16 +219,39 @@ export default declare(
         return node.body
       }
 
+      // injectSheet(() => { return {} })
       const returnNodes = node.body.body.filter(t.isReturnStatement)
-
-      // Currently we take only the last return value
+      // Currently we take only the last return value.
       return returnNodes[returnNodes.length - 1].argument
     }
 
-    const isSupportedCallIdentifier = callPath =>
-      Object.values(identifiers)
-        .reduce((allNames, names) => [...allNames, ...names], [])
-        .includes(callPath.node.callee.name)
+    const isSupportedCallIdentifier = callPath => {
+      // createStyleSheet() ||  jss.createStyleSheet()
+      const identifier = callPath.node.callee.name || callPath.node.callee.property.name
+
+      // Check if function call with a white-listed identifier is found.
+      const conf = identifiers.filter(def => def.functions.includes(identifier))[0]
+
+      if (!conf) return false
+
+      let isPackageImported = false
+
+      // Check if the package name that corresponse to the identifier is found in
+      // imports
+      callPath.findParent(programPath => {
+        if (!t.isProgram(programPath)) return
+        programPath.traverse({
+          ImportDeclaration(importPath) {
+            if (conf.package.test(importPath.node.source.value)) {
+              isPackageImported = true
+              importPath.stop()
+            }
+          }
+        })
+      })
+
+      return isPackageImported
+    }
 
     const jss = createJss(jssOptions)
 
@@ -222,7 +259,6 @@ export default declare(
       visitor: {
         CallExpression(callPath) {
           if (!isSupportedCallIdentifier(callPath)) return
-
           const stylesNode = findStylesNode(callPath)
           const styles = serializeNode(callPath, stylesNode)
           const sheet = jss.createStyleSheet(styles)
