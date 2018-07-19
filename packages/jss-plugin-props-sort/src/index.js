@@ -14,9 +14,9 @@ export default function jssPropsSort(): Plugin {
 
     const newStyle = {}
     const props = Object.keys(style).sort(sort)
-    for (const prop of props) {
+    props.forEach(prop => {
       newStyle[prop] = style[prop]
-    }
+    })
     return newStyle
   }
 
