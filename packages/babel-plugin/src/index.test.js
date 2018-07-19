@@ -823,7 +823,7 @@ describe('index', () => {
     expect(transform(before)).toBe(after)
   })
 
-  test.skip('calculated values', () => {
+  test('simple binary expression', () => {
     const before = stripIndent`
       import jss from 'jss';
       createStyleSheet({
@@ -836,7 +836,7 @@ describe('index', () => {
       import jss from 'jss';
       createStyleSheet({
         "@raw": ".a-id {\\n  width: 15;\\n}"
-      }), {
+      }, {
         "classes": {
           "a": "a-id"
         }

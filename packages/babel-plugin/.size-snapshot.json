@@ -1,12 +1,12 @@
 {
   "dist/babel-plugin-jss.js": {
-    "bundled": 138219,
-    "minified": 55155,
-    "gzipped": 13381
+    "bundled": 689985,
+    "minified": 316526,
+    "gzipped": 75433
   },
   "dist/babel-plugin-jss.min.js": {
-    "bundled": 138219,
-    "minified": 55155,
-    "gzipped": 13381
+    "bundled": 689985,
+    "minified": 316526,
+    "gzipped": 75433
   }
 }

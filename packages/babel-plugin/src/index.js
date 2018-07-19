@@ -2,6 +2,7 @@ import {declare} from '@babel/helper-plugin-utils'
 import {create as createJss} from 'jss'
 import preset from 'jss-preset-default'
 import get from 'lodash/get'
+import generate from 'babel-generator'
 
 const rawRuleName = '@raw'
 const defaultIdentifiers = [
@@ -18,12 +19,7 @@ const defaultIdentifiers = [
     functions: ['injectSheet']
   }
 ]
-/*
-  jss: ['createStyleSheet'],
-  'react-jss': ['injectSheet'],
-  '@material-ui': ['withStyles', 'createStyled']
-}
-*/
+
 export default declare(
   ({types: t, ...api}, {identifiers = defaultIdentifiers, jssOptions = preset(), theme = {}}) => {
     api.assertVersion(7)
@@ -118,6 +114,12 @@ export default declare(
           if (t.isFunction(firstArgNode) && hasThemeArg(firstArgNode, object.name)) {
             return getValueByPath(path, theme, props.slice(1))
           }
+        }
+
+        if (t.isBinaryExpression(node)) {
+          const {code} = generate(node)
+          // eslint-disable-next-line no-eval
+          return eval(`(${code})`)
         }
 
         return null
