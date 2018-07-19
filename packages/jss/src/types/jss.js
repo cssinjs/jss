@@ -91,7 +91,7 @@ export interface BaseRule {
 }
 
 export type Plugin = {
-  onCreateRule?: (name: string, decl: JssStyle, options: RuleOptions) => Rule | null,
+  onCreateRule?: (name: string, decl: JssStyle, options: RuleOptions) => BaseRule | null,
   onProcessRule?: (rule: Rule, sheet?: StyleSheet) => void,
   onProcessStyle?: (style: JssStyle, rule: Rule, sheet?: StyleSheet) => JssStyle,
   onProcessSheet?: (sheet?: StyleSheet) => void,
