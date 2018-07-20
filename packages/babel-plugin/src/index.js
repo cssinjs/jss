@@ -95,6 +95,7 @@ export default declare(
           return node.value
         }
 
+        // injectSheet({a:  {}})
         if (t.isObjectExpression(node)) {
           return node.properties.reduce((serialized, property) => {
             const value = serializeNode(path, property.value)
@@ -106,6 +107,7 @@ export default declare(
           }, {})
         }
 
+        // injectSheet({a:  {margin: [0, 1]}})
         if (t.isArrayExpression(node)) {
           return node.elements.map(elementNode => serializeNode(path, elementNode))
         }
@@ -129,6 +131,7 @@ export default declare(
           }
         }
 
+        // injectSheet({a:  {left: 1 + 2}})
         if (t.isBinaryExpression(node)) {
           const varsCode = getVariablesCode(path)
           const {code} = generate(node)
@@ -136,6 +139,7 @@ export default declare(
           return eval(`${varsCode}(${code})`)
         }
 
+        // injectSheet(getStyles())
         if (t.isCallExpression(node)) {
           const varsCode = getVariablesCode(path)
           const refNode = resolveRef(path, node.callee)
