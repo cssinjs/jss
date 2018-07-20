@@ -550,6 +550,21 @@ describe('index', () => {
     expect(transform(code)).toMatchSnapshot()
   })
 
+  test('styles value returned from a function call', () => {
+    const code = stripIndent`
+      import jss from 'jss';
+
+      const x = () => 10;
+
+      createStyleSheet({
+        a: {
+          width: x()
+        }
+      });
+    `
+    expect(transform(code)).toMatchSnapshot()
+  })
+
   test('styles returned from a named function call', () => {
     const code = stripIndent`
       import jss from 'jss';
@@ -634,7 +649,23 @@ describe('index', () => {
     expect(transform(code)).toMatchSnapshot()
   })
 
-  test('styles returned from a function returned from a function call with refs', () => {})
-  test('value returned from a function call', () => {})
+  test('styles returned from a function returned from a function call with refs', () => {
+    const code = stripIndent`
+      import jss from 'jss';
+
+      const getStyles = (width) => {
+        const getAnchorStyles = width => ({
+          a: {
+            width: width
+          }
+        });
+
+        return getAnchorStyles(width)
+      }
+
+      createStyleSheet(getStyles(5));
+    `
+    expect(transform(code)).toMatchSnapshot()
+  })
   test('resolve imports avilable modules?', () => {})
 })

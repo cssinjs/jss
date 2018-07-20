@@ -339,6 +339,28 @@ createStyleSheet({
 });"
 `;
 
+exports[`index styles returned from a function returned from a function call with refs 1`] = `
+"import jss from 'jss';
+
+const getStyles = width => {
+  const getAnchorStyles = width => ({
+    a: {
+      width: width
+    }
+  });
+
+  return getAnchorStyles(width);
+};
+
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  width: 5;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
 exports[`index styles returned from a named function call 1`] = `
 "import jss from 'jss';
 
@@ -376,6 +398,20 @@ function getStyles() {
 
 createStyleSheet({
   \\"@raw\\": \\".a-id {\\\\n  w: 8;\\\\n  a: 5;\\\\n  b: 3;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index styles value returned from a function call 1`] = `
+"import jss from 'jss';
+
+const x = () => 10;
+
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  width: 10;\\\\n}\\"
 }, {
   \\"classes\\": {
     \\"a\\": \\"a-id\\"
