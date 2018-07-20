@@ -10,43 +10,26 @@ import extendOptions from './utils/extendOptions'
 import findStylesNode from './utils/findStylesNode'
 import isSupportedCallIdentifier from './utils/isSupportedCallIdentifier'
 
-const defaultIdentifiers = [
-  {
-    package: /^jss/,
-    functions: ['createStyleSheet']
-  },
-  {
-    package: /^react-jss/,
-    functions: ['injectSheet']
-  },
-  {
-    package: /^@material-ui/,
-    functions: ['injectSheet']
-  }
-]
+export default declare((api, {identifiers, jssOptions = preset(), theme = {}}) => {
+  api.assertVersion(7)
 
-export default declare(
-  (api, {identifiers = defaultIdentifiers, jssOptions = preset(), theme = {}}) => {
-    api.assertVersion(7)
+  const jss = createJss(jssOptions)
 
-    const jss = createJss(jssOptions)
+  return {
+    visitor: {
+      CallExpression(callPath) {
+        if (!isSupportedCallIdentifier(callPath, identifiers)) return
+        const stylesNode = findStylesNode(callPath)
+        const styles = serializeNode(callPath, stylesNode, theme)
+        const sheet = jss.createStyleSheet(styles)
 
-    return {
-      visitor: {
-        CallExpression(callPath) {
-          if (!isSupportedCallIdentifier(callPath, identifiers)) return
-          const stylesNode = findStylesNode(callPath)
-          const styles = serializeNode(callPath, stylesNode, theme)
-          const sheet = jss.createStyleSheet(styles)
+        if (!sheet.toString()) return
 
-          if (!sheet.toString()) return
-
-          insertRawRule(callPath, stylesNode, sheet)
-          removeNonFunctionProps(callPath, stylesNode)
-          removeEmptyObjects(stylesNode)
-          extendOptions(callPath, buildClassesNode(sheet))
-        }
+        insertRawRule(callPath, stylesNode, sheet)
+        removeNonFunctionProps(callPath, stylesNode)
+        removeEmptyObjects(stylesNode)
+        extendOptions(callPath, buildClassesNode(sheet))
       }
     }
   }
-)
+})

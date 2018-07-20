@@ -1,6 +1,21 @@
 import * as t from 'babel-types'
 
-export default (callPath, identifiers) => {
+const defaultIdentifiers = [
+  {
+    package: /^jss/,
+    functions: ['createStyleSheet']
+  },
+  {
+    package: /^react-jss/,
+    functions: ['injectSheet']
+  },
+  {
+    package: /^@material-ui/,
+    functions: ['withStyles', 'createStyled']
+  }
+]
+
+export default (callPath, identifiers = defaultIdentifiers) => {
   // createStyleSheet() ||  jss.createStyleSheet()
   const identifier = callPath.node.callee.name || callPath.node.callee.property.name
 
