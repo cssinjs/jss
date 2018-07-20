@@ -927,15 +927,18 @@ describe('index', () => {
     expect(transform(before)).toBe(after)
   })
 
-  test.skip('styles returned from a named function call with refs', () => {
+  test('styles returned from a named function call with refs', () => {
     const before = stripIndent`
       import jss from 'jss';
-      const width = 5;
+      const a = 5;
+      const b = 3;
 
       function getStyles() {
         return {
           a: {
-            width: width
+            w: a + b,
+            a: a,
+            b: b
           }
         };
       }
@@ -944,18 +947,21 @@ describe('index', () => {
     `
     const after = stripIndent`
       import jss from 'jss';
-      const width = 5;
+      const a = 5;
+      const b = 3;
 
       function getStyles() {
         return {
           a: {
-            width: 5
+            w: a + b,
+            a: a,
+            b: b
           }
         };
       }
 
       createStyleSheet({
-        "@raw": ".a-id {\\n  width: 5;\\n}"
+        "@raw": ".a-id {\\n  w: 8;\\n  a: 5;\\n  b: 3;\\n}"
       }, {
         "classes": {
           "a": "a-id"
@@ -965,7 +971,10 @@ describe('index', () => {
     expect(transform(before)).toBe(after)
   })
 
+  test('styles returned from a function returned from a function call with refs', () => {})
+
   test('styles returned from a function expression call', () => {})
+  test('styles returned from a function with arguments', () => {})
   test('value returned from a function call', () => {})
   test('resolve imports avilable modules?', () => {})
 })

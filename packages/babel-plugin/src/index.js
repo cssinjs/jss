@@ -32,6 +32,19 @@ export default declare(
       return node
     }
 
+    const getVariablesCode = callPath => {
+      const variables = []
+      callPath.findParent(programPath => {
+        if (!t.isProgram(programPath)) return
+        programPath.traverse({
+          VariableDeclaration(fnPath) {
+            variables.push(generate(fnPath.node).code)
+          }
+        })
+      })
+      return variables.join('\n')
+    }
+
     const isFromImport = node =>
       t.isImportDeclaration(node) || t.isImportSpecifier(node) || t.isImportDefaultSpecifier(node)
 
@@ -123,10 +136,11 @@ export default declare(
         }
 
         if (t.isCallExpression(node)) {
+          const varsCode = getVariablesCode(path)
           const refNode = resolveRef(path, node.callee)
           const {code} = generate(refNode)
           // eslint-disable-next-line no-eval
-          return eval(`(${code})()`)
+          return eval(`${varsCode}(${code})()`)
         }
         return null
       }
