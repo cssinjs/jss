@@ -1,14 +1,14 @@
 import {declare} from '@babel/helper-plugin-utils'
 import {create as createJss} from 'jss'
 import preset from 'jss-preset-default'
-import serializeNode from './serializeNode'
-import insertRawRule from './insertRawRule'
-import removeNonFunctionProps from './removeNonFunctionProps'
-import removeEmptyObjects from './removeEmptyObjects'
-import buildClassesNode from './buildClassesNode'
-import extendOptions from './extendOptions'
-import findStylesNode from './findStylesNode'
-import isSupportedCallIdentifier from './isSupportedCallIdentifier'
+import serializeNode from './utils/serializeNode'
+import insertRawRule from './utils/insertRawRule'
+import removeNonFunctionProps from './utils/removeNonFunctionProps'
+import removeEmptyObjects from './utils/removeEmptyObjects'
+import buildClassesNode from './utils/buildClassesNode'
+import extendOptions from './utils/extendOptions'
+import findStylesNode from './utils/findStylesNode'
+import isSupportedCallIdentifier from './utils/isSupportedCallIdentifier'
 
 const defaultIdentifiers = [
   {
