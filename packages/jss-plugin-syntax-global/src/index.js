@@ -3,7 +3,7 @@ import {
   RuleList,
   type Plugin,
   type RuleOptions,
-  type ParentRule,
+  type ContainerRule,
   type StyleRule,
   type BaseRule
 } from 'jss'
@@ -11,7 +11,7 @@ import {
 const propKey = '@global'
 const prefixKey = '@global '
 
-class GlobalContainerRule implements ParentRule {
+class GlobalContainerRule implements ContainerRule {
   type = 'global'
   rules: RuleList
   options: RuleOptions

@@ -72,7 +72,7 @@ export interface BaseRule {
   toString(options?: ToCssOptions): string;
 }
 
-export interface ParentRule extends BaseRule {
+export interface ContainerRule extends BaseRule {
   rules: RuleList;
 }
 
@@ -80,7 +80,7 @@ export type RuleOptions = {
   selector?: string,
   sheet?: StyleSheet,
   index?: number,
-  parent?: ParentRule | StyleSheet,
+  parent?: ContainerRule | StyleSheet,
   classes: Classes,
   jss: Jss,
   generateClassName: generateClassName,
@@ -93,7 +93,7 @@ export type RuleListOptions = {
   Renderer: Class<Renderer>,
   jss: Jss,
   sheet: StyleSheet,
-  parent: ParentRule | StyleSheet
+  parent: ContainerRule | StyleSheet
 }
 
 export type Plugin = {

@@ -1,11 +1,11 @@
 /* @flow */
 import RuleList from '../RuleList'
-import type {CSSStyleRule, Rule, RuleOptions, ToCssOptions, JssStyle, ParentRule} from '../types'
+import type {CSSStyleRule, Rule, RuleOptions, ToCssOptions, JssStyle, ContainerRule} from '../types'
 
 /**
  * Conditional rule for @media, @supports
  */
-export default class ConditionalRule implements ParentRule {
+export default class ConditionalRule implements ContainerRule {
   type = 'conditional'
 
   key: string
