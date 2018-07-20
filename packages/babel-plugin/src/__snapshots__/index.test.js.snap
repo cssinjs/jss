@@ -1,0 +1,564 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`index accept call without arguments 1`] = `"createStyleSheet();"`;
+
+exports[`index accept custom identifier names over configuration 1`] = `
+"import xyz from 'x';
+xyz({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index accept null as styles argument 1`] = `
+"import jss from 'jss';
+createStyleSheet(null);"
+`;
+
+exports[`index accept undefined as styles argument 1`] = `
+"import jss from 'jss';
+createStyleSheet(undefined);"
+`;
+
+exports[`index bail out on property access from imports 1`] = `
+"import jss from 'jss';
+import config from 'config';
+createStyleSheet({
+  a: {
+    color: config.primary
+  }
+});"
+`;
+
+exports[`index binary expression with a function call into fn expression 1`] = `
+"import jss from 'jss';
+
+const x = () => 10;
+
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  width: 15;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index binary expression with a function call into named fn 1`] = `
+"import jss from 'jss';
+
+function x() {
+  return 10;
+}
+
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  width: 15;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index binary expression with refs 1`] = `
+"import jss from 'jss';
+const x = 10;
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  width: 15;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index complex binary expression 1`] = `
+"import jss from 'jss';
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  width: 25;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index decorators (add syntax-decorators to the package) 1`] = `
+"import injectSheet from 'react-jss';
+
+@injectSheet({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+})
+class A {}
+
+;"
+`;
+
+exports[`index extend imported options ref 1`] = `
+"import jss from 'jss';
+import options from 'options';
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+}, Object.assign({
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+}, options));"
+`;
+
+exports[`index extend options object literal 1`] = `
+"import jss from 'jss';
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  width: 0;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  },
+  a: 1
+});"
+`;
+
+exports[`index extend options object ref 1`] = `
+"import jss from 'jss';
+const options = {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  },
+  a: 1
+};
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  width: 0;\\\\n}\\"
+}, options);"
+`;
+
+exports[`index extract static properties from mixed rules 1`] = `
+"import jss from 'jss';
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\",
+  a: {
+    width: () => {}
+  }
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index extract static rule, dynamic rule is a function 1`] = `
+"import jss from 'jss';
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\",
+  b: {
+    color: function () {}
+  }
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\",
+    \\"b\\": \\"b-id\\"
+  }
+});"
+`;
+
+exports[`index extract static rule, dynamic rule is a ref 1`] = `
+"import jss from 'jss';
+
+function f() {}
+
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\",
+  b: {
+    color: f
+  }
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\",
+    \\"b\\": \\"b-id\\"
+  }
+});"
+`;
+
+exports[`index extract static rule, dynamic rule is an arrow function 1`] = `
+"import jss from 'jss';
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\",
+  b: {
+    color: () => {}
+  }
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\",
+    \\"b\\": \\"b-id\\"
+  }
+});"
+`;
+
+exports[`index extract styles with nested references 1`] = `
+"import jss from 'jss';
+const color = 'red';
+const a = {
+  color: color
+};
+const styles = {
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+};
+createStyleSheet(styles, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index partially bail out per property on property access from imports 1`] = `
+"import jss from 'jss';
+import config from 'config';
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  width: 1;\\\\n}\\",
+  a: {
+    color: config.primary
+  }
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index partially bail out per rule on property access from imports 1`] = `
+"import jss from 'jss';
+import config from 'config';
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  width: 1;\\\\n}\\",
+  b: {
+    color: config.primary
+  }
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\",
+    \\"b\\": \\"b-id\\"
+  }
+});"
+`;
+
+exports[`index resolve property access from scope var 1`] = `
+"import jss from 'jss';
+const config = {
+  primary: 'red'
+};
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index resolve styles ref 1`] = `
+"import jss from 'jss';
+const styles = {
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+};
+createStyleSheet(styles, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index simple binary expression 1`] = `
+"import jss from 'jss';
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  width: 15;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index styles returned from a function expression call 1`] = `
+"import jss from 'jss';
+
+const getStyles = () => ({
+  a: {
+    width: 5
+  }
+});
+
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  width: 5;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index styles returned from a function expression call with arguments 1`] = `
+"import jss from 'jss';
+
+const getStyles = width => ({
+  a: {
+    width: width
+  }
+});
+
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  width: 5;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index styles returned from a function expression call with ref arguments 1`] = `
+"import jss from 'jss';
+
+const getStyles = width => ({
+  a: {
+    width: width
+  }
+});
+
+const value = 5;
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  width: 5;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index styles returned from a named function call 1`] = `
+"import jss from 'jss';
+
+function getStyles() {
+  return {
+    a: {
+      width: 5
+    }
+  };
+}
+
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  width: 5;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index styles returned from a named function call with refs 1`] = `
+"import jss from 'jss';
+const a = 5;
+const b = 3;
+
+function getStyles() {
+  return {
+    a: {
+      w: a + b,
+      a: a,
+      b: b
+    }
+  };
+}
+
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  w: 8;\\\\n  a: 5;\\\\n  b: 3;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index support array in array value 1`] = `
+"import jss from 'jss';
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  x: 0 1;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index support array value 1`] = `
+"import jss from 'jss';
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  x: 0, 1;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index support complex theme prop access over babel config as fn arg 1`] = `
+"import injectSheet from 'react-jss';
+injectSheet(theme => ({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+}), {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index support default createStyleSheet identifier 1`] = `
+"import jss from 'jss';
+jss.createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index support multiple calls 1`] = `
+"import jss from 'jss';
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index support numeric value 1`] = `
+"import jss from 'jss';
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  width: 0;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index support object prop access inside styles creator fn 1`] = `
+"import injectSheet from 'react-jss';
+const config = {
+  primary: 'red'
+};
+injectSheet(() => ({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+}), {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index support package name with path to a module 1`] = `
+"import jss from 'jss/something';
+jss.createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index support property identifier 1`] = `
+"import jss from 'jss';
+const prop = 'a';
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index support styles creator arrow function 1`] = `
+"import injectSheet from 'react-jss';
+injectSheet(() => ({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+}), {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index support styles creator arrow function with return 1`] = `
+"import injectSheet from 'react-jss';
+injectSheet(() => {
+  return {
+    \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+  };
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index support styles creator function expression 1`] = `
+"import injectSheet from 'react-jss';
+injectSheet(function () {
+  return {
+    \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+  };
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index support styles creator function ref 1`] = `
+"import injectSheet from 'react-jss';
+
+function getStyles() {
+  return {
+    \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+  };
+}
+
+injectSheet(getStyles, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index support theme prop access over babel config as fn arg 1`] = `
+"import injectSheet from 'react-jss';
+injectSheet(theme => ({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+}), {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`index unresolvable styles ref 1`] = `
+"import jss from 'jss';
+import styles from 'styles';
+createStyleSheet(styles);"
+`;

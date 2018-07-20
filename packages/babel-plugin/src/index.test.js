@@ -20,7 +20,7 @@ describe('index', () => {
   })
 
   test('support default createStyleSheet identifier', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
       jss.createStyleSheet({
         a: {
@@ -28,21 +28,11 @@ describe('index', () => {
         }
       });
     `
-    const after = stripIndent`
-      import jss from 'jss';
-      jss.createStyleSheet({
-        "@raw": ".a-id {\\n  color: red;\\n}"
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('support package name with path to a module', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss/something';
       jss.createStyleSheet({
         a: {
@@ -50,44 +40,24 @@ describe('index', () => {
         }
       });
     `
-    const after = stripIndent`
-      import jss from 'jss/something';
-      jss.createStyleSheet({
-        "@raw": ".a-id {\\n  color: red;\\n}"
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('accept custom identifier names over configuration', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import xyz from 'x';
       xyz({
         a: {
           color: 'red'
-        }
-      });
-    `
-    const after = stripIndent`
-      import xyz from 'x';
-      xyz({
-        "@raw": ".a-id {\\n  color: red;\\n}"
-      }, {
-        "classes": {
-          "a": "a-id"
         }
       });
     `
     const options = {identifiers: [{package: /x/, functions: ['xyz']}]}
-    expect(transform(before, options)).toBe(after)
+    expect(transform(code, options)).toMatchSnapshot()
   })
 
   test('extract static rule, dynamic rule is an arrow function', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
       createStyleSheet({
         a: {
@@ -98,25 +68,11 @@ describe('index', () => {
         }
       });
     `
-    const after = stripIndent`
-      import jss from 'jss';
-      createStyleSheet({
-        "@raw": ".a-id {\\n  color: red;\\n}",
-        b: {
-          color: () => {}
-        }
-      }, {
-        "classes": {
-          "a": "a-id",
-          "b": "b-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('extract static rule, dynamic rule is a function', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
       createStyleSheet({
         a: {
@@ -127,25 +83,11 @@ describe('index', () => {
         }
       });
     `
-    const after = stripIndent`
-      import jss from 'jss';
-      createStyleSheet({
-        "@raw": ".a-id {\\n  color: red;\\n}",
-        b: {
-          color: function () {}
-        }
-      }, {
-        "classes": {
-          "a": "a-id",
-          "b": "b-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('extract static rule, dynamic rule is a ref', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
 
       function f() {}
@@ -159,29 +101,12 @@ describe('index', () => {
         }
       });
     `
-    const after = stripIndent`
-      import jss from 'jss';
-
-      function f() {}
-
-      createStyleSheet({
-        "@raw": ".a-id {\\n  color: red;\\n}",
-        b: {
-          color: f
-        }
-      }, {
-        "classes": {
-          "a": "a-id",
-          "b": "b-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('accept call without arguments', () => {
     const code = `createStyleSheet();`
-    expect(transform(code)).toBe(code)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('accept null as styles argument', () => {
@@ -189,7 +114,7 @@ describe('index', () => {
       import jss from 'jss';
       createStyleSheet(null);
     `
-    expect(transform(code)).toBe(code)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('accept undefined as styles argument', () => {
@@ -197,7 +122,7 @@ describe('index', () => {
       import jss from 'jss';
       createStyleSheet(undefined);
     `
-    expect(transform(code)).toBe(code)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('accept jss.setup options over configuration', () => {
@@ -217,7 +142,7 @@ describe('index', () => {
   })
 
   test('support property identifier', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
       const prop = 'a'
       createStyleSheet({
@@ -226,22 +151,11 @@ describe('index', () => {
         }
       });
     `
-    const after = stripIndent`
-      import jss from 'jss';
-      const prop = 'a';
-      createStyleSheet({
-        "@raw": ".a-id {\\n  color: red;\\n}"
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('support numeric value', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
       createStyleSheet({
         a: {
@@ -249,21 +163,11 @@ describe('index', () => {
         }
       });
     `
-    const after = stripIndent`
-      import jss from 'jss';
-      createStyleSheet({
-        "@raw": ".a-id {\\n  width: 0;\\n}"
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('support array value', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
       createStyleSheet({
         a: {
@@ -271,21 +175,11 @@ describe('index', () => {
         }
       });
     `
-    const after = stripIndent`
-      import jss from 'jss';
-      createStyleSheet({
-        "@raw": ".a-id {\\n  x: 0, 1;\\n}"
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('support array in array value', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
       createStyleSheet({
         a: {
@@ -293,21 +187,11 @@ describe('index', () => {
         }
       });
     `
-    const after = stripIndent`
-      import jss from 'jss';
-      createStyleSheet({
-        "@raw": ".a-id {\\n  x: 0 1;\\n}"
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('extract static properties from mixed rules', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
       createStyleSheet({
         a: {
@@ -316,24 +200,11 @@ describe('index', () => {
         }
       });
     `
-    const after = stripIndent`
-      import jss from 'jss';
-      createStyleSheet({
-        "@raw": ".a-id {\\n  color: red;\\n}",
-        a: {
-          width: () => {}
-        }
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('support multiple calls', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
       createStyleSheet({
         a: {
@@ -346,28 +217,11 @@ describe('index', () => {
         }
       });
     `
-    const after = stripIndent`
-      import jss from 'jss';
-      createStyleSheet({
-        "@raw": ".a-id {\\n  color: red;\\n}"
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-      createStyleSheet({
-        "@raw": ".a-id {\\n  color: red;\\n}"
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('resolve styles ref', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
       const styles = {
         a: {
@@ -376,22 +230,11 @@ describe('index', () => {
       };
       createStyleSheet(styles);
     `
-    const after = stripIndent`
-      import jss from 'jss';
-      const styles = {
-        "@raw": ".a-id {\\n  color: red;\\n}"
-      };
-      createStyleSheet(styles, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('extract styles with nested references', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
       const color = 'red';
       const a = {
@@ -402,26 +245,11 @@ describe('index', () => {
       };
       createStyleSheet(styles);
     `
-    const after = stripIndent`
-      import jss from 'jss';
-      const color = 'red';
-      const a = {
-        color: color
-      };
-      const styles = {
-        "@raw": ".a-id {\\n  color: red;\\n}"
-      };
-      createStyleSheet(styles, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('resolve property access from scope var', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
       const config = {
         primary: 'red'
@@ -432,20 +260,7 @@ describe('index', () => {
         }
       });
     `
-    const after = stripIndent`
-      import jss from 'jss';
-      const config = {
-        primary: 'red'
-      };
-      createStyleSheet({
-        "@raw": ".a-id {\\n  color: red;\\n}"
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('bail out on property access from imports', () => {
@@ -458,11 +273,11 @@ describe('index', () => {
         }
       });
     `
-    expect(transform(code)).toBe(code)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('partially bail out per property on property access from imports', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
       import config from 'config';
       createStyleSheet({
@@ -472,25 +287,11 @@ describe('index', () => {
         }
       });
     `
-    const after = stripIndent`
-      import jss from 'jss';
-      import config from 'config';
-      createStyleSheet({
-        \"@raw\": \".a-id {\\n  width: 1;\\n}\",
-        a: {
-          color: config.primary
-        }
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('partially bail out per rule on property access from imports', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
       import config from 'config';
       createStyleSheet({
@@ -502,26 +303,11 @@ describe('index', () => {
         }
       });
     `
-    const after = stripIndent`
-      import jss from 'jss';
-      import config from 'config';
-      createStyleSheet({
-        \"@raw\": \".a-id {\\n  width: 1;\\n}\",
-        b: {
-          color: config.primary
-        }
-      }, {
-        "classes": {
-          "a": "a-id",
-          "b": "b-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('extend options object literal', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
       createStyleSheet({
         a: {
@@ -529,22 +315,11 @@ describe('index', () => {
         }
       }, {a: 1});
     `
-    const after = stripIndent`
-      import jss from 'jss';
-      createStyleSheet({
-        "@raw": ".a-id {\\n  width: 0;\\n}"
-      }, {
-        "classes": {
-          "a": "a-id"
-        },
-        a: 1
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('extend options object ref', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
       const options = {
         a: 1
@@ -555,19 +330,7 @@ describe('index', () => {
         }
       }, options);
     `
-    const after = stripIndent`
-      import jss from 'jss';
-      const options = {
-        "classes": {
-          "a": "a-id"
-        },
-        a: 1
-      };
-      createStyleSheet({
-        "@raw": ".a-id {\\n  width: 0;\\n}"
-      }, options);
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('unresolvable styles ref', () => {
@@ -576,11 +339,11 @@ describe('index', () => {
       import styles from 'styles';
       createStyleSheet(styles);
     `
-    expect(transform(code)).toBe(code)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('extend imported options ref', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
       import options from 'options';
       createStyleSheet({
@@ -589,22 +352,11 @@ describe('index', () => {
         }
       }, options);
     `
-    const after = stripIndent`
-      import jss from 'jss';
-      import options from 'options';
-      createStyleSheet({
-        "@raw": ".a-id {\\n  color: red;\\n}"
-      }, Object.assign({
-        "classes": {
-          "a": "a-id"
-        }
-      }, options));
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('support styles creator arrow function', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import injectSheet from 'react-jss';
       injectSheet(() => ({
         a: {
@@ -612,21 +364,11 @@ describe('index', () => {
         }
       }));
     `
-    const after = stripIndent`
-      import injectSheet from 'react-jss';
-      injectSheet(() => ({
-        "@raw": ".a-id {\\n  color: red;\\n}"
-      }), {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('support styles creator arrow function with return', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import injectSheet from 'react-jss';
       injectSheet(() => {
         return {
@@ -636,23 +378,11 @@ describe('index', () => {
         };
       });
     `
-    const after = stripIndent`
-      import injectSheet from 'react-jss';
-      injectSheet(() => {
-        return {
-          "@raw": ".a-id {\\n  color: red;\\n}"
-        };
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('support styles creator function expression', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import injectSheet from 'react-jss';
       injectSheet(function () {
         return {
@@ -662,23 +392,11 @@ describe('index', () => {
         };
       });
     `
-    const after = stripIndent`
-      import injectSheet from 'react-jss';
-      injectSheet(function () {
-        return {
-          "@raw": ".a-id {\\n  color: red;\\n}"
-        };
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('support styles creator function ref', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import injectSheet from 'react-jss';
 
       function getStyles() {
@@ -691,26 +409,11 @@ describe('index', () => {
 
       injectSheet(getStyles);
     `
-    const after = stripIndent`
-      import injectSheet from 'react-jss';
-
-      function getStyles() {
-        return {
-          "@raw": ".a-id {\\n  color: red;\\n}"
-        };
-      }
-
-      injectSheet(getStyles, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('support object prop access inside styles creator fn', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import injectSheet from 'react-jss';
       const config = {
         primary: 'red'
@@ -721,24 +424,11 @@ describe('index', () => {
         }
       }));
     `
-    const after = stripIndent`
-      import injectSheet from 'react-jss';
-      const config = {
-        primary: 'red'
-      };
-      injectSheet(() => ({
-        "@raw": ".a-id {\\n  color: red;\\n}"
-      }), {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('support theme prop access over babel config as fn arg', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import injectSheet from 'react-jss';
       injectSheet(theme => ({
         a: {
@@ -746,21 +436,12 @@ describe('index', () => {
         }
       }));
     `
-    const after = stripIndent`
-      import injectSheet from 'react-jss';
-      injectSheet(theme => ({
-        "@raw": ".a-id {\\n  color: red;\\n}"
-      }), {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before, {theme: {primary: 'red'}})).toBe(after)
+    const options = {theme: {primary: 'red'}}
+    expect(transform(code, options)).toMatchSnapshot()
   })
 
   test('support complex theme prop access over babel config as fn arg', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import injectSheet from 'react-jss';
       injectSheet(theme => ({
         a: {
@@ -768,21 +449,12 @@ describe('index', () => {
         }
       }));
     `
-    const after = stripIndent`
-      import injectSheet from 'react-jss';
-      injectSheet(theme => ({
-        "@raw": ".a-id {\\n  color: red;\\n}"
-      }), {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before, {theme: {x: [{color: 'red'}]}})).toBe(after)
+    const options = {theme: {x: [{color: 'red'}]}}
+    expect(transform(code, options)).toMatchSnapshot()
   })
 
   test('throw prop access error complex theme prop access over babel config as fn arg', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import injectSheet from 'react-jss';
       injectSheet(theme => ({
         a: {
@@ -790,11 +462,11 @@ describe('index', () => {
         }
       }));
     `
-    expect(() => transform(before, {})).toThrowError()
+    expect(() => transform(code, {})).toThrowError()
   })
 
   test('decorators (add syntax-decorators to the package)', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import injectSheet from 'react-jss';
 
       @injectSheet({
@@ -806,25 +478,11 @@ describe('index', () => {
 
       ;
     `
-    const after = stripIndent`
-      import injectSheet from 'react-jss';
-
-      @injectSheet({
-        "@raw": ".a-id {\\n  color: red;\\n}"
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      })
-      class A {}
-
-      ;
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('simple binary expression', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
       createStyleSheet({
         a: {
@@ -832,21 +490,11 @@ describe('index', () => {
         }
       });
     `
-    const after = stripIndent`
-      import jss from 'jss';
-      createStyleSheet({
-        "@raw": ".a-id {\\n  width: 15;\\n}"
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('complex binary expression', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
       createStyleSheet({
         a: {
@@ -854,21 +502,11 @@ describe('index', () => {
         }
       });
     `
-    const after = stripIndent`
-      import jss from 'jss';
-      createStyleSheet({
-        "@raw": ".a-id {\\n  width: 25;\\n}"
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('binary expression with refs', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
       const x = 10;
       createStyleSheet({
@@ -877,22 +515,11 @@ describe('index', () => {
         }
       });
     `
-    const after = stripIndent`
-      import jss from 'jss';
-      const x = 10;
-      createStyleSheet({
-        "@raw": ".a-id {\\n  width: 15;\\n}"
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('binary expression with a function call into fn expression', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
 
       const x = () => 10;
@@ -903,24 +530,11 @@ describe('index', () => {
         }
       });
     `
-    const after = stripIndent`
-      import jss from 'jss';
-
-      const x = () => 10;
-
-      createStyleSheet({
-        "@raw": ".a-id {\\n  width: 15;\\n}"
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('binary expression with a function call into named fn', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
 
       function x() {
@@ -933,26 +547,11 @@ describe('index', () => {
         }
       });
     `
-    const after = stripIndent`
-      import jss from 'jss';
-
-      function x() {
-        return 10;
-      }
-
-      createStyleSheet({
-        "@raw": ".a-id {\\n  width: 15;\\n}"
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('styles returned from a named function call', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
 
       function getStyles() {
@@ -965,30 +564,11 @@ describe('index', () => {
 
       createStyleSheet(getStyles());
     `
-    const after = stripIndent`
-      import jss from 'jss';
-
-      function getStyles() {
-        return {
-          a: {
-            width: 5
-          }
-        };
-      }
-
-      createStyleSheet({
-        "@raw": ".a-id {\\n  width: 5;\\n}"
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('styles returned from a named function call with refs', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
       const a = 5;
       const b = 3;
@@ -1005,34 +585,11 @@ describe('index', () => {
 
       createStyleSheet(getStyles());
     `
-    const after = stripIndent`
-      import jss from 'jss';
-      const a = 5;
-      const b = 3;
-
-      function getStyles() {
-        return {
-          a: {
-            w: a + b,
-            a: a,
-            b: b
-          }
-        };
-      }
-
-      createStyleSheet({
-        "@raw": ".a-id {\\n  w: 8;\\n  a: 5;\\n  b: 3;\\n}"
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('styles returned from a function expression call', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
 
       const getStyles = () => ({
@@ -1043,28 +600,11 @@ describe('index', () => {
 
       createStyleSheet(getStyles());
     `
-    const after = stripIndent`
-      import jss from 'jss';
-
-      const getStyles = () => ({
-        a: {
-          width: 5
-        }
-      });
-
-      createStyleSheet({
-        "@raw": ".a-id {\\n  width: 5;\\n}"
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('styles returned from a function expression call with arguments', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
 
       const getStyles = width => ({
@@ -1075,28 +615,11 @@ describe('index', () => {
 
       createStyleSheet(getStyles(5));
     `
-    const after = stripIndent`
-      import jss from 'jss';
-
-      const getStyles = width => ({
-        a: {
-          width: width
-        }
-      });
-
-      createStyleSheet({
-        "@raw": ".a-id {\\n  width: 5;\\n}"
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('styles returned from a function expression call with ref arguments', () => {
-    const before = stripIndent`
+    const code = stripIndent`
       import jss from 'jss';
 
       const getStyles = width => ({
@@ -1108,25 +631,7 @@ describe('index', () => {
       const value = 5;
       createStyleSheet(getStyles(value));
     `
-    const after = stripIndent`
-      import jss from 'jss';
-
-      const getStyles = width => ({
-        a: {
-          width: width
-        }
-      });
-
-      const value = 5;
-      createStyleSheet({
-        "@raw": ".a-id {\\n  width: 5;\\n}"
-      }, {
-        "classes": {
-          "a": "a-id"
-        }
-      });
-    `
-    expect(transform(before)).toBe(after)
+    expect(transform(code)).toMatchSnapshot()
   })
 
   test('styles returned from a function returned from a function call with refs', () => {})
