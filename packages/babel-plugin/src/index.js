@@ -146,20 +146,14 @@ export default declare(
           }
         }
 
-        // injectSheet({a:  {left: 1 + 2}})
-        if (t.isBinaryExpression(node)) {
+        // injectSheet({a:  {left: 1 + 2}}) || injectSheet(getStyles(5))
+        if (t.isBinaryExpression(node) || t.isCallExpression(node)) {
           const refsCode = getRefsCode(path)
           const {code} = generate(node)
           // eslint-disable-next-line no-eval
           return eval(`${refsCode}(${code})`)
         }
 
-        // injectSheet(getStyles())
-        if (t.isCallExpression(node)) {
-          const refsCode = getRefsCode(path)
-          // eslint-disable-next-line no-eval
-          return eval(`${refsCode}${node.callee.name}()`)
-        }
         return null
       }
     })()

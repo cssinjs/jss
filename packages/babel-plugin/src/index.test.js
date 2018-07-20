@@ -1063,9 +1063,39 @@ describe('index', () => {
     expect(transform(before)).toBe(after)
   })
 
-  test('styles returned from a function expression call', () => {})
+  test('styles returned from a function expression call with arguments', () => {
+    const before = stripIndent`
+      import jss from 'jss';
+
+      const getStyles = width => ({
+        a: {
+          width: width
+        }
+      });
+
+      createStyleSheet(getStyles(5));
+    `
+    const after = stripIndent`
+      import jss from 'jss';
+
+      const getStyles = width => ({
+        a: {
+          width: width
+        }
+      });
+
+      createStyleSheet({
+        "@raw": ".a-id {\\n  width: 5;\\n}"
+      }, {
+        "classes": {
+          "a": "a-id"
+        }
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
+
   test('styles returned from a function returned from a function call with refs', () => {})
-  test('styles returned from a function with arguments', () => {})
   test('value returned from a function call', () => {})
   test('resolve imports avilable modules?', () => {})
 })
