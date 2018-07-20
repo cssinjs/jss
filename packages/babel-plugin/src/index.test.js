@@ -867,7 +867,7 @@ describe('index', () => {
     expect(transform(before)).toBe(after)
   })
 
-  test.skip('binary expression with refs', () => {
+  test('binary expression with refs', () => {
     const before = stripIndent`
       import jss from 'jss';
       const x = 10;
@@ -971,9 +971,8 @@ describe('index', () => {
     expect(transform(before)).toBe(after)
   })
 
-  test('styles returned from a function returned from a function call with refs', () => {})
-
   test('styles returned from a function expression call', () => {})
+  test('styles returned from a function returned from a function call with refs', () => {})
   test('styles returned from a function with arguments', () => {})
   test('value returned from a function call', () => {})
   test('resolve imports avilable modules?', () => {})

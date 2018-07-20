@@ -130,9 +130,10 @@ export default declare(
         }
 
         if (t.isBinaryExpression(node)) {
+          const varsCode = getVariablesCode(path)
           const {code} = generate(node)
           // eslint-disable-next-line no-eval
-          return eval(`(${code})`)
+          return eval(`${varsCode}(${code})`)
         }
 
         if (t.isCallExpression(node)) {
