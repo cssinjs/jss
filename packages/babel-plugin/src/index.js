@@ -149,7 +149,6 @@ export default declare(
         // injectSheet({a:  {left: 1 + 2}})
         if (t.isBinaryExpression(node)) {
           const refsCode = getRefsCode(path)
-          console.log(111, refsCode)
           const {code} = generate(node)
           // eslint-disable-next-line no-eval
           return eval(`${refsCode}(${code})`)
@@ -158,10 +157,8 @@ export default declare(
         // injectSheet(getStyles())
         if (t.isCallExpression(node)) {
           const refsCode = getRefsCode(path)
-          const refNode = resolveRef(path, node.callee)
-          const {code} = generate(refNode)
           // eslint-disable-next-line no-eval
-          return eval(`${refsCode}(${code})()`)
+          return eval(`${refsCode}${node.callee.name}()`)
         }
         return null
       }
