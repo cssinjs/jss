@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`dynamic styles (with function values or rules) extract static properties from mixed rules 1`] = `
+"import jss from 'jss';
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\",
+  a: {
+    width: () => {}
+  }
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`dynamic styles (with function values or rules) extract static rule, dynamic rule is a function 1`] = `
+"import jss from 'jss';
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\",
+  b: {
+    color: function () {}
+  }
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\",
+    \\"b\\": \\"b-id\\"
+  }
+});"
+`;
+
+exports[`dynamic styles (with function values or rules) extract static rule, dynamic rule is a ref 1`] = `
+"import jss from 'jss';
+
+function f() {}
+
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\",
+  b: {
+    color: f
+  }
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\",
+    \\"b\\": \\"b-id\\"
+  }
+});"
+`;
+
+exports[`dynamic styles (with function values or rules) extract static rule, dynamic rule is an arrow function 1`] = `
+"import jss from 'jss';
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\",
+  b: {
+    color: () => {}
+  }
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\",
+    \\"b\\": \\"b-id\\"
+  }
+});"
+`;

@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`variables refs extract styles with nested references 1`] = `
+"import jss from 'jss';
+const color = 'red';
+const a = {
+  color: color
+};
+const styles = {
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+};
+createStyleSheet(styles, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`variables refs resolve property access from scope var 1`] = `
+"import jss from 'jss';
+const config = {
+  primary: 'red'
+};
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`variables refs resolve styles ref 1`] = `
+"import jss from 'jss';
+const styles = {
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+};
+createStyleSheet(styles, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`variables refs support property identifier 1`] = `
+"import jss from 'jss';
+const prop = 'a';
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;

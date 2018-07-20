@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`call arguments accept call without arguments 1`] = `"createStyleSheet();"`;
+
+exports[`call arguments accept null as styles argument 1`] = `
+"import jss from 'jss';
+createStyleSheet(null);"
+`;
+
+exports[`call arguments accept undefined as styles argument 1`] = `
+"import jss from 'jss';
+createStyleSheet(undefined);"
+`;
+
+exports[`call arguments extend options object literal 1`] = `
+"import jss from 'jss';
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  width: 0;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  },
+  a: 1
+});"
+`;
+
+exports[`call arguments extend options object ref 1`] = `
+"import jss from 'jss';
+const options = {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  },
+  a: 1
+};
+createStyleSheet({
+  \\"@raw\\": \\".a-id {\\\\n  width: 0;\\\\n}\\"
+}, options);"
+`;
