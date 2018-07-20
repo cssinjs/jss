@@ -30,7 +30,9 @@ export type {
   Rule,
   Renderer,
   RuleOptions,
-  Classes
+  Classes,
+  BaseRule,
+  ContainerRule
 } from './types'
 export type {
   Jss,
