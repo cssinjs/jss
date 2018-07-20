@@ -1,12 +1,24 @@
-import {RuleList} from 'jss'
+// @flow
+import {
+  RuleList,
+  type Plugin,
+  type RuleOptions,
+  type ParentRule,
+  type StyleRule,
+  type BaseRule
+} from 'jss'
 
 const propKey = '@global'
 const prefixKey = '@global '
 
-class GlobalContainerRule {
+class GlobalContainerRule implements ParentRule {
   type = 'global'
+  rules: RuleList
+  options: RuleOptions
+  key: string
+  isProcessed: boolean = false
 
-  constructor(key, styles, options) {
+  constructor(key, styles, options: RuleOptions) {
     this.key = key
     this.options = options
     this.rules = new RuleList({
@@ -52,7 +64,13 @@ class GlobalContainerRule {
   }
 }
 
-class GlobalPrefixedRule {
+class GlobalPrefixedRule implements BaseRule {
+  type = 'global'
+  name: string
+  options: RuleOptions
+  rule: BaseRule
+  isProcessed: boolean = false
+  key: string
   constructor(name, style, options) {
     this.name = name
     this.options = options
@@ -88,6 +106,7 @@ function handleNestedGlobalContainerRule(rule) {
   if (!rules) return
 
   for (const name in rules) {
+    // $FlowFixMe: There is always a sheet in a StyleRule
     options.sheet.addRule(name, rules[name], {
       ...options,
       selector: addScope(name, rule.selector)
@@ -103,6 +122,7 @@ function handlePrefixedGlobalRule(rule) {
     if (prop.substr(0, propKey.length) !== propKey) continue
 
     const selector = addScope(prop.substr(propKey.length), rule.selector)
+    // $FlowFixMe: There is always a sheet in a StyleRule
     options.sheet.addRule(selector, style[prop], {
       ...options,
       selector
@@ -117,7 +137,7 @@ function handlePrefixedGlobalRule(rule) {
  * @param {Rule} rule
  * @api public
  */
-export default function jssGlobal() {
+export default function jssGlobal(): Plugin {
   function onCreateRule(name, styles, options) {
     if (name === propKey) {
       return new GlobalContainerRule(name, styles, options)
@@ -130,11 +150,16 @@ export default function jssGlobal() {
     const {parent} = options
 
     if (parent) {
-      if (parent.type === 'global' || parent.options.parent.type === 'global') {
+      if (
+        parent.type === 'global' ||
+        (parent.options.parent && parent.options.parent.type === 'global')
+      ) {
+        // $FlowFixMe: Flow doesn't want the global property because it doesn't exist in the RuleOptions
         options.global = true
       }
     }
 
+    // $FlowFixMe: Flow doesn't want the global property because it doesn't exist in the RuleOptions
     if (options.global) options.selector = name
 
     return null
@@ -143,8 +168,8 @@ export default function jssGlobal() {
   function onProcessRule(rule) {
     if (rule.type !== 'style') return
 
-    handleNestedGlobalContainerRule(rule)
-    handlePrefixedGlobalRule(rule)
+    handleNestedGlobalContainerRule(((rule: any): StyleRule))
+    handlePrefixedGlobalRule(((rule: any): StyleRule))
   }
 
   return {onCreateRule, onProcessRule}
