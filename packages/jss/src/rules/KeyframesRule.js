@@ -1,11 +1,11 @@
 /* @flow */
 import RuleList from '../RuleList'
-import type {CSSStyleRule, RuleOptions, ToCssOptions, BaseRule} from '../types'
+import type {CSSStyleRule, RuleOptions, ToCssOptions, ParentRule} from '../types'
 
 /**
  * Rule for @keyframes
  */
-export default class KeyframesRule implements BaseRule {
+export default class KeyframesRule implements ParentRule {
   type = 'keyframes'
 
   key: string

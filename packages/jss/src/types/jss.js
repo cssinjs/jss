@@ -8,6 +8,7 @@ import ViewportRule from '../rules/ViewportRule'
 import SimpleRule from '../rules/SimpleRule'
 import FontFaceRule from '../rules/FontFaceRule'
 import type {CSSStyleRule} from './cssom'
+import type RuleList from '../RuleList'
 
 export type Classes = {[string]: string}
 
@@ -62,11 +63,24 @@ export type RuleFactoryOptions = {
   Renderer?: Class<Renderer>
 }
 
+export interface BaseRule {
+  type: string;
+  key: string;
+  isProcessed: boolean;
+  // eslint-disable-next-line no-use-before-define
+  options: RuleOptions;
+  toString(options?: ToCssOptions): string;
+}
+
+export interface ParentRule extends BaseRule {
+  rules: RuleList;
+}
+
 export type RuleOptions = {
   selector?: string,
   sheet?: StyleSheet,
   index?: number,
-  parent?: ConditionalRule | KeyframesRule | StyleSheet,
+  parent?: ParentRule | StyleSheet,
   classes: Classes,
   jss: Jss,
   generateClassName: generateClassName,
@@ -79,15 +93,7 @@ export type RuleListOptions = {
   Renderer: Class<Renderer>,
   jss: Jss,
   sheet: StyleSheet,
-  parent: ConditionalRule | KeyframesRule | StyleSheet
-}
-
-export interface BaseRule {
-  type: string;
-  key: string;
-  isProcessed: boolean;
-  options: RuleOptions;
-  toString(options?: ToCssOptions): string;
+  parent: ParentRule | StyleSheet
 }
 
 export type Plugin = {
