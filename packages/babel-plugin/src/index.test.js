@@ -891,6 +891,66 @@ describe('index', () => {
     expect(transform(before)).toBe(after)
   })
 
+  test('binary expression with a function call into fn expression', () => {
+    const before = stripIndent`
+      import jss from 'jss';
+
+      const x = () => 10;
+
+      createStyleSheet({
+        a: {
+          width: 5 + x()
+        }
+      });
+    `
+    const after = stripIndent`
+      import jss from 'jss';
+
+      const x = () => 10;
+
+      createStyleSheet({
+        "@raw": ".a-id {\\n  width: 15;\\n}"
+      }, {
+        "classes": {
+          "a": "a-id"
+        }
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
+
+  test('binary expression with a function call into named fn', () => {
+    const before = stripIndent`
+      import jss from 'jss';
+
+      function x() {
+        return 10;
+      }
+
+      createStyleSheet({
+        a: {
+          width: 5 + x()
+        }
+      });
+    `
+    const after = stripIndent`
+      import jss from 'jss';
+
+      function x() {
+        return 10;
+      }
+
+      createStyleSheet({
+        "@raw": ".a-id {\\n  width: 15;\\n}"
+      }, {
+        "classes": {
+          "a": "a-id"
+        }
+      });
+    `
+    expect(transform(before)).toBe(after)
+  })
+
   test('styles returned from a named function call', () => {
     const before = stripIndent`
       import jss from 'jss';

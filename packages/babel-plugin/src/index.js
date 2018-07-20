@@ -32,17 +32,32 @@ export default declare(
       return node
     }
 
-    const getVariablesCode = callPath => {
-      const variables = []
+    const getRefsCode = callPath => {
+      const nodes = []
+      const skip = []
       callPath.findParent(programPath => {
         if (!t.isProgram(programPath)) return
         programPath.traverse({
-          VariableDeclaration(fnPath) {
-            variables.push(generate(fnPath.node).code)
+          VariableDeclaration(path) {
+            nodes.push(path.node)
+            // Function expression will result in variable declaration and
+            // function extracted separately, duplicating the fn.
+            // We need to skip functions which are already part of a var decl.
+            // const a = () => {}
+            path.node.declarations.forEach(node => {
+              if (t.isFunction(node.init)) {
+                skip.push(node.init)
+              }
+            })
+          },
+          Function(path) {
+            if (!skip.includes(path.node)) {
+              nodes.push(path.node)
+            }
           }
         })
       })
-      return variables.join('\n')
+      return nodes.map(node => generate(node).code).join('\n')
     }
 
     const isFromImport = node =>
@@ -133,19 +148,20 @@ export default declare(
 
         // injectSheet({a:  {left: 1 + 2}})
         if (t.isBinaryExpression(node)) {
-          const varsCode = getVariablesCode(path)
+          const refsCode = getRefsCode(path)
+          console.log(111, refsCode)
           const {code} = generate(node)
           // eslint-disable-next-line no-eval
-          return eval(`${varsCode}(${code})`)
+          return eval(`${refsCode}(${code})`)
         }
 
         // injectSheet(getStyles())
         if (t.isCallExpression(node)) {
-          const varsCode = getVariablesCode(path)
+          const refsCode = getRefsCode(path)
           const refNode = resolveRef(path, node.callee)
           const {code} = generate(refNode)
           // eslint-disable-next-line no-eval
-          return eval(`${varsCode}(${code})()`)
+          return eval(`${refsCode}(${code})()`)
         }
         return null
       }
