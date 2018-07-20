@@ -122,18 +122,32 @@ export default declare(
           return eval(`(${code})`)
         }
 
+        if (t.isCallExpression(node)) {
+          const refNode = resolveRef(path, node.callee)
+          const {code} = generate(refNode)
+          // eslint-disable-next-line no-eval
+          return eval(`(${code})()`)
+        }
         return null
       }
     })()
 
-    const insertRawRule = (stylesNode, sheet) => {
+    const insertRawRule = (callPath, stylesNode, sheet) => {
+      const raw = t.objectProperty(t.stringLiteral(rawRuleName), t.stringLiteral(sheet.toString()))
+
+      // createStyleSheet(getStyles())
+      if (t.isCallExpression(stylesNode)) {
+        callPath.node.arguments[0] = t.objectExpression([raw])
+        return
+      }
+
       // Insert @raw before the first rule in styles.
-      stylesNode.properties.unshift(
-        t.objectProperty(t.stringLiteral(rawRuleName), t.stringLiteral(sheet.toString()))
-      )
+      stylesNode.properties.unshift(raw)
     }
 
     const removeNonFunctionProps = (path, stylesNode) => {
+      if (!t.isObjectExpression(stylesNode)) return
+
       stylesNode.properties = stylesNode.properties.filter(node => {
         if (node.key.value === rawRuleName || t.isFunction(node.value)) {
           return true
@@ -205,9 +219,8 @@ export default declare(
 
     const findStylesNode = callPath => {
       const node = resolveRef(callPath, callPath.node.arguments[0])
-
-      // injectSheet({})
-      if (t.isObjectExpression(node)) {
+      // injectSheet({}) || injectSheet(getStyles())
+      if (t.isObjectExpression(node) || t.isCallExpression(node)) {
         return node
       }
 
@@ -239,7 +252,7 @@ export default declare(
       let isPackageImported = false
 
       // Check if the package name that corresponse to the identifier is found in
-      // imports
+      // imports.
       callPath.findParent(programPath => {
         if (!t.isProgram(programPath)) return
         programPath.traverse({
@@ -267,7 +280,7 @@ export default declare(
 
           if (!sheet.toString()) return
 
-          insertRawRule(stylesNode, sheet)
+          insertRawRule(callPath, stylesNode, sheet)
           removeNonFunctionProps(callPath, stylesNode)
           removeEmptyObjects(stylesNode)
           extendOptions(callPath, buildClassesNode(sheet))
