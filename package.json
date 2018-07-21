@@ -30,6 +30,7 @@
     "@babel/plugin-proposal-class-properties": "^7.0.0-beta.53",
     "@babel/preset-env": "^7.0.0-beta.53",
     "@babel/preset-flow": "^7.0.0-beta.53",
+    "@babel/preset-react": "^7.0.0-beta.54",
     "babel-cli": "^6.18.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
