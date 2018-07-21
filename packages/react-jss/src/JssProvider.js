@@ -1,5 +1,5 @@
 import {Component, Children} from 'react'
-import {node, func, string, bool} from 'prop-types'
+import PropTypes from 'prop-types'
 import {createGenerateClassNameDefault} from './jss'
 import * as ns from './ns'
 import contextTypes from './contextTypes'
@@ -8,10 +8,10 @@ import propTypes from './propTypes'
 export default class JssProvider extends Component {
   static propTypes = {
     ...propTypes,
-    generateClassName: func,
-    classNamePrefix: string,
-    disableStylesGeneration: bool,
-    children: node.isRequired
+    generateClassName: PropTypes.func,
+    classNamePrefix: PropTypes.string,
+    disableStylesGeneration: PropTypes.bool,
+    children: PropTypes.node.isRequired
   }
 
   static childContextTypes = contextTypes

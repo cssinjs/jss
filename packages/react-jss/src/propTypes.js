@@ -1,15 +1,15 @@
-import {func, shape} from 'prop-types'
+import PropTypes from 'prop-types'
 
 export default {
-  jss: shape({
-    options: shape({
-      createGenerateClassName: func.isRequired
+  jss: PropTypes.shape({
+    options: PropTypes.shape({
+      createGenerateClassName: PropTypes.func.isRequired
     }).isRequired,
-    createStyleSheet: func.isRequired,
-    removeStyleSheet: func.isRequired
+    createStyleSheet: PropTypes.func.isRequired,
+    removeStyleSheet: PropTypes.func.isRequired
   }),
-  registry: shape({
-    add: func.isRequired,
-    toString: func.isRequired
+  registry: PropTypes.shape({
+    add: PropTypes.func.isRequired,
+    toString: PropTypes.func.isRequired
   })
 }
