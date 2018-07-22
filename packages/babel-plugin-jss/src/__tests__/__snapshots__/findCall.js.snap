@@ -1,7 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`find function call accept custom identifier names over configuration 1`] = `
-"import xyz from 'x';
+"[v6]
+import xyz from 'x';
+xyz({
+  '@raw': '.a-id {\\\\n  color: red;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import xyz from 'x';
 xyz({
   \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
 }, {
@@ -12,7 +22,21 @@ xyz({
 `;
 
 exports[`find function call decorators 1`] = `
-"import injectSheet from 'react-jss';
+"[v6]
+import injectSheet from 'react-jss';
+
+@injectSheet({
+  '@raw': '.a-id {\\\\n  color: red;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+})
+class A {}
+
+;
+[v7]
+import injectSheet from 'react-jss';
 
 @injectSheet({
   \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
@@ -27,7 +51,17 @@ class A {}
 `;
 
 exports[`find function call support default createStyleSheet identifier 1`] = `
-"import jss from 'jss';
+"[v6]
+import jss from 'jss';
+jss.createStyleSheet({
+  '@raw': '.a-id {\\\\n  color: red;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import jss from 'jss';
 jss.createStyleSheet({
   \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
 }, {
@@ -38,7 +72,17 @@ jss.createStyleSheet({
 `;
 
 exports[`find function call support package name with path to a module 1`] = `
-"import jss from 'jss/something';
+"[v6]
+import jss from 'jss/something';
+jss.createStyleSheet({
+  '@raw': '.a-id {\\\\n  color: red;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import jss from 'jss/something';
 jss.createStyleSheet({
   \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
 }, {

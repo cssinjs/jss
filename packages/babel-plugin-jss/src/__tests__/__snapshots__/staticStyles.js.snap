@@ -1,7 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`static styles array in array value 1`] = `
-"import jss from 'jss';
+"[v6]
+import jss from 'jss';
+createStyleSheet({
+  '@raw': '.a-id {\\\\n  x: 0 1;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import jss from 'jss';
 createStyleSheet({
   \\"@raw\\": \\".a-id {\\\\n  x: 0 1;\\\\n}\\"
 }, {
@@ -12,7 +22,17 @@ createStyleSheet({
 `;
 
 exports[`static styles array value 1`] = `
-"import jss from 'jss';
+"[v6]
+import jss from 'jss';
+createStyleSheet({
+  '@raw': '.a-id {\\\\n  x: 0, 1;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import jss from 'jss';
 createStyleSheet({
   \\"@raw\\": \\".a-id {\\\\n  x: 0, 1;\\\\n}\\"
 }, {
@@ -23,7 +43,20 @@ createStyleSheet({
 `;
 
 exports[`static styles binary expression with a function call into fn expression 1`] = `
-"import jss from 'jss';
+"[v6]
+import jss from 'jss';
+
+const x = () => 10;
+
+createStyleSheet({
+  '@raw': '.a-id {\\\\n  width: 15;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import jss from 'jss';
 
 const x = () => 10;
 
@@ -37,7 +70,22 @@ createStyleSheet({
 `;
 
 exports[`static styles binary expression with a function call into named fn 1`] = `
-"import jss from 'jss';
+"[v6]
+import jss from 'jss';
+
+function x() {
+  return 10;
+}
+
+createStyleSheet({
+  '@raw': '.a-id {\\\\n  width: 15;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import jss from 'jss';
 
 function x() {
   return 10;
@@ -53,7 +101,18 @@ createStyleSheet({
 `;
 
 exports[`static styles binary expression with refs 1`] = `
-"import jss from 'jss';
+"[v6]
+import jss from 'jss';
+const x = 10;
+createStyleSheet({
+  '@raw': '.a-id {\\\\n  width: 15;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import jss from 'jss';
 const x = 10;
 createStyleSheet({
   \\"@raw\\": \\".a-id {\\\\n  width: 15;\\\\n}\\"
@@ -65,7 +124,17 @@ createStyleSheet({
 `;
 
 exports[`static styles complex binary expression 1`] = `
-"import jss from 'jss';
+"[v6]
+import jss from 'jss';
+createStyleSheet({
+  '@raw': '.a-id {\\\\n  width: 25;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import jss from 'jss';
 createStyleSheet({
   \\"@raw\\": \\".a-id {\\\\n  width: 25;\\\\n}\\"
 }, {
@@ -76,7 +145,17 @@ createStyleSheet({
 `;
 
 exports[`static styles numeric value 1`] = `
-"import jss from 'jss';
+"[v6]
+import jss from 'jss';
+createStyleSheet({
+  '@raw': '.a-id {\\\\n  width: 0;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import jss from 'jss';
 createStyleSheet({
   \\"@raw\\": \\".a-id {\\\\n  width: 0;\\\\n}\\"
 }, {
@@ -87,7 +166,17 @@ createStyleSheet({
 `;
 
 exports[`static styles simple binary expression 1`] = `
-"import jss from 'jss';
+"[v6]
+import jss from 'jss';
+createStyleSheet({
+  '@raw': '.a-id {\\\\n  width: 15;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import jss from 'jss';
 createStyleSheet({
   \\"@raw\\": \\".a-id {\\\\n  width: 15;\\\\n}\\"
 }, {
@@ -98,7 +187,24 @@ createStyleSheet({
 `;
 
 exports[`static styles styles returned from a function expression call 1`] = `
-"import jss from 'jss';
+"[v6]
+import jss from 'jss';
+
+const getStyles = () => ({
+  a: {
+    width: 5
+  }
+});
+
+createStyleSheet({
+  '@raw': '.a-id {\\\\n  width: 5;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import jss from 'jss';
 
 const getStyles = () => ({
   a: {
@@ -116,7 +222,24 @@ createStyleSheet({
 `;
 
 exports[`static styles styles returned from a function expression call with arguments 1`] = `
-"import jss from 'jss';
+"[v6]
+import jss from 'jss';
+
+const getStyles = width => ({
+  a: {
+    width: width
+  }
+});
+
+createStyleSheet({
+  '@raw': '.a-id {\\\\n  width: 5;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import jss from 'jss';
 
 const getStyles = width => ({
   a: {
@@ -134,7 +257,25 @@ createStyleSheet({
 `;
 
 exports[`static styles styles returned from a function expression call with ref arguments 1`] = `
-"import jss from 'jss';
+"[v6]
+import jss from 'jss';
+
+const getStyles = width => ({
+  a: {
+    width: width
+  }
+});
+
+const value = 5;
+createStyleSheet({
+  '@raw': '.a-id {\\\\n  width: 5;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import jss from 'jss';
 
 const getStyles = width => ({
   a: {
@@ -153,7 +294,28 @@ createStyleSheet({
 `;
 
 exports[`static styles styles returned from a function returned from a function call with refs 1`] = `
-"import jss from 'jss';
+"[v6]
+import jss from 'jss';
+
+const getStyles = width => {
+  const getAnchorStyles = width => ({
+    a: {
+      width: width
+    }
+  });
+
+  return getAnchorStyles(width);
+};
+
+createStyleSheet({
+  '@raw': '.a-id {\\\\n  width: 5;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import jss from 'jss';
 
 const getStyles = width => {
   const getAnchorStyles = width => ({
@@ -175,7 +337,26 @@ createStyleSheet({
 `;
 
 exports[`static styles styles returned from a named function call 1`] = `
-"import jss from 'jss';
+"[v6]
+import jss from 'jss';
+
+function getStyles() {
+  return {
+    a: {
+      width: 5
+    }
+  };
+}
+
+createStyleSheet({
+  '@raw': '.a-id {\\\\n  width: 5;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import jss from 'jss';
 
 function getStyles() {
   return {
@@ -195,7 +376,30 @@ createStyleSheet({
 `;
 
 exports[`static styles styles returned from a named function call with refs 1`] = `
-"import jss from 'jss';
+"[v6]
+import jss from 'jss';
+const a = 5;
+const b = 3;
+
+function getStyles() {
+  return {
+    a: {
+      w: a + b,
+      a: a,
+      b: b
+    }
+  };
+}
+
+createStyleSheet({
+  '@raw': '.a-id {\\\\n  w: 8;\\\\n  a: 5;\\\\n  b: 3;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import jss from 'jss';
 const a = 5;
 const b = 3;
 
@@ -219,7 +423,20 @@ createStyleSheet({
 `;
 
 exports[`static styles styles value returned from a function call 1`] = `
-"import jss from 'jss';
+"[v6]
+import jss from 'jss';
+
+const x = () => 10;
+
+createStyleSheet({
+  '@raw': '.a-id {\\\\n  width: 10;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import jss from 'jss';
 
 const x = () => 10;
 
@@ -233,7 +450,24 @@ createStyleSheet({
 `;
 
 exports[`static styles support multiple calls 1`] = `
-"import jss from 'jss';
+"[v6]
+import jss from 'jss';
+createStyleSheet({
+  '@raw': '.a-id {\\\\n  color: red;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+createStyleSheet({
+  '@raw': '.a-id {\\\\n  color: red;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import jss from 'jss';
 createStyleSheet({
   \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
 }, {

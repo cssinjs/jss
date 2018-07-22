@@ -1,7 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`imports bail out on property access from imports 1`] = `
-"import jss from 'jss';
+"[v6]
+import jss from 'jss';
+import config from 'config';
+createStyleSheet({
+  a: {
+    color: config.primary
+  }
+});
+[v7]
+import jss from 'jss';
 import config from 'config';
 createStyleSheet({
   a: {
@@ -11,7 +20,18 @@ createStyleSheet({
 `;
 
 exports[`imports extend imported options ref 1`] = `
-"import jss from 'jss';
+"[v6]
+import jss from 'jss';
+import options from 'options';
+createStyleSheet({
+  '@raw': '.a-id {\\\\n  color: red;\\\\n}'
+}, Object.assign({
+  'classes': {
+    'a': 'a-id'
+  }
+}, options));
+[v7]
+import jss from 'jss';
 import options from 'options';
 createStyleSheet({
   \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
@@ -23,7 +43,22 @@ createStyleSheet({
 `;
 
 exports[`imports partially bail out per property on property access from imports 1`] = `
-"import jss from 'jss';
+"[v6]
+import jss from 'jss';
+import config from 'config';
+createStyleSheet({
+  '@raw': '.a-id {\\\\n  width: 1;\\\\n}',
+
+  a: {
+    color: config.primary
+  }
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import jss from 'jss';
 import config from 'config';
 createStyleSheet({
   \\"@raw\\": \\".a-id {\\\\n  width: 1;\\\\n}\\",
@@ -38,7 +73,23 @@ createStyleSheet({
 `;
 
 exports[`imports partially bail out per rule on property access from imports 1`] = `
-"import jss from 'jss';
+"[v6]
+import jss from 'jss';
+import config from 'config';
+createStyleSheet({
+  '@raw': '.a-id {\\\\n  width: 1;\\\\n}',
+
+  b: {
+    color: config.primary
+  }
+}, {
+  'classes': {
+    'a': 'a-id',
+    'b': 'b-id'
+  }
+});
+[v7]
+import jss from 'jss';
 import config from 'config';
 createStyleSheet({
   \\"@raw\\": \\".a-id {\\\\n  width: 1;\\\\n}\\",
@@ -54,7 +105,12 @@ createStyleSheet({
 `;
 
 exports[`imports unresolvable styles ref 1`] = `
-"import jss from 'jss';
+"[v6]
+import jss from 'jss';
+import styles from 'styles';
+createStyleSheet(styles);
+[v7]
+import jss from 'jss';
 import styles from 'styles';
 createStyleSheet(styles);"
 `;

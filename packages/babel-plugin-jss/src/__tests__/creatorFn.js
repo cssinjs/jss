@@ -105,7 +105,7 @@ describe('styles creator function', () => {
     expect(transform(code, options)).toMatchSnapshot()
   })
 
-  test('throw prop access error complex theme prop access over babel config as fn arg', () => {
+  test('throw prop access error when complex theme prop access over babel config as fn arg', () => {
     const code = stripIndent`
       import injectSheet from 'react-jss';
       injectSheet(theme => ({

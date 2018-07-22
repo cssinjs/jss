@@ -1,7 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`styles creator function arrow function 1`] = `
-"import injectSheet from 'react-jss';
+"[v6]
+import injectSheet from 'react-jss';
+injectSheet(() => ({
+  '@raw': '.a-id {\\\\n  color: red;\\\\n}'
+}), {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import injectSheet from 'react-jss';
 injectSheet(() => ({
   \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
 }), {
@@ -12,7 +22,19 @@ injectSheet(() => ({
 `;
 
 exports[`styles creator function arrow function with return 1`] = `
-"import injectSheet from 'react-jss';
+"[v6]
+import injectSheet from 'react-jss';
+injectSheet(() => {
+  return {
+    '@raw': '.a-id {\\\\n  color: red;\\\\n}'
+  };
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import injectSheet from 'react-jss';
 injectSheet(() => {
   return {
     \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
@@ -25,7 +47,17 @@ injectSheet(() => {
 `;
 
 exports[`styles creator function complex theme prop access over babel config as fn arg 1`] = `
-"import injectSheet from 'react-jss';
+"[v6]
+import injectSheet from 'react-jss';
+injectSheet(theme => ({
+  '@raw': '.a-id {\\\\n  color: red;\\\\n}'
+}), {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import injectSheet from 'react-jss';
 injectSheet(theme => ({
   \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
 }), {
@@ -36,7 +68,19 @@ injectSheet(theme => ({
 `;
 
 exports[`styles creator function function expression 1`] = `
-"import injectSheet from 'react-jss';
+"[v6]
+import injectSheet from 'react-jss';
+injectSheet(function () {
+  return {
+    '@raw': '.a-id {\\\\n  color: red;\\\\n}'
+  };
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import injectSheet from 'react-jss';
 injectSheet(function () {
   return {
     \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
@@ -49,7 +93,22 @@ injectSheet(function () {
 `;
 
 exports[`styles creator function function ref 1`] = `
-"import injectSheet from 'react-jss';
+"[v6]
+import injectSheet from 'react-jss';
+
+function getStyles() {
+  return {
+    '@raw': '.a-id {\\\\n  color: red;\\\\n}'
+  };
+}
+
+injectSheet(getStyles, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import injectSheet from 'react-jss';
 
 function getStyles() {
   return {
@@ -65,7 +124,20 @@ injectSheet(getStyles, {
 `;
 
 exports[`styles creator function prop access inside styles creator fn 1`] = `
-"import injectSheet from 'react-jss';
+"[v6]
+import injectSheet from 'react-jss';
+const config = {
+  primary: 'red'
+};
+injectSheet(() => ({
+  '@raw': '.a-id {\\\\n  color: red;\\\\n}'
+}), {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import injectSheet from 'react-jss';
 const config = {
   primary: 'red'
 };
@@ -79,7 +151,17 @@ injectSheet(() => ({
 `;
 
 exports[`styles creator function theme prop access over babel config as fn arg 1`] = `
-"import injectSheet from 'react-jss';
+"[v6]
+import injectSheet from 'react-jss';
+injectSheet(theme => ({
+  '@raw': '.a-id {\\\\n  color: red;\\\\n}'
+}), {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import injectSheet from 'react-jss';
 injectSheet(theme => ({
   \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
 }), {

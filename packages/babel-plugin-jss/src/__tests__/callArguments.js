@@ -70,9 +70,4 @@ describe('call arguments', () => {
     `
     expect(transform(code)).toMatchSnapshot()
   })
-
-  test('test', () => {
-    const code = `f(([a, b]) => {});`
-    expect(transform(code)).toBe(code)
-  })
 })
