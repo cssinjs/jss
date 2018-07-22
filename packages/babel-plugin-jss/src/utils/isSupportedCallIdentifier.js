@@ -1,4 +1,5 @@
 import * as t from 'babel-types'
+import get from 'lodash/get'
 
 const defaultIdentifiers = [
   {
@@ -17,7 +18,7 @@ const defaultIdentifiers = [
 
 export default (callPath, identifiers = defaultIdentifiers) => {
   // createStyleSheet() ||  jss.createStyleSheet()
-  const identifier = callPath.node.callee.name || callPath.node.callee.property.name
+  const identifier = get(callPath, 'node.callee.name') || get(callPath, 'node.callee.property.name')
 
   // Check if function call with a white-listed identifier is found.
   const conf = identifiers.filter(def => def.functions.includes(identifier))[0]
