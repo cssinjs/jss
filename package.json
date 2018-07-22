@@ -46,6 +46,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-flow": "^6.23.0",
+    "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.16.0",
     "chalk": "^2.4.1",
     "codecov": "^1.0.1",
@@ -81,6 +82,8 @@
     "npmlog": "^4.1.2",
     "pre-commit": "^1.1.3",
     "prettier": "^1.13.5",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
     "rimraf": "^2.5.4",
     "rollup": "^0.62.0",
     "rollup-plugin-babel": "^4.0.0-beta.7",
@@ -91,6 +94,7 @@
     "rollup-plugin-size-snapshot": "^0.6.1",
     "rollup-plugin-uglify": "^4.0.0",
     "shelljs": "^0.8.2",
+    "sinon": "^6.1.4",
     "webpack": "^2.3.3",
     "zen-observable": "^0.6.0"
   }

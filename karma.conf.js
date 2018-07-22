@@ -33,7 +33,13 @@ module.exports = config => {
       './packages/jss-plugin-cache/src/index.test.js',
       './packages/jss-plugin-props-sort/src/index.test.js',
       './packages/jss-plugin-isolate/src/index.test.js',
-      './packages/jss-plugin-syntax-template/src/index.test.js'
+      './packages/jss-plugin-syntax-template/src/index.test.js',
+      './packages/react-jss/tests/theming.js',
+      './packages/react-jss/tests/dynamic-styles.js',
+      './packages/react-jss/src/index.test.js',
+      './packages/react-jss/src/compose.test.js',
+      './packages/react-jss/src/JssProvider.test.js',
+      './packages/react-jss/src/injectSheet.test.js'
     ],
     preprocessors: {
       './packages/**/*.js': ['webpack', 'sourcemap']

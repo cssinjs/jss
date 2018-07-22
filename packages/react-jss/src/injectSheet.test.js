@@ -18,6 +18,7 @@ describe('injectSheet', () => {
   let node
 
   beforeEach(() => {
+    sheets.reset()
     jss = create({createGenerateClassName})
     node = document.body.appendChild(document.createElement('div'))
   })
