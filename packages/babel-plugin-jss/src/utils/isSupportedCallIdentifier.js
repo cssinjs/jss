@@ -21,7 +21,15 @@ export default (callPath, identifiers = defaultIdentifiers) => {
   const identifier = get(callPath, 'node.callee.name') || get(callPath, 'node.callee.property.name')
 
   // Check if function call with a white-listed identifier is found.
-  const conf = identifiers.filter(def => def.functions.includes(identifier))[0]
+  const conf = identifiers.filter(def => def.functions.includes(identifier)).map(def => {
+    if (typeof def.package === 'string') {
+      return {
+        ...def,
+        package: new RegExp(def.package)
+      }
+    }
+    return def
+  })[0]
 
   if (!conf) return false
 

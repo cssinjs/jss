@@ -31,7 +31,7 @@ describe('find function call', () => {
     expect(transform(code)).toMatchSnapshot()
   })
 
-  test('accept custom identifier names over configuration', () => {
+  test('accept custom identifier name regex over configuration', () => {
     const code = stripIndent`
       import xyz from 'x';
       xyz({
@@ -41,6 +41,19 @@ describe('find function call', () => {
       });
     `
     const options = {identifiers: [{package: /x/, functions: ['xyz']}]}
+    expect(transform(code, options)).toMatchSnapshot()
+  })
+
+  test('accept custom identifier name string over configuration', () => {
+    const code = stripIndent`
+      import xyz from 'x';
+      xyz({
+        a: {
+          color: 'red'
+        }
+      });
+    `
+    const options = {identifiers: [{package: 'x', functions: ['xyz']}]}
     expect(transform(code, options)).toMatchSnapshot()
   })
 

@@ -1,5 +1,47 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`find function call accept custom identifier name regex over configuration 1`] = `
+"[v6]
+import xyz from 'x';
+xyz({
+  '@raw': '.a-id {\\\\n  color: red;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import xyz from 'x';
+xyz({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
+exports[`find function call accept custom identifier name string over configuration 1`] = `
+"[v6]
+import xyz from 'x';
+xyz({
+  '@raw': '.a-id {\\\\n  color: red;\\\\n}'
+}, {
+  'classes': {
+    'a': 'a-id'
+  }
+});
+[v7]
+import xyz from 'x';
+xyz({
+  \\"@raw\\": \\".a-id {\\\\n  color: red;\\\\n}\\"
+}, {
+  \\"classes\\": {
+    \\"a\\": \\"a-id\\"
+  }
+});"
+`;
+
 exports[`find function call accept custom identifier names over configuration 1`] = `
 "[v6]
 import xyz from 'x';
