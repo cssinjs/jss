@@ -2,9 +2,22 @@
 
 import expect from 'expect.js'
 import React, {PureComponent} from 'react'
-import {findDOMNode} from 'react-dom'
+import {findDOMNode, render, unmountComponentAtNode} from 'react-dom'
+
+import injectSheet from '../src'
 
 describe('dynamic styles', () => {
+  let node
+
+  beforeEach(() => {
+    node = document.body.appendChild(document.createElement('div'))
+  })
+
+  afterEach(() => {
+    unmountComponentAtNode(node)
+    node.parentNode.removeChild(node)
+  })
+
   describe('function values', () => {
     const color = 'rgb(255, 255, 255)'
     let MyComponent
@@ -96,7 +109,7 @@ describe('dynamic styles', () => {
     })
 
     it('should update dynamic values', () => {
-      /* eslint-disable react/no-multi-comp, react/prefer-stateless-function */
+      /* eslint-disable-next-line react/no-multi-comp, react/prefer-stateless-function */
       class Container extends PureComponent {
         render() {
           const {height} = this.props
@@ -108,7 +121,6 @@ describe('dynamic styles', () => {
           )
         }
       }
-      /* eslint-enable */
 
       const component = render(<Container height={10} />, node)
       const componentNode = findDOMNode(component)
@@ -242,7 +254,7 @@ describe('dynamic styles', () => {
     })
 
     it('should update dynamic values', () => {
-      /* eslint-disable react/no-multi-comp, react/prefer-stateless-function */
+      /* eslint-disable-next-line react/no-multi-comp, react/prefer-stateless-function */
       class Container extends PureComponent {
         render() {
           const {height} = this.props
@@ -254,7 +266,6 @@ describe('dynamic styles', () => {
           )
         }
       }
-      /* eslint-enable */
 
       const component = render(<Container height={10} />, node)
       const componentNode = findDOMNode(component)

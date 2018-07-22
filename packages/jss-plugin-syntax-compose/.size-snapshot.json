@@ -1,23 +1,23 @@
 {
   "dist/jss-plugin-syntax-compose.js": {
-    "bundled": 5028,
-    "minified": 1576,
-    "gzipped": 853
+    "bundled": 5045,
+    "minified": 1561,
+    "gzipped": 850
   },
   "dist/jss-plugin-syntax-compose.min.js": {
-    "bundled": 3490,
-    "minified": 1056,
-    "gzipped": 581
+    "bundled": 3507,
+    "minified": 1041,
+    "gzipped": 579
   },
   "dist/jss-plugin-syntax-compose.cjs.js": {
-    "bundled": 2012,
-    "minified": 871,
-    "gzipped": 477
+    "bundled": 2017,
+    "minified": 856,
+    "gzipped": 475
   },
   "dist/jss-plugin-syntax-compose.esm.js": {
-    "bundled": 1794,
-    "minified": 699,
-    "gzipped": 388,
+    "bundled": 1799,
+    "minified": 684,
+    "gzipped": 387,
     "treeshaked": {
       "rollup": {
         "code": 16,

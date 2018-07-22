@@ -4,10 +4,24 @@ import expect from 'expect.js'
 import React from 'react'
 import {stripIndent} from 'common-tags'
 import preset from 'jss-preset-default'
-import {createTheming} from 'theming'
+import {render, unmountComponentAtNode} from 'react-dom'
 import {renderToString} from 'react-dom/server'
+import {create} from 'jss'
+
+import injectSheet, {createTheming, ThemeProvider, JssProvider, SheetsRegistry} from '../src'
 
 describe('theming', () => {
+  let node
+
+  beforeEach(() => {
+    node = document.body.appendChild(document.createElement('div'))
+  })
+
+  afterEach(() => {
+    unmountComponentAtNode(node)
+    node.parentNode.removeChild(node)
+  })
+
   const themedStaticStyles = theme => ({
     rule: {
       color: theme.color
@@ -28,7 +42,7 @@ describe('theming', () => {
   let localJss
 
   beforeEach(() => {
-    localJss = createJss({
+    localJss = create({
       ...preset(),
       createGenerateClassName: () => {
         let counter = 0

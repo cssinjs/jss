@@ -2,18 +2,29 @@
 
 import expect from 'expect.js'
 import React from 'react'
-import {create} from 'jss'
+import {create, sheets} from 'jss'
 import {stripIndent} from 'common-tags'
 import {spy} from 'sinon'
+import {render, unmountComponentAtNode} from 'react-dom'
+
 import getDisplayName from './getDisplayName'
 import createHoc from './createHoc'
-import {createGenerateClassName} from '../tests/helper'
+import injectSheet, {JssProvider, ThemeProvider} from './'
+
+const createGenerateClassName = () => rule => `${rule.key}-id`
 
 describe('injectSheet', () => {
   let jss
+  let node
 
   beforeEach(() => {
     jss = create({createGenerateClassName})
+    node = document.body.appendChild(document.createElement('div'))
+  })
+
+  afterEach(() => {
+    unmountComponentAtNode(node)
+    node.parentNode.removeChild(node)
   })
 
   describe('.injectSheet()', () => {
@@ -71,9 +82,9 @@ describe('injectSheet', () => {
   })
 
   describe('injectSheet() option "inject"', () => {
-    const getInjected = (options) => {
+    const getInjected = options => {
       let injectedProps
-      const Renderer = (props) => {
+      const Renderer = props => {
         injectedProps = props
         return null
       }
@@ -215,13 +226,12 @@ describe('injectSheet', () => {
     it('should provide a ref to the inner element', () => {
       const innerRef = spy()
 
-      /* eslint-disable react/no-multi-comp, react/prefer-stateless-function */
+      /* eslint-disable-next-line react/no-multi-comp, react/prefer-stateless-function */
       class InnerComponent extends React.PureComponent {
         render() {
           return <div />
         }
       }
-      /* eslint-enable */
 
       const StyledComponent = injectSheet({})(InnerComponent)
       render(<StyledComponent innerRef={innerRef} />, node)
@@ -236,7 +246,7 @@ describe('injectSheet', () => {
     const mock = {}
 
     beforeEach(() => {
-      const InnerComponent = (props) => {
+      const InnerComponent = props => {
         receivedSheet = props.sheet
         return null
       }
@@ -261,7 +271,7 @@ describe('injectSheet', () => {
         button: {color: 'red'}
       })(InnerComponent)
       render(<MyComponent />, node)
-      Object.keys(passedClasses).forEach((ruleName) => {
+      Object.keys(passedClasses).forEach(ruleName => {
         expect(passedClasses[ruleName]).to.match(
           new RegExp(`^${getDisplayName(InnerComponent)}-${ruleName}[\\s\\S]*$`)
         )
@@ -270,7 +280,7 @@ describe('injectSheet', () => {
 
     it('should use defaultProps.classes from InnerComponent', () => {
       let classes
-      const InnerComponent = (props) => {
+      const InnerComponent = props => {
         classes = props.classes
         return null
       }
@@ -284,7 +294,7 @@ describe('injectSheet', () => {
 
     it('should merge the defaultProps.classes from InnerComponent', () => {
       let classes
-      const InnerComponent = (props) => {
+      const InnerComponent = props => {
         classes = props.classes
         return null
       }
@@ -303,7 +313,7 @@ describe('injectSheet', () => {
 
     it('should merge users classes', () => {
       let classes
-      const InnerComponent = (props) => {
+      const InnerComponent = props => {
         classes = props.classes
         return null
       }
@@ -370,7 +380,7 @@ describe('injectSheet', () => {
       )
       render(<ComponentB localJss={jss} />, node)
 
-      const newJss = createJss({
+      const newJss = create({
         createGenerateClassName,
         plugins: [
           {

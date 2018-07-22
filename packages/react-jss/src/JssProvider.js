@@ -50,8 +50,7 @@ export default class JssProvider extends Component {
 
     if (generateClassName) {
       sheetOptions.generateClassName = generateClassName
-    }
-    else if (!sheetOptions.generateClassName) {
+    } else if (!sheetOptions.generateClassName) {
       if (!this.generateClassName) {
         let createGenerateClassName = createGenerateClassNameDefault
         if (localJss && localJss.options.createGenerateClassName) {

@@ -4,9 +4,25 @@ import expect from 'expect.js'
 import React, {Component} from 'react'
 import {stripIndent} from 'common-tags'
 import preset from 'jss-preset-default'
+import {render, unmountComponentAtNode} from 'react-dom'
+import {create} from 'jss'
+
 import {renderToString} from 'react-dom/server'
 
+import injectSheet, {SheetsRegistry, JssProvider} from './'
+
 describe('JssProvider', () => {
+  let node
+
+  beforeEach(() => {
+    node = document.body.appendChild(document.createElement('div'))
+  })
+
+  afterEach(() => {
+    unmountComponentAtNode(node)
+    node.parentNode.removeChild(node)
+  })
+
   describe('nested child JssProvider', () => {
     describe('generateClassName prop', () => {
       it('should forward from context', () => {
@@ -104,7 +120,7 @@ describe('JssProvider', () => {
     describe('jss prop', () => {
       it('should forward from context', () => {
         let processed = true
-        const localJss = createJss().use({
+        const localJss = create().use({
           onProcessRule: () => {
             processed = true
           }
@@ -126,13 +142,13 @@ describe('JssProvider', () => {
       it('should overwrite over child props', () => {
         let processed
 
-        const localJss1 = createJss().use({
+        const localJss1 = create().use({
           onProcessRule: () => {
             processed = localJss1
           }
         })
 
-        const localJss2 = createJss().use({
+        const localJss2 = create().use({
           onProcessRule: () => {
             processed = localJss2
           }
@@ -246,7 +262,7 @@ describe('JssProvider', () => {
       const registry = new SheetsRegistry()
       const A = injectSheet({a: {color: 'red'}})()
       const B = injectSheet({a: {color: 'green'}})()
-      const localJss = createJss({
+      const localJss = create({
         createGenerateClassName: () => {
           let counter = 0
           return rule => `${rule.key}-${counter++}`
@@ -301,7 +317,7 @@ describe('JssProvider', () => {
     let localJss
 
     beforeEach(() => {
-      localJss = createJss({
+      localJss = create({
         ...preset(),
         virtual: true,
         createGenerateClassName: () => {
@@ -501,7 +517,7 @@ describe('JssProvider', () => {
       const MyRenderComponent = () => null
       const MyComponent = injectSheet({a: {color: 'red'}})(MyRenderComponent)
       const registry = new SheetsRegistry()
-      const localJss2 = createJss({
+      const localJss2 = create({
         ...preset(),
         virtual: true,
         createGenerateClassName: () => {
