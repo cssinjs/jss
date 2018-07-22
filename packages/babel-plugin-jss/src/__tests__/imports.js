@@ -1,6 +1,6 @@
 import {stripIndent} from 'common-tags'
 import {sheets} from 'jss'
-import {transform} from '../testUtils'
+import {transform} from './testUtils'
 
 describe('imports', () => {
   beforeEach(() => {

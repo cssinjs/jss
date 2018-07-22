@@ -1,5 +1,6 @@
 import * as babel7 from '@babel/core'
-import plugin from './index'
+// import * as babel6 from 'babel-core'
+import plugin from '../index'
 
 const createGenerateClassName = () => rule => `${rule.key}-id`
 
@@ -12,3 +13,6 @@ export const transform = (source, pluginOptions) => {
   const {code} = babel7.transform(source, {ast: true, plugins})
   return code
 }
+
+// Make jest happy.
+test('', () => {})

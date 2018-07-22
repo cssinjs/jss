@@ -1,6 +1,6 @@
 import {stripIndent} from 'common-tags'
 import {sheets} from 'jss'
-import {transform} from '../testUtils'
+import {transform} from './testUtils'
 
 describe('dynamic styles (with function values or rules)', () => {
   beforeEach(() => {

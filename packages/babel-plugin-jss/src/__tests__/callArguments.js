@@ -1,6 +1,6 @@
 import {stripIndent} from 'common-tags'
 import {sheets} from 'jss'
-import {transform} from '../testUtils'
+import {transform} from './testUtils'
 
 describe('call arguments', () => {
   beforeEach(() => {
@@ -69,5 +69,10 @@ describe('call arguments', () => {
       }, options);
     `
     expect(transform(code)).toMatchSnapshot()
+  })
+
+  test('test', () => {
+    const code = `f(([a, b]) => {});`
+    expect(transform(code)).toBe(code)
   })
 })
