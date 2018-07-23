@@ -43,6 +43,7 @@ module.exports = config => {
       './packages/react-jss/src/injectSheet.test.js'
     ],
     preprocessors: {
+      'node_modules/raf/polyfill.js': ['webpack'],
       './packages/**/*.js': ['webpack', 'sourcemap']
     },
     webpack: Object.assign(webpackConfig, {
