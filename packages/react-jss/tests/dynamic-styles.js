@@ -31,7 +31,7 @@ describe('dynamic styles', () => {
         },
         button: {
           color,
-          height: ({height = 1}) => height
+          height: ({height = 1}) => `${height}px`
         }
       })(InnerComponent)
     })
@@ -177,7 +177,10 @@ describe('dynamic styles', () => {
         left: {
           float: 'left'
         },
-        button: ({height = 1}) => ({color, height})
+        button: ({height = 1}) => ({
+          color,
+          height: `${height}px`
+        })
       })(InnerComponent)
     })
 
