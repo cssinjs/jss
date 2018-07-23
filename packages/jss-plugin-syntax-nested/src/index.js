@@ -1,4 +1,6 @@
+// @flow
 import warning from 'warning'
+import type {Plugin, StyleRule, StyleSheet} from 'jss'
 
 const separatorRegExp = /\s*,\s*/g
 const parentRegExp = /&/g
@@ -10,12 +12,16 @@ const refRegExp = /\$([\w-]+)/g
  * @param {Rule} rule
  * @api public
  */
-export default function jssNested() {
+export default function jssNested(): Plugin {
   // Get a function to be used for $ref replacement.
   function getReplaceRef(container) {
     return (match, key) => {
-      const rule = container.getRule(key)
-      if (rule) return rule.selector
+      let rule = container.getRule(key)
+      if (rule) {
+        rule = ((rule: any): StyleRule)
+
+        return rule.selector
+      }
       warning(
         false,
         '[JSS] Could not find the referenced rule %s in %s.',
@@ -52,6 +58,7 @@ export default function jssNested() {
     // Options has been already created, now we only increase index.
     if (options) return {...options, index: options.index + 1}
 
+    // $FlowFixMe: Flow can't know that nestingLevel actually may exist here
     let {nestingLevel} = rule.options
     nestingLevel = nestingLevel === undefined ? 1 : nestingLevel + 1
 
@@ -64,7 +71,10 @@ export default function jssNested() {
 
   function onProcessStyle(style, rule) {
     if (rule.type !== 'style') return style
-    const container = rule.options.parent
+
+    rule = ((rule: any): StyleRule)
+
+    const container = ((rule.options.parent: any): StyleSheet)
     let options
     let replaceRef
     for (const prop in style) {
@@ -85,10 +95,10 @@ export default function jssNested() {
 
         container.addRule(selector, style[prop], {...options, selector})
       } else if (isNestedConditional) {
-        container
-          // Place conditional right after the parent rule to ensure right ordering.
-          .addRule(prop, null, options)
-          .addRule(rule.key, style[prop], {selector: rule.selector})
+        // Place conditional right after the parent rule to ensure right ordering.
+        container.addRule(prop, {}, options)
+        // $FlowFixMe: Flow expects more options but they are actually optional
+        container.addRule(rule.key, style[prop], {selector: rule.selector})
       }
 
       delete style[prop]
