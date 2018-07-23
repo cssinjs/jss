@@ -96,9 +96,12 @@ export default function jssNested(): Plugin {
         container.addRule(selector, style[prop], {...options, selector})
       } else if (isNestedConditional) {
         // Place conditional right after the parent rule to ensure right ordering.
-        container.addRule(prop, {}, options)
-        // $FlowFixMe: Flow expects more options but they are actually optional
-        container.addRule(rule.key, style[prop], {selector: rule.selector})
+        container
+          .addRule(prop, {}, options)
+          // Flow expects more options but they aren't required
+          // And flow doesn't know this will always be a StyleRule which has the addRule method
+          // $FlowFixMe
+          .addRule(rule.key, style[prop], {selector: rule.selector})
       }
 
       delete style[prop]
