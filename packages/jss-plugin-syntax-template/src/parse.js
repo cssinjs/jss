@@ -1,3 +1,4 @@
+// @flow
 import warning from 'warning'
 
 const semiWithNl = /;\n/
@@ -8,7 +9,7 @@ const semiWithNl = /;\n/
  * - Requires semicolon and new line after the value (except of last line)
  * - No nested rules support
  */
-export default cssText => {
+export default (cssText: string) => {
   const style = {}
   const split = cssText.split(semiWithNl)
   for (let i = 0; i < split.length; i++) {
