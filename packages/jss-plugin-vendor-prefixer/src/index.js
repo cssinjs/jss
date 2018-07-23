@@ -1,13 +1,13 @@
+// @flow
 import * as vendor from 'css-vendor'
-import {toCssValue} from 'jss'
+import {toCssValue, type Plugin} from 'jss'
 
 /**
  * Add vendor prefix to a property name when needed.
  *
- * @param {Rule} rule
  * @api public
  */
-export default function jssVendorPrefixer() {
+export default function jssVendorPrefixer(): Plugin {
   function onProcessRule(rule) {
     if (rule.type === 'keyframes') {
       rule.key = vendor.supportedKeyframes(rule.key)
