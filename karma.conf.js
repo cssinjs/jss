@@ -44,7 +44,6 @@ module.exports = config => {
     ],
     preprocessors: {
       'node_modules/raf/polyfill.js': ['webpack'],
-      'node_modules/sinon/**/*.js': ['webpack'],
       './packages/**/*.js': ['webpack', 'sourcemap']
     },
     webpack: Object.assign(webpackConfig, {

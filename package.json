@@ -95,7 +95,7 @@
     "rollup-plugin-size-snapshot": "^0.6.1",
     "rollup-plugin-uglify": "^4.0.0",
     "shelljs": "^0.8.2",
-    "sinon": "^6.1.4",
+    "sinon": "4.5.0",
     "webpack": "^2.3.3",
     "zen-observable": "^0.6.0"
   }
