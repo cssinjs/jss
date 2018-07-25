@@ -18,7 +18,7 @@ const styles = {
     // Using space separated class names.
     composes: 'btn btn-primary',
     color: 'red'
-  }
+  },
   buttonActive: {
     // Using an array of class names.
     composes: ['btn', 'btn-primary'],
@@ -26,7 +26,6 @@ const styles = {
   }
 }
 ```
-
 Compiles to:
 
 ```css
@@ -44,12 +43,10 @@ When you use it:
 <button className={classes.button}>Button</button>
 <button className={classes.buttonActive}>Active Button</button>
 ```
-
 It renders to:
-
 ```html
 <button class="button-123456 btn">Button</button>
-<button class="button-123456 btn btn-primary">Active Button</button>
+<button class="buttonActive-123456 btn btn-primary">Active Button</button>
 ```
 
 ## Compose with local classes.
@@ -113,11 +110,9 @@ When you use it:
 <button className={classes.buttonActiveDisabled}>Active Disabled Button</button>
 <button className={classes.buttonDisabled}>Disabled Button with active state</button>
 ```
-
 It renders to:
-
 ```html
-<button class="button-123456 buttonActive-123456">Active Disabled Button</button>
+<button class="buttonActiveDisabled-123456 buttonActive-123456 button-123456">Active Disabled Button</button>
 <button class="buttonDisabled-123456 button-123456 active-123456 disabled-123456">Disabled Button with active state</button>
 ```
 
@@ -153,9 +148,7 @@ When you use it:
 ```javascript
 <button className={classes.button}>Button</button>
 ```
-
 It renders to:
-
 ```html
 <button class="button-123456 active-123456 btn btn-primary">Button</button>
 ```
