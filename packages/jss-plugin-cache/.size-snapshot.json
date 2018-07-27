@@ -1,23 +1,23 @@
 {
   "dist/jss-plugin-cache.js": {
-    "bundled": 2872,
-    "minified": 1179,
-    "gzipped": 621
+    "bundled": 1700,
+    "minified": 727,
+    "gzipped": 411
   },
   "dist/jss-plugin-cache.min.js": {
-    "bundled": 2872,
-    "minified": 1179,
-    "gzipped": 621
+    "bundled": 1700,
+    "minified": 727,
+    "gzipped": 411
   },
   "dist/jss-plugin-cache.cjs.js": {
-    "bundled": 2432,
-    "minified": 1198,
-    "gzipped": 588
+    "bundled": 1334,
+    "minified": 588,
+    "gzipped": 351
   },
   "dist/jss-plugin-cache.esm.js": {
-    "bundled": 2350,
-    "minified": 1129,
-    "gzipped": 559,
+    "bundled": 1252,
+    "minified": 519,
+    "gzipped": 300,
     "treeshaked": {
       "rollup": {
         "code": 0,
