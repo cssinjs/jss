@@ -10,6 +10,8 @@ import {create} from 'jss'
 
 import injectSheet, {createTheming, ThemeProvider, JssProvider, SheetsRegistry} from '../src'
 
+const removeWhitespaces = s => s.replace(/\s/g, '')
+
 describe('theming', () => {
   let node
 
@@ -365,14 +367,10 @@ describe('theming', () => {
     )
 
     const styleTags = Array.from(document.querySelectorAll('style'))
-    const innerText = x => x.innerText
-    const trim = x => x.trim()
-    const actual = styleTags
-      .map(innerText)
-      .map(trim)
-      .join('\n')
+    const actual = styleTags.map(x => removeWhitespaces(x.innerText)).join('')
 
-    expect(actual).to.be(stripIndent`
+    expect(actual).to.be(
+      removeWhitespaces(`
       .a-0 {
         color: red;
       }
@@ -380,6 +378,7 @@ describe('theming', () => {
         color: green;
       }
     `)
+    )
   })
 
   it('should render two different sheets with theming', () => {

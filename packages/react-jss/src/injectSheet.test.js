@@ -3,7 +3,6 @@
 import expect from 'expect.js'
 import React from 'react'
 import {create, sheets} from 'jss'
-import {stripIndent} from 'common-tags'
 import {spy} from 'sinon'
 import {render, unmountComponentAtNode} from 'react-dom'
 
@@ -12,6 +11,7 @@ import createHoc from './createHoc'
 import injectSheet, {JssProvider, ThemeProvider} from './'
 
 const createGenerateClassName = () => rule => `${rule.key}-id`
+const removeWhitespaces = s => s.replace(/\s/g, '')
 
 describe('injectSheet', () => {
   let jss
@@ -393,11 +393,13 @@ describe('injectSheet', () => {
       render(<ComponentB localJss={newJss} />, node)
 
       const style = document.querySelectorAll('style')[0]
-      expect(style.innerText.trim()).to.be(stripIndent`
+      expect(removeWhitespaces(style.innerText)).to.be(
+        removeWhitespaces(`
         .a-id {
           right: 2px;
         }
       `)
+      )
     })
   })
 })
