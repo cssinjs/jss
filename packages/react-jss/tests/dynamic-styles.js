@@ -27,7 +27,7 @@ describe('dynamic styles', () => {
 
       MyComponent = injectSheet({
         left: {
-          float: 'left'
+          width: '1px'
         },
         button: {
           color,
@@ -86,7 +86,7 @@ describe('dynamic styles', () => {
       )
       const style0 = getComputedStyle(findDOMNode(node0).querySelector('div'))
       expect(style0.color).to.be(color)
-      expect(style0.float).to.be('left')
+      expect(style0.width).to.be('1px')
       expect(style0.height).to.be('1px')
     })
 
@@ -175,7 +175,7 @@ describe('dynamic styles', () => {
 
       MyComponent = injectSheet({
         left: {
-          float: 'left'
+          width: '1px'
         },
         button: ({height = 1}) => ({
           color,
@@ -234,7 +234,7 @@ describe('dynamic styles', () => {
       )
       const style0 = getComputedStyle(findDOMNode(node0).querySelector('div'))
       expect(style0.color).to.be(color)
-      expect(style0.float).to.be('left')
+      expect(style0.width).to.be('1px')
       expect(style0.height).to.be('1px')
     })
 
