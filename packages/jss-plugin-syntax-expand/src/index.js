@@ -1,3 +1,5 @@
+// @flow
+import type {Plugin, StyleRule} from 'jss'
 import {propArray, propArrayInObj, propObj, customPropObj} from './props'
 
 /**
@@ -8,7 +10,7 @@ import {propArray, propArrayInObj, propObj, customPropObj} from './props'
  * @param {String} original rule
  * @return {String} mapped values
  */
-function mapValuesByProp(value, prop, rule) {
+function mapValuesByProp(value, prop, rule: StyleRule) {
   return value.map(item => objectToArray(item, prop, rule, false, true))
 }
 
@@ -21,10 +23,10 @@ function mapValuesByProp(value, prop, rule) {
  * @param {Object} original rule
  * @return {String} converted string
  */
-function processArray(value, prop, scheme, rule) {
+function processArray(value, prop, scheme, rule: StyleRule) {
   if (scheme[prop] == null) return value
   if (value.length === 0) return []
-  if (Array.isArray(value[0])) return processArray(value[0], prop, scheme)
+  if (Array.isArray(value[0])) return processArray(value[0], prop, scheme, rule)
   if (typeof value[0] === 'object') {
     return mapValuesByProp(value, prop, rule)
   }
@@ -42,12 +44,12 @@ function processArray(value, prop, scheme, rule) {
  * @param {Boolean} object is inside array
  * @return {String} converted string
  */
-function objectToArray(value, prop, rule, isFallback, isInArray) {
+function objectToArray(value, prop, rule: StyleRule, isFallback, isInArray) {
   if (!(propObj[prop] || customPropObj[prop])) return []
 
   const result = []
 
-  // Check if exists any non-standart property
+  // Check if exists any non-standard property
   if (customPropObj[prop]) {
     value = customPropsToStyle(value, rule, customPropObj[prop], isFallback)
   }
@@ -84,7 +86,7 @@ function objectToArray(value, prop, rule, isFallback, isInArray) {
  * @param {Boolean} is fallback prop
  * @return {Object} value without custom properties, that was already added to rule
  */
-function customPropsToStyle(value, rule, customProps, isFallback) {
+function customPropsToStyle(value, rule: StyleRule, customProps, isFallback) {
   for (const prop in customProps) {
     const propName = customProps[prop]
 
@@ -116,7 +118,7 @@ function customPropsToStyle(value, rule, customProps, isFallback) {
  * @param {Boolean} is fallback prop
  * @return {Object} convertedStyle
  */
-function styleDetector(style, rule, isFallback) {
+function styleDetector(style, rule: StyleRule, isFallback) {
   for (const prop in style) {
     const value = style[prop]
 
@@ -124,18 +126,21 @@ function styleDetector(style, rule, isFallback) {
       // Check double arrays to avoid recursion.
       if (!Array.isArray(value[0])) {
         if (prop === 'fallbacks') {
+          // $FlowFixMe: Flow has problems with knowing that the fallback prop actually exists
           for (let index = 0; index < style.fallbacks.length; index++) {
+            // $FlowFixMe: Flow has problems with knowing that the fallback prop actually exists
             style.fallbacks[index] = styleDetector(style.fallbacks[index], rule, true)
           }
           continue
         }
 
-        style[prop] = processArray(value, prop, propArray)
+        style[prop] = processArray(value, prop, propArray, rule)
         // Avoid creating properties with empty values
         if (!style[prop].length) delete style[prop]
       }
     } else if (typeof value === 'object') {
       if (prop === 'fallbacks') {
+        // $FlowFixMe: Flow has problems with knowing that the fallback prop actually exists
         style.fallbacks = styleDetector(style.fallbacks, rule, true)
         continue
       }
@@ -158,19 +163,19 @@ function styleDetector(style, rule, isFallback) {
  * @param {Rule} rule
  * @api public
  */
-export default function jssExpand() {
+export default function jssExpand(): Plugin {
   function onProcessStyle(style, rule) {
     if (!style || rule.type !== 'style') return style
 
     if (Array.isArray(style)) {
       // Pass rules one by one and reformat them
       for (let index = 0; index < style.length; index++) {
-        style[index] = styleDetector(style[index], rule)
+        style[index] = styleDetector(style[index], ((rule: any): StyleRule))
       }
       return style
     }
 
-    return styleDetector(style, rule)
+    return styleDetector(style, ((rule: any): StyleRule))
   }
 
   return {onProcessStyle}
