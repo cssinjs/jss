@@ -32,8 +32,8 @@ const external = id => !id.startsWith('\0') && !id.startsWith('.') && !id.starts
 const getBabelOptions = () => ({
   exclude: '**/node_modules/**',
   babelrc: false,
-  presets: [['@babel/env', {modules: false}], '@babel/flow', '@babel/react'],
-  plugins: ['@babel/proposal-class-properties']
+  presets: [['@babel/env', {modules: false, loose: true}], '@babel/flow', '@babel/react'],
+  plugins: [['@babel/proposal-class-properties', {loose: true}]]
 })
 
 const commonjsOptions = {
