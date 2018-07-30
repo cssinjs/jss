@@ -16,9 +16,11 @@ module.exports = config => {
     browsers: ['Chrome'],
     frameworks: ['mocha'],
     files: [
+      'node_modules/babel-polyfill/dist/polyfill.js',
       'node_modules/es5-shim/es5-shim.js',
       'node_modules/es5-shim/es5-sham.js',
       'node_modules/css.escape/css.escape.js',
+      'node_modules/raf/polyfill.js',
       './packages/jss/tests/index.js',
       './packages/jss-plugin-syntax-rule-value-function/src/index.test.js',
       './packages/jss-plugin-syntax-rule-value-observable/src/observable.test.js',
@@ -33,9 +35,16 @@ module.exports = config => {
       './packages/jss-plugin-cache/src/index.test.js',
       './packages/jss-plugin-props-sort/src/index.test.js',
       './packages/jss-plugin-isolate/src/index.test.js',
-      './packages/jss-plugin-syntax-template/src/index.test.js'
+      './packages/jss-plugin-syntax-template/src/index.test.js',
+      './packages/react-jss/tests/theming.js',
+      './packages/react-jss/tests/dynamic-styles.js',
+      './packages/react-jss/src/index.test.js',
+      './packages/react-jss/src/compose.test.js',
+      './packages/react-jss/src/JssProvider.test.js',
+      './packages/react-jss/src/injectSheet.test.js'
     ],
     preprocessors: {
+      'node_modules/raf/polyfill.js': ['webpack'],
       './packages/**/*.js': ['webpack', 'sourcemap']
     },
     webpack: Object.assign(webpackConfig, {

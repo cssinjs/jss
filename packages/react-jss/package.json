@@ -1,0 +1,48 @@
+{
+  "name": "react-jss",
+  "description": "JSS integration with React",
+  "version": "8.6.1",
+  "license": "MIT",
+  "main": "dist/react-jss.cjs.js",
+  "module": "dist/react-jss.esm.js",
+  "homepage": "http://cssinjs.org/react-jss",
+  "author": {
+    "name": "Dan Abramov",
+    "email": "dan.abramov@me.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cssinjs/jss.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-cache]"
+  },
+  "files": [
+    "dist",
+    "src",
+    "changelog.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "react",
+    "style",
+    "css",
+    "stylesheet",
+    "jss",
+    "hoc",
+    "decorator"
+  ],
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "peerDependencies": {
+    "react": ">=0.13"
+  },
+  "dependencies": {
+    "hoist-non-react-statics": "^2.5.0",
+    "jss": "^9.7.0",
+    "jss-preset-default": "^4.3.0",
+    "prop-types": "^15.6.0",
+    "theming": "^1.3.0"
+  }
+}

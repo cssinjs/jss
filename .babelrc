@@ -1,7 +1,8 @@
 {
   "presets": [
     "es2015",
-    "stage-0"
+    "stage-0",
+    "react"
   ],
   "plugins": [
     "transform-es3-member-expression-literals",

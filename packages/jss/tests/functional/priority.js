@@ -191,15 +191,19 @@ describe('Functional: dom priority', () => {
 
   describe('element insertion point', () => {
     let insertionPoint
+    let sheet1
+    let sheet2
     beforeEach(() => {
       insertionPoint = document.body.appendChild(document.createElement('div'))
       const jss = create({insertionPoint})
-      jss.createStyleSheet({}, {meta: 'sheet2', index: 2}).attach()
-      jss.createStyleSheet({}, {meta: 'sheet1', index: 1}).attach()
+      sheet2 = jss.createStyleSheet({}, {meta: 'sheet2', index: 2}).attach()
+      sheet1 = jss.createStyleSheet({}, {meta: 'sheet1', index: 1}).attach()
     })
 
     afterEach(() => {
       document.body.removeChild(insertionPoint)
+      sheet2.detach()
+      sheet1.detach()
     })
 
     it('should insert sheets in the correct order', () => {
