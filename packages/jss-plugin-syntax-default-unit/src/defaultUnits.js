@@ -1,3 +1,4 @@
+// @flow
 /**
  * Generated jss-plugin-syntax-default-unit CSS property units
  *
@@ -100,7 +101,7 @@ export default {
   width: 'px',
   'word-spacing': 'px',
   // Not existing properties.
-  // Used to avoid issues with jss-expand intergration.
+  // Used to avoid issues with jss-expand integration.
   'box-shadow-x': 'px',
   'box-shadow-y': 'px',
   'box-shadow-blur': 'px',

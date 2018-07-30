@@ -1,3 +1,5 @@
+// @flow
+import type {Plugin} from 'jss'
 import defaultUnits from './defaultUnits'
 
 /**
@@ -29,42 +31,33 @@ function iterate(prop, value, options) {
 
   let convertedValue = value
 
-  let type = typeof value
-  if (type === 'object' && Array.isArray(value)) type = 'array'
-
-  switch (type) {
-    case 'object':
-      if (prop === 'fallbacks') {
-        for (const innerProp in value) {
-          value[innerProp] = iterate(innerProp, value[innerProp], options)
-        }
-        break
+  if (Array.isArray(value)) {
+    for (let i = 0; i < value.length; i++) {
+      value[i] = iterate(prop, value[i], options)
+    }
+  } else if (typeof value === 'number' && value !== 0) {
+    convertedValue = value + (options[prop] || units[prop] || '')
+  } else if (typeof value === 'object') {
+    if (prop === 'fallbacks') {
+      for (const innerProp in value) {
+        value[innerProp] = iterate(innerProp, value[innerProp], options)
       }
+    } else {
       for (const innerProp in value) {
         value[innerProp] = iterate(`${prop}-${innerProp}`, value[innerProp], options)
       }
-      break
-    case 'array':
-      for (let i = 0; i < value.length; i++) {
-        value[i] = iterate(prop, value[i], options)
-      }
-      break
-    case 'number':
-      if (value !== 0) {
-        convertedValue = value + (options[prop] || units[prop] || '')
-      }
-      break
-    default:
-      break
+    }
   }
 
   return convertedValue
 }
 
+type Options = {[key: string]: string}
+
 /**
  * Add unit to numeric values.
  */
-export default function defaultUnit(options = {}) {
+export default function defaultUnit(options: Options = {}): Plugin {
   const camelCasedOptions = addCamelCasedVersion(options)
 
   function onProcessStyle(style, rule) {
