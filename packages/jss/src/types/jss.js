@@ -35,6 +35,8 @@ export type JssValue =
   | string
   | number
   | Array<string | number | Array<string | number> | '!important'>
+  | null
+  | false
 
 export interface Renderer {
   constructor(sheet?: StyleSheet): void;
