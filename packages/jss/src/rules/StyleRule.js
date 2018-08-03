@@ -69,7 +69,7 @@ export default class StyleRule implements BaseRule {
   /**
    * Get or set a style property.
    */
-  prop(name: string, value?: JssValue): StyleRule | string {
+  prop(name: string, value?: JssValue | null | false): StyleRule | string {
     // It's a getter.
     if (value === undefined) return this.style[name]
 
