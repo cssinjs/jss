@@ -1,4 +1,6 @@
+// @flow
 import warning from 'warning'
+import type {Plugin} from 'jss'
 
 const isObject = obj => obj && typeof obj === 'object' && !Array.isArray(obj)
 const valueNs = `extendCurrValue${Date.now()}`
@@ -78,7 +80,7 @@ function extend(style, rule, sheet, newStyle = {}) {
  * @param {Rule} rule
  * @api public
  */
-export default function jssExtend() {
+export default function jssExtend(): Plugin {
   function onProcessStyle(style, rule, sheet) {
     if ('extend' in style) return extend(style, rule, sheet)
     return style
@@ -89,16 +91,21 @@ export default function jssExtend() {
 
     // Value is empty, remove properties set previously.
     if (value == null || value === false) {
+      // $FlowFixMe: Flow complains because there is no indexer property in StyleRule
       for (const key in rule[valueNs]) {
         rule.prop(key, null)
       }
+      // $FlowFixMe: Flow complains because there is no indexer property in StyleRule
       rule[valueNs] = null
       return null
     }
 
+    // $FlowFixMe: This will be an object
     for (const key in value) {
       rule.prop(key, value[key])
     }
+
+    // $FlowFixMe: Flow complains because there is no indexer property in StyleRule
     rule[valueNs] = value
 
     // Make sure we don't set the value in the core.
