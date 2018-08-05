@@ -1,49 +1,56 @@
 // @flow
-import defaultJss, {SheetsRegistry, type Jss} from 'jss'
-import warning from 'warning'
+import defaultJss, {SheetsRegistry, type Jss, type StyleSheet, type StyleRule} from 'jss'
 
 type Options = {
   jss?: Jss,
-  name?: string
+  name?: string,
+  sheet?: StyleSheet,
+  registry?: SheetsRegistry
 }
 
-let counter = 0
-const registry = new SheetsRegistry()
+let sheetsRegistry = null
 const stylesheets = new WeakMap()
 
-function getStyleSheet(jss: Jss) {
+function getStyleSheet(jss: Jss, registry: SheetsRegistry | null, sheetOptions): StyleSheet {
   const existingStylesheet = stylesheets.get(jss)
 
   if (existingStylesheet) {
     return existingStylesheet
   }
 
-  const stylesheet = jss.createStyleSheet({}, {meta: 'JSS Keyframes'})
+  const stylesheet = jss.createStyleSheet(
+    {},
+    {
+      meta: 'JSS Keyframes',
+      ...sheetOptions
+    }
+  )
 
   stylesheets.set(jss, stylesheet)
 
-  registry.add(stylesheet)
+  if (registry !== null) {
+    registry.add(stylesheet)
+  }
 
   stylesheet.attach()
 
   return stylesheet
 }
 
-export function getAllSheets() {
-  return registry
+export function setRegistry(registry: SheetsRegistry) {
+  sheetsRegistry = registry
 }
 
 export default function createKeyframes(keyframes: {}, options: Options = {}) {
-  counter++
-
-  warning(
-    counter <= 10000,
-    'You might have a memory leak because the keyframes counter grew up to 10000'
-  )
-
-  const {name = 'animation', jss = defaultJss} = options
-  const keyframesName = process.env.NODE_ENV === 'production' ? `c${counter}` : `${name}-${counter}`
-  const stylesheet = getStyleSheet(jss)
+  const {
+    name = 'animation',
+    jss = defaultJss,
+    registry = sheetsRegistry,
+    sheet,
+    ...sheetOptions
+  } = options
+  const stylesheet = sheet || getStyleSheet(jss, registry, sheetOptions)
+  const keyframesName = jss.generateClassName((({key: name}: any): StyleRule), stylesheet)
 
   // Add the rule to the stylesheet with the uniquely generated name
   stylesheet.addRule(`@keyframes ${keyframesName}`, keyframes)

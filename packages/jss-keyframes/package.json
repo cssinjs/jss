@@ -31,9 +31,6 @@
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
-  "dependencies": {
-    "warning": "^4.0.1"
-  },
   "peerDependencies": {
     "jss": "^9.8.4"
   },
