@@ -52,7 +52,7 @@ function iterate(prop, value, options) {
   return convertedValue
 }
 
-type Options = {[key: string]: string}
+export type Options = {[key: string]: string}
 
 /**
  * Add unit to numeric values.
