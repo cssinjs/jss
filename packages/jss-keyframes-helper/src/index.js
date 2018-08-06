@@ -8,7 +8,7 @@ type Options = {
   registry?: SheetsRegistry
 }
 
-const sheetsRegistry = new SheetsRegistry()
+export const sheetsRegistry = new SheetsRegistry()
 const stylesheets = new WeakMap()
 
 function getStyleSheet(jss: Jss, sheetOptions): StyleSheet {
@@ -36,14 +36,6 @@ function getStyleSheet(jss: Jss, sheetOptions): StyleSheet {
   stylesheet.attach()
 
   return stylesheet
-}
-
-export function resetRegistry() {
-  sheetsRegistry.reset()
-}
-
-export function getSheets() {
-  return sheetsRegistry
 }
 
 export default function createKeyframes(keyframes: {}, options: Options = {}) {

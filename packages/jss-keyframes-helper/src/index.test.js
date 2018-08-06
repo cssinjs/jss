@@ -2,7 +2,7 @@ import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import {create} from 'jss'
 
-import keyframes, {resetRegistry, getSheets} from './index'
+import keyframes, {sheetsRegistry} from './index'
 
 const demoKeyframes = {
   from: {transform: 'scale(1)'},
@@ -21,7 +21,7 @@ describe('jss-keyframes-helper', () => {
   })
 
   afterEach(() => {
-    resetRegistry()
+    sheetsRegistry.reset()
   })
 
   describe('basic usage', () => {
@@ -34,15 +34,15 @@ describe('jss-keyframes-helper', () => {
     it('should add the created sheet to the registry', () => {
       keyframes(demoKeyframes, {jss, name: 'anim1'})
 
-      expect(getSheets().registry.length).to.eql(1)
+      expect(sheetsRegistry.registry.length).to.eql(1)
     })
 
     it('should reuse a StyleSheet for the same jss instance', () => {
       keyframes(demoKeyframes, {jss, name: 'anim1'})
       keyframes(demoKeyframes, {jss, name: 'anim2'})
 
-      expect(getSheets().registry.length).to.eql(1)
-      expect(getSheets().toString()).to.eql(stripIndent`
+      expect(sheetsRegistry.registry.length).to.eql(1)
+      expect(sheetsRegistry.toString()).to.eql(stripIndent`
         @keyframes anim1-id {
           from {
             transform: scale(1);
@@ -68,7 +68,7 @@ describe('jss-keyframes-helper', () => {
       keyframes(demoKeyframes, {jss: jss1})
       keyframes(demoKeyframes, {jss: jss2})
 
-      expect(getSheets().registry.length).to.eql(2)
+      expect(sheetsRegistry.registry.length).to.eql(2)
     })
   })
 
@@ -86,7 +86,7 @@ describe('jss-keyframes-helper', () => {
 
       keyframes(demoKeyframes, {sheet, jss})
 
-      expect(getSheets().registry.length).to.eql(0)
+      expect(sheetsRegistry.registry.length).to.eql(0)
       expect(sheet.toString()).to.eql(stripIndent`
         @keyframes animation-id {
           from {
