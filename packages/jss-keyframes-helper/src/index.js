@@ -37,7 +37,7 @@ function getStyleSheet(jss: Jss, registry: SheetsRegistry | null, sheetOptions):
   return stylesheet
 }
 
-export function setRegistry(registry: SheetsRegistry) {
+export function setRegistry(registry: SheetsRegistry | null) {
   sheetsRegistry = registry
 }
 

@@ -1,20 +1,20 @@
 {
-  "dist/jss-keyframes.js": {
-    "bundled": 2862,
-    "minified": 1127,
-    "gzipped": 643
+  "dist/jss-keyframes-helper.js": {
+    "bundled": 2868,
+    "minified": 1133,
+    "gzipped": 649
   },
-  "dist/jss-keyframes.min.js": {
-    "bundled": 2862,
-    "minified": 1127,
-    "gzipped": 643
+  "dist/jss-keyframes-helper.min.js": {
+    "bundled": 2868,
+    "minified": 1133,
+    "gzipped": 649
   },
-  "dist/jss-keyframes.cjs.js": {
+  "dist/jss-keyframes-helper.cjs.js": {
     "bundled": 2523,
     "minified": 1314,
     "gzipped": 675
   },
-  "dist/jss-keyframes.esm.js": {
+  "dist/jss-keyframes-helper.esm.js": {
     "bundled": 2247,
     "minified": 1090,
     "gzipped": 587,

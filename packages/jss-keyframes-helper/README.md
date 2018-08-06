@@ -1,15 +1,15 @@
-# jss-keyframes
+# jss-keyframes-helper
 
 Helper for generating keyframes with a unique id in jss
 
 ## Installation
 
-> yarn add jss-keyframes
+> yarn add jss-keyframes-helper
 
 ## Usage
 
 ```js
-import keyframes from 'jss-keyframes'
+import keyframes from 'jss-keyframes-helper'
 
 const animationName = keyframes({
   from: {transform: 'scale(1)'},
@@ -32,5 +32,10 @@ type Options = {
   // Example: { name: 'button' } would return button-1
   // This option will default to animation
   name: string
+  // A StyleSheet to be used for adding the keyframes to instead of the created one.
+  sheet: StyleSheet,
+
+  // A registry to add the stylesheet to.
+  registry: SheetsRegistry,
 }
 ```

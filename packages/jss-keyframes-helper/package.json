@@ -1,10 +1,10 @@
 {
-  "name": "jss-keyframes",
+  "name": "jss-keyframes-helper",
   "description": "Helper for generating keyframes with a unique id in jss",
   "version": "0.1.0",
   "license": "MIT",
-  "main": "dist/jss-keyframes.cjs.js",
-  "module": "dist/jss-keyframes.esm.js",
+  "main": "dist/jss-keyframes-helper.cjs.js",
+  "module": "dist/jss-keyframes-helper.esm.js",
   "homepage": "http://cssinjs.org/",
   "author": {
     "name": "Henri Beck",
@@ -15,7 +15,7 @@
     "url": "git@github.com:cssinjs/jss.git"
   },
   "bugs": {
-    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-keyframes]"
+    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-keyframes-helper]"
   },
   "files": [
     "dist",
