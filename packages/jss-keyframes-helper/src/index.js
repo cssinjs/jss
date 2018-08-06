@@ -8,10 +8,10 @@ type Options = {
   registry?: SheetsRegistry
 }
 
-let sheetsRegistry = null
+const sheetsRegistry = new SheetsRegistry()
 const stylesheets = new WeakMap()
 
-function getStyleSheet(jss: Jss, registry: SheetsRegistry | null, sheetOptions): StyleSheet {
+function getStyleSheet(jss: Jss, sheetOptions): StyleSheet {
   const existingStylesheet = stylesheets.get(jss)
 
   if (existingStylesheet) {
@@ -26,30 +26,29 @@ function getStyleSheet(jss: Jss, registry: SheetsRegistry | null, sheetOptions):
     }
   )
 
+  // Save the stylesheet for other keyframes with the same jss instance
   stylesheets.set(jss, stylesheet)
 
-  if (registry !== null) {
-    registry.add(stylesheet)
-  }
+  // Add the sheet to the registry to keep track of
+  sheetsRegistry.add(stylesheet)
 
+  // Attach the stylesheet to the DOM
   stylesheet.attach()
 
   return stylesheet
 }
 
-export function setRegistry(registry: SheetsRegistry | null) {
-  sheetsRegistry = registry
+export function resetRegistry() {
+  sheetsRegistry.reset()
+}
+
+export function getSheets() {
+  return sheetsRegistry
 }
 
 export default function createKeyframes(keyframes: {}, options: Options = {}) {
-  const {
-    name = 'animation',
-    jss = defaultJss,
-    registry = sheetsRegistry,
-    sheet,
-    ...sheetOptions
-  } = options
-  const stylesheet = sheet || getStyleSheet(jss, registry, sheetOptions)
+  const {name = 'animation', jss = defaultJss, sheet, ...sheetOptions} = options
+  const stylesheet = sheet || getStyleSheet(jss, sheetOptions)
   const keyframesName = jss.generateClassName((({key: name}: any): StyleRule), stylesheet)
 
   // Add the rule to the stylesheet with the uniquely generated name
