@@ -41,7 +41,8 @@ module.exports = config => {
       './packages/react-jss/src/index.test.js',
       './packages/react-jss/src/compose.test.js',
       './packages/react-jss/src/JssProvider.test.js',
-      './packages/react-jss/src/injectSheet.test.js'
+      './packages/react-jss/src/injectSheet.test.js',
+      'packages/jss-keyframes-helper/src/index.test.js'
     ],
     preprocessors: {
       'node_modules/raf/polyfill.js': ['webpack'],
