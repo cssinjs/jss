@@ -263,7 +263,7 @@ function insertStyle(style: HTMLElement, options: PriorityOptions) {
     // https://stackoverflow.com/questions/41328728/force-casting-in-flow
     const insertionPointElement: HTMLElement = (insertionPoint: any)
     const {parentNode} = insertionPointElement
-    if (parentNode) parentNode.insertBefore(style, insertionPointElement.nextSibling)
+    if (parentNode) parentNode.insertBefore(style, prevNode)
     else warning(false, '[JSS] Insertion point is not in the DOM.')
     return
   }
