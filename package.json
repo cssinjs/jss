@@ -99,5 +99,8 @@
     "sinon": "4.5.0",
     "webpack": "^2.3.3",
     "zen-observable": "^0.6.0"
+  },
+  "dependencies": {
+    "flow-copy-source": "^2.0.2"
   }
 }
