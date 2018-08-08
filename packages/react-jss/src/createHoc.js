@@ -2,12 +2,12 @@
 import React, {Component, type ComponentType} from 'react'
 import PropTypes from 'prop-types'
 import defaultTheming from 'theming'
-import jss, {getDynamicStyles, SheetsManager} from './jss'
+import jss, {getDynamicStyles, SheetsManager, type StyleSheet} from './jss'
 import compose from './compose'
 import getDisplayName from './getDisplayName'
 import * as ns from './ns'
 import contextTypes from './contextTypes'
-import type {Options, Theme, StylesOrThemer, JssSheet} from './types'
+import type {Options, Theme, StylesOrThemer} from './types'
 
 const env = process.env.NODE_ENV
 
@@ -36,13 +36,13 @@ const dynamicStylesNs = Math.random()
 
 type Props = {
   classes: ?{},
-  innerRef?: () => {},
+  innerRef?: (comp: ComponentType<{}> | null) => void,
   theme?: Theme,
   sheet?: {}
 }
 type State = {
   theme: Theme,
-  dynamicSheet?: JssSheet,
+  dynamicSheet?: StyleSheet,
   classes?: ?{}
 }
 
@@ -54,8 +54,8 @@ const getStyles = (stylesOrCreator: StylesOrThemer, theme: Theme) => {
 }
 
 // Returns an object with array property as a key and true as a value.
-const toMap = arr =>
-  arr.reduce((map, prop) => {
+const toMap = (arr: []) =>
+  arr.reduce((map, prop): {} => {
     map[prop] = true
     return map
   }, {})
@@ -140,7 +140,7 @@ export default function createHOC<P>(
 
     componentDidUpdate(prevProps: Props, prevState: State) {
       // We remove previous dynamicSheet only after new one was created to avoid FOUC.
-      if (prevState.dynamicSheet !== this.state.dynamicSheet) {
+      if (prevState.dynamicSheet !== this.state.dynamicSheet && prevState.dynamicSheet) {
         this.jss.removeStyleSheet(prevState.dynamicSheet)
       }
     }
@@ -199,10 +199,20 @@ export default function createHOC<P>(
         })
       }
 
-      const sheet = dynamicSheet || staticSheet
-      // $FlowFixMe defaultProps are not defined in React$Component
-      const defaultClasses = InnerComponent.defaultProps ? InnerComponent.defaultProps.classes : {}
-      const classes = {...defaultClasses, ...sheet.classes, ...userClasses}
+      const defaultClasses = InnerComponent.defaultProps
+        ? InnerComponent.defaultProps.classes
+        : undefined
+      const jssClasses = dynamicSheet
+        ? compose(
+            staticSheet.classes,
+            dynamicSheet.classes
+          )
+        : staticSheet.classes
+      const classes = {
+        ...defaultClasses,
+        ...jssClasses,
+        ...userClasses
+      }
 
       return {theme, dynamicSheet, classes}
     }

@@ -33,8 +33,7 @@
     "decorator"
   ],
   "scripts": {
-	"prepare": "node ../../scripts/prepare.js",
-	"flow": "flow"
+    "prepare": "node ../../scripts/prepare.js"
   },
   "peerDependencies": {
     "react": ">=0.13"
