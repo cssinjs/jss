@@ -39,8 +39,9 @@ export default function injectSheet<P, C: React$ComponentType<P>>(
     options.index = indexCounter++
   }
   // eslint-disable-next-line no-shadow
-  function injector<P>(InnerComponent: React.ComponentType<P> = NoRenderer) {
-    const Jss = createHoc(stylesOrSheet, InnerComponent, options)
+  function injector<P>(InnerComponent: React.ComponentType<P> = NoRenderer): React.ComponentType<P> {
+	const Jss = createHoc(stylesOrSheet, InnerComponent, options)
+
     return hoistNonReactStatics(Jss, InnerComponent, {inner: true})
   }
   return injector

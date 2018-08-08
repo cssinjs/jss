@@ -34,7 +34,7 @@ const dynamicStylesNs = Math.random()
  *
  */
 
-type Props = {
+type InjectedProps = {
   classes: ?{},
   innerRef?: (comp: ComponentType<{}> | null) => void,
   theme?: Theme,
@@ -80,7 +80,7 @@ export default function createHOC<P>(
   stylesOrCreator: StylesOrThemer,
   InnerComponent: ComponentType<P>,
   options: Options = {}
-): ComponentType<any> {
+): ComponentType<$Diff<InjectedProps, P>> {
   const isThemingEnabled = typeof stylesOrCreator === 'function'
   const {theming = defaultTheming, inject, jss: optionsJss, ...sheetOptions}: any = options
   const injectMap = inject ? toMap(inject) : defaultInjectProps
@@ -91,10 +91,10 @@ export default function createHOC<P>(
   const managerId = managersCounter++
   const manager = new SheetsManager()
   // $FlowFixMe defaultProps are not defined in React$Component
-  const defaultProps: Props = {...InnerComponent.defaultProps}
+  const defaultProps: InjectedProps = {...InnerComponent.defaultProps}
   delete defaultProps.classes
 
-  class Jss extends Component<Props, State> {
+  class Jss extends Component<InjectedProps, State> {
     static displayName = `Jss(${displayName})`
     static InnerComponent = InnerComponent
     static contextTypes = {
@@ -106,7 +106,7 @@ export default function createHOC<P>(
     }
     static defaultProps = defaultProps
 
-    constructor(props: Props, context: {}) {
+    constructor(props: InjectedProps, context: {}) {
       super(props, context)
       const theme = isThemingEnabled ? themeListener.initial(context) : noTheme
 
@@ -123,13 +123,13 @@ export default function createHOC<P>(
       }
     }
 
-    componentWillReceiveProps(nextProps: Props, nextContext: {}) {
+    componentWillReceiveProps(nextProps: InjectedProps, nextContext: {}) {
       this.context = nextContext
       const {dynamicSheet} = this.state
       if (dynamicSheet) dynamicSheet.update(nextProps)
     }
 
-    componentWillUpdate(nextProps: Props, nextState: State) {
+    componentWillUpdate(nextProps: InjectedProps, nextState: State) {
       if (isThemingEnabled && this.state.theme !== nextState.theme) {
         const newState = this.createState(nextState, nextProps)
         this.manage(newState)
@@ -138,7 +138,7 @@ export default function createHOC<P>(
       }
     }
 
-    componentDidUpdate(prevProps: Props, prevState: State) {
+    componentDidUpdate(prevProps: InjectedProps, prevState: State) {
       // We remove previous dynamicSheet only after new one was created to avoid FOUC.
       if (prevState.dynamicSheet !== this.state.dynamicSheet && prevState.dynamicSheet) {
         this.jss.removeStyleSheet(prevState.dynamicSheet)
@@ -159,7 +159,7 @@ export default function createHOC<P>(
     setTheme = (theme: Theme) => this.setState({theme})
     unsubscribeId: any => any
 
-    createState({theme, dynamicSheet}: State, {classes: userClasses}: Props): State {
+    createState({theme, dynamicSheet}: State, {classes: userClasses}: InjectedProps): State {
       const contextSheetOptions = this.context[ns.sheetOptions]
       if (contextSheetOptions && contextSheetOptions.disableStylesGeneration) {
         return {theme, dynamicSheet, classes: {}}
@@ -167,7 +167,6 @@ export default function createHOC<P>(
 
       let classNamePrefix = defaultClassNamePrefix
       let staticSheet = this.manager.get(theme)
-      let dynamicStyles
 
       if (contextSheetOptions && contextSheetOptions.classNamePrefix) {
         classNamePrefix = contextSheetOptions.classNamePrefix + classNamePrefix
@@ -182,12 +181,10 @@ export default function createHOC<P>(
           classNamePrefix
         })
         this.manager.add(theme, staticSheet)
-        dynamicStyles = compose(
-          staticSheet.classes,
-          getDynamicStyles(styles)
-        )
-        staticSheet[dynamicStylesNs] = dynamicStyles
-      } else dynamicStyles = staticSheet[dynamicStylesNs]
+        staticSheet[dynamicStylesNs] = getDynamicStyles(styles)	  
+	  }
+	  
+	  const dynamicStyles = staticSheet[dynamicStylesNs]
 
       if (dynamicStyles) {
         dynamicSheet = this.jss.createStyleSheet(dynamicStyles, {
@@ -254,7 +251,7 @@ export default function createHOC<P>(
 
     render() {
       const {theme, dynamicSheet, classes} = this.state
-      const {innerRef, ...props}: Props = this.props
+      const {innerRef, ...props}: InjectedProps = this.props
 
       const sheet = dynamicSheet || this.manager.get(theme)
 
