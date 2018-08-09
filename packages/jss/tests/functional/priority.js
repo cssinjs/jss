@@ -189,29 +189,33 @@ describe('Functional: dom priority', () => {
     })
   })
 
-  describe('element insertion point', () => {
+  describe('element insertion point: body', () => {
     let insertionPoint
     let sheet1
     let sheet2
+    let sheet3
     beforeEach(() => {
       insertionPoint = document.body.appendChild(document.createElement('div'))
       const jss = create({insertionPoint})
       sheet2 = jss.createStyleSheet({}, {meta: 'sheet2', index: 2}).attach()
       sheet1 = jss.createStyleSheet({}, {meta: 'sheet1', index: 1}).attach()
+      sheet3 = jss.createStyleSheet({}, {meta: 'sheet3', index: 3}).attach()
     })
 
     afterEach(() => {
       document.body.removeChild(insertionPoint)
       sheet2.detach()
       sheet1.detach()
+      sheet3.detach()
     })
 
     it('should insert sheets in the correct order', () => {
       const styleElements = document.body.getElementsByTagName('style')
 
-      expect(styleElements.length).to.be(2)
+      expect(styleElements.length).to.be(3)
       expect(styleElements[0].getAttribute('data-meta')).to.be('sheet1')
       expect(styleElements[1].getAttribute('data-meta')).to.be('sheet2')
+      expect(styleElements[2].getAttribute('data-meta')).to.be('sheet3')
     })
   })
 
