@@ -1,5 +1,5 @@
 // @flow
-type Classes = {[string]: string}
+import {type Classes} from 'jss'
 /**
  * Adds `composes` property to each top level rule
  * in order to have a composed class name for dynamic style sheets.

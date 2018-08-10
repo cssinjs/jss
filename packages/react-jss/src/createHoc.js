@@ -34,16 +34,23 @@ const dynamicStylesNs = Math.random()
  *
  */
 
+type AdditionalProps<IC> = {
+  classes?: ?{},
+  innerRef?: (comp: IC | null) => void
+}
 type InjectedProps = {
-  classes: ?{},
-  innerRef?: (comp: ComponentType<{}> | null) => void,
+  classes?: {},
   theme?: Theme,
   sheet?: {}
 }
 type State = {
   theme: Theme,
   dynamicSheet?: StyleSheet,
-  classes?: ?{}
+  classes: {}
+}
+type CreateStateOptions = {
+  theme: Theme,
+  dynamicSheet?: StyleSheet
 }
 
 const getStyles = (stylesOrCreator: StylesOrThemer, theme: Theme) => {
@@ -54,8 +61,8 @@ const getStyles = (stylesOrCreator: StylesOrThemer, theme: Theme) => {
 }
 
 // Returns an object with array property as a key and true as a value.
-const toMap = (arr: []) =>
-  arr.reduce((map, prop): {} => {
+const toMap = arr =>
+  arr.reduce((map, prop) => {
     map[prop] = true
     return map
   }, {})
@@ -68,6 +75,7 @@ const defaultInjectProps = {
 
 let managersCounter = 0
 
+type JssComponentProps<P> = $Diff<InjectedProps, P> & AdditionalProps<ComponentType<P>>
 /**
  * Wrap a Component into a JSS Container Component.
  *
@@ -79,10 +87,10 @@ let managersCounter = 0
 export default function createHOC<P>(
   stylesOrCreator: StylesOrThemer,
   InnerComponent: ComponentType<P>,
-  options: Options = {}
-): ComponentType<$Diff<InjectedProps, P>> {
+  options: Options
+): ComponentType<JssComponentProps<P>> {
   const isThemingEnabled = typeof stylesOrCreator === 'function'
-  const {theming = defaultTheming, inject, jss: optionsJss, ...sheetOptions}: any = options
+  const {theming = defaultTheming, inject, jss: optionsJss, ...sheetOptions} = options
   const injectMap = inject ? toMap(inject) : defaultInjectProps
   const {themeListener} = theming
   const displayName = getDisplayName(InnerComponent)
@@ -94,21 +102,23 @@ export default function createHOC<P>(
   const defaultProps: InjectedProps = {...InnerComponent.defaultProps}
   delete defaultProps.classes
 
-  class Jss extends Component<InjectedProps, State> {
+  type JssProps = JssComponentProps<P> // Generic so we can use JssComponentProps<P> without P in the scope
+
+  class Jss extends Component<JssProps, State> {
     static displayName = `Jss(${displayName})`
     static InnerComponent = InnerComponent
     static contextTypes = {
       ...contextTypes,
-      ...(isThemingEnabled && themeListener.contextTypes)
+      ...(isThemingEnabled && themeListener && themeListener.contextTypes)
     }
     static propTypes = {
       innerRef: PropTypes.func
     }
     static defaultProps = defaultProps
 
-    constructor(props: InjectedProps, context: {}) {
+    constructor(props: JssProps, context: {}) {
       super(props, context)
-      const theme = isThemingEnabled ? themeListener.initial(context) : noTheme
+      const theme = themeListener && isThemingEnabled ? themeListener.initial(context) : noTheme
 
       this.state = this.createState({theme}, props)
     }
@@ -118,18 +128,18 @@ export default function createHOC<P>(
     }
 
     componentDidMount() {
-      if (isThemingEnabled) {
+      if (themeListener && isThemingEnabled) {
         this.unsubscribeId = themeListener.subscribe(this.context, this.setTheme)
       }
     }
 
-    componentWillReceiveProps(nextProps: InjectedProps, nextContext: {}) {
+    componentWillReceiveProps(nextProps: JssProps, nextContext: {}) {
       this.context = nextContext
       const {dynamicSheet} = this.state
       if (dynamicSheet) dynamicSheet.update(nextProps)
     }
 
-    componentWillUpdate(nextProps: InjectedProps, nextState: State) {
+    componentWillUpdate(nextProps: JssProps, nextState: State) {
       if (isThemingEnabled && this.state.theme !== nextState.theme) {
         const newState = this.createState(nextState, nextProps)
         this.manage(newState)
@@ -138,7 +148,7 @@ export default function createHOC<P>(
       }
     }
 
-    componentDidUpdate(prevProps: InjectedProps, prevState: State) {
+    componentDidUpdate(prevProps: JssProps, prevState: State) {
       // We remove previous dynamicSheet only after new one was created to avoid FOUC.
       if (prevState.dynamicSheet !== this.state.dynamicSheet && prevState.dynamicSheet) {
         this.jss.removeStyleSheet(prevState.dynamicSheet)
@@ -146,7 +156,7 @@ export default function createHOC<P>(
     }
 
     componentWillUnmount() {
-      if (this.unsubscribeId) {
+      if (themeListener && this.unsubscribeId) {
         themeListener.unsubscribe(this.context, this.unsubscribeId)
       }
 
@@ -159,7 +169,7 @@ export default function createHOC<P>(
     setTheme = (theme: Theme) => this.setState({theme})
     unsubscribeId: any => any
 
-    createState({theme, dynamicSheet}: State, {classes: userClasses}: InjectedProps): State {
+    createState({theme, dynamicSheet}: CreateStateOptions, {classes: userClasses}): State {
       const contextSheetOptions = this.context[ns.sheetOptions]
       if (contextSheetOptions && contextSheetOptions.disableStylesGeneration) {
         return {theme, dynamicSheet, classes: {}}
@@ -181,10 +191,12 @@ export default function createHOC<P>(
           classNamePrefix
         })
         this.manager.add(theme, staticSheet)
-        staticSheet[dynamicStylesNs] = getDynamicStyles(styles)	  
-	  }
-	  
-	  const dynamicStyles = staticSheet[dynamicStylesNs]
+        // $FlowFixMe Cannot add random fields to instance of class StyleSheet
+        staticSheet[dynamicStylesNs] = getDynamicStyles(styles)
+      }
+
+      // $FlowFixMe Cannot access random fields on instance of class StyleSheet
+      const dynamicStyles = staticSheet[dynamicStylesNs]
 
       if (dynamicStyles) {
         dynamicSheet = this.jss.createStyleSheet(dynamicStyles, {
@@ -196,6 +208,7 @@ export default function createHOC<P>(
         })
       }
 
+      // $FlowFixMe InnerComponent can be class or stateless, the latter doesn't have a defaultProps property
       const defaultClasses = InnerComponent.defaultProps
         ? InnerComponent.defaultProps.classes
         : undefined
@@ -251,8 +264,7 @@ export default function createHOC<P>(
 
     render() {
       const {theme, dynamicSheet, classes} = this.state
-      const {innerRef, ...props}: InjectedProps = this.props
-
+      const {innerRef, ...props}: JssProps = this.props
       const sheet = dynamicSheet || this.manager.get(theme)
 
       if (injectMap.sheet && !props.sheet) props.sheet = sheet

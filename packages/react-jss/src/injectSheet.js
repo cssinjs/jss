@@ -31,16 +31,19 @@ const NoRenderer = <P: any>({children}: P) => children || null
 type StylesInjector<P, C: React$ComponentType<P>> = (
   InnerComponent: C
 ) => React$ComponentType<$Diff<P, {classes: {}}>>
-export default function injectSheet<P, C: React$ComponentType<P>>(
+
+export default function injectSheet<P, C: React.ComponentType<P>>(
   stylesOrSheet: StylesOrThemer,
-  options: Options = {}
+  options: Options
 ): StylesInjector<P, C> {
   if (options.index === undefined) {
     options.index = indexCounter++
   }
   // eslint-disable-next-line no-shadow
-  function injector<P>(InnerComponent: React.ComponentType<P> = NoRenderer): React.ComponentType<P> {
-	const Jss = createHoc(stylesOrSheet, InnerComponent, options)
+  function injector<P>(
+    InnerComponent: React.ComponentType<P> = NoRenderer
+  ): React.ComponentType<P> {
+    const Jss = createHoc(stylesOrSheet, InnerComponent, options)
 
     return hoistNonReactStatics(Jss, InnerComponent, {inner: true})
   }
