@@ -1,6 +1,6 @@
 // @flow
 import type {StyleSheetOptions, Jss} from 'jss'
-import type {ComponentType} from 'react'
+import type {ComponentType, Node, ElementRef} from 'react'
 
 export type Options = {
   theming?: {
@@ -30,6 +30,13 @@ export type Options = {
   inject?: Array<'classes' | 'themes' | 'sheet'>,
   jss?: Jss
 } & StyleSheetOptions
+export type InnerProps = {
+  children?: Node,
+  classes?: {},
+  theme?: {},
+  sheet?: {}
+}
+export type OuterProps<IP, C> = IP & {innerRef: (instance: ElementRef<C> | null) => void}
 export type Theme = {}
 export type Styles = {[string]: {}}
 export type ThemerFn = (theme: Theme) => Styles
