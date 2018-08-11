@@ -2,12 +2,13 @@
 import React, {Component, type ComponentType} from 'react'
 import PropTypes from 'prop-types'
 import defaultTheming from 'theming'
-import jss, {getDynamicStyles, SheetsManager, type StyleSheet} from './jss'
+import type {StyleSheet} from 'jss'
+import jss, {getDynamicStyles, SheetsManager} from './jss'
 import compose from './compose'
 import getDisplayName from './getDisplayName'
 import * as ns from './ns'
 import contextTypes from './contextTypes'
-import type {Options, Theme, StylesOrThemer} from './types'
+import type {Options, Theme, StylesOrThemer, InnerProps, OuterProps} from './types'
 
 const env = process.env.NODE_ENV
 
@@ -34,10 +35,6 @@ const dynamicStylesNs = Math.random()
  *
  */
 
-type AdditionalProps<IC> = {
-  classes?: ?{},
-  innerRef?: (comp: IC | null) => void
-}
 type InjectedProps = {
   classes?: {},
   theme?: Theme,
@@ -47,10 +44,6 @@ type State = {
   theme: Theme,
   dynamicSheet?: StyleSheet,
   classes: {}
-}
-type CreateStateOptions = {
-  theme: Theme,
-  dynamicSheet?: StyleSheet
 }
 
 const getStyles = (stylesOrCreator: StylesOrThemer, theme: Theme) => {
@@ -75,20 +68,22 @@ const defaultInjectProps = {
 
 let managersCounter = 0
 
-type JssComponentProps<P> = $Diff<InjectedProps, P> & AdditionalProps<ComponentType<P>>
 /**
  * Wrap a Component into a JSS Container Component.
+ *
+ * IProps: Props of the InnerComponent.
+ * OProps: The Outer props the HOC accepts.
  *
  * @param {Object|Function} stylesOrCreator
  * @param {Component} InnerComponent
  * @param {Object} [options]
  * @return {Component}
  */
-export default function createHOC<P>(
-  stylesOrCreator: StylesOrThemer,
-  InnerComponent: ComponentType<P>,
-  options: Options
-): ComponentType<JssComponentProps<P>> {
+export default function createHOC<
+  IProps: InnerProps,
+  C: ComponentType<IProps>,
+  OProps: OuterProps<IProps, C>
+>(stylesOrCreator: StylesOrThemer, InnerComponent: C, options: Options): ComponentType<OProps> {
   const isThemingEnabled = typeof stylesOrCreator === 'function'
   const {theming = defaultTheming, inject, jss: optionsJss, ...sheetOptions} = options
   const injectMap = inject ? toMap(inject) : defaultInjectProps
@@ -102,9 +97,7 @@ export default function createHOC<P>(
   const defaultProps: InjectedProps = {...InnerComponent.defaultProps}
   delete defaultProps.classes
 
-  type JssProps = JssComponentProps<P> // Generic so we can use JssComponentProps<P> without P in the scope
-
-  class Jss extends Component<JssProps, State> {
+  class Jss extends Component<OProps, State> {
     static displayName = `Jss(${displayName})`
     static InnerComponent = InnerComponent
     static contextTypes = {
@@ -116,11 +109,11 @@ export default function createHOC<P>(
     }
     static defaultProps = defaultProps
 
-    constructor(props: JssProps, context: {}) {
+    constructor(props: OProps, context: {}) {
       super(props, context)
       const theme = themeListener && isThemingEnabled ? themeListener.initial(context) : noTheme
 
-      this.state = this.createState({theme}, props)
+      this.state = this.createState({theme, classes: {}}, props)
     }
 
     componentWillMount() {
@@ -133,13 +126,13 @@ export default function createHOC<P>(
       }
     }
 
-    componentWillReceiveProps(nextProps: JssProps, nextContext: {}) {
+    componentWillReceiveProps(nextProps: OProps, nextContext: {}) {
       this.context = nextContext
       const {dynamicSheet} = this.state
       if (dynamicSheet) dynamicSheet.update(nextProps)
     }
 
-    componentWillUpdate(nextProps: JssProps, nextState: State) {
+    componentWillUpdate(nextProps: OProps, nextState: State) {
       if (isThemingEnabled && this.state.theme !== nextState.theme) {
         const newState = this.createState(nextState, nextProps)
         this.manage(newState)
@@ -148,7 +141,7 @@ export default function createHOC<P>(
       }
     }
 
-    componentDidUpdate(prevProps: JssProps, prevState: State) {
+    componentDidUpdate(prevProps: OProps, prevState: State) {
       // We remove previous dynamicSheet only after new one was created to avoid FOUC.
       if (prevState.dynamicSheet !== this.state.dynamicSheet && prevState.dynamicSheet) {
         this.jss.removeStyleSheet(prevState.dynamicSheet)
@@ -169,7 +162,7 @@ export default function createHOC<P>(
     setTheme = (theme: Theme) => this.setState({theme})
     unsubscribeId: any => any
 
-    createState({theme, dynamicSheet}: CreateStateOptions, {classes: userClasses}): State {
+    createState({theme, dynamicSheet}: State, {classes: userClasses}): State {
       const contextSheetOptions = this.context[ns.sheetOptions]
       if (contextSheetOptions && contextSheetOptions.disableStylesGeneration) {
         return {theme, dynamicSheet, classes: {}}
@@ -264,7 +257,7 @@ export default function createHOC<P>(
 
     render() {
       const {theme, dynamicSheet, classes} = this.state
-      const {innerRef, ...props}: JssProps = this.props
+      const {innerRef, ...props}: OProps = this.props
       const sheet = dynamicSheet || this.manager.get(theme)
 
       if (injectMap.sheet && !props.sheet) props.sheet = sheet
