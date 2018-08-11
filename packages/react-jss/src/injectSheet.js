@@ -1,8 +1,8 @@
 // @flow
-import * as React from 'react'
+import type {ComponentType, Node} from 'react'
 import hoistNonReactStatics from 'hoist-non-react-statics'
 import createHoc from './createHoc'
-import type {Options, StylesOrThemer} from './types'
+import type {Options, StylesOrThemer, InnerProps} from './types'
 
 /**
  * Global index counter to preserve source order.
@@ -18,7 +18,7 @@ import type {Options, StylesOrThemer} from './types'
  */
 let indexCounter = -100000
 
-const NoRenderer = <P: any>({children}: P) => children || null
+const NoRenderer = (props: {children?: ?Node}) => props.children || null
 
 /**
  * HOC creator function that wrapps the user component.
@@ -27,25 +27,14 @@ const NoRenderer = <P: any>({children}: P) => children || null
  *
  * @api public
  */
-
-type StylesInjector<P, C: React$ComponentType<P>> = (
-  InnerComponent: C
-) => React$ComponentType<$Diff<P, {classes: {}}>>
-
-export default function injectSheet<P, C: React.ComponentType<P>>(
-  stylesOrSheet: StylesOrThemer,
-  options: Options
-): StylesInjector<P, C> {
+export default function injectSheet(stylesOrSheet: StylesOrThemer, options: Options) {
   if (options.index === undefined) {
     options.index = indexCounter++
   }
-  // eslint-disable-next-line no-shadow
-  function injector<P>(
-    InnerComponent: React.ComponentType<P> = NoRenderer
-  ): React.ComponentType<P> {
+
+  return (InnerComponent: ComponentType<InnerProps> = NoRenderer) => {
     const Jss = createHoc(stylesOrSheet, InnerComponent, options)
 
     return hoistNonReactStatics(Jss, InnerComponent, {inner: true})
   }
-  return injector
 }
