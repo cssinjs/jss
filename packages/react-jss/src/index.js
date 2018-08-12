@@ -1,3 +1,4 @@
+// @flow
 export {ThemeProvider, withTheme, createTheming} from 'theming'
 export {default as JssProvider} from './JssProvider'
 export {

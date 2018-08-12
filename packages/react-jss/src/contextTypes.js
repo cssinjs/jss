@@ -1,3 +1,4 @@
+// @flow
 import PropTypes from 'prop-types'
 import * as ns from './ns'
 import propTypes from './propTypes'
