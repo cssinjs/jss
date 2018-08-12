@@ -1,5 +1,5 @@
 // @flow
-import type {StyleSheetOptions, Jss} from 'jss'
+import type {StyleSheetFactoryOptions, Jss, SheetsRegistry, SheetsManager} from 'jss'
 import type {ComponentType, Node, ElementRef} from 'react'
 
 export type Options = {
@@ -29,12 +29,19 @@ export type Options = {
   },
   inject?: Array<'classes' | 'themes' | 'sheet'>,
   jss?: Jss
-} & StyleSheetOptions
+} & StyleSheetFactoryOptions
 export type InnerProps = {
   children?: Node,
   classes?: {},
   theme?: {},
   sheet?: {}
+}
+// Needs to be hard coded for stricter types
+export type Context = {
+  '64a55d578f856d258dc345b094a2a2b3'?: Jss,
+  'd4bd0baacbc52bbd48bbb9eb24344ecd'?: SheetsRegistry,
+  'b768b78919504fba9de2c03545c5cd3a'?: { [key: string]: SheetsManager },
+  '6fc570d6bd61383819d0f9e7407c452d': StyleSheetFactoryOptions,
 }
 export type OuterProps<IP, C> = IP & {innerRef: (instance: ElementRef<C> | null) => void}
 export type Theme = {}
