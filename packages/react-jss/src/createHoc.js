@@ -8,7 +8,7 @@ import compose from './compose'
 import getDisplayName from './getDisplayName'
 import * as ns from './ns'
 import contextTypes from './contextTypes'
-import type {Options, Theme, StylesOrThemer, InnerProps, OuterProps} from './types'
+import type {Options, Theme, StylesOrThemer, InnerProps, OuterProps, Context} from './types'
 
 const env = process.env.NODE_ENV
 
@@ -89,7 +89,7 @@ export default function createHOC<
   const injectMap = inject ? toMap(inject) : defaultInjectProps
   const {themeListener} = theming
   const displayName = getDisplayName(InnerComponent)
-  const defaultClassNamePrefix = env === 'production' ? undefined : `${displayName}-`
+  const defaultClassNamePrefix = env === 'production' ? '' : `${displayName}-`
   const noTheme = {}
   const managerId = managersCounter++
   const manager = new SheetsManager()
@@ -102,14 +102,14 @@ export default function createHOC<
     static InnerComponent = InnerComponent
     static contextTypes = {
       ...contextTypes,
-      ...(isThemingEnabled && themeListener && themeListener.contextTypes)
+      ...(isThemingEnabled ? themeListener.contextTypes : {})
     }
     static propTypes = {
       innerRef: PropTypes.func
     }
     static defaultProps = defaultProps
 
-    constructor(props: OProps, context: {}) {
+    constructor(props: OProps, context: Context) {
       super(props, context)
       const theme = themeListener && isThemingEnabled ? themeListener.initial(context) : noTheme
 
@@ -126,7 +126,7 @@ export default function createHOC<
       }
     }
 
-    componentWillReceiveProps(nextProps: OProps, nextContext: {}) {
+    componentWillReceiveProps(nextProps: OProps, nextContext: Context) {
       this.context = nextContext
       const {dynamicSheet} = this.state
       if (dynamicSheet) dynamicSheet.update(nextProps)
@@ -160,7 +160,8 @@ export default function createHOC<
     }
 
     setTheme = (theme: Theme) => this.setState({theme})
-    unsubscribeId: any => any
+    unsubscribeId: string
+    context: Context
 
     createState({theme, dynamicSheet}: State, {classes: userClasses}): State {
       const contextSheetOptions = this.context[ns.sheetOptions]
