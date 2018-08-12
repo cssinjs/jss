@@ -273,8 +273,8 @@ function insertStyle(style: HTMLElement, options: PriorityOptions) {
   const {insertionPoint} = options
   const nextNode = findPrevNode(options)
 
-  if (nextNode !== false) {
-    if (nextNode.parent) nextNode.parent.insertBefore(style, nextNode.node)
+  if (nextNode !== false && nextNode.parent) {
+    nextNode.parent.insertBefore(style, nextNode.node)
 
     return
   }
