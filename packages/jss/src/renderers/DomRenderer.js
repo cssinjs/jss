@@ -216,33 +216,54 @@ function findCommentNode(text: string): Node | null {
   return null
 }
 
+type PrevNode = {
+  parent: ?Node,
+  node: ?Node
+}
+
 /**
  * Find a node before which we can insert the sheet.
  */
-function findPrevNode(options: PriorityOptions): ?Node | null {
+function findPrevNode(options: PriorityOptions): PrevNode | false {
   const {registry} = sheets
 
   if (registry.length > 0) {
     // Try to insert before the next higher sheet.
     let sheet = findHigherSheet(registry, options)
-    if (sheet) return sheet.renderer.element
+    if (sheet) {
+      return {
+        parent: sheet.renderer.element.parentNode,
+        node: sheet.renderer.element
+      }
+    }
 
     // Otherwise insert after the last attached.
     sheet = findHighestSheet(registry, options)
-    if (sheet) return sheet.renderer.element.nextElementSibling
+    if (sheet) {
+      return {
+        parent: sheet.renderer.element.parentNode,
+        node: sheet.renderer.element.nextSibling
+      }
+    }
   }
 
   // Try to find a comment placeholder if registry is empty.
   const {insertionPoint} = options
   if (insertionPoint && typeof insertionPoint === 'string') {
     const comment = findCommentNode(insertionPoint)
-    if (comment) return comment.nextSibling
+    if (comment) {
+      return {
+        parent: comment.parentNode,
+        node: comment.nextSibling
+      }
+    }
+
     // If user specifies an insertion point and it can't be found in the document -
     // bad specificity issues may appear.
     warning(insertionPoint === 'jss', '[JSS] Insertion point "%s" not found.', insertionPoint)
   }
 
-  return null
+  return false
 }
 
 /**
@@ -250,11 +271,11 @@ function findPrevNode(options: PriorityOptions): ?Node | null {
  */
 function insertStyle(style: HTMLElement, options: PriorityOptions) {
   const {insertionPoint} = options
-  const prevNode = findPrevNode(options)
+  const nextNode = findPrevNode(options)
 
-  if (prevNode) {
-    const {parentNode} = prevNode
-    if (parentNode) parentNode.insertBefore(style, prevNode)
+  if (nextNode !== false && nextNode.parent) {
+    nextNode.parent.insertBefore(style, nextNode.node)
+
     return
   }
 
@@ -268,7 +289,7 @@ function insertStyle(style: HTMLElement, options: PriorityOptions) {
     return
   }
 
-  getHead().insertBefore(style, prevNode)
+  getHead().appendChild(style)
 }
 
 /**
