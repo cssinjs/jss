@@ -1,4 +1,5 @@
 // @flow
 import type {ComponentType} from 'react'
 
-export default (Component: ComponentType<{}>) => Component.displayName || Component.name || 'Component'
+export default <P>(Component: ComponentType<P>) =>
+  Component.displayName || Component.name || 'Component'
