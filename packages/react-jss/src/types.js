@@ -2,31 +2,25 @@
 import type {StyleSheetFactoryOptions, Jss, SheetsRegistry, SheetsManager} from 'jss'
 import type {ComponentType, Node, ElementRef} from 'react'
 
-export type Options = {
-  theming?: {
-    channel?: '__THEMING__',
-    withTheme?: (component: ComponentType<any>) => ComponentType<any>, // TODO: Accurate typing of this function, Function is unsafe typing
-    ThemeProvider?: Function, // TODO: Accurate typing of this function, Function is unsafe typing
-    themeListener?: () => {
-      // TODO: Accurate typing of the returned object
-      contextTypes: any,
-      initial: any,
-      subscribe: any,
-      unsubscribe: any
-    },
-    createTheming?: {
-      channel: string, // CustomChannel
-      withTheme: any,
-      ThemeProvider: any,
-      themeListener: {
-        // TODO: Accurate typing of the returned object
-        contextTypes: any,
-        initial: any,
-        subscribe: any,
-        unsubscribe: any
-      }
-    }
+export type Theme = {}
+export type SubscriptionId = string
+type Theming = {
+  channel: string,
+  withTheme: <P>(comp: ComponentType<P>) => ComponentType<P & { theme: Theme }>,
+  ThemeProvider: ComponentType<{
+    theme: Theme | (outerTheme: Theme) => Theme,
+    children: Node,
+  }>,
+  themeListener: {
+    contextTypes: {},
+    initial: (context: {}) => Theme,
+    subscribe: (context: {}, cb: (theme: Theme) => void) => SubscriptionId,
+    unsubscribe: (context: {}, id: SubscriptionId) => void,
   },
+}
+
+export type Options = {
+  theming?: Theming,
   inject?: Array<'classes' | 'themes' | 'sheet'>,
   jss?: Jss
 } & StyleSheetFactoryOptions
@@ -44,7 +38,6 @@ export type Context = {
   '6fc570d6bd61383819d0f9e7407c452d': StyleSheetFactoryOptions & { disableStylesGeneration?: boolean },
 }
 export type OuterProps<IP, C> = IP & {innerRef: (instance: ElementRef<C> | null) => void}
-export type Theme = {}
 export type Styles = {[string]: {}}
 export type ThemerFn = (theme: Theme) => Styles
 export type StylesOrThemer = Styles | ThemerFn

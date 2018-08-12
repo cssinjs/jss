@@ -8,7 +8,7 @@ import compose from './compose'
 import getDisplayName from './getDisplayName'
 import * as ns from './ns'
 import contextTypes from './contextTypes'
-import type {Options, Theme, StylesOrThemer, InnerProps, OuterProps, Context} from './types'
+import type {Options, Theme, StylesOrThemer, InnerProps, OuterProps, Context, SubscriptionId} from './types'
 
 const env = process.env.NODE_ENV
 
@@ -111,7 +111,7 @@ export default function createHOC<
 
     constructor(props: OProps, context: Context) {
       super(props, context)
-      const theme = themeListener && isThemingEnabled ? themeListener.initial(context) : noTheme
+      const theme = isThemingEnabled ? themeListener.initial(context) : noTheme
 
       this.state = this.createState({theme, classes: {}}, props)
     }
@@ -160,7 +160,7 @@ export default function createHOC<
     }
 
     setTheme = (theme: Theme) => this.setState({theme})
-    unsubscribeId: string
+    unsubscribeId: SubscriptionId
     context: Context
 
     createState({theme, dynamicSheet}: State, {classes: userClasses}): State {
