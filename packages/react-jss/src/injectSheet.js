@@ -27,7 +27,7 @@ const NoRenderer = (props: {children?: ?Node}) => props.children || null
  *
  * @api public
  */
-export default function injectSheet(stylesOrSheet: StylesOrThemer, options: Options) {
+export default function injectSheet(stylesOrSheet: StylesOrThemer, options?: Options = {}) {
   if (options.index === undefined) {
     options.index = indexCounter++
   }
