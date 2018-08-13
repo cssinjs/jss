@@ -35,6 +35,7 @@ export default {
   'border-vertical-spacing': 'px',
   bottom: 'px',
   'box-shadow': 'px',
+  'text-shadow': 'px',
   'column-gap': 'px',
   'column-rule': 'px',
   'column-rule-width': 'px',
