@@ -124,7 +124,7 @@ export default function createHOC<
     }
 
     componentDidMount() {
-      if (themeListener && isThemingEnabled) {
+      if (isThemingEnabled) {
         this.unsubscribeId = themeListener.subscribe(this.context, this.setTheme)
       }
     }
