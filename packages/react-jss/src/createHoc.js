@@ -43,11 +43,6 @@ const dynamicStylesNs = Math.random()
  *
  */
 
-type InjectedProps = {
-  classes?: {},
-  theme?: Theme,
-  sheet?: {}
-}
 type State = {
   theme: Theme,
   dynamicSheet?: StyleSheet,
@@ -102,7 +97,7 @@ export default function createHOC<
   const managerId = managersCounter++
   const manager = new SheetsManager()
   // $FlowFixMe defaultProps are not defined in React$Component
-  const defaultProps: InjectedProps = {...InnerComponent.defaultProps}
+  const defaultProps: IProps = {...InnerComponent.defaultProps}
   delete defaultProps.classes
 
   class Jss extends Component<OProps, State> {
