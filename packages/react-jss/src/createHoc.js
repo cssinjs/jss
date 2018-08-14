@@ -152,13 +152,13 @@ export default function createHOC<
     }
 
     componentWillUnmount() {
-      if (themeListener && this.unsubscribeId) {
+      if (isThemingEnabled && this.unsubscribeId) {
         themeListener.unsubscribe(this.context, this.unsubscribeId)
       }
 
       this.manager.unmanage(this.state.theme)
       if (this.state.dynamicSheet) {
-        this.state.dynamicSheet.detach()
+        this.jss.removeStyleSheet(this.state.dynamicSheet)
       }
     }
 
