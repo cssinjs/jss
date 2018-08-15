@@ -27,7 +27,7 @@ export type Options = {
 export type InnerProps = {
   children?: Node,
   classes?: {},
-  theme?: {},
+  theme?: Theme,
   sheet?: {}
 }
 // Needs to be hard coded for stricter types

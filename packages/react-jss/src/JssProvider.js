@@ -1,7 +1,7 @@
 // @flow
 import {Component, Children, type Element, type ElementType} from 'react'
 import PropTypes from 'prop-types'
-import type {Jss, generateClassName as GenerateClassNameType, SheetsRegistry} from 'jss'
+import type {Jss, GenerateClassName, SheetsRegistry} from 'jss'
 import {createGenerateClassNameDefault} from './jss'
 import * as ns from './ns'
 import contextTypes from './contextTypes'
@@ -11,7 +11,7 @@ import type {Context} from './types'
 type Props = {
   jss?: Jss,
   registry?: SheetsRegistry,
-  generateClassName?: GenerateClassNameType,
+  generateClassName?: GenerateClassName,
   classNamePrefix?: string,
   disableStylesGeneration?: boolean,
   children: Element<ElementType>
@@ -89,7 +89,7 @@ export default class JssProvider extends Component<Props> {
 
   managers: {}
 
-  generateClassName: GenerateClassNameType
+  generateClassName: GenerateClassName
 
   render() {
     return Children.only(this.props.children)

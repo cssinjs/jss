@@ -25,7 +25,7 @@ export type {
   JssOptions,
   JssStyle,
   Plugin,
-  generateClassName,
+  GenerateClassName,
   RuleListOptions,
   Rule,
   Renderer,
