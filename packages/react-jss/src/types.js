@@ -41,5 +41,5 @@ export type OuterProps<Props, InnerComponent> = Props & {
   innerRef: (instance: ElementRef<InnerComponent> | null) => void
 }
 export type Styles = {[string]: {}}
-export type ThemerFn = (theme: Theme) => Styles
-export type StylesOrThemer = Styles | ThemerFn
+export type StylesCreator = (theme: Theme) => Styles
+export type StylesOrCreator = Styles | StylesCreator
