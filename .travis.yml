@@ -9,6 +9,9 @@ after_success:
 install:
 - npm install
 - npm run bootstrap
+script:
+  - npm run lint:ci
+  - npm run test
 env:
   global:
     secure: fl4UGag82aZeNArjKBGJUJzT0tNZtth8BgInYmxoXQuwPFUY7Q4P/Bva8lHpGaKLuGFPzQreVhLHtRUUbFQhJWR5EA7MPbWtKeQ3EBu5lz/7CFiJMRkr+xGxN6wpmkipiVkZ2SofL1tCZD67L7kxqoPgaMfoDHYUvKAmNhP6spU=
