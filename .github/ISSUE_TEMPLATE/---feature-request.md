@@ -8,3 +8,6 @@ __Is your feature request related to a problem? Please describe.__
 
 __Describe the solution you'd like__
 A clear and concise description of what you want to happen.
+
+__Are you willing to implement it?__
+Yes/No
