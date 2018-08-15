@@ -20,12 +20,12 @@ import type {JssOptions} from './types'
  * Export types for better typing inside plugins and integrations.
  */
 export type {
-  StyleSheetOptions,
+  StyleSheetFactoryOptions,
   JssValue,
   JssOptions,
   JssStyle,
   Plugin,
-  generateClassName,
+  GenerateClassName,
   RuleListOptions,
   Rule,
   Renderer,

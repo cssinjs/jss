@@ -1,11 +1,23 @@
-import {Component, Children} from 'react'
+// @flow
+import {Component, Children, type Element, type ElementType} from 'react'
 import PropTypes from 'prop-types'
+import type {Jss, GenerateClassName, SheetsRegistry} from 'jss'
 import {createGenerateClassNameDefault} from './jss'
 import * as ns from './ns'
 import contextTypes from './contextTypes'
 import propTypes from './propTypes'
+import type {Context} from './types'
 
-export default class JssProvider extends Component {
+type Props = {
+  jss?: Jss,
+  registry?: SheetsRegistry,
+  generateClassName?: GenerateClassName,
+  classNamePrefix?: string,
+  disableStylesGeneration?: boolean,
+  children: Element<ElementType>
+}
+
+export default class JssProvider extends Component<Props> {
   static propTypes = {
     ...propTypes,
     generateClassName: PropTypes.func,
@@ -22,7 +34,7 @@ export default class JssProvider extends Component {
   // 1. Check if there is a value passed over props.
   // 2. If value was passed, we set it on the child context.
   // 3. If value was not passed, we proxy parent context (default context behaviour).
-  getChildContext() {
+  getChildContext(): Context {
     const {
       registry,
       classNamePrefix,
@@ -31,7 +43,7 @@ export default class JssProvider extends Component {
       disableStylesGeneration
     } = this.props
     const sheetOptions = this.context[ns.sheetOptions] || {}
-    const context = {[ns.sheetOptions]: sheetOptions}
+    const context: Context = {[ns.sheetOptions]: sheetOptions}
 
     if (registry) {
       context[ns.sheetsRegistry] = registry
@@ -72,6 +84,12 @@ export default class JssProvider extends Component {
 
     return context
   }
+
+  registry: SheetsRegistry
+
+  managers: {}
+
+  generateClassName: GenerateClassName
 
   render() {
     return Children.only(this.props.children)

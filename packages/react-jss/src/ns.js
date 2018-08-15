@@ -1,3 +1,4 @@
+// @flow
 /**
  * Namespaces to avoid conflicts on the context.
  */

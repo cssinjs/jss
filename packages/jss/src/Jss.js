@@ -18,7 +18,7 @@ import type {
   JssOptions,
   InternalJssOptions,
   JssStyle,
-  generateClassName
+  GenerateClassName
 } from './types'
 
 let instanceCounter = 0
@@ -36,7 +36,7 @@ export default class Jss {
     plugins: []
   }
 
-  generateClassName: generateClassName = createGenerateClassNameDefault()
+  generateClassName: GenerateClassName = createGenerateClassNameDefault()
 
   constructor(options?: JssOptions) {
     // eslint-disable-next-line prefer-spread

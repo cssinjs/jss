@@ -25,7 +25,7 @@ export type Rule =
   | SimpleRule
   | ViewportRule
 
-export type generateClassName = (rule: Rule, sheet?: StyleSheet) => string
+export type GenerateClassName = (rule: Rule, sheet?: StyleSheet) => string
 
 // TODO
 // Find a way to declare all types: Object|string|Array<Object>
@@ -61,7 +61,7 @@ export type RuleFactoryOptions = {
   sheet?: StyleSheet,
   index?: number,
   jss?: Jss,
-  generateClassName?: generateClassName,
+  generateClassName?: GenerateClassName,
   Renderer?: Class<Renderer>
 }
 
@@ -85,13 +85,13 @@ export type RuleOptions = {
   parent?: ContainerRule | StyleSheet,
   classes: Classes,
   jss: Jss,
-  generateClassName: generateClassName,
+  generateClassName: GenerateClassName,
   Renderer: Class<Renderer>
 }
 
 export type RuleListOptions = {
   classes: Classes,
-  generateClassName: generateClassName,
+  generateClassName: GenerateClassName,
   Renderer: Class<Renderer>,
   jss: Jss,
   sheet: StyleSheet,
@@ -109,10 +109,10 @@ export type Plugin = {
 
 export type InsertionPoint = string | HTMLElement
 
-type createGenerateClassName = () => generateClassName
+type CreateGenerateClassName = () => GenerateClassName
 
 export type JssOptions = {
-  createGenerateClassName?: createGenerateClassName,
+  createGenerateClassName?: CreateGenerateClassName,
   plugins?: Array<Plugin>,
   insertionPoint?: InsertionPoint,
   Renderer?: Class<Renderer>,
@@ -120,7 +120,7 @@ export type JssOptions = {
 }
 
 export type InternalJssOptions = {
-  createGenerateClassName: createGenerateClassName,
+  createGenerateClassName: CreateGenerateClassName,
   plugins: Array<Plugin>,
   insertionPoint?: InsertionPoint,
   Renderer: Class<Renderer>
@@ -132,7 +132,7 @@ export type StyleSheetFactoryOptions = {
   index?: number,
   link?: boolean,
   element?: HTMLStyleElement,
-  generateClassName?: generateClassName,
+  generateClassName?: GenerateClassName,
   classNamePrefix?: string
 }
 
@@ -142,7 +142,7 @@ export type StyleSheetOptions = {
   link?: boolean,
   element?: HTMLStyleElement,
   index: number,
-  generateClassName: generateClassName,
+  generateClassName: GenerateClassName,
   classNamePrefix?: string,
   Renderer: Class<Renderer>,
   insertionPoint?: InsertionPoint,
@@ -157,7 +157,7 @@ export type InternalStyleSheetOptions = {
   index: number,
   insertionPoint?: InsertionPoint,
   Renderer: Class<Renderer>,
-  generateClassName: generateClassName,
+  generateClassName: GenerateClassName,
   classNamePrefix?: string,
   jss: Jss,
   sheet: StyleSheet,

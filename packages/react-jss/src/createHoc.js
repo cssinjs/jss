@@ -1,11 +1,22 @@
-import React, {Component} from 'react'
+// @flow
+import React, {Component, type ComponentType} from 'react'
 import PropTypes from 'prop-types'
 import defaultTheming from 'theming'
+import type {StyleSheet} from 'jss'
 import jss, {getDynamicStyles, SheetsManager} from './jss'
 import compose from './compose'
 import getDisplayName from './getDisplayName'
 import * as ns from './ns'
 import contextTypes from './contextTypes'
+import type {
+  Options,
+  Theme,
+  StylesOrThemer,
+  InnerProps,
+  OuterProps,
+  Context,
+  SubscriptionId
+} from './types'
 
 const env = process.env.NODE_ENV
 
@@ -32,7 +43,13 @@ const dynamicStylesNs = Math.random()
  *
  */
 
-const getStyles = (stylesOrCreator, theme) => {
+type State = {
+  theme: Theme,
+  dynamicSheet?: StyleSheet,
+  classes: {}
+}
+
+const getStyles = (stylesOrCreator: StylesOrThemer, theme: Theme) => {
   if (typeof stylesOrCreator !== 'function') {
     return stylesOrCreator
   }
@@ -57,41 +74,53 @@ let managersCounter = 0
 /**
  * Wrap a Component into a JSS Container Component.
  *
+ * InnerPropsType: Props of the InnerComponent.
+ * OuterPropsType: The Outer props the HOC accepts.
+ *
  * @param {Object|Function} stylesOrCreator
  * @param {Component} InnerComponent
  * @param {Object} [options]
  * @return {Component}
  */
-export default (stylesOrCreator, InnerComponent, options = {}) => {
+export default function createHOC<
+  InnerPropsType: InnerProps,
+  InnerComponentType: ComponentType<InnerPropsType>,
+  OuterPropsType: OuterProps<InnerPropsType, InnerComponentType>
+>(
+  stylesOrCreator: StylesOrThemer,
+  InnerComponent: InnerComponentType,
+  options: Options
+): ComponentType<OuterPropsType> {
   const isThemingEnabled = typeof stylesOrCreator === 'function'
   const {theming = defaultTheming, inject, jss: optionsJss, ...sheetOptions} = options
   const injectMap = inject ? toMap(inject) : defaultInjectProps
   const {themeListener} = theming
   const displayName = getDisplayName(InnerComponent)
-  const defaultClassNamePrefix = env === 'production' ? undefined : `${displayName}-`
+  const defaultClassNamePrefix = env === 'production' ? '' : `${displayName}-`
   const noTheme = {}
   const managerId = managersCounter++
   const manager = new SheetsManager()
-  const defaultProps = {...InnerComponent.defaultProps}
+  // $FlowFixMe defaultProps are not defined in React$Component
+  const defaultProps: InnerPropsType = {...InnerComponent.defaultProps}
   delete defaultProps.classes
 
-  class Jss extends Component {
+  class Jss extends Component<OuterPropsType, State> {
     static displayName = `Jss(${displayName})`
     static InnerComponent = InnerComponent
     static contextTypes = {
       ...contextTypes,
-      ...(isThemingEnabled && themeListener.contextTypes)
+      ...(isThemingEnabled ? themeListener.contextTypes : {})
     }
     static propTypes = {
       innerRef: PropTypes.func
     }
     static defaultProps = defaultProps
 
-    constructor(props, context) {
+    constructor(props: OuterPropsType, context: Context) {
       super(props, context)
       const theme = isThemingEnabled ? themeListener.initial(context) : noTheme
 
-      this.state = this.createState({theme}, props)
+      this.state = this.createState({theme, classes: {}}, props)
     }
 
     componentWillMount() {
@@ -104,13 +133,13 @@ export default (stylesOrCreator, InnerComponent, options = {}) => {
       }
     }
 
-    componentWillReceiveProps(nextProps, nextContext) {
+    componentWillReceiveProps(nextProps: OuterPropsType, nextContext: Context) {
       this.context = nextContext
       const {dynamicSheet} = this.state
       if (dynamicSheet) dynamicSheet.update(nextProps)
     }
 
-    componentWillUpdate(nextProps, nextState) {
+    componentWillUpdate(nextProps: OuterPropsType, nextState: State) {
       if (isThemingEnabled && this.state.theme !== nextState.theme) {
         const newState = this.createState(nextState, nextProps)
         this.manage(newState)
@@ -119,7 +148,7 @@ export default (stylesOrCreator, InnerComponent, options = {}) => {
       }
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps: OuterPropsType, prevState: State) {
       // We remove previous dynamicSheet only after new one was created to avoid FOUC.
       if (prevState.dynamicSheet !== this.state.dynamicSheet && prevState.dynamicSheet) {
         this.jss.removeStyleSheet(prevState.dynamicSheet)
@@ -127,19 +156,21 @@ export default (stylesOrCreator, InnerComponent, options = {}) => {
     }
 
     componentWillUnmount() {
-      if (this.unsubscribeId) {
+      if (isThemingEnabled && this.unsubscribeId) {
         themeListener.unsubscribe(this.context, this.unsubscribeId)
       }
 
       this.manager.unmanage(this.state.theme)
       if (this.state.dynamicSheet) {
-        this.state.dynamicSheet.detach()
+        this.jss.removeStyleSheet(this.state.dynamicSheet)
       }
     }
 
-    setTheme = theme => this.setState({theme})
+    setTheme = (theme: Theme) => this.setState({theme})
+    unsubscribeId: SubscriptionId
+    context: Context
 
-    createState({theme, dynamicSheet}, {classes: userClasses}) {
+    createState({theme, dynamicSheet}: State, {classes: userClasses}): State {
       const contextSheetOptions = this.context[ns.sheetOptions]
       if (contextSheetOptions && contextSheetOptions.disableStylesGeneration) {
         return {theme, dynamicSheet, classes: {}}
@@ -161,9 +192,11 @@ export default (stylesOrCreator, InnerComponent, options = {}) => {
           classNamePrefix
         })
         this.manager.add(theme, staticSheet)
+        // $FlowFixMe Cannot add random fields to instance of class StyleSheet
         staticSheet[dynamicStylesNs] = getDynamicStyles(styles)
       }
 
+      // $FlowFixMe Cannot access random fields on instance of class StyleSheet
       const dynamicStyles = staticSheet[dynamicStylesNs]
 
       if (dynamicStyles) {
@@ -176,6 +209,7 @@ export default (stylesOrCreator, InnerComponent, options = {}) => {
         })
       }
 
+      // $FlowFixMe InnerComponent can be class or stateless, the latter doesn't have a defaultProps property
       const defaultClasses = InnerComponent.defaultProps
         ? InnerComponent.defaultProps.classes
         : undefined
@@ -194,7 +228,7 @@ export default (stylesOrCreator, InnerComponent, options = {}) => {
       return {theme, dynamicSheet, classes}
     }
 
-    manage({theme, dynamicSheet}) {
+    manage({theme, dynamicSheet}: State) {
       const contextSheetOptions = this.context[ns.sheetOptions]
       if (contextSheetOptions && contextSheetOptions.disableStylesGeneration) {
         return
@@ -231,8 +265,7 @@ export default (stylesOrCreator, InnerComponent, options = {}) => {
 
     render() {
       const {theme, dynamicSheet, classes} = this.state
-      const {innerRef, ...props} = this.props
-
+      const {innerRef, ...props}: OuterPropsType = this.props
       const sheet = dynamicSheet || this.manager.get(theme)
 
       if (injectMap.sheet && !props.sheet) props.sheet = sheet
