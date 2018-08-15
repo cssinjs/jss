@@ -8,7 +8,7 @@ __Expected behavior:__
 A clear and concise description of what you expected to happen.
 
 __Describe the bug:__
-A clear and concise description of what the bug is.
+A clear and concise description of what happend instead of the expected behavior.
 
 __Codesandbox link:__ 
 Please create a codesandbox.io with the issue. Make it as minimal as possible as this will help us find the bug quicker.
