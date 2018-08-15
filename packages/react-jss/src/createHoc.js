@@ -74,8 +74,8 @@ let managersCounter = 0
 /**
  * Wrap a Component into a JSS Container Component.
  *
- * IProps: Props of the InnerComponent.
- * OProps: The Outer props the HOC accepts.
+ * InnerPropsType: Props of the InnerComponent.
+ * OuterPropsType: The Outer props the HOC accepts.
  *
  * @param {Object|Function} stylesOrCreator
  * @param {Component} InnerComponent
@@ -83,10 +83,14 @@ let managersCounter = 0
  * @return {Component}
  */
 export default function createHOC<
-  IProps: InnerProps,
-  C: ComponentType<IProps>,
-  OProps: OuterProps<IProps, C>
->(stylesOrCreator: StylesOrThemer, InnerComponent: C, options: Options): ComponentType<OProps> {
+  InnerPropsType: InnerProps,
+  InnerComponentType: ComponentType<InnerPropsType>,
+  OuterPropsType: OuterProps<InnerPropsType, InnerComponentType>
+>(
+  stylesOrCreator: StylesOrThemer,
+  InnerComponent: InnerComponentType,
+  options: Options
+): ComponentType<OuterPropsType> {
   const isThemingEnabled = typeof stylesOrCreator === 'function'
   const {theming = defaultTheming, inject, jss: optionsJss, ...sheetOptions} = options
   const injectMap = inject ? toMap(inject) : defaultInjectProps
@@ -97,10 +101,10 @@ export default function createHOC<
   const managerId = managersCounter++
   const manager = new SheetsManager()
   // $FlowFixMe defaultProps are not defined in React$Component
-  const defaultProps: IProps = {...InnerComponent.defaultProps}
+  const defaultProps: InnerPropsType = {...InnerComponent.defaultProps}
   delete defaultProps.classes
 
-  class Jss extends Component<OProps, State> {
+  class Jss extends Component<OuterPropsType, State> {
     static displayName = `Jss(${displayName})`
     static InnerComponent = InnerComponent
     static contextTypes = {
@@ -112,7 +116,7 @@ export default function createHOC<
     }
     static defaultProps = defaultProps
 
-    constructor(props: OProps, context: Context) {
+    constructor(props: OuterPropsType, context: Context) {
       super(props, context)
       const theme = isThemingEnabled ? themeListener.initial(context) : noTheme
 
@@ -129,13 +133,13 @@ export default function createHOC<
       }
     }
 
-    componentWillReceiveProps(nextProps: OProps, nextContext: Context) {
+    componentWillReceiveProps(nextProps: OuterPropsType, nextContext: Context) {
       this.context = nextContext
       const {dynamicSheet} = this.state
       if (dynamicSheet) dynamicSheet.update(nextProps)
     }
 
-    componentWillUpdate(nextProps: OProps, nextState: State) {
+    componentWillUpdate(nextProps: OuterPropsType, nextState: State) {
       if (isThemingEnabled && this.state.theme !== nextState.theme) {
         const newState = this.createState(nextState, nextProps)
         this.manage(newState)
@@ -144,7 +148,7 @@ export default function createHOC<
       }
     }
 
-    componentDidUpdate(prevProps: OProps, prevState: State) {
+    componentDidUpdate(prevProps: OuterPropsType, prevState: State) {
       // We remove previous dynamicSheet only after new one was created to avoid FOUC.
       if (prevState.dynamicSheet !== this.state.dynamicSheet && prevState.dynamicSheet) {
         this.jss.removeStyleSheet(prevState.dynamicSheet)
@@ -261,7 +265,7 @@ export default function createHOC<
 
     render() {
       const {theme, dynamicSheet, classes} = this.state
-      const {innerRef, ...props}: OProps = this.props
+      const {innerRef, ...props}: OuterPropsType = this.props
       const sheet = dynamicSheet || this.manager.get(theme)
 
       if (injectMap.sheet && !props.sheet) props.sheet = sheet
