@@ -1,30 +1,30 @@
 {
   "dist/jss-plugin-syntax-default-unit.js": {
-    "bundled": 5535,
-    "minified": 3097,
-    "gzipped": 1035
+    "bundled": 5560,
+    "minified": 3116,
+    "gzipped": 1037
   },
   "dist/jss-plugin-syntax-default-unit.min.js": {
-    "bundled": 5535,
-    "minified": 3097,
-    "gzipped": 1035
+    "bundled": 5560,
+    "minified": 3116,
+    "gzipped": 1037
   },
   "dist/jss-plugin-syntax-default-unit.cjs.js": {
-    "bundled": 4885,
-    "minified": 3069,
+    "bundled": 4908,
+    "minified": 3088,
     "gzipped": 991
   },
   "dist/jss-plugin-syntax-default-unit.esm.js": {
-    "bundled": 4803,
-    "minified": 3000,
-    "gzipped": 936,
+    "bundled": 4826,
+    "minified": 3019,
+    "gzipped": 938,
     "treeshaked": {
       "rollup": {
-        "code": 2328,
+        "code": 2347,
         "import_statements": 0
       },
       "webpack": {
-        "code": 3290
+        "code": 3309
       }
     }
   }
