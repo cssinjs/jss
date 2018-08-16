@@ -2,9 +2,8 @@
 import React, {Component, type ComponentType} from 'react'
 import PropTypes from 'prop-types'
 import defaultTheming from 'theming'
-import type {StyleSheet} from 'jss'
+import {composeClasses, type StyleSheet} from 'jss'
 import jss, {getDynamicStyles, SheetsManager} from './jss'
-import compose from './compose'
 import getDisplayName from './getDisplayName'
 import * as ns from './ns'
 import contextTypes from './contextTypes'
@@ -203,10 +202,7 @@ export default function createHOC<
         ? InnerComponent.defaultProps.classes
         : undefined
       const jssClasses = dynamicSheet
-        ? compose(
-            staticSheet.classes,
-            dynamicSheet.classes
-          )
+        ? composeClasses(staticSheet.classes, dynamicSheet.classes)
         : staticSheet.classes
       const classes = {
         ...defaultClasses,
