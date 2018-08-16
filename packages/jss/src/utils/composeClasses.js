@@ -12,10 +12,14 @@ export default function composeClasses(firstClasses: Classes, ...classes: Classe
   const composedClasses = {...firstClasses}
 
   for (let i = 0; i < classes.length; i++) {
-    for (const name in classes[i]) {
-      composedClasses[name] = composedClasses[name]
-        ? `${composedClasses[name]} ${classes[i][name]}`
-        : classes[i][name]
+    const keys = Object.keys(classes[i])
+
+    for (let j = 0; j < keys.length; j++) {
+      const key = keys[j]
+
+      composedClasses[key] = composedClasses[key]
+        ? `${composedClasses[key]} ${classes[i][key]}`
+        : classes[i][key]
     }
   }
 
