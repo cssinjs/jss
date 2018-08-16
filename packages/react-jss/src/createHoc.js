@@ -11,7 +11,7 @@ import contextTypes from './contextTypes'
 import type {
   Options,
   Theme,
-  StylesOrThemer,
+  StylesOrCreator,
   InnerProps,
   OuterProps,
   Context,
@@ -49,7 +49,7 @@ type State = {
   classes: {}
 }
 
-const getStyles = (stylesOrCreator: StylesOrThemer, theme: Theme) => {
+const getStyles = (stylesOrCreator: StylesOrCreator, theme: Theme) => {
   if (typeof stylesOrCreator !== 'function') {
     return stylesOrCreator
   }
@@ -71,23 +71,12 @@ const defaultInjectProps = {
 
 let managersCounter = 0
 
-/**
- * Wrap a Component into a JSS Container Component.
- *
- * InnerPropsType: Props of the InnerComponent.
- * OuterPropsType: The Outer props the HOC accepts.
- *
- * @param {Object|Function} stylesOrCreator
- * @param {Component} InnerComponent
- * @param {Object} [options]
- * @return {Component}
- */
 export default function createHOC<
   InnerPropsType: InnerProps,
   InnerComponentType: ComponentType<InnerPropsType>,
   OuterPropsType: OuterProps<InnerPropsType, InnerComponentType>
 >(
-  stylesOrCreator: StylesOrThemer,
+  stylesOrCreator: StylesOrCreator,
   InnerComponent: InnerComponentType,
   options: Options
 ): ComponentType<OuterPropsType> {

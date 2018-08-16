@@ -2,7 +2,7 @@
 import type {ComponentType, Node} from 'react'
 import hoistNonReactStatics from 'hoist-non-react-statics'
 import createHoc from './createHoc'
-import type {Options, StylesOrThemer, InnerProps} from './types'
+import type {Options, StylesOrCreator, InnerProps} from './types'
 
 /**
  * Global index counter to preserve source order.
@@ -27,13 +27,13 @@ const NoRenderer = (props: {children?: ?Node}) => props.children || null
  *
  * @api public
  */
-export default function injectSheet(stylesOrSheet: StylesOrThemer, options?: Options = {}) {
+export default function injectSheet(styles: StylesOrCreator, options?: Options = {}) {
   if (options.index === undefined) {
     options.index = indexCounter++
   }
 
   return (InnerComponent: ComponentType<InnerProps> = NoRenderer) => {
-    const Jss = createHoc(stylesOrSheet, InnerComponent, options)
+    const Jss = createHoc(styles, InnerComponent, options)
 
     return hoistNonReactStatics(Jss, InnerComponent, {inner: true})
   }
