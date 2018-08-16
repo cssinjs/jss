@@ -1,7 +1,4 @@
 {
-  "config": {
-    "prettier_files": "*.{js,md,json} {docs,packages,scripts}/**/*.{js,md,json}"
-  },
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "publish": "npm run lint && npm run test && lerna publish",
@@ -26,7 +23,7 @@
       "eslint"
     ]
   },
-  "pre-commit": "lint:staged",
+  "pre-commit": "lint: ",
   "engines": {
     "node": ">=4"
   },
