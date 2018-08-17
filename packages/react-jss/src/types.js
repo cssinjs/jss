@@ -37,7 +37,9 @@ export type Context = {
   b768b78919504fba9de2c03545c5cd3a?: {[key: number]: SheetsManager},
   '6fc570d6bd61383819d0f9e7407c452d': StyleSheetFactoryOptions & {disableStylesGeneration?: boolean}
 }
-export type OuterProps<IP, C> = IP & {innerRef: (instance: ElementRef<C> | null) => void}
+export type OuterProps<IP, C> = IP & {
+  innerRef: (instance: ElementRef<C> | null) => void
+}
 export type Styles = {[string]: {}}
 export type ThemerFn = (theme: Theme) => Styles
 export type StylesOrThemer = Styles | ThemerFn
