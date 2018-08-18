@@ -5,7 +5,7 @@
     "typecheck": "flow check --max-warnings=0",
     "lint": "eslint scripts/ packages/ && npm run typecheck && npm run format",
     "lint:staged": "lint-staged && npm run typecheck",
-    "lint:ci": "eslint scripts/ packages/ && npm run typecheck && npm run format --list-different",
+    "lint:ci": "eslint scripts/ packages/ && npm run typecheck && npm run format -- --list-different",
     "format": "prettier \"*.{js,md,json}\" \"{docs,packages,scripts}/**/*.{js,md,json}\" --write",
     "test": "cross-env NODE_ENV=test VERSION=\"1\" karma start --single-run",
     "test:watch": "cross-env NODE_ENV=test karma start",
