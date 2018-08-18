@@ -61,6 +61,11 @@ export {default as toCssValue} from './utils/toCssValue'
 export {default as createRule} from './utils/createRule'
 
 /**
+ * Compose multiple objects together with class name merging.
+ */
+export {default as composeClasses} from './utils/composeClasses'
+
+/**
  * SheetsRegistry for SSR.
  */
 export {default as SheetsRegistry} from './SheetsRegistry'

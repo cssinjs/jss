@@ -39,7 +39,6 @@ module.exports = config => {
       './packages/react-jss/tests/theming.js',
       './packages/react-jss/tests/dynamic-styles.js',
       './packages/react-jss/src/index.test.js',
-      './packages/react-jss/src/compose.test.js',
       './packages/react-jss/src/JssProvider.test.js',
       './packages/react-jss/src/injectSheet.test.js'
     ],
