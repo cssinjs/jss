@@ -11,6 +11,7 @@ border: {
   style: 'solid'
 }
 ```
+
 will output:
 
 ```css
@@ -18,7 +19,6 @@ border: 1px solid black;
 ```
 
 See [properties section](#supported-properties) for more details.
-
 
 ### Using arrays for space separated properties.
 
@@ -31,9 +31,11 @@ will output
 
 ```css
 padding: 5px 10px 5px;
-margin: 10px 5px
+margin: 10px 5px;
 ```
+
 Supported properties:
+
 - `backgroundSize`
 - `backgroundPosition`
 - `border`
@@ -58,10 +60,7 @@ Supported properties:
 ### Using arrays for multi value properties.
 
 ```js
-transition: [
-  ['opacity', '200ms'],
-  ['width', '300ms']
-]
+transition: [['opacity', '200ms'], ['width', '300ms']]
 ```
 
 will output
@@ -73,15 +72,18 @@ transition: opacity 200ms, width 300ms;
 ### Use objects inside of arrays.
 
 ```js
-transition: [{
+transition: [
+  {
     property: 'opacity',
     duration: '200ms'
-  }, {
+  },
+  {
     property: 'width',
     duration: '300ms'
-}]
-
+  }
+]
 ```
+
 will output:
 
 ```css
@@ -119,7 +121,6 @@ foo {
 ## Supported properties.
 
 A list of all properties supported in expanded syntax and their corresponding defaults.
-
 
 ```js
 padding: {
@@ -282,6 +283,7 @@ flex: {
 ```
 
 ### align
+
 ```js
 align: {
   self: null,
@@ -291,6 +293,7 @@ align: {
 ```
 
 ### grid
+
 ```js
 grid: {
   templateColumns: null,

@@ -170,8 +170,7 @@
   },
   "@font-face": {
     "font-family": "'Glyphicons Halflings'",
-    "src":
-      "url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg')"
+    "src": "url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg')"
   },
   ".glyphicon": {
     "position": "relative",
@@ -3138,8 +3137,7 @@
     "transition": "width .6s ease"
   },
   ".progress-striped .progress-bar, .progress-bar-striped": {
-    "background-image":
-      "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)",
+    "background-image": "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)",
     "-webkit-background-size": "40px 40px",
     "background-size": "40px 40px"
   },
@@ -3152,29 +3150,25 @@
     "background-color": "#5cb85c"
   },
   ".progress-striped .progress-bar-success": {
-    "background-image":
-      "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
+    "background-image": "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
   },
   ".progress-bar-info": {
     "background-color": "#5bc0de"
   },
   ".progress-striped .progress-bar-info": {
-    "background-image":
-      "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
+    "background-image": "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
   },
   ".progress-bar-warning": {
     "background-color": "#f0ad4e"
   },
   ".progress-striped .progress-bar-warning": {
-    "background-image":
-      "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
+    "background-image": "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
   },
   ".progress-bar-danger": {
     "background-color": "#d9534f"
   },
   ".progress-striped .progress-bar-danger": {
-    "background-image":
-      "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
+    "background-image": "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
   },
   ".media": {
     "margin-top": "15px"
@@ -4068,19 +4062,15 @@
     "opacity": ".5"
   },
   ".carousel-control.left": {
-    "background-image":
-      "linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .0001) 100%)",
-    "filter":
-      "progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1)",
+    "background-image": "linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .0001) 100%)",
+    "filter": "progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1)",
     "background-repeat": "repeat-x"
   },
   ".carousel-control.right": {
     "right": "0",
     "left": "auto",
-    "background-image":
-      "linear-gradient(to right, rgba(0, 0, 0, .0001) 0%, rgba(0, 0, 0, .5) 100%)",
-    "filter":
-      "progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=1)",
+    "background-image": "linear-gradient(to right, rgba(0, 0, 0, .0001) 0%, rgba(0, 0, 0, .5) 100%)",
+    "filter": "progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=1)",
     "background-repeat": "repeat-x"
   },
   ".carousel-control:hover, .carousel-control:focus": {

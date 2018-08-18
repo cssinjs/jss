@@ -296,8 +296,7 @@
       "font-size": "12px"
     },
     "font-family": "'Glyphicons Halflings'",
-    "src":
-      "url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg')"
+    "src": "url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg')"
   },
   ".glyphicon": {
     "& > *": {
@@ -5550,8 +5549,7 @@
     "& > *": {
       "font-size": "12px"
     },
-    "background-image":
-      "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)",
+    "background-image": "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)",
     "-webkit-background-size": "40px 40px",
     "background-size": "40px 40px"
   },
@@ -5573,8 +5571,7 @@
     "& > *": {
       "font-size": "12px"
     },
-    "background-image":
-      "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
+    "background-image": "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
   },
   ".progress-bar-info": {
     "& > *": {
@@ -5586,8 +5583,7 @@
     "& > *": {
       "font-size": "12px"
     },
-    "background-image":
-      "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
+    "background-image": "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
   },
   ".progress-bar-warning": {
     "& > *": {
@@ -5599,8 +5595,7 @@
     "& > *": {
       "font-size": "12px"
     },
-    "background-image":
-      "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
+    "background-image": "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
   },
   ".progress-bar-danger": {
     "& > *": {
@@ -5612,8 +5607,7 @@
     "& > *": {
       "font-size": "12px"
     },
-    "background-image":
-      "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
+    "background-image": "linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)"
   },
   ".media": {
     "& > *": {
@@ -7095,10 +7089,8 @@
     "& > *": {
       "font-size": "12px"
     },
-    "background-image":
-      "linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .0001) 100%)",
-    "filter":
-      "progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1)",
+    "background-image": "linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .0001) 100%)",
+    "filter": "progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1)",
     "background-repeat": "repeat-x"
   },
   ".carousel-control.right": {
@@ -7107,10 +7099,8 @@
     },
     "right": "0",
     "left": "auto",
-    "background-image":
-      "linear-gradient(to right, rgba(0, 0, 0, .0001) 0%, rgba(0, 0, 0, .5) 100%)",
-    "filter":
-      "progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=1)",
+    "background-image": "linear-gradient(to right, rgba(0, 0, 0, .0001) 0%, rgba(0, 0, 0, .5) 100%)",
+    "filter": "progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=1)",
     "background-repeat": "repeat-x"
   },
   ".carousel-control:hover, .carousel-control:focus": {
