@@ -113,6 +113,7 @@ export default [
     plugins: [
       createFlowBundlePlugin,
       babel(getBabelOptions({useESModules: false})),
+      nodeGlobals(),
       replace({'process.env.VERSION': JSON.stringify(pkg.version)}),
       sizeSnapshot(snapshotOptions)
     ]
@@ -124,6 +125,7 @@ export default [
     external,
     plugins: [
       babel(getBabelOptions({useESModules: true})),
+      nodeGlobals(),
       replace({'process.env.VERSION': JSON.stringify(pkg.version)}),
       sizeSnapshot(snapshotOptions)
     ]
