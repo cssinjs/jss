@@ -1,10 +1,10 @@
 # jss-keyframes-helper
 
-Helper for generating keyframes with a unique id in jss
+Helper for generating keyframes with a unique id in JSS
 
 ## Installation
 
-> yarn add jss-keyframes-helper
+> npm i jss-keyframes-helper
 
 ## Usage
 
