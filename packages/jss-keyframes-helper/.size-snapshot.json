@@ -1,0 +1,31 @@
+{
+  "dist/jss-keyframes-helper.js": {
+    "bundled": 2792,
+    "minified": 1082,
+    "gzipped": 622
+  },
+  "dist/jss-keyframes-helper.min.js": {
+    "bundled": 2792,
+    "minified": 1082,
+    "gzipped": 622
+  },
+  "dist/jss-keyframes-helper.cjs.js": {
+    "bundled": 2461,
+    "minified": 1249,
+    "gzipped": 641
+  },
+  "dist/jss-keyframes-helper.esm.js": {
+    "bundled": 2191,
+    "minified": 1027,
+    "gzipped": 552,
+    "treeshaked": {
+      "rollup": {
+        "code": 43,
+        "import_statements": 37
+      },
+      "webpack": {
+        "code": 1035
+      }
+    }
+  }
+}
