@@ -37,7 +37,7 @@ Options:
 - `virtual` - if true, JSS will use VirtualRenderer.
 - `insertionPoint` - string value of a DOM comment node which marks the start of sheets or a rendered DOM node. Sheets rendered by this Jss instance are inserted after this point sequentially.
 
-**Note**: Each `jss.setup()` call will perform a shallow merge with the old options except for `plugins`. Passed `plugins` will be added to the existing plugins if they do not already exist.
+**Note**: Each `jss.setup()` call will perform a shallow merge with the old options except for `plugins`. Passed `plugins` will be added to the existing plugins.
 
 
 See [setup examples](./setup.md#specify-dom-insertion-point).
