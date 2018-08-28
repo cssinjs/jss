@@ -43,6 +43,7 @@
     "jss": "^9.0.0"
   },
   "dependencies": {
+    "@babel/runtime": "^7.0.0",
     "css-initials": "^0.2.0"
   }
 }

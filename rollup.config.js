@@ -27,13 +27,17 @@ const globals = Object.keys(pkg.peerDependencies || {}).reduce(
   {}
 )
 
-const external = id => !id.startsWith('\0') && !id.startsWith('.') && !id.startsWith('/')
+const external = id => !id.startsWith('.') && !id.startsWith('/')
 
-const getBabelOptions = () => ({
+const getBabelOptions = ({useESModules}) => ({
   exclude: '**/node_modules/**',
   babelrc: false,
-  presets: [['@babel/env', {modules: false, loose: true}], '@babel/flow', '@babel/react'],
-  plugins: [['@babel/proposal-class-properties', {loose: true}]]
+  runtimeHelpers: true,
+  presets: [['@babel/env', {loose: true}], '@babel/flow', '@babel/react'],
+  plugins: [
+    ['@babel/proposal-class-properties', {loose: true}],
+    ['@babel/transform-runtime', {useESModules}]
+  ]
 })
 
 const commonjsOptions = {
@@ -67,7 +71,7 @@ export default [
     external: Object.keys(globals),
     plugins: [
       nodeResolve(),
-      babel(getBabelOptions()),
+      babel(getBabelOptions({useESModules: true})),
       commonjs(commonjsOptions),
       nodeGlobals(),
       replace({
@@ -90,7 +94,7 @@ export default [
     external: Object.keys(globals),
     plugins: [
       nodeResolve(),
-      babel(getBabelOptions()),
+      babel(getBabelOptions({useESModules: true})),
       commonjs(commonjsOptions),
       nodeGlobals(),
       replace({
@@ -108,7 +112,7 @@ export default [
     external,
     plugins: [
       createFlowBundlePlugin,
-      babel(getBabelOptions()),
+      babel(getBabelOptions({useESModules: false})),
       replace({'process.env.VERSION': JSON.stringify(pkg.version)}),
       sizeSnapshot(snapshotOptions)
     ]
@@ -119,7 +123,7 @@ export default [
     output: {file: pkg.module, format: 'esm'},
     external,
     plugins: [
-      babel(getBabelOptions()),
+      babel(getBabelOptions({useESModules: true})),
       replace({'process.env.VERSION': JSON.stringify(pkg.version)}),
       sizeSnapshot(snapshotOptions)
     ]

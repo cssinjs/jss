@@ -10,21 +10,21 @@
     "gzipped": 2667
   },
   "dist/jss-plugin-isolate.cjs.js": {
-    "bundled": 4231,
-    "minified": 1761,
-    "gzipped": 824
+    "bundled": 3922,
+    "minified": 1604,
+    "gzipped": 746
   },
   "dist/jss-plugin-isolate.esm.js": {
-    "bundled": 3993,
-    "minified": 1574,
-    "gzipped": 758,
+    "bundled": 3668,
+    "minified": 1410,
+    "gzipped": 678,
     "treeshaked": {
       "rollup": {
-        "code": 56,
-        "import_statements": 56
+        "code": 99,
+        "import_statements": 99
       },
       "webpack": {
-        "code": 1107
+        "code": 1183
       }
     }
   }
