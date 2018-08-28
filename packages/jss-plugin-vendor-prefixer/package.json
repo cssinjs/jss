@@ -34,6 +34,7 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
+    "@babel/runtime": "^7.0.0",
     "css-vendor": "^1.1.0"
   },
   "devDependencies": {

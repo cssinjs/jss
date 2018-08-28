@@ -42,6 +42,7 @@
     "jss": "^9.0.0"
   },
   "dependencies": {
+    "@babel/runtime": "^7.0.0",
     "warning": "^3.0.0"
   }
 }

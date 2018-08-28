@@ -41,5 +41,8 @@
   "devDependencies": {
     "jss": "^9.0.0",
     "jss-plugin-syntax-nested": "^6.0.0"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0"
   }
 }

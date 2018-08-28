@@ -44,5 +44,8 @@
   },
   "peerDependencies": {
     "jss": "^9.4.0"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0"
   }
 }

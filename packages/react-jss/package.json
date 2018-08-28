@@ -39,6 +39,7 @@
     "react": ">=0.13"
   },
   "dependencies": {
+    "@babel/runtime": "^7.0.0",
     "hoist-non-react-statics": "^2.5.0",
     "jss": "^9.7.0",
     "jss-preset-default": "^4.3.0",

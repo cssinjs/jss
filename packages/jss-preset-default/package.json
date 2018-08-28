@@ -38,6 +38,7 @@
     "jss": "^9.7.0"
   },
   "dependencies": {
+    "@babel/runtime": "^7.0.0",
     "jss-plugin-props-sort": "^6.0.0",
     "jss-plugin-syntax-camel-case": "^6.1.0",
     "jss-plugin-syntax-compose": "^5.0.0",

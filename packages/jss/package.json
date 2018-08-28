@@ -42,6 +42,7 @@
     "postinstall": "node -e \"console.log('\\u001b[35m\\u001b[1mLove JSS? You can now support us on open collective:\\u001b[22m\\u001b[39m\\n > \\u001b[34mhttps://opencollective.com/jss/donate\\u001b[0m')\""
   },
   "dependencies": {
+    "@babel/runtime": "^7.0.0",
     "is-in-browser": "^1.1.3",
     "symbol-observable": "^1.2.0",
     "warning": "^3.0.0"
