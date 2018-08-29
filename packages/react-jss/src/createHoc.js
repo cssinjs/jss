@@ -110,9 +110,6 @@ export default function createHOC<
       const theme = isThemingEnabled ? themeListener.initial(context) : noTheme
 
       this.state = this.createState({theme, classes: {}}, props)
-    }
-
-    componentWillMount() {
       this.manage(this.state)
     }
 
@@ -121,23 +118,22 @@ export default function createHOC<
         this.unsubscribeId = themeListener.subscribe(this.context, this.setTheme)
       }
     }
-
+    // TODO: remove this lifecycle when migrating to new Context API
     componentWillReceiveProps(nextProps: OuterPropsType, nextContext: Context) {
       this.context = nextContext
-      const {dynamicSheet} = this.state
-      if (dynamicSheet) dynamicSheet.update(nextProps)
-    }
-
-    componentWillUpdate(nextProps: OuterPropsType, nextState: State) {
-      if (isThemingEnabled && this.state.theme !== nextState.theme) {
-        const newState = this.createState(nextState, nextProps)
-        this.manage(newState)
-        this.manager.unmanage(this.state.theme)
-        this.setState(newState)
-      }
     }
 
     componentDidUpdate(prevProps: OuterPropsType, prevState: State) {
+      const {dynamicSheet} = this.state
+      if (dynamicSheet) dynamicSheet.update(this.props)
+
+      if (isThemingEnabled && this.state.theme !== prevState.theme) {
+        const newState = this.createState(this.state, this.props)
+        this.manage(newState)
+        this.manager.unmanage(prevState.theme)
+        this.setState(newState)
+      }
+
       // We remove previous dynamicSheet only after new one was created to avoid FOUC.
       if (prevState.dynamicSheet !== this.state.dynamicSheet && prevState.dynamicSheet) {
         this.jss.removeStyleSheet(prevState.dynamicSheet)

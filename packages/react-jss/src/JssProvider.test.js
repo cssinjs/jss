@@ -270,9 +270,7 @@ describe('JssProvider', () => {
       })
 
       class MyComponent extends Component {
-        componentWillMount() {
-          this.value = true
-        }
+        value = true
 
         render() {
           this.value = !this.value

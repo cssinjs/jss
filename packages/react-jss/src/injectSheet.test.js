@@ -37,6 +37,21 @@ describe('injectSheet', () => {
       })()
     })
 
+    it.skip('should work in StrictMode without error on React 16.3+', () => {
+      if (!React.StrictMode) {
+        return
+      }
+      spy(console, 'error')
+      render(
+        <React.StrictMode>
+          <MyComponent />
+        </React.StrictMode>,
+        node
+      )
+      expect(console.error.notCalled).to.be(true)
+      console.error.restore()
+    })
+
     it('should attach and detach a sheet', () => {
       render(<MyComponent />, node)
       expect(document.querySelectorAll('style').length).to.be(1)
