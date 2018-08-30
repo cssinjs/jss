@@ -118,10 +118,6 @@ export default function createHOC<
         this.unsubscribeId = themeListener.subscribe(this.context, this.setTheme)
       }
     }
-    // TODO: remove this lifecycle when migrating to new Context API
-    componentWillReceiveProps(nextProps: OuterPropsType, nextContext: Context) {
-      this.context = nextContext
-    }
 
     componentDidUpdate(prevProps: OuterPropsType, prevState: State) {
       const {dynamicSheet} = this.state

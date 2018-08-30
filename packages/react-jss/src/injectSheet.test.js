@@ -37,7 +37,7 @@ describe('injectSheet', () => {
       })()
     })
 
-    it.skip('should work in StrictMode without error on React 16.3+', () => {
+    it('should work in StrictMode without error on React 16.3+', () => {
       if (!React.StrictMode) {
         return
       }
@@ -48,8 +48,10 @@ describe('injectSheet', () => {
         </React.StrictMode>,
         node
       )
+      /* eslint-disable no-console */
       expect(console.error.notCalled).to.be(true)
       console.error.restore()
+      /* eslint-enable no-console */
     })
 
     it('should attach and detach a sheet', () => {
