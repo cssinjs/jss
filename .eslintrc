@@ -4,7 +4,9 @@
   "rules": {
     "import/no-unresolved": 0,
     "flowtype/define-flow-type": 1,
-    "flowtype/use-flow-type": 1
+    "flowtype/use-flow-type": 1,
+    "react/no-did-mount-set-state": 0,
+    "react/no-did-update-set-state": 0
   },
   "globals": {
     "benchmark": true,
