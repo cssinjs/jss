@@ -1,13 +1,13 @@
 {
   "dist/jss-plugin-syntax-extend.js": {
-    "bundled": 6945,
-    "minified": 2004,
-    "gzipped": 993
+    "bundled": 5274,
+    "minified": 1801,
+    "gzipped": 912
   },
   "dist/jss-plugin-syntax-extend.min.js": {
-    "bundled": 5407,
-    "minified": 1484,
-    "gzipped": 716
+    "bundled": 4096,
+    "minified": 1281,
+    "gzipped": 630
   },
   "dist/jss-plugin-syntax-extend.cjs.js": {
     "bundled": 3404,

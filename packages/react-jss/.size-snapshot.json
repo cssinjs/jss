@@ -1,13 +1,13 @@
 {
   "dist/react-jss.js": {
-    "bundled": 237176,
-    "minified": 64744,
-    "gzipped": 18046
+    "bundled": 181750,
+    "minified": 64735,
+    "gzipped": 18027
   },
   "dist/react-jss.min.js": {
-    "bundled": 201867,
-    "minified": 55397,
-    "gzipped": 15869
+    "bundled": 153899,
+    "minified": 55387,
+    "gzipped": 15825
   },
   "dist/react-jss.cjs.js": {
     "bundled": 16624,
