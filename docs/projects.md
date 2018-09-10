@@ -14,6 +14,9 @@
 
 [CSSX](https://github.com/krasimir/cssx) CSS syntax which can use JSS for rendering.
 
+[PreJSS](https://github.com/axept/prejss) CSS syntax for JSS powered by PostCSS.
+
+
 ## Examples
 
 [Examples repository](https://github.com/cssinjs/examples)
