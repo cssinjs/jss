@@ -1,7 +1,6 @@
 # JSS integration with React
 
 [![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
-[![Build Status](https://travis-ci.org/cssinjs/react-jss.svg?branch=master)](https://travis-ci.org/cssinjs/react-jss)
 
 React-JSS provides components for [JSS](https://github.com/cssinjs/jss) as a layer of abstraction. JSS and the [default preset](https://github.com/cssinjs/jss-preset-default) are already built in! Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
 
@@ -390,15 +389,6 @@ const InnerComponent = () => null
 const StyledComponent = injectSheet({})(InnerComponent)
 
 <StyledComponent innerRef={(ref) => {console.log(ref)}} />
-```
-
-If you are using React 16.3 or higher we also support forwarding the ref to the InnerComponent.
-
-```es6
-const InnerComponent = () => null
-const StyledComponent = injectSheet({})(InnerComponent)
-
-<StyledComponent ref={(ref) => {console.log(ref)}} />
 ```
 
 ### Custom setup
