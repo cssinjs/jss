@@ -36,8 +36,8 @@ File a bug against [cssinjs/jss prefixed with \[jss-vendor-prefixer\]](https://g
 ## Run tests
 
 ```bash
-npm i
-npm run test
+yarn
+yarn test
 ```
 
 ## License

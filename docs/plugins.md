@@ -23,7 +23,7 @@ In case you use any of the following plugins please bear in mind that they shoul
 1.  jss-props-sort - JSS plugin, ensures alphabetical props order.
 1.  jss-isolate - JSS plugin, gives you rules isolation through automatic properties reset.
 
-To make your life easier, we made [jss-default-preset](https://www.npmjs.com/package/jss-preset-default) which is a ready to use and ordered preset of plugins.
+To make your life easier, we made [jss-default-preset](https://yarnpkg.com/en/package/jss-preset-default) which is a ready to use and ordered preset of plugins.
 
 ## Authoring plugins
 

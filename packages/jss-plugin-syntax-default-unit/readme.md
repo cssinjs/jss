@@ -58,8 +58,8 @@ File a bug against [cssinjs/jss prefixed with \[jss-default-unit\]](https://gith
 ## Run tests
 
 ```bash
-npm i
-npm run test
+yarn
+yarn test
 ```
 
 ## License

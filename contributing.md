@@ -9,13 +9,13 @@ To install the development dependencies you will need Node 5 or 6. Node 7 is not
 Using karma (real browsers will be launched)
 
 ```bash
-npm i
-npm test
+yarn
+yarn test
 ```
 
 Or manually
 
 ```bash
-npm run build:test
+yarn build:test
 open tests/index.html
 ```

@@ -399,7 +399,7 @@ Compiles to:
 
 ## Working with colors
 
-You can use any color conversion tool, for e.g. [this one](https://www.npmjs.com/package/color).
+You can use any color conversion tool, for e.g. [this one](https://yarnpkg.com/en/package/color).
 
 ```javascript
 import color from 'color'

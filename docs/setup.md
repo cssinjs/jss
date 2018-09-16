@@ -2,10 +2,10 @@
 
 ## Install
 
-Using npm
+Using yarn
 
 ```bash
-npm i jss
+yarn add jss
 ```
 
 For bower or direct script injection use [unpkg](https://unpkg.com):
@@ -26,10 +26,10 @@ Only in development mode:
 
 Use the [default preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with recommended plugins.
 
-First, install a preset from npm:
+First, install a preset from yarn:
 
 ```bash
-npm i jss-preset-default
+yarn add jss-preset-default
 ```
 
 Then setup JSS to use it:
@@ -133,6 +133,6 @@ You might need to set the `style-src` CSP directive, but do not want to set it t
 For more information see [CLI](https://github.com/cssinjs/cli).
 
 ```bash
-npm i jss-cli -g
+yarn global add jss-cli
 jss --help
 ```
