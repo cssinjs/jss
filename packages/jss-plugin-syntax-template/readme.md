@@ -38,8 +38,8 @@ File a bug against [cssinjs/jss prefixed with \[jss-template\]](https://github.c
 ## Run tests
 
 ```bash
-npm i
-npm run test
+yarn
+yarn test
 ```
 
 ## License

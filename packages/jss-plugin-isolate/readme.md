@@ -174,8 +174,8 @@ File a bug against [cssinjs/jss prefixed with \[jss-isolate\]](https://github.co
 ## Run tests
 
 ```bash
-npm i
-npm run test
+yarn
+yarn test
 ```
 
 ## License

@@ -25,8 +25,8 @@ File a bug against [cssinjs/jss prefixed with \[jss-cache\]](https://github.com/
 ## Run tests
 
 ```bash
-npm i
-npm run test
+yarn
+yarn test
 ```
 
 ## License

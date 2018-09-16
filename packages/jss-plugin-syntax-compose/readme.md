@@ -173,8 +173,8 @@ File a bug against [cssinjs/jss prefixed with \[jss-compose\]](https://github.co
 ## Run tests
 
 ```bash
-npm i
-npm test
+yarn
+yarn test
 ```
 
 ## License

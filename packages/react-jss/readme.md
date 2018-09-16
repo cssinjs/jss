@@ -33,10 +33,6 @@ Benefits compared to lower level core:
 ## Install
 
 ```
-npm install --save react-jss
-```
-
-```
 yarn add react-jss
 ```
 
