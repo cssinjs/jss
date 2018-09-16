@@ -1,6 +1,6 @@
 /* @flow */
 import toCss from '../utils/toCss'
-import type {CSSStyleRule, RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
+import type {CSSFontFaceRule, RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
 
 export default class FontFaceRule implements BaseRule {
   type = 'font-face'
@@ -13,7 +13,7 @@ export default class FontFaceRule implements BaseRule {
 
   isProcessed: boolean = false
 
-  renderable: ?CSSStyleRule
+  renderable: ?CSSFontFaceRule
 
   constructor(key: string, style: JssStyle, options: RuleOptions) {
     this.key = key

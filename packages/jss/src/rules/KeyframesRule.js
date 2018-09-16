@@ -1,6 +1,6 @@
 /* @flow */
 import RuleList from '../RuleList'
-import type {CSSStyleRule, RuleOptions, ToCssOptions, ContainerRule} from '../types'
+import type {CSSKeyframesRule, RuleOptions, ToCssOptions, ContainerRule} from '../types'
 
 /**
  * Rule for @keyframes
@@ -16,7 +16,7 @@ export default class KeyframesRule implements ContainerRule {
 
   isProcessed: boolean = false
 
-  renderable: ?CSSStyleRule
+  renderable: ?CSSKeyframesRule
 
   constructor(key: string, frames: Object, options: RuleOptions) {
     this.key = key

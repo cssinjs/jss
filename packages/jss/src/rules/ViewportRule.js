@@ -1,6 +1,6 @@
 /* @flow */
 import toCss from '../utils/toCss'
-import type {CSSStyleRule, RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
+import type {CSSViewportRule, RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
 
 export default class ViewportRule implements BaseRule {
   type = 'viewport'
@@ -13,7 +13,7 @@ export default class ViewportRule implements BaseRule {
 
   isProcessed: boolean = false
 
-  renderable: ?CSSStyleRule
+  renderable: ?CSSViewportRule
 
   constructor(key: string, style: JssStyle, options: RuleOptions) {
     this.key = key

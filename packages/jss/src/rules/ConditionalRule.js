@@ -1,6 +1,6 @@
 /* @flow */
 import RuleList from '../RuleList'
-import type {CSSStyleRule, Rule, RuleOptions, ToCssOptions, JssStyle, ContainerRule} from '../types'
+import type {CSSMediaRule, Rule, RuleOptions, ToCssOptions, JssStyle, ContainerRule} from '../types'
 
 /**
  * Conditional rule for @media, @supports
@@ -16,7 +16,7 @@ export default class ConditionalRule implements ContainerRule {
 
   isProcessed: boolean = false
 
-  renderable: ?CSSStyleRule
+  renderable: ?CSSMediaRule
 
   constructor(key: string, styles: Object, options: RuleOptions) {
     this.key = key

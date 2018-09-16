@@ -1,5 +1,5 @@
 /* @flow */
-import type {CSSStyleRule, RuleOptions, ToCssOptions, BaseRule} from '../types'
+import type {CSSSimpleRule, RuleOptions, ToCssOptions, BaseRule} from '../types'
 
 export default class SimpleRule implements BaseRule {
   type = 'simple'
@@ -12,7 +12,7 @@ export default class SimpleRule implements BaseRule {
 
   isProcessed: boolean = false
 
-  renderable: ?CSSStyleRule
+  renderable: ?CSSSimpleRule
 
   constructor(key: string, value: string, options: RuleOptions) {
     this.key = key

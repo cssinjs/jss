@@ -9,6 +9,12 @@ export interface CSSRuleBase<T> {
   cssText: DOMString;
 }
 
+export interface CSSGroupingRule<T> extends CSSRuleBase<T> {
+  +cssRules: CSSRuleList;
+  insertRule(rule: DOMString, index: number): number;
+  deleteRule(index: number): void;
+}
+
 export interface CSSStyleRule extends CSSRuleBase<{type: 1 | 1}> {
   +type: 1;
   +style: CSSStyleDeclaration;
@@ -20,10 +26,36 @@ export interface CSSRuleList {
   [index: number]: CSSStyleRule;
 }
 
-export interface CSSGroupingRule<T> extends CSSRuleBase<T> {
-  +cssRules: CSSRuleList;
-  insertRule(rule: DOMString, index: number): number;
-  deleteRule(index: number): void;
+export interface CSSCharsetRule extends CSSRuleBase<{type: 2 | 2}> {
+  +type: 2;
+  charset: DOMString;
+}
+
+export interface CSSImportRule extends CSSRuleBase<{type: 3 | 3}> {
+  +type: 3;
+  +mediaList: {
+    +mediaText: DOMString,
+    length: number,
+    item?: DOMString,
+    appendMedium(medium: DOMString): void,
+    deleteMedium(medium: DOMString): void
+  };
+}
+
+export interface CSSMediaRule extends CSSGroupingRule<{type: 4 | 4}> {
+  +type: 4;
+  +mediaList: {
+    +mediaText: DOMString,
+    length: number,
+    item?: DOMString,
+    appendMedium(medium: DOMString): void,
+    deleteMedium(medium: DOMString): void
+  };
+}
+
+export interface CSSFontFaceRule extends CSSRuleBase<{type: 5 | 5}> {
+  +type: 5;
+  +style: CSSStyleDeclaration;
 }
 
 export interface CSSKeyframeRule extends CSSRuleBase<{type: 8 | 8}> {
@@ -41,15 +73,15 @@ export interface CSSKeyframesRule extends CSSRuleBase<{type: 7 | 7}> {
   findRule(key: DOMString): CSSKeyframeRule;
 }
 
-export interface CSSMediaRule extends CSSGroupingRule<{type: 4 | 4}> {
-  +type: 4;
-  +mediaList: {
-    +mediaText: DOMString,
-    length: number,
-    item?: DOMString,
-    appendMedium(medium: DOMString): void,
-    deleteMedium(medium: DOMString): void
-  };
+export interface CSSNamespaceRule extends CSSRuleBase<{type: 10 | 10}> {
+  +type: 10;
+  namespaceURI: DOMString;
+  prefix: DOMString;
 }
 
-export type CSSOMRule = CSSStyleRule | CSSMediaRule | CSSKeyframesRule
+export interface CSSViewportRule extends CSSRuleBase<{type: 15 | 15}> {
+  +type: 15;
+  +style: CSSStyleDeclaration;
+}
+
+export type CSSSimpleRule = CSSCharsetRule | CSSImportRule | CSSNamespaceRule

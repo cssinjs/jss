@@ -2,7 +2,15 @@
 import warning from 'warning'
 import sheets from '../sheets'
 import type StyleSheet from '../StyleSheet'
-import type {CSSStyleRule, Rule, JssValue, InsertionPoint} from '../types'
+import type {
+  CSSStyleRule,
+  CSSMediaRule,
+  CSSKeyframesRule,
+  Rule,
+  ContainerRule,
+  JssValue,
+  InsertionPoint
+} from '../types'
 import toCssValue from '../utils/toCssValue'
 
 type PriorityOptions = {
@@ -224,6 +232,28 @@ const getNonce = memoize(
   }
 )
 
+const insertRule = (
+  container: CSSStyleSheet | CSSKeyframesRule | CSSMediaRule,
+  rule: string,
+  index?: number = container.cssRules.length
+): false | Object => {
+  try {
+    if ('insertRule' in container) {
+      const c = ((container: any): CSSStyleSheet)
+      c.insertRule(rule, index)
+    }
+    // Keyframes rule.
+    else if ('appendRule' in container) {
+      const c = ((container: any): CSSKeyframesRule)
+      c.appendRule(rule)
+    }
+  } catch (err) {
+    warning(false, '[JSS] Can not insert an unsupported rule \n\r%s', rule)
+    return false
+  }
+  return container.cssRules[index]
+}
+
 export default class DomRenderer {
   getPropertyValue = getPropertyValue
 
@@ -296,23 +326,33 @@ export default class DomRenderer {
   /**
    * Insert a rule into element.
    */
-  insertRule(rule: Rule, index?: number): false | CSSStyleRule {
+  insertRule(rule: Rule, index?: number): false | CSSRule {
     const {sheet} = this.element
-    const {cssRules} = sheet
-    const str = rule.toString()
-    if (!index) index = cssRules.length
 
-    if (!str) return false
+    if (rule.type === 'conditional' || rule.type === 'keyframes') {
+      const containerRule = ((rule: any): ContainerRule)
+      const cssRule = insertRule(sheet, `${containerRule.key} {}`, index)
+      if (cssRule === false) {
+        return false
+      }
+      containerRule.rules.index.forEach((childRule, childIndex) => {
+        const cssChildRule = insertRule(cssRule, childRule.toString(), childIndex)
+        if (cssChildRule !== false) childRule.renderable = cssChildRule
+      })
 
-    try {
-      sheet.insertRule(str, index)
-    } catch (err) {
-      warning(false, '[JSS] Can not insert an unsupported rule \n\r%s', rule)
+      return cssRule
+    }
+
+    const ruleStr = rule.toString()
+
+    if (!ruleStr) return false
+
+    const cssRule = insertRule(sheet, ruleStr, index)
+    if (cssRule === false) {
       return false
     }
-    this.hasInsertedRules = true
 
-    const cssRule = cssRules[index]
+    this.hasInsertedRules = true
     rule.renderable = cssRule
     return cssRule
   }
@@ -320,7 +360,7 @@ export default class DomRenderer {
   /**
    * Delete a rule.
    */
-  deleteRule(cssRule: CSSStyleRule): boolean {
+  deleteRule(cssRule: CSSRule): boolean {
     const {sheet} = this.element
     const index = this.indexOf(cssRule)
     if (index === -1) return false
@@ -331,7 +371,7 @@ export default class DomRenderer {
   /**
    * Get index of a CSS Rule.
    */
-  indexOf(cssRule: CSSStyleRule): number {
+  indexOf(cssRule: CSSRule): number {
     const {cssRules} = this.element.sheet
     for (let index = 0; index < cssRules.length; index++) {
       if (cssRule === cssRules[index]) return index
@@ -341,8 +381,10 @@ export default class DomRenderer {
 
   /**
    * Generate a new CSS rule and replace the existing one.
+   *
+   * Only used for some old browsers because they can't set a selector.
    */
-  replaceRule(cssRule: CSSStyleRule, rule: Rule): false | CSSStyleRule {
+  replaceRule(cssRule: CSSRule, rule: Rule): false | CSSRule {
     const index = this.indexOf(cssRule)
     const newCssRule = this.insertRule(rule, index)
     this.element.sheet.deleteRule(index)
