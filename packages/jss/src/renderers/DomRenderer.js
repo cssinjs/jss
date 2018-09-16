@@ -261,16 +261,16 @@ export default class DomRenderer {
     // In the case the element node is external and it is already in the DOM.
     if (this.element.parentNode || !this.sheet) return
 
+    insertStyle(this.element, this.sheet.options)
+
     // When rules are inserted using `insertRule` API, after `sheet.detach().attach()`
     // browsers remove those rules.
     // TODO figure out if its a bug and if it is known.
-    // Workaround is to redeploy the sheet before attaching as a string.
+    // Workaround is to redeploy the sheet.
     if (this.hasInsertedRules) {
       this.hasInsertedRules = false
       this.deploy()
     }
-
-    insertStyle(this.element, this.sheet.options)
   }
 
   /**
@@ -287,8 +287,6 @@ export default class DomRenderer {
     const {sheet} = this
     if (!sheet) return
     if (sheet.options.link) {
-      // We can't use insertRule if style element is not in the DOM.
-      this.attach()
       sheet.rules.index.forEach(this.insertRule, this)
       return
     }
