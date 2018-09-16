@@ -1,7 +1,6 @@
 const fs = require('fs')
 const path = require('path')
 const shell = require('shelljs')
-const log = require('npmlog')
 
 function getCommand() {
   const rollup = path.join(__dirname, '../node_modules/.bin/rollup')
@@ -25,7 +24,7 @@ function build(options = {}) {
 
   if (!fs.existsSync('src')) {
     if (!silent) {
-      log.error('No src dir')
+      console.error('No src dir')
     }
 
     return

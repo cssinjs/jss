@@ -6,7 +6,8 @@
     "flowtype/define-flow-type": 1,
     "flowtype/use-flow-type": 1,
     "react/no-did-mount-set-state": 0,
-    "react/no-did-update-set-state": 0
+    "react/no-did-update-set-state": 0,
+    "no-console": [1, { "allow": ["warn", "error", "info"] }]
   },
   "globals": {
     "benchmark": true,

@@ -39,8 +39,8 @@ File a bug against [cssinjs/jss prefixed with \[jss-camel-case\]](https://github
 ## Run tests
 
 ```bash
-npm i
-npm run test
+yarn
+yarn test
 ```
 
 ## License
