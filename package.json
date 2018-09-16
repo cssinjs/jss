@@ -8,7 +8,7 @@
     "lint:ci": "eslint scripts/ packages/ && npm run typecheck && npm run format -- --list-different",
     "format": "prettier \"*.{js,md,json}\" \"{docs,packages,scripts}/**/*.{js,md,json}\" --write",
     "test": "cross-env NODE_ENV=test VERSION=\"1\" karma start --single-run",
-    "test:watch": "cross-env NODE_ENV=test karma start",
+    "test:watch": "cross-env NODE_ENV=test VERSION=\"1\" karma start",
     "posttest": "lerna exec -- cross-env SNAPSHOT=match rollup --config ../../rollup.config.js && [ -z \"$TRAVIS\" ] || codecov",
     "codecov": "codecov",
     "bench": "cross-env BENCHMARK=true karma start --single-run"
