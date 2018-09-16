@@ -44,7 +44,6 @@ export interface Renderer {
   getPropertyValue(cssRule: HTMLElement | CSSStyleRule, prop: string): string;
   removeProperty(cssRule: HTMLElement | CSSStyleRule, prop: string): void;
   setSelector(cssRule: CSSStyleRule, selectorText: string): boolean;
-  getKey(cssRule: CSSStyleRule): string;
   attach(): void;
   detach(): void;
   deploy(sheet: StyleSheet): void;

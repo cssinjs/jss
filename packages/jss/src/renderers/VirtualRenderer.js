@@ -15,9 +15,6 @@ export default class VirtualRenderer {
   setSelector() {
     return true
   }
-  getKey() {
-    return ''
-  }
   attach() {}
   detach() {}
   deploy() {}

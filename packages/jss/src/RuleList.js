@@ -1,6 +1,5 @@
 /* @flow */
 import createRule from './utils/createRule'
-import linkRule from './utils/linkRule'
 import StyleRule from './rules/StyleRule'
 import type {RuleListOptions, ToCssOptions, Rule, RuleOptions, JssStyle, Classes} from './types'
 import escape from './utils/escape'
@@ -140,21 +139,6 @@ export default class RuleList {
       for (let index = 0; index < this.index.length; index++) {
         plugins.onUpdate(name, this.index[index], sheet)
       }
-    }
-  }
-
-  /**
-   * Link renderable rules with CSSRuleList.
-   */
-  link(cssRules: CSSRuleList): void {
-    const map = this.options.sheet.renderer.getUnescapedKeysMap(this.index)
-
-    for (let i = 0; i < cssRules.length; i++) {
-      const cssRule = cssRules[i]
-      let key = this.options.sheet.renderer.getKey(cssRule)
-      if (map[key]) key = map[key]
-      const rule = this.map[key]
-      if (rule) linkRule(rule, cssRule)
     }
   }
 

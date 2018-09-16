@@ -1,5 +1,4 @@
 /* @flow */
-import linkRule from './utils/linkRule'
 import RuleList from './RuleList'
 import type {
   InternalStyleSheetOptions,
@@ -17,8 +16,6 @@ type Update = ((name: string, data?: Object) => StyleSheet) & ((data?: Object) =
 export default class StyleSheet {
   options: InternalStyleSheetOptions
 
-  linked: boolean
-
   deployed: boolean
 
   attached: boolean
@@ -34,7 +31,6 @@ export default class StyleSheet {
   constructor(styles: Object, options: StyleSheetOptions) {
     this.attached = false
     this.deployed = false
-    this.linked = false
     this.classes = {}
     this.options = {
       ...options,
@@ -59,7 +55,6 @@ export default class StyleSheet {
     if (this.attached) return this
     if (!this.deployed) this.deploy()
     this.renderer.attach()
-    if (!this.linked && this.options.link) this.link()
     this.attached = true
     return this
   }
@@ -115,8 +110,7 @@ export default class StyleSheet {
    * Insert rule into the StyleSheet
    */
   insertRule(rule: Rule) {
-    const renderable = this.renderer.insertRule(rule)
-    if (renderable && this.options.link) linkRule(rule, renderable)
+    this.renderer.insertRule(rule)
   }
 
   /**
@@ -169,18 +163,6 @@ export default class StyleSheet {
   deploy(): this {
     this.renderer.deploy()
     this.deployed = true
-    return this
-  }
-
-  /**
-   * Link renderable CSS rules from sheet with their corresponding models.
-   */
-  link(): this {
-    const cssRules = this.renderer.getRules()
-
-    // Is undefined when VirtualRenderer is used.
-    if (cssRules) this.rules.link(cssRules)
-    this.linked = true
     return this
   }
 
