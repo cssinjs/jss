@@ -415,13 +415,13 @@ describe('Functional: sheet', () => {
       sheet = jss.createStyleSheet(
         {
           a: {
-            'max-width': '50px',
-            width: '10px'
+            width: '10px',
+            'max-width': '50px'
           },
           '@media all': {
             b: {
-              'max-width': '50px',
-              width: '1px'
+              width: '1px',
+              'max-width': '50px'
             }
           },
           '@keyframes a': {
