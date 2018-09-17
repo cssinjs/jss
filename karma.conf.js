@@ -77,8 +77,8 @@ module.exports = config => {
     Object.assign(config, {
       browsers: Object.keys(browsers),
       browserDisconnectTolerance: 3,
-      // My current OS plan allows max 2 parallel connections.
-      concurrency: 2,
+      // My current OS plan allows max 5 parallel connections.
+      concurrency: 5,
       retryLimit: 3
     })
 
