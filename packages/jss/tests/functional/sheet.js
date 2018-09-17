@@ -19,6 +19,8 @@ import {
 
 const settings = {createGenerateClassName}
 
+const isKeyframesSupported = 'animationName' in document.body.style
+
 describe('Functional: sheet', () => {
   let jss
 
@@ -319,12 +321,11 @@ describe('Functional: sheet', () => {
   })
 
   describe('.addRule() with @keyframes and attached sheet', () => {
-    const isSupported = 'animationName' in document.body.style
     let style
     let sheet
 
     // We skip this test as keyframes are not supported by browser.
-    if (!isSupported) return
+    if (!isKeyframesSupported) return
 
     beforeEach(() => {
       sheet = jss.createStyleSheet().attach()
@@ -339,8 +340,7 @@ describe('Functional: sheet', () => {
     })
 
     it('should render @keyframes', () => {
-      // Safari adds the prefix automatically.
-      const css = getCss(style).replace('-webkit-', '')
+      const css = removeVendorPrefixes(getCss(style))
       expect(css).to.be(removeWhitespace(sheet.toString()))
     })
   })
@@ -428,10 +428,6 @@ describe('Functional: sheet', () => {
             '100%': {
               opacity: 1
             }
-          },
-          c: {
-            opacity: 0,
-            'animation-name': 'a'
           }
         },
         {link: true}
@@ -464,6 +460,7 @@ describe('Functional: sheet', () => {
     })
 
     it('should apply a style prop in @keyframes rule child', () => {
+      if (!isKeyframesSupported) return
       const rule = sheet.getRule('@keyframes a').rules.get('100%')
       rule.prop('opacity', 1)
       // We can't compute styles from keyframes.
@@ -488,6 +485,7 @@ describe('Functional: sheet', () => {
     })
 
     it('should remove a prop in @keyframes rule child when null value is passed', () => {
+      if (!isKeyframesSupported) return
       const rule = sheet.getRule('@keyframes a').rules.get('100%')
       rule.prop('opacity', null)
       // We can't compute styles from keyframes.
