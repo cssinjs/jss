@@ -474,8 +474,8 @@ describe('Functional: sheet', () => {
       sheet.getRule('a').prop('display', 'block')
       expect(sheet.getRule('a').toString()).to.be(stripIndent`
         .a-id {
-          max-width: 50px;
           width: 10px;
+          max-width: 50px;
           display: block;
         }
       `)
