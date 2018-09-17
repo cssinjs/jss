@@ -44,14 +44,13 @@ export interface Renderer {
   getPropertyValue(cssRule: HTMLElement | CSSStyleRule, prop: string): string;
   removeProperty(cssRule: HTMLElement | CSSStyleRule, prop: string): void;
   setSelector(cssRule: CSSStyleRule, selectorText: string): boolean;
-  getKey(cssRule: CSSStyleRule): string;
   attach(): void;
   detach(): void;
   deploy(sheet: StyleSheet): void;
-  insertRule(rule: Rule): false | CSSStyleRule;
-  deleteRule(cssRule: CSSStyleRule): boolean;
-  replaceRule(cssRule: CSSStyleRule, rule: Rule): false | CSSStyleRule;
-  indexOf(cssRule: CSSStyleRule): number;
+  insertRule(rule: Rule): false | CSSRule;
+  deleteRule(cssRule: CSSRule): boolean;
+  replaceRule(cssRule: CSSRule, rule: Rule): false | CSSRule;
+  indexOf(cssRule: CSSRule): number;
   getRules(): CSSRuleList | void;
 }
 

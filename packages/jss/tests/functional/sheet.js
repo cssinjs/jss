@@ -13,10 +13,13 @@ import {
   getStyle,
   getCss,
   getRules,
-  removeWhitespace
+  removeWhitespace,
+  removeVendorPrefixes
 } from '../utils'
 
 const settings = {createGenerateClassName}
+
+const isKeyframesSupported = 'animationName' in document.body.style
 
 describe('Functional: sheet', () => {
   let jss
@@ -318,12 +321,11 @@ describe('Functional: sheet', () => {
   })
 
   describe('.addRule() with @keyframes and attached sheet', () => {
-    const isSupported = 'animationName' in document.body.style
     let style
     let sheet
 
     // We skip this test as keyframes are not supported by browser.
-    if (!isSupported) return
+    if (!isKeyframesSupported) return
 
     beforeEach(() => {
       sheet = jss.createStyleSheet().attach()
@@ -338,8 +340,7 @@ describe('Functional: sheet', () => {
     })
 
     it('should render @keyframes', () => {
-      // Safari adds the prefix automatically.
-      const css = getCss(style).replace('-webkit-', '')
+      const css = removeVendorPrefixes(getCss(style))
       expect(css).to.be(removeWhitespace(sheet.toString()))
     })
   })
@@ -408,20 +409,29 @@ describe('Functional: sheet', () => {
   })
 
   describe('rule.prop()', () => {
-    let rule
     let sheet
 
     beforeEach(() => {
       sheet = jss.createStyleSheet(
         {
           a: {
-            'max-width': '50px',
-            width: '10px'
+            width: '10px',
+            'max-width': '50px'
+          },
+          '@media all': {
+            b: {
+              width: '1px',
+              'max-width': '50px'
+            }
+          },
+          '@keyframes a': {
+            '100%': {
+              opacity: 1
+            }
           }
         },
         {link: true}
       )
-      rule = sheet.getRule('a')
       sheet.attach()
     })
 
@@ -434,29 +444,52 @@ describe('Functional: sheet', () => {
     })
 
     it('should apply a style prop', () => {
-      rule.prop('width', '12px')
+      sheet.getRule('a').prop('width', '12px')
       expect(computeStyle(sheet.classes.a).width).to.be('12px')
     })
 
     it('should set the new prop on style', () => {
-      rule.prop('color', 'red')
-      expect(rule.style.color).to.be('red')
+      sheet.getRule('a').prop('color', 'red')
+      expect(sheet.getRule('a').style.color).to.be('red')
+    })
+
+    it('should apply a style prop in @media rule child', () => {
+      const rule = sheet.getRule('@media all').rules.get('b')
+      rule.prop('width', '12px')
+      expect(computeStyle(sheet.classes.b).width).to.be('12px')
+    })
+
+    it('should apply a style prop in @keyframes rule child', () => {
+      if (!isKeyframesSupported) return
+      const rule = sheet.getRule('@keyframes a').rules.get('100%')
+      rule.prop('opacity', 1)
+      // We can't compute styles from keyframes.
+      expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
     })
 
     it('should return a new prop from toString()', () => {
-      rule.prop('display', 'block')
-      expect(rule.toString()).to.be(stripIndent`
+      sheet.getRule('a').prop('display', 'block')
+      expect(sheet.getRule('a').toString()).to.be(stripIndent`
         .a-id {
-          max-width: 50px;
           width: 10px;
+          max-width: 50px;
           display: block;
         }
       `)
     })
 
-    it('should remove a prop when null value is passed', () => {
+    it('should remove a prop in @media rule child when null value is passed', () => {
+      const rule = sheet.getRule('@media all').rules.get('b')
       rule.prop('width', null)
-      expect(computeStyle(sheet.classes.a).width).to.be('50px')
+      expect(computeStyle(sheet.classes.b).width).to.be('50px')
+    })
+
+    it('should remove a prop in @keyframes rule child when null value is passed', () => {
+      if (!isKeyframesSupported) return
+      const rule = sheet.getRule('@keyframes a').rules.get('100%')
+      rule.prop('opacity', null)
+      // We can't compute styles from keyframes.
+      expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
     })
   })
 

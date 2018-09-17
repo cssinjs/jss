@@ -1,5 +1,5 @@
 import {create} from 'jss'
-import global from 'jss-global'
+import global from 'jss-plugin-syntax-global'
 
 import styles from '../fixtures/bootstrap.json'
 
