@@ -386,9 +386,9 @@ export default class DomRenderer {
    */
   replaceRule(cssRule: CSSRule, rule: Rule): false | CSSRule {
     const index = this.indexOf(cssRule)
+    if (index === -1) return false
     this.element.sheet.deleteRule(index)
-    const newCssRule = this.insertRule(rule, index)
-    return newCssRule
+    return this.insertRule(rule, index)
   }
 
   /**
