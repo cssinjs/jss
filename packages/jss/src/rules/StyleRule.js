@@ -54,8 +54,7 @@ export default class StyleRule implements BaseRule {
 
     // If selector setter is not implemented, rerender the rule.
     if (!hasChanged && this.renderable) {
-      const renderable = this.renderer.replaceRule(((this.renderable: any): CSSRule), this)
-      if (renderable) this.renderable = ((renderable: any): CSSStyleRule)
+      this.renderer.replaceRule(((this.renderable: any): CSSRule), this)
     }
   }
 
