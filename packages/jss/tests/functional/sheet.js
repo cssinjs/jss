@@ -13,7 +13,8 @@ import {
   getStyle,
   getCss,
   getRules,
-  removeWhitespace
+  removeWhitespace,
+  removeVendorPrefixes
 } from '../utils'
 
 const settings = {createGenerateClassName}
@@ -466,7 +467,7 @@ describe('Functional: sheet', () => {
       const rule = sheet.getRule('@keyframes a').rules.get('100%')
       rule.prop('opacity', 1)
       // We can't compute styles from keyframes.
-      expect(getCss(getStyle())).to.be(removeWhitespace(sheet.toString()))
+      expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
     })
 
     it('should return a new prop from toString()', () => {
@@ -490,7 +491,7 @@ describe('Functional: sheet', () => {
       const rule = sheet.getRule('@keyframes a').rules.get('100%')
       rule.prop('opacity', null)
       // We can't compute styles from keyframes.
-      expect(getCss(getStyle())).to.be(removeWhitespace(sheet.toString()))
+      expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
     })
   })
 
