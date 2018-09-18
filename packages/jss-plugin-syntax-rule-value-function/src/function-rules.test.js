@@ -105,4 +105,38 @@ describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
       `)
     })
   })
+
+  describe('fallbacks', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss
+        .createStyleSheet(
+          {
+            a: data => ({
+              color: data.color,
+              fallbacks: {
+                color: 'green'
+              }
+            })
+          },
+          {link: true}
+        )
+        .attach()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should output with fallbacks', () => {
+      sheet.update({color: 'red'})
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: green;
+          color: red;
+        }
+      `)
+    })
+  })
 })
