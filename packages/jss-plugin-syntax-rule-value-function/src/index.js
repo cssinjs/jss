@@ -68,7 +68,7 @@ export default function functionPlugin() {
         }
         // Remove props.
         for (const prop in rule.style) {
-          if (style[prop] === null || style[prop] === undefined) {
+          if (style[prop] == null) {
             rule.prop(prop, null)
           }
         }
