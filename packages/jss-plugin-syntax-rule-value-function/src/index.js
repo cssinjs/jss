@@ -24,15 +24,15 @@ export default function functionPlugin() {
     },
 
     onProcessStyle(style: JssStyle, rule: Rule): JssStyle {
-      const fn = {}
+      const fnValues = {}
       for (const prop in style) {
         const value = style[prop]
         if (typeof value !== 'function') continue
         delete style[prop]
-        fn[prop] = value
+        fnValues[prop] = value
       }
       rule = ((rule: any): StyleRuleWithFunctionValues)
-      rule[fnValuesNs] = fn
+      rule[fnValuesNs] = fnValues
       return style
     },
 
@@ -62,8 +62,15 @@ export default function functionPlugin() {
       // will be returned from that function.
       if (fnStyle) {
         const style = fnStyle(data)
+        // Update and add props.
         for (const prop in style) {
           rule.prop(prop, style[prop])
+        }
+        // Remove props.
+        for (const prop in rule.style) {
+          if (style[prop] === null || style[prop] === undefined) {
+            rule.prop(prop, null)
+          }
         }
       }
     }

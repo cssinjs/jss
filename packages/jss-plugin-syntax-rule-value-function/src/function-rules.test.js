@@ -13,7 +13,7 @@ describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
     jss = create(settings).use(functionPlugin())
   })
 
-  describe('.createStyleSheet()', () => {
+  describe('basic', () => {
     let sheet
 
     beforeEach(() => {
@@ -40,6 +40,87 @@ describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
         .a-id {
           color: red;
           display: block;
+        }
+      `)
+    })
+  })
+
+  describe('remove props', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss
+        .createStyleSheet(
+          {
+            a: data => {
+              if (data.noDisplay) {
+                return {color: data.color}
+              }
+              return {
+                color: data.color,
+                display: 'block'
+              }
+            }
+          },
+          {link: true}
+        )
+        .attach()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should compile with color and display', () => {
+      sheet.update({color: 'red'})
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+          display: block;
+        }
+      `)
+    })
+
+    it('should compile with color', () => {
+      sheet.update({color: 'red'})
+      sheet.update({color: 'red', noDisplay: true})
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+        }
+      `)
+    })
+  })
+
+  describe('fallbacks', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss
+        .createStyleSheet(
+          {
+            a: data => ({
+              color: data.color,
+              fallbacks: {
+                color: 'green'
+              }
+            })
+          },
+          {link: true}
+        )
+        .attach()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should output with fallbacks', () => {
+      sheet.update({color: 'red'})
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: green;
+          color: red;
         }
       `)
     })
@@ -101,40 +182,6 @@ describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
           .b-id {
             color: black;
           }
-        }
-      `)
-    })
-  })
-
-  describe('fallbacks', () => {
-    let sheet
-
-    beforeEach(() => {
-      sheet = jss
-        .createStyleSheet(
-          {
-            a: data => ({
-              color: data.color,
-              fallbacks: {
-                color: 'green'
-              }
-            })
-          },
-          {link: true}
-        )
-        .attach()
-    })
-
-    afterEach(() => {
-      sheet.detach()
-    })
-
-    it('should output with fallbacks', () => {
-      sheet.update({color: 'red'})
-      expect(sheet.toString()).to.be(stripIndent`
-        .a-id {
-          color: green;
-          color: red;
         }
       `)
     })
