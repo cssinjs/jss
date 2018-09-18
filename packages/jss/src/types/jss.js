@@ -17,6 +17,10 @@ export type ToCssOptions = {
   allowEmpty?: boolean
 }
 
+export type UpdateOptions = {
+  plugins: boolean
+}
+
 export type Rule =
   | StyleRule
   | ConditionalRule

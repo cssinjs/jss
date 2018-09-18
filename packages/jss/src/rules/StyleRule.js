@@ -6,6 +6,7 @@ import type {
   CSSStyleRule,
   ToCssOptions,
   RuleOptions,
+  UpdateOptions,
   Renderer as RendererInterface,
   JssStyle,
   JssValue,
@@ -68,14 +69,16 @@ export default class StyleRule implements BaseRule {
   /**
    * Get or set a style property.
    */
-  prop(name: string, value?: JssValue): StyleRule | string {
+  prop(name: string, value?: JssValue, options?: UpdateOptions): StyleRule | string {
     // It's a getter.
     if (value === undefined) return this.style[name]
 
     // Don't do anything if the value has not changed.
     if (this.style[name] === value) return this
 
-    value = this.options.jss.plugins.onChangeValue(value, name, this)
+    if (options && options.plugins === true) {
+      value = this.options.jss.plugins.onChangeValue(value, name, this)
+    }
 
     const isEmpty = value == null || value === false
     const isDefined = name in this.style
