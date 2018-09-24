@@ -20,6 +20,7 @@ type Theming = {
 }
 
 export type Options = {
+  withTheme?: boolean,
   theming?: Theming,
   inject?: Array<'classes' | 'themes' | 'sheet'>,
   jss?: Jss

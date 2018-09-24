@@ -80,7 +80,8 @@ export default function createHOC<
   InnerComponent: InnerComponentType,
   options: Options
 ): ComponentType<OuterPropsType> {
-  const isThemingEnabled = typeof stylesOrCreator === 'function'
+  const isThemedStyles = typeof stylesOrCreator === 'function'
+  const isThemingEnabled = isThemedStyles || options.withTheme
   const {theming = defaultTheming, inject, jss: optionsJss, ...sheetOptions} = options
   const injectMap = inject ? toMap(inject) : defaultInjectProps
   const {themeListener} = theming
@@ -123,7 +124,7 @@ export default function createHOC<
       const {dynamicSheet} = this.state
       if (dynamicSheet) dynamicSheet.update(this.props)
 
-      if (isThemingEnabled && this.state.theme !== prevState.theme) {
+      if (isThemedStyles && this.state.theme !== prevState.theme) {
         const newState = this.createState(this.state, this.props)
         this.manage(newState)
         this.manager.unmanage(prevState.theme)
@@ -169,7 +170,7 @@ export default function createHOC<
         staticSheet = this.jss.createStyleSheet(styles, {
           ...sheetOptions,
           ...contextSheetOptions,
-          meta: `${displayName}, ${isThemingEnabled ? 'Themed' : 'Unthemed'}, Static`,
+          meta: `${displayName}, ${isThemedStyles ? 'Themed' : 'Unthemed'}, Static`,
           classNamePrefix
         })
         this.manager.add(theme, staticSheet)
@@ -184,7 +185,7 @@ export default function createHOC<
         dynamicSheet = this.jss.createStyleSheet(dynamicStyles, {
           ...sheetOptions,
           ...contextSheetOptions,
-          meta: `${displayName}, ${isThemingEnabled ? 'Themed' : 'Unthemed'}, Dynamic`,
+          meta: `${displayName}, ${isThemedStyles ? 'Themed' : 'Unthemed'}, Dynamic`,
           classNamePrefix,
           link: true
         })
