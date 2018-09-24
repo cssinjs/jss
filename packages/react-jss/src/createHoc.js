@@ -126,8 +126,9 @@ export default function createHOC<
 
       if (isThemedStyles && this.state.theme !== prevState.theme) {
         const newState = this.createState(this.state, this.props)
+        const managerTheme = isThemedStyles ? prevState.theme : noTheme
         this.manage(newState)
-        this.manager.unmanage(prevState.theme)
+        this.manager.unmanage(managerTheme)
         this.setState(newState)
       }
 
@@ -142,7 +143,9 @@ export default function createHOC<
         themeListener.unsubscribe(this.context, this.unsubscribeId)
       }
 
-      this.manager.unmanage(this.state.theme)
+      const managerTheme = isThemedStyles ? this.state.theme : noTheme
+
+      this.manager.unmanage(managerTheme)
       if (this.state.dynamicSheet) {
         this.jss.removeStyleSheet(this.state.dynamicSheet)
       }
@@ -159,7 +162,8 @@ export default function createHOC<
       }
 
       let classNamePrefix = defaultClassNamePrefix
-      let staticSheet = this.manager.get(theme)
+      const managerTheme = isThemedStyles ? theme : noTheme
+      let staticSheet = this.manager.get(managerTheme)
 
       if (contextSheetOptions && contextSheetOptions.classNamePrefix) {
         classNamePrefix = contextSheetOptions.classNamePrefix + classNamePrefix
@@ -173,7 +177,7 @@ export default function createHOC<
           meta: `${displayName}, ${isThemedStyles ? 'Themed' : 'Unthemed'}, Static`,
           classNamePrefix
         })
-        this.manager.add(theme, staticSheet)
+        this.manager.add(managerTheme, staticSheet)
         // $FlowFixMe Cannot add random fields to instance of class StyleSheet
         staticSheet[dynamicStylesNs] = getDynamicStyles(styles)
       }
@@ -216,8 +220,9 @@ export default function createHOC<
         return
       }
       const registry = this.context[ns.sheetsRegistry]
+      const managerTheme = isThemedStyles ? theme : noTheme
 
-      const staticSheet = this.manager.manage(theme)
+      const staticSheet = this.manager.manage(managerTheme)
       if (registry) registry.add(staticSheet)
 
       if (dynamicSheet) {
@@ -247,8 +252,9 @@ export default function createHOC<
 
     render() {
       const {theme, dynamicSheet, classes} = this.state
+      const managerTheme = isThemedStyles ? theme : noTheme
       const {innerRef, ...props}: OuterPropsType = this.props
-      const sheet = dynamicSheet || this.manager.get(theme)
+      const sheet = dynamicSheet || this.manager.get(managerTheme)
 
       if (injectMap.sheet && !props.sheet) props.sheet = sheet
       if (isThemingEnabled && injectMap.theme && !props.theme) props.theme = theme
