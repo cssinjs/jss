@@ -11,4 +11,4 @@ script:
   - yarn test
 env:
   global:
-    secure: fl4UGag82aZeNArjKBGJUJzT0tNZtth8BgInYmxoXQuwPFUY7Q4P/Bva8lHpGaKLuGFPzQreVhLHtRUUbFQhJWR5EA7MPbWtKeQ3EBu5lz/7CFiJMRkr+xGxN6wpmkipiVkZ2SofL1tCZD67L7kxqoPgaMfoDHYUvKAmNhP6spU=
+    secure: IaLnA8heZU8OMLiA8REbZeF1F5uXJE5XmX7L0cmtNYtHNDs+p4ufVOOGbrfZW2fDEbDpXryT3lTNsFLPPmHT0sdwH/eNeO+VNvqcJW4kHe6UReVU6fObsdEvGbX4V8V08x7V4rbJjHgERq9e8O0DDp32ykxuu1XbUlb01NEu1Qg=
