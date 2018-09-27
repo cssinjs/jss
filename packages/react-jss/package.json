@@ -36,7 +36,7 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "peerDependencies": {
-    "react": ">=0.14"
+    "react": ">=0.15"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
