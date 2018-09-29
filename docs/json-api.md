@@ -149,7 +149,7 @@ const styles = {
 ### ES6 with generated keyframe id
 
 ```javascript
-const animationId = random()
+const animationId = Math.random()
 
 const styles = {
   [`@keyframes ${animationId}`]: {
