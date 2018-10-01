@@ -7,3 +7,4 @@ dist
 .env
 coverage
 lerna-debug.log
+yarn-error.log

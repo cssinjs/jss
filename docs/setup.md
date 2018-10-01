@@ -10,10 +10,16 @@ yarn add jss
 
 For bower or direct script injection use [unpkg](https://unpkg.com):
 
-Full:
+Unminified UMD:
 https://unpkg.com/jss/dist/jss.js
 
-Minified:
+Unminified CommonJS:
+https://unpkg.com/jss/dist/jss.cjs.js
+
+Unminified ESM:
+https://unpkg.com/jss/dist/jss.esm.js
+
+Minified UMD:
 https://unpkg.com/jss/dist/jss.min.js
 
 Polyfills:
