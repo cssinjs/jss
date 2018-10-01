@@ -19,10 +19,17 @@ const input = path.join(rootPath, './src/index.js')
 
 const name = camelCase(pkg.name)
 
-const globals = Object.keys(pkg.peerDependencies || {}).reduce(
-  (acc, key) => Object.assign({}, acc, {[key]: camelCase(key, {pascalCase: true})}),
-  {}
-)
+const globals = {
+  jss: 'jss',
+  'react-jss': 'reactJss',
+  react: 'React'
+}
+
+Object.keys(pkg.peerDependencies || {}).forEach(key => {
+  if (!(key in globals)) {
+    throw new Error(`Missing peer dependency "${key}" in the globals map.`)
+  }
+})
 
 const external = id => !id.startsWith('.') && !id.startsWith('/')
 

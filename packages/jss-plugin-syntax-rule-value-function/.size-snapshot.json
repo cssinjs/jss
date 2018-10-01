@@ -2,12 +2,12 @@
   "dist/jss-plugin-syntax-rule-value-function.js": {
     "bundled": 2073,
     "minified": 827,
-    "gzipped": 475
+    "gzipped": 472
   },
   "dist/jss-plugin-syntax-rule-value-function.min.js": {
     "bundled": 2073,
     "minified": 827,
-    "gzipped": 475
+    "gzipped": 472
   },
   "dist/jss-plugin-syntax-rule-value-function.cjs.js": {
     "bundled": 1672,
