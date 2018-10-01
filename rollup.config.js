@@ -7,6 +7,7 @@ import babel from 'rollup-plugin-babel'
 import replace from 'rollup-plugin-replace'
 import {uglify} from 'rollup-plugin-uglify'
 import {sizeSnapshot} from 'rollup-plugin-size-snapshot'
+import camelCase from 'camelcase'
 
 const {getPackageJson} = require('./scripts/get-package-json')
 
@@ -14,16 +15,12 @@ const pkg = getPackageJson()
 const rootPath = path.resolve('./')
 const matchSnapshot = process.env.SNAPSHOT === 'match'
 
-function toCamelCase(name) {
-  return name.replace(/-(\w)/g, (match, letter) => letter.toUpperCase())
-}
-
 const input = path.join(rootPath, './src/index.js')
 
-const name = toCamelCase(pkg.name)
+const name = camelCase(pkg.name, {pascalCase: true})
 
 const globals = Object.keys(pkg.peerDependencies || {}).reduce(
-  (acc, key) => Object.assign({}, acc, {[key]: toCamelCase(key)}),
+  (acc, key) => Object.assign({}, acc, {[key]: camelCase(key, {pascalCase: true})}),
   {}
 )
 

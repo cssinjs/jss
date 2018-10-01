@@ -2,12 +2,12 @@
   "dist/jss-plugin-syntax-expand.js": {
     "bundled": 10991,
     "minified": 4112,
-    "gzipped": 1450
+    "gzipped": 1451
   },
   "dist/jss-plugin-syntax-expand.min.js": {
     "bundled": 10991,
     "minified": 4112,
-    "gzipped": 1450
+    "gzipped": 1451
   },
   "dist/jss-plugin-syntax-expand.cjs.js": {
     "bundled": 10010,

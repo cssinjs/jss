@@ -2,12 +2,12 @@
   "dist/jss-plugin-props-sort.js": {
     "bundled": 899,
     "minified": 460,
-    "gzipped": 297
+    "gzipped": 298
   },
   "dist/jss-plugin-props-sort.min.js": {
     "bundled": 899,
     "minified": 460,
-    "gzipped": 297
+    "gzipped": 298
   },
   "dist/jss-plugin-props-sort.cjs.js": {
     "bundled": 579,

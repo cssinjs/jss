@@ -2,12 +2,12 @@
   "dist/jss-plugin-syntax-camel-case.js": {
     "bundled": 2232,
     "minified": 753,
-    "gzipped": 438
+    "gzipped": 439
   },
   "dist/jss-plugin-syntax-camel-case.min.js": {
     "bundled": 2232,
     "minified": 753,
-    "gzipped": 438
+    "gzipped": 439
   },
   "dist/jss-plugin-syntax-camel-case.cjs.js": {
     "bundled": 1593,
