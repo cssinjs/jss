@@ -17,7 +17,7 @@ const matchSnapshot = process.env.SNAPSHOT === 'match'
 
 const input = path.join(rootPath, './src/index.js')
 
-const name = camelCase(pkg.name, {pascalCase: true})
+const name = camelCase(pkg.name)
 
 const globals = Object.keys(pkg.peerDependencies || {}).reduce(
   (acc, key) => Object.assign({}, acc, {[key]: camelCase(key, {pascalCase: true})}),
