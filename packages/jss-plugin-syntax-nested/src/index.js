@@ -72,9 +72,9 @@ export default function jssNested(): Plugin {
   function onProcessStyle(style, rule) {
     if (rule.type !== 'style') return style
 
-    rule = ((rule: any): StyleRule)
+    const styleRule: StyleRule = (rule: any)
 
-    const container = ((rule.options.parent: any): StyleSheet)
+    const container: StyleSheet = (styleRule.options.parent: any)
     let options
     let replaceRef
     for (const prop in style) {
@@ -83,10 +83,10 @@ export default function jssNested(): Plugin {
 
       if (!isNested && !isNestedConditional) continue
 
-      options = getOptions(rule, container, options)
+      options = getOptions(styleRule, container, options)
 
       if (isNested) {
-        let selector = replaceParentRefs(prop, rule.selector)
+        let selector = replaceParentRefs(prop, styleRule.selector)
         // Lazily create the ref replacer function just once for
         // all nested rules within the sheet.
         if (!replaceRef) replaceRef = getReplaceRef(container)
@@ -101,7 +101,7 @@ export default function jssNested(): Plugin {
           // Flow expects more options but they aren't required
           // And flow doesn't know this will always be a StyleRule which has the addRule method
           // $FlowFixMe
-          .addRule(rule.key, style[prop], {selector: rule.selector})
+          .addRule(styleRule.key, style[prop], {selector: styleRule.selector})
       }
 
       delete style[prop]

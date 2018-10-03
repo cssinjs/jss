@@ -96,9 +96,9 @@ export default function jssIsolate(options: Options = {}): Plugin {
     if (!sheet || sheet === resetSheet || rule.type !== 'style') return
 
     // Type it as a StyleRule
-    rule = ((rule: any): StyleRule)
+    const styleRule: StyleRule = (rule: any)
 
-    if (!shouldIsolate(rule, sheet, options)) return
+    if (!shouldIsolate(styleRule, sheet, options)) return
 
     // Create a reset Style Sheet once and use it for all rules.
     if (!resetRule) {
@@ -108,7 +108,7 @@ export default function jssIsolate(options: Options = {}): Plugin {
     }
 
     // Add reset rule class name to the classes map of users Style Sheet.
-    const {selector} = (rule: StyleRule)
+    const {selector} = styleRule
     if (selectors.indexOf(selector) === -1) {
       selectors.push(selector)
       setSelectorDone = setSelectorDebounced()

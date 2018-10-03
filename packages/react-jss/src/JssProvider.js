@@ -8,6 +8,8 @@ import contextTypes from './contextTypes'
 import propTypes from './propTypes'
 import type {Context} from './types'
 
+/* eslint-disable react/require-default-props */
+
 type Props = {
   jss?: Jss,
   registry?: SheetsRegistry,
@@ -42,6 +44,7 @@ export default class JssProvider extends Component<Props> {
       generateClassName,
       disableStylesGeneration
     } = this.props
+    // eslint-disable-next-line react/react/destructuring-assignment
     const sheetOptions = this.context[ns.sheetOptions] || {}
     const context: Context = {[ns.sheetOptions]: sheetOptions}
 
@@ -92,6 +95,8 @@ export default class JssProvider extends Component<Props> {
   generateClassName: GenerateClassName
 
   render() {
-    return Children.only(this.props.children)
+    const {children} = this.props
+
+    return Children.only(children)
   }
 }

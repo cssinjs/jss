@@ -3,7 +3,7 @@
 import expect from 'expect.js'
 
 import {create} from 'jss'
-import functionPlugin from './'
+import functionPlugin from '.'
 
 import './function-rules.test'
 import './function-values.test'

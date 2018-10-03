@@ -66,13 +66,13 @@ export default class Jss {
    * Create a Style Sheet.
    */
   createStyleSheet(styles: Object, options: StyleSheetFactoryOptions = {}): StyleSheet {
-    let index = options.index
+    let {index} = options
     if (typeof index !== 'number') {
       index = sheets.index === 0 ? 0 : sheets.index + 1
     }
     const sheet = new StyleSheet(styles, {
       ...options,
-      jss: (this: Jss),
+      jss: this,
       generateClassName: options.generateClassName || this.generateClassName,
       insertionPoint: this.options.insertionPoint,
       Renderer: this.options.Renderer,
@@ -98,17 +98,13 @@ export default class Jss {
   createRule(name?: string, style?: JssStyle = {}, options?: RuleFactoryOptions = {}): Rule {
     // Enable rule without name for inline styles.
     if (typeof name === 'object') {
-      options = style
-      style = name
-      name = undefined
+      return this.createRule(undefined, name, style)
     }
 
     // Cast from RuleFactoryOptions to RuleOptions
     // https://stackoverflow.com/questions/41328728/force-casting-in-flow
-    const ruleOptions: RuleOptions = (options: any)
+    const ruleOptions: RuleOptions = {...options, jss: this, Renderer: this.options.Renderer}
 
-    ruleOptions.jss = this
-    ruleOptions.Renderer = this.options.Renderer
     if (!ruleOptions.generateClassName) ruleOptions.generateClassName = this.generateClassName
     if (!ruleOptions.classes) ruleOptions.classes = {}
     const rule = createRule(name, style, ruleOptions)

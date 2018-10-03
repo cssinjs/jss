@@ -1,5 +1,5 @@
 import {create} from 'jss'
-import jssExpand from './../../src'
+import jssExpand from '../../src'
 import styles from '../fixtures/bootstrap.json'
 
 suite('Bootstrap unnamed JSS test', () => {

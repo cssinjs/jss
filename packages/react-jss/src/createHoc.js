@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable react/destructuring-assignment */
 import React, {Component, type ComponentType} from 'react'
 import PropTypes from 'prop-types'
 import defaultTheming from 'theming'
@@ -58,10 +59,13 @@ const getStyles = (stylesOrCreator: StylesOrCreator, theme: Theme) => {
 
 // Returns an object with array property as a key and true as a value.
 const toMap = arr =>
-  arr.reduce((map, prop) => {
-    map[prop] = true
-    return map
-  }, {})
+  arr.reduce(
+    (map, prop) => ({
+      ...map,
+      [prop]: true
+    }),
+    {}
+  )
 
 const defaultInjectProps = {
   sheet: false,
@@ -95,14 +99,18 @@ export default function createHOC<
 
   class Jss extends Component<OuterPropsType, State> {
     static displayName = `Jss(${displayName})`
+
     static InnerComponent = InnerComponent
+
     static contextTypes = {
       ...contextTypes,
       ...(isThemingEnabled ? themeListener.contextTypes : {})
     }
+
     static propTypes = {
       innerRef: PropTypes.func
     }
+
     static defaultProps = defaultProps
 
     constructor(props: OuterPropsType, context: Context) {
@@ -148,37 +156,71 @@ export default function createHOC<
     }
 
     setTheme = (theme: Theme) => this.setState({theme})
-    unsubscribeId: SubscriptionId
-    context: Context
 
-    createState({theme, dynamicSheet}: State, {classes: userClasses}): State {
+    get jss() {
+      return this.context[ns.jss] || optionsJss || jss
+    }
+
+    get manager() {
+      const managers = this.context[ns.managers]
+
+      // If `managers` map is present in the context, we use it in order to
+      // let JssProvider reset them when new response has to render server-side.
+      if (managers) {
+        if (!managers[managerId]) {
+          managers[managerId] = new SheetsManager()
+        }
+        return managers[managerId]
+      }
+
+      return manager
+    }
+
+    manage({theme, dynamicSheet}: State) {
       const contextSheetOptions = this.context[ns.sheetOptions]
       if (contextSheetOptions && contextSheetOptions.disableStylesGeneration) {
-        return {theme, dynamicSheet, classes: {}}
+        return
+      }
+      const registry = this.context[ns.sheetsRegistry]
+
+      const staticSheet = this.manager.manage(theme)
+      if (registry) registry.add(staticSheet)
+
+      if (dynamicSheet) {
+        dynamicSheet.update(this.props).attach()
+        if (registry) registry.add(dynamicSheet)
+      }
+    }
+
+    createState(state: State, {classes: userClasses}): State {
+      const contextSheetOptions = this.context[ns.sheetOptions]
+      if (contextSheetOptions && contextSheetOptions.disableStylesGeneration) {
+        return {...state, classes: {}}
       }
 
       let classNamePrefix = defaultClassNamePrefix
-      let staticSheet = this.manager.get(theme)
+      let staticSheet = this.manager.get(state.theme)
 
       if (contextSheetOptions && contextSheetOptions.classNamePrefix) {
         classNamePrefix = contextSheetOptions.classNamePrefix + classNamePrefix
       }
 
       if (!staticSheet) {
-        const styles = getStyles(stylesOrCreator, theme)
+        const styles = getStyles(stylesOrCreator, state.theme)
         staticSheet = this.jss.createStyleSheet(styles, {
           ...sheetOptions,
           ...contextSheetOptions,
           meta: `${displayName}, ${isThemingEnabled ? 'Themed' : 'Unthemed'}, Static`,
           classNamePrefix
         })
-        this.manager.add(theme, staticSheet)
+        this.manager.add(state.theme, staticSheet)
         // $FlowFixMe Cannot add random fields to instance of class StyleSheet
         staticSheet[dynamicStylesNs] = getDynamicStyles(styles)
       }
 
       // $FlowFixMe Cannot access random fields on instance of class StyleSheet
       const dynamicStyles = staticSheet[dynamicStylesNs]
+      let dynamicSheet
 
       if (dynamicStyles) {
         dynamicSheet = this.jss.createStyleSheet(dynamicStyles, {
@@ -206,43 +248,12 @@ export default function createHOC<
         ...userClasses
       }
 
-      return {theme, dynamicSheet, classes}
+      return {theme: state.theme, dynamicSheet, classes}
     }
 
-    manage({theme, dynamicSheet}: State) {
-      const contextSheetOptions = this.context[ns.sheetOptions]
-      if (contextSheetOptions && contextSheetOptions.disableStylesGeneration) {
-        return
-      }
-      const registry = this.context[ns.sheetsRegistry]
+    unsubscribeId: SubscriptionId
 
-      const staticSheet = this.manager.manage(theme)
-      if (registry) registry.add(staticSheet)
-
-      if (dynamicSheet) {
-        dynamicSheet.update(this.props).attach()
-        if (registry) registry.add(dynamicSheet)
-      }
-    }
-
-    get jss() {
-      return this.context[ns.jss] || optionsJss || jss
-    }
-
-    get manager() {
-      const managers = this.context[ns.managers]
-
-      // If `managers` map is present in the context, we use it in order to
-      // let JssProvider reset them when new response has to render server-side.
-      if (managers) {
-        if (!managers[managerId]) {
-          managers[managerId] = new SheetsManager()
-        }
-        return managers[managerId]
-      }
-
-      return manager
-    }
+    context: Context
 
     render() {
       const {theme, dynamicSheet, classes} = this.state

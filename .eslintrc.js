@@ -7,7 +7,10 @@ module.exports = {
     'react/no-did-mount-set-state': 0,
     'react/no-did-update-set-state': 0,
     'no-console': [1, {allow: ['warn', 'error', 'info']}],
-    'import/no-extraneous-dependencies': 'off'
+    'import/no-extraneous-dependencies': 'off',
+    'no-param-reassign': ['error', {props: false}],
+    'react/destructuring-assignment': 'off',
+    'prefer-destructuring': 'off'
   },
   env: {
     mocha: true,

@@ -37,8 +37,7 @@ export default class RuleList {
    */
   add(name: string, decl: JssStyle, options?: RuleOptions): Rule {
     const {parent, sheet, jss, Renderer, generateClassName} = this.options
-
-    options = {
+    const defaultOptions = {
       classes: this.classes,
       parent,
       sheet,
@@ -48,24 +47,24 @@ export default class RuleList {
       ...options
     }
 
-    if (!options.selector && this.classes[name]) {
-      options.selector = `.${escape(this.classes[name])}`
+    if (!defaultOptions.selector && this.classes[name]) {
+      defaultOptions.selector = `.${escape(this.classes[name])}`
     }
 
     this.raw[name] = decl
 
-    const rule = createRule(name, decl, options)
+    const rule = createRule(name, decl, defaultOptions)
 
     let className
 
-    if (!options.selector && rule instanceof StyleRule) {
+    if (!defaultOptions.selector && rule instanceof StyleRule) {
       className = generateClassName(rule, sheet)
       rule.selector = `.${escape(className)}`
     }
 
     this.register(rule, className)
 
-    const index = options.index === undefined ? this.index.length : options.index
+    const index = defaultOptions.index === undefined ? this.index.length : defaultOptions.index
     this.index.splice(index, 0, rule)
 
     return rule

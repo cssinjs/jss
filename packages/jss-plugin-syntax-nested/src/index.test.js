@@ -5,7 +5,7 @@ import {stripIndent} from 'common-tags'
 // import jssExtend from 'jss-plugin-syntax-extend'
 import {create} from 'jss'
 import functionPlugin from 'jss-plugin-syntax-rule-value-function'
-import nested from './'
+import nested from '.'
 
 const settings = {
   createGenerateClassName: () => rule => `${rule.key}-id`

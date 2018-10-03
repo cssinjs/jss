@@ -3,7 +3,7 @@ import {stripIndent} from 'common-tags'
 import Observable from 'zen-observable'
 
 import {create} from 'jss'
-import observable from './'
+import observable from '.'
 
 const settings = {createGenerateClassName: () => rule => `${rule.key}-id`}
 
