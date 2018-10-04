@@ -8,17 +8,11 @@ const fnStyleNs = `fnStyle${++now}`
 
 type StyleRuleWithRuleFunction = StyleRule & {[key: string]: Function}
 
-type StyleRuleWithFunctionValues = StyleRule & {
-  [key: string]: {
-    [key: string]: Function
-  }
-}
-
 export default function functionPlugin() {
   return {
     onCreateRule(name: string, decl: JssStyle, options: RuleOptions): Rule | null {
       if (typeof decl !== 'function') return null
-      const rule = ((createRule(name, {}, options): any): StyleRuleWithRuleFunction)
+      const rule: StyleRuleWithRuleFunction = (createRule(name, {}, options): any)
       rule[fnStyleNs] = decl
       return rule
     },
@@ -31,7 +25,7 @@ export default function functionPlugin() {
         delete style[prop]
         fn[prop] = value
       }
-      rule = ((rule: any): StyleRuleWithFunctionValues)
+      // $FlowFixMe: Flow complains...
       rule[fnValuesNs] = fn
       return style
     },
@@ -45,25 +39,25 @@ export default function functionPlugin() {
 
       if (rule && rule.type !== 'style') return
 
-      rule = ((rule: any): StyleRuleWithFunctionValues)
+      const styleRule: StyleRule = (rule: any)
 
       // If we have a fn values map, it is a rule with function values.
-      if (rule[fnValuesNs]) {
-        for (const prop in rule[fnValuesNs]) {
-          rule.prop(prop, rule[fnValuesNs][prop](data))
+      // $FlowFixMe
+      if (styleRule[fnValuesNs]) {
+        for (const prop in styleRule[fnValuesNs]) {
+          styleRule.prop(prop, styleRule[fnValuesNs][prop](data))
         }
       }
 
-      rule = ((rule: any): StyleRuleWithRuleFunction)
-
-      const fnStyle = rule[fnStyleNs]
+      // $FlowFixMe
+      const fnStyle = styleRule[fnStyleNs]
 
       // If we have a style function, the entire rule is dynamic and style object
       // will be returned from that function.
       if (fnStyle) {
         const style = fnStyle(data)
         for (const prop in style) {
-          rule.prop(prop, style[prop])
+          styleRule.prop(prop, style[prop])
         }
       }
     }

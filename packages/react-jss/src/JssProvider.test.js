@@ -9,7 +9,7 @@ import {create} from 'jss'
 
 import {renderToString} from 'react-dom/server'
 
-import injectSheet, {SheetsRegistry, JssProvider} from './'
+import injectSheet, {SheetsRegistry, JssProvider} from '.'
 
 describe('JssProvider', () => {
   let node

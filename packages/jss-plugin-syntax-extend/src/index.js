@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable no-use-before-define */
 import warning from 'warning'
 import type {Plugin} from 'jss'
 

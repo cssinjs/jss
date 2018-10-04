@@ -8,26 +8,37 @@ export default class VirtualRenderer {
   setProperty() {
     return true
   }
+
   getPropertyValue() {
     return ''
   }
+
   removeProperty() {}
+
   setSelector() {
     return true
   }
+
   attach() {}
+
   detach() {}
+
   deploy() {}
+
   insertRule() {
     return false
   }
+
   deleteRule() {
     return true
   }
+
   replaceRule() {
     return false
   }
+
   getRules() {}
+
   indexOf() {
     return -1
   }

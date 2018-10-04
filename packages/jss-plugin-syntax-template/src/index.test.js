@@ -3,7 +3,7 @@
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import {create} from 'jss'
-import template from './'
+import template from '.'
 import parse from './parse'
 
 const settings = {

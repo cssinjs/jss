@@ -2,7 +2,7 @@
 import warning from 'warning'
 import StyleRule from '../rules/StyleRule'
 import type {Rule, RuleOptions, JssStyle} from '../types'
-import cloneStyle from '../utils/cloneStyle'
+import cloneStyle from './cloneStyle'
 
 /**
  * Create a rule instance.

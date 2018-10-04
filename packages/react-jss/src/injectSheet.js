@@ -28,12 +28,10 @@ const NoRenderer = (props: {children?: ?Node}) => props.children || null
  * @api public
  */
 export default function injectSheet(styles: StylesOrCreator, options?: Options = {}) {
-  if (options.index === undefined) {
-    options.index = indexCounter++
-  }
+  const index = options.index === undefined ? indexCounter++ : options.index
 
   return (InnerComponent: ComponentType<InnerProps> = NoRenderer) => {
-    const Jss = createHoc(styles, InnerComponent, options)
+    const Jss = createHoc(styles, InnerComponent, {...options, index})
 
     return hoistNonReactStatics(Jss, InnerComponent, {inner: true})
   }

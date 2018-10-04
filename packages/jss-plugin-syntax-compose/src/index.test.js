@@ -2,7 +2,7 @@
 
 import expect from 'expect.js'
 import {create} from 'jss'
-import compose from './'
+import compose from '.'
 
 const settings = {createGenerateClassName: () => rule => `${rule.key}-id`}
 

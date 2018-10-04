@@ -3,7 +3,7 @@ import Observable from 'zen-observable'
 import {create} from 'jss'
 import observablePlugin from 'jss-plugin-syntax-rule-value-observable'
 
-import expand from './'
+import expand from '.'
 
 const settings = {
   createGenerateClassName: () => rule => `${rule.key}-id`

@@ -419,8 +419,12 @@ describe('theming', () => {
       let themeReceivedInComponentA
       let themeReceivedInComponentB
 
-      const styleA = theme => (colorReceivedInStyleA = {a: {color: theme.color}})
-      const styleB = theme => (colorReceivedInStyleB = {a: {color: theme.color}})
+      const styleA = theme => {
+        colorReceivedInStyleA = {a: {color: theme.color}}
+      }
+      const styleB = theme => {
+        colorReceivedInStyleB = {a: {color: theme.color}}
+      }
 
       const InnerComponentA = ({theme}) => {
         themeReceivedInComponentA = theme
