@@ -1,5 +1,5 @@
 import {create} from 'jss'
-import jssExpand from './../../src'
+import jssExpand from '../../src'
 import arraysWithoutPlugin from '../fixtures/arrays-without-plugin.json'
 import arraysWithPlugin from '../fixtures/arrays-with-plugin.json'
 

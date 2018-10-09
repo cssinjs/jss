@@ -74,13 +74,15 @@ export default class StyleRule implements BaseRule {
     if (value === undefined) return this.style[name]
 
     // Don't do anything if the value has not changed.
-    if (this.style[name] === value) return this
+    const force = options ? options.force : false
+    if (!force && this.style[name] === value) return this
 
+    let newValue = value
     if (options && options.process === true) {
-      value = this.options.jss.plugins.onChangeValue(value, name, this)
+      newValue = this.options.jss.plugins.onChangeValue(value, name, this)
     }
 
-    const isEmpty = value == null || value === false
+    const isEmpty = newValue == null || newValue === false
     const isDefined = name in this.style
 
     // Value is empty and wasn't defined before.
@@ -90,12 +92,12 @@ export default class StyleRule implements BaseRule {
     const remove = isEmpty && isDefined
 
     if (remove) delete this.style[name]
-    else this.style[name] = value
+    else this.style[name] = newValue
 
     // Renderable is defined if StyleSheet option `link` is true.
     if (this.renderable) {
       if (remove) this.renderer.removeProperty(this.renderable, name)
-      else this.renderer.setProperty(this.renderable, name, value)
+      else this.renderer.setProperty(this.renderable, name, newValue)
       return this
     }
 

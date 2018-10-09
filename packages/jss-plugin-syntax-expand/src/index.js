@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable no-use-before-define */
 import type {Plugin, StyleRule} from 'jss'
 import {propArray, propArrayInObj, propObj, customPropObj} from './props'
 
@@ -51,6 +52,7 @@ function objectToArray(value, prop, rule: StyleRule, isFallback, isInArray) {
 
   // Check if exists any non-standard property
   if (customPropObj[prop]) {
+    // eslint-disable-next-line no-param-reassign
     value = customPropsToStyle(value, rule, customPropObj[prop], isFallback)
   }
 

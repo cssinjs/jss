@@ -8,12 +8,12 @@ import {render, unmountComponentAtNode} from 'react-dom'
 
 import getDisplayName from './getDisplayName'
 import createHoc from './createHoc'
-import injectSheet, {JssProvider, ThemeProvider} from './'
+import injectSheet, {JssProvider, ThemeProvider} from '.'
 
 const createGenerateClassName = () => rule => `${rule.key}-id`
 const removeWhitespaces = s => s.replace(/\s/g, '')
 
-describe('injectSheet', () => {
+describe('React-JSS: injectSheet', () => {
   let jss
   let node
 

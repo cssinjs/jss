@@ -12,7 +12,7 @@ import injectSheet, {createTheming, ThemeProvider, JssProvider, SheetsRegistry} 
 
 const removeWhitespaces = s => s.replace(/\s/g, '')
 
-describe('theming', () => {
+describe('React-JSS: theming', () => {
   let node
 
   beforeEach(() => {
@@ -419,8 +419,12 @@ describe('theming', () => {
       let themeReceivedInComponentA
       let themeReceivedInComponentB
 
-      const styleA = theme => (colorReceivedInStyleA = {a: {color: theme.color}})
-      const styleB = theme => (colorReceivedInStyleB = {a: {color: theme.color}})
+      const styleA = theme => {
+        colorReceivedInStyleA = {a: {color: theme.color}}
+      }
+      const styleB = theme => {
+        colorReceivedInStyleB = {a: {color: theme.color}}
+      }
 
       const InnerComponentA = ({theme}) => {
         themeReceivedInComponentA = theme

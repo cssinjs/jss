@@ -13,9 +13,13 @@ const prefixKey = '@global '
 
 class GlobalContainerRule implements ContainerRule {
   type = 'global'
+
   rules: RuleList
+
   options: RuleOptions
+
   key: string
+
   isProcessed: boolean = false
 
   constructor(key, styles, options: RuleOptions) {
@@ -66,11 +70,17 @@ class GlobalContainerRule implements ContainerRule {
 
 class GlobalPrefixedRule implements BaseRule {
   type = 'global'
+
   name: string
+
   options: RuleOptions
+
   rule: BaseRule
+
   isProcessed: boolean = false
+
   key: string
+
   constructor(name, style, options) {
     this.name = name
     this.options = options

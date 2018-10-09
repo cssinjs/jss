@@ -2,6 +2,10 @@ import {sheets} from '../src'
 
 const {slice} = []
 
+export function removeWhitespace(str) {
+  return str.replace(/\s/g, '')
+}
+
 export function getRules(style) {
   return slice.call(style.sheet.cssRules)
 }
@@ -33,10 +37,6 @@ export function getCssFromSheet(sheet) {
  */
 export function removeVendorPrefixes(str) {
   return str.replace(/-webkit-|-moz-|-o-|-ms-/g, '')
-}
-
-export function removeWhitespace(str) {
-  return str.replace(/\s/g, '')
 }
 
 export function computeStyle(className) {

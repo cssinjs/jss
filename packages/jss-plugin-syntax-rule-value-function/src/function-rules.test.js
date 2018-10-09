@@ -2,7 +2,7 @@ import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import {create} from 'jss'
 import nestedPlugin from '../../jss-plugin-syntax-nested'
-import functionPlugin from './'
+import functionPlugin from '.'
 
 const settings = {createGenerateClassName: () => rule => `${rule.key}-id`}
 

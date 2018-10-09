@@ -9,9 +9,9 @@ import {create} from 'jss'
 
 import {renderToString} from 'react-dom/server'
 
-import injectSheet, {SheetsRegistry, JssProvider} from './'
+import injectSheet, {SheetsRegistry, JssProvider} from '.'
 
-describe('JssProvider', () => {
+describe('React-JSS: JssProvider', () => {
   let node
 
   beforeEach(() => {

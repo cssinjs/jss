@@ -1,23 +1,23 @@
 {
   "dist/jss-plugin-syntax-rule-value-function.js": {
-    "bundled": 2379,
-    "minified": 919,
-    "gzipped": 512
+    "bundled": 2512,
+    "minified": 912,
+    "gzipped": 510
   },
   "dist/jss-plugin-syntax-rule-value-function.min.js": {
-    "bundled": 2379,
-    "minified": 919,
-    "gzipped": 512
+    "bundled": 2512,
+    "minified": 912,
+    "gzipped": 510
   },
   "dist/jss-plugin-syntax-rule-value-function.cjs.js": {
-    "bundled": 1964,
-    "minified": 808,
-    "gzipped": 450
+    "bundled": 2101,
+    "minified": 801,
+    "gzipped": 449
   },
   "dist/jss-plugin-syntax-rule-value-function.esm.js": {
-    "bundled": 1892,
-    "minified": 749,
-    "gzipped": 408,
+    "bundled": 2029,
+    "minified": 742,
+    "gzipped": 407,
     "treeshaked": {
       "rollup": {
         "code": 12,

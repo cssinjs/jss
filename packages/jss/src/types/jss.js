@@ -18,7 +18,8 @@ export type ToCssOptions = {
 }
 
 export type UpdateOptions = {
-  process: boolean
+  process?: boolean,
+  force?: boolean
 }
 
 export type UpdateArguments =

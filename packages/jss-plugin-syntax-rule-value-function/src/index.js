@@ -17,17 +17,11 @@ const fnRuleNs = `fnStyle${++now}`
 
 type StyleRuleWithRuleFunction = StyleRule & {[key: string]: Function}
 
-type StyleRuleWithFunctionValues = StyleRule & {
-  [key: string]: {
-    [key: string]: Function
-  }
-}
-
 export default function functionPlugin() {
   return {
     onCreateRule(name: string, decl: JssStyle, options: RuleOptions): Rule | null {
       if (typeof decl !== 'function') return null
-      const rule = ((createRule(name, {}, options): any): StyleRuleWithRuleFunction)
+      const rule: StyleRuleWithRuleFunction = (createRule(name, {}, options): any)
       rule[fnRuleNs] = decl
       return rule
     },
@@ -40,7 +34,7 @@ export default function functionPlugin() {
         delete style[prop]
         fnValues[prop] = value
       }
-      rule = ((rule: any): StyleRuleWithFunctionValues)
+      // $FlowFixMe
       rule[fnValuesNs] = fnValues
       return style
     },
@@ -52,32 +46,35 @@ export default function functionPlugin() {
         return
       }
 
-      rule = ((rule: any): StyleRuleWithRuleFunction)
-      const fnRule = rule[fnRuleNs]
+      const styleRule: StyleRule = (rule: any)
+
+      // $FlowFixMe
+      const fnRule = styleRule[fnRuleNs]
 
       // If we have a style function, the entire rule is dynamic and style object
       // will be returned from that function.
       if (fnRule) {
-        const style = fnRule(data)
+        styleRule.style = fnRule(data)
 
         // We need to run the plugins in case style relies on syntax plugins.
-        if (options && options.process) {
-          rule.options.jss.plugins.onProcessStyle(style, rule, sheet)
+        const process = options ? options.process : true
+        if (process) {
+          styleRule.options.jss.plugins.onProcessStyle(styleRule.style, styleRule, sheet)
         }
 
         // Update, remove and add props.
-        for (const prop in style) {
-          rule.prop(prop, style[prop], options)
+        for (const prop in styleRule.style) {
+          styleRule.prop(prop, styleRule.style[prop], {force: true, process})
         }
       }
 
-      rule = ((rule: any): StyleRuleWithFunctionValues)
-      const fnValues = rule[fnValuesNs]
+      // $FlowFixMe
+      const fnValues = styleRule[fnValuesNs]
 
       // If we have a fn values map, it is a rule with function values.
       if (fnValues) {
         for (const prop in fnValues) {
-          rule.prop(prop, fnValues[prop](data), options)
+          styleRule.prop(prop, fnValues[prop](data), options)
         }
       }
     }
