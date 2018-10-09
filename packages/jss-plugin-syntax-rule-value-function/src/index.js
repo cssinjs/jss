@@ -1,10 +1,19 @@
 /* @flow */
-import {RuleList, createRule, type Rule, type JssStyle, type RuleOptions, type StyleRule} from 'jss'
+import {
+  RuleList,
+  createRule,
+  type Rule,
+  type JssStyle,
+  type RuleOptions,
+  type UpdateOptions,
+  type StyleRule,
+  type StyleSheet
+} from 'jss'
 
 // A symbol replacement.
 let now = Date.now()
 const fnValuesNs = `fnValues${now}`
-const fnStyleNs = `fnStyle${++now}`
+const fnRuleNs = `fnStyle${++now}`
 
 type StyleRuleWithRuleFunction = StyleRule & {[key: string]: Function}
 
@@ -19,7 +28,7 @@ export default function functionPlugin() {
     onCreateRule(name: string, decl: JssStyle, options: RuleOptions): Rule | null {
       if (typeof decl !== 'function') return null
       const rule = ((createRule(name, {}, options): any): StyleRuleWithRuleFunction)
-      rule[fnStyleNs] = decl
+      rule[fnRuleNs] = decl
       return rule
     },
 
@@ -36,41 +45,39 @@ export default function functionPlugin() {
       return style
     },
 
-    onUpdate(data: Object, rule: Rule) {
+    onUpdate(data: Object, rule: Rule, sheet: StyleSheet, options: UpdateOptions) {
       // It is a rules container like for e.g. ConditionalRule.
       if (rule.rules instanceof RuleList) {
-        rule.rules.update(data)
+        rule.rules.update(data, options)
         return
       }
 
-      if (rule && rule.type !== 'style') return
-
-      rule = ((rule: any): StyleRuleWithFunctionValues)
-
-      // If we have a fn values map, it is a rule with function values.
-      if (rule[fnValuesNs]) {
-        for (const prop in rule[fnValuesNs]) {
-          rule.prop(prop, rule[fnValuesNs][prop](data))
-        }
-      }
-
       rule = ((rule: any): StyleRuleWithRuleFunction)
-
-      const fnStyle = rule[fnStyleNs]
+      const fnRule = rule[fnRuleNs]
 
       // If we have a style function, the entire rule is dynamic and style object
       // will be returned from that function.
-      if (fnStyle) {
-        const style = fnStyle(data)
-        // Update and add props.
-        for (const prop in style) {
-          rule.prop(prop, style[prop])
+      if (fnRule) {
+        const style = fnRule(data)
+
+        // We need to run the plugins in case style relies on syntax plugins.
+        if (options && options.process) {
+          rule.options.jss.plugins.onProcessStyle(style, rule, sheet)
         }
-        // Remove props.
-        for (const prop in rule.style) {
-          if (style[prop] == null) {
-            rule.prop(prop, null)
-          }
+
+        // Update, remove and add props.
+        for (const prop in style) {
+          rule.prop(prop, style[prop], options)
+        }
+      }
+
+      rule = ((rule: any): StyleRuleWithFunctionValues)
+      const fnValues = rule[fnValuesNs]
+
+      // If we have a fn values map, it is a rule with function values.
+      if (fnValues) {
+        for (const prop in fnValues) {
+          rule.prop(prop, fnValues[prop](data), options)
         }
       }
     }

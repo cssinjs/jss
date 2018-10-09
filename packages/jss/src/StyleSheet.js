@@ -6,12 +6,10 @@ import type {
   ToCssOptions,
   RuleOptions,
   StyleSheetOptions,
+  UpdateArguments,
   JssStyle,
   Classes
 } from './types'
-
-/* eslint-disable-next-line no-use-before-define */
-type Update = ((name: string, data?: Object) => StyleSheet) & ((data?: Object) => StyleSheet)
 
 export default class StyleSheet {
   options: InternalStyleSheetOptions
@@ -170,12 +168,8 @@ export default class StyleSheet {
   /**
    * Update the function values with a new data.
    */
-  update: Update = (name, data) => {
-    if (typeof name === 'string') {
-      this.rules.update(name, data)
-    } else {
-      this.rules.update(name)
-    }
+  update(...args: UpdateArguments): this {
+    this.rules.update(...args)
     return this
   }
 

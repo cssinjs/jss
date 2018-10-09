@@ -76,7 +76,7 @@ export default class StyleRule implements BaseRule {
     // Don't do anything if the value has not changed.
     if (this.style[name] === value) return this
 
-    if (options && options.plugins === true) {
+    if (options && options.process === true) {
       value = this.options.jss.plugins.onChangeValue(value, name, this)
     }
 
@@ -101,7 +101,7 @@ export default class StyleRule implements BaseRule {
 
     const {sheet} = this.options
     if (sheet && sheet.attached) {
-      warning(false, 'Rule is not linked. Missing sheet option "link: true".')
+      warning(false, '[JSS] Rule is not linked. Missing sheet option "link: true".')
     }
     return this
   }

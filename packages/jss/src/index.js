@@ -30,10 +30,12 @@ export type {
   Rule,
   Renderer,
   RuleOptions,
+  UpdateOptions,
   Classes,
   BaseRule,
   ContainerRule
 } from './types'
+
 export type {
   Jss,
   StyleSheet,

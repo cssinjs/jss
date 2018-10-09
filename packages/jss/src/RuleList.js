@@ -1,10 +1,20 @@
 /* @flow */
 import createRule from './utils/createRule'
 import StyleRule from './rules/StyleRule'
-import type {RuleListOptions, ToCssOptions, Rule, RuleOptions, JssStyle, Classes} from './types'
+import type {
+  RuleListOptions,
+  ToCssOptions,
+  Rule,
+  RuleOptions,
+  UpdateArguments,
+  JssStyle,
+  Classes
+} from './types'
 import escape from './utils/escape'
 
-type Update = ((name: string, data?: Object) => void) & ((data?: Object) => void)
+const defaultUpdateOptions = {
+  process: true
+}
 
 /**
  * Contains rules objects and allows adding/removing etc.
@@ -35,7 +45,7 @@ export default class RuleList {
    *
    * Will not render after Style Sheet was rendered the first time.
    */
-  add(name: string, decl: JssStyle, options?: RuleOptions): Rule {
+  add(key: string, decl: JssStyle, options?: RuleOptions): Rule {
     const {parent, sheet, jss, Renderer, generateClassName} = this.options
 
     options = {
@@ -48,13 +58,13 @@ export default class RuleList {
       ...options
     }
 
-    if (!options.selector && this.classes[name]) {
-      options.selector = `.${escape(this.classes[name])}`
+    if (!options.selector && this.classes[key]) {
+      options.selector = `.${escape(this.classes[key])}`
     }
 
-    this.raw[name] = decl
+    this.raw[key] = decl
 
-    const rule = createRule(name, decl, options)
+    const rule = createRule(key, decl, options)
 
     let className
 
@@ -83,6 +93,7 @@ export default class RuleList {
    */
   remove(rule: Rule): void {
     this.unregister(rule)
+    delete this.raw[rule.key]
     this.index.splice(this.indexOf(rule), 1)
   }
 
@@ -128,16 +139,36 @@ export default class RuleList {
   /**
    * Update the function values with a new data.
    */
-  update: Update = (name, data) => {
+  update(...args: UpdateArguments): void {
     const {
       jss: {plugins},
       sheet
     } = this.options
-    if (typeof name === 'string') {
-      plugins.onUpdate(data, this.get(name), sheet)
+
+    let name
+    let data
+    let options
+
+    if (typeof args[0] === 'string') {
+      name = args[0]
+      // $FlowFixMe
+      data = args[1]
+      // $FlowFixMe
+      options = args[2]
+    } else {
+      data = args[0]
+      // $FlowFixMe
+      options = args[1]
+      name = null
+    }
+
+    if (!options) options = defaultUpdateOptions
+
+    if (name) {
+      plugins.onUpdate(data, this.get(name), sheet, options)
     } else {
       for (let index = 0; index < this.index.length; index++) {
-        plugins.onUpdate(name, this.index[index], sheet)
+        plugins.onUpdate(data, this.index[index], sheet, options)
       }
     }
   }

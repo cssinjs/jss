@@ -1,7 +1,7 @@
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
-
 import {create} from 'jss'
+import nestedPlugin from '../../jss-plugin-syntax-nested'
 import functionPlugin from './'
 
 const settings = {createGenerateClassName: () => rule => `${rule.key}-id`}
@@ -10,7 +10,7 @@ describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
   let jss
 
   beforeEach(() => {
-    jss = create(settings).use(functionPlugin())
+    jss = create(settings).use(nestedPlugin(), functionPlugin())
   })
 
   describe('basic', () => {
@@ -121,6 +121,44 @@ describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
         .a-id {
           color: green;
           color: red;
+        }
+      `)
+    })
+  })
+
+  describe('@media', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss
+        .createStyleSheet(
+          {
+            a: data => ({
+              color: data.color,
+              '@media all': {
+                color: 'green'
+              }
+            })
+          },
+          {link: true}
+        )
+        .attach()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should output with @media', () => {
+      sheet.update({color: 'red'})
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+        }
+        @media all {
+          .a-id {
+            color: green;
+          }
         }
       `)
     })
