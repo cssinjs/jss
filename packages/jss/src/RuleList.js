@@ -16,6 +16,11 @@ const defaultUpdateOptions = {
   process: true
 }
 
+const forceUpdateOptions = {
+  force: true,
+  process: true
+}
+
 /**
  * Contains rules objects and allows adding/removing etc.
  * Is used for e.g. by `StyleSheet` or `ConditionalRule`.
@@ -139,11 +144,6 @@ export default class RuleList {
    * Update the function values with a new data.
    */
   update(...args: UpdateArguments): void {
-    const {
-      jss: {plugins},
-      sheet
-    } = this.options
-
     let name
     let data
     let options
@@ -161,13 +161,46 @@ export default class RuleList {
       name = null
     }
 
-    if (!options) options = defaultUpdateOptions
-
     if (name) {
-      plugins.onUpdate(data, this.get(name), sheet, options)
+      this.onUpdate(data, this.get(name), options)
     } else {
       for (let index = 0; index < this.index.length; index++) {
-        plugins.onUpdate(data, this.index[index], sheet, options)
+        this.onUpdate(data, this.index[index], options)
+      }
+    }
+  }
+
+  /**
+   * Execute plugins, update rule props.
+   */
+  onUpdate(data: Object, rule: Rule, options?: Object = defaultUpdateOptions) {
+    const {
+      jss: {plugins},
+      sheet
+    } = this.options
+
+    const styleRule: StyleRule = (rule: any)
+    const {style} = styleRule
+
+    plugins.onUpdate(data, rule, sheet, options)
+
+    // We rely on a new `style` ref in case it was mutated during onUpdate hook.
+    if (options.process && style && style !== styleRule.style) {
+      // We need to run the plugins in case new `style` relies on syntax plugins.
+      plugins.onProcessStyle(styleRule.style, styleRule, sheet)
+      // Update, remove and add props.
+      let nextValue
+      let prevValue
+      for (const prop in styleRule.style) {
+        prevValue = style[prop]
+        nextValue = styleRule.style[prop]
+        // Since we use `force` option, we should optimize the `.prop()` call
+        // for cases where the primive value has not changed.
+        // It can't do that check, because it doesn't have the previous `style`
+        // object.
+        if (nextValue !== prevValue) {
+          styleRule.prop(prop, nextValue, forceUpdateOptions)
+        }
       }
     }
   }

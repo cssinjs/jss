@@ -55,17 +55,6 @@ export default function functionPlugin() {
       // will be returned from that function.
       if (fnRule) {
         styleRule.style = fnRule(data)
-
-        // We need to run the plugins in case style relies on syntax plugins.
-        const process = options ? options.process : true
-        if (process) {
-          styleRule.options.jss.plugins.onProcessStyle(styleRule.style, styleRule, sheet)
-        }
-
-        // Update, remove and add props.
-        for (const prop in styleRule.style) {
-          styleRule.prop(prop, styleRule.style[prop], {force: true, process})
-        }
       }
 
       // $FlowFixMe
