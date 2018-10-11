@@ -22,43 +22,6 @@ Compiles to:
 }
 ```
 
-## Function values
-
-If you want dynamic behavior for your Style Sheet, you can use functions as a value which return the actual value. If function values returns `null|undefined|false` - property will be removed. Use [sheet.update(data)](./js-api.md#update-function-values) in order to pass the data object. [Sheet option](./js-api.md#create-style-sheet) `link: true` is required for this to function.
-
-```javascript
-const styles = {
-  button: {
-    color: data => data.color
-  }
-}
-```
-
-### Support of "!important"
-
-To use the `!important` modifier with function values, you must use [array syntax](#alternative-syntax-for-space-and-comma-separated-values):
-
-```javascript
-const styles = {
-  button: {
-    color: data => [[data.color], '!important']
-  }
-}
-```
-
-## Function rules
-
-Similar to function values, you can use a function to return a dynamic style object. Use [sheet.update(data)](./js-api.md#update-function-values) in order to pass the data object. Sheet option `link: true` is required for this to function.
-
-```javascript
-const styles = {
-  button: data => ({
-    display: 'flex',
-    color: data.color
-  })
-}
-```
-
 ## Media Queries
 
 ```javascript
