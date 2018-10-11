@@ -160,4 +160,54 @@ describe('jss-plugin-syntax-rule-value-function: plugin-nested', () => {
       `)
     })
   })
+
+  describe('deeply nested selector as a fn value', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss
+        .createStyleSheet(
+          {
+            a: {
+              padding: '5px'
+            },
+            b: {
+              background: 'blue'
+            },
+            c: {
+              '&$a': {
+                '& $b': {
+                  margin: () => '10px'
+                }
+              }
+            }
+          },
+          {link: true}
+        )
+        .attach()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should return correct .toString()', () => {
+      sheet.update()
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          padding: 5px;
+        }
+        .b-id {
+          background: blue;
+        }
+        .c-id {
+        }
+        .c-id.a-id {
+        }
+        .c-id.a-id .b-id {
+          margin: 10px;
+        }
+      `)
+    })
+  })
 })
