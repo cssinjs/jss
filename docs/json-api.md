@@ -59,35 +59,6 @@ const styles = {
 }
 ```
 
-## Observable values
-
-In order to create highly dynamic animations, you may want to use streams. Take a look at the [tc39 observable proposal](https://github.com/tc39/proposal-observable). Sheet option `link: true` is required for this to function.
-
-```javascript
-const styles = {
-  button: {
-    color: new Observable(observer => {
-      observer.next('red')
-    })
-  }
-}
-```
-
-## Observable rules
-
-Similar to observable values, you can declare observable rules. Stream should contain in this case the style object. Sheet option `link: true` is required for this to function.
-
-```javascript
-const styles = {
-  button: new Observable(observer => {
-    observer.next({
-      color: 'red',
-      opacity: 1
-    })
-  })
-}
-```
-
 ## Media Queries
 
 ```javascript
