@@ -2,9 +2,9 @@
 
 [![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 
-If you want dynamic behavior for your Style Sheet, you can use functions as a value which return the actual value or a rule. If function returns `null|undefined|false` - property will be removed. Use [sheet.update(data)](https://github.com/cssinjs/jss/blob/master/docs/js-api.md#update-function-values) in order to pass the data object. [Sheet option](https://github.com/cssinjs/jss/blob/master/docs/js-api.md#create-style-sheet) `link: true` is required for this to function.
+If you want dynamic behavior for your Style Sheet, you can use functions as a value which return the actual value or a rule. If function returns `null|undefined|false` - property will be removed. Use [sheet.update(data)](https://github.com/cssinjs/jss/blob/master/docs/js-api.md#update-function-values) in order to pass the data object.
 
-_Sheet option `link: true` is required for this to function._
+[Sheet option](https://github.com/cssinjs/jss/blob/master/docs/js-api.md#create-style-sheet) `link: true` is required for this to function.
 
 _Plugins are applied by default to function rules or values._
 
