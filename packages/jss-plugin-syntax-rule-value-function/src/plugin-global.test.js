@@ -6,7 +6,7 @@ import pluginFunction from '.'
 
 const settings = {createGenerateClassName: () => rule => `${rule.key}-id`}
 
-describe.only('jss-plugin-syntax-rule-value-function: plugin-global', () => {
+describe('jss-plugin-syntax-rule-value-function: plugin-global', () => {
   let jss
 
   beforeEach(() => {

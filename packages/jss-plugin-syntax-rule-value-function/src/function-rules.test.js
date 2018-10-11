@@ -125,40 +125,6 @@ describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
     })
   })
 
-  describe.skip('@media fn rule', () => {
-    let sheet
-
-    beforeEach(() => {
-      sheet = jss
-        .createStyleSheet(
-          {
-            '@media all': ({color}) => ({
-              a: {
-                color
-              }
-            })
-          },
-          {link: true}
-        )
-        .attach()
-    })
-
-    afterEach(() => {
-      sheet.detach()
-    })
-
-    it('should return correct .toString()', () => {
-      sheet.update({color: 'red'})
-      expect(sheet.toString()).to.be(stripIndent`
-        @media all {
-          .a-id {
-            color: red;
-          }
-        }
-      `)
-    })
-  })
-
   describe('@media with fn values', () => {
     let sheet
 
