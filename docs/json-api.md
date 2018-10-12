@@ -355,6 +355,18 @@ Compiles to:
 }
 ```
 
+## CSS Typed OM (Houdini)
+
+Typed CSSOM values are supported. You can learn more about it [here](https://developers.google.com/web/updates/2018/03/cssom) and track the standardization progress [here](https://ishoudinireadyyet.com/). Also make sure to use a [polyfill](https://github.com/csstools/css-typed-om) for browsers without support. It will make most sence when used together with function values and observables for frequent updates.
+
+```javascript
+const styles = {
+  button: {
+    margin: CSS.px(10)
+  }
+}
+```
+
 ## Plugins
 
 JSS plugins give you even more features, [read about them](plugins.md).
