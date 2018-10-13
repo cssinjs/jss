@@ -330,8 +330,9 @@ export default class DomRenderer {
     const {sheet} = this.element
 
     if (rule.type === 'conditional' || rule.type === 'keyframes') {
-      const containerRule = ((rule: any): ContainerRule)
-      const cssRule = insertRule(sheet, `${containerRule.key} {}`, index)
+      const containerRule: ContainerRule = (rule: any)
+      // We need to render the container without children first.
+      const cssRule = insertRule(sheet, containerRule.toString({children: false}), index)
       if (cssRule === false) {
         return false
       }
@@ -339,7 +340,6 @@ export default class DomRenderer {
         const cssChildRule = insertRule(cssRule, childRule.toString(), childIndex)
         if (cssChildRule !== false) childRule.renderable = cssChildRule
       })
-
       return cssRule
     }
 

@@ -1,7 +1,11 @@
 /* @flow */
 import RuleList from '../RuleList'
-import type {CSSKeyframesRule, RuleOptions, ToCssOptions, ContainerRule} from '../types'
+import type {CSSKeyframesRule, Rule, RuleOptions, ToCssOptions, ContainerRule} from '../types'
 
+const defaultToStringOptions = {
+  indent: 1,
+  children: true
+}
 /**
  * Rule for @keyframes
  */
@@ -9,6 +13,10 @@ export default class KeyframesRule implements ContainerRule {
   type = 'keyframes'
 
   key: string
+
+  name: string
+
+  id: string
 
   rules: RuleList
 
@@ -20,6 +28,10 @@ export default class KeyframesRule implements ContainerRule {
 
   constructor(key: string, frames: Object, options: RuleOptions) {
     this.key = key
+    // TODO make it more robust
+    this.name = key.substr(this.type.length + 2)
+    const fakeRule: Rule = ({key: this.name}: any)
+    this.id = options.jss.generateClassName(fakeRule, options.sheet)
     this.options = options
     this.rules = new RuleList({...options, parent: this})
 
@@ -37,9 +49,12 @@ export default class KeyframesRule implements ContainerRule {
   /**
    * Generates a CSS string.
    */
-  toString(options?: ToCssOptions = {indent: 1}): string {
-    let inner = this.rules.toString(options)
-    if (inner) inner += '\n'
-    return `${this.key} {\n${inner}}`
+  toString(options?: ToCssOptions = defaultToStringOptions): string {
+    if (options.children === false) {
+      return `@keyframes ${this.id} {}`
+    }
+    let children = this.rules.toString(options)
+    if (children) children = `\n${children}\n`
+    return `@keyframes ${this.id} {${children}}`
   }
 }

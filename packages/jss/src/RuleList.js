@@ -1,7 +1,16 @@
 /* @flow */
 import createRule from './utils/createRule'
 import StyleRule from './rules/StyleRule'
-import type {RuleListOptions, ToCssOptions, Rule, RuleOptions, JssStyle, Classes} from './types'
+import KeyframesRule from './rules/KeyframesRule'
+import type {
+  RuleListOptions,
+  ToCssOptions,
+  Rule,
+  RuleOptions,
+  JssStyle,
+  Classes,
+  KeyframesMap
+} from './types'
 import escape from './utils/escape'
 
 type Update = ((name: string, data?: Object) => void) & ((data?: Object) => void)
@@ -25,9 +34,12 @@ export default class RuleList {
 
   classes: Classes
 
+  keyframes: KeyframesMap
+
   constructor(options: RuleListOptions) {
     this.options = options
     this.classes = options.classes
+    this.keyframes = options.keyframes
   }
 
   /**
@@ -110,6 +122,8 @@ export default class RuleList {
     if (rule instanceof StyleRule) {
       this.map[rule.selector] = rule
       if (className) this.classes[rule.key] = className
+    } else if (rule instanceof KeyframesRule) {
+      this.keyframes[rule.name] = rule.id
     }
   }
 
@@ -121,6 +135,8 @@ export default class RuleList {
     if (rule instanceof StyleRule) {
       delete this.map[rule.selector]
       delete this.classes[rule.key]
+    } else if (rule instanceof KeyframesRule) {
+      delete this.keyframes[rule.name]
     }
   }
 

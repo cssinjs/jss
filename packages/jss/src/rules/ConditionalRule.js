@@ -2,6 +2,11 @@
 import RuleList from '../RuleList'
 import type {CSSMediaRule, Rule, RuleOptions, ToCssOptions, JssStyle, ContainerRule} from '../types'
 
+const defaultToStringOptions = {
+  indent: 1,
+  children: true
+}
+
 /**
  * Conditional rule for @media, @supports
  */
@@ -56,8 +61,11 @@ export default class ConditionalRule implements ContainerRule {
   /**
    * Generates a CSS string.
    */
-  toString(options?: ToCssOptions = {indent: 1}): string {
-    const inner = this.rules.toString(options)
-    return inner ? `${this.key} {\n${inner}\n}` : ''
+  toString(options?: ToCssOptions = defaultToStringOptions): string {
+    if (options.children === false) {
+      return `${this.key} {}`
+    }
+    const children = this.rules.toString(options)
+    return children ? `${this.key} {\n${children}\n}` : ''
   }
 }

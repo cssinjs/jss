@@ -1,4 +1,5 @@
 /* @flow */
+import warning from 'warning'
 import SimpleRule from '../rules/SimpleRule'
 import KeyframesRule from '../rules/KeyframesRule'
 import ConditionalRule from '../rules/ConditionalRule'
@@ -21,13 +22,36 @@ const classes = {
 /**
  * Generate plugins which will register all rules.
  */
-const plugins: $ReadOnlyArray<Plugin> = Object.keys(classes).map((key: string) => {
+const plugins: Array<Plugin> = Object.keys(classes).map((key: string) => {
   // https://jsperf.com/indexof-vs-substr-vs-regex-at-the-beginning-3
   const re = new RegExp(`^${key}`)
   const RuleClass = classes[key]
   const onCreateRule = (name: string, decl: JssStyle, options: RuleOptions): Rule | null =>
     re.test(name) ? new RuleClass(name, decl, options) : null
   return {onCreateRule}
+})
+
+// Animation name ref replacer.
+plugins.push({
+  onProcessStyle: (style, rule, sheet) => {
+    if (rule.type !== 'style' || !sheet) return style
+
+    // We need to support camel case here, because this plugin runs before the camelization plugin.
+    const prop = 'animationName' in style ? 'animationName' : 'animation-name'
+    const ref = style[prop]
+    const isRef = ref && ref[0] === '$'
+    if (!isRef) return style
+
+    // We need to remove $ from $ref.
+    const name = ref.substr(1)
+
+    if (name in sheet.keyframes) {
+      style[prop] = sheet.keyframes[name]
+    } else {
+      warning(false, '[JSS] Referenced keyframes rule "%s" is not defined.', name)
+    }
+    return style
+  }
 })
 
 export default plugins

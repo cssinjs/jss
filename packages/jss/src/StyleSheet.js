@@ -7,7 +7,8 @@ import type {
   RuleOptions,
   StyleSheetOptions,
   JssStyle,
-  Classes
+  Classes,
+  KeyframesMap
 } from './types'
 
 /* eslint-disable-next-line no-use-before-define */
@@ -26,17 +27,21 @@ export default class StyleSheet {
 
   classes: Classes
 
+  keyframes: KeyframesMap
+
   queue: ?Array<Rule>
 
   constructor(styles: Object, options: StyleSheetOptions) {
     this.attached = false
     this.deployed = false
     this.classes = {}
+    this.keyframes = {}
     this.options = {
       ...options,
       sheet: this,
       parent: this,
-      classes: this.classes
+      classes: this.classes,
+      keyframes: this.keyframes
     }
     this.renderer = new options.Renderer(this)
     this.rules = new RuleList(this.options)

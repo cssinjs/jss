@@ -12,9 +12,12 @@ import type RuleList from '../RuleList'
 
 export type Classes = {[string]: string}
 
+export type KeyframesMap = {[string]: string}
+
 export type ToCssOptions = {
   indent?: number,
-  allowEmpty?: boolean
+  allowEmpty?: boolean,
+  children?: boolean
 }
 
 export type Rule =
@@ -56,7 +59,8 @@ export interface Renderer {
 
 export type RuleFactoryOptions = {
   selector?: string,
-  classes?: Object,
+  classes?: Classes,
+  keyframes?: KeyframesMap,
   sheet?: StyleSheet,
   index?: number,
   jss?: Jss,
@@ -83,6 +87,7 @@ export type RuleOptions = {
   index?: number,
   parent?: ContainerRule | StyleSheet,
   classes: Classes,
+  keyframes: KeyframesMap,
   jss: Jss,
   generateClassName: GenerateClassName,
   Renderer: Class<Renderer>
@@ -90,6 +95,7 @@ export type RuleOptions = {
 
 export type RuleListOptions = {
   classes: Classes,
+  keyframes: KeyframesMap,
   generateClassName: GenerateClassName,
   Renderer: Class<Renderer>,
   jss: Jss,

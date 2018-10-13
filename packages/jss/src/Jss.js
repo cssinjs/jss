@@ -101,8 +101,6 @@ export default class Jss {
       return this.createRule(undefined, name, style)
     }
 
-    // Cast from RuleFactoryOptions to RuleOptions
-    // https://stackoverflow.com/questions/41328728/force-casting-in-flow
     const ruleOptions: RuleOptions = {...options, jss: this, Renderer: this.options.Renderer}
 
     if (!ruleOptions.generateClassName) ruleOptions.generateClassName = this.generateClassName

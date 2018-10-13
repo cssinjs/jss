@@ -329,7 +329,7 @@ describe('Functional: sheet', () => {
 
     beforeEach(() => {
       sheet = jss.createStyleSheet().attach()
-      sheet.addRule('@keyframes id', {
+      sheet.addRule('@keyframes a', {
         '0%': {top: '0px'}
       })
       style = getStyle()
@@ -462,7 +462,7 @@ describe('Functional: sheet', () => {
     it('should apply a style prop in @keyframes rule child', () => {
       if (!isKeyframesSupported) return
       const rule = sheet.getRule('@keyframes a').rules.get('100%')
-      rule.prop('opacity', 1)
+      rule.prop('opacity', 0)
       // We can't compute styles from keyframes.
       expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
     })
