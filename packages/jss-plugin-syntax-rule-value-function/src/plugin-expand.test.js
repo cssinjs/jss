@@ -36,7 +36,7 @@ describe('jss-plugin-syntax-rule-value-function: plugin-expand', () => {
       sheet.detach()
     })
 
-    it('should return correct .toString()', () => {
+    it.skip('should return correct .toString()', () => {
       sheet.update({border: '1px'})
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
@@ -46,7 +46,7 @@ describe('jss-plugin-syntax-rule-value-function: plugin-expand', () => {
       `)
     })
 
-    it('should handle when updating multiple times', () => {
+    it.skip('should handle when updating multiple times', () => {
       sheet.update({border: '1px'})
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
