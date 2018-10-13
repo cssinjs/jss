@@ -196,7 +196,7 @@ describe('Integration: plugins', () => {
     })
 
     it('should run plugins on @keyframes rule', () => {
-      const rule = jss.createRule('@keyframes', {
+      const rule = jss.createRule('@keyframes a', {
         from: {top: 0},
         to: {top: 10}
       })

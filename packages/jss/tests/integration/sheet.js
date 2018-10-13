@@ -4,6 +4,7 @@ import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import {create} from '../../src'
 import StyleRule from '../../src/rules/StyleRule'
+import KeyframesRule from '../../src/rules/KeyframesRule'
 import {createGenerateClassName} from '../utils'
 import plugins from '../../src/plugins/rules'
 
@@ -408,6 +409,24 @@ describe('Integration: sheet', () => {
   })
 
   describe('scoped keyframes', () => {
+    it('should warn when keyframes name is invalid', () => {
+      let warned = false
+
+      KeyframesRule.__Rewire__('warning', () => {
+        warned = true
+      })
+
+      jss.createStyleSheet({
+        '@keyframes %&': {
+          to: {height: '100%'}
+        }
+      })
+
+      expect(warned).to.be(true)
+
+      KeyframesRule.__ResetDependency__('warning')
+    })
+
     it('should register keyframes', () => {
       const sheet = jss.createStyleSheet({
         '@keyframes a': {

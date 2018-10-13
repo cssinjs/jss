@@ -1,4 +1,5 @@
 /* @flow */
+import warning from 'warning'
 import RuleList from '../RuleList'
 import type {CSSKeyframesRule, RuleOptions, ToCssOptions, ContainerRule} from '../types'
 
@@ -6,6 +7,9 @@ const defaultToStringOptions = {
   indent: 1,
   children: true
 }
+
+const nameRegExp = /@keyframes\s(\w*)/
+
 /**
  * Rule for @keyframes
  */
@@ -27,8 +31,13 @@ export default class KeyframesRule implements ContainerRule {
   renderable: ?CSSKeyframesRule
 
   constructor(key: string, frames: Object, options: RuleOptions) {
-    // TODO make it more robust
-    this.name = key.substr(this.type.length + 1).trim()
+    const nameMatch = key.match(nameRegExp)
+    if (nameMatch && nameMatch[1]) {
+      this.name = nameMatch[1]
+    } else {
+      this.name = 'noname'
+      warning(false, '[JSS] Bad keyframes name %s', key)
+    }
     this.key = `${this.type}-${this.name}`
     this.id = options.jss.generateClassName(this, options.sheet)
     this.options = options
