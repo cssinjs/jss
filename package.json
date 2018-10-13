@@ -8,10 +8,11 @@
     "prepare": "lerna run prepare",
     "publish": "yarn lint && yarn test && lerna publish",
     "typecheck": "flow check --max-warnings=0",
+    "check-ts": "tsc --pretty --noEmit --strict",
     "lint": "eslint scripts/ packages/ && yarn typecheck && yarn format",
     "lint:staged": "lint-staged && yarn typecheck",
     "lint:ci": "eslint scripts/ packages/ && yarn typecheck && yarn format -- --list-different",
-    "format": "prettier \"*.{js,md,json}\" \"{docs,packages,scripts}/**/*.{js,md,json}\" --write",
+    "format": "prettier \"*.{js,md,json,ts}\" \"{docs,packages,scripts}/**/*.{js,md,json,ts}\" --write",
     "test": "cross-env NODE_ENV=test VERSION=\"1\" karma start --single-run",
     "test:watch": "cross-env NODE_ENV=test VERSION=\"1\" karma start",
     "posttest": "lerna exec -- cross-env SNAPSHOT=match rollup --config ../../rollup.config.js && [ -z \"$TRAVIS\" ] || codecov",
@@ -19,7 +20,7 @@
     "bench": "cross-env BENCHMARK=true karma start --single-run"
   },
   "lint-staged": {
-    "**/*.{js,md,json}": [
+    "**/*.{js,md,json,ts}": [
       "prettier --write",
       "git add"
     ],
@@ -100,6 +101,7 @@
     "rollup-plugin-uglify": "^4.0.0",
     "shelljs": "^0.8.2",
     "sinon": "4.5.0",
+    "typescript": "^3.1.3",
     "webpack": "^2.3.3",
     "zen-observable": "^0.6.0"
   }
