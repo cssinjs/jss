@@ -70,6 +70,8 @@ export type RuleFactoryOptions = {
 
 export interface BaseRule {
   type: string;
+  // Key is used as part of a class name and keyframes-name. It has to be
+  // a valid CSS identifier https://www.w3.org/TR/CSS21/syndata.html#value-def-identifier
   key: string;
   isProcessed: boolean;
   // eslint-disable-next-line no-use-before-define

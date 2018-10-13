@@ -461,7 +461,7 @@ describe('Functional: sheet', () => {
 
     it('should apply a style prop in @keyframes rule child', () => {
       if (!isKeyframesSupported) return
-      const rule = sheet.getRule('@keyframes a').rules.get('100%')
+      const rule = sheet.getRule('keyframes-a').rules.get('100%')
       rule.prop('opacity', 0)
       // We can't compute styles from keyframes.
       expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
@@ -486,7 +486,7 @@ describe('Functional: sheet', () => {
 
     it('should remove a prop in @keyframes rule child when null value is passed', () => {
       if (!isKeyframesSupported) return
-      const rule = sheet.getRule('@keyframes a').rules.get('100%')
+      const rule = sheet.getRule('keyframes-a').rules.get('100%')
       rule.prop('opacity', null)
       // We can't compute styles from keyframes.
       expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))

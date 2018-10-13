@@ -167,7 +167,7 @@ describe('Integration: sheet', () => {
           font-family: MyHelvetica;
           src: local("Helvetica");
         }
-        @keyframes a-id {
+        @keyframes keyframes-a-id {
           from {
             top: 0;
           }
@@ -415,7 +415,7 @@ describe('Integration: sheet', () => {
         }
       })
 
-      expect(sheet.keyframes).to.eql({a: 'a-id'})
+      expect(sheet.keyframes).to.eql({a: 'keyframes-a-id'})
     })
 
     it('should replace a ref', () => {
@@ -432,16 +432,16 @@ describe('Integration: sheet', () => {
       })
 
       expect(sheet.toString()).to.be(stripIndent`
-        @keyframes a-id {
+        @keyframes keyframes-a-id {
           to {
             height: 100%;
           }
         }
         .b-id {
-          animationName: a-id;
+          animationName: keyframes-a-id;
         }
         .c-id {
-          animation-name: a-id;
+          animation-name: keyframes-a-id;
         }
       `)
     })
@@ -486,7 +486,7 @@ describe('Integration: sheet', () => {
       expect(warned).to.be(false)
 
       expect(sheet.toString()).to.be(stripIndent`
-        @keyframes a-id {
+        @keyframes keyframes-a-id {
           to {
             height: 100%;
           }
@@ -507,13 +507,13 @@ describe('Integration: sheet', () => {
           'animation-name': 'x'
         }
       })
-      sheet.deleteRule('@keyframes a')
+      sheet.deleteRule('keyframes-a')
       expect(sheet.toString()).to.be(stripIndent`
         .b-id {
           animation-name: x;
         }
       `)
-      expect(sheet.getRule('@keyframes a')).to.be(undefined)
+      expect(sheet.getRule('@keyframes keyframes-a')).to.be(undefined)
       expect(sheet.keyframes).to.eql({})
     })
   })
