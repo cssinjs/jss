@@ -1,12 +1,13 @@
 ## Next / 2018-09-16
 
 - Fix multiple cases where linking CSS rules didn't work (#815, #710, #664)
+- Function values and function rules support now fallbacks, media queries, nesting, global styles (#682)
 
 ### Breaking changes
 
 - Observables, function values and rules are now standalone packages, not part of the core. They are still part of the default preset though.
-- Function values and rules apply plugins by default now, which means they are slower by default. To speed them up use `sheet.update(data, {process: false})` (#682)
-- Observables will not apply plugins by default now, to make them even faster. If you want them to use plugins, can use an option when using the plugin: `jss.use(pluginObservable({process: true}))` (#682)
+- Function values and rules apply plugins by default now, which means they can support all plugin defined syntaxes, but they are also slower by default. To speed them up use `sheet.update(data, {process: false})` (#682)
+- Observables will not apply plugins by default now, to become even faster. If you want them to use plugins, you can use an option when using the plugin: `jss.use(pluginObservable({process: true}))` (#682)
 
 ## 9.8.7 / 2018-06-24
 
