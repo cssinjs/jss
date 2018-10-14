@@ -1,6 +1,5 @@
 /* @flow */
 import {
-  RuleList,
   createRule,
   type Rule,
   type JssStyle,
@@ -40,12 +39,6 @@ export default function functionPlugin() {
     },
 
     onUpdate(data: Object, rule: Rule, sheet: StyleSheet, options: UpdateOptions) {
-      // It is a rules container like for e.g. ConditionalRule.
-      if (rule.rules instanceof RuleList) {
-        rule.rules.update(data, options)
-        return
-      }
-
       const styleRule: StyleRule = (rule: any)
 
       // $FlowFixMe
