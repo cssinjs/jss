@@ -1,6 +1,7 @@
 ## Next / 2018-09-16
 
 - Fix multiple cases where linking CSS rules didn't work (#815, #710, #664)
+- Added support for Typed CSSOM values
 
 ### Breaking changes
 
