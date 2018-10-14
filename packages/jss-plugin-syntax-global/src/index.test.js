@@ -22,15 +22,19 @@ describe('jss-global', () => {
       sheet = jss.createStyleSheet({
         '@global': {
           a: {color: 'red'},
-          body: {color: 'green'}
+          '@keyframes a': {
+            to: {
+              width: '100%'
+            }
+          }
         }
       })
     })
 
-    it('should add rules', () => {
+    it.only('should add rules', () => {
       expect(sheet.getRule('@global')).to.not.be(undefined)
       expect(sheet.getRule('a')).to.be(undefined)
-      expect(sheet.getRule('body')).to.be(undefined)
+      expect(sheet.getRule('keyframes-a')).to.be(undefined)
     })
 
     it('should generate correct CSS', () => {
@@ -89,7 +93,7 @@ describe('jss-global', () => {
     })
   })
 
-  describe('@global scoped container with comma separate selectors', () => {
+  describe('@global scoped container with comma separated selectors', () => {
     let sheet
 
     beforeEach(() => {
