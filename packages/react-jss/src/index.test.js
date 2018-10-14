@@ -9,7 +9,7 @@ import injectSheet, {
   createTheming
 } from './index'
 
-describe('exports', () => {
+describe('React-JSS: exports', () => {
   it('should export injectSheet', () => {
     expect(injectSheet).to.be.a(Function)
   })

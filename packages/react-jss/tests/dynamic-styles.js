@@ -6,7 +6,7 @@ import {findDOMNode, render, unmountComponentAtNode} from 'react-dom'
 
 import injectSheet from '../src'
 
-describe('dynamic styles', () => {
+describe('React-JSS: dynamic styles', () => {
   let node
 
   beforeEach(() => {

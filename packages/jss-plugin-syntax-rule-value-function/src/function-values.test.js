@@ -373,4 +373,14 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
       })
     })
   })
+
+  describe('rule.toJSON()', () => {
+    it('should handle function values', () => {
+      const sheet = jss.createStyleSheet({
+        a: {color: () => 'red'}
+      })
+      sheet.update()
+      expect(sheet.getRule('a').toJSON()).to.eql({color: 'red'})
+    })
+  })
 })
