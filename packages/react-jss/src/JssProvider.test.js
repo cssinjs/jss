@@ -11,7 +11,7 @@ import {renderToString} from 'react-dom/server'
 
 import injectSheet, {SheetsRegistry, JssProvider} from '.'
 
-describe('JssProvider', () => {
+describe('React-JSS: JssProvider', () => {
   let node
 
   beforeEach(() => {

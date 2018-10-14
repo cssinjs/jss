@@ -23,7 +23,7 @@ module.exports = config => {
       'node_modules/raf/polyfill.js',
       './packages/jss/tests/index.js',
       './packages/jss-plugin-syntax-rule-value-function/src/index.test.js',
-      './packages/jss-plugin-syntax-rule-value-observable/src/observable.test.js',
+      './packages/jss-plugin-syntax-rule-value-observable/src/index.test.js',
       './packages/jss-plugin-syntax-expand/src/index.test.js',
       './packages/jss-plugin-syntax-default-unit/src/index.test.js',
       './packages/jss-plugin-syntax-camel-case/src/index.test.js',

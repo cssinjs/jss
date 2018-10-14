@@ -1,6 +1,5 @@
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
-
 import {create} from 'jss'
 import functionPlugin from '.'
 
@@ -13,7 +12,7 @@ describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
     jss = create(settings).use(functionPlugin())
   })
 
-  describe('.createStyleSheet()', () => {
+  describe('basic', () => {
     let sheet
 
     beforeEach(() => {
@@ -45,6 +44,121 @@ describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
     })
   })
 
+  describe('remove props', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss
+        .createStyleSheet(
+          {
+            a: data => {
+              if (data.noDisplay) {
+                return {color: data.color}
+              }
+              return {
+                color: data.color,
+                display: 'block'
+              }
+            }
+          },
+          {link: true}
+        )
+        .attach()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should compile with color and display', () => {
+      sheet.update({color: 'red'})
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+          display: block;
+        }
+      `)
+    })
+
+    it('should compile with color', () => {
+      sheet.update({color: 'red'})
+      sheet.update({color: 'red', noDisplay: true})
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+        }
+      `)
+    })
+  })
+
+  describe('fallbacks inside', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss
+        .createStyleSheet(
+          {
+            a: data => ({
+              color: data.color,
+              fallbacks: {
+                color: 'green'
+              }
+            })
+          },
+          {link: true}
+        )
+        .attach()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should output with fallbacks', () => {
+      sheet.update({color: 'red'})
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: green;
+          color: red;
+        }
+      `)
+    })
+  })
+
+  describe('@media with fn values', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss
+        .createStyleSheet(
+          {
+            '@media all': {
+              a: {
+                color: ({color}) => color
+              }
+            }
+          },
+          {link: true}
+        )
+        .attach()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should return correct .toString()', () => {
+      sheet.update({color: 'red'})
+      expect(sheet.toString()).to.be(stripIndent`
+        @media all {
+          .a-id {
+            color: red;
+          }
+        }
+      `)
+    })
+  })
+
   describe('.addRule() with styleRule', () => {
     let sheet
 
@@ -68,7 +182,7 @@ describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
       `)
     })
 
-    it('should render rule with updated color', () => {
+    it('should return correct .toString()', () => {
       sheet.update({primary: false})
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
@@ -94,7 +208,7 @@ describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
       sheet.detach()
     })
 
-    it('should compile correct CSS', () => {
+    it('should return correct .toString()', () => {
       sheet.update({primary: true})
       expect(sheet.toString()).to.be(stripIndent`
         @media screen {
