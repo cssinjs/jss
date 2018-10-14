@@ -1,6 +1,5 @@
 /* @flow */
 import {
-  RuleList,
   createRule,
   type Rule,
   type JssStyle,
@@ -27,6 +26,11 @@ export default function functionPlugin() {
     },
 
     onProcessStyle(style: JssStyle, rule: Rule): JssStyle {
+      // We don't ned to extract functions on each style update, since this can
+      // happen only one.
+      // We don't support function values inside of function rules.
+      if (fnValuesNs in rule) return style
+
       const fnValues = {}
       for (const prop in style) {
         const value = style[prop]
@@ -40,12 +44,6 @@ export default function functionPlugin() {
     },
 
     onUpdate(data: Object, rule: Rule, sheet: StyleSheet, options: UpdateOptions) {
-      // It is a rules container like for e.g. ConditionalRule.
-      if (rule.rules instanceof RuleList) {
-        rule.rules.update(data, options)
-        return
-      }
-
       const styleRule: StyleRule = (rule: any)
 
       // $FlowFixMe

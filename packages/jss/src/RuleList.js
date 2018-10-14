@@ -179,6 +179,12 @@ export default class RuleList {
       sheet
     } = this.options
 
+    // It is a rules container like for e.g. ConditionalRule.
+    if (rule.rules instanceof RuleList) {
+      rule.rules.update(data, options)
+      return
+    }
+
     const styleRule: StyleRule = (rule: any)
     const {style} = styleRule
 
@@ -189,11 +195,9 @@ export default class RuleList {
       // We need to run the plugins in case new `style` relies on syntax plugins.
       plugins.onProcessStyle(styleRule.style, styleRule, sheet)
       // Update, remove and add props.
-      let nextValue
-      let prevValue
       for (const prop in styleRule.style) {
-        prevValue = style[prop]
-        nextValue = styleRule.style[prop]
+        const nextValue = styleRule.style[prop]
+        const prevValue = style[prop]
         // Since we use `force` option, we should optimize the `.prop()` call
         // for cases where the primive value has not changed.
         // It can't do that check, because it doesn't have the previous `style`
