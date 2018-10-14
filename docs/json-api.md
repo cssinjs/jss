@@ -355,9 +355,9 @@ Compiles to:
 }
 ```
 
-## CSS Typed OM (Houdini)
+## Typed CSSOM (Houdini)
 
-Typed CSSOM values are supported. You can learn more about it [here](https://developers.google.com/web/updates/2018/03/cssom) and track the standardization progress [here](https://ishoudinireadyyet.com/). Also make sure to use a [polyfill](https://github.com/csstools/css-typed-om) for browsers without support. It will make most sence when used together with function values and observables for frequent updates.
+Typed CSSOM values are supported. You can learn more about them [here](https://developers.google.com/web/updates/2018/03/cssom) and track the standardization progress [here](https://ishoudinireadyyet.com/). Also make sure you use a [polyfill](https://github.com/csstools/css-typed-om) for browsers without support. It will make most sence when used together with function values and observables for frequent updates.
 
 ```javascript
 const styles = {
