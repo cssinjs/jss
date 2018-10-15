@@ -8,7 +8,7 @@ const defaultToStringOptions = {
   children: true
 }
 
-const nameRegExp = /@keyframes\s([\w-]+)/
+const nameRegExp = /@keyframes\s+([\w-]+)/
 
 /**
  * Rule for @keyframes
