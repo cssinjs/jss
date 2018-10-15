@@ -1,9 +1,9 @@
 /* @flow */
+import type {Plugin, RuleOptions, Rule, JssStyle} from '../types'
 import SimpleRule from '../rules/SimpleRule'
 import ConditionalRule from '../rules/ConditionalRule'
 import FontFaceRule from '../rules/FontFaceRule'
-import ViewportRule from '../rules/ViewportRule'
-import type {Plugin, RuleOptions, Rule, JssStyle} from '../types'
+import {plugin as pluginViewport} from './viewport'
 import {plugin as pluginKeyframes} from './keyframes'
 import {plugin as pluginStyle} from './style'
 
@@ -13,9 +13,7 @@ const classes = {
   '@namespace': SimpleRule,
   '@media': ConditionalRule,
   '@supports': ConditionalRule,
-  '@font-face': FontFaceRule,
-  '@viewport': ViewportRule,
-  '@-ms-viewport': ViewportRule
+  '@font-face': FontFaceRule
 }
 
 /**
@@ -30,6 +28,6 @@ const plugins: Array<Plugin> = Object.keys(classes).map((key: string) => {
   return {onCreateRule, queue: 1}
 })
 
-plugins.push(pluginKeyframes, pluginStyle)
+plugins.push(pluginKeyframes, pluginStyle, pluginViewport)
 
 export default plugins
