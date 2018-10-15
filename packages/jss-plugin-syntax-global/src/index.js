@@ -8,11 +8,13 @@ import {
   type BaseRule
 } from 'jss'
 
-const propKey = '@global'
-const prefixKey = '@global '
+const at = '@global'
+const atPrefix = '@global '
 
 class GlobalContainerRule implements ContainerRule {
   type = 'global'
+
+  at: string = at
 
   rules: RuleList
 
@@ -71,6 +73,8 @@ class GlobalContainerRule implements ContainerRule {
 class GlobalPrefixedRule implements BaseRule {
   type = 'global'
 
+  at: string = at
+
   name: string
 
   options: RuleOptions
@@ -84,7 +88,7 @@ class GlobalPrefixedRule implements BaseRule {
   constructor(name, style, options) {
     this.name = name
     this.options = options
-    const selector = name.substr(prefixKey.length)
+    const selector = name.substr(atPrefix.length)
     this.rule = options.jss.createRule(selector, style, {
       ...options,
       parent: this,
@@ -111,7 +115,7 @@ function addScope(selector, scope) {
 
 function handleNestedGlobalContainerRule(rule) {
   const {options, style} = rule
-  const rules = style[propKey]
+  const rules = style[at]
 
   if (!rules) return
 
@@ -123,15 +127,15 @@ function handleNestedGlobalContainerRule(rule) {
     })
   }
 
-  delete style[propKey]
+  delete style[at]
 }
 
 function handlePrefixedGlobalRule(rule) {
   const {options, style} = rule
   for (const prop in style) {
-    if (prop.substr(0, propKey.length) !== propKey) continue
+    if (prop.substr(0, at.length) !== at) continue
 
-    const selector = addScope(prop.substr(propKey.length), rule.selector)
+    const selector = addScope(prop.substr(at.length), rule.selector)
     // $FlowFixMe: There is always a sheet in a StyleRule
     options.sheet.addRule(selector, style[prop], {
       ...options,
@@ -149,11 +153,11 @@ function handlePrefixedGlobalRule(rule) {
  */
 export default function jssGlobal(): Plugin {
   function onCreateRule(name, styles, options) {
-    if (name === propKey) {
+    if (name === at) {
       return new GlobalContainerRule(name, styles, options)
     }
 
-    if (name[0] === '@' && name.substr(0, prefixKey.length) === prefixKey) {
+    if (name[0] === '@' && name.substr(0, atPrefix.length) === atPrefix) {
       return new GlobalPrefixedRule(name, styles, options)
     }
 

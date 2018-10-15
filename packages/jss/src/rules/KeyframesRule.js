@@ -8,13 +8,15 @@ const defaultToStringOptions = {
   children: true
 }
 
-const nameRegExp = /@keyframes\s(\w*)/
+const nameRegExp = /@keyframes\s([\w-]+)/
 
 /**
  * Rule for @keyframes
  */
 export default class KeyframesRule implements ContainerRule {
   type = 'keyframes'
+
+  at: string = '@keyframes'
 
   key: string
 
@@ -59,10 +61,10 @@ export default class KeyframesRule implements ContainerRule {
    */
   toString(options?: ToCssOptions = defaultToStringOptions): string {
     if (options.children === false) {
-      return `@keyframes ${this.id} {}`
+      return `${this.at} ${this.id} {}`
     }
     let children = this.rules.toString(options)
     if (children) children = `\n${children}\n`
-    return `@keyframes ${this.id} {${children}}`
+    return `${this.at} ${this.id} {${children}}`
   }
 }

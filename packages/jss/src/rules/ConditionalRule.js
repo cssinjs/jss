@@ -7,11 +7,15 @@ const defaultToStringOptions = {
   children: true
 }
 
+const atRegExp = /@([\w-]+)/
+
 /**
  * Conditional rule for @media, @supports
  */
 export default class ConditionalRule implements ContainerRule {
   type = 'conditional'
+
+  at: string
 
   key: string
 
@@ -25,6 +29,8 @@ export default class ConditionalRule implements ContainerRule {
 
   constructor(key: string, styles: Object, options: RuleOptions) {
     this.key = key
+    const atMatch = key.match(atRegExp)
+    this.at = atMatch ? atMatch[1] : 'unknown'
     this.options = options
     this.rules = new RuleList({...options, parent: this})
 

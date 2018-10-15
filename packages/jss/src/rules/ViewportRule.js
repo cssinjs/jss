@@ -5,6 +5,8 @@ import type {CSSViewportRule, RuleOptions, JssStyle, ToCssOptions, BaseRule} fro
 export default class ViewportRule implements BaseRule {
   type = 'viewport'
 
+  at: string = '@viewport'
+
   key: string
 
   style: JssStyle

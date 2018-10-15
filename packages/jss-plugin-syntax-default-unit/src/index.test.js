@@ -114,7 +114,7 @@ describe('jss-plugin-syntax-default-unit', () => {
             border: 3
           }
         },
-        '@keyframes id': {
+        '@keyframes a': {
           from: {top: 0},
           '30%': {top: 30},
           '60%, 70%': {top: 80}
@@ -134,7 +134,7 @@ describe('jss-plugin-syntax-default-unit', () => {
           '    border: 3px;\n' +
           '  }\n' +
           '}\n' +
-          '@keyframes id {\n' +
+          '@keyframes keyframes-a-id {\n' +
           '  from {\n' +
           '    top: 0;\n' +
           '  }\n' +

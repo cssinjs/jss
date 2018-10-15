@@ -5,6 +5,8 @@ import type {CSSFontFaceRule, RuleOptions, JssStyle, ToCssOptions, BaseRule} fro
 export default class FontFaceRule implements BaseRule {
   type = 'font-face'
 
+  at: string = '@font-face'
+
   key: string
 
   style: JssStyle

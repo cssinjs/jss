@@ -117,13 +117,13 @@ describe('jss-template', () => {
 
     it('should support @keyframes', () => {
       const sheet = jss.createStyleSheet({
-        '@keyframes id': {
+        '@keyframes a': {
           from: 'opacity: 0',
           to: 'opacity: 1'
         }
       })
       expect(sheet.toString()).to.be(stripIndent`
-        @keyframes id {
+        @keyframes keyframes-a-id {
           from {
             opacity: 0;
           }

@@ -1,3 +1,4 @@
+import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
 import {create} from 'jss'
 import nested from 'jss-plugin-syntax-nested'
@@ -22,6 +23,28 @@ describe('jss-global', () => {
       sheet = jss.createStyleSheet({
         '@global': {
           a: {color: 'red'},
+          body: {color: 'green'}
+        }
+      })
+    })
+
+    it('should add rules', () => {
+      expect(sheet.getRule('@global')).to.not.be(undefined)
+      expect(sheet.getRule('a')).to.be(undefined)
+      expect(sheet.getRule('body')).to.be(undefined)
+    })
+
+    it('should generate correct CSS', () => {
+      expect(sheet.toString()).to.be('a {\n  color: red;\n}\nbody {\n  color: green;\n}')
+    })
+  })
+
+  describe.skip('@global root container with @keyframes', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet({
+        '@global': {
           '@keyframes a': {
             to: {
               width: '100%'
@@ -31,14 +54,18 @@ describe('jss-global', () => {
       })
     })
 
-    it.only('should add rules', () => {
-      expect(sheet.getRule('@global')).to.not.be(undefined)
-      expect(sheet.getRule('a')).to.be(undefined)
+    it('should add rules', () => {
       expect(sheet.getRule('keyframes-a')).to.be(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('a {\n  color: red;\n}\nbody {\n  color: green;\n}')
+      expect(sheet.toString()).to.be(stripIndent`
+        @keyframes a {
+          to {
+            width: 100%;
+          }
+        }
+      `)
     })
   })
 

@@ -50,11 +50,11 @@ describe('jss-plugin-vendor-prefixer', () => {
 
     it('should generate correct CSS', () => {
       if (isIEorEdge) {
-        expect(sheet.toString()).to.be('@keyframes a {\n}')
+        expect(sheet.toString()).to.be('@keyframes keyframes-a-id {}')
         return
       }
       const prefixedKeyframes = `@${cssVendor.prefix.css}keyframes`
-      expect(sheet.toString()).to.be(`${prefixedKeyframes} a {\n}`)
+      expect(sheet.toString()).to.be(`${prefixedKeyframes} keyframes-a-id {}`)
     })
   })
 

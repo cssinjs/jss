@@ -189,7 +189,7 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
           color: theme => theme.color
         }
       },
-      '@keyframes test': {
+      '@keyframes a': {
         '0%': {
           color: theme => theme.color
         }
@@ -213,7 +213,7 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
             .b-id {
             }
           }
-          @keyframes test {
+          @keyframes keyframes-a-id {
             0% {
             }
           }
@@ -234,7 +234,7 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
               color: green;
             }
           }
-          @keyframes test {
+          @keyframes keyframes-a-id {
             0% {
               color: green;
             }
@@ -259,7 +259,7 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
               color: yellow;
             }
           }
-          @keyframes test {
+          @keyframes keyframes-a-id {
             0% {
               color: yellow;
             }
@@ -280,7 +280,7 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
               color: yellow;
             }
           }
-          @keyframes test {
+          @keyframes keyframes-a-id {
             0% {
               color: yellow;
             }
@@ -298,7 +298,7 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
             .b-id {
             }
           }
-          @keyframes test {
+          @keyframes keyframes-a-id {
             0% {
             }
           }
@@ -315,7 +315,7 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
             .b-id {
             }
           }
-          @keyframes test {
+          @keyframes keyframes-a-id {
             0% {
             }
           }
@@ -332,7 +332,7 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
             .b-id {
             }
           }
-          @keyframes test {
+          @keyframes keyframes-a-id {
             0% {
             }
           }

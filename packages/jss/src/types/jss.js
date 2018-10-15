@@ -91,6 +91,7 @@ export interface BaseRule {
 }
 
 export interface ContainerRule extends BaseRule {
+  at: string;
   rules: RuleList;
 }
 
