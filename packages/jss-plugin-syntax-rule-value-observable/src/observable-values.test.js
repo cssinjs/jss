@@ -64,6 +64,18 @@ describe('jss-plugin-syntax-rule-value-observable: values', () => {
     })
 
     it('should not process value', () => {
+      jss = create(settings).use(pluginObservable({process: false}), pluginDefaultUnit())
+      sheet = jss.createStyleSheet(
+        {
+          a: {
+            height: new Observable(obs => {
+              observer = obs
+            })
+          }
+        },
+        {link: true}
+      )
+
       observer.next(20)
 
       expect(sheet.toString()).to.be(stripIndent`
@@ -74,7 +86,7 @@ describe('jss-plugin-syntax-rule-value-observable: values', () => {
     })
 
     it('should process the value', () => {
-      jss = create(settings).use(pluginObservable({process: true}), pluginDefaultUnit())
+      jss = create(settings).use(pluginObservable(), pluginDefaultUnit())
       sheet = jss.createStyleSheet(
         {
           a: {
