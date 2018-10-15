@@ -5,6 +5,7 @@ import FontFaceRule from '../rules/FontFaceRule'
 import ViewportRule from '../rules/ViewportRule'
 import type {Plugin, RuleOptions, Rule, JssStyle} from '../types'
 import {plugin as pluginKeyframes} from './keyframes'
+import {plugin as pluginStyle} from './style'
 
 const classes = {
   '@charset': SimpleRule,
@@ -29,6 +30,6 @@ const plugins: Array<Plugin> = Object.keys(classes).map((key: string) => {
   return {onCreateRule, queue: 1}
 })
 
-plugins.push(pluginKeyframes)
+plugins.push(pluginKeyframes, pluginStyle)
 
 export default plugins

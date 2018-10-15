@@ -159,7 +159,7 @@ describe('jss-plugin-syntax-rule-value-function: Function rules', () => {
     })
   })
 
-  describe('.addRule() with styleRule', () => {
+  describe('.addRule() with style rule', () => {
     let sheet
 
     beforeEach(() => {

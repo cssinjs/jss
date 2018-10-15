@@ -5,7 +5,7 @@ import expect from 'expect.js'
 
 import {create} from '../../src'
 import DomRenderer from '../../src/renderers/DomRenderer'
-import StyleRule from '../../src/rules/StyleRule'
+import stylePlugin from '../../src/plugins/style'
 import escape from '../../src/utils/escape'
 import {
   createGenerateClassName,
@@ -497,14 +497,14 @@ describe('Functional: sheet', () => {
     let warned = false
 
     beforeEach(() => {
-      StyleRule.__Rewire__('warning', () => {
+      stylePlugin.__Rewire__('warning', () => {
         warned = true
       })
     })
 
     afterEach(() => {
       warned = false
-      StyleRule.__ResetDependency__('warning')
+      stylePlugin.__ResetDependency__('warning')
     })
 
     it('should warn when sheet not linked but attached', () => {

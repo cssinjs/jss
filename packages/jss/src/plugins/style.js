@@ -5,6 +5,7 @@ import toCssValue from '../utils/toCssValue'
 import type {
   CSSStyleRule,
   ToCssOptions,
+  Rule,
   RuleOptions,
   UpdateOptions,
   Renderer as RendererInterface,
@@ -13,7 +14,7 @@ import type {
   BaseRule
 } from '../types'
 
-export default class StyleRule implements BaseRule {
+export class StyleRule implements BaseRule {
   type = 'style'
 
   key: string
@@ -140,5 +141,13 @@ export default class StyleRule implements BaseRule {
     const link = sheet ? sheet.options.link : false
     const opts = link ? {...options, allowEmpty: true} : options
     return toCss(this.selector, this.style, opts)
+  }
+}
+
+export const plugin = {
+  queue: 1,
+
+  onCreateRule(name: string, style: JssStyle, options: RuleOptions): Rule | null {
+    return name[0] === '@' ? null : new StyleRule(name, style, options)
   }
 }

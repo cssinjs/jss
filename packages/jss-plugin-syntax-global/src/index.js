@@ -79,7 +79,7 @@ class GlobalPrefixedRule implements BaseRule {
 
   options: RuleOptions
 
-  rule: BaseRule
+  rule: BaseRule | null
 
   isProcessed: boolean = false
 
@@ -97,7 +97,7 @@ class GlobalPrefixedRule implements BaseRule {
   }
 
   toString(options) {
-    return this.rule.toString(options)
+    return this.rule ? this.rule.toString(options) : ''
   }
 }
 

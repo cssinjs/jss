@@ -4,7 +4,7 @@ import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import rulesPlugins from './plugins/rules'
 import sheets from './sheets'
-import StyleRule from './rules/StyleRule'
+import {StyleRule} from './plugins/style'
 import {KeyframesRule} from './plugins/keyframes'
 import createGenerateClassNameDefault from './utils/createGenerateClassName'
 import createRule from './utils/createRule'
@@ -101,7 +101,7 @@ export default class Jss {
   /**
    * Create a rule without a Style Sheet.
    */
-  createRule(name?: string, style?: JssStyle = {}, options?: RuleFactoryOptions = {}): Rule {
+  createRule(name?: string, style?: JssStyle = {}, options?: RuleFactoryOptions = {}): Rule | null {
     // Enable rule without name for inline styles.
     if (typeof name === 'object') {
       return this.createRule(undefined, name, style)
@@ -112,6 +112,8 @@ export default class Jss {
     if (!ruleOptions.generateClassName) ruleOptions.generateClassName = this.generateClassName
     if (!ruleOptions.classes) ruleOptions.classes = {}
     const rule = createRule(name, style, ruleOptions)
+
+    if (!rule) return null
 
     if (!ruleOptions.selector && rule instanceof StyleRule) {
       rule.selector = `.${ruleOptions.generateClassName(rule)}`

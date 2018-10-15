@@ -58,8 +58,9 @@ export default class ConditionalRule implements ContainerRule {
   /**
    * Create and register rule, run plugins.
    */
-  addRule(name: string, style: JssStyle, options?: RuleOptions): Rule {
+  addRule(name: string, style: JssStyle, options?: RuleOptions): Rule | null {
     const rule = this.rules.add(name, style, options)
+    if (!rule) return null
     this.options.jss.plugins.onProcessRule(rule)
     return rule
   }

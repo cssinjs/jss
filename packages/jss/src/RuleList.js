@@ -1,6 +1,6 @@
 /* @flow */
 import createRule from './utils/createRule'
-import StyleRule from './rules/StyleRule'
+import {StyleRule} from './plugins/style'
 import {KeyframesRule} from './plugins/keyframes'
 import type {
   RuleListOptions,
@@ -55,7 +55,7 @@ export default class RuleList {
    *
    * Will not render after Style Sheet was rendered the first time.
    */
-  add(key: string, decl: JssStyle, ruleOptions?: RuleOptions): Rule {
+  add(key: string, decl: JssStyle, ruleOptions?: RuleOptions): Rule | null {
     const {parent, sheet, jss, Renderer, generateClassName} = this.options
     const options = {
       classes: this.classes,
@@ -71,9 +71,11 @@ export default class RuleList {
       options.selector = `.${escape(this.classes[key])}`
     }
 
-    this.raw[key] = decl
-
     const rule = createRule(key, decl, options)
+
+    if (!rule) return null
+
+    this.raw[key] = decl
 
     let className
 

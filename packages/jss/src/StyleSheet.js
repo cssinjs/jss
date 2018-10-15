@@ -77,7 +77,7 @@ export default class StyleSheet {
    * Add a rule to the current stylesheet.
    * Will insert a rule also after the stylesheet has been rendered first time.
    */
-  addRule(name: string, decl: JssStyle, options?: RuleOptions): Rule {
+  addRule(name: string, decl: JssStyle, options?: RuleOptions): Rule | null {
     const {queue} = this
 
     // Plugins can create rules.
@@ -86,6 +86,9 @@ export default class StyleSheet {
     if (this.attached && !queue) this.queue = []
 
     const rule = this.rules.add(name, decl, options)
+
+    if (!rule) return null
+
     this.options.jss.plugins.onProcessRule(rule)
 
     if (this.attached) {
@@ -124,7 +127,8 @@ export default class StyleSheet {
   addRules(styles: Object, options?: RuleOptions): Array<Rule> {
     const added = []
     for (const name in styles) {
-      added.push(this.addRule(name, styles[name], options))
+      const rule = this.addRule(name, styles[name], options)
+      if (rule) added.push(rule)
     }
     return added
   }

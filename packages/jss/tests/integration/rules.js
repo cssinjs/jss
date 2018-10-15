@@ -332,15 +332,10 @@ describe('Integration: rules', () => {
       })
 
       it('should warn', () => {
-        const rule = jss.createRule('@unknown', {
+        jss.createRule('@unknown', {
           color: 'red'
         })
         expect(warned).to.be(true)
-        const css =
-          '.@unknown-id {\n' + //
-          '  color: red;\n' +
-          '}'
-        expect(rule.toString()).to.be(css)
       })
 
       after(() => {

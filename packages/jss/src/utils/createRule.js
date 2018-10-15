@@ -1,6 +1,5 @@
 /* @flow */
 import warning from 'warning'
-import StyleRule from '../rules/StyleRule'
 import type {Rule, RuleOptions, JssStyle} from '../types'
 import cloneStyle from './cloneStyle'
 
@@ -11,7 +10,7 @@ export default function createRule(
   name: string = 'unnamed',
   decl: JssStyle,
   options: RuleOptions
-): Rule {
+): Rule | null {
   const {jss} = options
   const declCopy = cloneStyle(decl)
 
@@ -20,8 +19,8 @@ export default function createRule(
 
   // It is an at-rule and it has no instance.
   if (name[0] === '@') {
-    warning(false, '[JSS] Unknown at-rule %s', name)
+    warning(false, '[JSS] Unknown rule %s', name)
   }
 
-  return new StyleRule(name, declCopy, options)
+  return null
 }
