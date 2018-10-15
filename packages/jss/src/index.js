@@ -9,7 +9,7 @@
 import Jss from './Jss'
 import type StyleSheet from './StyleSheet'
 import type ConditionalRule from './rules/ConditionalRule'
-import type KeyframesRule from './rules/KeyframesRule'
+import type {KeyframesRule} from './plugins/keyframes'
 import type StyleRule from './rules/StyleRule'
 import type ViewportRule from './rules/ViewportRule'
 import type SimpleRule from './rules/SimpleRule'

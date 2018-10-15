@@ -4,7 +4,7 @@ import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import {create} from '../../src'
 import StyleRule from '../../src/rules/StyleRule'
-import KeyframesRule from '../../src/rules/KeyframesRule'
+import keyframes from '../../src/plugins/keyframes'
 import {createGenerateClassName} from '../utils'
 import plugins from '../../src/plugins/rules'
 
@@ -412,7 +412,7 @@ describe('Integration: sheet', () => {
     it('should warn when keyframes name is invalid', () => {
       let warned = false
 
-      KeyframesRule.__Rewire__('warning', () => {
+      keyframes.__Rewire__('warning', () => {
         warned = true
       })
 
@@ -424,7 +424,7 @@ describe('Integration: sheet', () => {
 
       expect(warned).to.be(true)
 
-      KeyframesRule.__ResetDependency__('warning')
+      keyframes.__ResetDependency__('warning')
     })
 
     it('should register keyframes', () => {
@@ -459,10 +459,10 @@ describe('Integration: sheet', () => {
       `)
     })
 
-    it('should warn when referenced keyframe not found', () => {
+    it('should warn when referenced keyframes not found', () => {
       let warned = false
 
-      plugins.__Rewire__('warning', () => {
+      keyframes.__Rewire__('warning', () => {
         warned = true
       })
 
@@ -477,7 +477,7 @@ describe('Integration: sheet', () => {
 
       expect(warned).to.be(true)
 
-      plugins.__ResetDependency__('warning')
+      keyframes.__ResetDependency__('warning')
     })
 
     it('should leave global animation name untouched', () => {

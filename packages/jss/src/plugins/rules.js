@@ -1,17 +1,15 @@
 /* @flow */
-import warning from 'warning'
 import SimpleRule from '../rules/SimpleRule'
-import KeyframesRule from '../rules/KeyframesRule'
 import ConditionalRule from '../rules/ConditionalRule'
 import FontFaceRule from '../rules/FontFaceRule'
 import ViewportRule from '../rules/ViewportRule'
 import type {Plugin, RuleOptions, Rule, JssStyle} from '../types'
+import {plugin as pluginKeyframes} from './keyframes'
 
 const classes = {
   '@charset': SimpleRule,
   '@import': SimpleRule,
   '@namespace': SimpleRule,
-  '@keyframes': KeyframesRule,
   '@media': ConditionalRule,
   '@supports': ConditionalRule,
   '@font-face': FontFaceRule,
@@ -31,28 +29,6 @@ const plugins: Array<Plugin> = Object.keys(classes).map((key: string) => {
   return {onCreateRule, queue: 1}
 })
 
-// Animation name ref replacer.
-plugins.push({
-  queue: 1,
-  onProcessStyle: (style, rule, sheet) => {
-    if (rule.type !== 'style' || !sheet) return style
-
-    // We need to support camel case here, because this plugin runs before the camelization plugin.
-    const prop = 'animation-name'
-    const ref = style[prop]
-    const isRef = ref && ref[0] === '$'
-    if (!isRef) return style
-
-    // We need to remove $ from $ref.
-    const name = ref.substr(1)
-
-    if (name in sheet.keyframes) {
-      style[prop] = sheet.keyframes[name]
-    } else {
-      warning(false, '[JSS] Referenced keyframes rule "%s" is not defined.', name)
-    }
-    return style
-  }
-})
+plugins.push(pluginKeyframes)
 
 export default plugins
