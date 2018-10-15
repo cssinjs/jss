@@ -34,6 +34,11 @@ const memoize = <Value>(fn: () => Value): (() => Value) => {
  */
 function getPropertyValue(cssRule: HTMLElement | CSSStyleRule, prop: string): string {
   try {
+    // Support CSSTOM.
+    if ('attributeStyleMap' in cssRule) {
+      // $FlowFixMe
+      return cssRule.attributeStyleMap.get(prop)
+    }
     return cssRule.style.getPropertyValue(prop)
   } catch (err) {
     // IE may throw if property is unknown.
@@ -57,7 +62,13 @@ function setProperty(cssRule: HTMLElement | CSSStyleRule, prop: string, value: J
       }
     }
 
-    cssRule.style.setProperty(prop, cssValue)
+    // Support CSSTOM.
+    if ('attributeStyleMap' in cssRule) {
+      // $FlowFixMe
+      cssRule.attributeStyleMap.set(prop, cssValue)
+    } else {
+      cssRule.style.setProperty(prop, cssValue)
+    }
   } catch (err) {
     // IE may throw if property is unknown.
     return false
@@ -70,7 +81,13 @@ function setProperty(cssRule: HTMLElement | CSSStyleRule, prop: string, value: J
  */
 function removeProperty(cssRule: HTMLElement | CSSStyleRule, prop: string) {
   try {
-    cssRule.style.removeProperty(prop)
+    // Support CSSTOM.
+    if ('attributeStyleMap' in cssRule) {
+      // $FlowFixMe
+      cssRule.attributeStyleMap.delete(prop)
+    } else {
+      cssRule.style.removeProperty(prop)
+    }
   } catch (err) {
     warning(
       false,

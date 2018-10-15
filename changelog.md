@@ -2,6 +2,7 @@
 
 - Fix multiple cases where linking CSS rules didn't work (#815, #710, #664)
 - Function values and function rules support now fallbacks, media queries, nesting, global styles (#682)
+- Added support for Typed CSSOM values
 
 ### Breaking changes
 
