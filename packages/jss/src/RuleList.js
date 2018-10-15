@@ -79,7 +79,11 @@ export default class RuleList {
 
     if (!options.selector && rule instanceof StyleRule) {
       className = generateClassName(rule, sheet)
-      rule.selector = `.${escape(className)}`
+      rule.selectorText = `.${escape(className)}`
+    }
+
+    if (rule instanceof KeyframesRule) {
+      rule.id = generateClassName(rule, sheet)
     }
 
     this.register(rule, className)

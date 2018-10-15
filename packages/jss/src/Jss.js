@@ -5,6 +5,7 @@ import PluginsRegistry from './PluginsRegistry'
 import rulesPlugins from './plugins/rules'
 import sheets from './sheets'
 import StyleRule from './rules/StyleRule'
+import KeyframesRule from './rules/KeyframesRule'
 import createGenerateClassNameDefault from './utils/createGenerateClassName'
 import createRule from './utils/createRule'
 import DomRenderer from './renderers/DomRenderer'
@@ -109,6 +110,10 @@ export default class Jss {
 
     if (!ruleOptions.selector && rule instanceof StyleRule) {
       rule.selector = `.${ruleOptions.generateClassName(rule)}`
+    }
+
+    if (rule instanceof KeyframesRule) {
+      rule.id = ruleOptions.generateClassName(rule)
     }
 
     this.plugins.onProcessRule(rule)

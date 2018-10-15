@@ -41,7 +41,7 @@ export default class KeyframesRule implements ContainerRule {
       warning(false, '[JSS] Bad keyframes name %s', key)
     }
     this.key = `${this.type}-${this.name}`
-    this.id = options.jss.generateClassName(this, options.sheet)
+    this.id = this.name
     this.options = options
     this.rules = new RuleList({...options, parent: this})
 
