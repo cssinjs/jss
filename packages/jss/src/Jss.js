@@ -45,6 +45,11 @@ export default class Jss {
     this.setup(options)
   }
 
+  /**
+   * Prepares various options, applies plugins.
+   * Should not be used twice on the same instance, because there is no plugins
+   * deduplication logic.
+   */
   setup(options?: JssOptions = {}): this {
     if (options.createGenerateClassName) {
       this.options.createGenerateClassName = options.createGenerateClassName

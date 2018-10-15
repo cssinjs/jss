@@ -118,6 +118,7 @@ export type RuleListOptions = {
 }
 
 export type Plugin = {
+  queue?: number,
   onCreateRule?: (name: string, decl: JssStyle, options: RuleOptions) => BaseRule | null,
   onProcessRule?: (rule: Rule, sheet?: StyleSheet) => void,
   onProcessStyle?: (style: JssStyle, rule: Rule, sheet?: StyleSheet) => JssStyle,

@@ -28,16 +28,17 @@ const plugins: Array<Plugin> = Object.keys(classes).map((key: string) => {
   const RuleClass = classes[key]
   const onCreateRule = (name: string, decl: JssStyle, options: RuleOptions): Rule | null =>
     re.test(name) ? new RuleClass(name, decl, options) : null
-  return {onCreateRule}
+  return {onCreateRule, queue: 1}
 })
 
 // Animation name ref replacer.
 plugins.push({
+  queue: 1,
   onProcessStyle: (style, rule, sheet) => {
     if (rule.type !== 'style' || !sheet) return style
 
     // We need to support camel case here, because this plugin runs before the camelization plugin.
-    const prop = 'animationName' in style ? 'animationName' : 'animation-name'
+    const prop = 'animation-name'
     const ref = style[prop]
     const isRef = ref && ref[0] === '$'
     if (!isRef) return style

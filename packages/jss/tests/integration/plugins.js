@@ -80,6 +80,73 @@ describe('Integration: plugins', () => {
       jss.createStyleSheet({a: {color: 'red'}})
       expect(receivedWarning).to.be('[JSS] Unknown hook "%s".')
     })
+
+    it('should run user-defined plugins in .setup() first, internal second', () => {
+      jss = create({
+        createGenerateClassName,
+        plugins: [
+          {
+            onProcessStyle(style) {
+              if ('animationName' in style) {
+                return {'animation-name': style.animationName}
+              }
+              return style
+            }
+          }
+        ]
+      })
+
+      const sheet = jss.createStyleSheet({
+        '@keyframes a': {
+          to: {height: '100%'}
+        },
+        b: {
+          animationName: '$a'
+        }
+      })
+
+      expect(sheet.toString()).to.be(stripIndent`
+        @keyframes keyframes-a-id {
+          to {
+            height: 100%;
+          }
+        }
+        .b-id {
+          animation-name: keyframes-a-id;
+        }
+      `)
+    })
+
+    it('should run user-defined plugins in .use() first, internal second', () => {
+      jss = create({createGenerateClassName}).use({
+        onProcessStyle(style) {
+          if ('animationName' in style) {
+            return {'animation-name': style.animationName}
+          }
+          return style
+        }
+      })
+
+      const sheet = jss.createStyleSheet({
+        '@keyframes a': {
+          to: {height: '100%'}
+        },
+        b: {
+          animationName: '$a'
+        }
+      })
+
+      expect(sheet.toString()).to.be(stripIndent`
+        @keyframes keyframes-a-id {
+          to {
+            height: 100%;
+          }
+        }
+        .b-id {
+          animation-name: keyframes-a-id;
+        }
+      `)
+    })
   })
 
   describe('onProcessRule', () => {
