@@ -468,28 +468,28 @@ describe('Integration: rules', () => {
       it("should not use null when prop wasn't defined before", () => {
         jss.use({onChangeValue: () => null})
         const rule = jss.createRule()
-        rule.prop('abc', 'red', {process: true})
+        rule.prop('abc', 'red')
         expect('abc' in rule.style).to.be(false)
       })
 
       it("should not use undefined when prop wasn't defined before", () => {
         jss.use({onChangeValue: () => undefined})
         const rule = jss.createRule()
-        rule.prop('abc', 'red', {process: true})
+        rule.prop('abc', 'red')
         expect('abc' in rule.style).to.be(false)
       })
 
       it('should use null to remove the prop when it was defined before', () => {
         jss.use({onChangeValue: () => null})
         const rule = jss.createRule({color: 'red'})
-        rule.prop('color', 'anything', {process: true})
+        rule.prop('color', 'anything')
         expect('color' in rule.style).to.be(false)
       })
 
       it('should use undefined to remove the prop when it was defined before', () => {
         jss.use({onChangeValue: () => undefined})
         const rule = jss.createRule({color: 'red'})
-        rule.prop('color', 'anything', {process: true})
+        rule.prop('color', 'anything')
         expect('color' in rule.style).to.be(false)
       })
     })

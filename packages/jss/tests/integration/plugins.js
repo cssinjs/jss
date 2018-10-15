@@ -247,13 +247,13 @@ describe('Integration: plugins', () => {
     })
 
     it('should be executed just once', () => {
-      sheet.getRule('a').prop('color', 'green', {process: true})
+      sheet.getRule('a').prop('color', 'green')
       expect(executed).to.be(1)
     })
 
     it('should receive correct arguments', () => {
       const rule = sheet.getRule('a')
-      rule.prop('color', 'green', {process: true})
+      rule.prop('color', 'green')
       expect(receivedValue).to.be('green')
       expect(receivedProp).to.be('color')
       expect(receivedRule).to.be(rule)
@@ -265,7 +265,7 @@ describe('Integration: plugins', () => {
           color: red;
         }
       `)
-      sheet.getRule('a').prop('color', 'green', {process: true})
+      sheet.getRule('a').prop('color', 'green')
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
           color: green;
@@ -276,7 +276,7 @@ describe('Integration: plugins', () => {
     it('should pass the new value to the next hook', () => {
       jss.use({onChangeValue: value => `${value}-first`})
       jss.use({onChangeValue: value => `${value}-second`})
-      sheet.getRule('a').prop('color', 'green', {process: true})
+      sheet.getRule('a').prop('color', 'green')
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
           color: green-first-second;
