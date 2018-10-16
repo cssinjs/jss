@@ -2,16 +2,16 @@
 /**
  * A better abstraction over CSS.
  *
- * @copyright Oleg Slobodskoi 2014-present
+ * @copyright Oleg Slobodskoi / Isonen 2014-present
  * @website https://github.com/cssinjs/jss
  * @license MIT
  */
 import Jss from './Jss'
 import type StyleSheet from './StyleSheet'
-import type ConditionalRule from './rules/ConditionalRule'
-import type {KeyframesRule} from './plugins/keyframes'
-import type {StyleRule} from './plugins/style'
-import type {ViewportRule} from './plugins/viewport'
+import type {ConditionalRule} from './plugins/conditionalRule'
+import type {KeyframesRule} from './plugins/keyframesRule'
+import type {StyleRule} from './plugins/styleRule'
+import type {ViewportRule} from './plugins/viewportRule'
 import type {SimpleRule} from './plugins/simpleRule'
 import type {FontFaceRule} from './plugins/fontFaceRule'
 import type {JssOptions} from './types'

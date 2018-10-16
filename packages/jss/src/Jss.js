@@ -2,10 +2,13 @@
 import isInBrowser from 'is-in-browser'
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
-import rulesPlugins from './plugins/rules'
 import sheets from './sheets'
-import {StyleRule} from './plugins/style'
-import {KeyframesRule} from './plugins/keyframes'
+import {plugin as pluginViewport} from './plugins/viewportRule'
+import {KeyframesRule, plugin as pluginKeyframes} from './plugins/keyframesRule'
+import {StyleRule, plugin as pluginStyle} from './plugins/styleRule'
+import {plugin as pluginSimpleRule} from './plugins/simpleRule'
+import {plugin as pluginFontFaceRule} from './plugins/fontFaceRule'
+import {plugin as pluginConditionalRule} from './plugins/conditionalRule'
 import createGenerateClassNameDefault from './utils/createGenerateClassName'
 import createRule from './utils/createRule'
 import DomRenderer from './renderers/DomRenderer'
@@ -21,6 +24,15 @@ import type {
   JssStyle,
   GenerateClassName
 } from './types'
+
+const defaultPlugins = [
+  pluginKeyframes,
+  pluginStyle,
+  pluginViewport,
+  pluginSimpleRule,
+  pluginFontFaceRule,
+  pluginConditionalRule
+]
 
 let instanceCounter = 0
 
@@ -41,7 +53,7 @@ export default class Jss {
 
   constructor(options?: JssOptions) {
     // eslint-disable-next-line prefer-spread
-    this.use.apply(this, rulesPlugins)
+    this.use.apply(this, defaultPlugins)
     this.setup(options)
   }
 

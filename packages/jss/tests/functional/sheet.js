@@ -5,7 +5,7 @@ import expect from 'expect.js'
 
 import {create} from '../../src'
 import DomRenderer from '../../src/renderers/DomRenderer'
-import stylePlugin from '../../src/plugins/style'
+import stylePlugin from '../../src/plugins/styleRule'
 import escape from '../../src/utils/escape'
 import {
   createGenerateClassName,

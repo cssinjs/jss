@@ -12,7 +12,7 @@ const atRegExp = /@([\w-]+)/
 /**
  * Conditional rule for @media, @supports
  */
-export default class ConditionalRule implements ContainerRule {
+export class ConditionalRule implements ContainerRule {
   type = 'conditional'
 
   at: string
@@ -74,5 +74,15 @@ export default class ConditionalRule implements ContainerRule {
     }
     const children = this.rules.toString(options)
     return children ? `${this.key} {\n${children}\n}` : ''
+  }
+}
+
+const keyRegExp = /@media|@supports\s+/
+
+export const plugin = {
+  queue: 1,
+
+  onCreateRule(key: string, styles: JssStyle, options: RuleOptions): ConditionalRule | null {
+    return keyRegExp.test(key) ? new ConditionalRule(key, styles, options) : null
   }
 }
