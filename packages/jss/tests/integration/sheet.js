@@ -442,7 +442,8 @@ describe('Integration: sheet', () => {
           to: {height: '100%'}
         },
         b: {
-          'animation-name': '$a'
+          'animation-name': '$a',
+          animation: '$a 5s'
         }
       })
 
@@ -454,6 +455,7 @@ describe('Integration: sheet', () => {
         }
         .b-id {
           animation-name: keyframes-a-id;
+          animation: keyframes-a-id 5s;
         }
       `)
     })
