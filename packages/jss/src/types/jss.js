@@ -17,6 +17,17 @@ export type ToCssOptions = {
   allowEmpty?: boolean
 }
 
+export type UpdateOptions = {
+  process?: boolean,
+  force?: boolean
+}
+
+export type UpdateArguments =
+  | [Object]
+  | [Object, UpdateOptions]
+  | [string, Object]
+  | [string, Object, UpdateOptions]
+
 export type Rule =
   | StyleRule
   | ConditionalRule
@@ -103,7 +114,7 @@ export type Plugin = {
   onProcessStyle?: (style: JssStyle, rule: Rule, sheet?: StyleSheet) => JssStyle,
   onProcessSheet?: (sheet?: StyleSheet) => void,
   onChangeValue?: (value: string, prop: string, rule: StyleRule) => string | null | false,
-  onUpdate?: (data: Object, rule: Rule, sheet?: StyleSheet) => void
+  onUpdate?: (data: Object, rule: Rule, sheet: StyleSheet, options: UpdateOptions) => void
 }
 
 export type InsertionPoint = string | HTMLElement

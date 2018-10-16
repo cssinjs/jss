@@ -13,7 +13,7 @@ describe('Integration: plugins', () => {
   })
 
   describe('common', () => {
-    it('should not call hooks twice on the same rule', () => {
+    it('should not call hooks twice on the same rule to enable cache plugin', () => {
       const styles = {a: {color: 'red'}}
       let receivedRule
       let processed = 0

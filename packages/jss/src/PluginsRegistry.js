@@ -1,7 +1,7 @@
 /* @flow */
 import warning from 'warning'
 import type StyleSheet from './StyleSheet'
-import type {Plugin, Rule, RuleOptions, JssStyle} from './types'
+import type {Plugin, Rule, RuleOptions, UpdateOptions, JssStyle} from './types'
 
 export default class PluginsRegistry {
   hooks: {[key: string]: Array<Function>} = {
@@ -65,9 +65,9 @@ export default class PluginsRegistry {
   /**
    * Call `onUpdate` hooks.
    */
-  onUpdate(data: Object | void, rule: Rule, sheet: StyleSheet): void {
+  onUpdate(data: Object | void, rule: Rule, sheet: StyleSheet, options: UpdateOptions): void {
     for (let i = 0; i < this.hooks.onUpdate.length; i++) {
-      this.hooks.onUpdate[i](data, rule, sheet)
+      this.hooks.onUpdate[i](data, rule, sheet, options)
     }
   }
 

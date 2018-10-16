@@ -6,6 +6,7 @@ import type {
   CSSStyleRule,
   ToCssOptions,
   RuleOptions,
+  UpdateOptions,
   Renderer as RendererInterface,
   JssStyle,
   JssValue,
@@ -68,14 +69,18 @@ export default class StyleRule implements BaseRule {
   /**
    * Get or set a style property.
    */
-  prop(name: string, value?: JssValue): StyleRule | string {
+  prop(name: string, value?: JssValue, options?: UpdateOptions): StyleRule | string {
     // It's a getter.
     if (value === undefined) return this.style[name]
 
     // Don't do anything if the value has not changed.
-    if (this.style[name] === value) return this
+    const force = options ? options.force : false
+    if (!force && this.style[name] === value) return this
 
-    const newValue = this.options.jss.plugins.onChangeValue(value, name, this)
+    let newValue = value
+    if (!options || options.process !== false) {
+      newValue = this.options.jss.plugins.onChangeValue(value, name, this)
+    }
 
     const isEmpty = newValue == null || newValue === false
     const isDefined = name in this.style
@@ -98,7 +103,7 @@ export default class StyleRule implements BaseRule {
 
     const {sheet} = this.options
     if (sheet && sheet.attached) {
-      warning(false, 'Rule is not linked. Missing sheet option "link: true".')
+      warning(false, '[JSS] Rule is not linked. Missing sheet option "link: true".')
     }
     return this
   }

@@ -12,7 +12,7 @@ import injectSheet, {createTheming, ThemeProvider, JssProvider, SheetsRegistry} 
 
 const removeWhitespaces = s => s.replace(/\s/g, '')
 
-describe('theming', () => {
+describe('React-JSS: theming', () => {
   let node
 
   beforeEach(() => {
