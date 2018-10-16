@@ -19,7 +19,7 @@ export default function cloneStyle(style: JssStyle): JssStyle {
 
   // It is a CSSTOM value.
   // TODO will not work if instance comes from a different window.
-  if (style instanceof window.CSSStyleValue) {
+  if (window.CSSStyleValue && style instanceof window.CSSStyleValue) {
     return style
   }
 
