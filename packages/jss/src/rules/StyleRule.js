@@ -78,7 +78,7 @@ export default class StyleRule implements BaseRule {
     if (!force && this.style[name] === value) return this
 
     let newValue = value
-    if (options && options.process === true) {
+    if (!options || options.process !== false) {
       newValue = this.options.jss.plugins.onChangeValue(value, name, this)
     }
 

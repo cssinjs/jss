@@ -151,7 +151,7 @@ describe('jss-plugin-syntax-rule-value-observable: rules', () => {
       sheet = jss
         .createStyleSheet(
           {
-            div: new Observable(obs => {
+            a: new Observable(obs => {
               obs.next({display: 'block'})
               observer = obs
             })
@@ -163,28 +163,37 @@ describe('jss-plugin-syntax-rule-value-observable: rules', () => {
       observer.next({display: 'inline-block'})
 
       expect(sheet.toString()).to.be(stripIndent`
-        .div-id {
+        .a-id {
           display: inline-block;
         }
       `)
     })
 
     it('should not process props or values', () => {
+      jss = create(settings).use(
+        pluginObservable({process: false}),
+        pluginDefaultUnit(),
+        pluginCamelCase()
+      )
+      sheet = jss.createStyleSheet(
+        {
+          a: new Observable(obs => {
+            observer = obs
+          })
+        },
+        {link: true}
+      )
       observer.next({marginLeft: 20})
 
       expect(sheet.toString()).to.be(stripIndent`
-        .div-id {
+        .a-id {
           marginLeft: 20;
         }
       `)
     })
 
     it('should process props and values', () => {
-      jss = create(settings).use(
-        pluginObservable({process: true}),
-        pluginDefaultUnit(),
-        pluginCamelCase()
-      )
+      jss = create(settings).use(pluginObservable(), pluginDefaultUnit(), pluginCamelCase())
       sheet = jss.createStyleSheet(
         {
           a: new Observable(obs => {
