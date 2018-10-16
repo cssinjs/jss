@@ -13,7 +13,7 @@ import type {KeyframesRule} from './plugins/keyframes'
 import type {StyleRule} from './plugins/style'
 import type {ViewportRule} from './plugins/viewport'
 import type {SimpleRule} from './plugins/simpleRule'
-import type FontFaceRule from './rules/FontFaceRule'
+import type {FontFaceRule} from './plugins/fontFaceRule'
 import type {JssOptions} from './types'
 
 /**

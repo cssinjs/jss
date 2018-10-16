@@ -82,12 +82,12 @@ const keyRegExp = /@keyframes\s+/
 export const plugin = {
   queue: 1,
 
-  onCreateRule(key: string, frames: JssStyle, options: RuleOptions): Rule | null {
+  onCreateRule(key: string, frames: JssStyle, options: RuleOptions): KeyframesRule | null {
     return keyRegExp.test(key) ? new KeyframesRule(key, frames, options) : null
   },
 
   // Animation name ref replacer.
-  onProcessStyle: (style: JssStyle, rule: Rule, sheet?: StyleSheet) => {
+  onProcessStyle: (style: JssStyle, rule: Rule, sheet?: StyleSheet): JssStyle => {
     if (rule.type !== 'style' || !sheet) return style
 
     // We need to support camel case here, because this plugin runs before the camelization plugin.

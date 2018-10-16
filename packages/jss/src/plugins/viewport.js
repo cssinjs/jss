@@ -1,6 +1,6 @@
 /* @flow */
 import toCss from '../utils/toCss'
-import type {CSSViewportRule, Rule, RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
+import type {CSSViewportRule, RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
 
 export class ViewportRule implements BaseRule {
   type = 'viewport'
@@ -34,7 +34,7 @@ export class ViewportRule implements BaseRule {
 export const plugin = {
   queue: 1,
 
-  onCreateRule(key: string, style: JssStyle, options: RuleOptions): Rule | null {
+  onCreateRule(key: string, style: JssStyle, options: RuleOptions): ViewportRule | null {
     return key === '@viewport' || key === '@-ms-viewport'
       ? new ViewportRule(key, style, options)
       : null

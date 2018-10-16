@@ -1,5 +1,5 @@
 /* @flow */
-import type {CSSSimpleRule, Rule, RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
+import type {CSSSimpleRule, RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
 
 export class SimpleRule implements BaseRule {
   type = 'simple'
@@ -47,7 +47,7 @@ const keysMap = {
 export const plugin = {
   queue: 1,
 
-  onCreateRule(key: string, value: JssStyle, options: RuleOptions): Rule | null {
+  onCreateRule(key: string, value: JssStyle, options: RuleOptions): SimpleRule | null {
     return key in keysMap ? new SimpleRule(key, ((value: any): string), options) : null
   }
 }

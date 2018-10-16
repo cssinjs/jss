@@ -6,7 +6,7 @@ import {KeyframesRule} from '../plugins/keyframes'
 import {StyleRule} from '../plugins/style'
 import {ViewportRule} from '../plugins/viewport'
 import {SimpleRule} from '../plugins/simpleRule'
-import FontFaceRule from '../rules/FontFaceRule'
+import {FontFaceRule} from '../plugins/fontFaceRule'
 import type {CSSStyleRule} from './cssom'
 import type RuleList from '../RuleList'
 
