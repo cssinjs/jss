@@ -9,7 +9,7 @@
     "publish": "yarn lint && yarn test && yarn build && lerna publish",
     "typecheck": "flow check --max-warnings=0",
     "lint": "eslint scripts/ packages/ && yarn typecheck && yarn format",
-    "lint:staged": "lint-staged && yarn typecheck && yarn check-snapshots",
+    "lint:staged": "lint-staged && yarn typecheck",
     "lint:ci": "eslint scripts/ packages/ && yarn typecheck && yarn format -- --list-different",
     "format": "prettier \"*.{js,md,json}\" \"{docs,packages,scripts}/**/*.{js,md,json}\" --write",
     "test": "cross-env NODE_ENV=test VERSION=\"1\" karma start --single-run",
