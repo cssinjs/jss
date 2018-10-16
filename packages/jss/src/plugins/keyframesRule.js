@@ -8,7 +8,8 @@ import type {
   Rule,
   RuleOptions,
   ToCssOptions,
-  ContainerRule
+  ContainerRule,
+  KeyframesMap
 } from '../types'
 
 const defaultToStringOptions = {
@@ -79,20 +80,20 @@ export class KeyframesRule implements ContainerRule {
 
 const keyRegExp = /@keyframes\s+/
 
+const refRegExp = /\$([\w-]+)/
+
 /**
  * Replace the reference for a animation name.
  */
-function replaceRef(style, prop, keyframes) {
-  if (style[prop]) {
-    const ref = /\$([\w-]+)/.exec(style[prop])
-
-    if (ref && ref[0]) {
-      if (ref[0] in keyframes) {
-        style[prop] = keyframes[ref[0]]
-      } else {
-        warning(false, '[JSS] Referenced keyframes rule "%s" is not defined.', ref[0])
-      }
-    }
+const replaceRef = (style: JssStyle, prop: string, keyframes: KeyframesMap) => {
+  const value = style[prop]
+  if (typeof value !== 'string') return
+  const ref = refRegExp.exec(value)
+  if (!ref) return
+  if (ref[1] in keyframes) {
+    style[prop] = value.replace(ref[0], keyframes[ref[1]])
+  } else {
+    warning(false, '[JSS] Referenced keyframes rule "%s" is not defined.', ref[1])
   }
 }
 
@@ -107,9 +108,8 @@ export const plugin = {
   onProcessStyle: (style: JssStyle, rule: Rule, sheet?: StyleSheet): JssStyle => {
     if (rule.type !== 'style' || !sheet) return style
 
-    replaceRef(style, 'animation-name', sheet.keyframes)
-    replaceRef(style, 'animation', sheet.keyframes)
-
+    if ('animation-name' in style) replaceRef(style, 'animation-name', sheet.keyframes)
+    if ('animation' in style) replaceRef(style, 'animation', sheet.keyframes)
     return style
   }
 }
