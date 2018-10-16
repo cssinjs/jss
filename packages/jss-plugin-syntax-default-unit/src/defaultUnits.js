@@ -141,6 +141,16 @@ export default {
   'shape-margin': getDefaultUnit(window.CSS.px, 'px'),
   size: getDefaultUnit(window.CSS.px, 'px'),
 
+  // Grid properties
+  grid: getDefaultUnit(window.CSS.px, 'px'),
+  'grid-gap': getDefaultUnit(window.CSS.px, 'px'),
+  'grid-row-gap': getDefaultUnit(window.CSS.px, 'px'),
+  'grid-column-gap': getDefaultUnit(window.CSS.px, 'px'),
+  'grid-template-rows': getDefaultUnit(window.CSS.px, 'px'),
+  'grid-template-columns': getDefaultUnit(window.CSS.px, 'px'),
+  'grid-auto-rows': getDefaultUnit(window.CSS.px, 'px'),
+  'grid-auto-columns': getDefaultUnit(window.CSS.px, 'px'),
+
   // Not existing properties.
   // Used to avoid issues with jss-expand integration.
   'box-shadow-x': getDefaultUnit(window.CSS.px, 'px'),
