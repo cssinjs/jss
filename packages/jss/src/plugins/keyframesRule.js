@@ -79,6 +79,23 @@ export class KeyframesRule implements ContainerRule {
 
 const keyRegExp = /@keyframes\s+/
 
+/**
+ * Replace the reference for a animation name.
+ */
+function replaceRef(style, prop, keyframes) {
+  if (style[prop]) {
+    const ref = /\$([\w-]+)/.exec(style[prop])
+
+    if (ref && ref[0]) {
+      if (ref[0] in keyframes) {
+        style[prop] = keyframes[ref[0]]
+      } else {
+        warning(false, '[JSS] Referenced keyframes rule "%s" is not defined.', ref[0])
+      }
+    }
+  }
+}
+
 export const plugin = {
   queue: 1,
 
@@ -90,20 +107,9 @@ export const plugin = {
   onProcessStyle: (style: JssStyle, rule: Rule, sheet?: StyleSheet): JssStyle => {
     if (rule.type !== 'style' || !sheet) return style
 
-    // We need to support camel case here, because this plugin runs before the camelization plugin.
-    const prop = 'animation-name'
-    const ref = style[prop]
-    const isRef = ref && ref[0] === '$'
-    if (!isRef) return style
+    replaceRef(style, 'animation-name', sheet.keyframes)
+    replaceRef(style, 'animation', sheet.keyframes)
 
-    // We need to remove $ from $ref.
-    const name = ref.substr(1)
-
-    if (name in sheet.keyframes) {
-      style[prop] = sheet.keyframes[name]
-    } else {
-      warning(false, '[JSS] Referenced keyframes rule "%s" is not defined.', name)
-    }
     return style
   }
 }
