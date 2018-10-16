@@ -2,6 +2,34 @@
 import warning from 'warning'
 import type StyleSheet from './StyleSheet'
 import type {Plugin, Rule, RuleOptions, UpdateOptions, JssStyle} from './types'
+import SimpleRule from './rules/SimpleRule'
+import KeyframesRule from './rules/KeyframesRule'
+import ConditionalRule from './rules/ConditionalRule'
+import FontFaceRule from './rules/FontFaceRule'
+import ViewportRule from './rules/ViewportRule'
+
+const classes = {
+  '@charset': SimpleRule,
+  '@import': SimpleRule,
+  '@namespace': SimpleRule,
+  '@keyframes': KeyframesRule,
+  '@media': ConditionalRule,
+  '@supports': ConditionalRule,
+  '@font-face': FontFaceRule,
+  '@viewport': ViewportRule,
+  '@-ms-viewport': ViewportRule
+}
+
+/**
+ * Generate plugins which will register all rules.
+ */
+const plugins = Object.keys(classes).map((key: string) => {
+  // https://jsperf.com/indexof-vs-substr-vs-regex-at-the-beginning-3
+  const re = new RegExp(`^${key}`)
+  const RuleClass = classes[key]
+  return (name?: string, decl: JssStyle, options: RuleOptions): Rule | null =>
+    name && re.test(name) ? new RuleClass(name, decl, options) : null
+})
 
 export default class PluginsRegistry {
   hooks: {[key: string]: Array<Function>} = {
@@ -21,6 +49,12 @@ export default class PluginsRegistry {
       const rule = this.hooks.onCreateRule[i](name, decl, options)
       if (rule) return rule
     }
+
+    for (let i = 0; i < plugins.length; i++) {
+      const rule = plugins[i](name, decl, options)
+      if (rule) return rule
+    }
+
     return null
   }
 
