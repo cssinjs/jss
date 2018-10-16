@@ -1,5 +1,3 @@
-const CSS = (global.CSS: any)
-
 const env = process.env.NODE_ENV
 
 const escapeRegex = /([[\].#*$><+~=|^:(),"'`])/g
