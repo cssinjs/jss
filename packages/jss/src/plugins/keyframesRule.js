@@ -88,15 +88,12 @@ const refRegExp = /\$([\w-]+)/
 const replaceRef = (style: JssStyle, prop: string, keyframes: KeyframesMap) => {
   const value = style[prop]
   if (typeof value !== 'string') return
-
   const ref = refRegExp.exec(value)
-
-  if (ref && ref[0]) {
-    if (ref[0] in keyframes) {
-      style[prop] = keyframes[ref[0]]
-    } else {
-      warning(false, '[JSS] Referenced keyframes rule "%s" is not defined.', ref[0])
-    }
+  if (!ref) return
+  if (ref[1] in keyframes) {
+    style[prop] = value.replace(ref[0], keyframes[ref[1]])
+  } else {
+    warning(false, '[JSS] Referenced keyframes rule "%s" is not defined.', ref[1])
   }
 }
 
@@ -113,7 +110,6 @@ export const plugin = {
 
     if ('animation-name' in style) replaceRef(style, 'animation-name', sheet.keyframes)
     if ('animation' in style) replaceRef(style, 'animation', sheet.keyframes)
-
     return style
   }
 }

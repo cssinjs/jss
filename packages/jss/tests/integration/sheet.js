@@ -460,7 +460,7 @@ describe('Integration: sheet', () => {
       `)
     })
 
-    it('should warn when referenced keyframes not found', () => {
+    it('should warn when referenced in animation-name keyframes not found', () => {
       let warned = false
 
       pluginKeyframes.__Rewire__('warning', () => {
@@ -473,6 +473,27 @@ describe('Integration: sheet', () => {
         },
         b: {
           'animation-name': '$x'
+        }
+      })
+
+      expect(warned).to.be(true)
+
+      pluginKeyframes.__ResetDependency__('warning')
+    })
+
+    it('should warn when referenced in animation keyframes not found', () => {
+      let warned = false
+
+      pluginKeyframes.__Rewire__('warning', () => {
+        warned = true
+      })
+
+      jss.createStyleSheet({
+        '@keyframes a': {
+          to: {height: '100%'}
+        },
+        b: {
+          animation: 'abc $x abc'
         }
       })
 
