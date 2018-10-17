@@ -13,7 +13,7 @@ const buttonColor = {
   color: 'green'
 }
 const buttonTheme = {
-  extend: buttonColor
+  extend: buttonColor,
   background: 'red'
 }
 const styles = {
