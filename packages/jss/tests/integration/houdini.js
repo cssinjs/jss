@@ -1,7 +1,7 @@
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
-import {create} from '../../src'
-import {createGenerateClassName, hasCSSTOMSupport} from '../utils'
+import {create, hasCSSTOMSupport} from '../../src'
+import {createGenerateClassName} from '../utils'
 
 describe('Integration: houdini', () => {
   if (!hasCSSTOMSupport) return

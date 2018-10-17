@@ -48,6 +48,12 @@ export type {
 }
 
 /**
+ * Export a constant indicating if this browser has CSSTOM support.
+ * https://developers.google.com/web/updates/2018/03/cssom
+ */
+export const hasCSSTOMSupport = Boolean(CSS && CSS.number)
+
+/**
  * Extracts a styles object with only rules that contain function values.
  */
 export {default as getDynamicStyles} from './utils/getDynamicStyles'
