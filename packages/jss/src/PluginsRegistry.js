@@ -45,12 +45,9 @@ export default class PluginsRegistry {
    * Call `onProcessStyle` hooks.
    */
   onProcessStyle(style: JssStyle, rule: Rule, sheet?: StyleSheet): void {
-    let nextStyle = style
-
     for (let i = 0; i < this.hooks.onProcessStyle.length; i++) {
-      nextStyle = this.hooks.onProcessStyle[i](nextStyle, rule, sheet)
       // $FlowFixMe
-      rule.style = nextStyle
+      rule.style = this.hooks.onProcessStyle[i](rule.style, rule, sheet)
     }
   }
 
