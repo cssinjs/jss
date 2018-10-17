@@ -18,9 +18,11 @@ See `jss.setup()` below for `options` object description.
 import {create} from 'jss'
 import camelCase from 'jss-camel-case'
 import somePlugin from 'jss-some-plugin'
+
 const jss = create()
 jss.use(camelCase(), somePlugin())
 jss.createStyleSheet(/* ... */)
+
 export default jss
 ```
 
@@ -133,12 +135,12 @@ Counts how many elements use the same Style Sheet and automatically attach or de
 import jss, {SheetsManager} from 'jss'
 
 const manager = new SheetsManager()
-manager.size // 0
+console.log(manager.size) // 0
 const sheet = jss.createStyleSheet()
 const key = {}
 
 manager.add(key, sheet) // index
-manager.size // 1
+console.log(manager.size) // 1
 manager.get(key) // sheet
 
 // Will attach the sheet and count refs.
@@ -273,10 +275,16 @@ sheet.update({
 Apply styles directly to the element but still be able to use JSS.
 
 ```javascript
+import jss from 'jss'
+
 const rule = jss.createRule({
   padding: 20,
   background: 'blue'
 })
+```
+
+```js
+import jss from 'jss'
 
 const rule = jss.createRule('@media', {
   button: {
@@ -292,6 +300,8 @@ const rule = jss.createRule('@media', {
 This is equivalent to `element.style.background = 'blue'` except that you could use a rule from sheet which is already defined. It uses `rule.toJSON()` internally, so same limitations are applied. [Example](http://cssinjs.github.io/examples/inline/index.html).
 
 ```javascript
+import jss from 'jss'
+
 jss
   .createRule({
     background: 'blue'
@@ -306,6 +316,8 @@ jss
 When the `link` option is true, after Style Sheet is attached, linker saves references to `CSSRule` instances so that you are able to set rule properties at any time. [Example](http://cssinjs.github.io/examples/dynamic-props/index.html).
 
 ```javascript
+import jss from 'jss'
+
 const sheet = jss.createStyleSheet(
   {
     a: {
@@ -316,7 +328,7 @@ const sheet = jss.createStyleSheet(
 )
 
 // Get the color.
-sheet.getRule('a').prop('color') // red
+console.log(sheet.getRule('a').prop('color')) // red
 
 // Set the color.
 sheet.getRule('a').prop('color', 'green')
@@ -404,12 +416,12 @@ const dynamicStyles = getDynamicStyles({
   }
 })
 
-// Returns only styles with dynamic values.
-{
-  button: {
-    color: data => data.color
-  }
-}
+console.log(dynamicStyles)
+// {
+//   button: {
+//     color: data => data.color
+//   }
+// }
 ```
 
 ## Plugins

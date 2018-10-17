@@ -37,10 +37,7 @@ You need to register a `plugin` only once per JSS instance. There is a number of
 
     ```javascript
     jss.use({
-      onCreateRule: (name, decl, options) => {
-        // Do something here.
-        return newRule
-      }
+      onCreateRule: (name, decl, options) => newRule
     })
     ```
 
@@ -62,10 +59,7 @@ You need to register a `plugin` only once per JSS instance. There is a number of
 
     ```javascript
     jss.use({
-      onProcessStyle: (style, rule, sheet) => {
-        // Do something here.
-        return style
-      }
+      onProcessStyle: (style, rule, sheet) => style
     })
     ```
 
@@ -87,10 +81,7 @@ You need to register a `plugin` only once per JSS instance. There is a number of
 
     ```javascript
     jss.use({
-      onChangeValue: (value, prop, rule) => {
-        // Do something here.
-        return newValue
-      }
+      onChangeValue: (value, prop, rule) => newValue
     })
     ```
 

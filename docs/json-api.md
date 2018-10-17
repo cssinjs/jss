@@ -111,21 +111,21 @@ Compiles to:
 ```javascript
 const styles = {
   container: {
-    background: 'linear-gradient(to right, red 0%, green 100%)'
+    background: 'linear-gradient(to right, red 0%, green 100%)',
     fallbacks: {
       background: 'red'
     }
   }
 }
+```
 
-// Or if you need multiple fallbacks for the same property name:
+Or if you need multiple fallbacks for the same property name:
+
+```js
 const styles = {
   container: {
-    display: 'flex'
-    fallbacks: [
-      {display: 'box'},
-      {display: 'flex-box'}
-    ]
+    display: 'flex',
+    fallbacks: [{display: 'box'}, {display: 'flex-box'}]
   }
 }
 ```

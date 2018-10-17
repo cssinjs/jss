@@ -128,6 +128,8 @@ There are 2 caveats:
 1.  They have a [number of limitations](https://github.com/cssinjs/jss/issues/682) regarding the syntax, since they don't run through all plugins right now.
 
 ```javascript
+import React from 'react'
+
 const styles = {
   myButton: {
     padding: props => props.spacing
@@ -242,6 +244,7 @@ const Button = withTheme(({theme}) => <button>I can access {theme.colorPrimary}<
 _Namespaced_ themes can be used so that a set of UI components should not conflict with another set of UI components from a different library using also `react-jss`.
 
 ```javascript
+import React from 'react'
 import {createTheming} from 'react-jss'
 
 // Creating a namespaced theming object.
@@ -259,14 +262,12 @@ const theme = {
   colorPrimary: 'green'
 }
 
-const Button = ({classes, children}) => (
-  <button className={classes.button}>
-    {children}
-  </button>
-)
+const Button = ({classes, children}) => <button className={classes.button}>{children}</button>
 
 // Passing namespaced theming object inside injectSheet options.
-const StyledButton = injectSheet(styles, { theming })(Button)
+const StyledButton = injectSheet(styles, {theming})(Button)
+const OtherLibraryThemeProvider = () => null
+const OtherLibraryComponent = () => null
 
 // Using namespaced ThemeProviders - they can be nested in any order
 const App = () => (
@@ -275,7 +276,7 @@ const App = () => (
     <MyThemeProvider theme={theme}>
       <StyledButton>Green Button</StyledButton>
     </MyThemeProvider>
-  <OtherLibraryThemeProvider>
+  </OtherLibraryThemeProvider>
 )
 ```
 
@@ -284,6 +285,7 @@ const App = () => (
 After the application is mounted, you should remove the style tag used by critical CSS rendered server-side.
 
 ```javascript
+import React from 'react'
 import {renderToString} from 'react-dom/server'
 import {JssProvider, SheetsRegistry} from 'react-jss'
 import MyApp from './MyApp'
@@ -302,7 +304,7 @@ export default function render(req, res) {
 
   return res.send(
     renderToString(
-      <html>
+      <html lang="en">
         <head>
           <style type="text/css">{sheets.toString()}</style>
         </head>
@@ -344,6 +346,8 @@ main()
 In order to reuse the same styles **and** the same generated style sheet between 2 entirely different and unrelated components, we suggest extracting a renderer component and reusing that.
 
 ```javascript
+import React from 'react'
+
 const styles = {
   button: {
     color: 'red'
@@ -392,6 +396,7 @@ const StyledComponent = injectSheet({})(InnerComponent)
 If you want to specify a JSS version and plugins to use, you should create your [own JSS instance](https://github.com/cssinjs/jss/blob/master/docs/js-api.md#create-an-own-jss-instance), [setup plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-plugins) and pass it to `JssProvider`.
 
 ```javascript
+import React from 'react'
 import {create as createJss} from 'jss'
 import {JssProvider} from 'react-jss'
 import vendorPrefixer from 'jss-vendor-prefixer'
@@ -399,6 +404,7 @@ import vendorPrefixer from 'jss-vendor-prefixer'
 const jss = createJss()
 jss.use(vendorPrefixer())
 
+const App = () => null
 const Component = () => (
   <JssProvider jss={jss}>
     <App />
@@ -419,9 +425,12 @@ In case you render multiple react rendering trees in one application, you will g
 **Note**: in case of SSR, make sure to create a new generator for **each** request. Otherwise class names will become indeterministic and at some point you may run out of max safe integer numbers.
 
 ```javascript
+import React from 'react'
 import {createGenerateClassName, JssProvider} from 'react-jss'
 
 const generateClassName = createGenerateClassName()
+const App1 = () => null
+const App2 = () => null
 
 const Component = () => (
   <div>
@@ -439,7 +448,11 @@ You can also additionally use the `classNamePrefix` prop in order to add the app
 This way you can see which app generated a class name in the DOM view.
 
 ```javascript
+import React from 'react'
 import {JssProvider} from 'react-jss'
+
+const App1 = () => null
+const App2 = () => null
 
 const Component = () => (
   <div>
@@ -473,7 +486,7 @@ const styles = {
 }
 
 @injectSheet(styles)
-export default class Button extends Component {
+class Button extends Component {
   render() {
     const {classes, children} = this.props
     return (
@@ -483,6 +496,8 @@ export default class Button extends Component {
     )
   }
 }
+
+export default Button
 ```
 
 ## Injection order
@@ -493,6 +508,7 @@ Source order specificity is higher the lower style tag is in the tree, therefore
 Example
 
 ```js
+import React from 'react'
 // Will render labelStyles first.
 const Label = injectSheet(labelStyles)(({children}) => <label>{children}</label>)
 const Button = injectSheet(buttonStyles)(() => (
@@ -510,6 +526,7 @@ If you want to whitelist some of them, you can now use option `inject`. For e.g.
 All user props passed to the HOC will still be forwarded as usual.
 
 ```js
+import React from 'react'
 // Only `classes` prop will be passed by the ReactJSS HOC now. No `sheet` or `theme`.
 const Button = injectSheet(styles, {inject: ['classes', 'sheet']})(({classes}) => (
   <button>My button</button>

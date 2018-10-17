@@ -41,8 +41,10 @@ Compiles to:
 When you use it:
 
 ```javascript
-<button className={classes.button}>Button</button>
-<button className={classes.buttonActive}>Active Button</button>
+import React from 'react'
+
+const button1 = <button className={classes.button}>Button</button>
+const button2 = <button className={classes.buttonActive}>Active Button</button>
 ```
 
 It renders to:
@@ -110,8 +112,12 @@ Compiles to:
 When you use it:
 
 ```javascript
-<button className={classes.buttonActiveDisabled}>Active Disabled Button</button>
-<button className={classes.buttonDisabled}>Disabled Button with active state</button>
+import React from 'react'
+
+const button1 = <button className={classes.buttonActiveDisabled}>Active Disabled Button</button>
+const button2 = (
+  <button className={classes.buttonDisabled}>Disabled Button with active state</button>
+)
 ```
 
 It renders to:
@@ -151,7 +157,9 @@ Compiles to:
 When you use it:
 
 ```javascript
-<button className={classes.button}>Button</button>
+import React from 'react'
+
+const button = <button className={classes.button}>Button</button>
 ```
 
 It renders to:

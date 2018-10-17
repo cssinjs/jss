@@ -1,6 +1,7 @@
 module.exports = {
   extends: ['jss', 'prettier', 'prettier/react'],
   parser: 'babel-eslint',
+  plugins: ['markdown', 'flowtype'],
   rules: {
     'flowtype/define-flow-type': 1,
     'flowtype/use-flow-type': 1,
@@ -21,5 +22,18 @@ module.exports = {
     __VERSION__: true,
     CSS: true
   },
-  plugins: ['flowtype']
+  overrides: [
+    {
+      files: ['*.md'],
+      rules: {
+        'no-undef': 'off',
+        'no-unused-vars': 'off',
+        'import/no-unresolved': 'off',
+        'react/button-has-type': 'off',
+        'react/prop-types': 'off',
+        'jsx-a11y/label-has-for': 'off',
+        'jsx-a11y/label-has-associated-control': 'off'
+      }
+    }
+  ]
 }
