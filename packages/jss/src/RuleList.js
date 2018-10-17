@@ -71,11 +71,13 @@ export default class RuleList {
       options.selector = `.${escape(this.classes[key])}`
     }
 
+    // We need to save the original decl before creating the rule
+    // because cache plugin needs to use it as a key to return a cached rule.
+    this.raw[key] = decl
+
     const rule = createRule(key, decl, options)
 
     if (!rule) return null
-
-    this.raw[key] = decl
 
     let className
 
