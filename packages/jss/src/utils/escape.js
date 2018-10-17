@@ -1,5 +1,3 @@
-const CSS = (global.CSS: any)
-
 const env = process.env.NODE_ENV
 
 const escapeRegex = /([[\].#*$><+~=|^:(),"'`])/g
@@ -9,9 +7,9 @@ export default str => {
   // input for selectors, we are generating a valid selector.
   if (env === 'production') return str
 
-  if (!CSS || !CSS.escape) {
-    return str.replace(escapeRegex, '\\$1')
+  if (CSS && CSS.escape) {
+    return CSS.escape(str)
   }
 
-  return CSS.escape(str)
+  return str.replace(escapeRegex, '\\$1')
 }

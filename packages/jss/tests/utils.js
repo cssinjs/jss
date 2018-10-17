@@ -56,10 +56,6 @@ export function computeStyle(className) {
   return styleCopy
 }
 
-// Is true when Typed CSSOM is supported.
-// https://developers.google.com/web/updates/2018/03/cssom
-export const hasCSSTOMSupport = window.CSS && CSS.number
-
 export const createGenerateClassName = () => rule => `${rule.key}-id`
 
 // Make sure tests are isolated.

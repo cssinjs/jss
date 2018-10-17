@@ -1,6 +1,6 @@
 import expect from 'expect.js'
-import {create} from '../../src'
-import {createGenerateClassName, hasCSSTOMSupport, computeStyle} from '../utils'
+import {create, hasCSSTOMSupport} from '../../src'
+import {createGenerateClassName, computeStyle} from '../utils'
 
 describe('Functional: houdini', () => {
   if (!hasCSSTOMSupport) return

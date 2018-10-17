@@ -36,6 +36,7 @@ export default class PluginsRegistry {
         if (rule) return rule
       }
     }
+
     return null
   }
 
