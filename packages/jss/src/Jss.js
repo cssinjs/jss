@@ -3,12 +3,12 @@ import isInBrowser from 'is-in-browser'
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import sheets from './sheets'
-import {plugin as pluginViewport} from './plugins/viewportRule'
-import {KeyframesRule, plugin as pluginKeyframes} from './plugins/keyframesRule'
-import {StyleRule, plugin as pluginStyle} from './plugins/styleRule'
-import {plugin as pluginSimpleRule} from './plugins/simpleRule'
-import {plugin as pluginFontFaceRule} from './plugins/fontFaceRule'
+import {StyleRule, plugin as pluginStyleRule} from './plugins/styleRule'
 import {plugin as pluginConditionalRule} from './plugins/conditionalRule'
+import {KeyframesRule, plugin as pluginKeyframesRule} from './plugins/keyframesRule'
+import {plugin as pluginFontFaceRule} from './plugins/fontFaceRule'
+import {plugin as pluginViewportRule} from './plugins/viewportRule'
+import {plugin as pluginSimpleRule} from './plugins/simpleRule'
 import createGenerateClassNameDefault from './utils/createGenerateClassName'
 import createRule from './utils/createRule'
 import DomRenderer from './renderers/DomRenderer'
@@ -26,12 +26,12 @@ import type {
 } from './types'
 
 const defaultPlugins = [
-  pluginKeyframes,
-  pluginStyle,
-  pluginViewport,
-  pluginSimpleRule,
+  pluginStyleRule,
+  pluginConditionalRule,
+  pluginKeyframesRule,
   pluginFontFaceRule,
-  pluginConditionalRule
+  pluginViewportRule,
+  pluginSimpleRule
 ]
 
 let instanceCounter = 0
