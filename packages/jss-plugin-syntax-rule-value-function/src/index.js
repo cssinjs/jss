@@ -46,7 +46,6 @@ export default function functionPlugin() {
     onUpdate(data: Object, rule: Rule, sheet: StyleSheet, options: UpdateOptions) {
       const styleRule: StyleRule = (rule: any)
 
-      // $FlowFixMe
       const fnRule = styleRule[fnRuleNs]
 
       // If we have a style function, the entire rule is dynamic and style object
@@ -55,7 +54,6 @@ export default function functionPlugin() {
         styleRule.style = fnRule(data)
       }
 
-      // $FlowFixMe
       const fnValues = styleRule[fnValuesNs]
 
       // If we have a fn values map, it is a rule with function values.

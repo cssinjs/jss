@@ -120,7 +120,6 @@ function handleNestedGlobalContainerRule(rule) {
   if (!rules) return
 
   for (const name in rules) {
-    // $FlowFixMe: There is always a sheet in a StyleRule
     options.sheet.addRule(name, rules[name], {
       ...options,
       selector: addScope(name, rule.selector)
@@ -133,10 +132,9 @@ function handleNestedGlobalContainerRule(rule) {
 function handlePrefixedGlobalRule(rule) {
   const {options, style} = rule
   for (const prop in style) {
-    if (prop.substr(0, at.length) !== at) continue
+    if (prop[0] !== '@' || prop.substr(0, at.length) !== at) continue
 
     const selector = addScope(prop.substr(at.length), rule.selector)
-    // $FlowFixMe: There is always a sheet in a StyleRule
     options.sheet.addRule(selector, style[prop], {
       ...options,
       selector

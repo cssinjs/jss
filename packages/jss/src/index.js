@@ -8,12 +8,14 @@
  */
 import Jss from './Jss'
 import type StyleSheet from './StyleSheet'
-import type {ConditionalRule} from './plugins/conditionalRule'
-import type {KeyframesRule} from './plugins/keyframesRule'
-import type {StyleRule} from './plugins/styleRule'
-import type {ViewportRule} from './plugins/viewportRule'
-import type {SimpleRule} from './plugins/simpleRule'
-import type {FontFaceRule} from './plugins/fontFaceRule'
+import type {
+  ConditionalRule,
+  KeyframesRule,
+  StyleRule,
+  ViewportRule,
+  SimpleRule,
+  FontFaceRule
+} from './plugins'
 import type {JssOptions} from './types'
 
 /**
