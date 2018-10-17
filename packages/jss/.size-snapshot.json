@@ -15,7 +15,7 @@
     "gzipped": 6396
   },
   "dist/jss.esm.js": {
-    "bundled": 51507,
+    "bundled": 51648,
     "minified": 22424,
     "gzipped": 6308,
     "treeshaked": {

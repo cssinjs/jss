@@ -181,8 +181,10 @@ describe('Integration: plugins', () => {
   describe('onCreateRule', () => {
     let receivedName
     let receivedDecl
+    let rawStyle
     let receivedOptions
     let executed = 0
+    const style = {float: 'left'}
 
     beforeEach(() => {
       jss.use({
@@ -190,11 +192,12 @@ describe('Integration: plugins', () => {
           receivedName = name
           receivedDecl = decl
           receivedOptions = options
+          rawStyle = options.parent.rules.raw[name]
           executed++
         }
       })
       jss.createStyleSheet({
-        a: {float: 'left'}
+        a: style
       })
     })
 
@@ -206,6 +209,10 @@ describe('Integration: plugins', () => {
       expect(receivedName).to.be('a')
       expect(receivedDecl).to.eql({float: 'left'})
       expect(receivedOptions).to.be.an(Object)
+    })
+
+    it('should have referenced the raw decl before', () => {
+      expect(rawStyle).to.be(style)
     })
   })
 
