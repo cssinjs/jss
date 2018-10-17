@@ -87,13 +87,29 @@ const refRegExp = /\$([\w-]+)/
  */
 const replaceRef = (style: JssStyle, prop: string, keyframes: KeyframesMap) => {
   const value = style[prop]
-  if (typeof value !== 'string') return
-  const ref = refRegExp.exec(value)
-  if (!ref) return
-  if (ref[1] in keyframes) {
-    style[prop] = value.replace(ref[0], keyframes[ref[1]])
-  } else {
-    warning(false, '[JSS] Referenced keyframes rule "%s" is not defined.', ref[1])
+
+  if (Array.isArray(value)) {
+    for (let i = 0; i < value.length; i++) {
+      const ref = refRegExp.exec(value)
+
+      if (!ref) return
+
+      if (ref[1] in keyframes) {
+        style[prop] = value.replace(ref[0], keyframes[ref[1]])
+      } else {
+        warning(false, '[JSS] Referenced keyframes rule "%s" is not defined.', ref[1])
+      }
+    }
+  } else if (typeof value === 'string') {
+    const ref = refRegExp.exec(value)
+
+    if (!ref) return
+
+    if (ref[1] in keyframes) {
+      style[prop] = value.replace(ref[0], keyframes[ref[1]])
+    } else {
+      warning(false, '[JSS] Referenced keyframes rule "%s" is not defined.', ref[1])
+    }
   }
 }
 
