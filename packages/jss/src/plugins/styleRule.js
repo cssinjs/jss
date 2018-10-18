@@ -144,8 +144,6 @@ export class StyleRule implements BaseRule {
 }
 
 export const plugin = {
-  queue: 1,
-
   onCreateRule(name: string, style: JssStyle, options: RuleOptions): StyleRule | null {
     return name[0] === '@' ? null : new StyleRule(name, style, options)
   }

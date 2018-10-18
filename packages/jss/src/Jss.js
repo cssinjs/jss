@@ -3,7 +3,7 @@ import isInBrowser from 'is-in-browser'
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import sheets from './sheets'
-import {plugins as defaultPlugins, StyleRule, KeyframesRule} from './plugins/index'
+import {plugins as internalPlugins, StyleRule, KeyframesRule} from './plugins/index'
 import createGenerateClassNameDefault from './utils/createGenerateClassName'
 import createRule from './utils/createRule'
 import DomRenderer from './renderers/DomRenderer'
@@ -38,8 +38,9 @@ export default class Jss {
   generateClassName: GenerateClassName = createGenerateClassNameDefault()
 
   constructor(options?: JssOptions) {
-    // eslint-disable-next-line prefer-spread
-    this.use.apply(this, defaultPlugins)
+    for (let i = 0; i < internalPlugins.length; i++) {
+      this.plugins.use(internalPlugins[i], {queue: 'internal'})
+    }
     this.setup(options)
   }
 
@@ -131,11 +132,7 @@ export default class Jss {
    */
   use(...plugins: Array<Plugin>): this {
     plugins.forEach(plugin => {
-      // Avoids applying same plugin twice, at least based on ref.
-      if (this.options.plugins.indexOf(plugin) === -1) {
-        this.options.plugins.push(plugin)
-        this.plugins.use(plugin)
-      }
+      this.plugins.use(plugin)
     })
 
     return this

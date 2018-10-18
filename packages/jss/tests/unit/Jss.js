@@ -138,10 +138,6 @@ describe('Unit: jss', () => {
       jss.use(plugin)
     })
 
-    it('should add a plugin to options.plugins', () => {
-      expect(jss.options.plugins.pop()).to.be(plugin)
-    })
-
     it('should use a plugin', () => {
       expect(used).to.be(plugin)
     })

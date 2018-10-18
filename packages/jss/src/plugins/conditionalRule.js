@@ -80,8 +80,6 @@ export class ConditionalRule implements ContainerRule {
 const keyRegExp = /@media|@supports\s+/
 
 export const plugin = {
-  queue: 1,
-
   onCreateRule(key: string, styles: JssStyle, options: RuleOptions): ConditionalRule | null {
     return keyRegExp.test(key) ? new ConditionalRule(key, styles, options) : null
   }

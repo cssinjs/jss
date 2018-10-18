@@ -32,8 +32,6 @@ export class ViewportRule implements BaseRule {
 }
 
 export const plugin = {
-  queue: 1,
-
   onCreateRule(key: string, style: JssStyle, options: RuleOptions): ViewportRule | null {
     return key === '@viewport' || key === '@-ms-viewport'
       ? new ViewportRule(key, style, options)

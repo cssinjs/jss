@@ -45,8 +45,6 @@ const keysMap = {
 }
 
 export const plugin = {
-  queue: 1,
-
   onCreateRule(key: string, value: JssStyle, options: RuleOptions): SimpleRule | null {
     return key in keysMap ? new SimpleRule(key, ((value: any): string), options) : null
   }
