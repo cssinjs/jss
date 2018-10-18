@@ -101,27 +101,23 @@ export default class PluginsRegistry {
 
     plugins.push(newPlugin)
 
-    const nextRegistry = {
-      onCreateRule: [],
-      onProcessRule: [],
-      onProcessStyle: [],
-      onProcessSheet: [],
-      onChangeValue: [],
-      onUpdate: []
-    }
-
     this.registry = [...this.plugins.external, ...this.plugins.internal].reduce(
       (registry, plugin) => {
         for (const name in plugin) {
-          if (!(name in registry)) {
-            warning(false, '[JSS] Unknown hook "%s".', name)
-            continue
-          }
-          registry[name].push(plugin[name])
+          if (name in registry) {
+            registry[name].push(plugin[name])
+          } else warning(false, '[JSS] Unknown hook "%s".', name)
         }
         return registry
       },
-      nextRegistry
+      {
+        onCreateRule: [],
+        onProcessRule: [],
+        onProcessStyle: [],
+        onProcessSheet: [],
+        onChangeValue: [],
+        onUpdate: []
+      }
     )
   }
 }
