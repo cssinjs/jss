@@ -1,17 +1,28 @@
 /* @flow */
 import warning from 'warning'
 import type StyleSheet from './StyleSheet'
-import type {Plugin, Rule, RuleOptions, UpdateOptions, JssStyle} from './types'
-
-type Hooks = Array<Function>
+import type {
+  Plugin,
+  Rule,
+  RuleOptions,
+  UpdateOptions,
+  JssStyle,
+  OnCreateRule,
+  OnProcessRule,
+  OnProcessStyle,
+  OnProcessSheet,
+  OnChangeValue,
+  OnUpdate
+} from './types'
+import type {StyleRule} from './plugins/styleRule'
 
 type Registry = {
-  onCreateRule: Hooks,
-  onProcessRule: Hooks,
-  onProcessStyle: Hooks,
-  onProcessSheet: Hooks,
-  onChangeValue: Hooks,
-  onUpdate: Hooks
+  onCreateRule: Array<OnCreateRule>,
+  onProcessRule: Array<OnProcessRule>,
+  onProcessStyle: Array<OnProcessStyle>,
+  onProcessSheet: Array<OnProcessSheet>,
+  onChangeValue: Array<OnChangeValue>,
+  onUpdate: Array<OnUpdate>
 }
 
 export default class PluginsRegistry {
@@ -75,7 +86,7 @@ export default class PluginsRegistry {
   /**
    * Call `onUpdate` hooks.
    */
-  onUpdate(data: Object | void, rule: Rule, sheet: StyleSheet, options: UpdateOptions): void {
+  onUpdate(data: Object, rule: Rule, sheet: StyleSheet, options: UpdateOptions): void {
     for (let i = 0; i < this.registry.onUpdate.length; i++) {
       this.registry.onUpdate[i](data, rule, sheet, options)
     }
@@ -84,10 +95,12 @@ export default class PluginsRegistry {
   /**
    * Call `onChangeValue` hooks.
    */
-  onChangeValue(value: string, prop: string, rule: Rule): string {
+  onChangeValue(value: string, prop: string, rule: StyleRule): string | null | false {
     let processedValue = value
     for (let i = 0; i < this.registry.onChangeValue.length; i++) {
-      processedValue = this.registry.onChangeValue[i](processedValue, prop, rule)
+      if (processedValue) {
+        processedValue = this.registry.onChangeValue[i](processedValue, prop, rule)
+      }
     }
     return processedValue
   }

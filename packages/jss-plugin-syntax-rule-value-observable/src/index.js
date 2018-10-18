@@ -16,7 +16,7 @@ export type Options = UpdateOptions
 
 export default function observablePlugin(updateOptions?: Options) {
   return {
-    onCreateRule(name: string, decl: JssStyle, options: RuleOptions): Rule | null {
+    onCreateRule(name?: string, decl: JssStyle, options: RuleOptions): Rule | null {
       if (!isObservable(decl)) return null
 
       // Cast `decl` to `Observable`, since it passed the type guard.

@@ -18,7 +18,7 @@ type StyleRuleWithRuleFunction = StyleRule & {[key: string]: Function}
 
 export default function functionPlugin() {
   return {
-    onCreateRule(name: string, decl: JssStyle, options: RuleOptions): Rule | null {
+    onCreateRule(name?: string, decl: JssStyle, options: RuleOptions): Rule | null {
       if (typeof decl !== 'function') return null
       const rule: StyleRuleWithRuleFunction = (createRule(name, {}, options): any)
       rule[fnRuleNs] = decl

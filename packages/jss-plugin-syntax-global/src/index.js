@@ -151,6 +151,8 @@ function handlePrefixedGlobalRule(rule) {
  */
 export default function jssGlobal(): Plugin {
   function onCreateRule(name, styles, options) {
+    if (!name) return null
+
     if (name === at) {
       return new GlobalContainerRule(name, styles, options)
     }
