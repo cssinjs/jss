@@ -3,6 +3,17 @@ import warning from 'warning'
 import type StyleSheet from './StyleSheet'
 import type {Plugin, Rule, RuleOptions, UpdateOptions, JssStyle} from './types'
 
+type Hooks = Array<Function>
+
+type Registry = {
+  onCreateRule: Hooks,
+  onProcessRule: Hooks,
+  onProcessStyle: Hooks,
+  onProcessSheet: Hooks,
+  onChangeValue: Hooks,
+  onUpdate: Hooks
+}
+
 export default class PluginsRegistry {
   plugins: {
     internal: Array<Plugin>,
@@ -12,14 +23,7 @@ export default class PluginsRegistry {
     external: []
   }
 
-  registry: {
-    onCreateRule: Array<Function>,
-    onProcessRule: Array<Function>,
-    onProcessStyle: Array<Function>,
-    onProcessSheet: Array<Function>,
-    onChangeValue: Array<Function>,
-    onUpdate: Array<Function>
-  }
+  registry: Registry
 
   /**
    * Call `onCreateRule` hooks and return an object if returned by a hook.
@@ -102,7 +106,7 @@ export default class PluginsRegistry {
     plugins.push(newPlugin)
 
     this.registry = [...this.plugins.external, ...this.plugins.internal].reduce(
-      (registry, plugin) => {
+      (registry: Registry, plugin: Plugin) => {
         for (const name in plugin) {
           if (name in registry) {
             registry[name].push(plugin[name])
