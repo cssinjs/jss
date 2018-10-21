@@ -5,13 +5,13 @@ import {stripIndent} from 'common-tags'
 import {create} from '../../src'
 import {StyleRule} from '../../src/plugins/styleRule'
 import pluginKeyframes from '../../src/plugins/keyframesRule'
-import {createGenerateClassName} from '../utils'
+import {createGenerateId} from '../utils'
 
 describe('Integration: sheet', () => {
   let jss
 
   beforeEach(() => {
-    jss = create({createGenerateClassName})
+    jss = create({createGenerateId})
   })
 
   describe('.createStyleSheet()', () => {
@@ -57,10 +57,10 @@ describe('Integration: sheet', () => {
       expect(sheet.getRule('a').options.parent.rules.raw.a).to.be(styles.a)
     })
 
-    it('should allow generateClassName override', () => {
-      const generateClassName = () => {}
-      const sheet = jss.createStyleSheet(null, {generateClassName})
-      expect(sheet.options.generateClassName).to.be(generateClassName)
+    it('should allow generateId override', () => {
+      const generateId = () => {}
+      const sheet = jss.createStyleSheet(null, {generateId})
+      expect(sheet.options.generateId).to.be(generateId)
     })
   })
 
@@ -252,7 +252,7 @@ describe('Integration: sheet', () => {
     describe('class names of conditional rules', () => {
       let id
       const options = {
-        generateClassName: () => {
+        generateId: () => {
           id = `c${Math.random()
             .toString()
             .substr(2)}`

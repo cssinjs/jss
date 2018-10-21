@@ -7,7 +7,7 @@ import functionPlugin from 'jss-plugin-syntax-rule-value-function'
 import vendorPrefixer from './index'
 
 const settings = {
-  createGenerateClassName: () => rule => `${rule.key}-id`
+  createGenerateId: () => rule => `${rule.key}-id`
 }
 
 const isIE9 = browser.name === 'ie' && browser.version === '9.0.0'

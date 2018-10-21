@@ -6,7 +6,7 @@ import nested from 'jss-plugin-syntax-nested'
 import global from './index'
 
 const settings = {
-  createGenerateClassName: () => rule => `${rule.key}-id`
+  createGenerateId: () => rule => `${rule.key}-id`
 }
 
 describe('jss-global', () => {

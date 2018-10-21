@@ -8,7 +8,7 @@ import DomRenderer from '../../src/renderers/DomRenderer'
 import stylePlugin from '../../src/plugins/styleRule'
 import escape from '../../src/utils/escape'
 import {
-  createGenerateClassName,
+  createGenerateId,
   computeStyle,
   getStyle,
   getCss,
@@ -17,7 +17,7 @@ import {
   removeVendorPrefixes
 } from '../utils'
 
-const settings = {createGenerateClassName}
+const settings = {createGenerateId}
 
 const isKeyframesSupported = 'animationName' in document.body.style
 

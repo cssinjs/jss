@@ -7,7 +7,7 @@ import template from '.'
 import parse from './parse'
 
 const settings = {
-  createGenerateClassName: () => rule => `${rule.key}-id`
+  createGenerateId: () => rule => `${rule.key}-id`
 }
 
 describe('jss-template', () => {

@@ -4,7 +4,7 @@ import {create} from 'jss'
 import pluginNested from '../../jss-plugin-syntax-nested'
 import pluginFunction from '.'
 
-const settings = {createGenerateClassName: () => rule => `${rule.key}-id`}
+const settings = {createGenerateId: () => rule => `${rule.key}-id`}
 
 describe('jss-plugin-syntax-rule-value-function: plugin-nested', () => {
   let jss

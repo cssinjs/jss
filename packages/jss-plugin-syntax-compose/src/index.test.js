@@ -4,7 +4,7 @@ import expect from 'expect.js'
 import {create} from 'jss'
 import compose from '.'
 
-const settings = {createGenerateClassName: () => rule => `${rule.key}-id`}
+const settings = {createGenerateId: () => rule => `${rule.key}-id`}
 
 describe('jss-plugin-syntax-compose', () => {
   let jss

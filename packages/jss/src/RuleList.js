@@ -55,14 +55,14 @@ export default class RuleList {
    * Will not render after Style Sheet was rendered the first time.
    */
   add(key: string, decl: JssStyle, ruleOptions?: RuleOptions): Rule | null {
-    const {parent, sheet, jss, Renderer, generateClassName, scoped} = this.options
+    const {parent, sheet, jss, Renderer, generateId, scoped} = this.options
     const options = {
       classes: this.classes,
       parent,
       sheet,
       jss,
       Renderer,
-      generateClassName,
+      generateId,
       scoped,
       ...ruleOptions
     }

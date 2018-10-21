@@ -2,14 +2,14 @@ import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import {create} from '../../src'
 import StyleSheet from '../../src/StyleSheet'
-import {createGenerateClassName} from '../utils'
+import {createGenerateId} from '../utils'
 import PluginsRegistry from '../../src/PluginsRegistry'
 
 describe('Integration: plugins', () => {
   let jss
 
   beforeEach(() => {
-    jss = create({createGenerateClassName})
+    jss = create({createGenerateId})
   })
 
   describe('common', () => {
@@ -83,7 +83,7 @@ describe('Integration: plugins', () => {
 
     it('should run user-defined plugins in .setup() first, internal second', () => {
       jss = create({
-        createGenerateClassName,
+        createGenerateId,
         plugins: [
           {
             onProcessStyle(style) {
@@ -118,7 +118,7 @@ describe('Integration: plugins', () => {
     })
 
     it('should run user-defined plugins in .use() first, internal second', () => {
-      jss = create({createGenerateClassName}).use({
+      jss = create({createGenerateId}).use({
         onProcessStyle(style) {
           if ('animationName' in style) {
             return {'animation-name': style.animationName}

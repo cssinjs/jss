@@ -1,6 +1,6 @@
 /* @flow */
 import warning from 'warning'
-import type {Rule, GenerateClassName} from '../types'
+import type {Rule, GenerateId} from '../types'
 import StyleSheet from '../StyleSheet'
 import moduleId from './moduleId'
 
@@ -13,7 +13,7 @@ const env = process.env.NODE_ENV
  * When new generator function is created, rule counter is reseted.
  * We need to reset the rule counter for SSR for each request.
  */
-export default (): GenerateClassName => {
+export default (): GenerateId => {
   let ruleCounter = 0
   const defaultPrefix = env === 'production' ? 'c' : ''
 

@@ -89,11 +89,11 @@ export class StyleRule extends BaseStyleRule {
 
   constructor(key: string, style: JssStyle, options: RuleOptions) {
     super(key, style, options)
-    const {selector, scoped, sheet, generateClassName} = options
+    const {selector, scoped, sheet, generateId} = options
     if (selector) {
       this.selectorText = selector
     } else if (scoped !== false) {
-      this.id = generateClassName(this, sheet)
+      this.id = generateId(this, sheet)
       this.selectorText = `.${escape(this.id)}`
     }
   }

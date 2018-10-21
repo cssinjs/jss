@@ -4,7 +4,7 @@ import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import sheets from './sheets'
 import {plugins as internalPlugins} from './plugins/index'
-import createGenerateClassNameDefault from './utils/createGenerateClassName'
+import createGenerateIdDefault from './utils/createGenerateId'
 import createRule from './utils/createRule'
 import DomRenderer from './renderers/DomRenderer'
 import VirtualRenderer from './renderers/VirtualRenderer'
@@ -17,7 +17,7 @@ import type {
   JssOptions,
   InternalJssOptions,
   JssStyle,
-  GenerateClassName
+  GenerateId
 } from './types'
 
 let instanceCounter = 0
@@ -30,12 +30,12 @@ export default class Jss {
   plugins = new PluginsRegistry()
 
   options: InternalJssOptions = {
-    createGenerateClassName: createGenerateClassNameDefault,
+    createGenerateId: createGenerateIdDefault,
     Renderer: isInBrowser ? DomRenderer : VirtualRenderer,
     plugins: []
   }
 
-  generateClassName: GenerateClassName = createGenerateClassNameDefault()
+  generateId: GenerateId = createGenerateIdDefault()
 
   constructor(options?: JssOptions) {
     for (let i = 0; i < internalPlugins.length; i++) {
@@ -50,10 +50,10 @@ export default class Jss {
    * deduplication logic.
    */
   setup(options?: JssOptions = {}): this {
-    if (options.createGenerateClassName) {
-      this.options.createGenerateClassName = options.createGenerateClassName
+    if (options.createGenerateId) {
+      this.options.createGenerateId = options.createGenerateId
       // $FlowFixMe
-      this.generateClassName = options.createGenerateClassName()
+      this.generateId = options.createGenerateId()
     }
 
     if (options.insertionPoint != null) this.options.insertionPoint = options.insertionPoint
@@ -78,7 +78,7 @@ export default class Jss {
     const sheet = new StyleSheet(styles, {
       ...options,
       jss: this,
-      generateClassName: options.generateClassName || this.generateClassName,
+      generateId: options.generateId || this.generateId,
       insertionPoint: this.options.insertionPoint,
       Renderer: this.options.Renderer,
       index
@@ -108,7 +108,7 @@ export default class Jss {
 
     const ruleOptions: RuleOptions = {...options, jss: this, Renderer: this.options.Renderer}
 
-    if (!ruleOptions.generateClassName) ruleOptions.generateClassName = this.generateClassName
+    if (!ruleOptions.generateId) ruleOptions.generateId = this.generateId
     if (!ruleOptions.classes) ruleOptions.classes = {}
     if (!ruleOptions.keyframes) ruleOptions.keyframes = {}
 

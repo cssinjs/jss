@@ -27,7 +27,7 @@ export type {
   JssOptions,
   JssStyle,
   Plugin,
-  GenerateClassName,
+  GenerateId,
   RuleListOptions,
   Rule,
   Renderer,
@@ -93,7 +93,7 @@ export {default as sheets} from './sheets'
 /**
  * Class name generator creator.
  */
-export {default as createGenerateClassName} from './utils/createGenerateClassName'
+export {default as createGenerateId} from './utils/createGenerateId'
 
 /**
  * Creates a new instance of Jss.

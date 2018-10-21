@@ -9,7 +9,7 @@ import functionPlugin from 'jss-plugin-syntax-rule-value-function'
 import defaultUnit from './index'
 
 const settings = {
-  createGenerateClassName: () => rule => `${rule.key}-id`
+  createGenerateId: () => rule => `${rule.key}-id`
 }
 
 describe('jss-plugin-syntax-default-unit', () => {

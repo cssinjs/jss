@@ -30,25 +30,25 @@ describe('Unit: jss', () => {
       expect(jss.version).to.be.a('string')
     })
 
-    it('should provide .generateClassName method', () => {
-      expect(jss.generateClassName).to.be.a(Function)
+    it('should provide .generateId method', () => {
+      expect(jss.generateId).to.be.a(Function)
     })
 
     it('should have correct .options', () => {
       expect(jss.options).to.be.an(Object)
-      expect(jss.options.createGenerateClassName).to.be.a(Function)
+      expect(jss.options.createGenerateId).to.be.a(Function)
       expect(jss.options.Renderer).to.be(DomRenderer)
       expect(jss.options.plugins).to.be.an(Array)
     })
   })
 
   describe('.setup()', () => {
-    it('should setup generateClassName', () => {
-      const generateClassName = () => null
-      const createGenerateClassName = () => generateClassName
-      jss.setup({createGenerateClassName})
-      expect(jss.options.createGenerateClassName).to.be(createGenerateClassName)
-      expect(jss.generateClassName).to.be(generateClassName)
+    it('should setup generateId', () => {
+      const generateId = () => null
+      const createGenerateId = () => generateId
+      jss.setup({createGenerateId})
+      expect(jss.options.createGenerateId).to.be(createGenerateId)
+      expect(jss.generateId).to.be(generateId)
     })
 
     it('should setup insertionPoint', () => {

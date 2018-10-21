@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 export default {
   jss: PropTypes.shape({
     options: PropTypes.shape({
-      createGenerateClassName: PropTypes.func.isRequired
+      createGenerateId: PropTypes.func.isRequired
     }).isRequired,
     createStyleSheet: PropTypes.func.isRequired,
     removeStyleSheet: PropTypes.func.isRequired

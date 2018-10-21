@@ -52,7 +52,7 @@ export type Rule =
   | ViewportRule
   | BaseRule
 
-export type GenerateClassName = (rule: Rule, sheet?: StyleSheet) => string
+export type GenerateId = (rule: Rule, sheet?: StyleSheet) => string
 
 // TODO
 // Find a way to declare all types: Object|string|Array<Object>
@@ -89,7 +89,7 @@ export type RuleFactoryOptions = {
   sheet?: StyleSheet,
   index?: number,
   jss?: Jss,
-  generateClassName?: GenerateClassName,
+  generateId?: GenerateId,
   Renderer?: Class<Renderer>
 }
 
@@ -107,7 +107,7 @@ export type RuleOptions = {
   classes: Classes,
   keyframes: KeyframesMap,
   jss: Jss,
-  generateClassName: GenerateClassName,
+  generateId: GenerateId,
   Renderer: Class<Renderer>
 }
 
@@ -115,7 +115,7 @@ export type RuleListOptions = {
   classes: Classes,
   scoped?: boolean,
   keyframes: KeyframesMap,
-  generateClassName: GenerateClassName,
+  generateId: GenerateId,
   Renderer: Class<Renderer>,
   jss: Jss,
   sheet: StyleSheet,
@@ -140,10 +140,10 @@ export type Plugin = {
 
 export type InsertionPoint = string | HTMLElement
 
-type CreateGenerateClassName = () => GenerateClassName
+type CreateGenerateId = () => GenerateId
 
 export type JssOptions = {
-  createGenerateClassName?: CreateGenerateClassName,
+  createGenerateId?: CreateGenerateId,
   plugins?: Array<Plugin>,
   insertionPoint?: InsertionPoint,
   Renderer?: Class<Renderer>,
@@ -151,7 +151,7 @@ export type JssOptions = {
 }
 
 export type InternalJssOptions = {
-  createGenerateClassName: CreateGenerateClassName,
+  createGenerateId: CreateGenerateId,
   plugins: Array<Plugin>,
   insertionPoint?: InsertionPoint,
   Renderer: Class<Renderer>
@@ -163,7 +163,7 @@ export type StyleSheetFactoryOptions = {
   index?: number,
   link?: boolean,
   element?: HTMLStyleElement,
-  generateClassName?: GenerateClassName,
+  generateId?: GenerateId,
   classNamePrefix?: string
 }
 
@@ -173,7 +173,7 @@ export type StyleSheetOptions = {
   link?: boolean,
   element?: HTMLStyleElement,
   index: number,
-  generateClassName: GenerateClassName,
+  generateId: GenerateId,
   classNamePrefix?: string,
   Renderer: Class<Renderer>,
   insertionPoint?: InsertionPoint,
@@ -188,7 +188,7 @@ export type InternalStyleSheetOptions = {
   index: number,
   insertionPoint?: InsertionPoint,
   Renderer: Class<Renderer>,
-  generateClassName: GenerateClassName,
+  generateId: GenerateId,
   classNamePrefix?: string,
   jss: Jss,
   sheet: StyleSheet,

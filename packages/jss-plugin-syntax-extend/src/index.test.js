@@ -10,7 +10,7 @@ import {create} from 'jss'
 import extend from './index'
 
 const settings = {
-  createGenerateClassName: () => rule => `${rule.key}-id`
+  createGenerateId: () => rule => `${rule.key}-id`
 }
 
 describe('jss-plugin-syntax-extend', () => {

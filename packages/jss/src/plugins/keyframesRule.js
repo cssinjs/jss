@@ -52,7 +52,7 @@ export class KeyframesRule implements ContainerRule {
     this.key = `${this.type}-${this.name}`
 
     const {scoped, sheet} = options
-    this.id = scoped === false ? this.name : options.generateClassName(this, sheet)
+    this.id = scoped === false ? this.name : options.generateId(this, sheet)
     this.options = options
     this.rules = new RuleList({...options, parent: this})
 

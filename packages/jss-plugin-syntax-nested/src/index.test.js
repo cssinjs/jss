@@ -8,7 +8,7 @@ import functionPlugin from 'jss-plugin-syntax-rule-value-function'
 import nested from '.'
 
 const settings = {
-  createGenerateClassName: () => rule => `${rule.key}-id`
+  createGenerateId: () => rule => `${rule.key}-id`
 }
 
 describe('jss-plugin-syntax-nested', () => {
