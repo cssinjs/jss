@@ -101,13 +101,15 @@ export default function jssExtend(): Plugin {
       return null
     }
 
-    // $FlowFixMe: This will be an object
-    for (const key in value) {
-      rule.prop(key, value[key])
-    }
+    if (typeof value === 'object') {
+      // $FlowFixMe: This will be an object
+      for (const key in value) {
+        rule.prop(key, value[key])
+      }
 
-    // $FlowFixMe: Flow complains because there is no indexer property in StyleRule
-    rule[valueNs] = value
+      // $FlowFixMe: Flow complains because there is no indexer property in StyleRule
+      rule[valueNs] = value
+    }
 
     // Make sure we don't set the value in the core.
     return null

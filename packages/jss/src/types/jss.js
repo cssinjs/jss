@@ -62,6 +62,7 @@ export type JssValue =
   | string
   | number
   | Array<string | number | Array<string | number> | '!important'>
+  | Object
   | null
   | false
 
@@ -123,7 +124,7 @@ export type OnCreateRule = (name?: string, decl: JssStyle, options: RuleOptions)
 export type OnProcessRule = (rule: Rule, sheet?: StyleSheet) => void
 export type OnProcessStyle = (style: JssStyle, rule: Rule, sheet?: StyleSheet) => JssStyle
 export type OnProcessSheet = (sheet?: StyleSheet) => void
-export type OnChangeValue = (value: string, prop: string, rule: StyleRule) => string | null | false
+export type OnChangeValue = (value: JssValue, prop: string, rule: StyleRule) => JssValue
 export type OnUpdate = (data: Object, rule: Rule, sheet: StyleSheet, options: UpdateOptions) => void
 
 export type Plugin = {

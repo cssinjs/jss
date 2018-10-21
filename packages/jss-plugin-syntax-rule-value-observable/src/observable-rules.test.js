@@ -3,8 +3,8 @@ import {stripIndent} from 'common-tags'
 import Observable from 'zen-observable'
 
 import {create} from 'jss'
-import pluginDefaultUnit from '../../jss-plugin-syntax-default-unit'
-import pluginCamelCase from '../../jss-plugin-syntax-camel-case'
+import pluginDefaultUnit from 'jss-plugin-syntax-default-unit'
+import pluginCamelCase from 'jss-plugin-syntax-camel-case'
 import pluginObservable from '.'
 
 const settings = {createGenerateClassName: () => rule => `${rule.key}-id`}

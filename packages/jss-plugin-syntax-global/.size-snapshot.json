@@ -1,23 +1,23 @@
 {
   "dist/jss-plugin-syntax-global.js": {
-    "bundled": 5401,
-    "minified": 2225,
-    "gzipped": 917
+    "bundled": 5336,
+    "minified": 2255,
+    "gzipped": 928
   },
   "dist/jss-plugin-syntax-global.min.js": {
-    "bundled": 5401,
-    "minified": 2225,
-    "gzipped": 917
+    "bundled": 5336,
+    "minified": 2255,
+    "gzipped": 928
   },
   "dist/jss-plugin-syntax-global.cjs.js": {
-    "bundled": 4592,
-    "minified": 2300,
-    "gzipped": 889
+    "bundled": 4527,
+    "minified": 2330,
+    "gzipped": 898
   },
   "dist/jss-plugin-syntax-global.esm.js": {
-    "bundled": 4380,
-    "minified": 2139,
-    "gzipped": 806,
+    "bundled": 4315,
+    "minified": 2169,
+    "gzipped": 814,
     "treeshaked": {
       "rollup": {
         "code": 55,

@@ -31,6 +31,7 @@ function iterate(prop, value, options) {
 
   if (Array.isArray(value)) {
     for (let i = 0; i < value.length; i++) {
+      // $FlowFixMe
       value[i] = iterate(prop, value[i], options)
     }
   } else if (typeof value === 'object') {
@@ -79,6 +80,7 @@ export default function defaultUnit(options: Options = {}): Plugin {
   }
 
   function onChangeValue(value, prop) {
+    // $FlowFixMe
     return iterate(prop, value, camelCasedOptions)
   }
 

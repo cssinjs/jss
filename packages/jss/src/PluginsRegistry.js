@@ -7,6 +7,7 @@ import type {
   RuleOptions,
   UpdateOptions,
   JssStyle,
+  JssValue,
   OnCreateRule,
   OnProcessRule,
   OnProcessStyle,
@@ -95,12 +96,10 @@ export default class PluginsRegistry {
   /**
    * Call `onChangeValue` hooks.
    */
-  onChangeValue(value: string, prop: string, rule: StyleRule): string | null | false {
+  onChangeValue(value: JssValue, prop: string, rule: StyleRule): JssValue {
     let processedValue = value
     for (let i = 0; i < this.registry.onChangeValue.length; i++) {
-      if (processedValue) {
-        processedValue = this.registry.onChangeValue[i](processedValue, prop, rule)
-      }
+      processedValue = this.registry.onChangeValue[i](processedValue, prop, rule)
     }
     return processedValue
   }
