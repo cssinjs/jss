@@ -1,9 +1,11 @@
 /* @flow */
 import toCss from '../utils/toCss'
-import type {JssStyle, RuleOptions, ToCssOptions} from '../types'
+import type {JssStyle, RuleOptions, ToCssOptions, CSSKeyframeRule} from '../types'
 import {BaseStyleRule} from './styleRule'
 
 export class KeyframeRule extends BaseStyleRule {
+  renderable: ?CSSKeyframeRule
+
   /**
    * Generates a CSS string.
    */

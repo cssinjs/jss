@@ -25,7 +25,7 @@ export class BaseStyleRule implements BaseRule {
 
   renderer: RendererInterface
 
-  renderable: ?CSSStyleRule
+  renderable: ?Object
 
   options: RuleOptions
 
@@ -84,6 +84,8 @@ export class StyleRule extends BaseStyleRule {
   selectorText: string
 
   id: ?string
+
+  renderable: ?CSSStyleRule
 
   constructor(key: string, style: JssStyle, options: RuleOptions) {
     super(key, style, options)
