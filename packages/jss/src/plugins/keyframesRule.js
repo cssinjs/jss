@@ -100,7 +100,7 @@ const replaceRef = (style: JssStyle, prop: string, keyframes: KeyframesMap) => {
   }
 }
 
-export const plugin = {
+export default {
   onCreateRule(key: string, frames: JssStyle, options: RuleOptions): KeyframesRule | null {
     return keyRegExp.test(key) ? new KeyframesRule(key, frames, options) : null
   },

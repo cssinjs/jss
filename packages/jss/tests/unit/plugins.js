@@ -1,6 +1,6 @@
 import expect from 'expect.js'
 import {plugins} from '../../src/plugins'
-import {plugin} from '../../src/plugins/styleRule'
+import plugin from '../../src/plugins/styleRule'
 
 describe('Unit: jss - plugins', () => {
   describe('First plugin should be style rule for perf opt', () => {

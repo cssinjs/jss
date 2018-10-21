@@ -144,7 +144,7 @@ export class StyleRule extends BaseStyleRule {
   }
 }
 
-export const plugin = {
+export default {
   onCreateRule(name: string, style: JssStyle, options: RuleOptions): StyleRule | null {
     if (name[0] === '@' || (options.parent && options.parent.type === 'keyframes')) {
       return null

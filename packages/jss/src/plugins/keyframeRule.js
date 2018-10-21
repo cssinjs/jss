@@ -15,7 +15,7 @@ export class KeyframeRule extends BaseStyleRule {
   }
 }
 
-export const plugin = {
+export default {
   onCreateRule(key: string, style: JssStyle, options: RuleOptions): KeyframeRule | null {
     if (options.parent && options.parent.type === 'keyframes') {
       return new KeyframeRule(key, style, options)

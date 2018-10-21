@@ -40,7 +40,7 @@ export class FontFaceRule implements BaseRule {
   }
 }
 
-export const plugin = {
+export default {
   onCreateRule(key: string, style: JssStyle, options: RuleOptions): FontFaceRule | null {
     return key === '@font-face' ? new FontFaceRule(key, style, options) : null
   }

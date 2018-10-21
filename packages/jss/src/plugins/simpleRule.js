@@ -44,7 +44,7 @@ const keysMap = {
   '@namespace': true
 }
 
-export const plugin = {
+export default {
   onCreateRule(key: string, value: JssStyle, options: RuleOptions): SimpleRule | null {
     return key in keysMap ? new SimpleRule(key, ((value: any): string), options) : null
   }
