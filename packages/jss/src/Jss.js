@@ -3,7 +3,7 @@ import isInBrowser from 'is-in-browser'
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import sheets from './sheets'
-import {plugins as internalPlugins, StyleRule, KeyframesRule} from './plugins/index'
+import {plugins as internalPlugins} from './plugins/index'
 import createGenerateClassNameDefault from './utils/createGenerateClassName'
 import createRule from './utils/createRule'
 import DomRenderer from './renderers/DomRenderer'
@@ -111,22 +111,10 @@ export default class Jss {
     if (!ruleOptions.generateClassName) ruleOptions.generateClassName = this.generateClassName
     if (!ruleOptions.classes) ruleOptions.classes = {}
     if (!ruleOptions.keyframes) ruleOptions.keyframes = {}
+
     const rule = createRule(name, style, ruleOptions)
 
-    if (!rule) return null
-    if (ruleOptions.scoped !== false) {
-      if (!ruleOptions.selector && rule instanceof StyleRule) {
-        ruleOptions.selector = `.${ruleOptions.generateClassName(rule)}`
-      }
-
-      if (rule instanceof KeyframesRule) {
-        rule.id = ruleOptions.generateClassName(rule)
-      }
-    }
-
-    if (ruleOptions.selector && rule instanceof StyleRule) rule.selectorText = ruleOptions.selector
-
-    this.plugins.onProcessRule(rule)
+    if (rule) this.plugins.onProcessRule(rule)
 
     return rule
   }

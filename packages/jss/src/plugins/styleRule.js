@@ -2,6 +2,7 @@
 import warning from 'warning'
 import toCss from '../utils/toCss'
 import toCssValue from '../utils/toCssValue'
+import escape from '../utils/escape'
 import type {
   CSSStyleRule,
   ToCssOptions,
@@ -81,6 +82,19 @@ export class BaseStyleRule implements BaseRule {
 
 export class StyleRule extends BaseStyleRule {
   selectorText: string
+
+  id: ?string
+
+  constructor(key: string, style: JssStyle, options: RuleOptions) {
+    super(key, style, options)
+    const {selector, scoped, sheet, generateClassName} = options
+    if (selector) {
+      this.selectorText = selector
+    } else if (scoped !== false) {
+      this.id = generateClassName(this, sheet)
+      this.selectorText = `.${escape(this.id)}`
+    }
+  }
 
   /**
    * Set selector string.

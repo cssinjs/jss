@@ -72,27 +72,16 @@ export default class RuleList {
     // because cache plugin needs to use it as a key to return a cached rule.
     this.raw[key] = decl
 
+    if (key in this.classes) {
+      // For e.g. rules inside of @media container
+      options.selector = `.${escape(this.classes[key])}`
+    }
+
     const rule = createRule(key, decl, options)
 
     if (!rule) return null
 
-    let className
-
-    if (rule instanceof StyleRule) {
-      if (options.selector) {
-        rule.selectorText = options.selector
-      } else if (key in this.classes) {
-        // For e.g. rules inside of @media container
-        rule.selectorText = `.${escape(this.classes[key])}`
-      } else {
-        className = generateClassName(rule, sheet)
-        rule.selectorText = `.${escape(className)}`
-      }
-    } else if (rule instanceof KeyframesRule && options.scoped !== false) {
-      rule.id = generateClassName(rule, sheet)
-    }
-
-    this.register(rule, className)
+    this.register(rule)
 
     const index = options.index === undefined ? this.index.length : options.index
     this.index.splice(index, 0, rule)
@@ -136,11 +125,11 @@ export default class RuleList {
   /**
    * Register a rule in `.map` and `.classes` maps.
    */
-  register(rule: Rule, className?: string): void {
+  register(rule: Rule): void {
     this.map[rule.key] = rule
     if (rule instanceof StyleRule) {
       this.map[rule.selector] = rule
-      if (className) this.classes[rule.key] = className
+      if (rule.id) this.classes[rule.key] = rule.id
     } else if (rule instanceof KeyframesRule && this.keyframes) {
       this.keyframes[rule.name] = rule.id
     }
