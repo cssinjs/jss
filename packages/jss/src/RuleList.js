@@ -1,7 +1,6 @@
 /* @flow */
 import createRule from './utils/createRule'
-import {StyleRule} from './plugins/styleRule'
-import {KeyframesRule} from './plugins/keyframesRule'
+import {StyleRule, KeyframesRule} from './plugins/index'
 import type {
   RuleListOptions,
   ToCssOptions,
