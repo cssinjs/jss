@@ -33,7 +33,7 @@ class GlobalContainerRule implements ContainerRule {
     })
 
     for (const selector in styles) {
-      this.rules.add(selector, styles[selector], {selector})
+      this.rules.add(selector, styles[selector])
     }
 
     this.rules.process()
@@ -91,8 +91,7 @@ class GlobalPrefixedRule implements BaseRule {
     const selector = name.substr(atPrefix.length)
     this.rule = options.jss.createRule(selector, style, {
       ...options,
-      parent: this,
-      selector
+      parent: this
     })
   }
 
@@ -168,13 +167,13 @@ export default function jssGlobal(): Plugin {
         parent.type === 'global' ||
         (parent.options.parent && parent.options.parent.type === 'global')
       ) {
-        // $FlowFixMe: Flow doesn't want the global property because it doesn't exist in the RuleOptions
-        options.global = true
+        options.scoped = false
       }
     }
 
-    // $FlowFixMe: Flow doesn't want the global property because it doesn't exist in the RuleOptions
-    if (options.global) options.selector = name
+    if (options.scoped === false) {
+      options.selector = name
+    }
 
     return null
   }

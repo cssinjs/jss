@@ -56,7 +56,7 @@ export default class RuleList {
    * Will not render after Style Sheet was rendered the first time.
    */
   add(key: string, decl: JssStyle, ruleOptions?: RuleOptions): Rule | null {
-    const {parent, sheet, jss, Renderer, generateClassName} = this.options
+    const {parent, sheet, jss, Renderer, generateClassName, scoped} = this.options
     const options = {
       classes: this.classes,
       parent,
@@ -64,11 +64,8 @@ export default class RuleList {
       jss,
       Renderer,
       generateClassName,
+      scoped,
       ...ruleOptions
-    }
-
-    if (!options.selector && this.classes[key]) {
-      options.selector = `.${escape(this.classes[key])}`
     }
 
     // We need to save the original decl before creating the rule
@@ -81,12 +78,17 @@ export default class RuleList {
 
     let className
 
-    if (!options.selector && rule instanceof StyleRule) {
-      className = generateClassName(rule, sheet)
-      rule.selectorText = `.${escape(className)}`
-    }
-
-    if (rule instanceof KeyframesRule) {
+    if (rule instanceof StyleRule) {
+      if (options.selector) {
+        rule.selectorText = options.selector
+      } else if (key in this.classes) {
+        // For e.g. rules inside of @media container
+        rule.selectorText = `.${escape(this.classes[key])}`
+      } else {
+        className = generateClassName(rule, sheet)
+        rule.selectorText = `.${escape(className)}`
+      }
+    } else if (rule instanceof KeyframesRule && options.scoped !== false) {
       rule.id = generateClassName(rule, sheet)
     }
 
@@ -139,7 +141,7 @@ export default class RuleList {
     if (rule instanceof StyleRule) {
       this.map[rule.selector] = rule
       if (className) this.classes[rule.key] = className
-    } else if (rule instanceof KeyframesRule) {
+    } else if (rule instanceof KeyframesRule && this.keyframes) {
       this.keyframes[rule.name] = rule.id
     }
   }

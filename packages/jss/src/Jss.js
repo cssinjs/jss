@@ -110,17 +110,21 @@ export default class Jss {
 
     if (!ruleOptions.generateClassName) ruleOptions.generateClassName = this.generateClassName
     if (!ruleOptions.classes) ruleOptions.classes = {}
+    if (!ruleOptions.keyframes) ruleOptions.keyframes = {}
     const rule = createRule(name, style, ruleOptions)
 
     if (!rule) return null
+    if (ruleOptions.scoped !== false) {
+      if (!ruleOptions.selector && rule instanceof StyleRule) {
+        ruleOptions.selector = `.${ruleOptions.generateClassName(rule)}`
+      }
 
-    if (!ruleOptions.selector && rule instanceof StyleRule) {
-      rule.selector = `.${ruleOptions.generateClassName(rule)}`
+      if (rule instanceof KeyframesRule) {
+        rule.id = ruleOptions.generateClassName(rule)
+      }
     }
 
-    if (rule instanceof KeyframesRule) {
-      rule.id = ruleOptions.generateClassName(rule)
-    }
+    if (ruleOptions.selector && rule instanceof StyleRule) rule.selectorText = ruleOptions.selector
 
     this.plugins.onProcessRule(rule)
 

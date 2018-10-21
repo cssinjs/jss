@@ -56,9 +56,8 @@ export class KeyframesRule implements ContainerRule {
 
     for (const name in frames) {
       this.rules.add(name, frames[name], {
-        ...this.options,
-        parent: this,
-        selector: name
+        ...options,
+        parent: this
       })
     }
 

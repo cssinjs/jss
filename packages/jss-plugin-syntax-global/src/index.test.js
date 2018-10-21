@@ -39,7 +39,7 @@ describe('jss-global', () => {
     })
   })
 
-  describe.skip('@global root container with @keyframes', () => {
+  describe('@global root container with @keyframes', () => {
     let sheet
 
     beforeEach(() => {
@@ -86,6 +86,34 @@ describe('jss-global', () => {
 
     it('should generate correct CSS', () => {
       expect(sheet.toString()).to.be('body {\n  color: red;\n}')
+    })
+  })
+
+  describe('@global root prefix with keyframes', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet({
+        '@global @keyframes a': {
+          to: {
+            width: '100%'
+          }
+        }
+      })
+    })
+
+    it('should add rules', () => {
+      expect(sheet.getRule('keyframes-a')).to.be(undefined)
+    })
+
+    it('should generate correct CSS', () => {
+      expect(sheet.toString()).to.be(stripIndent`
+        @keyframes a {
+          to {
+            width: 100%;
+          }
+        }
+      `)
     })
   })
 

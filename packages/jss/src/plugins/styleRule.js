@@ -13,7 +13,7 @@ import type {
   BaseRule
 } from '../types'
 
-export class StyleRule implements BaseRule {
+export class BaseStyleRule implements BaseRule {
   type = 'style'
 
   key: string
@@ -22,8 +22,6 @@ export class StyleRule implements BaseRule {
 
   style: JssStyle
 
-  selectorText: string
-
   renderer: RendererInterface
 
   renderable: ?CSSStyleRule
@@ -31,45 +29,17 @@ export class StyleRule implements BaseRule {
   options: RuleOptions
 
   constructor(key: string, style: JssStyle, options: RuleOptions) {
-    const {sheet, Renderer, selector} = options
+    const {sheet, Renderer} = options
     this.key = key
     this.options = options
     this.style = style
-    if (selector) this.selectorText = selector
     this.renderer = sheet ? sheet.renderer : new Renderer()
-  }
-
-  /**
-   * Set selector string.
-   * Attention: use this with caution. Most browsers didn't implement
-   * selectorText setter, so this may result in rerendering of entire Style Sheet.
-   */
-  set selector(selector: string): void {
-    if (selector === this.selectorText) return
-
-    this.selectorText = selector
-
-    if (!this.renderable) return
-
-    const hasChanged = this.renderer.setSelector(this.renderable, selector)
-
-    // If selector setter is not implemented, rerender the rule.
-    if (!hasChanged && this.renderable) {
-      this.renderer.replaceRule(((this.renderable: any): CSSRule), this)
-    }
-  }
-
-  /**
-   * Get selector string.
-   */
-  get selector(): string {
-    return this.selectorText
   }
 
   /**
    * Get or set a style property.
    */
-  prop(name: string, value?: JssValue, options?: UpdateOptions): StyleRule | string {
+  prop(name: string, value?: JssValue, options?: UpdateOptions): this | string {
     // It's a getter.
     if (value === undefined) return this.style[name]
 
@@ -106,6 +76,37 @@ export class StyleRule implements BaseRule {
       warning(false, '[JSS] Rule is not linked. Missing sheet option "link: true".')
     }
     return this
+  }
+}
+
+export class StyleRule extends BaseStyleRule {
+  selectorText: string
+
+  /**
+   * Set selector string.
+   * Attention: use this with caution. Most browsers didn't implement
+   * selectorText setter, so this may result in rerendering of entire Style Sheet.
+   */
+  set selector(selector: string): void {
+    if (selector === this.selectorText) return
+
+    this.selectorText = selector
+
+    if (!this.renderable) return
+
+    const hasChanged = this.renderer.setSelector(this.renderable, selector)
+
+    // If selector setter is not implemented, rerender the rule.
+    if (!hasChanged) {
+      this.renderer.replaceRule(((this.renderable: any): CSSRule), this)
+    }
+  }
+
+  /**
+   * Get selector string.
+   */
+  get selector(): string {
+    return this.selectorText
   }
 
   /**
@@ -145,6 +146,9 @@ export class StyleRule implements BaseRule {
 
 export const plugin = {
   onCreateRule(name: string, style: JssStyle, options: RuleOptions): StyleRule | null {
-    return name[0] === '@' ? null : new StyleRule(name, style, options)
+    if (name[0] === '@' || (options.parent && options.parent.type === 'keyframes')) {
+      return null
+    }
+    return new StyleRule(name, style, options)
   }
 }

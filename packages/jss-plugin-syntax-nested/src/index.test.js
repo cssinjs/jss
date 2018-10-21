@@ -2,7 +2,7 @@
 
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
-// import jssExtend from 'jss-plugin-syntax-extend'
+import jssExtend from 'jss-plugin-syntax-extend'
 import {create} from 'jss'
 import functionPlugin from 'jss-plugin-syntax-rule-value-function'
 import nested from '.'
@@ -449,8 +449,7 @@ describe('jss-plugin-syntax-nested', () => {
     })
   })
 
-  /*
-  describe('nesting conditionals in combination with extend plugin', () => {
+  describe.skip('nesting conditionals in combination with extend plugin', () => {
     let sheet
 
     beforeEach(() => {
@@ -499,7 +498,6 @@ describe('jss-plugin-syntax-nested', () => {
       )
     })
   })
-  */
 
   describe('deep nesting', () => {
     let sheet

@@ -100,6 +100,7 @@ export interface ContainerRule extends BaseRule {
 
 export type RuleOptions = {
   selector?: string,
+  scoped?: boolean,
   sheet?: StyleSheet,
   index?: number,
   parent?: ContainerRule | StyleSheet,
@@ -112,6 +113,7 @@ export type RuleOptions = {
 
 export type RuleListOptions = {
   classes: Classes,
+  scoped?: boolean,
   keyframes: KeyframesMap,
   generateClassName: GenerateClassName,
   Renderer: Class<Renderer>,
