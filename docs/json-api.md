@@ -69,7 +69,7 @@ Compiles to:
 
 ## Keyframes Animation
 
-Keyframes name will use the same id generator function as the class names. Animation name will be scoped by default. In order to access it within the same style sheet, you can use `$ref` syntax as a value of `animationName` property.
+Keyframes name will use the same id generator function as the class names. Animation name will be scoped by default. In order to access it within the same style sheet, you can use `$ref` syntax as a value of `animationName` or `animation` property.
 
 Additionally generated name can be accessed through `sheet.keyframes.{name}` map.
 

@@ -50,10 +50,9 @@ export class KeyframesRule implements ContainerRule {
       warning(false, '[JSS] Bad keyframes name %s', key)
     }
     this.key = `${this.type}-${this.name}`
-
-    const {scoped, sheet} = options
-    this.id = scoped === false ? this.name : options.generateId(this, sheet)
     this.options = options
+    const {scoped, sheet, generateId} = options
+    this.id = scoped === false ? this.name : generateId(this, sheet)
     this.rules = new RuleList({...options, parent: this})
 
     for (const name in frames) {

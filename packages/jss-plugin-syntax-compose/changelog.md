@@ -20,7 +20,7 @@
 
 ## 2.0.1 / 2017-02-27
 
-- mock out generateId in tests
+- mock out generateClassName in tests
 
 ## 2.0.0 / 2016-12-09
 
