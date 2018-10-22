@@ -3,9 +3,10 @@
   "description": "True rules isolation through automatic properties reset.",
   "version": "5.1.0",
   "license": "MIT",
+  "homepage": "http://cssinjs.org/jss-isolate",
   "main": "dist/jss-plugin-isolate.cjs.js",
   "module": "dist/jss-plugin-isolate.esm.js",
-  "homepage": "http://cssinjs.org/jss-isolate",
+  "typings": "./src/index.d.ts",
   "author": {
     "name": "Maksim Koretskiy",
     "email": "mr.green.tv@gmail.com"

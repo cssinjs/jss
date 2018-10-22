@@ -6,6 +6,7 @@
   "homepage": "http://cssinjs.org/jss-expand",
   "main": "dist/jss-plugin-syntax-expand.cjs.js",
   "module": "dist/jss-plugin-syntax-expand.esm.js",
+  "typings": "./src/index.d.ts",
   "author": {
     "name": "Pavel Davydov",
     "email": "typical000@gmail.com"

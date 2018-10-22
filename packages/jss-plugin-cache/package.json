@@ -6,6 +6,7 @@
   "homepage": "http://cssinjs.org/jss-cache",
   "main": "dist/jss-plugin-cache.cjs.js",
   "module": "dist/jss-plugin-cache.esm.js",
+  "typings": "./src/index.d.ts",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"

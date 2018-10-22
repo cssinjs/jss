@@ -6,6 +6,7 @@
   "homepage": "http://cssinjs.org/jss-default-unit",
   "main": "dist/jss-plugin-syntax-default-unit.cjs.js",
   "module": "dist/jss-plugin-syntax-default-unit.esm.js",
+  "typings": "./src/index.d.ts",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"

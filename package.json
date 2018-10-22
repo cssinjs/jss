@@ -8,7 +8,7 @@
     "prepare": "lerna run prepare",
     "publish": "yarn lint && yarn test && lerna publish",
     "typecheck": "flow check --max-warnings=0",
-    "check-ts": "tsc --pretty --noEmit --strict",
+    "ts-check": "tsc",
     "lint": "eslint scripts/ packages/ && yarn typecheck && yarn format",
     "lint:staged": "lint-staged && yarn typecheck",
     "lint:ci": "eslint scripts/ packages/ && yarn typecheck && yarn format -- --list-different",
@@ -30,7 +30,7 @@
   },
   "pre-commit": "lint:staged",
   "engines": {
-    "node": ">=4"
+    "node": ">=8"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

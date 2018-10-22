@@ -3,9 +3,10 @@
   "description": "JSS plugin that ensures style properties extend each other instead of override",
   "version": "6.0.0",
   "license": "MIT",
+  "homepage": "http://cssinjs.org/jss-props-sort",
   "main": "dist/jss-plugin-props-sort.cjs.js",
   "module": "dist/jss-plugin-props-sort.esm.js",
-  "homepage": "http://cssinjs.org/jss-props-sort",
+  "typings": "./src/index.d.ts",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"

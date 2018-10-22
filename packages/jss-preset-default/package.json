@@ -6,6 +6,7 @@
   "homepage": "http://cssinjs.org/jss-preset-default",
   "main": "dist/jss-preset-default.cjs.js",
   "module": "dist/jss-preset-default.esm.js",
+  "typings": "./src/index.d.ts",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
