@@ -9,9 +9,9 @@ after_success:
 script:
   - yarn check-snapshots
   - yarn lint
-  - yarn typecheck
   - yarn format:ci
   - yarn build
+  - yarn typecheck
   - yarn test
 env:
   global:
