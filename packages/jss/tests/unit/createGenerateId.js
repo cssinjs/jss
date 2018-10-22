@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
 import expect from 'expect.js'
-import {createGenerateClassName} from '../../src'
+import {createGenerateId} from '../../src'
 
 const sheetMock = {
   options: {
@@ -10,39 +10,39 @@ const sheetMock = {
   }
 }
 
-describe('Unit: jss - createGenerateClassName', () => {
+describe('Unit: jss - createGenerateId', () => {
   it('should return a function', () => {
-    expect(createGenerateClassName()).to.be.a(Function)
+    expect(createGenerateId()).to.be.a(Function)
   })
 
   it('should generate a non-production class name', () => {
-    const generate = createGenerateClassName()
+    const generate = createGenerateId()
     expect(generate({key: 'a'})).to.be('a-0-1')
   })
 
   it('should add prefix a non-production class name', () => {
-    const generate = createGenerateClassName()
+    const generate = createGenerateId()
     expect(generate({key: 'a'}, sheetMock)).to.be('pa-0-0-1')
   })
 
   it('should increment jss lib version', () => {
-    createGenerateClassName.__Rewire__('moduleId', 6)
-    const generate = createGenerateClassName()
+    createGenerateId.__Rewire__('moduleId', 6)
+    const generate = createGenerateId()
     expect(generate({key: 'a'})).to.be('a-6-1')
-    createGenerateClassName.__ResetDependency__('moduleId')
+    createGenerateId.__ResetDependency__('moduleId')
   })
 
   it('should generate a production class name', () => {
-    createGenerateClassName.__Rewire__('env', 'production')
-    const generate = createGenerateClassName()
+    createGenerateId.__Rewire__('env', 'production')
+    const generate = createGenerateId()
     expect(generate()).to.be('c01')
-    createGenerateClassName.__ResetDependency__('env')
+    createGenerateId.__ResetDependency__('env')
   })
 
   it('should add prefix a production class name', () => {
-    createGenerateClassName.__Rewire__('env', 'production')
-    const generate = createGenerateClassName()
+    createGenerateId.__Rewire__('env', 'production')
+    const generate = createGenerateId()
     expect(generate({key: 'a'}, sheetMock)).to.be('p001')
-    createGenerateClassName.__ResetDependency__('env')
+    createGenerateId.__ResetDependency__('env')
   })
 })

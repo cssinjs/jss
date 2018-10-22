@@ -2,10 +2,9 @@
 import isInBrowser from 'is-in-browser'
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
-import rulesPlugins from './plugins/rules'
 import sheets from './sheets'
-import StyleRule from './rules/StyleRule'
-import createGenerateClassNameDefault from './utils/createGenerateClassName'
+import {plugins as internalPlugins} from './plugins/index'
+import createGenerateIdDefault from './utils/createGenerateId'
 import createRule from './utils/createRule'
 import DomRenderer from './renderers/DomRenderer'
 import VirtualRenderer from './renderers/VirtualRenderer'
@@ -18,7 +17,7 @@ import type {
   JssOptions,
   InternalJssOptions,
   JssStyle,
-  GenerateClassName
+  GenerateId
 } from './types'
 
 let instanceCounter = 0
@@ -31,24 +30,30 @@ export default class Jss {
   plugins = new PluginsRegistry()
 
   options: InternalJssOptions = {
-    createGenerateClassName: createGenerateClassNameDefault,
+    createGenerateId: createGenerateIdDefault,
     Renderer: isInBrowser ? DomRenderer : VirtualRenderer,
     plugins: []
   }
 
-  generateClassName: GenerateClassName = createGenerateClassNameDefault()
+  generateId: GenerateId = createGenerateIdDefault()
 
   constructor(options?: JssOptions) {
-    // eslint-disable-next-line prefer-spread
-    this.use.apply(this, rulesPlugins)
+    for (let i = 0; i < internalPlugins.length; i++) {
+      this.plugins.use(internalPlugins[i], {queue: 'internal'})
+    }
     this.setup(options)
   }
 
+  /**
+   * Prepares various options, applies plugins.
+   * Should not be used twice on the same instance, because there is no plugins
+   * deduplication logic.
+   */
   setup(options?: JssOptions = {}): this {
-    if (options.createGenerateClassName) {
-      this.options.createGenerateClassName = options.createGenerateClassName
+    if (options.createGenerateId) {
+      this.options.createGenerateId = options.createGenerateId
       // $FlowFixMe
-      this.generateClassName = options.createGenerateClassName()
+      this.generateId = options.createGenerateId()
     }
 
     if (options.insertionPoint != null) this.options.insertionPoint = options.insertionPoint
@@ -73,7 +78,7 @@ export default class Jss {
     const sheet = new StyleSheet(styles, {
       ...options,
       jss: this,
-      generateClassName: options.generateClassName || this.generateClassName,
+      generateId: options.generateId || this.generateId,
       insertionPoint: this.options.insertionPoint,
       Renderer: this.options.Renderer,
       index
@@ -95,25 +100,21 @@ export default class Jss {
   /**
    * Create a rule without a Style Sheet.
    */
-  createRule(name?: string, style?: JssStyle = {}, options?: RuleFactoryOptions = {}): Rule {
+  createRule(name?: string, style?: JssStyle = {}, options?: RuleFactoryOptions = {}): Rule | null {
     // Enable rule without name for inline styles.
     if (typeof name === 'object') {
       return this.createRule(undefined, name, style)
     }
 
-    // Cast from RuleFactoryOptions to RuleOptions
-    // https://stackoverflow.com/questions/41328728/force-casting-in-flow
     const ruleOptions: RuleOptions = {...options, jss: this, Renderer: this.options.Renderer}
 
-    if (!ruleOptions.generateClassName) ruleOptions.generateClassName = this.generateClassName
+    if (!ruleOptions.generateId) ruleOptions.generateId = this.generateId
     if (!ruleOptions.classes) ruleOptions.classes = {}
+    if (!ruleOptions.keyframes) ruleOptions.keyframes = {}
+
     const rule = createRule(name, style, ruleOptions)
 
-    if (!ruleOptions.selector && rule instanceof StyleRule) {
-      rule.selector = `.${ruleOptions.generateClassName(rule)}`
-    }
-
-    this.plugins.onProcessRule(rule)
+    if (rule) this.plugins.onProcessRule(rule)
 
     return rule
   }
@@ -123,11 +124,7 @@ export default class Jss {
    */
   use(...plugins: Array<Plugin>): this {
     plugins.forEach(plugin => {
-      // Avoids applying same plugin twice, at least based on ref.
-      if (this.options.plugins.indexOf(plugin) === -1) {
-        this.options.plugins.push(plugin)
-        this.plugins.use(plugin)
-      }
+      this.plugins.use(plugin)
     })
 
     return this

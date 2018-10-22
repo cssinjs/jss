@@ -1,6 +1,6 @@
 import expect from 'expect.js'
 import {create, hasCSSTOMSupport} from '../../src'
-import {createGenerateClassName, computeStyle} from '../utils'
+import {createGenerateId, computeStyle} from '../utils'
 
 describe('Functional: houdini', () => {
   if (!hasCSSTOMSupport) return
@@ -8,7 +8,7 @@ describe('Functional: houdini', () => {
   let jss
 
   beforeEach(() => {
-    jss = create({createGenerateClassName})
+    jss = create({createGenerateId})
   })
 
   describe('use unit value', () => {

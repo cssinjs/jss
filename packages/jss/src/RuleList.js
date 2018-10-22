@@ -1,14 +1,15 @@
 /* @flow */
 import createRule from './utils/createRule'
-import StyleRule from './rules/StyleRule'
+import {StyleRule, KeyframesRule} from './plugins/index'
 import type {
   RuleListOptions,
   ToCssOptions,
   Rule,
   RuleOptions,
-  UpdateArguments,
   JssStyle,
-  Classes
+  Classes,
+  KeyframesMap,
+  UpdateArguments
 } from './types'
 import escape from './utils/escape'
 
@@ -40,9 +41,12 @@ export default class RuleList {
 
   classes: Classes
 
+  keyframes: KeyframesMap
+
   constructor(options: RuleListOptions) {
     this.options = options
     this.classes = options.classes
+    this.keyframes = options.keyframes
   }
 
   /**
@@ -50,34 +54,33 @@ export default class RuleList {
    *
    * Will not render after Style Sheet was rendered the first time.
    */
-  add(key: string, decl: JssStyle, ruleOptions?: RuleOptions): Rule {
-    const {parent, sheet, jss, Renderer, generateClassName} = this.options
+  add(key: string, decl: JssStyle, ruleOptions?: RuleOptions): Rule | null {
+    const {parent, sheet, jss, Renderer, generateId, scoped} = this.options
     const options = {
       classes: this.classes,
       parent,
       sheet,
       jss,
       Renderer,
-      generateClassName,
+      generateId,
+      scoped,
       ...ruleOptions
     }
 
-    if (!options.selector && this.classes[key]) {
+    // We need to save the original decl before creating the rule
+    // because cache plugin needs to use it as a key to return a cached rule.
+    this.raw[key] = decl
+
+    if (key in this.classes) {
+      // For e.g. rules inside of @media container
       options.selector = `.${escape(this.classes[key])}`
     }
 
-    this.raw[key] = decl
-
     const rule = createRule(key, decl, options)
 
-    let className
+    if (!rule) return null
 
-    if (!options.selector && rule instanceof StyleRule) {
-      className = generateClassName(rule, sheet)
-      rule.selector = `.${escape(className)}`
-    }
-
-    this.register(rule, className)
+    this.register(rule)
 
     const index = options.index === undefined ? this.index.length : options.index
     this.index.splice(index, 0, rule)
@@ -121,11 +124,13 @@ export default class RuleList {
   /**
    * Register a rule in `.map` and `.classes` maps.
    */
-  register(rule: Rule, className?: string): void {
+  register(rule: Rule): void {
     this.map[rule.key] = rule
     if (rule instanceof StyleRule) {
       this.map[rule.selector] = rule
-      if (className) this.classes[rule.key] = className
+      if (rule.id) this.classes[rule.key] = rule.id
+    } else if (rule instanceof KeyframesRule && this.keyframes) {
+      this.keyframes[rule.name] = rule.id
     }
   }
 
@@ -137,6 +142,8 @@ export default class RuleList {
     if (rule instanceof StyleRule) {
       delete this.map[rule.selector]
       delete this.classes[rule.key]
+    } else if (rule instanceof KeyframesRule) {
+      delete this.keyframes[rule.name]
     }
   }
 

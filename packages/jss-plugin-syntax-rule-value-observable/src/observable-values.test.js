@@ -3,10 +3,10 @@ import {stripIndent} from 'common-tags'
 import Observable from 'zen-observable'
 import {create} from 'jss'
 
-import pluginDefaultUnit from '../../jss-plugin-syntax-default-unit'
+import pluginDefaultUnit from 'jss-plugin-syntax-default-unit'
 import pluginObservable from '.'
 
-const settings = {createGenerateClassName: () => rule => `${rule.key}-id`}
+const settings = {createGenerateId: () => rule => `${rule.key}-id`}
 
 describe('jss-plugin-syntax-rule-value-observable: values', () => {
   let jss

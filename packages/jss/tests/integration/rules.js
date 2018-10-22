@@ -5,13 +5,13 @@ import expect from 'expect.js'
 
 import {create} from '../../src'
 import createRule from '../../src/utils/createRule'
-import {createGenerateClassName} from '../utils'
+import {createGenerateId} from '../utils'
 
 describe('Integration: rules', () => {
   let jss
 
   beforeEach(() => {
-    jss = create({createGenerateClassName})
+    jss = create({createGenerateId})
   })
 
   describe('.createRule()', () => {
@@ -182,15 +182,15 @@ describe('Integration: rules', () => {
     })
 
     it('should return CSS from @keyframes rule', () => {
-      const rule = jss.createRule('@keyframes id', {
+      const rule = jss.createRule('@keyframes a', {
         from: {top: 0},
         '30%': {top: 30},
         '60%, 70%': {top: 80}
       })
       expect(rule.type).to.be('keyframes')
-      expect(rule.key).to.be('@keyframes id')
+      expect(rule.key).to.be('keyframes-a')
       expect(rule.toString()).to.be(stripIndent`
-        @keyframes id {
+        @keyframes keyframes-a-id {
           from {
             top: 0;
           }
@@ -332,15 +332,10 @@ describe('Integration: rules', () => {
       })
 
       it('should warn', () => {
-        const rule = jss.createRule('@unknown', {
+        jss.createRule('@unknown', {
           color: 'red'
         })
         expect(warned).to.be(true)
-        const css =
-          '.@unknown-id {\n' + //
-          '  color: red;\n' +
-          '}'
-        expect(rule.toString()).to.be(css)
       })
 
       after(() => {

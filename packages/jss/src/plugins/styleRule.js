@@ -2,6 +2,7 @@
 import warning from 'warning'
 import toCss from '../utils/toCss'
 import toCssValue from '../utils/toCssValue'
+import escape from '../utils/escape'
 import type {
   CSSStyleRule,
   ToCssOptions,
@@ -13,7 +14,7 @@ import type {
   BaseRule
 } from '../types'
 
-export default class StyleRule implements BaseRule {
+export class BaseStyleRule implements BaseRule {
   type = 'style'
 
   key: string
@@ -22,54 +23,24 @@ export default class StyleRule implements BaseRule {
 
   style: JssStyle
 
-  selectorText: string
-
   renderer: RendererInterface
 
-  renderable: ?CSSStyleRule
+  renderable: ?Object
 
   options: RuleOptions
 
   constructor(key: string, style: JssStyle, options: RuleOptions) {
-    const {sheet, Renderer, selector} = options
+    const {sheet, Renderer} = options
     this.key = key
     this.options = options
     this.style = style
-    if (selector) this.selectorText = selector
     this.renderer = sheet ? sheet.renderer : new Renderer()
-  }
-
-  /**
-   * Set selector string.
-   * Attention: use this with caution. Most browsers didn't implement
-   * selectorText setter, so this may result in rerendering of entire Style Sheet.
-   */
-  set selector(selector: string): void {
-    if (selector === this.selectorText) return
-
-    this.selectorText = selector
-
-    if (!this.renderable) return
-
-    const hasChanged = this.renderer.setSelector(this.renderable, selector)
-
-    // If selector setter is not implemented, rerender the rule.
-    if (!hasChanged && this.renderable) {
-      this.renderer.replaceRule(((this.renderable: any): CSSRule), this)
-    }
-  }
-
-  /**
-   * Get selector string.
-   */
-  get selector(): string {
-    return this.selectorText
   }
 
   /**
    * Get or set a style property.
    */
-  prop(name: string, value?: JssValue, options?: UpdateOptions): StyleRule | string {
+  prop(name: string, value?: JssValue, options?: UpdateOptions): this | string {
     // It's a getter.
     if (value === undefined) return this.style[name]
 
@@ -107,6 +78,52 @@ export default class StyleRule implements BaseRule {
     }
     return this
   }
+}
+
+export class StyleRule extends BaseStyleRule {
+  selectorText: string
+
+  id: ?string
+
+  renderable: ?CSSStyleRule
+
+  constructor(key: string, style: JssStyle, options: RuleOptions) {
+    super(key, style, options)
+    const {selector, scoped, sheet, generateId} = options
+    if (selector) {
+      this.selectorText = selector
+    } else if (scoped !== false) {
+      this.id = generateId(this, sheet)
+      this.selectorText = `.${escape(this.id)}`
+    }
+  }
+
+  /**
+   * Set selector string.
+   * Attention: use this with caution. Most browsers didn't implement
+   * selectorText setter, so this may result in rerendering of entire Style Sheet.
+   */
+  set selector(selector: string): void {
+    if (selector === this.selectorText) return
+
+    this.selectorText = selector
+
+    if (!this.renderable) return
+
+    const hasChanged = this.renderer.setSelector(this.renderable, selector)
+
+    // If selector setter is not implemented, rerender the rule.
+    if (!hasChanged) {
+      this.renderer.replaceRule(((this.renderable: any): CSSRule), this)
+    }
+  }
+
+  /**
+   * Get selector string.
+   */
+  get selector(): string {
+    return this.selectorText
+  }
 
   /**
    * Apply rule to an element inline.
@@ -140,5 +157,14 @@ export default class StyleRule implements BaseRule {
     const link = sheet ? sheet.options.link : false
     const opts = link ? {...options, allowEmpty: true} : options
     return toCss(this.selector, this.style, opts)
+  }
+}
+
+export default {
+  onCreateRule(name: string, style: JssStyle, options: RuleOptions): StyleRule | null {
+    if (name[0] === '@' || (options.parent && options.parent.type === 'keyframes')) {
+      return null
+    }
+    return new StyleRule(name, style, options)
   }
 }

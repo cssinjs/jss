@@ -62,7 +62,7 @@ function registerClass(rule, className) {
  */
 export default function jssCompose(): Plugin {
   function onProcessStyle(style, rule) {
-    if (!style.composes) return style
+    if (!('composes' in style)) return style
     registerClass(rule, style.composes)
     // Remove composes property to prevent infinite loop.
     delete style.composes

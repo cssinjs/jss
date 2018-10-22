@@ -5,10 +5,10 @@ import expect from 'expect.js'
 
 import {create} from '../../src'
 import DomRenderer from '../../src/renderers/DomRenderer'
-import StyleRule from '../../src/rules/StyleRule'
+import stylePlugin from '../../src/plugins/styleRule'
 import escape from '../../src/utils/escape'
 import {
-  createGenerateClassName,
+  createGenerateId,
   computeStyle,
   getStyle,
   getCss,
@@ -17,7 +17,7 @@ import {
   removeVendorPrefixes
 } from '../utils'
 
-const settings = {createGenerateClassName}
+const settings = {createGenerateId}
 
 const isKeyframesSupported = 'animationName' in document.body.style
 
@@ -329,7 +329,7 @@ describe('Functional: sheet', () => {
 
     beforeEach(() => {
       sheet = jss.createStyleSheet().attach()
-      sheet.addRule('@keyframes id', {
+      sheet.addRule('@keyframes a', {
         '0%': {top: '0px'}
       })
       style = getStyle()
@@ -461,8 +461,8 @@ describe('Functional: sheet', () => {
 
     it('should apply a style prop in @keyframes rule child', () => {
       if (!isKeyframesSupported) return
-      const rule = sheet.getRule('@keyframes a').rules.get('100%')
-      rule.prop('opacity', 1)
+      const rule = sheet.getRule('keyframes-a').rules.get('100%')
+      rule.prop('opacity', 0)
       // We can't compute styles from keyframes.
       expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
     })
@@ -486,7 +486,7 @@ describe('Functional: sheet', () => {
 
     it('should remove a prop in @keyframes rule child when null value is passed', () => {
       if (!isKeyframesSupported) return
-      const rule = sheet.getRule('@keyframes a').rules.get('100%')
+      const rule = sheet.getRule('keyframes-a').rules.get('100%')
       rule.prop('opacity', null)
       // We can't compute styles from keyframes.
       expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
@@ -497,14 +497,14 @@ describe('Functional: sheet', () => {
     let warned = false
 
     beforeEach(() => {
-      StyleRule.__Rewire__('warning', () => {
+      stylePlugin.__Rewire__('warning', () => {
         warned = true
       })
     })
 
     afterEach(() => {
       warned = false
-      StyleRule.__ResetDependency__('warning')
+      stylePlugin.__ResetDependency__('warning')
     })
 
     it('should warn when sheet not linked but attached', () => {

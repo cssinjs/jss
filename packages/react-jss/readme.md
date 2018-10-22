@@ -431,16 +431,18 @@ In case you render multiple react rendering trees in one application, you will g
 import React from 'react'
 import {createGenerateClassName, JssProvider} from 'react-jss'
 
-const generateClassName = createGenerateClassName()
+import {createGenerateId, JssProvider} from 'react-jss'
+
+const generateId = createGenerateId()
 const App1 = () => null
 const App2 = () => null
 
 const Component = () => (
   <div>
-    <JssProvider generateClassName={generateClassName}>
+    <JssProvider generateId={generateId}>
       <App1 />
     </JssProvider>
-    <JssProvider generateClassName={generateClassName}>
+    <JssProvider generateId={generateId}>
       <App2 />
     </JssProvider>
   </div>

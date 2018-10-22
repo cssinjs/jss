@@ -6,7 +6,7 @@ export {
   SheetsRegistry,
   getDynamicStyles,
   SheetsManager,
-  createGenerateClassName as createGenerateClassNameDefault
+  createGenerateId as createGenerateIdDefault
 } from 'jss'
 export type {StyleSheet} from 'jss'
 
