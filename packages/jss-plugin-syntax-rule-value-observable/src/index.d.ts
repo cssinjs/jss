@@ -1,3 +1,8 @@
 import {Plugin} from 'jss'
 
-export default function jssPluginSyntaxRuleValueObservable(): Plugin
+export type Options = {
+  process?: boolean
+  force?: boolean
+}
+
+export default function jssPluginSyntaxRuleValueObservable(options?: Options): Plugin
