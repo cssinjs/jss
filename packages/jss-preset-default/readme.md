@@ -13,7 +13,9 @@ Preset exports a default function which accepts options. Options is a map of plu
 It returns a JSS options object, which can be passed to JSS constructor or the `setup`.
 
 ```javascript
-preset({somePlugin: options})
+import preset from 'jss-preset-default'
+
+preset({somePlugin: {}})
 ```
 
 ## Setup global JSS instance

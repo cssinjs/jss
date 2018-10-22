@@ -23,6 +23,9 @@ In order to communicate the nonce value to JSS, we're going use some basic templ
     // server.js
     import helmet from 'helmet'
     import uuidv4 from 'uuid/v4'
+    import express from 'express'
+
+    const app = express()
 
     app.use((req, res, next) => {
       // nonce should be base64 encoded

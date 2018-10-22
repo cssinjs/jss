@@ -36,8 +36,10 @@ You need to register a `plugin` only once per JSS instance. There is a number of
     This hook is invoked when a rule is about to be created. If this object returns an object, it is supposed to be a rule instance. If an empty value is returned, JSS will fall back to a regular rule.
 
     ```javascript
+    import jss from 'jss'
+
     jss.use({
-      onCreateRule: (name, decl, options) => newRule
+      onCreateRule: (name, decl, options) => null
     })
     ```
 
@@ -46,6 +48,8 @@ You need to register a `plugin` only once per JSS instance. There is a number of
     This hook is invoked on every created rule with the rule as an argument.
 
     ```javascript
+    import jss from 'jss'
+
     jss.use({
       onProcessRule: (rule, sheet) => {
         // Do something here.
@@ -58,6 +62,8 @@ You need to register a `plugin` only once per JSS instance. There is a number of
     This hook is invoked on every created rule with `style` as a primary argument. It is designed for `style` object transformations and rule manipulations. For performance reasons, you are allowed to mutate the `style` object itself, though **NOT** the nested objects. It is limited to the first level because the `style` object is shallow-cloned in the core, but the nested objects have to be cloned by plugins if they need to mutate it. Use `jss.cloneStyle()` utility for style cloning. The returned object from the hook will replace `rule.style`.
 
     ```javascript
+    import jss from 'jss'
+
     jss.use({
       onProcessStyle: (style, rule, sheet) => style
     })
@@ -68,6 +74,8 @@ You need to register a `plugin` only once per JSS instance. There is a number of
     This hook is invoked on every created `StyleSheet` after all rules are processed, with the `sheet` as an argument.
 
     ```javascript
+    import jss from 'jss'
+
     jss.use({
       onProcessSheet: sheet => {
         // Do something here.
@@ -80,8 +88,10 @@ You need to register a `plugin` only once per JSS instance. There is a number of
     This hook is invoked when `rule.prop(prop, value)` is called as a setter (with a value). Method `sheet.update()` uses `rule.prop()` internally. If this hook is implemented by a plugin, the returned value will be set on the style object and on the CSSOM CSSRule object if the sheet is linked. If multiple plugins implement this hook, return value from the first one will be passed to the second one and so on, like a chain of `map` functions.
 
     ```javascript
+    import jss from 'jss'
+
     jss.use({
-      onChangeValue: (value, prop, rule) => newValue
+      onChangeValue: (value, prop, rule) => value
     })
     ```
 
@@ -90,6 +100,8 @@ You need to register a `plugin` only once per JSS instance. There is a number of
     This hook is invoked on every created rule when `sheet.update(data)` is called, with the passed data as an argument. It allows you to transform style object after every update of dynamic values or dynamic style objects.
 
     ```javascript
+    import jss from 'jss'
+
     jss.use({
       onUpdate: (data, rule, sheet) => {
         // Do something here.

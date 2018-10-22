@@ -80,6 +80,8 @@ Options:
 - `classNamePrefix` - a string, which will be added at the beginning of the class name.
 
 ```javascript
+import jss from 'jss'
+
 const sheet = jss
   .createStyleSheet(
     {
@@ -172,6 +174,8 @@ Detaching unused Style Sheets will speedup every DOM node insertion and manipula
 Sheet 1 has a higher index (priority), and as such will come **after** sheet 2 in the resulting DOM.
 
 ```javascript
+import jss from 'jss'
+
 const sheet1 = jss.createStyleSheet({}, {index: 5, meta: 'sheet-1'}).attach()
 const sheet2 = jss.createStyleSheet({}, {index: 1, meta: 'sheet-2'}).attach()
 ```
@@ -197,6 +201,9 @@ If you use `addRule()` before you call `attach()`, styles will be rendered in on
 ### Add a rule dynamically
 
 ```javascript
+import jss from 'jss'
+
+const sheet = jss.createStyleSheet({})
 const rule = sheet.addRule({
   padding: 20,
   background: 'blue'
@@ -218,6 +225,9 @@ Returns `true` if the rule has been removed from the DOM.
 Access a rule within sheet by a name.
 
 ```javascript
+import jss from 'jss'
+
+const sheet = jss.createStyleSheet({myButton: {}})
 // Using name.
 const rule = sheet.getRule('myButton')
 ```
@@ -229,6 +239,9 @@ const rule = sheet.getRule('myButton')
 In case you want to add rules to the sheet separately or even at runtime.
 
 ```javascript
+import jss from 'jss'
+
+const sheet = jss.createStyleSheet({})
 sheet.addRules({
   myButton: {
     float: 'left'
@@ -246,6 +259,8 @@ sheet.addRules({
 If you use [function values](./json-api.md#function-values), you will want to update them with new data. This method will call all your function values, pass the `data` param and update the CSS Rule if needed.
 
 ```javascript
+import jss from 'jss'
+
 const styles = {
   container: {
     height: 200,
@@ -302,6 +317,7 @@ This is equivalent to `element.style.background = 'blue'` except that you could 
 ```javascript
 import jss from 'jss'
 
+const element = document.getElementById('element')
 jss
   .createRule({
     background: 'blue'
@@ -409,6 +425,8 @@ console.log(sheet.toString())
 Extracts a styles object with only props that contain function values. Useful when you want to share a static part between different elements and render only the dynamic styles separate for each element.
 
 ```javascript
+import {getDynamicStyles} from 'jss'
+
 const dynamicStyles = getDynamicStyles({
   button: {
     fontSize: 12,

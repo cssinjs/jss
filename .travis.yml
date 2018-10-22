@@ -8,8 +8,10 @@ after_success:
 - bash <(curl -s https://codecov.io/bash)
 script:
   - yarn check-snapshots
+  - yarn lint
+  - yarn typecheck
+  - yarn format:ci
   - yarn build
-  - yarn lint:ci
   - yarn test
 env:
   global:

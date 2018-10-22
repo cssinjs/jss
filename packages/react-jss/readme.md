@@ -129,6 +129,7 @@ There are 2 caveats:
 
 ```javascript
 import React from 'react'
+import injectSheet from 'react-jss'
 
 const styles = {
   myButton: {
@@ -245,7 +246,7 @@ _Namespaced_ themes can be used so that a set of UI components should not confli
 
 ```javascript
 import React from 'react'
-import {createTheming} from 'react-jss'
+import injectSheet, {createTheming} from 'react-jss'
 
 // Creating a namespaced theming object.
 const theming = createTheming('__MY_NAMESPACED_THEME__')
@@ -268,6 +269,7 @@ const Button = ({classes, children}) => <button className={classes.button}>{chil
 const StyledButton = injectSheet(styles, {theming})(Button)
 const OtherLibraryThemeProvider = () => null
 const OtherLibraryComponent = () => null
+const otherLibraryTheme = {}
 
 // Using namespaced ThemeProviders - they can be nested in any order
 const App = () => (
@@ -347,6 +349,7 @@ In order to reuse the same styles **and** the same generated style sheet between
 
 ```javascript
 import React from 'react'
+import injectSheet from 'react-jss'
 
 const styles = {
   button: {
@@ -509,6 +512,11 @@ Example
 
 ```js
 import React from 'react'
+import injectSheet from 'react-jss'
+
+const labelStyles = {}
+const buttonStyles = {}
+
 // Will render labelStyles first.
 const Label = injectSheet(labelStyles)(({children}) => <label>{children}</label>)
 const Button = injectSheet(buttonStyles)(() => (
@@ -527,6 +535,10 @@ All user props passed to the HOC will still be forwarded as usual.
 
 ```js
 import React from 'react'
+import injectSheet from 'react-jss'
+
+const styles = {}
+
 // Only `classes` prop will be passed by the ReactJSS HOC now. No `sheet` or `theme`.
 const Button = injectSheet(styles, {inject: ['classes', 'sheet']})(({classes}) => (
   <button>My button</button>

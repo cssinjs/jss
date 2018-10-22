@@ -10,6 +10,7 @@ export interface CSSRuleBase<T> {
 }
 
 export interface CSSGroupingRule<T> extends CSSRuleBase<T> {
+  // eslint-disable-next-line no-use-before-define
   +cssRules: CSSRuleList;
   insertRule(rule: DOMString, index: number): number;
   deleteRule(index: number): void;
@@ -19,11 +20,6 @@ export interface CSSStyleRule extends CSSRuleBase<{type: 1 | 1}> {
   +type: 1;
   +style: CSSStyleDeclaration;
   selectorText: DOMString;
-}
-
-export interface CSSRuleList {
-  length: number;
-  [index: number]: CSSStyleRule;
 }
 
 export interface CSSCharsetRule extends CSSRuleBase<{type: 2 | 2}> {

@@ -108,6 +108,8 @@ You can specify an `insertionPoint` during [jss.setup()](https://github.com/cssi
 ```
 
 ```js
+import jss from 'jss'
+
 jss.setup({insertionPoint: 'custom-insertion-point'})
 ```
 
@@ -125,6 +127,8 @@ Here is another example, with the insertion point moved to the `body`:
 ```
 
 ```js
+import jss from 'jss'
+
 jss.setup({
   insertionPoint: document.getElementById('insertion-point')
 })
