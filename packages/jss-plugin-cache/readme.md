@@ -10,6 +10,10 @@ in general.
 
 [![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 
+## Polyfills
+
+1. This plugin is using a `WeakMap`. If you support browsers which do not support WeakMap, you will have to include a polyfill.
+
 ## Caveats
 
 1.  Don't use it if you mutate your `styles`.

@@ -1,8 +1,8 @@
 // @flow
 import {Component, Children, type Element, type ElementType} from 'react'
 import PropTypes from 'prop-types'
-import type {Jss, GenerateClassName, SheetsRegistry} from 'jss'
-import {createGenerateClassNameDefault} from './jss'
+import type {Jss, GenerateId, SheetsRegistry} from 'jss'
+import {createGenerateIdDefault} from './jss'
 import * as ns from './ns'
 import contextTypes from './contextTypes'
 import propTypes from './propTypes'
@@ -13,7 +13,7 @@ import type {Context} from './types'
 type Props = {
   jss?: Jss,
   registry?: SheetsRegistry,
-  generateClassName?: GenerateClassName,
+  generateId?: GenerateId,
   classNamePrefix?: string,
   disableStylesGeneration?: boolean,
   children: Element<ElementType>
@@ -22,7 +22,7 @@ type Props = {
 export default class JssProvider extends Component<Props> {
   static propTypes = {
     ...propTypes,
-    generateClassName: PropTypes.func,
+    generateId: PropTypes.func,
     classNamePrefix: PropTypes.string,
     disableStylesGeneration: PropTypes.bool,
     children: PropTypes.node.isRequired
@@ -41,7 +41,7 @@ export default class JssProvider extends Component<Props> {
       registry,
       classNamePrefix,
       jss: localJss,
-      generateClassName,
+      generateId,
       disableStylesGeneration
     } = this.props
     // eslint-disable-next-line react/react/destructuring-assignment
@@ -63,20 +63,20 @@ export default class JssProvider extends Component<Props> {
     // component which decides to rerender.
     context[ns.managers] = this.managers
 
-    if (generateClassName) {
-      sheetOptions.generateClassName = generateClassName
-    } else if (!sheetOptions.generateClassName) {
-      if (!this.generateClassName) {
-        let createGenerateClassName = createGenerateClassNameDefault
-        if (localJss && localJss.options.createGenerateClassName) {
-          createGenerateClassName = localJss.options.createGenerateClassName
+    if (generateId) {
+      sheetOptions.generateId = generateId
+    } else if (!sheetOptions.generateId) {
+      if (!this.generateId) {
+        let createGenerateId = createGenerateIdDefault
+        if (localJss && localJss.options.createGenerateId) {
+          createGenerateId = localJss.options.createGenerateId
         }
         // Make sure we don't loose the generator when JssProvider is used inside of a stateful
         // component which decides to rerender.
-        this.generateClassName = createGenerateClassName()
+        this.generateId = createGenerateId()
       }
 
-      sheetOptions.generateClassName = this.generateClassName
+      sheetOptions.generateId = this.generateId
     }
 
     if (classNamePrefix) sheetOptions.classNamePrefix = classNamePrefix
@@ -92,7 +92,7 @@ export default class JssProvider extends Component<Props> {
 
   managers: {}
 
-  generateClassName: GenerateClassName
+  generateId: GenerateId
 
   render() {
     const {children} = this.props

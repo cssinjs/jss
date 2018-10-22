@@ -6,7 +6,7 @@ import observablePlugin from 'jss-plugin-syntax-rule-value-observable'
 import expand from '.'
 
 const settings = {
-  createGenerateClassName: () => rule => `${rule.key}-id`
+  createGenerateId: () => rule => `${rule.key}-id`
 }
 
 describe('jss-plugin-syntax-expand', () => {

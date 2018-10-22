@@ -1,63 +1,65 @@
 /* @flow */
-import {RuleList, createRule, type Rule, type JssStyle, type RuleOptions, type StyleRule} from 'jss'
+import {
+  createRule,
+  type Rule,
+  type JssStyle,
+  type RuleOptions,
+  type UpdateOptions,
+  type StyleRule,
+  type StyleSheet
+} from 'jss'
 
 // A symbol replacement.
 let now = Date.now()
 const fnValuesNs = `fnValues${now}`
-const fnStyleNs = `fnStyle${++now}`
+const fnRuleNs = `fnStyle${++now}`
 
 type StyleRuleWithRuleFunction = StyleRule & {[key: string]: Function}
 
 export default function functionPlugin() {
   return {
-    onCreateRule(name: string, decl: JssStyle, options: RuleOptions): Rule | null {
+    onCreateRule(name?: string, decl: JssStyle, options: RuleOptions): Rule | null {
       if (typeof decl !== 'function') return null
       const rule: StyleRuleWithRuleFunction = (createRule(name, {}, options): any)
-      rule[fnStyleNs] = decl
+      rule[fnRuleNs] = decl
       return rule
     },
 
     onProcessStyle(style: JssStyle, rule: Rule): JssStyle {
-      const fn = {}
+      // We don't ned to extract functions on each style update, since this can
+      // happen only one.
+      // We don't support function values inside of function rules.
+      if (fnValuesNs in rule) return style
+
+      const fnValues = {}
       for (const prop in style) {
         const value = style[prop]
         if (typeof value !== 'function') continue
         delete style[prop]
-        fn[prop] = value
+        fnValues[prop] = value
       }
-      // $FlowFixMe: Flow complains...
-      rule[fnValuesNs] = fn
+      // $FlowFixMe
+      rule[fnValuesNs] = fnValues
       return style
     },
 
-    onUpdate(data: Object, rule: Rule) {
-      // It is a rules container like for e.g. ConditionalRule.
-      if (rule.rules instanceof RuleList) {
-        rule.rules.update(data)
-        return
-      }
-
-      if (rule && rule.type !== 'style') return
-
+    onUpdate(data: Object, rule: Rule, sheet: StyleSheet, options: UpdateOptions) {
       const styleRule: StyleRule = (rule: any)
 
-      // If we have a fn values map, it is a rule with function values.
-      // $FlowFixMe
-      if (styleRule[fnValuesNs]) {
-        for (const prop in styleRule[fnValuesNs]) {
-          styleRule.prop(prop, styleRule[fnValuesNs][prop](data))
-        }
-      }
-
-      // $FlowFixMe
-      const fnStyle = styleRule[fnStyleNs]
+      const fnRule = styleRule[fnRuleNs]
 
       // If we have a style function, the entire rule is dynamic and style object
       // will be returned from that function.
-      if (fnStyle) {
-        const style = fnStyle(data)
-        for (const prop in style) {
-          styleRule.prop(prop, style[prop])
+      if (fnRule) {
+        styleRule.style = fnRule(data)
+      }
+
+      const fnValues = styleRule[fnValuesNs]
+
+      // If we have a fn values map, it is a rule with function values.
+      if (fnValues) {
+        for (const prop in fnValues) {
+          styleRule.prop(prop, fnValues[prop](data), options)
         }
       }
     }

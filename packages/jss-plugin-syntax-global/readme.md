@@ -15,6 +15,11 @@ const styles = {
     a: {
       textDecoration: 'underline'
     }
+    '@keyframes a': {
+      to: {
+        width: '100%'
+      }
+    }
   }
 }
 ```
@@ -25,6 +30,11 @@ const styles = {
 const styles = {
   '@global body': {
     color: 'green'
+  },
+  '@global @keyframes a': {
+    to: {
+      width: '100%'
+    }
   }
 }
 ```

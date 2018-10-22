@@ -1,10 +1,26 @@
 /* @flow */
 import createRule from './utils/createRule'
-import StyleRule from './rules/StyleRule'
-import type {RuleListOptions, ToCssOptions, Rule, RuleOptions, JssStyle, Classes} from './types'
+import {StyleRule, KeyframesRule} from './plugins/index'
+import type {
+  RuleListOptions,
+  ToCssOptions,
+  Rule,
+  RuleOptions,
+  JssStyle,
+  Classes,
+  KeyframesMap,
+  UpdateArguments
+} from './types'
 import escape from './utils/escape'
 
-type Update = ((name: string, data?: Object) => void) & ((data?: Object) => void)
+const defaultUpdateOptions = {
+  process: true
+}
+
+const forceUpdateOptions = {
+  force: true,
+  process: true
+}
 
 /**
  * Contains rules objects and allows adding/removing etc.
@@ -25,9 +41,12 @@ export default class RuleList {
 
   classes: Classes
 
+  keyframes: KeyframesMap
+
   constructor(options: RuleListOptions) {
     this.options = options
     this.classes = options.classes
+    this.keyframes = options.keyframes
   }
 
   /**
@@ -35,36 +54,35 @@ export default class RuleList {
    *
    * Will not render after Style Sheet was rendered the first time.
    */
-  add(name: string, decl: JssStyle, options?: RuleOptions): Rule {
-    const {parent, sheet, jss, Renderer, generateClassName} = this.options
-    const defaultOptions = {
+  add(key: string, decl: JssStyle, ruleOptions?: RuleOptions): Rule | null {
+    const {parent, sheet, jss, Renderer, generateId, scoped} = this.options
+    const options = {
       classes: this.classes,
       parent,
       sheet,
       jss,
       Renderer,
-      generateClassName,
-      ...options
+      generateId,
+      scoped,
+      ...ruleOptions
     }
 
-    if (!defaultOptions.selector && this.classes[name]) {
-      defaultOptions.selector = `.${escape(this.classes[name])}`
+    // We need to save the original decl before creating the rule
+    // because cache plugin needs to use it as a key to return a cached rule.
+    this.raw[key] = decl
+
+    if (key in this.classes) {
+      // For e.g. rules inside of @media container
+      options.selector = `.${escape(this.classes[key])}`
     }
 
-    this.raw[name] = decl
+    const rule = createRule(key, decl, options)
 
-    const rule = createRule(name, decl, defaultOptions)
+    if (!rule) return null
 
-    let className
+    this.register(rule)
 
-    if (!defaultOptions.selector && rule instanceof StyleRule) {
-      className = generateClassName(rule, sheet)
-      rule.selector = `.${escape(className)}`
-    }
-
-    this.register(rule, className)
-
-    const index = defaultOptions.index === undefined ? this.index.length : defaultOptions.index
+    const index = options.index === undefined ? this.index.length : options.index
     this.index.splice(index, 0, rule)
 
     return rule
@@ -82,6 +100,7 @@ export default class RuleList {
    */
   remove(rule: Rule): void {
     this.unregister(rule)
+    delete this.raw[rule.key]
     this.index.splice(this.indexOf(rule), 1)
   }
 
@@ -105,11 +124,13 @@ export default class RuleList {
   /**
    * Register a rule in `.map` and `.classes` maps.
    */
-  register(rule: Rule, className?: string): void {
+  register(rule: Rule): void {
     this.map[rule.key] = rule
     if (rule instanceof StyleRule) {
       this.map[rule.selector] = rule
-      if (className) this.classes[rule.key] = className
+      if (rule.id) this.classes[rule.key] = rule.id
+    } else if (rule instanceof KeyframesRule && this.keyframes) {
+      this.keyframes[rule.name] = rule.id
     }
   }
 
@@ -121,22 +142,76 @@ export default class RuleList {
     if (rule instanceof StyleRule) {
       delete this.map[rule.selector]
       delete this.classes[rule.key]
+    } else if (rule instanceof KeyframesRule) {
+      delete this.keyframes[rule.name]
     }
   }
 
   /**
    * Update the function values with a new data.
    */
-  update: Update = (name, data) => {
+  update(...args: UpdateArguments): void {
+    let name
+    let data
+    let options
+
+    if (typeof args[0] === 'string') {
+      name = args[0]
+      // $FlowFixMe
+      data = args[1]
+      // $FlowFixMe
+      options = args[2]
+    } else {
+      data = args[0]
+      // $FlowFixMe
+      options = args[1]
+      name = null
+    }
+
+    if (name) {
+      this.onUpdate(data, this.get(name), options)
+    } else {
+      for (let index = 0; index < this.index.length; index++) {
+        this.onUpdate(data, this.index[index], options)
+      }
+    }
+  }
+
+  /**
+   * Execute plugins, update rule props.
+   */
+  onUpdate(data: Object, rule: Rule, options?: Object = defaultUpdateOptions) {
     const {
       jss: {plugins},
       sheet
     } = this.options
-    if (typeof name === 'string') {
-      plugins.onUpdate(data, this.get(name), sheet)
-    } else {
-      for (let index = 0; index < this.index.length; index++) {
-        plugins.onUpdate(name, this.index[index], sheet)
+
+    // It is a rules container like for e.g. ConditionalRule.
+    if (rule.rules instanceof RuleList) {
+      rule.rules.update(data, options)
+      return
+    }
+
+    const styleRule: StyleRule = (rule: any)
+    const {style} = styleRule
+
+    plugins.onUpdate(data, rule, sheet, options)
+
+    // We rely on a new `style` ref in case it was mutated during onUpdate hook.
+    if (options.process && style && style !== styleRule.style) {
+      // We need to run the plugins in case new `style` relies on syntax plugins.
+      plugins.onProcessStyle(styleRule.style, styleRule, sheet)
+      // Update, remove and add props.
+      for (const prop in styleRule.style) {
+        const nextValue = styleRule.style[prop]
+        const prevValue = style[prop]
+        // Since we use `force` option, we should optimize the `.prop()` call
+        // for cases where the primive value has not changed.
+        // It can't do that check, because it doesn't have the previous `style`
+        // object.
+        if (nextValue !== prevValue) {
+          styleRule.prop(prop, nextValue, forceUpdateOptions)
+        }
       }
     }
   }

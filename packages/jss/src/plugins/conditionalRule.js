@@ -2,11 +2,20 @@
 import RuleList from '../RuleList'
 import type {CSSMediaRule, Rule, RuleOptions, ToCssOptions, JssStyle, ContainerRule} from '../types'
 
+const defaultToStringOptions = {
+  indent: 1,
+  children: true
+}
+
+const atRegExp = /@([\w-]+)/
+
 /**
  * Conditional rule for @media, @supports
  */
-export default class ConditionalRule implements ContainerRule {
+export class ConditionalRule implements ContainerRule {
   type = 'conditional'
+
+  at: string
 
   key: string
 
@@ -20,6 +29,8 @@ export default class ConditionalRule implements ContainerRule {
 
   constructor(key: string, styles: Object, options: RuleOptions) {
     this.key = key
+    const atMatch = key.match(atRegExp)
+    this.at = atMatch ? atMatch[1] : 'unknown'
     this.options = options
     this.rules = new RuleList({...options, parent: this})
 
@@ -47,8 +58,9 @@ export default class ConditionalRule implements ContainerRule {
   /**
    * Create and register rule, run plugins.
    */
-  addRule(name: string, style: JssStyle, options?: RuleOptions): Rule {
+  addRule(name: string, style: JssStyle, options?: RuleOptions): Rule | null {
     const rule = this.rules.add(name, style, options)
+    if (!rule) return null
     this.options.jss.plugins.onProcessRule(rule)
     return rule
   }
@@ -56,8 +68,19 @@ export default class ConditionalRule implements ContainerRule {
   /**
    * Generates a CSS string.
    */
-  toString(options?: ToCssOptions = {indent: 1}): string {
-    const inner = this.rules.toString(options)
-    return inner ? `${this.key} {\n${inner}\n}` : ''
+  toString(options?: ToCssOptions = defaultToStringOptions): string {
+    if (options.children === false) {
+      return `${this.key} {}`
+    }
+    const children = this.rules.toString(options)
+    return children ? `${this.key} {\n${children}\n}` : ''
+  }
+}
+
+const keyRegExp = /@media|@supports\s+/
+
+export default {
+  onCreateRule(key: string, styles: JssStyle, options: RuleOptions): ConditionalRule | null {
+    return keyRegExp.test(key) ? new ConditionalRule(key, styles, options) : null
   }
 }

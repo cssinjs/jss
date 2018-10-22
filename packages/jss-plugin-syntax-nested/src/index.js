@@ -32,8 +32,6 @@ export default function jssNested(): Plugin {
     }
   }
 
-  const hasAnd = str => str.indexOf('&') !== -1
-
   function replaceParentRefs(nestedProp, parentProp) {
     const parentSelectors = parentProp.split(separatorRegExp)
     const nestedSelectors = nestedProp.split(separatorRegExp)
@@ -47,7 +45,8 @@ export default function jssNested(): Plugin {
         const nested = nestedSelectors[j]
         if (result) result += ', '
         // Replace all & by the parent or prefix & with the parent.
-        result += hasAnd(nested) ? nested.replace(parentRegExp, parent) : `${parent} ${nested}`
+        result +=
+          nested.indexOf('&') !== -1 ? nested.replace(parentRegExp, parent) : `${parent} ${nested}`
       }
     }
 
@@ -58,7 +57,6 @@ export default function jssNested(): Plugin {
     // Options has been already created, now we only increase index.
     if (options) return {...options, index: options.index + 1}
 
-    // $FlowFixMe: Flow can't know that nestingLevel actually may exist here
     let {nestingLevel} = rule.options
     nestingLevel = nestingLevel === undefined ? 1 : nestingLevel + 1
 
@@ -78,7 +76,7 @@ export default function jssNested(): Plugin {
     let options
     let replaceRef
     for (const prop in style) {
-      const isNested = hasAnd(prop)
+      const isNested = prop.indexOf('&') !== -1
       const isNestedConditional = prop[0] === '@'
 
       if (!isNested && !isNestedConditional) continue

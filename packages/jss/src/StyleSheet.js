@@ -6,12 +6,11 @@ import type {
   ToCssOptions,
   RuleOptions,
   StyleSheetOptions,
+  UpdateArguments,
   JssStyle,
-  Classes
+  Classes,
+  KeyframesMap
 } from './types'
-
-/* eslint-disable-next-line no-use-before-define */
-type Update = ((name: string, data?: Object) => StyleSheet) & ((data?: Object) => StyleSheet)
 
 export default class StyleSheet {
   options: InternalStyleSheetOptions
@@ -26,17 +25,21 @@ export default class StyleSheet {
 
   classes: Classes
 
+  keyframes: KeyframesMap
+
   queue: ?Array<Rule>
 
   constructor(styles: Object, options: StyleSheetOptions) {
     this.attached = false
     this.deployed = false
     this.classes = {}
+    this.keyframes = {}
     this.options = {
       ...options,
       sheet: this,
       parent: this,
-      classes: this.classes
+      classes: this.classes,
+      keyframes: this.keyframes
     }
     this.renderer = new options.Renderer(this)
     this.rules = new RuleList(this.options)
@@ -74,7 +77,7 @@ export default class StyleSheet {
    * Add a rule to the current stylesheet.
    * Will insert a rule also after the stylesheet has been rendered first time.
    */
-  addRule(name: string, decl: JssStyle, options?: RuleOptions): Rule {
+  addRule(name: string, decl: JssStyle, options?: RuleOptions): Rule | null {
     const {queue} = this
 
     // Plugins can create rules.
@@ -83,6 +86,9 @@ export default class StyleSheet {
     if (this.attached && !queue) this.queue = []
 
     const rule = this.rules.add(name, decl, options)
+
+    if (!rule) return null
+
     this.options.jss.plugins.onProcessRule(rule)
 
     if (this.attached) {
@@ -121,7 +127,8 @@ export default class StyleSheet {
   addRules(styles: Object, options?: RuleOptions): Array<Rule> {
     const added = []
     for (const name in styles) {
-      added.push(this.addRule(name, styles[name], options))
+      const rule = this.addRule(name, styles[name], options)
+      if (rule) added.push(rule)
     }
     return added
   }
@@ -170,12 +177,8 @@ export default class StyleSheet {
   /**
    * Update the function values with a new data.
    */
-  update: Update = (name, data) => {
-    if (typeof name === 'string') {
-      this.rules.update(name, data)
-    } else {
-      this.rules.update(name)
-    }
+  update(...args: UpdateArguments): this {
+    this.rules.update(...args)
     return this
   }
 
