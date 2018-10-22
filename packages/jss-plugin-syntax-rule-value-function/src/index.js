@@ -18,7 +18,7 @@ type StyleRuleWithRuleFunction = StyleRule & {[key: string]: Function}
 
 export default function functionPlugin() {
   return {
-    onCreateRule(name: string, decl: JssStyle, options: RuleOptions): Rule | null {
+    onCreateRule(name?: string, decl: JssStyle, options: RuleOptions): Rule | null {
       if (typeof decl !== 'function') return null
       const rule: StyleRuleWithRuleFunction = (createRule(name, {}, options): any)
       rule[fnRuleNs] = decl
@@ -46,7 +46,6 @@ export default function functionPlugin() {
     onUpdate(data: Object, rule: Rule, sheet: StyleSheet, options: UpdateOptions) {
       const styleRule: StyleRule = (rule: any)
 
-      // $FlowFixMe
       const fnRule = styleRule[fnRuleNs]
 
       // If we have a style function, the entire rule is dynamic and style object
@@ -55,7 +54,6 @@ export default function functionPlugin() {
         styleRule.style = fnRule(data)
       }
 
-      // $FlowFixMe
       const fnValues = styleRule[fnValuesNs]
 
       // If we have a fn values map, it is a rule with function values.

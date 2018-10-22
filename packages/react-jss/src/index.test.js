@@ -1,7 +1,7 @@
 import expect from 'expect.js'
 import injectSheet, {
   jss,
-  createGenerateClassName,
+  createGenerateId,
   ThemeProvider,
   JssProvider,
   SheetsRegistry,
@@ -18,8 +18,8 @@ describe('React-JSS: exports', () => {
     expect(jss).to.be.an(jss.constructor)
   })
 
-  it('should export createGenerateClassName', () => {
-    expect(createGenerateClassName).to.be.a(Function)
+  it('should export createGenerateId', () => {
+    expect(createGenerateId).to.be.a(Function)
   })
 
   it('should export ThemeProvider', () => {

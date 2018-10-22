@@ -1,3 +1,4 @@
+import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
 import {create} from 'jss'
 import nested from 'jss-plugin-syntax-nested'
@@ -5,7 +6,7 @@ import nested from 'jss-plugin-syntax-nested'
 import global from './index'
 
 const settings = {
-  createGenerateClassName: () => rule => `${rule.key}-id`
+  createGenerateId: () => rule => `${rule.key}-id`
 }
 
 describe('jss-global', () => {
@@ -38,6 +39,36 @@ describe('jss-global', () => {
     })
   })
 
+  describe('@global root container with @keyframes', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet({
+        '@global': {
+          '@keyframes a': {
+            to: {
+              width: '100%'
+            }
+          }
+        }
+      })
+    })
+
+    it('should add rules', () => {
+      expect(sheet.getRule('keyframes-a')).to.be(undefined)
+    })
+
+    it('should generate correct CSS', () => {
+      expect(sheet.toString()).to.be(stripIndent`
+        @keyframes a {
+          to {
+            width: 100%;
+          }
+        }
+      `)
+    })
+  })
+
   describe('@global root prefix', () => {
     let sheet
 
@@ -55,6 +86,34 @@ describe('jss-global', () => {
 
     it('should generate correct CSS', () => {
       expect(sheet.toString()).to.be('body {\n  color: red;\n}')
+    })
+  })
+
+  describe('@global root prefix with keyframes', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet({
+        '@global @keyframes a': {
+          to: {
+            width: '100%'
+          }
+        }
+      })
+    })
+
+    it('should add rules', () => {
+      expect(sheet.getRule('keyframes-a')).to.be(undefined)
+    })
+
+    it('should generate correct CSS', () => {
+      expect(sheet.toString()).to.be(stripIndent`
+        @keyframes a {
+          to {
+            width: 100%;
+          }
+        }
+      `)
     })
   })
 
@@ -89,7 +148,7 @@ describe('jss-global', () => {
     })
   })
 
-  describe('@global scoped container with comma separate selectors', () => {
+  describe('@global scoped container with comma separated selectors', () => {
     let sheet
 
     beforeEach(() => {

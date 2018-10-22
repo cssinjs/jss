@@ -2,8 +2,10 @@
 import toCss from '../utils/toCss'
 import type {CSSViewportRule, RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
 
-export default class ViewportRule implements BaseRule {
+export class ViewportRule implements BaseRule {
   type = 'viewport'
+
+  at: string = '@viewport'
 
   key: string
 
@@ -26,5 +28,13 @@ export default class ViewportRule implements BaseRule {
    */
   toString(options?: ToCssOptions): string {
     return toCss(this.key, this.style, options)
+  }
+}
+
+export default {
+  onCreateRule(key: string, style: JssStyle, options: RuleOptions): ViewportRule | null {
+    return key === '@viewport' || key === '@-ms-viewport'
+      ? new ViewportRule(key, style, options)
+      : null
   }
 }

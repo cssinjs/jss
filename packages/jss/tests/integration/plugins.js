@@ -2,14 +2,14 @@ import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import {create} from '../../src'
 import StyleSheet from '../../src/StyleSheet'
-import {createGenerateClassName} from '../utils'
+import {createGenerateId} from '../utils'
 import PluginsRegistry from '../../src/PluginsRegistry'
 
 describe('Integration: plugins', () => {
   let jss
 
   beforeEach(() => {
-    jss = create({createGenerateClassName})
+    jss = create({createGenerateId})
   })
 
   describe('common', () => {
@@ -80,6 +80,73 @@ describe('Integration: plugins', () => {
       jss.createStyleSheet({a: {color: 'red'}})
       expect(receivedWarning).to.be('[JSS] Unknown hook "%s".')
     })
+
+    it('should run user-defined plugins in .setup() first, internal second', () => {
+      jss = create({
+        createGenerateId,
+        plugins: [
+          {
+            onProcessStyle(style) {
+              if ('animationName' in style) {
+                return {'animation-name': style.animationName}
+              }
+              return style
+            }
+          }
+        ]
+      })
+
+      const sheet = jss.createStyleSheet({
+        '@keyframes a': {
+          to: {height: '100%'}
+        },
+        b: {
+          animationName: '$a'
+        }
+      })
+
+      expect(sheet.toString()).to.be(stripIndent`
+        @keyframes keyframes-a-id {
+          to {
+            height: 100%;
+          }
+        }
+        .b-id {
+          animation-name: keyframes-a-id;
+        }
+      `)
+    })
+
+    it('should run user-defined plugins in .use() first, internal second', () => {
+      jss = create({createGenerateId}).use({
+        onProcessStyle(style) {
+          if ('animationName' in style) {
+            return {'animation-name': style.animationName}
+          }
+          return style
+        }
+      })
+
+      const sheet = jss.createStyleSheet({
+        '@keyframes a': {
+          to: {height: '100%'}
+        },
+        b: {
+          animationName: '$a'
+        }
+      })
+
+      expect(sheet.toString()).to.be(stripIndent`
+        @keyframes keyframes-a-id {
+          to {
+            height: 100%;
+          }
+        }
+        .b-id {
+          animation-name: keyframes-a-id;
+        }
+      `)
+    })
   })
 
   describe('onProcessRule', () => {
@@ -114,8 +181,10 @@ describe('Integration: plugins', () => {
   describe('onCreateRule', () => {
     let receivedName
     let receivedDecl
+    let rawStyle
     let receivedOptions
     let executed = 0
+    const style = {float: 'left'}
 
     beforeEach(() => {
       jss.use({
@@ -123,11 +192,12 @@ describe('Integration: plugins', () => {
           receivedName = name
           receivedDecl = decl
           receivedOptions = options
+          rawStyle = options.parent.rules.raw[name]
           executed++
         }
       })
       jss.createStyleSheet({
-        a: {float: 'left'}
+        a: style
       })
     })
 
@@ -139,6 +209,10 @@ describe('Integration: plugins', () => {
       expect(receivedName).to.be('a')
       expect(receivedDecl).to.eql({float: 'left'})
       expect(receivedOptions).to.be.an(Object)
+    })
+
+    it('should have referenced the raw decl before', () => {
+      expect(rawStyle).to.be(style)
     })
   })
 
@@ -196,7 +270,7 @@ describe('Integration: plugins', () => {
     })
 
     it('should run plugins on @keyframes rule', () => {
-      const rule = jss.createRule('@keyframes', {
+      const rule = jss.createRule('@keyframes a', {
         from: {top: 0},
         to: {top: 10}
       })

@@ -1,7 +1,7 @@
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import {create, hasCSSTOMSupport} from '../../src'
-import {createGenerateClassName} from '../utils'
+import {createGenerateId} from '../utils'
 
 describe('Integration: houdini', () => {
   if (!hasCSSTOMSupport) return
@@ -9,7 +9,7 @@ describe('Integration: houdini', () => {
   let jss
 
   beforeEach(() => {
-    jss = create({createGenerateClassName})
+    jss = create({createGenerateId})
   })
 
   describe('use unit value', () => {

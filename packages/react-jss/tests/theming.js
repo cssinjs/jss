@@ -46,7 +46,7 @@ describe('React-JSS: theming', () => {
   beforeEach(() => {
     localJss = create({
       ...preset(),
-      createGenerateClassName: () => {
+      createGenerateId: () => {
         let counter = 0
         return rule => `${rule.key}-${counter++}`
       }
