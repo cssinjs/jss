@@ -419,16 +419,16 @@ In case you render multiple react rendering trees in one application, you will g
 **Note**: in case of SSR, make sure to create a new generator for **each** request. Otherwise class names will become indeterministic and at some point you may run out of max safe integer numbers.
 
 ```javascript
-import {createGenerateClassName, JssProvider} from 'react-jss'
+import {createGenerateId, JssProvider} from 'react-jss'
 
-const generateClassName = createGenerateClassName()
+const generateId = createGenerateId()
 
 const Component = () => (
   <div>
-    <JssProvider generateClassName={generateClassName}>
+    <JssProvider generateId={generateId}>
       <App1 />
     </JssProvider>
-    <JssProvider generateClassName={generateClassName}>
+    <JssProvider generateId={generateId}>
       <App2 />
     </JssProvider>
   </div>

@@ -32,7 +32,7 @@ export default jss
 
 Options:
 
-- `createGenerateClassName` - a function which returns a function which generates unique class names.
+- `createGenerateId` - a function which returns a function which generates unique class names.
 - `plugins` - an array of functions, will be passed to `jss.use`.
 - `virtual` - if true, JSS will use VirtualRenderer.
 - `insertionPoint` - string value of a DOM comment node which marks the start of sheets or a rendered DOM node. Sheets rendered by this Jss instance are inserted after this point sequentially.
@@ -74,7 +74,7 @@ Options:
 - `link` - link jss `Rule` instances with DOM `CSSRule` instances so that styles, can be modified dynamically, false by default because it has some performance cost.
 - `element` - style element, will create one by default.
 - `index` - 0 by default - determines DOM rendering order, higher number = higher specificity (inserted after).
-- `generateClassName` - a function that generates a unique class name.
+- `generateId` - a function that generates a unique class name.
 - `classNamePrefix` - a string, which will be added at the beginning of the class name.
 
 ```javascript
@@ -358,22 +358,22 @@ console.log(sheet.toString())
 
 ## Generate your own class names
 
-`createGenerateClassName`
+`createGenerateId`
 
-Option `createGenerateClassName` allows you to specify a function which returns a class name generator function `generateClassName(rule, sheet)`. This pattern is used to allow JSS reset the counter upon factory invocation, when needed. For example, it is used in [React-JSS](https://github.com/cssinjs/react-jss) to reset the counter on each request for server-side rendering.
+Option `createGenerateId` allows you to specify a function which returns a class name generator function `generateId(rule, sheet)`. This pattern is used to allow JSS reset the counter upon factory invocation, when needed. For example, it is used in [React-JSS](https://github.com/cssinjs/react-jss) to reset the counter on each request for server-side rendering.
 
 By default class names generator uses a simple counter to ensure uniqueness of the class names. It consists of `classNamePrefix` Style Sheet option + rule name + counter. **Note**: in production (`NODE_ENV=production`) it uses just the `c` + rules counter.
 
 ```javascript
 import jss from 'jss'
 
-const createGenerateClassName = () => {
+const createGenerateId = () => {
   let counter = 0
 
   return (rule, sheet) => `pizza--${rule.key}-${counter++}`
 }
 
-jss.setup({createGenerateClassName})
+jss.setup({createGenerateId})
 
 const sheet = jss.createStyleSheet({
   button: {

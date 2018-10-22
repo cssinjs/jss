@@ -69,26 +69,20 @@ Compiles to:
 
 ## Keyframes Animation
 
-Note: keyframe id is still global and may conflict.
+Keyframes name will use the same id generator function as the class names. Animation name will be scoped by default. In order to access it within the same style sheet, you can use `$ref` syntax as a value of `animationName` or `animation` property.
+
+Additionally generated name can be accessed through `sheet.keyframes.{name}` map.
+
+In order to generate a global animation name, you can use `@global` rule.
 
 ```javascript
 const styles = {
-  '@keyframes my-animation': {
+  '@keyframes slideRight': {
     from: {opacity: 0},
     to: {opacity: 1}
-  }
-}
-```
-
-### ES6 with generated keyframe id
-
-```javascript
-const animationId = Math.random()
-
-const styles = {
-  [`@keyframes ${animationId}`]: {
-    from: {opacity: 0},
-    to: {opacity: 1}
+  },
+  container: {
+    animationName: '$slideRight'
   }
 }
 ```
@@ -96,13 +90,16 @@ const styles = {
 Compiles to:
 
 ```css
-@keyframes my-animation {
+@keyframes keyframes-slideRight-0-1-2 {
   from {
     opacity: 0;
   }
   to {
     opacity: 1;
   }
+}
+.container-0-1-3 {
+  animation-name: keyframes-slideRight-0-1-2;
 }
 ```
 

@@ -4,7 +4,7 @@ import {create} from 'jss'
 import pluginExpand from '../../jss-plugin-syntax-expand'
 import pluginFunction from '.'
 
-const settings = {createGenerateClassName: () => rule => `${rule.key}-id`}
+const settings = {createGenerateId: () => rule => `${rule.key}-id`}
 
 describe('jss-plugin-syntax-rule-value-function: plugin-expand', () => {
   let jss

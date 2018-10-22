@@ -2,18 +2,20 @@
 /**
  * A better abstraction over CSS.
  *
- * @copyright Oleg Slobodskoi 2014-present
+ * @copyright Oleg Slobodskoi / Isonen 2014-present
  * @website https://github.com/cssinjs/jss
  * @license MIT
  */
 import Jss from './Jss'
 import type StyleSheet from './StyleSheet'
-import type ConditionalRule from './rules/ConditionalRule'
-import type KeyframesRule from './rules/KeyframesRule'
-import type StyleRule from './rules/StyleRule'
-import type ViewportRule from './rules/ViewportRule'
-import type SimpleRule from './rules/SimpleRule'
-import type FontFaceRule from './rules/FontFaceRule'
+import type {
+  ConditionalRule,
+  KeyframesRule,
+  StyleRule,
+  ViewportRule,
+  SimpleRule,
+  FontFaceRule
+} from './plugins'
 import type {JssOptions} from './types'
 
 /**
@@ -25,7 +27,7 @@ export type {
   JssOptions,
   JssStyle,
   Plugin,
-  GenerateClassName,
+  GenerateId,
   RuleListOptions,
   Rule,
   Renderer,
@@ -91,7 +93,7 @@ export {default as sheets} from './sheets'
 /**
  * Class name generator creator.
  */
-export {default as createGenerateClassName} from './utils/createGenerateClassName'
+export {default as createGenerateId} from './utils/createGenerateId'
 
 /**
  * Creates a new instance of Jss.

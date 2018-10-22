@@ -1,14 +1,14 @@
 import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
 import {create, SheetsRegistry} from '../../src'
-import {createGenerateClassName} from '../utils'
+import {createGenerateId} from '../utils'
 
 describe('Integration: sheetsRegistry', () => {
   let jss
   let sheets
 
   beforeEach(() => {
-    jss = create({createGenerateClassName})
+    jss = create({createGenerateId})
     sheets = new SheetsRegistry()
   })
 
