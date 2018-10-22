@@ -6,6 +6,7 @@ import type {
   CSSStyleRule,
   CSSMediaRule,
   CSSKeyframesRule,
+  CSSKeyframeRule,
   Rule,
   ContainerRule,
   JssValue,
@@ -32,8 +33,16 @@ const memoize = <Value>(fn: () => Value): (() => Value) => {
 /**
  * Get a style property value.
  */
-function getPropertyValue(cssRule: HTMLElement | CSSStyleRule, prop: string): string {
+function getPropertyValue(
+  cssRule: HTMLElement | CSSStyleRule | CSSKeyframeRule,
+  prop: string
+): string {
   try {
+    // Support CSSTOM.
+    if ('attributeStyleMap' in cssRule) {
+      // $FlowFixMe
+      return cssRule.attributeStyleMap.get(prop)
+    }
     return cssRule.style.getPropertyValue(prop)
   } catch (err) {
     // IE may throw if property is unknown.
@@ -44,7 +53,11 @@ function getPropertyValue(cssRule: HTMLElement | CSSStyleRule, prop: string): st
 /**
  * Set a style property.
  */
-function setProperty(cssRule: HTMLElement | CSSStyleRule, prop: string, value: JssValue): boolean {
+function setProperty(
+  cssRule: HTMLElement | CSSStyleRule | CSSKeyframeRule,
+  prop: string,
+  value: JssValue
+): boolean {
   try {
     let cssValue = ((value: any): string)
 
@@ -57,7 +70,13 @@ function setProperty(cssRule: HTMLElement | CSSStyleRule, prop: string, value: J
       }
     }
 
-    cssRule.style.setProperty(prop, cssValue)
+    // Support CSSTOM.
+    if ('attributeStyleMap' in cssRule) {
+      // $FlowFixMe
+      cssRule.attributeStyleMap.set(prop, cssValue)
+    } else {
+      cssRule.style.setProperty(prop, cssValue)
+    }
   } catch (err) {
     // IE may throw if property is unknown.
     return false
@@ -68,9 +87,15 @@ function setProperty(cssRule: HTMLElement | CSSStyleRule, prop: string, value: J
 /**
  * Remove a style property.
  */
-function removeProperty(cssRule: HTMLElement | CSSStyleRule, prop: string) {
+function removeProperty(cssRule: HTMLElement | CSSStyleRule | CSSKeyframeRule, prop: string) {
   try {
-    cssRule.style.removeProperty(prop)
+    // Support CSSTOM.
+    if ('attributeStyleMap' in cssRule) {
+      // $FlowFixMe
+      cssRule.attributeStyleMap.delete(prop)
+    } else {
+      cssRule.style.removeProperty(prop)
+    }
   } catch (err) {
     warning(
       false,
@@ -330,8 +355,9 @@ export default class DomRenderer {
     const {sheet} = this.element
 
     if (rule.type === 'conditional' || rule.type === 'keyframes') {
-      const containerRule = ((rule: any): ContainerRule)
-      const cssRule = insertRule(sheet, `${containerRule.key} {}`, index)
+      const containerRule: ContainerRule = (rule: any)
+      // We need to render the container without children first.
+      const cssRule = insertRule(sheet, containerRule.toString({children: false}), index)
       if (cssRule === false) {
         return false
       }
@@ -339,7 +365,6 @@ export default class DomRenderer {
         const cssChildRule = insertRule(cssRule, childRule.toString(), childIndex)
         if (cssChildRule !== false) childRule.renderable = cssChildRule
       })
-
       return cssRule
     }
 

@@ -1,20 +1,46 @@
 /* @flow */
 import Jss from '../Jss'
 import StyleSheet from '../StyleSheet'
-import ConditionalRule from '../rules/ConditionalRule'
-import KeyframesRule from '../rules/KeyframesRule'
-import StyleRule from '../rules/StyleRule'
-import ViewportRule from '../rules/ViewportRule'
-import SimpleRule from '../rules/SimpleRule'
-import FontFaceRule from '../rules/FontFaceRule'
+import {ConditionalRule} from '../plugins/conditionalRule'
+import {KeyframesRule} from '../plugins/keyframesRule'
+import {StyleRule} from '../plugins/styleRule'
+import {ViewportRule} from '../plugins/viewportRule'
+import {SimpleRule} from '../plugins/simpleRule'
+import {FontFaceRule} from '../plugins/fontFaceRule'
 import type {CSSStyleRule} from './cssom'
 import type RuleList from '../RuleList'
 
 export type Classes = {[string]: string}
 
+export type KeyframesMap = {[string]: string}
+
 export type ToCssOptions = {
   indent?: number,
-  allowEmpty?: boolean
+  allowEmpty?: boolean,
+  children?: boolean
+}
+
+export type UpdateOptions = {
+  process?: boolean,
+  force?: boolean
+}
+
+export type UpdateArguments =
+  | [Object]
+  | [Object, UpdateOptions]
+  | [string, Object]
+  | [string, Object, UpdateOptions]
+
+export interface BaseRule {
+  type: string;
+  // Key is used as part of a class name and keyframes-name. It has to be
+  // a valid CSS identifier https://www.w3.org/TR/CSS21/syndata.html#value-def-identifier
+  key: string;
+  isProcessed: boolean;
+  // eslint-disable-next-line no-use-before-define
+  options: RuleOptions;
+  renderable?: Object | null | void;
+  toString(options?: ToCssOptions): string;
 }
 
 export type Rule =
@@ -24,8 +50,9 @@ export type Rule =
   | KeyframesRule
   | SimpleRule
   | ViewportRule
+  | BaseRule
 
-export type GenerateClassName = (rule: Rule, sheet?: StyleSheet) => string
+export type GenerateId = (rule: Rule, sheet?: StyleSheet) => string
 
 // TODO
 // Find a way to declare all types: Object|string|Array<Object>
@@ -35,6 +62,7 @@ export type JssValue =
   | string
   | number
   | Array<string | number | Array<string | number> | '!important'>
+  | Object
   | null
   | false
 
@@ -56,62 +84,66 @@ export interface Renderer {
 
 export type RuleFactoryOptions = {
   selector?: string,
-  classes?: Object,
+  classes?: Classes,
+  keyframes?: KeyframesMap,
   sheet?: StyleSheet,
   index?: number,
   jss?: Jss,
-  generateClassName?: GenerateClassName,
+  generateId?: GenerateId,
   Renderer?: Class<Renderer>
 }
 
-export interface BaseRule {
-  type: string;
-  key: string;
-  isProcessed: boolean;
-  // eslint-disable-next-line no-use-before-define
-  options: RuleOptions;
-  toString(options?: ToCssOptions): string;
-}
-
 export interface ContainerRule extends BaseRule {
+  at: string;
   rules: RuleList;
 }
 
 export type RuleOptions = {
   selector?: string,
+  scoped?: boolean,
   sheet?: StyleSheet,
   index?: number,
   parent?: ContainerRule | StyleSheet,
   classes: Classes,
+  keyframes: KeyframesMap,
   jss: Jss,
-  generateClassName: GenerateClassName,
+  generateId: GenerateId,
   Renderer: Class<Renderer>
 }
 
 export type RuleListOptions = {
   classes: Classes,
-  generateClassName: GenerateClassName,
+  scoped?: boolean,
+  keyframes: KeyframesMap,
+  generateId: GenerateId,
   Renderer: Class<Renderer>,
   jss: Jss,
   sheet: StyleSheet,
   parent: ContainerRule | StyleSheet
 }
 
+export type OnCreateRule = (name?: string, decl: JssStyle, options: RuleOptions) => BaseRule | null
+export type OnProcessRule = (rule: Rule, sheet?: StyleSheet) => void
+export type OnProcessStyle = (style: JssStyle, rule: Rule, sheet?: StyleSheet) => JssStyle
+export type OnProcessSheet = (sheet?: StyleSheet) => void
+export type OnChangeValue = (value: JssValue, prop: string, rule: StyleRule) => JssValue
+export type OnUpdate = (data: Object, rule: Rule, sheet: StyleSheet, options: UpdateOptions) => void
+
 export type Plugin = {
-  onCreateRule?: (name: string, decl: JssStyle, options: RuleOptions) => BaseRule | null,
-  onProcessRule?: (rule: Rule, sheet?: StyleSheet) => void,
-  onProcessStyle?: (style: JssStyle, rule: Rule, sheet?: StyleSheet) => JssStyle,
-  onProcessSheet?: (sheet?: StyleSheet) => void,
-  onChangeValue?: (value: string, prop: string, rule: StyleRule) => string | null | false,
-  onUpdate?: (data: Object, rule: Rule, sheet?: StyleSheet) => void
+  onCreateRule?: OnCreateRule,
+  onProcessRule?: OnProcessRule,
+  onProcessStyle?: OnProcessStyle,
+  onProcessSheet?: OnProcessSheet,
+  onChangeValue?: OnChangeValue,
+  onUpdate?: OnUpdate
 }
 
 export type InsertionPoint = string | HTMLElement
 
-type CreateGenerateClassName = () => GenerateClassName
+type CreateGenerateId = () => GenerateId
 
 export type JssOptions = {
-  createGenerateClassName?: CreateGenerateClassName,
+  createGenerateId?: CreateGenerateId,
   plugins?: Array<Plugin>,
   insertionPoint?: InsertionPoint,
   Renderer?: Class<Renderer>,
@@ -119,7 +151,7 @@ export type JssOptions = {
 }
 
 export type InternalJssOptions = {
-  createGenerateClassName: CreateGenerateClassName,
+  createGenerateId: CreateGenerateId,
   plugins: Array<Plugin>,
   insertionPoint?: InsertionPoint,
   Renderer: Class<Renderer>
@@ -131,7 +163,7 @@ export type StyleSheetFactoryOptions = {
   index?: number,
   link?: boolean,
   element?: HTMLStyleElement,
-  generateClassName?: GenerateClassName,
+  generateId?: GenerateId,
   classNamePrefix?: string
 }
 
@@ -141,7 +173,7 @@ export type StyleSheetOptions = {
   link?: boolean,
   element?: HTMLStyleElement,
   index: number,
-  generateClassName: GenerateClassName,
+  generateId: GenerateId,
   classNamePrefix?: string,
   Renderer: Class<Renderer>,
   insertionPoint?: InsertionPoint,
@@ -156,7 +188,7 @@ export type InternalStyleSheetOptions = {
   index: number,
   insertionPoint?: InsertionPoint,
   Renderer: Class<Renderer>,
-  generateClassName: GenerateClassName,
+  generateId: GenerateId,
   classNamePrefix?: string,
   jss: Jss,
   sheet: StyleSheet,

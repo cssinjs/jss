@@ -1,7 +1,7 @@
 /* @flow */
-import type {CSSSimpleRule, RuleOptions, ToCssOptions, BaseRule} from '../types'
+import type {CSSSimpleRule, RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
 
-export default class SimpleRule implements BaseRule {
+export class SimpleRule implements BaseRule {
   type = 'simple'
 
   key: string
@@ -35,5 +35,17 @@ export default class SimpleRule implements BaseRule {
     }
 
     return `${this.key} ${this.value};`
+  }
+}
+
+const keysMap = {
+  '@charset': true,
+  '@import': true,
+  '@namespace': true
+}
+
+export default {
+  onCreateRule(key: string, value: JssStyle, options: RuleOptions): SimpleRule | null {
+    return key in keysMap ? new SimpleRule(key, ((value: any): string), options) : null
   }
 }

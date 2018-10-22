@@ -11,7 +11,7 @@ import {renderToString} from 'react-dom/server'
 
 import injectSheet, {SheetsRegistry, JssProvider} from '.'
 
-describe('JssProvider', () => {
+describe('React-JSS: JssProvider', () => {
   let node
 
   beforeEach(() => {
@@ -24,14 +24,14 @@ describe('JssProvider', () => {
   })
 
   describe('nested child JssProvider', () => {
-    describe('generateClassName prop', () => {
+    describe('generateId prop', () => {
       it('should forward from context', () => {
-        const generateClassName = () => 'a'
+        const generateId = () => 'a'
         const registry = new SheetsRegistry()
         const MyComponent = injectSheet({a: {color: 'red'}})()
 
         render(
-          <JssProvider generateClassName={generateClassName}>
+          <JssProvider generateId={generateId}>
             <JssProvider registry={registry}>
               <MyComponent />
             </JssProvider>
@@ -47,14 +47,14 @@ describe('JssProvider', () => {
       })
 
       it('should overwrite over child props', () => {
-        const generateClassNameParent = () => 'a'
-        const generateClassNameChild = () => 'b'
+        const generateIdParent = () => 'a'
+        const generateIdChild = () => 'b'
         const registry = new SheetsRegistry()
         const MyComponent = injectSheet({a: {color: 'red'}})()
 
         render(
-          <JssProvider generateClassName={generateClassNameParent}>
-            <JssProvider generateClassName={generateClassNameChild} registry={registry}>
+          <JssProvider generateId={generateIdParent}>
+            <JssProvider generateId={generateIdChild} registry={registry}>
               <MyComponent />
             </JssProvider>
           </JssProvider>,
@@ -71,13 +71,13 @@ describe('JssProvider', () => {
 
     describe('classNamePrefix prop', () => {
       it('should forward from context', () => {
-        const generateClassName = (rule, sheet) => sheet.options.classNamePrefix + rule.key
+        const generateId = (rule, sheet) => sheet.options.classNamePrefix + rule.key
         const registry = new SheetsRegistry()
         const MyComponent = injectSheet({a: {color: 'red'}})()
 
         render(
           <JssProvider classNamePrefix="A-">
-            <JssProvider registry={registry} generateClassName={generateClassName}>
+            <JssProvider registry={registry} generateId={generateId}>
               <MyComponent />
             </JssProvider>
           </JssProvider>,
@@ -92,17 +92,13 @@ describe('JssProvider', () => {
       })
 
       it('should overwrite over child props', () => {
-        const generateClassName = (rule, sheet) => sheet.options.classNamePrefix + rule.key
+        const generateId = (rule, sheet) => sheet.options.classNamePrefix + rule.key
         const registry = new SheetsRegistry()
         const MyComponent = injectSheet({a: {color: 'red'}})()
 
         render(
           <JssProvider classNamePrefix="A-">
-            <JssProvider
-              classNamePrefix="B-"
-              registry={registry}
-              generateClassName={generateClassName}
-            >
+            <JssProvider classNamePrefix="B-" registry={registry} generateId={generateId}>
               <MyComponent />
             </JssProvider>
           </JssProvider>,
@@ -171,13 +167,13 @@ describe('JssProvider', () => {
 
     describe('registry prop', () => {
       it('should forward from context', () => {
-        const generateClassName = () => 'a'
+        const generateId = () => 'a'
         const registry = new SheetsRegistry()
         const MyComponent = injectSheet({a: {color: 'red'}})()
 
         render(
           <JssProvider registry={registry}>
-            <JssProvider generateClassName={generateClassName}>
+            <JssProvider generateId={generateId}>
               <MyComponent />
             </JssProvider>
           </JssProvider>,
@@ -192,14 +188,14 @@ describe('JssProvider', () => {
       })
 
       it('should overwrite over child props', () => {
-        const generateClassName = () => 'a'
+        const generateId = () => 'a'
         const registryA = new SheetsRegistry()
         const registryB = new SheetsRegistry()
         const MyComponent = injectSheet({a: {color: 'red'}})()
 
         render(
           <JssProvider registry={registryA}>
-            <JssProvider registry={registryB} generateClassName={generateClassName}>
+            <JssProvider registry={registryB} generateId={generateId}>
               <MyComponent />
             </JssProvider>
           </JssProvider>,
@@ -218,13 +214,13 @@ describe('JssProvider', () => {
 
     describe('disableStylesGeneration prop', () => {
       it('should forward from context', () => {
-        const generateClassName = () => 'a'
+        const generateId = () => 'a'
         const registry = new SheetsRegistry()
         const MyComponent = injectSheet({a: {color: 'red'}})()
 
         render(
           <JssProvider registry={registry} disableStylesGeneration>
-            <JssProvider generateClassName={generateClassName}>
+            <JssProvider generateId={generateId}>
               <MyComponent />
             </JssProvider>
           </JssProvider>,
@@ -235,13 +231,13 @@ describe('JssProvider', () => {
       })
 
       it('should overwrite over child props', () => {
-        const generateClassName = () => 'a'
+        const generateId = () => 'a'
         const registry = new SheetsRegistry()
         const MyComponent = injectSheet({a: {color: 'red'}})()
 
         render(
           <JssProvider registry={registry} disableStylesGeneration>
-            <JssProvider generateClassName={generateClassName} disableStylesGeneration={false}>
+            <JssProvider generateId={generateId} disableStylesGeneration={false}>
               <MyComponent />
             </JssProvider>
           </JssProvider>,
@@ -263,7 +259,7 @@ describe('JssProvider', () => {
       const A = injectSheet({a: {color: 'red'}})()
       const B = injectSheet({a: {color: 'green'}})()
       const localJss = create({
-        createGenerateClassName: () => {
+        createGenerateId: () => {
           let counter = 0
           return rule => `${rule.key}-${counter++}`
         }
@@ -318,7 +314,7 @@ describe('JssProvider', () => {
       localJss = create({
         ...preset(),
         virtual: true,
-        createGenerateClassName: () => {
+        createGenerateId: () => {
           let counter = 0
           return rule => `${rule.key}-${counter++}`
         }
@@ -484,18 +480,18 @@ describe('JssProvider', () => {
       expect(customSheets1.toString()).to.equal(customSheets2.toString())
     })
 
-    it('should use generateClassName', () => {
+    it('should use generateId', () => {
       const Component1 = injectSheet({a: {color: 'red'}})()
       const Component2 = injectSheet({a: {color: 'red'}})()
       const registry = new SheetsRegistry()
-      const generateClassName = localJss.options.createGenerateClassName()
+      const generateId = localJss.options.createGenerateId()
 
       renderToString(
         <div>
-          <JssProvider registry={registry} generateClassName={generateClassName} jss={localJss}>
+          <JssProvider registry={registry} generateId={generateId} jss={localJss}>
             <Component1 />
           </JssProvider>
-          <JssProvider registry={registry} generateClassName={generateClassName} jss={localJss}>
+          <JssProvider registry={registry} generateId={generateId} jss={localJss}>
             <Component2 />
           </JssProvider>
         </div>
@@ -518,7 +514,7 @@ describe('JssProvider', () => {
       const localJss2 = create({
         ...preset(),
         virtual: true,
-        createGenerateClassName: () => {
+        createGenerateId: () => {
           let counter = 0
           return (rule, sheet) => `${sheet.options.classNamePrefix}${rule.key}-${counter++}`
         }

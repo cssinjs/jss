@@ -10,7 +10,7 @@ import {create} from 'jss'
 import extend from './index'
 
 const settings = {
-  createGenerateClassName: () => rule => `${rule.key}-id`
+  createGenerateId: () => rule => `${rule.key}-id`
 }
 
 describe('jss-plugin-syntax-extend', () => {
@@ -334,8 +334,8 @@ describe('jss-plugin-syntax-extend', () => {
     beforeEach(() => {
       const styles = {
         a: data => ({
-          height: '200px',
-          extend: data.redContainer
+          extend: data.redContainer,
+          height: '200px'
         })
       }
 
@@ -350,7 +350,7 @@ describe('jss-plugin-syntax-extend', () => {
 
     it('should have correct output', () => {
       expect(sheet.getRule('a')).to.not.be(undefined)
-      expect(sheet.toString()).to.be('.a-id {\n  height: 200px;\n  background: red;\n}')
+      expect(sheet.toString()).to.be('.a-id {\n  background: red;\n  height: 200px;\n}')
     })
   })
 
