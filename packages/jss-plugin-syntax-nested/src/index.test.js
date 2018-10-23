@@ -642,7 +642,7 @@ describe('jss-plugin-syntax-nested', () => {
     let sheet
 
     beforeEach(() => {
-      const localJss = create(settings).use(jssExtend(), nested())
+      const localJss = create(settings).use(nested())
       sheet = localJss.createStyleSheet({
         card: {},
         cardDeck: {
