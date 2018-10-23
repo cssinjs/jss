@@ -14,7 +14,7 @@ const styles = {
     },
     a: {
       textDecoration: 'underline'
-    }
+    },
     '@keyframes a': {
       to: {
         width: '100%'

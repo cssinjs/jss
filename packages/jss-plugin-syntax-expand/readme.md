@@ -51,45 +51,61 @@ Compiles to:
 1.  Expanded object notation for all properties.
 
 ```javascript
-border: {
-  width: '1px',
-  style: 'solid',
-  color: 'red'
+const styles = {
+  container: {
+    border: {
+      width: '1px',
+      style: 'solid',
+      color: 'red'
+    }
+  }
 }
 ```
 
 will be converted to
 
 ```css
-border: 1px solid red;
+.container-3kjh2 {
+  border: 1px solid red;
+}
 ```
 
 1.  Array notation for properties like `margin`, `padding` and others.
 
 ```javascript
-padding: [20, 10],
-borderRadius: ['50%', '10%']
+const styles = {
+  container: {
+    padding: [20, 10],
+    borderRadius: ['50%', '10%']
+  }
+}
 ```
 
 1.  Expanded arrays for multi value properties.
 
 ```javascript
-transition: [
-  {
-    property: 'opacity',
-    duration: '200ms'
-  },
-  {
-    property: 'width',
-    duration: '300ms'
+const styles = {
+  container: {
+    transition: [
+      {
+        property: 'opacity',
+        duration: '200ms'
+      },
+      {
+        property: 'width',
+        duration: '300ms'
+      }
+    ]
   }
-]
+}
 ```
 
 will be converted to
 
 ```css
-transition: opacity 200ms, width 300ms;
+.container-3kjh2 {
+  transition: opacity 200ms, width 300ms;
+}
 ```
 
 1.  Default unit support.

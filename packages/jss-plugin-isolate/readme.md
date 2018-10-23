@@ -46,6 +46,9 @@ For string value see [Isolation by convention](#isolation-by-convention).
 1.  Globally for all StyleSheets:
 
     ```javascript
+    import jss from 'jss'
+    import isolate from 'jss-plugin-isolate'
+
     jss.use(
       isolate({
         isolate: false
@@ -68,6 +71,15 @@ For string value see [Isolation by convention](#isolation-by-convention).
 1.  For a specific StyleSheet:
 
     ```javascript
+    import jss from 'jss'
+    import isolate from 'jss-plugin-isolate'
+
+    jss.use(
+      isolate({
+        isolate: false
+      })
+    )
+
     const styles = {
       // Isolated.
       root: {
@@ -99,6 +111,9 @@ const styles = {
 You can assign any string to the `isolate` option. It will be used to match a rule name to isolate. All other rules will remain unisolated.
 
 ```javascript
+import jss from 'jss'
+import isolate from 'jss-plugin-isolate'
+
 jss.use(
   isolate({
     // Will match rule names `root` in all StyleSheets.
@@ -125,6 +140,9 @@ Default value for `reset` option is `inherited`.
 If you want to reset some properties additionally to `inherited` once, you can pass a map of props-values. For e.g. you can set `box-sizing` to be `border-box` by default for every isolated rule without messing around with greedy selectors like this: `* {box-sizing: border-box}`.
 
 ```javascript
+import jss from 'jss'
+import isolate from 'jss-plugin-isolate'
+
 jss.use(
   isolate({
     reset: {
@@ -137,6 +155,9 @@ jss.use(
 If you want to reset all properties, not just inherited, use `{reset: 'all'}`.
 
 ```javascript
+import jss from 'jss'
+import isolate from 'jss-plugin-isolate'
+
 jss.use(
   isolate({
     reset: 'all'
@@ -147,6 +168,9 @@ jss.use(
 If you want to reset all properties and extend the reset with your props:
 
 ```javascript
+import jss from 'jss'
+import isolate from 'jss-plugin-isolate'
+
 jss.use(
   isolate({
     reset: [
