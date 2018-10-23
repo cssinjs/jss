@@ -1,5 +1,5 @@
 // @flow
-import {Component, Children, type Element, type ElementType} from 'react'
+import {Component, type Node} from 'react'
 import PropTypes from 'prop-types'
 import type {Jss, GenerateId, SheetsRegistry} from 'jss'
 import {createGenerateIdDefault} from './jss'
@@ -16,7 +16,7 @@ type Props = {
   generateId?: GenerateId,
   classNamePrefix?: string,
   disableStylesGeneration?: boolean,
-  children: Element<ElementType>
+  children: Node
 }
 
 export default class JssProvider extends Component<Props> {
@@ -95,8 +95,6 @@ export default class JssProvider extends Component<Props> {
   generateId: GenerateId
 
   render() {
-    const {children} = this.props
-
-    return Children.only(children)
+    return this.props.children
   }
 }
