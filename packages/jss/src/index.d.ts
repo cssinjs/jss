@@ -1,5 +1,5 @@
-type GenerateClassName = (rule: Rule, sheet?: StyleSheet) => string
-type CreateGenerateClassName = () => GenerateClassName
+type GenerateId = (rule: Rule, sheet?: StyleSheet) => string
+type CreateGenerateId = () => GenerateId
 type JssValue =
   | string
   | number
@@ -18,7 +18,7 @@ type UpdateOptions = {
 
 type RuleListOptions = {
   classes: Classes
-  generateClassName: GenerateClassName
+  generateClassName: GenerateId
   Renderer: Renderer
   jss: Jss
   sheet: StyleSheet
@@ -51,7 +51,7 @@ type RuleOptions = {
   parent?: ContainerRule | StyleSheet
   classes: Classes
   jss: Jss
-  generateClassName: GenerateClassName
+  generateId: GenerateId
   Renderer: Renderer
 }
 
@@ -97,7 +97,7 @@ interface Renderer {
 }
 
 type JssOptions = {
-  createGenerateClassName?: CreateGenerateClassName
+  createGenerateId?: CreateGenerateId
   plugins?: Array<Plugin>
   insertionPoint?: InsertionPoint
   Renderer?: Renderer
@@ -109,7 +109,7 @@ type RuleFactoryOptions = {
   sheet?: StyleSheet
   index?: number
   jss?: Jss
-  generateClassName?: GenerateClassName
+  generateId?: GenerateId
   Renderer?: Renderer
 }
 
@@ -119,7 +119,7 @@ type StyleSheetFactoryOptions = {
   index?: number
   link?: boolean
   element?: HTMLStyleElement
-  generateClassName?: GenerateClassName
+  generateId?: GenerateId
   classNamePrefix?: string
 }
 
@@ -145,7 +145,7 @@ type StyleSheetOptions = {
   link?: boolean
   element?: HTMLStyleElement
   index: number
-  generateClassName: GenerateClassName
+  generateId: GenerateId
   classNamePrefix?: string
   Renderer: Renderer
   insertionPoint?: InsertionPoint
@@ -194,7 +194,8 @@ export {
   Styles,
   JssStyle,
   Plugin,
-  GenerateClassName,
+  CreateGenerateId,
+  GenerateId,
   RuleListOptions,
   Rule,
   Renderer,
@@ -209,7 +210,7 @@ export {
 declare const sheets: SheetsRegistry
 export {SheetsRegistry, sheets, RuleList, SheetsManager}
 export function create(options?: Partial<JssOptions>): Jss
-export function createGenerateClassName(): GenerateClassName
+export function createGenerateId(): GenerateId
 export function createRule(name: string, decl: JssStyle, options: RuleOptions): Rule
 export function toCssValue(value: JssValue, ignoreImportant: boolean): string
 export function getDynamicStyles(styles: Styles): Styles | null
