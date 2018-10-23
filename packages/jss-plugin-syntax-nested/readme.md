@@ -160,6 +160,7 @@ File a bug against [cssinjs/jss prefixed with \[jss-nested\]](https://github.com
 ## Run tests
 
 ```bash
+
 yarn
 yarn test
 ```
