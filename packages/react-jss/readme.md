@@ -429,8 +429,6 @@ In case you render multiple react rendering trees in one application, you will g
 
 ```javascript
 import React from 'react'
-import {createGenerateClassName, JssProvider} from 'react-jss'
-
 import {createGenerateId, JssProvider} from 'react-jss'
 
 const generateId = createGenerateId()
