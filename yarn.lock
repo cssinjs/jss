@@ -5528,6 +5528,13 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
+jss-extend@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/jss-extend/-/jss-extend-6.2.0.tgz#4af09d0b72fb98ee229970f8ca852fec1ca2a8dc"
+  integrity sha512-YszrmcB6o9HOsKPszK7NeDBNNjVyiW864jfoiHoMlgMIg2qlxKw70axZHqgczXHDcoyi/0/ikP1XaHDPRvYtEA==
+  dependencies:
+    warning "^3.0.0"
+
 jsx-ast-utils@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/jsx-ast-utils/-/jsx-ast-utils-2.0.1.tgz#e801b1b39985e20fffc87b40e3748080e2dcac7f"

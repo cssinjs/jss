@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "jss": "^9.0.0",
+    "jss-extend": "^6.2.0",
     "jss-plugin-syntax-rule-value-function": "^0.1.0"
   },
   "peerDependencies": {
