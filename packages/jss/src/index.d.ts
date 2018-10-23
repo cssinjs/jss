@@ -1,4 +1,4 @@
-type GenerateClassName<Name extends string = any> = (rule: Rule, sheet?: StyleSheet) => string
+type GenerateClassName = (rule: Rule, sheet?: StyleSheet) => string
 type CreateGenerateClassName = () => GenerateClassName
 type JssValue =
   | string
@@ -7,9 +7,14 @@ type JssValue =
   | null
   | false
 type JssStyle = {}
-type Classes<S extends Styles = {}> = {[key: string]: string}
+type Classes = {[key: string]: string}
+type Keyframes = {[key: string]: string}
 type Styles = {[key: string]: JssStyle}
 type InsertionPoint = string | HTMLElement
+type UpdateOptions = {
+  process?: boolean
+  force?: boolean
+}
 
 type RuleListOptions = {
   classes: Classes
@@ -149,6 +154,7 @@ type StyleSheetOptions = {
 
 interface StyleSheet {
   classes: Classes
+  keyframes: Keyframes
   constructor(styles: object, options: StyleSheetOptions): this
   attach(): this
   detach(): this
@@ -159,8 +165,8 @@ interface StyleSheet {
   deleteRule(name: string): boolean
   indexOf(rule: Rule): number
   deploy(): this
-  update(name: string, data: object): this
-  update(data: object): this
+  update(name: string, data: object, options?: UpdateOptions): this
+  update(data: object, options?: UpdateOptions): this
   toString(options?: ToCssOptions): string
 }
 
@@ -193,7 +199,8 @@ export {
   Rule,
   Renderer,
   RuleOptions,
-  Classes
+  Classes,
+  UpdateOptions
 }
 
 /*

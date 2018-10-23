@@ -1,8 +1,5 @@
-import {Plugin} from 'jss'
+import {Plugin, UpdateOptions} from 'jss'
 
-export type Options = {
-  process?: boolean
-  force?: boolean
-}
+export type Options = UpdateOptions
 
 export default function jssPluginSyntaxRuleValueObservable(options?: Options): Plugin
