@@ -1,11 +1,17 @@
 import * as React from 'react'
-import {CreateGenerateId, GenerateId, Jss, SheetsRegistry} from 'jss'
-import {ThemeProvider, withTheme, createTheming} from 'theming'
+import {
+  StyleSheet,
+  CreateGenerateId,
+  GenerateId,
+  Jss,
+  SheetsRegistry,
+  Styles,
+  StyleSheetFactoryOptions
+} from 'jss'
 
 export const jss: Jss
 export {SheetsRegistry}
 export const createGenerateId: CreateGenerateId
-export {ThemeProvider, withTheme, createTheming}
 
 export const JssProvider: React.ComponentType<{
   jss?: Jss
@@ -15,3 +21,27 @@ export const JssProvider: React.ComponentType<{
   disableStylesGeneration?: boolean
   children: React.ReactNode
 }>
+
+type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
+type Options = {
+  index?: number
+  inject?: Array<'classes' | 'theme' | 'sheet'>
+  jss?: Jss
+} & StyleSheetFactoryOptions
+
+type InjectedProps<Styles, Theme> = {
+  classes: {[key in keyof Styles]: string}
+  theme?: Theme
+  sheet?: StyleSheet
+}
+
+export default function injectSheet<
+  Style extends Styles,
+  Theme extends object,
+  Props extends InjectedProps<Styles, Theme>
+>(
+  styles: Style,
+  options?: Options
+): (
+  comp: React.ComponentType<Props>
+) => React.ComponentType<Omit<Props, InjectedProps<Styles, Theme>>>

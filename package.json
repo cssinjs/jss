@@ -19,7 +19,7 @@
     "posttest": "yarn check-snapshots && [ -z \"$TRAVIS\" ] || codecov",
     "codecov": "codecov",
     "bench": "cross-env BENCHMARK=true karma start --single-run",
-    "pre-commit": "lint-staged && yarn typecheck"
+    "pre-commit": "lint-staged && yarn typecheck && yarn ts-check"
   },
   "lint-staged": {
     "**/*.{js,md,json,ts}": [
@@ -70,8 +70,6 @@
     "eslint": "^5.7.0",
     "eslint-config-jss": "^5.0.1",
     "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-flowtype": "^2.29.1",
-    "eslint-plugin-markdown": "^1.0.0-beta.6",
     "expect.js": "^0.3.1",
     "flow-bin": "^0.83.0",
     "json-loader": "^0.5.4",
