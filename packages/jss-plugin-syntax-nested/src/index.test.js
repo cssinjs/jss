@@ -1,16 +1,17 @@
 /* eslint-disable no-underscore-dangle */
 
 import expect from 'expect.js'
-import {create} from 'jss'
-import jssExtend from 'jss-extend'
 import {stripIndent} from 'common-tags'
+import jssExtend from 'jss-plugin-syntax-extend'
+import {create} from 'jss'
+import functionPlugin from 'jss-plugin-syntax-rule-value-function'
 import nested from '.'
 
 const settings = {
-  createGenerateClassName: () => rule => `${rule.key}-id`
+  createGenerateId: () => rule => `${rule.key}-id`
 }
 
-describe('jss-nested', () => {
+describe('jss-plugin-syntax-nested', () => {
   let jss
   let warning
 
@@ -448,7 +449,7 @@ describe('jss-nested', () => {
     })
   })
 
-  describe('nesting conditionals in combination with extend plugin', () => {
+  describe.skip('nesting conditionals in combination with extend plugin', () => {
     let sheet
 
     beforeEach(() => {
@@ -502,8 +503,7 @@ describe('jss-nested', () => {
     let sheet
 
     beforeEach(() => {
-      const localJss = create(settings).use(jssExtend(), nested())
-      sheet = localJss.createStyleSheet({
+      sheet = jss.createStyleSheet({
         button: {
           color: 'black',
           '& .a': {
@@ -602,7 +602,8 @@ describe('jss-nested', () => {
     let sheet
 
     beforeEach(() => {
-      sheet = jss.createStyleSheet({
+      const localJss = create(settings).use(nested(), functionPlugin())
+      sheet = localJss.createStyleSheet({
         a: {
           color: ({color}) => color,
           '&:hover': {
