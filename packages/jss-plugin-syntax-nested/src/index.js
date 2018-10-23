@@ -1,4 +1,6 @@
+// @flow
 import warning from 'warning'
+import type {Plugin, StyleRule, StyleSheet} from 'jss'
 
 const separatorRegExp = /\s*,\s*/g
 const parentRegExp = /&/g
@@ -10,12 +12,16 @@ const refRegExp = /\$([\w-]+)/g
  * @param {Rule} rule
  * @api public
  */
-export default function jssNested() {
+export default function jssNested(): Plugin {
   // Get a function to be used for $ref replacement.
   function getReplaceRef(container, classes) {
     return (match, key) => {
-      const rule = container.getRule(key)
-      if (rule) return rule.selector
+      let rule = container.getRule(key)
+      if (rule) {
+        rule = ((rule: any): StyleRule)
+
+        return rule.selector
+      }
       warning(
         false,
         '[JSS] Could not find the referenced rule %s in %s.',
@@ -26,9 +32,6 @@ export default function jssNested() {
       return key
     }
   }
-
-  const hasAnd = str => str.indexOf('&') !== -1
-  const hasReference = str => str.indexOf('$') !== -1
 
   function replaceParentRefs(nestedProp, parentProp) {
     const parentSelectors = parentProp.split(separatorRegExp)
@@ -43,7 +46,8 @@ export default function jssNested() {
         const nested = nestedSelectors[j]
         if (result) result += ', '
         // Replace all & by the parent or prefix & with the parent.
-        result += hasAnd(nested) ? nested.replace(parentRegExp, parent) : `${parent} ${nested}`
+        result +=
+          nested.indexOf('&') !== -1 ? nested.replace(parentRegExp, parent) : `${parent} ${nested}`
       }
     }
 
@@ -66,30 +70,37 @@ export default function jssNested() {
 
   function onProcessStyle(style, rule) {
     if (rule.type !== 'style') return style
-    const container = rule.options.parent
+
+    const styleRule: StyleRule = (rule: any)
+
+    const container: StyleSheet = (styleRule.options.parent: any)
     let options
     let replaceRef
     for (const prop in style) {
-      const isNested = hasAnd(prop)
+      const isNested = prop.indexOf('&') !== -1
       const isNestedConditional = prop[0] === '@'
 
       if (!isNested && !isNestedConditional) continue
 
-      options = getOptions(rule, container, options)
+      options = getOptions(styleRule, container, options)
 
       if (isNested) {
-        let selector = replaceParentRefs(prop, rule.selector)
-        if (hasReference(selector)) {
-          if (!replaceRef) replaceRef = getReplaceRef(container, options.classes)
-          selector = selector.replace(refRegExp, replaceRef)
-        }
+        let selector = replaceParentRefs(prop, styleRule.selector)
+        // Lazily create the ref replacer function just once for
+        // all nested rules within the sheet.
+        if (!replaceRef) replaceRef = getReplaceRef(container, options.classes)
+        // Replace all $refs.
+        selector = selector.replace(refRegExp, replaceRef)
 
         container.addRule(selector, style[prop], {...options, selector})
       } else if (isNestedConditional) {
+        // Place conditional right after the parent rule to ensure right ordering.
         container
-          // Place conditional right after the parent rule to ensure right ordering.
-          .addRule(prop, null, options)
-          .addRule(rule.key, style[prop], {selector: rule.selector})
+          .addRule(prop, {}, options)
+          // Flow expects more options but they aren't required
+          // And flow doesn't know this will always be a StyleRule which has the addRule method
+          // $FlowFixMe
+          .addRule(styleRule.key, style[prop], {selector: styleRule.selector})
       }
 
       delete style[prop]
