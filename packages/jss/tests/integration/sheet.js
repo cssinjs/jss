@@ -1,14 +1,17 @@
+/* eslint-disable no-underscore-dangle */
+
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import {create} from '../../src'
-import StyleRule from '../../src/rules/StyleRule'
-import {createGenerateClassName} from '../utils'
+import {StyleRule} from '../../src/plugins/styleRule'
+import pluginKeyframes from '../../src/plugins/keyframesRule'
+import {createGenerateId} from '../utils'
 
 describe('Integration: sheet', () => {
   let jss
 
   beforeEach(() => {
-    jss = create({createGenerateClassName})
+    jss = create({createGenerateId})
   })
 
   describe('.createStyleSheet()', () => {
@@ -17,6 +20,7 @@ describe('Integration: sheet', () => {
       expect(sheet.deployed).to.be(false)
       expect(sheet.attached).to.be(false)
       expect(sheet.classes).to.eql({})
+      expect(sheet.keyframes).to.eql({})
       expect(sheet.options).to.be.an(Object)
       expect(sheet.options.index).to.be(0)
       expect(sheet.options.sheet).to.be(sheet)
@@ -53,10 +57,10 @@ describe('Integration: sheet', () => {
       expect(sheet.getRule('a').options.parent.rules.raw.a).to.be(styles.a)
     })
 
-    it('should allow generateClassName override', () => {
-      const generateClassName = () => {}
-      const sheet = jss.createStyleSheet(null, {generateClassName})
-      expect(sheet.options.generateClassName).to.be(generateClassName)
+    it('should allow generateId override', () => {
+      const generateId = () => {}
+      const sheet = jss.createStyleSheet(null, {generateId})
+      expect(sheet.options.generateId).to.be(generateId)
     })
   })
 
@@ -137,7 +141,7 @@ describe('Integration: sheet', () => {
             'font-family': 'MyHelvetica',
             src: 'local("Helvetica")'
           },
-          '@keyframes id': {
+          '@keyframes a': {
             from: {top: 0}
           },
           '@media print': {
@@ -163,7 +167,7 @@ describe('Integration: sheet', () => {
           font-family: MyHelvetica;
           src: local("Helvetica");
         }
-        @keyframes id {
+        @keyframes keyframes-a-id {
           from {
             top: 0;
           }
@@ -248,7 +252,7 @@ describe('Integration: sheet', () => {
     describe('class names of conditional rules', () => {
       let id
       const options = {
-        generateClassName: () => {
+        generateId: () => {
           id = `c${Math.random()
             .toString()
             .substr(2)}`
@@ -400,6 +404,152 @@ describe('Integration: sheet', () => {
 
     it('should not escape class ref', () => {
       expect(sheet.classes['a()']).to.be('a()-id')
+    })
+  })
+
+  describe('scoped keyframes', () => {
+    it('should warn when keyframes name is invalid', () => {
+      let warned = false
+
+      pluginKeyframes.__Rewire__('warning', () => {
+        warned = true
+      })
+
+      jss.createStyleSheet({
+        '@keyframes %&': {
+          to: {height: '100%'}
+        }
+      })
+
+      expect(warned).to.be(true)
+
+      pluginKeyframes.__ResetDependency__('warning')
+    })
+
+    it('should register keyframes', () => {
+      const sheet = jss.createStyleSheet({
+        '@keyframes a': {
+          to: {height: '100%'}
+        }
+      })
+
+      expect(sheet.keyframes).to.eql({a: 'keyframes-a-id'})
+    })
+
+    it('should replace a ref', () => {
+      const sheet = jss.createStyleSheet({
+        '@keyframes a': {
+          to: {height: '100%'}
+        },
+        b: {
+          'animation-name': '$a',
+          animation: '$a 5s'
+        }
+      })
+
+      expect(sheet.toString()).to.be(stripIndent`
+        @keyframes keyframes-a-id {
+          to {
+            height: 100%;
+          }
+        }
+        .b-id {
+          animation-name: keyframes-a-id;
+          animation: keyframes-a-id 5s;
+        }
+      `)
+    })
+
+    it('should warn when referenced in animation-name keyframes not found', () => {
+      let warned = false
+
+      pluginKeyframes.__Rewire__('warning', () => {
+        warned = true
+      })
+
+      jss.createStyleSheet({
+        '@keyframes a': {
+          to: {height: '100%'}
+        },
+        b: {
+          'animation-name': '$x'
+        }
+      })
+
+      expect(warned).to.be(true)
+
+      pluginKeyframes.__ResetDependency__('warning')
+    })
+
+    it('should warn when referenced in animation keyframes not found', () => {
+      let warned = false
+
+      pluginKeyframes.__Rewire__('warning', () => {
+        warned = true
+      })
+
+      jss.createStyleSheet({
+        '@keyframes a': {
+          to: {height: '100%'}
+        },
+        b: {
+          animation: 'abc $x abc'
+        }
+      })
+
+      expect(warned).to.be(true)
+
+      pluginKeyframes.__ResetDependency__('warning')
+    })
+
+    it('should leave global animation name untouched', () => {
+      let warned = false
+
+      pluginKeyframes.__Rewire__('warning', () => {
+        warned = true
+      })
+
+      const sheet = jss.createStyleSheet({
+        '@keyframes a': {
+          to: {height: '100%'}
+        },
+        b: {
+          'animation-name': 'x'
+        }
+      })
+
+      expect(warned).to.be(false)
+
+      expect(sheet.toString()).to.be(stripIndent`
+        @keyframes keyframes-a-id {
+          to {
+            height: 100%;
+          }
+        }
+        .b-id {
+          animation-name: x;
+        }
+      `)
+      pluginKeyframes.__ResetDependency__('warning')
+    })
+
+    it('should unregister', () => {
+      const sheet = jss.createStyleSheet({
+        '@keyframes a': {
+          to: {height: '100%'}
+        },
+        b: {
+          'animation-name': 'x'
+        }
+      })
+      sheet.deleteRule('keyframes-a')
+      expect(sheet.toString()).to.be(stripIndent`
+        .b-id {
+          animation-name: x;
+        }
+      `)
+      expect(sheet.getRule('@keyframes keyframes-a')).to.be(undefined)
+      expect(sheet.keyframes).to.eql({})
     })
   })
 })

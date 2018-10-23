@@ -10,16 +10,16 @@ import getDisplayName from './getDisplayName'
 import createHoc from './createHoc'
 import injectSheet, {JssProvider, ThemeProvider} from '.'
 
-const createGenerateClassName = () => rule => `${rule.key}-id`
+const createGenerateId = () => rule => `${rule.key}-id`
 const removeWhitespaces = s => s.replace(/\s/g, '')
 
-describe('injectSheet', () => {
+describe('React-JSS: injectSheet', () => {
   let jss
   let node
 
   beforeEach(() => {
     sheets.reset()
-    jss = create({createGenerateClassName})
+    jss = create({createGenerateId})
     node = document.body.appendChild(document.createElement('div'))
   })
 
@@ -354,7 +354,7 @@ describe('injectSheet', () => {
 
     const renderTest = () => {
       const localJss = create({
-        createGenerateClassName: () => (rule, sheet) => {
+        createGenerateId: () => (rule, sheet) => {
           classNamePrefix = sheet.options.classNamePrefix
           return `${rule.key}-id`
         }
@@ -399,7 +399,7 @@ describe('injectSheet', () => {
       render(<ComponentB localJss={jss} />, node)
 
       const newJss = create({
-        createGenerateClassName,
+        createGenerateId,
         plugins: [
           {
             onProcessStyle: () => ({right: '2px'})

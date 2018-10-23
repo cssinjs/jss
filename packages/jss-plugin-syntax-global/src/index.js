@@ -8,11 +8,13 @@ import {
   type BaseRule
 } from 'jss'
 
-const propKey = '@global'
-const prefixKey = '@global '
+const at = '@global'
+const atPrefix = '@global '
 
 class GlobalContainerRule implements ContainerRule {
   type = 'global'
+
+  at: string = at
 
   rules: RuleList
 
@@ -31,7 +33,7 @@ class GlobalContainerRule implements ContainerRule {
     })
 
     for (const selector in styles) {
-      this.rules.add(selector, styles[selector], {selector})
+      this.rules.add(selector, styles[selector])
     }
 
     this.rules.process()
@@ -71,11 +73,13 @@ class GlobalContainerRule implements ContainerRule {
 class GlobalPrefixedRule implements BaseRule {
   type = 'global'
 
+  at: string = at
+
   name: string
 
   options: RuleOptions
 
-  rule: BaseRule
+  rule: BaseRule | null
 
   isProcessed: boolean = false
 
@@ -84,16 +88,15 @@ class GlobalPrefixedRule implements BaseRule {
   constructor(name, style, options) {
     this.name = name
     this.options = options
-    const selector = name.substr(prefixKey.length)
+    const selector = name.substr(atPrefix.length)
     this.rule = options.jss.createRule(selector, style, {
       ...options,
-      parent: this,
-      selector
+      parent: this
     })
   }
 
   toString(options) {
-    return this.rule.toString(options)
+    return this.rule ? this.rule.toString(options) : ''
   }
 }
 
@@ -111,28 +114,26 @@ function addScope(selector, scope) {
 
 function handleNestedGlobalContainerRule(rule) {
   const {options, style} = rule
-  const rules = style[propKey]
+  const rules = style[at]
 
   if (!rules) return
 
   for (const name in rules) {
-    // $FlowFixMe: There is always a sheet in a StyleRule
     options.sheet.addRule(name, rules[name], {
       ...options,
       selector: addScope(name, rule.selector)
     })
   }
 
-  delete style[propKey]
+  delete style[at]
 }
 
 function handlePrefixedGlobalRule(rule) {
   const {options, style} = rule
   for (const prop in style) {
-    if (prop.substr(0, propKey.length) !== propKey) continue
+    if (prop[0] !== '@' || prop.substr(0, at.length) !== at) continue
 
-    const selector = addScope(prop.substr(propKey.length), rule.selector)
-    // $FlowFixMe: There is always a sheet in a StyleRule
+    const selector = addScope(prop.substr(at.length), rule.selector)
     options.sheet.addRule(selector, style[prop], {
       ...options,
       selector
@@ -149,11 +150,13 @@ function handlePrefixedGlobalRule(rule) {
  */
 export default function jssGlobal(): Plugin {
   function onCreateRule(name, styles, options) {
-    if (name === propKey) {
+    if (!name) return null
+
+    if (name === at) {
       return new GlobalContainerRule(name, styles, options)
     }
 
-    if (name[0] === '@' && name.substr(0, prefixKey.length) === prefixKey) {
+    if (name[0] === '@' && name.substr(0, atPrefix.length) === atPrefix) {
       return new GlobalPrefixedRule(name, styles, options)
     }
 
@@ -164,13 +167,13 @@ export default function jssGlobal(): Plugin {
         parent.type === 'global' ||
         (parent.options.parent && parent.options.parent.type === 'global')
       ) {
-        // $FlowFixMe: Flow doesn't want the global property because it doesn't exist in the RuleOptions
-        options.global = true
+        options.scoped = false
       }
     }
 
-    // $FlowFixMe: Flow doesn't want the global property because it doesn't exist in the RuleOptions
-    if (options.global) options.selector = name
+    if (options.scoped === false) {
+      options.selector = name
+    }
 
     return null
   }

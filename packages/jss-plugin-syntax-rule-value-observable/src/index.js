@@ -1,13 +1,22 @@
 /* @flow */
 import $$observable from 'symbol-observable'
-import {createRule, type StyleRule, type Rule, type RuleOptions, type JssStyle} from 'jss'
+import {
+  createRule,
+  type StyleRule,
+  type Rule,
+  type RuleOptions,
+  type JssStyle,
+  type UpdateOptions
+} from 'jss'
 import type {Observable} from './types'
 
 const isObservable = value => value && value[$$observable] && value === value[$$observable]()
 
-export default function observablePlugin() {
+export type Options = UpdateOptions
+
+export default function observablePlugin(updateOptions?: Options) {
   return {
-    onCreateRule(name: string, decl: JssStyle, options: RuleOptions): Rule | null {
+    onCreateRule(name?: string, decl: JssStyle, options: RuleOptions): Rule | null {
       if (!isObservable(decl)) return null
 
       // Cast `decl` to `Observable`, since it passed the type guard.
@@ -20,7 +29,7 @@ export default function observablePlugin() {
       // unsubscribed from when we know this sheet is no longer needed.
       style$.subscribe((style: JssStyle) => {
         for (const prop in style) {
-          rule.prop(prop, style[prop])
+          rule.prop(prop, style[prop], updateOptions)
         }
       })
 
@@ -38,7 +47,7 @@ export default function observablePlugin() {
         delete style[prop]
         value.subscribe({
           next: nextValue => {
-            styleRule.prop(prop, nextValue)
+            styleRule.prop(prop, nextValue, updateOptions)
           }
         })
       }

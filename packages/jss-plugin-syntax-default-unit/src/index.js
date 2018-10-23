@@ -29,14 +29,11 @@ const units = addCamelCasedVersion(defaultUnits)
 function iterate(prop, value, options) {
   if (!value) return value
 
-  let convertedValue = value
-
   if (Array.isArray(value)) {
     for (let i = 0; i < value.length; i++) {
+      // $FlowFixMe
       value[i] = iterate(prop, value[i], options)
     }
-  } else if (typeof value === 'number' && value !== 0) {
-    convertedValue = value + (options[prop] || units[prop] || '')
   } else if (typeof value === 'object') {
     if (prop === 'fallbacks') {
       for (const innerProp in value) {
@@ -47,9 +44,21 @@ function iterate(prop, value, options) {
         value[innerProp] = iterate(`${prop}-${innerProp}`, value[innerProp], options)
       }
     }
+  } else if (typeof value === 'number') {
+    if (options[prop]) {
+      return `${value}${options[prop]}`
+    }
+
+    if (units[prop]) {
+      return typeof units[prop] === 'function'
+        ? units[prop](value).toString()
+        : `${value}${units[prop]}`
+    }
+
+    return value.toString()
   }
 
-  return convertedValue
+  return value
 }
 
 export type Options = {[key: string]: string}
@@ -71,6 +80,7 @@ export default function defaultUnit(options: Options = {}): Plugin {
   }
 
   function onChangeValue(value, prop) {
+    // $FlowFixMe
     return iterate(prop, value, camelCasedOptions)
   }
 

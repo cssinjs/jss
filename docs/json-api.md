@@ -22,72 +22,6 @@ Compiles to:
 }
 ```
 
-## Function values
-
-If you want dynamic behavior for your Style Sheet, you can use functions as a value which return the actual value. If function values returns `null|undefined|false` - property will be removed. Use [sheet.update(data)](./js-api.md#update-function-values) in order to pass the data object. [Sheet option](./js-api.md#create-style-sheet) `link: true` is required for this to function.
-
-```javascript
-const styles = {
-  button: {
-    color: data => data.color
-  }
-}
-```
-
-### Support of "!important"
-
-To use the `!important` modifier with function values, you must use [array syntax](#alternative-syntax-for-space-and-comma-separated-values):
-
-```javascript
-const styles = {
-  button: {
-    color: data => [[data.color], '!important']
-  }
-}
-```
-
-## Function rules
-
-Similar to function values, you can use a function to return a dynamic style object. Use [sheet.update(data)](./js-api.md#update-function-values) in order to pass the data object. Sheet option `link: true` is required for this to function.
-
-```javascript
-const styles = {
-  button: data => ({
-    display: 'flex',
-    color: data.color
-  })
-}
-```
-
-## Observable values
-
-In order to create highly dynamic animations, you may want to use streams. Take a look at the [tc39 observable proposal](https://github.com/tc39/proposal-observable). Sheet option `link: true` is required for this to function.
-
-```javascript
-const styles = {
-  button: {
-    color: new Observable(observer => {
-      observer.next('red')
-    })
-  }
-}
-```
-
-## Observable rules
-
-Similar to observable values, you can declare observable rules. Stream should contain in this case the style object. Sheet option `link: true` is required for this to function.
-
-```javascript
-const styles = {
-  button: new Observable(observer => {
-    observer.next({
-      color: 'red',
-      opacity: 1
-    })
-  })
-}
-```
-
 ## Media Queries
 
 ```javascript
@@ -135,26 +69,20 @@ Compiles to:
 
 ## Keyframes Animation
 
-Note: keyframe id is still global and may conflict.
+Keyframes name will use the same id generator function as the class names. Animation name will be scoped by default. In order to access it within the same style sheet, you can use `$ref` syntax as a value of `animationName` or `animation` property.
+
+Additionally generated name can be accessed through `sheet.keyframes.{name}` map.
+
+In order to generate a global animation name, you can use `@global` rule.
 
 ```javascript
 const styles = {
-  '@keyframes my-animation': {
+  '@keyframes slideRight': {
     from: {opacity: 0},
     to: {opacity: 1}
-  }
-}
-```
-
-### ES6 with generated keyframe id
-
-```javascript
-const animationId = Math.random()
-
-const styles = {
-  [`@keyframes ${animationId}`]: {
-    from: {opacity: 0},
-    to: {opacity: 1}
+  },
+  container: {
+    animationName: '$slideRight'
   }
 }
 ```
@@ -162,13 +90,16 @@ const styles = {
 Compiles to:
 
 ```css
-@keyframes my-animation {
+@keyframes keyframes-slideRight-0-1-2 {
   from {
     opacity: 0;
   }
   to {
     opacity: 1;
   }
+}
+.container-0-1-3 {
+  animation-name: keyframes-slideRight-0-1-2;
 }
 ```
 
@@ -418,6 +349,18 @@ Compiles to:
 ```css
 .button-jss-0-1 {
   color: '#0000B3';
+}
+```
+
+## Typed CSSOM (Houdini)
+
+Typed CSSOM values are supported. You can learn more about them [here](https://developers.google.com/web/updates/2018/03/cssom) and track the standardization progress [here](https://ishoudinireadyyet.com/). Also make sure you use a [polyfill](https://github.com/csstools/css-typed-om) for browsers without support. It will make most sence when used together with function values and observables for frequent updates.
+
+```javascript
+const styles = {
+  button: {
+    margin: CSS.px(10)
+  }
 }
 ```
 
