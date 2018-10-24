@@ -4,6 +4,7 @@
 - Added support for Typed CSSOM values (#882)
 - Added scoped keyframes support (#346)
 - Function values and function rules support now fallbacks, media queries, nesting, global styles (#682)
+- Added TypeScript definitions to all packages (#889)
 
 ### Breaking changes
 
