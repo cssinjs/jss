@@ -14,7 +14,7 @@ const refRegExp = /\$([\w-]+)/g
  */
 export default function jssNested(): Plugin {
   // Get a function to be used for $ref replacement.
-  function getReplaceRef(container, sheet) {
+  function getReplaceRef(container, sheet?: StyleSheet) {
     return (match, key) => {
       let rule = container.getRule(key) || (sheet && sheet.getRule(key))
       if (rule) {
@@ -61,8 +61,6 @@ export default function jssNested(): Plugin {
     let {nestingLevel} = rule.options
     nestingLevel = nestingLevel === undefined ? 1 : nestingLevel + 1
 
-    console.log(rule.options)
-
     return {
       ...rule.options,
       nestingLevel,
@@ -70,7 +68,7 @@ export default function jssNested(): Plugin {
     }
   }
 
-  function onProcessStyle(style, rule, sheet) {
+  function onProcessStyle(style, rule, sheet?: StyleSheet) {
     if (rule.type !== 'style') return style
 
     const styleRule: StyleRule = (rule: any)
