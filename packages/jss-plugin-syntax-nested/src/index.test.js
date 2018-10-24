@@ -642,12 +642,11 @@ describe('jss-plugin-syntax-nested', () => {
     let sheet
 
     beforeEach(() => {
-      const localJss = create(settings).use(nested())
-      sheet = localJss.createStyleSheet({
-        card: {},
-        cardDeck: {
+      sheet = jss.createStyleSheet({
+        a: {},
+        b: {
           '@media (min-width: 576px)': {
-            '& $card': {
+            '& $a': {
               margin: '15px'
             }
           }
@@ -655,10 +654,10 @@ describe('jss-plugin-syntax-nested', () => {
       })
     })
 
-    it('should generate nested dynamic card styles', () => {
+    it('should generate nested rules inside media queries', () => {
       expect(sheet.toString()).to.be(stripIndent`
         @media (min-width: 576px) {
-          .cardDeck-id .card-id {
+          .b-id .a-id {
             margin: 15px;
           }
         }
