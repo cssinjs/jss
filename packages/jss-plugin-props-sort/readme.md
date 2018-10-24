@@ -13,7 +13,7 @@ const styles = {
     'border-left': '1px solid red',
     border: '3px solid green'
   }
-})
+}
 ```
 
 Compiles to:

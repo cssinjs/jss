@@ -18,9 +18,11 @@ See `jss.setup()` below for `options` object description.
 import {create} from 'jss'
 import camelCase from 'jss-camel-case'
 import somePlugin from 'jss-some-plugin'
+
 const jss = create()
 jss.use(camelCase(), somePlugin())
 jss.createStyleSheet(/* ... */)
+
 export default jss
 ```
 
@@ -78,6 +80,8 @@ Options:
 - `classNamePrefix` - a string, which will be added at the beginning of the class name.
 
 ```javascript
+import jss from 'jss'
+
 const sheet = jss
   .createStyleSheet(
     {
@@ -133,12 +137,12 @@ Counts how many elements use the same Style Sheet and automatically attach or de
 import jss, {SheetsManager} from 'jss'
 
 const manager = new SheetsManager()
-manager.size // 0
+console.log(manager.size) // 0
 const sheet = jss.createStyleSheet()
 const key = {}
 
 manager.add(key, sheet) // index
-manager.size // 1
+console.log(manager.size) // 1
 manager.get(key) // sheet
 
 // Will attach the sheet and count refs.
@@ -170,6 +174,8 @@ Detaching unused Style Sheets will speedup every DOM node insertion and manipula
 Sheet 1 has a higher index (priority), and as such will come **after** sheet 2 in the resulting DOM.
 
 ```javascript
+import jss from 'jss'
+
 const sheet1 = jss.createStyleSheet({}, {index: 5, meta: 'sheet-1'}).attach()
 const sheet2 = jss.createStyleSheet({}, {index: 1, meta: 'sheet-2'}).attach()
 ```
@@ -195,6 +201,9 @@ If you use `addRule()` before you call `attach()`, styles will be rendered in on
 ### Add a rule dynamically
 
 ```javascript
+import jss from 'jss'
+
+const sheet = jss.createStyleSheet({})
 const rule = sheet.addRule({
   padding: 20,
   background: 'blue'
@@ -216,6 +225,9 @@ Returns `true` if the rule has been removed from the DOM.
 Access a rule within sheet by a name.
 
 ```javascript
+import jss from 'jss'
+
+const sheet = jss.createStyleSheet({myButton: {}})
 // Using name.
 const rule = sheet.getRule('myButton')
 ```
@@ -227,6 +239,9 @@ const rule = sheet.getRule('myButton')
 In case you want to add rules to the sheet separately or even at runtime.
 
 ```javascript
+import jss from 'jss'
+
+const sheet = jss.createStyleSheet({})
 sheet.addRules({
   myButton: {
     float: 'left'
@@ -244,6 +259,8 @@ sheet.addRules({
 If you use [function values](./json-api.md#function-values), you will want to update them with new data. This method will call all your function values, pass the `data` param and update the CSS Rule if needed.
 
 ```javascript
+import jss from 'jss'
+
 const styles = {
   container: {
     height: 200,
@@ -273,10 +290,16 @@ sheet.update({
 Apply styles directly to the element but still be able to use JSS.
 
 ```javascript
+import jss from 'jss'
+
 const rule = jss.createRule({
   padding: 20,
   background: 'blue'
 })
+```
+
+```js
+import jss from 'jss'
 
 const rule = jss.createRule('@media', {
   button: {
@@ -292,6 +315,9 @@ const rule = jss.createRule('@media', {
 This is equivalent to `element.style.background = 'blue'` except that you could use a rule from sheet which is already defined. It uses `rule.toJSON()` internally, so same limitations are applied. [Example](http://cssinjs.github.io/examples/inline/index.html).
 
 ```javascript
+import jss from 'jss'
+
+const element = document.getElementById('element')
 jss
   .createRule({
     background: 'blue'
@@ -306,6 +332,8 @@ jss
 When the `link` option is true, after Style Sheet is attached, linker saves references to `CSSRule` instances so that you are able to set rule properties at any time. [Example](http://cssinjs.github.io/examples/dynamic-props/index.html).
 
 ```javascript
+import jss from 'jss'
+
 const sheet = jss.createStyleSheet(
   {
     a: {
@@ -316,7 +344,7 @@ const sheet = jss.createStyleSheet(
 )
 
 // Get the color.
-sheet.getRule('a').prop('color') // red
+console.log(sheet.getRule('a').prop('color')) // red
 
 // Set the color.
 sheet.getRule('a').prop('color', 'green')
@@ -397,6 +425,8 @@ console.log(sheet.toString())
 Extracts a styles object with only props that contain function values. Useful when you want to share a static part between different elements and render only the dynamic styles separate for each element.
 
 ```javascript
+import {getDynamicStyles} from 'jss'
+
 const dynamicStyles = getDynamicStyles({
   button: {
     fontSize: 12,
@@ -404,12 +434,12 @@ const dynamicStyles = getDynamicStyles({
   }
 })
 
-// Returns only styles with dynamic values.
-{
-  button: {
-    color: data => data.color
-  }
-}
+console.log(dynamicStyles)
+// {
+//   button: {
+//     color: data => data.color
+//   }
+// }
 ```
 
 ## Plugins

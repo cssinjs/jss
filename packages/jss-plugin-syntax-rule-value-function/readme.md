@@ -15,6 +15,8 @@ in general.
 ## Function values
 
 ```javascript
+import jss from 'jss'
+
 const styles = {
   button: {
     color: data => data.color

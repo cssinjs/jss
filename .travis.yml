@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- '6'
+- '8'
 branches:
   only:
   - master
@@ -8,8 +8,10 @@ after_success:
 - bash <(curl -s https://codecov.io/bash)
 script:
   - yarn check-snapshots
+  - yarn format:ci
   - yarn build
-  - yarn lint:ci
+  - yarn lint
+  - yarn typecheck
   - yarn test
 env:
   global:
