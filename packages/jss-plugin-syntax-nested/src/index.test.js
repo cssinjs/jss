@@ -658,7 +658,7 @@ describe('jss-plugin-syntax-nested', () => {
     it('should generate nested dynamic card styles', () => {
       expect(sheet.toString()).to.be(stripIndent`
         @media (min-width: 576px) {
-          .cardDeck-id card-id {
+          .cardDeck-id .card-id {
             margin: 15px;
           }
         }
