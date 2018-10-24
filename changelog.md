@@ -17,6 +17,8 @@
 - [jss] Options `createGenerateClassName` and `generateClassName` are renamed to `createGenerateId` and `generateId` since the same function is now used to scope @keyframes rules. This affects both JSS and React-JSS.
 - [react-jss] Drop support for React 0.13 and 0.14 ([#868](https://github.com/cssinjs/jss/pull/868), [#851](https://github.com/cssinjs/jss/pull/851))
 
+# Old changelog of jss
+
 ## 9.8.7 / 2018-06-24
 
 - Fix `global` access in the dist version (#736)
