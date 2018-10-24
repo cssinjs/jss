@@ -14,7 +14,7 @@
 - [jss] Observables, function values and rules are now standalone packages, not part of the core. They are still part of the default preset though.
 - [jss] Function values, rules and observables apply plugins by default now, which means they can support all plugin defined syntaxes, but they are also slower by default. To speed them up use `sheet.update(data, {process: false})` for fn values/rules and `jss.use(pluginObservable({process: false}))` when setting up observables plugin. (#682)
 - [jss] Rule @keyframes has now scoped name by default, which means that you can access it using `$ref` from the same sheet and generate global one as before using `@global` rule ((#346).
-- [jss] Options `createGenerateClassName` and `generateClassName` are renamed to `createGenerateId` and `generateId` since th same function is now used to scope @keyframes rules. This affects both JSS and React-JSS.
+- [jss] Options `createGenerateClassName` and `generateClassName` are renamed to `createGenerateId` and `generateId` since the same function is now used to scope @keyframes rules. This affects both JSS and React-JSS.
 - [react-jss] Drop support for React 0.13 and 0.14
 
 ## 9.8.7 / 2018-06-24
