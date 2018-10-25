@@ -6,6 +6,7 @@ import {stripIndent} from 'common-tags'
 import preset from 'jss-preset-default'
 import {render, unmountComponentAtNode} from 'react-dom'
 import {renderToString} from 'react-dom/server'
+import createReactContext from 'create-react-context'
 import {create} from 'jss'
 
 import injectSheet, {createTheming, ThemeProvider, JssProvider, SheetsRegistry} from '../src'
@@ -409,8 +410,8 @@ describe('React-JSS: theming', () => {
 
   describe('when theming object returned from createTheming is provided to injectSheet options', () => {
     it('allows nested ThemeProviders with custom namespace', () => {
-      const themingA = createTheming('__THEME_A__')
-      const themingB = createTheming('__THEME_B__')
+      const themingA = createTheming(createReactContext())
+      const themingB = createTheming(createReactContext())
       const {ThemeProvider: ThemeProviderA} = themingA
       const {ThemeProvider: ThemeProviderB} = themingB
 

@@ -212,6 +212,7 @@ export default function createHOC<
     manage({dynamicSheet, staticSheet}: State) {
       const registry = this.context[ns.sheetsRegistry]
 
+      this.manager.manage(this.theme)
       if (staticSheet && registry) registry.add(staticSheet)
 
       if (dynamicSheet !== null) {
@@ -254,10 +255,11 @@ export default function createHOC<
 
     render() {
       const {dynamicSheet, classes, staticSheet} = this.state
-      const {innerRef, ...props}: OuterPropsType = this.props
+      const {innerRef, theme, ...props}: OuterPropsType = this.props
       const sheet = dynamicSheet || staticSheet
 
       if (injectMap.sheet && !props.sheet && sheet) props.sheet = sheet
+      if (injectMap.theme) props.theme = theme
 
       // We have merged classes already.
       if (injectMap.classes) props.classes = classes
