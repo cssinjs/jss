@@ -8,6 +8,7 @@
 - [react-jss] Added flow types ([#818](https://github.com/cssinjs/jss/pull/818))
 - [jss] Fix sheet ordering when the last sheet was the last sibling in the head element ([#819](https://github.com/cssinjs/jss/pull/819))
 - [jss] Migrated to a monorepo structure ([#729](https://github.com/cssinjs/jss/pull/729))
+- [jss-plugin-syntax-nested] Fixed referencing rules inside media queries ([#900](https://github.com/cssinjs/jss/pull/900))
 
 ### Breaking changes
 
