@@ -5,7 +5,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "lerna run prepare",
+    "build": "lerna run build",
     "prepublishOnly": "yarn check-snapshots && yarn build && yarn typecheck && yarn lint && yarn format:ci && yarn test",
     "publish": "lerna publish",
     "typecheck": "flow check --max-warnings=0",

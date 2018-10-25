@@ -28,7 +28,7 @@
     "default"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/build.js",
+    "build": "node ../../scripts/build.js",
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
