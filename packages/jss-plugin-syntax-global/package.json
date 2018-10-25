@@ -32,7 +32,8 @@
     "unscoped"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "build": "node ../../scripts/build.js",
+    "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "peerDependencies": {
     "jss": "^9.0.0"

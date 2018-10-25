@@ -30,7 +30,8 @@
     "prefixer"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "build": "node ../../scripts/build.js",
+    "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
