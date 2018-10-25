@@ -1,39 +1,17 @@
-const fs = require('fs')
 const path = require('path')
 const shell = require('shelljs')
+const log = require('./log')
 
-function getCommand() {
-  const rollup = path.join(__dirname, '../node_modules/.bin/rollup')
-  const args = ['--config "../../rollup.config.js"']
+shell.rm('-rf', './dist/')
+shell.cp(path.join(__dirname, '..', 'LICENSE'), './')
 
-  return `${rollup} ${args.join(' ')}`
+const rollup = path.join(__dirname, '../node_modules/.bin/rollup')
+const {code} = shell.exec(`${rollup} --config "../../rollup.config.js"`)
+
+if (code !== 0) {
+  log('error', 'Build failed')
+
+  shell.exit(code)
 }
 
-function handleExit(code, errorCallback) {
-  if (code !== 0) {
-    if (errorCallback && typeof errorCallback === 'function') {
-      errorCallback()
-    }
-
-    shell.exit(code)
-  }
-}
-
-function build(options = {}) {
-  const {silent = false, errorCallback} = options
-
-  if (!fs.existsSync('src')) {
-    if (!silent) {
-      console.error('No src dir')
-    }
-
-    return
-  }
-
-  const command = getCommand()
-  const {code} = shell.exec(command, {silent})
-
-  handleExit(code, errorCallback)
-}
-
-module.exports = {build}
+log('success', 'Build succeeded')

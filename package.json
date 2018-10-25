@@ -14,7 +14,7 @@
     "format:ci": "yarn format -- --list-different",
     "test": "cross-env NODE_ENV=test VERSION=\"1\" karma start --single-run",
     "test:watch": "cross-env NODE_ENV=test VERSION=\"1\" karma start",
-    "check-snapshots": "lerna exec -- cross-env SNAPSHOT=match rollup --config ../../rollup.config.js",
+    "check-snapshots": "lerna run check-snapshot",
     "posttest": "yarn check-snapshots && [ -z \"$TRAVIS\" ] || codecov",
     "codecov": "codecov",
     "bench": "cross-env BENCHMARK=true karma start --single-run",
