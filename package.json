@@ -15,7 +15,7 @@
     "test": "cross-env NODE_ENV=test VERSION=\"1\" karma start --single-run",
     "test:watch": "cross-env NODE_ENV=test VERSION=\"1\" karma start",
     "check-snapshots": "lerna run check-snapshot",
-    "posttest": "yarn check-snapshots && [ -z \"$TRAVIS\" ] || codecov",
+    "posttest": "[ -z \"$TRAVIS\" ] || codecov",
     "codecov": "codecov",
     "bench": "cross-env BENCHMARK=true karma start --single-run",
     "pre-commit": "lint-staged && yarn typecheck"
