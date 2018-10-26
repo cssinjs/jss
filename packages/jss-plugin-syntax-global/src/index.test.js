@@ -16,6 +16,25 @@ describe('jss-global', () => {
     jss = create(settings).use(global())
   })
 
+  describe('@global rule with null, undefined or empty value', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet({
+        '@global': {
+          a: null,
+          b: undefined,
+          c: '',
+          d: {color: 'red'}
+        }
+      })
+    })
+
+    it('should generate correct CSS without empty values', () => {
+      expect(sheet.toString()).to.be('d {\n  color: red;\n}')
+    })
+  })
+
   describe('@global root container', () => {
     let sheet
 

@@ -114,7 +114,7 @@ function addScope(selector, scope) {
 
 function handleNestedGlobalContainerRule(rule) {
   const {options, style} = rule
-  const rules = style[at]
+  const rules = style ? style[at] : null
 
   if (!rules) return
 
