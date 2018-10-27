@@ -19,7 +19,17 @@ describe('jss-global', () => {
   describe('@global rule with null, undefined or empty value', () => {
     let sheet
 
-    beforeEach(() => {
+    it('should generate correct CSS for one rule', () => {
+      sheet = jss.createStyleSheet({
+        '@global a': {
+          color: 'red'
+        }
+      })
+      expect(sheet.getRule('a')).to.be(undefined)
+      expect(sheet.toString()).to.be('a {\n  color: red;\n}')
+    })
+
+    it('should generate correct CSS without empty values', () => {
       sheet = jss.createStyleSheet({
         '@global': {
           a: null,
@@ -28,9 +38,11 @@ describe('jss-global', () => {
           d: {color: 'red'}
         }
       })
-    })
-
-    it('should generate correct CSS without empty values', () => {
+      expect(sheet.getRule('@global')).to.not.be(undefined)
+      expect(sheet.getRule('a')).to.be(undefined)
+      expect(sheet.getRule('b')).to.be(undefined)
+      expect(sheet.getRule('c')).to.be(undefined)
+      expect(sheet.getRule('d')).to.be(undefined)
       expect(sheet.toString()).to.be('d {\n  color: red;\n}')
     })
   })
