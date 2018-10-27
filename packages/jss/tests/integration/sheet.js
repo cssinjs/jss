@@ -63,7 +63,7 @@ describe('Integration: sheet', () => {
       expect(sheet.options.generateId).to.be(generateId)
     })
 
-    it('should have key in stringified rule when id gnerator is called', () => {
+    it('should have no selector in stringified rule when id gnerator is called', () => {
       let css
       // Simulate cache based id generator.
       const generateId = rule => {
