@@ -156,7 +156,7 @@ export class StyleRule extends BaseStyleRule {
     const {sheet} = this.options
     const link = sheet ? sheet.options.link : false
     const opts = link ? {...options, allowEmpty: true} : options
-    return toCss(this.selector, this.style, opts)
+    return toCss(this.selectorText, this.style, opts)
   }
 }
 

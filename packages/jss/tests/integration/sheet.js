@@ -62,6 +62,20 @@ describe('Integration: sheet', () => {
       const sheet = jss.createStyleSheet(null, {generateId})
       expect(sheet.options.generateId).to.be(generateId)
     })
+
+    it('should have key in stringified rule when id gnerator is called', () => {
+      let css
+      // Simulate cache based id generator.
+      const generateId = rule => {
+        css = rule.toString()
+        return css
+      }
+      jss.createStyleSheet({a: {color: 'red', width: '10px'}}, {generateId})
+      expect(css).to.be(stripIndent`
+        color: red;
+        width: 10px;
+      `)
+    })
   })
 
   describe('sheet.getRule()', () => {
