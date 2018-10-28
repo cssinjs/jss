@@ -16,46 +16,6 @@ describe('jss-global', () => {
     jss = create(settings).use(global())
   })
 
-  describe('@global rule with null, undefined or empty value', () => {
-    let sheet
-
-    it('should generate empty style when @global rule is undefined', () => {
-      sheet = jss.createStyleSheet({
-        '@global a': undefined,
-        '@global b': null,
-        '@global c': ''
-      })
-      expect(sheet.toString()).to.be('')
-    })
-
-    it('should generate correct CSS for one rule', () => {
-      sheet = jss.createStyleSheet({
-        '@global a': {
-          color: 'red'
-        }
-      })
-      expect(sheet.getRule('a')).to.be(undefined)
-      expect(sheet.toString()).to.be('a {\n  color: red;\n}')
-    })
-
-    it('should generate correct CSS without empty values', () => {
-      sheet = jss.createStyleSheet({
-        '@global': {
-          a: null,
-          b: undefined,
-          c: '',
-          d: {color: 'red'}
-        }
-      })
-      expect(sheet.getRule('@global')).to.not.be(undefined)
-      expect(sheet.getRule('a')).to.be(undefined)
-      expect(sheet.getRule('b')).to.be(undefined)
-      expect(sheet.getRule('c')).to.be(undefined)
-      expect(sheet.getRule('d')).to.be(undefined)
-      expect(sheet.toString()).to.be('d {\n  color: red;\n}')
-    })
-  })
-
   describe('@global root container', () => {
     let sheet
 
@@ -278,6 +238,34 @@ describe('jss-global', () => {
           '  color: red;\n' +
           '}'
       )
+    })
+  })
+
+  describe('@global rules with null, undefined or empty value', () => {
+    let sheet
+
+    it('should generate correct CSS with prefix @global rules', () => {
+      sheet = jss.createStyleSheet({
+        '@global a': undefined,
+        '@global b': null
+      })
+      expect(sheet.toString()).to.be('')
+    })
+
+    it('should generate correct CSS with @global container rule', () => {
+      sheet = jss.createStyleSheet({
+        '@global': {
+          a: null,
+          b: undefined,
+          d: {color: 'red'}
+        }
+      })
+      expect(sheet.getRule('@global')).to.not.be(undefined)
+      expect(sheet.getRule('a')).to.be(undefined)
+      expect(sheet.getRule('b')).to.be(undefined)
+      expect(sheet.getRule('c')).to.be(undefined)
+      expect(sheet.getRule('d')).to.be(undefined)
+      expect(sheet.toString()).to.be('d {\n  color: red;\n}')
     })
   })
 
