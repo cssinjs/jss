@@ -242,10 +242,8 @@ describe('jss-global', () => {
   })
 
   describe('@global rules with null, undefined or empty value', () => {
-    let sheet
-
     it('should generate correct CSS with prefix @global rules', () => {
-      sheet = jss.createStyleSheet({
+      const sheet = jss.createStyleSheet({
         '@global a': undefined,
         '@global b': null
       })
@@ -253,19 +251,13 @@ describe('jss-global', () => {
     })
 
     it('should generate correct CSS with @global container rule', () => {
-      sheet = jss.createStyleSheet({
+      const sheet = jss.createStyleSheet({
         '@global': {
           a: null,
-          b: undefined,
-          d: {color: 'red'}
+          b: undefined
         }
       })
-      expect(sheet.getRule('@global')).to.not.be(undefined)
-      expect(sheet.getRule('a')).to.be(undefined)
-      expect(sheet.getRule('b')).to.be(undefined)
-      expect(sheet.getRule('c')).to.be(undefined)
-      expect(sheet.getRule('d')).to.be(undefined)
-      expect(sheet.toString()).to.be('d {\n  color: red;\n}')
+      expect(sheet.toString()).to.be('')
     })
   })
 
