@@ -19,6 +19,15 @@ describe('jss-global', () => {
   describe('@global rule with null, undefined or empty value', () => {
     let sheet
 
+    it('should generate empty style when @global rule is undefined', () => {
+      sheet = jss.createStyleSheet({
+        '@global a': undefined,
+        '@global b': null,
+        '@global c': ''
+      })
+      expect(sheet.toString()).to.be('')
+    })
+
     it('should generate correct CSS for one rule', () => {
       sheet = jss.createStyleSheet({
         '@global a': {
