@@ -23,10 +23,13 @@ In order to communicate the nonce value to JSS, we're going use some basic templ
     // server.js
     import helmet from 'helmet'
     import uuidv4 from 'uuid/v4'
+    import express from 'express'
 
-    app.use(function(req, res, next) {
+    const app = express()
+
+    app.use((req, res, next) => {
       // nonce should be base64 encoded
-      res.locals.styleNonce = new Buffer(uuidv4()).toString('base64')
+      res.locals.styleNonce = Buffer.from(uuidv4()).toString('base64')
       next()
     })
 
@@ -35,12 +38,7 @@ In order to communicate the nonce value to JSS, we're going use some basic templ
         directives: {
           defaultSrc: ["'self'"],
           /* ... */
-          styleSrc: [
-            "'self'",
-            function(req, res) {
-              return "'nonce-" + res.locals.styleNonce + "'"
-            }
-          ]
+          styleSrc: ["'self'", (req, res) => `'nonce-${res.locals.styleNonce}'`]
         }
       })
     )
@@ -70,10 +68,11 @@ In order to communicate the nonce value to JSS, we're going use some basic templ
 1.  Now update the server to render the template with the `styleNonce` variable to be interpolated with the nonce generated from our middleware `res.locals.styleNonce`.
 
     ```js
-    const express = require('express')
-    const expressNunjucks = require('express-nunjucks')
-    //...
-    app.get('/', function(req, res) {
+    import express from 'express'
+
+    const app = express()
+
+    app.get('/', (req, res) => {
       res.render('index', {styleNonce: res.locals.styleNonce})
     })
     ```
@@ -92,40 +91,33 @@ You might still have some CSP violations if you use style/css/sass in addition t
 
 ```js
 // webpack config
-{
-  test: /\.css$/,
-  use: [
-    {
-      loader: 'style-loader',
-      options: {
-        attrs: {
-          nonce: "{{ styleNonce }}",
-        },
+const config = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'style-loader',
+            options: {attrs: {nonce: '{{ styleNonce }}'}}
+          },
+          'css-loader'
+        ]
       },
-    },
-    'css-loader',
-  ],
-},
-
-{
-  test: /\.scss$/,
-  use: [
-    {
-      loader: 'style-loader',
-      options: {
-        attrs: {
-          nonce: "{{ styleNonce }}",
-        },
-      },
-    },
-    {
-      loader: 'css-loader',
-    },
-    {
-      loader: 'sass-loader',
-    },
-  ],
-},
+      {
+        test: /\.scss$/,
+        use: [
+          {
+            loader: 'style-loader',
+            options: {attrs: {nonce: '{{ styleNonce }}'}}
+          },
+          'css-loader',
+          'sass-loader'
+        ]
+      }
+    ]
+  }
+}
 ```
 
 ## Resources

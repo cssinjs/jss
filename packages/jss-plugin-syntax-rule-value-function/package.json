@@ -20,7 +20,6 @@
   "files": [
     "dist",
     "src",
-    "changelog.md",
     "LICENSE"
   ],
   "keywords": [
@@ -39,7 +38,8 @@
     "animation"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "build": "node ../../scripts/build.js",
+    "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "peerDependencies": {
     "jss": "^9.7.0"

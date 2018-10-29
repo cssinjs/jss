@@ -15,6 +15,8 @@ in general.
 ## Observable values
 
 ```javascript
+import {Observable} from 'rxjs'
+
 const styles = {
   button: {
     color: new Observable(observer => {
@@ -35,6 +37,8 @@ const styles = {
 Similar to observable values, you can declare observable rules. Stream should contain in this case the style object. Sheet option `link: true` is required for this to function.
 
 ```javascript
+import {Observable} from 'rxjs'
+
 const styles = {
   button: new Observable(observer => {
     observer.next({
@@ -81,6 +85,8 @@ jss.setup(
 ```
 
 ```javascript
+import {Observable} from 'rxjs'
+
 const styles = {
   button: new Observable(observer => {
     observer.next({

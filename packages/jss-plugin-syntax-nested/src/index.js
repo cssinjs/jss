@@ -14,14 +14,15 @@ const refRegExp = /\$([\w-]+)/g
  */
 export default function jssNested(): Plugin {
   // Get a function to be used for $ref replacement.
-  function getReplaceRef(container) {
+  function getReplaceRef(container, sheet?: StyleSheet) {
     return (match, key) => {
-      let rule = container.getRule(key)
+      let rule = container.getRule(key) || (sheet && sheet.getRule(key))
       if (rule) {
         rule = ((rule: any): StyleRule)
 
         return rule.selector
       }
+
       warning(
         false,
         '[JSS] Could not find the referenced rule %s in %s.',
@@ -67,7 +68,7 @@ export default function jssNested(): Plugin {
     }
   }
 
-  function onProcessStyle(style, rule) {
+  function onProcessStyle(style, rule, sheet?: StyleSheet) {
     if (rule.type !== 'style') return style
 
     const styleRule: StyleRule = (rule: any)
@@ -87,7 +88,7 @@ export default function jssNested(): Plugin {
         let selector = replaceParentRefs(prop, styleRule.selector)
         // Lazily create the ref replacer function just once for
         // all nested rules within the sheet.
-        if (!replaceRef) replaceRef = getReplaceRef(container)
+        if (!replaceRef) replaceRef = getReplaceRef(container, sheet)
         // Replace all $refs.
         selector = selector.replace(refRegExp, replaceRef)
 

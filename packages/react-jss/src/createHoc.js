@@ -135,6 +135,7 @@ export default function createHOC<
         const newState = this.createState(this.state, this.props)
         this.manage(newState)
         this.manager.unmanage(prevState.theme)
+        // eslint-disable-next-line react/no-did-update-set-state
         this.setState(newState)
       }
 

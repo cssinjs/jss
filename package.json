@@ -5,30 +5,31 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "lerna run prepare",
-    "publish": "yarn lint && yarn test && yarn build && lerna publish",
+    "build": "lerna run build",
+    "prepublishOnly": "yarn check-snapshots && yarn build && yarn typecheck && yarn lint && yarn format:ci && yarn test",
+    "publish": "lerna publish",
     "typecheck": "flow check --max-warnings=0",
-    "lint": "eslint scripts/ packages/ && yarn typecheck && yarn format",
-    "lint:staged": "lint-staged && yarn typecheck",
-    "lint:ci": "eslint scripts/ packages/ && yarn typecheck && yarn format -- --list-different",
+    "lint": "eslint scripts/ packages/ docs/ --ext js,md",
     "format": "prettier \"*.{js,md,json}\" \"{docs,packages,scripts}/**/*.{js,md,json}\" --write",
+    "format:ci": "yarn format -- --list-different",
     "test": "cross-env NODE_ENV=test VERSION=\"1\" karma start --single-run",
     "test:watch": "cross-env NODE_ENV=test VERSION=\"1\" karma start",
-    "check-snapshots": "lerna exec -- cross-env SNAPSHOT=match rollup --config ../../rollup.config.js",
-    "posttest": "yarn check-snapshots && [ -z \"$TRAVIS\" ] || codecov",
+    "check-snapshots": "lerna run check-snapshot",
+    "posttest": "[ -z \"$TRAVIS\" ] || codecov",
     "codecov": "codecov",
-    "bench": "cross-env BENCHMARK=true karma start --single-run"
+    "bench": "cross-env BENCHMARK=true karma start --single-run",
+    "pre-commit": "lint-staged && yarn typecheck"
   },
   "lint-staged": {
     "**/*.{js,md,json}": [
       "prettier --write",
       "git add"
     ],
-    "**/*.js": [
+    "**/*.{js,md}": [
       "eslint"
     ]
   },
-  "pre-commit": "lint:staged",
+  "pre-commit": "pre-commit",
   "engines": {
     "node": ">=4"
   },
@@ -65,10 +66,11 @@
     "css.escape": "^1.5.1",
     "detect-browser": "^1.5.0",
     "es5-shim": "^4.5.9",
-    "eslint": "^4.19.1",
-    "eslint-config-jss": "^4.0.0",
+    "eslint": "^5.7.0",
+    "eslint-config-jss": "^5.0.1",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-flowtype": "^2.29.1",
+    "eslint-plugin-markdown": "^1.0.0-beta.6",
     "expect.js": "^0.3.1",
     "flow-bin": "^0.83.0",
     "json-loader": "^0.5.4",
