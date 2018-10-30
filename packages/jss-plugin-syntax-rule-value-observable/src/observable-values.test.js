@@ -38,8 +38,7 @@ describe('jss-plugin-syntax-rule-value-observable: values', () => {
 
     it('should accept an observable', () => {
       expect(sheet.toString()).to.be(stripIndent`
-        .a-id {
-        }
+        .a-id {}
       `)
     })
 

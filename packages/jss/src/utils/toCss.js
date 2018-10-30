@@ -71,5 +71,7 @@ export default function toCss(
 
   indent--
 
-  return indentStr(`${selector} {\n${result}\n`, indent) + indentStr('}', indent)
+  if (result) result = `\n${result}\n`
+
+  return indentStr(`${selector} {${result}`, indent) + indentStr('}', indent)
 }
