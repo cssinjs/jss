@@ -200,10 +200,8 @@ describe('jss-plugin-syntax-rule-value-function: plugin-nested', () => {
         .b-id {
           background: blue;
         }
-        .c-id {
-        }
-        .c-id.a-id {
-        }
+        .c-id {}
+        .c-id.a-id {}
         .c-id.a-id .b-id {
           margin: 10px;
         }
