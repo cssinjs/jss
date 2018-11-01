@@ -16,12 +16,11 @@
     "url": "git@github.com:cssinjs/jss.git"
   },
   "bugs": {
-    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-cache]"
+    "url": "https://github.com/cssinjs/jss/issues/new?title=[react-jss]"
   },
   "files": [
     "dist",
     "src",
-    "changelog.md",
     "LICENSE"
   ],
   "keywords": [
@@ -34,7 +33,8 @@
     "decorator"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "build": "node ../../scripts/build.js",
+    "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "peerDependencies": {
     "react": ">=15"

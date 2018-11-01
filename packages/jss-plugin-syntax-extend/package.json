@@ -21,7 +21,6 @@
   "files": [
     "dist",
     "src",
-    "changelog.md",
     "LICENSE"
   ],
   "keywords": [
@@ -33,7 +32,8 @@
     "css in js"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "build": "node ../../scripts/build.js",
+    "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
     "jss": "^9.7.0",

@@ -9,11 +9,12 @@ import {uglify} from 'rollup-plugin-uglify'
 import {sizeSnapshot} from 'rollup-plugin-size-snapshot'
 import camelCase from 'camelcase'
 
-const {getPackageJson} = require('./scripts/get-package-json')
+const getPackageJson = require('./scripts/get-package-json')
 
 const pkg = getPackageJson()
 const rootPath = path.resolve('./')
-const matchSnapshot = process.env.SNAPSHOT === 'match'
+const matchSnapshot = process.env.MATCH_SNAPSHOT === 'true'
+const logSnapshot = process.env.LOG_SNAPSHOT === 'true'
 
 const input = path.join(rootPath, './src/index.js')
 
@@ -50,6 +51,7 @@ const commonjsOptions = {
 
 const snapshotOptions = {
   matchSnapshot,
+  printInfo: logSnapshot,
   snapshotPath: './.size-snapshot.json'
 }
 

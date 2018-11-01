@@ -16,7 +16,7 @@ function indentStr(str: string, indent: number): string {
  * Converts a Rule to CSS string.
  */
 export default function toCss(
-  selector: string,
+  selector?: string,
   style: JssStyle,
   options: ToCssOptions = {}
 ): string {
@@ -27,7 +27,7 @@ export default function toCss(
   let {indent = 0} = options
   const {fallbacks} = style
 
-  indent++
+  if (selector) indent++
 
   // Apply fallbacks first.
   if (fallbacks) {
@@ -38,7 +38,8 @@ export default function toCss(
         for (const prop in fallback) {
           const value = fallback[prop]
           if (value != null) {
-            result += `\n${indentStr(`${prop}: ${toCssValue(value)};`, indent)}`
+            if (result) result += '\n'
+            result += `${indentStr(`${prop}: ${toCssValue(value)};`, indent)}`
           }
         }
       }
@@ -47,7 +48,8 @@ export default function toCss(
       for (const prop in fallbacks) {
         const value = fallbacks[prop]
         if (value != null) {
-          result += `\n${indentStr(`${prop}: ${toCssValue(value)};`, indent)}`
+          if (result) result += '\n'
+          result += `${indentStr(`${prop}: ${toCssValue(value)};`, indent)}`
         }
       }
     }
@@ -56,15 +58,20 @@ export default function toCss(
   for (const prop in style) {
     const value = style[prop]
     if (value != null && prop !== 'fallbacks') {
-      result += `\n${indentStr(`${prop}: ${toCssValue(value)};`, indent)}`
+      if (result) result += '\n'
+      result += `${indentStr(`${prop}: ${toCssValue(value)};`, indent)}`
     }
   }
 
   // Allow empty style in this case, because properties will be added dynamically.
   if (!result && !options.allowEmpty) return result
 
-  indent--
-  result = indentStr(`${selector} {${result}\n`, indent) + indentStr('}', indent)
+  // When rule is being stringified before selector was defined.
+  if (!selector) return result
 
-  return result
+  indent--
+
+  if (result) result = `\n${result}\n`
+
+  return indentStr(`${selector} {${result}`, indent) + indentStr('}', indent)
 }

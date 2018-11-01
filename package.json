@@ -5,7 +5,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "lerna run prepare",
+    "build": "lerna run build",
     "prepublishOnly": "yarn check-snapshots && yarn build && yarn typecheck && yarn lint && yarn format:ci && yarn test",
     "publish": "lerna publish",
     "typecheck": "flow check --max-warnings=0",
@@ -15,8 +15,8 @@
     "format:ci": "yarn format -- --list-different",
     "test": "cross-env NODE_ENV=test VERSION=\"1\" karma start --single-run",
     "test:watch": "cross-env NODE_ENV=test VERSION=\"1\" karma start",
-    "check-snapshots": "lerna exec -- cross-env SNAPSHOT=match rollup --config ../../rollup.config.js",
-    "posttest": "yarn check-snapshots && [ -z \"$TRAVIS\" ] || codecov",
+    "check-snapshots": "lerna run check-snapshot",
+    "posttest": "[ -z \"$TRAVIS\" ] || codecov",
     "codecov": "codecov",
     "bench": "cross-env BENCHMARK=true karma start --single-run",
     "pre-commit": "lint-staged && yarn typecheck && yarn ts-check"
