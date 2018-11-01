@@ -11,6 +11,7 @@ script:
   - yarn format:ci
   - yarn build
   - yarn lint
+  - yarn ts-check
   - yarn typecheck
   - yarn test
 env:

@@ -6,6 +6,7 @@
   "main": "dist/react-jss.cjs.js",
   "module": "dist/react-jss.esm.js",
   "homepage": "http://cssinjs.org/react-jss",
+  "typings": "./src/index.d.ts",
   "author": {
     "name": "Dan Abramov",
     "email": "dan.abramov@me.com"
@@ -40,6 +41,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
+    "@types/react": "^16.4.18",
     "hoist-non-react-statics": "^2.5.0",
     "jss": "^9.7.0",
     "jss-preset-default": "^4.3.0",

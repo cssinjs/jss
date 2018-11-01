@@ -6,6 +6,7 @@
   "homepage": "http://cssinjs.org/",
   "main": "dist/jss-plugin-syntax-rule-value-observable.cjs.js",
   "module": "dist/jss-plugin-syntax-rule-value-observable.esm.js",
+  "typings": "./src/index.d.ts",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"

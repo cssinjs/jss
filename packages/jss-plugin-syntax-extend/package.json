@@ -6,6 +6,7 @@
   "homepage": "http://cssinjs.org/jss-extend",
   "main": "dist/jss-plugin-syntax-extend.cjs.js",
   "module": "dist/jss-plugin-syntax-extend.esm.js",
+  "typings": "./src/index.d.ts",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
