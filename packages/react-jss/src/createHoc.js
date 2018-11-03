@@ -269,7 +269,9 @@ export default function createHOC<
   }
 
   if (isThemingEnabled || injectMap.theme) {
-    return theming ? theming.withTheme(Jss) : withTheme(Jss)
+    return theming
+      ? theming.withTheme(Jss, {forwardInnerRef: true})
+      : withTheme(Jss, {forwardInnerRef: true})
   }
 
   return Jss

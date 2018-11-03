@@ -1,13 +1,12 @@
 // @flow
 import type {StyleSheet, StyleSheetFactoryOptions, Jss, SheetsRegistry, SheetsManager} from 'jss'
 import type {Node, ElementRef} from 'react'
-import {createTheming} from 'theming'
+import {type Theming} from 'theming'
 
-type ExtractReturnType = <R>(() => R) => R
 export type Theme = {}
 
 export type Options = {
-  theming?: $Call<ExtractReturnType, typeof createTheming>,
+  theming?: Theming,
   inject?: Array<'classes' | 'themes' | 'sheet'>,
   jss?: Jss
 } & StyleSheetFactoryOptions

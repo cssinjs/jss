@@ -245,7 +245,7 @@ describe('React-JSS: theming', () => {
       node
     )
 
-    expect(document.querySelectorAll('style').length).to.equal(1)
+    expect(document.querySelectorAll('style').length).to.equal(2)
 
     render(
       <div>
@@ -275,7 +275,7 @@ describe('React-JSS: theming', () => {
       node
     )
 
-    expect(document.querySelectorAll('style').length).to.equal(3)
+    expect(document.querySelectorAll('style').length).to.equal(4)
 
     render(
       <div>
@@ -319,7 +319,7 @@ describe('React-JSS: theming', () => {
       node
     )
 
-    expect(document.querySelectorAll('style').length).to.equal(1)
+    expect(document.querySelectorAll('style').length).to.equal(2)
   })
 
   it('two themed instances w/ dynamic props w/ different themes = 4 styles, same theme update = 3 styles', () => {
@@ -349,7 +349,7 @@ describe('React-JSS: theming', () => {
       node
     )
 
-    expect(document.querySelectorAll('style').length).to.equal(3)
+    expect(document.querySelectorAll('style').length).to.equal(4)
   })
 
   it('with JssProvider should render two different sheets', () => {
@@ -421,10 +421,10 @@ describe('React-JSS: theming', () => {
       let themeReceivedInComponentB
 
       const styleA = theme => {
-        colorReceivedInStyleA = {a: {color: theme.color}}
+        colorReceivedInStyleA = theme.color
       }
       const styleB = theme => {
-        colorReceivedInStyleB = {a: {color: theme.color}}
+        colorReceivedInStyleB = theme.color
       }
 
       const InnerComponentA = ({theme}) => {
@@ -437,8 +437,12 @@ describe('React-JSS: theming', () => {
         return null
       }
 
-      const ComponentA = injectSheet(styleA, {theming: themingA})(InnerComponentA)
-      const ComponentB = injectSheet(styleB, {theming: themingB})(InnerComponentB)
+      const ComponentA = injectSheet(styleA, {theming: themingA, inject: ['theme']})(
+        InnerComponentA
+      )
+      const ComponentB = injectSheet(styleB, {theming: themingB, inject: ['theme']})(
+        InnerComponentB
+      )
 
       render(
         <div>
@@ -454,10 +458,10 @@ describe('React-JSS: theming', () => {
         node
       )
 
-      expect(themeReceivedInComponentA).to.be(ThemeA)
-      expect(themeReceivedInComponentB).to.be(ThemeB)
-      expect(colorReceivedInStyleA).to.eql({a: {color: ThemeA.color}})
-      expect(colorReceivedInStyleB).to.eql({a: {color: ThemeB.color}})
+      expect(themeReceivedInComponentA).to.eql(ThemeA)
+      expect(themeReceivedInComponentB).to.eql(ThemeB)
+      expect(colorReceivedInStyleA).to.eql(ThemeA.color)
+      expect(colorReceivedInStyleB).to.eql(ThemeB.color)
     })
   })
 })
