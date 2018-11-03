@@ -6,7 +6,7 @@
 
 [Material-UI](https://material-ui.com/)
 
-[Bootstrap JSS](https://sammi.github.io/bootstrap-jss)([source](https://github.com/sammi/bootstrap-jss))
+[Bootstrap JSS](https://sammi.github.io/bootstrap-jss) ([source](https://github.com/sammi/bootstrap-jss))
 
 [React Styleguidist](https://github.com/styleguidist/react-styleguidist)
 
