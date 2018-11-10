@@ -3,7 +3,7 @@
   "description": "True rules isolation through automatic properties reset.",
   "version": "5.1.0",
   "license": "MIT",
-  "homepage": "http://cssinjs.org/jss-isolate",
+  "homepage": "https://cssinjs.org/jss-isolate",
   "main": "dist/jss-plugin-isolate.cjs.js",
   "module": "dist/jss-plugin-isolate.esm.js",
   "typings": "./src/index.d.ts",

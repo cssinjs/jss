@@ -5,7 +5,7 @@
   "license": "MIT",
   "main": "dist/react-jss.cjs.js",
   "module": "dist/react-jss.esm.js",
-  "homepage": "http://cssinjs.org/react-jss",
+  "homepage": "https://cssinjs.org/react-jss",
   "typings": "./src/index.d.ts",
   "author": {
     "name": "Dan Abramov",

@@ -3,7 +3,7 @@
   "description": "A lib for generating Style Sheets with JavaScript.",
   "version": "9.8.4",
   "license": "MIT",
-  "homepage": "http://cssinjs.org/",
+  "homepage": "https://cssinjs.org/",
   "main": "dist/jss.cjs.js",
   "module": "dist/jss.esm.js",
   "typings": "./src/index.d.ts",

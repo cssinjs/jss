@@ -3,7 +3,7 @@
   "description": "JSS plugin that allows to write camel cased rule properties",
   "version": "6.1.0",
   "license": "MIT",
-  "homepage": "http://cssinjs.org/jss-camel-case",
+  "homepage": "https://cssinjs.org/jss-camel-case",
   "main": "dist/jss-plugin-syntax-camel-case.cjs.js",
   "module": "dist/jss-plugin-syntax-camel-case.esm.js",
   "typings": "./src/index.d.ts",

@@ -3,7 +3,7 @@
   "description": "JSS plugin that handles vendor prefixes in the browser",
   "version": "8.0.1",
   "license": "MIT",
-  "homepage": "http://cssinjs.org/jss-vendor-prefixer",
+  "homepage": "https://cssinjs.org/jss-vendor-prefixer",
   "main": "dist/jss-plugin-vendor-prefixer.cjs.js",
   "module": "dist/jss-plugin-vendor-prefixer.esm.js",
   "typings": "./src/index.d.ts",

@@ -3,7 +3,7 @@
   "description": "JSS plugin for function value and rule syntax",
   "version": "0.1.0",
   "license": "MIT",
-  "homepage": "http://cssinjs.org/",
+  "homepage": "https://cssinjs.org/",
   "main": "dist/jss-plugin-syntax-rule-value-function.cjs.js",
   "module": "dist/jss-plugin-syntax-rule-value-function.esm.js",
   "typings": "./src/index.d.ts",

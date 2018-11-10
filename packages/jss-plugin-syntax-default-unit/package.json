@@ -3,7 +3,7 @@
   "description": "JSS plugin that adds default custom unit to numeric values where needed",
   "version": "8.0.2",
   "license": "MIT",
-  "homepage": "http://cssinjs.org/jss-default-unit",
+  "homepage": "https://cssinjs.org/jss-default-unit",
   "main": "dist/jss-plugin-syntax-default-unit.cjs.js",
   "module": "dist/jss-plugin-syntax-default-unit.esm.js",
   "typings": "./src/index.d.ts",

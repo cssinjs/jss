@@ -3,7 +3,7 @@
   "description": "Default preset for JSS with selected plugins.",
   "version": "4.5.0",
   "license": "MIT",
-  "homepage": "http://cssinjs.org/jss-preset-default",
+  "homepage": "https://cssinjs.org/jss-preset-default",
   "main": "dist/jss-preset-default.cjs.js",
   "module": "dist/jss-preset-default.esm.js",
   "typings": "./src/index.d.ts",
