@@ -3,9 +3,10 @@
   "description": "A lib for generating Style Sheets with JavaScript.",
   "version": "9.8.4",
   "license": "MIT",
+  "homepage": "https://cssinjs.org/",
   "main": "dist/jss.cjs.js",
   "module": "dist/jss.esm.js",
-  "homepage": "http://cssinjs.org/",
+  "typings": "./src/index.d.ts",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
@@ -33,12 +34,9 @@
     "css in js",
     "css-in-js"
   ],
-  "engines": {
-    "node": ">=4"
-  },
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js",
-    "postinstall": "node -e \"console.log('\\u001b[35m\\u001b[1mLove JSS? You can now support us on open collective:\\u001b[22m\\u001b[39m\\n > \\u001b[34mhttps://opencollective.com/jss/donate\\u001b[0m')\""
+    "build": "node ../../scripts/build.js",
+    "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",

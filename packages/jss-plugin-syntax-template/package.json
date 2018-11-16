@@ -3,9 +3,10 @@
   "description": "JSS plugin enables string templates",
   "version": "1.0.1",
   "license": "MIT",
-  "homepage": "http://cssinjs.org/jss-template",
+  "homepage": "https://cssinjs.org/jss-template",
   "main": "dist/jss-plugin-syntax-template.cjs.js",
   "module": "dist/jss-plugin-syntax-template.esm.js",
+  "typings": "./src/index.d.ts",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
@@ -31,7 +32,8 @@
     "template"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "build": "node ../../scripts/build.js",
+    "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
     "jss": "^9.0.0"

@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "es6",
+    "noEmit": true,
+    "pretty": true,
+    "esModuleInterop": true,
+    "module": "es6",
+    "moduleResolution": "node"
+  },
+  "include": ["packages/**/src/index.d.ts"]
+}

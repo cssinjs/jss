@@ -3,9 +3,10 @@
   "description": "JSS plugin for classes composition",
   "version": "5.0.0",
   "license": "MIT",
-  "homepage": "http://cssinjs.org/jss-compose",
+  "homepage": "https://cssinjs.org/jss-compose",
   "main": "dist/jss-plugin-syntax-compose.cjs.js",
   "module": "dist/jss-plugin-syntax-compose.esm.js",
+  "typings": "./src/index.d.ts",
   "author": {
     "name": "Pavel Davydov",
     "email": "typical000@gmail.com"
@@ -32,7 +33,8 @@
     "composition"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "build": "node ../../scripts/build.js",
+    "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
     "jss": "^9.0.0"

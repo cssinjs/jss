@@ -637,4 +637,31 @@ describe('jss-plugin-syntax-nested', () => {
       `)
     })
   })
+
+  describe('nest rules inside media query', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet({
+        a: {},
+        b: {
+          '@media (min-width: 576px)': {
+            '& $a': {
+              margin: '15px'
+            }
+          }
+        }
+      })
+    })
+
+    it('should generate nested rules inside media queries', () => {
+      expect(sheet.toString()).to.be(stripIndent`
+        @media (min-width: 576px) {
+          .b-id .a-id {
+            margin: 15px;
+          }
+        }
+      `)
+    })
+  })
 })

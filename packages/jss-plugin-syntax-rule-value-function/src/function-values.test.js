@@ -46,8 +46,7 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
 
     it('should render an empty rule', () => {
       expect(sheet.toString()).to.be(stripIndent`
-        .a-id {
-        }
+        .a-id {}
       `)
     })
 
@@ -114,8 +113,7 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
 
     it('should render an empty rule', () => {
       expect(sheet.toString()).to.be(stripIndent`
-        .a-id {
-        }
+        .a-id {}
       `)
     })
 
@@ -207,15 +205,12 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
     describe('.toString()', () => {
       it('should return correct .toString() before .update()', () => {
         expect(sheet.toString()).to.be(stripIndent`
-          .a-id {
-          }
+          .a-id {}
           @media all {
-            .b-id {
-            }
+            .b-id {  }
           }
           @keyframes keyframes-a-id {
-            0% {
-            }
+            0% {  }
           }
         `)
       })
@@ -292,15 +287,12 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
         sheet.update({color: null})
 
         expect(sheet.toString()).to.be(stripIndent`
-          .a-id {
-          }
+          .a-id {}
           @media all {
-            .b-id {
-            }
+            .b-id {  }
           }
           @keyframes keyframes-a-id {
-            0% {
-            }
+            0% {  }
           }
         `)
       })
@@ -309,15 +301,12 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
         sheet.update({color: undefined})
 
         expect(sheet.toString()).to.be(stripIndent`
-          .a-id {
-          }
+          .a-id {}
           @media all {
-            .b-id {
-            }
+            .b-id {  }
           }
           @keyframes keyframes-a-id {
-            0% {
-            }
+            0% {  }
           }
         `)
       })
@@ -326,15 +315,12 @@ describe('jss-plugin-syntax-rule-value-function: Function values', () => {
         sheet.update({color: false})
 
         expect(sheet.toString()).to.be(stripIndent`
-          .a-id {
-          }
+          .a-id {}
           @media all {
-            .b-id {
-            }
+            .b-id {  }
           }
           @keyframes keyframes-a-id {
-            0% {
-            }
+            0% {  }
           }
         `)
       })

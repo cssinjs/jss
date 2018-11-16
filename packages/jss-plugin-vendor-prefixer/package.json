@@ -3,9 +3,10 @@
   "description": "JSS plugin that handles vendor prefixes in the browser",
   "version": "8.0.1",
   "license": "MIT",
-  "homepage": "http://cssinjs.org/jss-vendor-prefixer",
+  "homepage": "https://cssinjs.org/jss-vendor-prefixer",
   "main": "dist/jss-plugin-vendor-prefixer.cjs.js",
   "module": "dist/jss-plugin-vendor-prefixer.esm.js",
+  "typings": "./src/index.d.ts",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
@@ -30,7 +31,8 @@
     "prefixer"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "build": "node ../../scripts/build.js",
+    "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",

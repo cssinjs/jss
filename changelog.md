@@ -8,6 +8,9 @@
 - [react-jss] Added flow types ([#818](https://github.com/cssinjs/jss/pull/818))
 - [jss] Fix sheet ordering when the last sheet was the last sibling in the head element ([#819](https://github.com/cssinjs/jss/pull/819))
 - [jss] Migrated to a monorepo structure ([#729](https://github.com/cssinjs/jss/pull/729))
+- [all] Added TypeScript definitions to all packages ([#889](https://github.com/cssinjs/jss/pull/889))
+- [jss-plugin-syntax-nested] Fixed referencing rules inside media queries ([#900](https://github.com/cssinjs/jss/pull/900))
+- [jss-plugin-syntax-global] TypeError: Cannot read property '@global' of undefined ([#905](https://github.com/cssinjs/jss/pull/905))
 
 ### Breaking changes
 

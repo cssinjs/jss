@@ -3,9 +3,10 @@
   "description": "JSS plugin that enables support for nested selectors",
   "version": "6.0.1",
   "license": "MIT",
-  "homepage": "http://cssinjs.org/jss-nested",
+  "homepage": "https://cssinjs.org/jss-nested",
   "main": "dist/jss-plugin-syntax-nested.cjs.js",
   "module": "dist/jss-plugin-syntax-nested.esm.js",
+  "typings": "./src/index.d.ts",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
@@ -32,7 +33,8 @@
     "nesting"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "build": "node ../../scripts/build.js",
+    "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
     "jss": "^9.0.0",

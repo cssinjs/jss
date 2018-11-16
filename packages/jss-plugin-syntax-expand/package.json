@@ -3,9 +3,10 @@
   "description": "JSS plugin that gives you a better syntax than CSS.",
   "version": "5.3.0",
   "license": "MIT",
-  "homepage": "http://cssinjs.org/jss-expand",
+  "homepage": "https://cssinjs.org/jss-expand",
   "main": "dist/jss-plugin-syntax-expand.cjs.js",
   "module": "dist/jss-plugin-syntax-expand.esm.js",
+  "typings": "./src/index.d.ts",
   "author": {
     "name": "Pavel Davydov",
     "email": "typical000@gmail.com"
@@ -31,7 +32,8 @@
     "expand"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "build": "node ../../scripts/build.js",
+    "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
     "jss": "^9.4.0",

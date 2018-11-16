@@ -3,9 +3,10 @@
   "description": "JSS plugin for TC39 Observables support",
   "version": "0.1.0",
   "license": "MIT",
-  "homepage": "http://cssinjs.org/",
+  "homepage": "https://cssinjs.org/",
   "main": "dist/jss-plugin-syntax-rule-value-observable.cjs.js",
   "module": "dist/jss-plugin-syntax-rule-value-observable.esm.js",
+  "typings": "./src/index.d.ts",
   "author": {
     "name": "Oleg Slobodskoi",
     "email": "oleg008@gmail.com"
@@ -37,7 +38,8 @@
     "rxjs"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/prepare.js"
+    "build": "node ../../scripts/build.js",
+    "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "peerDependencies": {
     "jss": "^9.7.0"
