@@ -1,8 +1,12 @@
 // @flow
 import {Component, type Node} from 'react'
 import PropTypes from 'prop-types'
-import type {Jss, GenerateId, SheetsRegistry} from 'jss'
-import {createGenerateIdDefault} from './jss'
+import {
+  createGenerateId as createGenerateIdDefault,
+  type Jss,
+  type GenerateId,
+  type SheetsRegistry
+} from 'jss'
 import * as ns from './ns'
 import contextTypes from './contextTypes'
 import propTypes from './propTypes'
