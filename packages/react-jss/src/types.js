@@ -6,7 +6,7 @@ import {type Theming} from 'theming'
 export type Theme = {}
 
 export type Options = {
-  theming?: Theming,
+  theming?: Theming<Theme>,
   inject?: Array<'classes' | 'themes' | 'sheet'>,
   jss?: Jss
 } & StyleSheetFactoryOptions

@@ -2,7 +2,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, {Component, type ComponentType} from 'react'
 import PropTypes from 'prop-types'
-import {withTheme} from 'theming'
+import {ThemeContext} from 'theming'
 import type {StyleSheet} from 'jss'
 import jss, {getDynamicStyles, SheetsManager} from './jss'
 import compose from './compose'
@@ -126,22 +126,15 @@ export default function createHOC<
       if (isThemingEnabled && this.props.theme !== prevProps.theme) {
         const newState = this.createState()
         this.manage(newState)
-        this.manager.unmanage(prevProps.theme)
+        this.unmanage(prevProps, prevState)
+
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState(newState)
-      }
-
-      // We remove previous dynamicSheet only after new one was created to avoid FOUC.
-      if (prevState.dynamicSheet !== this.state.dynamicSheet && prevState.dynamicSheet) {
-        this.jss.removeStyleSheet(prevState.dynamicSheet)
       }
     }
 
     componentWillUnmount() {
-      this.manager.unmanage(this.theme)
-      if (this.state.dynamicSheet) {
-        this.jss.removeStyleSheet(this.state.dynamicSheet)
-      }
+      this.unmanage(this.props, this.state)
     }
 
     get theme() {
@@ -209,15 +202,29 @@ export default function createHOC<
       return null
     }
 
-    manage({dynamicSheet, staticSheet}: State) {
+    manage(state: State) {
+      const {dynamicSheet, staticSheet} = state
       const registry = this.context[ns.sheetsRegistry]
 
       this.manager.manage(this.theme)
-      if (staticSheet && registry) registry.add(staticSheet)
+      if (staticSheet && registry) {
+        registry.add(staticSheet)
+      }
 
-      if (dynamicSheet !== null) {
+      if (dynamicSheet) {
         dynamicSheet.update(this.props).attach()
-        if (registry) registry.add(dynamicSheet)
+
+        if (registry) {
+          registry.add(dynamicSheet)
+        }
+      }
+    }
+
+    unmanage(prevProps, prevState) {
+      this.manager.unmanage(prevProps.theme)
+
+      if (prevState.dynamicSheet) {
+        this.jss.removeStyleSheet(prevState.dynamicSheet)
       }
     }
 
@@ -255,7 +262,8 @@ export default function createHOC<
 
     render() {
       const {dynamicSheet, classes, staticSheet} = this.state
-      const {innerRef, theme, ...props}: OuterPropsType = this.props
+      // $FlowFixMe: Flow complains for no reason...
+      const {innerRef, theme, ...props} = this.props
       const sheet = dynamicSheet || staticSheet
 
       if (injectMap.sheet && !props.sheet && sheet) props.sheet = sheet
@@ -269,9 +277,16 @@ export default function createHOC<
   }
 
   if (isThemingEnabled || injectMap.theme) {
-    return theming
-      ? theming.withTheme(Jss, {forwardInnerRef: true})
-      : withTheme(Jss, {forwardInnerRef: true})
+    const ThemeConsumer = (theming && theming.context.Consumer) || ThemeContext.Consumer
+
+    // eslint-disable-next-line no-inner-declarations
+    function ContextSubscribers(props) {
+      return <ThemeConsumer>{theme => <Jss theme={theme} {...props} />}</ThemeConsumer>
+    }
+
+    ContextSubscribers.InnerComponent = InnerComponent
+
+    return ContextSubscribers
   }
 
   return Jss

@@ -8760,10 +8760,10 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-theming@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/theming/-/theming-2.1.2.tgz#f5a3353168b713f1becc0351bd35a6d4599d6b25"
-  integrity sha512-AUS4S1WwukBHTh3R6k4gQJoF07BhyRcT5c1nIsuJXRBkZiFnPc3ev5VE5/EoInWYseR772kGthgIOW61GgyDUw==
+theming@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/theming/-/theming-2.2.0.tgz#64fe667afc5fb742060dd084fe4af6fac1227a97"
+  integrity sha512-S+augXK6352pVHzuo3usMWpPMDZGYywhQkqwhhgHBaXt5nAohzbItm4ptBsXXDZZ5fN+BIlGGmf1ADI7Q/DduQ==
   dependencies:
     "@types/react" "^16.4.18"
     create-react-context "^0.2.3"

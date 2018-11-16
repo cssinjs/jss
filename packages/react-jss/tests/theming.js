@@ -245,7 +245,7 @@ describe('React-JSS: theming', () => {
       node
     )
 
-    expect(document.querySelectorAll('style').length).to.equal(2)
+    expect(document.querySelectorAll('style').length).to.equal(1)
 
     render(
       <div>
@@ -275,7 +275,7 @@ describe('React-JSS: theming', () => {
       node
     )
 
-    expect(document.querySelectorAll('style').length).to.equal(4)
+    expect(document.querySelectorAll('style').length).to.equal(3)
 
     render(
       <div>
@@ -319,7 +319,7 @@ describe('React-JSS: theming', () => {
       node
     )
 
-    expect(document.querySelectorAll('style').length).to.equal(2)
+    expect(document.querySelectorAll('style').length).to.equal(1)
   })
 
   it('two themed instances w/ dynamic props w/ different themes = 4 styles, same theme update = 3 styles', () => {
@@ -349,7 +349,7 @@ describe('React-JSS: theming', () => {
       node
     )
 
-    expect(document.querySelectorAll('style').length).to.equal(4)
+    expect(document.querySelectorAll('style').length).to.equal(3)
   })
 
   it('with JssProvider should render two different sheets', () => {
