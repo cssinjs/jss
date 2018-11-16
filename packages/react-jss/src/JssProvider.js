@@ -67,13 +67,18 @@ export default class JssProvider extends Component<Props> {
       sheetOptions.generateId = generateId
     } else if (!sheetOptions.generateId) {
       if (!this.generateId) {
-        let createGenerateId = createGenerateIdDefault
-        if (localJss && localJss.options.createGenerateId) {
-          createGenerateId = localJss.options.createGenerateId
+        if (localJss && localJss.generateClassName) {
+          // re-use the same classname generator pinned to the local jss instance
+          this.generateClassName = localJss.generateClassName
+        } else {
+          let createGenerateId = createGenerateIdDefault
+          if (localJss && localJss.options.createGenerateId) {
+            createGenerateId = localJss.options.createGenerateId
+          }
+          // Make sure we don't loose the generator when JssProvider is used inside of a stateful
+          // component which decides to rerender.
+          this.generateId = createGenerateId()
         }
-        // Make sure we don't loose the generator when JssProvider is used inside of a stateful
-        // component which decides to rerender.
-        this.generateId = createGenerateId()
       }
 
       sheetOptions.generateId = this.generateId
