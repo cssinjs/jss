@@ -13,8 +13,6 @@ import type {Options, StylesOrCreator, InnerProps} from './types'
  * specificity, because of the source order.
  * So our solution is to render sheets them in the reverse order child->sheet, so
  * that parent has a higher specificity.
- *
- * @type {Number}
  */
 let indexCounter = -100000
 
@@ -24,8 +22,6 @@ const NoRenderer = (props: {children?: ?Node}) => props.children || null
  * HOC creator function that wrapps the user component.
  *
  * `injectSheet(styles, [options])(Component)`
- *
- * @api public
  */
 export default function injectSheet(styles: StylesOrCreator, options?: Options = {}) {
   const index = options.index === undefined ? indexCounter++ : options.index

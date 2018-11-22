@@ -14,7 +14,7 @@ export type InnerProps = {
   children?: Node,
   classes?: {},
   theme: Theme,
-  sheet?: StyleSheet | null
+  sheet?: StyleSheet
 }
 // Needs to be hard coded for stricter types
 export type Context = {
@@ -25,7 +25,7 @@ export type Context = {
 }
 
 export type OuterProps<Props, InnerComponent> = Props & {
-  innerRef: (instance: ElementRef<InnerComponent> | null) => void
+  innerRef: (instance: ElementRef<InnerComponent>) => void
 }
 export type Styles = {[string]: {}}
 export type StylesCreator = (theme: Theme) => Styles

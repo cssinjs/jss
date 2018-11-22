@@ -18,10 +18,6 @@ import type {Classes} from 'jss'
  *     composes: 'a'
  *   }
  * }
- *
- * @param {Object} classes static classes map
- * @param {Object} styles dynamic styles object without static properties
- * @return {Object|null}
  */
 export default (staticClasses: Classes, dynamicClasses: Classes) => {
   const combinedClasses = {...staticClasses}

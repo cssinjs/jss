@@ -3,7 +3,7 @@
 import React, {Component, type ComponentType} from 'react'
 import PropTypes from 'prop-types'
 import {ThemeContext} from 'theming'
-import {getDynamicStyles, SheetsManager, type StyleSheet} from 'jss'
+import {getDynamicStyles, SheetsManager, type StyleSheet, type Classes} from 'jss'
 import jss from './jss'
 import compose from './compose'
 import getDisplayName from './getDisplayName'
@@ -37,8 +37,8 @@ const dynamicStylesNs = Math.random()
  */
 
 type State = {|
-  dynamicSheet: StyleSheet | null,
-  staticSheet: StyleSheet | null,
+  dynamicSheet?: StyleSheet,
+  staticSheet?: StyleSheet,
   classes: {}
 |}
 
@@ -145,7 +145,7 @@ export default function createHOC<
       return this.context[ns.jss] || optionsJss || jss
     }
 
-    get manager() {
+    get manager(): SheetsManager {
       const managers = this.context[ns.managers]
 
       // If `managers` map is present in the context, we use it in order to
@@ -160,7 +160,7 @@ export default function createHOC<
       return manager
     }
 
-    getStaticSheet() {
+    getStaticSheet(): StyleSheet {
       const theme = this.theme
       let staticSheet = this.manager.get(theme)
 
@@ -183,23 +183,21 @@ export default function createHOC<
       return staticSheet
     }
 
-    getDynamicSheet(staticSheet) {
+    getDynamicSheet(staticSheet: StyleSheet): StyleSheet | void {
       // $FlowFixMe Cannot access random fields on instance of class StyleSheet
       const dynamicStyles = staticSheet[dynamicStylesNs]
 
-      if (dynamicStyles) {
-        const contextSheetOptions = this.context[ns.sheetOptions]
+      if (!dynamicStyles) return undefined
 
-        return this.jss.createStyleSheet(dynamicStyles, {
-          ...sheetOptions,
-          ...contextSheetOptions,
-          meta: `${displayName}, ${isThemingEnabled ? 'Themed' : 'Unthemed'}, Dynamic`,
-          classNamePrefix: this.classNamePrefix,
-          link: true
-        })
-      }
+      const contextSheetOptions = this.context[ns.sheetOptions]
 
-      return null
+      return this.jss.createStyleSheet(dynamicStyles, {
+        ...sheetOptions,
+        ...contextSheetOptions,
+        meta: `${displayName}, ${isThemingEnabled ? 'Themed' : 'Unthemed'}, Dynamic`,
+        classNamePrefix: this.classNamePrefix,
+        link: true
+      })
     }
 
     manage(state: State) {
@@ -228,7 +226,7 @@ export default function createHOC<
       }
     }
 
-    computeClasses(staticSheet, dynamicSheet) {
+    computeClasses(staticSheet: StyleSheet, dynamicSheet?: StyleSheet): Classes {
       const jssClasses = dynamicSheet
         ? compose(
             staticSheet.classes,
@@ -245,17 +243,17 @@ export default function createHOC<
     createState(): State {
       const contextSheetOptions = this.context[ns.sheetOptions]
       if (contextSheetOptions && contextSheetOptions.disableStylesGeneration) {
-        return {
-          classes: {},
-          dynamicSheet: null,
-          staticSheet: null
-        }
+        return {classes: {}}
       }
 
       const staticSheet = this.getStaticSheet()
       const dynamicSheet = this.getDynamicSheet(staticSheet)
 
-      return {staticSheet, dynamicSheet, classes: this.computeClasses(staticSheet, dynamicSheet)}
+      return {
+        staticSheet,
+        dynamicSheet,
+        classes: this.computeClasses(staticSheet, dynamicSheet)
+      }
     }
 
     context: Context
