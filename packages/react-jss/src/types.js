@@ -1,34 +1,20 @@
 // @flow
-import type {StyleSheetFactoryOptions, Jss, SheetsRegistry, SheetsManager} from 'jss'
-import type {ComponentType, Node, ElementRef} from 'react'
+import type {StyleSheet, StyleSheetFactoryOptions, Jss, SheetsRegistry, SheetsManager} from 'jss'
+import type {Node, ElementRef} from 'react'
+import {type Theming} from 'theming'
 
 export type Theme = {}
-export type SubscriptionId = string
-type Theming = {
-  channel: string,
-  withTheme: <P>(comp: ComponentType<P>) => ComponentType<P & {theme: Theme}>,
-  ThemeProvider: ComponentType<{
-    theme: Theme | ((outerTheme: Theme) => Theme),
-    children: Node
-  }>,
-  themeListener: {
-    contextTypes: {},
-    initial: (context: {}) => Theme,
-    subscribe: (context: {}, cb: (theme: Theme) => void) => SubscriptionId,
-    unsubscribe: (context: {}, id: SubscriptionId) => void
-  }
-}
 
 export type Options = {
-  theming?: Theming,
+  theming?: Theming<Theme>,
   inject?: Array<'classes' | 'themes' | 'sheet'>,
   jss?: Jss
 } & StyleSheetFactoryOptions
 export type InnerProps = {
   children?: Node,
   classes?: {},
-  theme?: Theme,
-  sheet?: {}
+  theme: Theme,
+  sheet?: StyleSheet
 }
 // Needs to be hard coded for stricter types
 export type Context = {
@@ -39,7 +25,7 @@ export type Context = {
 }
 
 export type OuterProps<Props, InnerComponent> = Props & {
-  innerRef: (instance: ElementRef<InnerComponent> | null) => void
+  innerRef: (instance: ElementRef<InnerComponent>) => void
 }
 export type Styles = {[string]: {}}
 export type StylesCreator = (theme: Theme) => Styles

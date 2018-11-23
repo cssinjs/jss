@@ -2,22 +2,14 @@
 /* eslint-disable react/destructuring-assignment */
 import React, {Component, type ComponentType} from 'react'
 import PropTypes from 'prop-types'
-import defaultTheming from 'theming'
-import type {StyleSheet} from 'jss'
-import jss, {getDynamicStyles, SheetsManager} from './jss'
+import {ThemeContext} from 'theming'
+import {getDynamicStyles, SheetsManager, type StyleSheet, type Classes} from 'jss'
+import jss from './jss'
 import compose from './compose'
 import getDisplayName from './getDisplayName'
 import * as ns from './ns'
 import contextTypes from './contextTypes'
-import type {
-  Options,
-  Theme,
-  StylesOrCreator,
-  InnerProps,
-  OuterProps,
-  Context,
-  SubscriptionId
-} from './types'
+import type {Options, Theme, StylesOrCreator, InnerProps, OuterProps, Context} from './types'
 
 const env = process.env.NODE_ENV
 
@@ -44,11 +36,11 @@ const dynamicStylesNs = Math.random()
  *
  */
 
-type State = {
-  theme: Theme,
+type State = {|
   dynamicSheet?: StyleSheet,
+  staticSheet?: StyleSheet,
   classes: {}
-}
+|}
 
 const getStyles = (stylesOrCreator: StylesOrCreator, theme: Theme) => {
   if (typeof stylesOrCreator !== 'function') {
@@ -85,84 +77,75 @@ export default function createHOC<
   options: Options
 ): ComponentType<OuterPropsType> {
   const isThemingEnabled = typeof stylesOrCreator === 'function'
-  const {theming = defaultTheming, inject, jss: optionsJss, ...sheetOptions} = options
+  const {theming, inject, jss: optionsJss, ...sheetOptions} = options
   const injectMap = inject ? toMap(inject) : defaultInjectProps
-  const {themeListener} = theming
   const displayName = getDisplayName(InnerComponent)
   const defaultClassNamePrefix = env === 'production' ? '' : `${displayName}-`
   const noTheme = {}
   const managerId = managersCounter++
   const manager = new SheetsManager()
-  // $FlowFixMe defaultProps are not defined in React$Component
-  const defaultProps: InnerPropsType = {...InnerComponent.defaultProps}
-  delete defaultProps.classes
+
+  // $FlowFixMe: DefaultProps is missing in type definitions
+  const {classes: defaultClasses = {}, ...defaultProps} = {...InnerComponent.defaultProps}
 
   class Jss extends Component<OuterPropsType, State> {
     static displayName = `Jss(${displayName})`
 
     static InnerComponent = InnerComponent
 
-    static contextTypes = {
-      ...contextTypes,
-      ...(isThemingEnabled ? themeListener.contextTypes : {})
-    }
+    static contextTypes = contextTypes
 
     static propTypes = {
       innerRef: PropTypes.func
     }
 
-    static defaultProps = defaultProps
+    static defaultProps = {
+      ...defaultProps,
+      theme: noTheme
+    }
+
+    classNamePrefix: string = defaultClassNamePrefix
 
     constructor(props: OuterPropsType, context: Context) {
       super(props, context)
-      const theme = isThemingEnabled ? themeListener.initial(context) : noTheme
 
-      this.state = this.createState({theme, classes: {}}, props)
-      this.manage(this.state)
-    }
+      const contextSheetOptions = context[ns.sheetOptions]
 
-    componentDidMount() {
-      if (isThemingEnabled) {
-        this.unsubscribeId = themeListener.subscribe(this.context, this.setTheme)
+      if (contextSheetOptions && contextSheetOptions.classNamePrefix) {
+        this.classNamePrefix = contextSheetOptions.classNamePrefix + this.classNamePrefix
       }
+
+      this.state = this.createState()
+      this.manage(this.state)
     }
 
     componentDidUpdate(prevProps: OuterPropsType, prevState: State) {
       const {dynamicSheet} = this.state
       if (dynamicSheet) dynamicSheet.update(this.props)
 
-      if (isThemingEnabled && this.state.theme !== prevState.theme) {
-        const newState = this.createState(this.state, this.props)
+      if (isThemingEnabled && this.props.theme !== prevProps.theme) {
+        const newState = this.createState()
         this.manage(newState)
-        this.manager.unmanage(prevState.theme)
+        this.unmanage(prevProps, prevState)
+
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState(newState)
-      }
-
-      // We remove previous dynamicSheet only after new one was created to avoid FOUC.
-      if (prevState.dynamicSheet !== this.state.dynamicSheet && prevState.dynamicSheet) {
-        this.jss.removeStyleSheet(prevState.dynamicSheet)
       }
     }
 
     componentWillUnmount() {
-      if (isThemingEnabled && this.unsubscribeId) {
-        themeListener.unsubscribe(this.context, this.unsubscribeId)
-      }
-
-      this.manager.unmanage(this.state.theme)
-      if (this.state.dynamicSheet) {
-        this.jss.removeStyleSheet(this.state.dynamicSheet)
-      }
+      this.unmanage(this.props, this.state)
     }
 
-    setTheme = (theme: Theme) => this.setState({theme})
+    get theme() {
+      return isThemingEnabled ? this.props.theme : noTheme
+    }
 
     get jss() {
       return this.context[ns.jss] || optionsJss || jss
     }
 
-    get manager() {
+    get manager(): SheetsManager {
       const managers = this.context[ns.managers]
 
       // If `managers` map is present in the context, we use it in order to
@@ -177,98 +160,131 @@ export default function createHOC<
       return manager
     }
 
-    manage({theme, dynamicSheet}: State) {
-      const contextSheetOptions = this.context[ns.sheetOptions]
-      if (contextSheetOptions && contextSheetOptions.disableStylesGeneration) {
-        return
+    getStaticSheet(): StyleSheet {
+      const theme = this.theme
+      let staticSheet = this.manager.get(theme)
+
+      if (staticSheet) {
+        return staticSheet
       }
+
+      const contextSheetOptions = this.context[ns.sheetOptions]
+      const styles = getStyles(stylesOrCreator, theme)
+      staticSheet = this.jss.createStyleSheet(styles, {
+        ...sheetOptions,
+        ...contextSheetOptions,
+        meta: `${displayName}, ${isThemingEnabled ? 'Themed' : 'Unthemed'}, Static`,
+        classNamePrefix: this.classNamePrefix
+      })
+      this.manager.add(theme, staticSheet)
+      // $FlowFixMe Cannot add random fields to instance of class StyleSheet
+      staticSheet[dynamicStylesNs] = getDynamicStyles(styles)
+
+      return staticSheet
+    }
+
+    getDynamicSheet(staticSheet: StyleSheet): StyleSheet | void {
+      // $FlowFixMe Cannot access random fields on instance of class StyleSheet
+      const dynamicStyles = staticSheet[dynamicStylesNs]
+
+      if (!dynamicStyles) return undefined
+
+      const contextSheetOptions = this.context[ns.sheetOptions]
+
+      return this.jss.createStyleSheet(dynamicStyles, {
+        ...sheetOptions,
+        ...contextSheetOptions,
+        meta: `${displayName}, ${isThemingEnabled ? 'Themed' : 'Unthemed'}, Dynamic`,
+        classNamePrefix: this.classNamePrefix,
+        link: true
+      })
+    }
+
+    manage(state: State) {
+      const {dynamicSheet, staticSheet} = state
       const registry = this.context[ns.sheetsRegistry]
 
-      const staticSheet = this.manager.manage(theme)
-      if (registry) registry.add(staticSheet)
+      this.manager.manage(this.theme)
+      if (staticSheet && registry) {
+        registry.add(staticSheet)
+      }
 
       if (dynamicSheet) {
         dynamicSheet.update(this.props).attach()
-        if (registry) registry.add(dynamicSheet)
+
+        if (registry) {
+          registry.add(dynamicSheet)
+        }
       }
     }
 
-    createState(state: State, {classes: userClasses}): State {
-      const contextSheetOptions = this.context[ns.sheetOptions]
-      if (contextSheetOptions && contextSheetOptions.disableStylesGeneration) {
-        return {...state, classes: {}}
+    unmanage(prevProps, prevState) {
+      this.manager.unmanage(prevProps.theme)
+
+      if (prevState.dynamicSheet) {
+        this.jss.removeStyleSheet(prevState.dynamicSheet)
       }
+    }
 
-      let classNamePrefix = defaultClassNamePrefix
-      let staticSheet = this.manager.get(state.theme)
-
-      if (contextSheetOptions && contextSheetOptions.classNamePrefix) {
-        classNamePrefix = contextSheetOptions.classNamePrefix + classNamePrefix
-      }
-
-      if (!staticSheet) {
-        const styles = getStyles(stylesOrCreator, state.theme)
-        staticSheet = this.jss.createStyleSheet(styles, {
-          ...sheetOptions,
-          ...contextSheetOptions,
-          meta: `${displayName}, ${isThemingEnabled ? 'Themed' : 'Unthemed'}, Static`,
-          classNamePrefix
-        })
-        this.manager.add(state.theme, staticSheet)
-        // $FlowFixMe Cannot add random fields to instance of class StyleSheet
-        staticSheet[dynamicStylesNs] = getDynamicStyles(styles)
-      }
-
-      // $FlowFixMe Cannot access random fields on instance of class StyleSheet
-      const dynamicStyles = staticSheet[dynamicStylesNs]
-      let dynamicSheet
-
-      if (dynamicStyles) {
-        dynamicSheet = this.jss.createStyleSheet(dynamicStyles, {
-          ...sheetOptions,
-          ...contextSheetOptions,
-          meta: `${displayName}, ${isThemingEnabled ? 'Themed' : 'Unthemed'}, Dynamic`,
-          classNamePrefix,
-          link: true
-        })
-      }
-
-      // $FlowFixMe InnerComponent can be class or stateless, the latter doesn't have a defaultProps property
-      const defaultClasses = InnerComponent.defaultProps
-        ? InnerComponent.defaultProps.classes
-        : undefined
+    computeClasses(staticSheet: StyleSheet, dynamicSheet?: StyleSheet): Classes {
       const jssClasses = dynamicSheet
         ? compose(
             staticSheet.classes,
             dynamicSheet.classes
           )
         : staticSheet.classes
-      const classes = {
+      return {
         ...defaultClasses,
         ...jssClasses,
-        ...userClasses
+        ...this.props.classes
       }
-
-      return {theme: state.theme, dynamicSheet, classes}
     }
 
-    unsubscribeId: SubscriptionId
+    createState(): State {
+      const contextSheetOptions = this.context[ns.sheetOptions]
+      if (contextSheetOptions && contextSheetOptions.disableStylesGeneration) {
+        return {classes: {}}
+      }
+
+      const staticSheet = this.getStaticSheet()
+      const dynamicSheet = this.getDynamicSheet(staticSheet)
+
+      return {
+        staticSheet,
+        dynamicSheet,
+        classes: this.computeClasses(staticSheet, dynamicSheet)
+      }
+    }
 
     context: Context
 
     render() {
-      const {theme, dynamicSheet, classes} = this.state
-      const {innerRef, ...props}: OuterPropsType = this.props
-      const sheet = dynamicSheet || this.manager.get(theme)
+      const {dynamicSheet, classes, staticSheet} = this.state
+      // $FlowFixMe: Flow complains for no reason...
+      const {innerRef, theme, ...props} = this.props
+      const sheet = dynamicSheet || staticSheet
 
-      if (injectMap.sheet && !props.sheet) props.sheet = sheet
-      if (isThemingEnabled && injectMap.theme && !props.theme) props.theme = theme
+      if (injectMap.sheet && !props.sheet && sheet) props.sheet = sheet
+      if (injectMap.theme) props.theme = theme
 
       // We have merged classes already.
       if (injectMap.classes) props.classes = classes
 
       return <InnerComponent ref={innerRef} {...props} />
     }
+  }
+
+  if (isThemingEnabled || injectMap.theme) {
+    const ThemeConsumer = (theming && theming.context.Consumer) || ThemeContext.Consumer
+
+    // eslint-disable-next-line no-inner-declarations
+    function ContextSubscribers(props) {
+      return <ThemeConsumer>{theme => <Jss theme={theme} {...props} />}</ThemeConsumer>
+    }
+
+    ContextSubscribers.InnerComponent = InnerComponent
+
+    return ContextSubscribers
   }
 
   return Jss
