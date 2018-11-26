@@ -7,9 +7,8 @@ import {getDynamicStyles, SheetsManager, type StyleSheet, type Classes} from 'js
 import jss from './jss'
 import compose from './compose'
 import getDisplayName from './getDisplayName'
-import * as ns from './ns'
-import contextTypes from './contextTypes'
-import type {Options, Theme, StylesOrCreator, InnerProps, OuterProps, Context} from './types'
+import JssContext from './JssContext'
+import type {Options, Theme, StylesOrCreator, InnerProps, OuterProps} from './types'
 
 const env = process.env.NODE_ENV
 
@@ -84,6 +83,7 @@ export default function createHOC<
   const noTheme = {}
   const managerId = managersCounter++
   const manager = new SheetsManager()
+  const ThemeConsumer = (theming && theming.context.Consumer) || ThemeContext.Consumer
 
   // $FlowFixMe: DefaultProps is missing in type definitions
   const {classes: defaultClasses = {}, ...defaultProps} = {...InnerComponent.defaultProps}
@@ -91,25 +91,20 @@ export default function createHOC<
   class Jss extends Component<OuterPropsType, State> {
     static displayName = `Jss(${displayName})`
 
-    static InnerComponent = InnerComponent
-
-    static contextTypes = contextTypes
-
     static propTypes = {
       innerRef: PropTypes.func
     }
 
     static defaultProps = {
-      ...defaultProps,
-      theme: noTheme
+      ...defaultProps
     }
 
     classNamePrefix: string = defaultClassNamePrefix
 
-    constructor(props: OuterPropsType, context: Context) {
-      super(props, context)
+    constructor(props: OuterPropsType) {
+      super(props)
 
-      const contextSheetOptions = context[ns.sheetOptions]
+      const contextSheetOptions = this.props.sheetOptions
 
       if (contextSheetOptions && contextSheetOptions.classNamePrefix) {
         this.classNamePrefix = contextSheetOptions.classNamePrefix + this.classNamePrefix
@@ -142,11 +137,11 @@ export default function createHOC<
     }
 
     get jss() {
-      return this.context[ns.jss] || optionsJss || jss
+      return this.props.jss || optionsJss || jss
     }
 
     get manager(): SheetsManager {
-      const managers = this.context[ns.managers]
+      const {managers} = this.props
 
       // If `managers` map is present in the context, we use it in order to
       // let JssProvider reset them when new response has to render server-side.
@@ -168,7 +163,7 @@ export default function createHOC<
         return staticSheet
       }
 
-      const contextSheetOptions = this.context[ns.sheetOptions]
+      const contextSheetOptions = this.props.sheetOptions
       const styles = getStyles(stylesOrCreator, theme)
       staticSheet = this.jss.createStyleSheet(styles, {
         ...sheetOptions,
@@ -189,7 +184,7 @@ export default function createHOC<
 
       if (!dynamicStyles) return undefined
 
-      const contextSheetOptions = this.context[ns.sheetOptions]
+      const contextSheetOptions = this.props.sheetOptions
 
       return this.jss.createStyleSheet(dynamicStyles, {
         ...sheetOptions,
@@ -202,7 +197,7 @@ export default function createHOC<
 
     manage(state: State) {
       const {dynamicSheet, staticSheet} = state
-      const registry = this.context[ns.sheetsRegistry]
+      const {registry} = this.props
 
       this.manager.manage(this.theme)
       if (staticSheet && registry) {
@@ -241,8 +236,7 @@ export default function createHOC<
     }
 
     createState(): State {
-      const contextSheetOptions = this.context[ns.sheetOptions]
-      if (contextSheetOptions && contextSheetOptions.disableStylesGeneration) {
+      if (this.props.disableStylesGeneration) {
         return {classes: {}}
       }
 
@@ -255,8 +249,6 @@ export default function createHOC<
         classes: this.computeClasses(staticSheet, dynamicSheet)
       }
     }
-
-    context: Context
 
     render() {
       const {dynamicSheet, classes, staticSheet} = this.state
@@ -274,18 +266,21 @@ export default function createHOC<
     }
   }
 
-  if (isThemingEnabled || injectMap.theme) {
-    const ThemeConsumer = (theming && theming.context.Consumer) || ThemeContext.Consumer
+  return function ContextSubscriber(props) {
+    return (
+      <JssContext.Consumer>
+        {context => {
+          if (isThemingEnabled || injectMap.theme) {
+            return (
+              <ThemeConsumer>
+                {theme => <Jss theme={theme} {...context} {...props} />}
+              </ThemeConsumer>
+            )
+          }
 
-    // eslint-disable-next-line no-inner-declarations
-    function ContextSubscribers(props) {
-      return <ThemeConsumer>{theme => <Jss theme={theme} {...props} />}</ThemeConsumer>
-    }
-
-    ContextSubscribers.InnerComponent = InnerComponent
-
-    return ContextSubscribers
+          return <Jss {...context} {...props} />
+        }}
+      </JssContext.Consumer>
+    )
   }
-
-  return Jss
 }
