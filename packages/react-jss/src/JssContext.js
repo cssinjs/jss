@@ -1,8 +1,8 @@
 // @flow
-import createReactContext from 'create-react-context'
-import type {Context} from './types'
+import createReactContext, {type Context} from 'create-react-context'
+import type {Context as JssContextValue} from './types'
 
-const JssContext = createReactContext<Context>({
+const JssContext: Context<JssContextValue> = createReactContext({
   sheetOptions: {},
   disableStylesGeneration: false
 })

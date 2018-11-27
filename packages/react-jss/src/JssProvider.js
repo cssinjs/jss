@@ -24,7 +24,7 @@ type Props = {
 export default class JssProvider extends Component<Props> {
   static propTypes = {
     registry: PropTypes.instanceOf(SheetsRegistry),
-    jss: PropTypes.shape(),
+    jss: PropTypes.shape({}),
     generateId: PropTypes.func,
     classNamePrefix: PropTypes.string,
     disableStylesGeneration: PropTypes.bool,
