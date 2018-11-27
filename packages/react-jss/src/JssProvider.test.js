@@ -342,7 +342,7 @@ describe('React-JSS: JssProvider', () => {
       expect(customSheets.registry.length).to.equal(2)
     })
 
-    it('should use Jss istance from the context', () => {
+    it('should use Jss instance from the context', () => {
       let receivedSheet
 
       const MyComponent = injectSheet({}, {inject: ['sheet']})(({sheet}) => {

@@ -99,19 +99,22 @@ export default function createHOC<
       ...defaultProps
     }
 
-    classNamePrefix: string = defaultClassNamePrefix
+    static getTheme(props) {
+      return isThemingEnabled ? props.theme : noTheme
+    }
 
     constructor(props: OuterPropsType) {
       super(props)
 
-      const contextSheetOptions = this.props.sheetOptions
+      const {sheetOptions: contextSheetOptions} = props
 
-      if (contextSheetOptions && contextSheetOptions.classNamePrefix) {
-        this.classNamePrefix = contextSheetOptions.classNamePrefix + this.classNamePrefix
-      }
+      this.classNamePrefix =
+        contextSheetOptions && contextSheetOptions.classNamePrefix
+          ? contextSheetOptions.classNamePrefix + defaultClassNamePrefix
+          : defaultClassNamePrefix
 
       this.state = this.createState()
-      this.manage(this.state)
+      this.manage(this.props, this.state)
     }
 
     componentDidUpdate(prevProps: OuterPropsType, prevState: State) {
@@ -120,7 +123,7 @@ export default function createHOC<
 
       if (isThemingEnabled && this.props.theme !== prevProps.theme) {
         const newState = this.createState()
-        this.manage(newState)
+        this.manage(this.props, newState)
         this.unmanage(prevProps, prevState)
 
         // eslint-disable-next-line react/no-did-update-set-state
@@ -130,10 +133,6 @@ export default function createHOC<
 
     componentWillUnmount() {
       this.unmanage(this.props, this.state)
-    }
-
-    get theme() {
-      return isThemingEnabled ? this.props.theme : noTheme
     }
 
     get jss() {
@@ -156,7 +155,7 @@ export default function createHOC<
     }
 
     getStaticSheet(): StyleSheet {
-      const theme = this.theme
+      const theme = Jss.getTheme(this.props)
       let staticSheet = this.manager.get(theme)
 
       if (staticSheet) {
@@ -195,17 +194,19 @@ export default function createHOC<
       })
     }
 
-    manage(state: State) {
-      const {dynamicSheet, staticSheet} = state
-      const {registry} = this.props
+    classNamePrefix: string
 
-      this.manager.manage(this.theme)
+    manage(props, state) {
+      const {dynamicSheet, staticSheet} = state
+      const {registry} = props
+
+      this.manager.manage(Jss.getTheme(props))
       if (staticSheet && registry) {
         registry.add(staticSheet)
       }
 
       if (dynamicSheet) {
-        dynamicSheet.update(this.props).attach()
+        dynamicSheet.update(props).attach()
 
         if (registry) {
           registry.add(dynamicSheet)
@@ -213,11 +214,11 @@ export default function createHOC<
       }
     }
 
-    unmanage(prevProps, prevState) {
-      this.manager.unmanage(prevProps.theme)
+    unmanage(props, state) {
+      this.manager.unmanage(Jss.getTheme(props))
 
-      if (prevState.dynamicSheet) {
-        this.jss.removeStyleSheet(prevState.dynamicSheet)
+      if (state.dynamicSheet) {
+        this.jss.removeStyleSheet(state.dynamicSheet)
       }
     }
 
@@ -252,8 +253,17 @@ export default function createHOC<
 
     render() {
       const {dynamicSheet, classes, staticSheet} = this.state
-      // $FlowFixMe: Flow complains for no reason...
-      const {innerRef, theme, ...props} = this.props
+      const {
+        innerRef,
+        theme,
+        jss: jssProps,
+        sheetOptions: sheetOptionsProp,
+        disableStylesGeneration,
+        registry,
+        managers,
+        // $FlowFixMe: Flow complains for no reason...
+        ...props
+      } = this.props
       const sheet = dynamicSheet || staticSheet
 
       if (injectMap.sheet && !props.sheet && sheet) props.sheet = sheet
