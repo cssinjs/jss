@@ -95,9 +95,7 @@ export default function createHOC<
       innerRef: PropTypes.func
     }
 
-    static defaultProps = {
-      ...defaultProps
-    }
+    static defaultProps = defaultProps
 
     static getTheme(props) {
       return isThemingEnabled ? props.theme : noTheme
