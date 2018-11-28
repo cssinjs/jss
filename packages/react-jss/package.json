@@ -42,7 +42,7 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "@types/react": "^16.4.18",
-    "hoist-non-react-statics": "^2.5.0",
+    "hoist-non-react-statics": "^3.2.0",
     "jss": "^9.7.0",
     "jss-preset-default": "^4.3.0",
     "prop-types": "^15.6.0",
