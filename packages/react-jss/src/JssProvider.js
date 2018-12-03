@@ -62,10 +62,10 @@ export default class JssProvider extends Component<Props> {
     // Else wise if no generateId was created yet, we create one, save it and add it to the sheet options
     if (generateId) {
       context.sheetOptions.generateId = generateId
-    } else if (localJss) {
-      context.sheetOptions.generateId = localJss.generateId
     } else if (!context.sheetOptions.generateId) {
-      this.generateId = createGenerateIdDefault()
+      if (!this.generateId) {
+        this.generateId = createGenerateIdDefault()
+      }
 
       context.sheetOptions.generateId = this.generateId
     }
@@ -89,17 +89,15 @@ export default class JssProvider extends Component<Props> {
 
   generateId: GenerateId
 
-  render() {
+  renderProvider(outerContext: Context) {
     const {children} = this.props
 
     return (
-      <JssContext.Consumer>
-        {outerContext => (
-          <JssContext.Provider value={this.createContext(outerContext)}>
-            {children}
-          </JssContext.Provider>
-        )}
-      </JssContext.Consumer>
+      <JssContext.Provider value={this.createContext(outerContext)}>{children}</JssContext.Provider>
     )
+  }
+
+  render() {
+    return <JssContext.Consumer>{this.renderProvider}</JssContext.Consumer>
   }
 }
