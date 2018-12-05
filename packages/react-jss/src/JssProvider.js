@@ -21,6 +21,8 @@ type Props = {
   children: Node
 }
 
+const defaultGenerateId = createGenerateIdDefault()
+
 export default class JssProvider extends Component<Props> {
   static propTypes = {
     registry: PropTypes.instanceOf(SheetsRegistry),
@@ -32,13 +34,7 @@ export default class JssProvider extends Component<Props> {
   }
 
   createContext(outerContext: Context): Context {
-    const {
-      registry,
-      classNamePrefix,
-      jss: localJss,
-      generateId,
-      disableStylesGeneration
-    } = this.props
+    const {registry, classNamePrefix, jss, generateId, disableStylesGeneration} = this.props
     // Clone the outer context
     const context = {...outerContext}
 
@@ -57,24 +53,16 @@ export default class JssProvider extends Component<Props> {
       context.managers = this.managers
     }
 
-    // Use the generateId of the props first
-    // Then try to use the generateId of the jss instance if one was passed
-    // Else wise if no generateId was created yet, we create one, save it and add it to the sheet options
-    if (generateId) {
-      context.sheetOptions.generateId = generateId
-    } else if (!context.sheetOptions.generateId) {
-      if (!this.generateId) {
-        this.generateId = createGenerateIdDefault()
-      }
-
-      context.sheetOptions.generateId = this.generateId
+    if (!context.sheetOptions.generateId) {
+      context.sheetOptions.generateId = generateId || (jss && jss.generateId) || defaultGenerateId
     }
 
     if (classNamePrefix) {
-      context.sheetOptions.classNamePrefix = classNamePrefix
+      context.sheetOptions.classNamePrefix =
+        classNamePrefix + (context.sheetOptions.classNamePrefix || '')
     }
-    if (localJss) {
-      context.jss = localJss
+    if (jss) {
+      context.jss = jss
     }
     if (disableStylesGeneration !== undefined) {
       context.disableStylesGeneration = disableStylesGeneration
@@ -89,7 +77,7 @@ export default class JssProvider extends Component<Props> {
 
   generateId: GenerateId
 
-  renderProvider(outerContext: Context) {
+  renderProvider = (outerContext: Context) => {
     const {children} = this.props
 
     return (
