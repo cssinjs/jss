@@ -11,6 +11,11 @@ import {renderToString} from 'react-dom/server'
 
 import injectSheet, {SheetsRegistry, JssProvider} from '.'
 
+const createGenerateId = () => {
+  let counter = 0
+  return rule => `${rule.key}-${counter++}`
+}
+
 describe('React-JSS: JssProvider', () => {
   let node
 
@@ -281,6 +286,7 @@ describe('React-JSS: JssProvider', () => {
       }
 
       render(<MyComponent />, node)
+      // TODO: Does this make sense?
       expect(registry.toString()).to.be(stripIndent`
         .a-0 {
           color: green;
@@ -309,16 +315,15 @@ describe('React-JSS: JssProvider', () => {
 
   describe('with JssProvider for SSR', () => {
     let localJss
+    let generateId
 
     beforeEach(() => {
       localJss = create({
         ...preset(),
-        virtual: true,
-        createGenerateId: () => {
-          let counter = 0
-          return rule => `${rule.key}-${counter++}`
-        }
+        virtual: true
       })
+
+      generateId = createGenerateId()
     })
 
     it('should add style sheets to the registry from context', () => {
@@ -388,7 +393,7 @@ describe('React-JSS: JssProvider', () => {
       let registry = new SheetsRegistry()
 
       renderToString(
-        <JssProvider registry={registry} jss={localJss}>
+        <JssProvider registry={registry}>
           <MyComponent border="green" />
         </JssProvider>
       )
@@ -405,7 +410,7 @@ describe('React-JSS: JssProvider', () => {
       registry = new SheetsRegistry()
 
       renderToString(
-        <JssProvider registry={registry} jss={localJss}>
+        <JssProvider registry={registry}>
           <MyComponent border="blue" />
         </JssProvider>
       )
@@ -431,13 +436,13 @@ describe('React-JSS: JssProvider', () => {
       const customSheets2 = new SheetsRegistry()
 
       renderToString(
-        <JssProvider jss={localJss} registry={customSheets1}>
+        <JssProvider registry={customSheets1}>
           <MyComponent color="#000" />
         </JssProvider>
       )
 
       renderToString(
-        <JssProvider jss={localJss} registry={customSheets2}>
+        <JssProvider registry={customSheets2}>
           <MyComponent color="#000" />
         </JssProvider>
       )
@@ -465,13 +470,13 @@ describe('React-JSS: JssProvider', () => {
       const customSheets2 = new SheetsRegistry()
 
       renderToString(
-        <JssProvider jss={localJss} registry={customSheets1}>
+        <JssProvider registry={customSheets1}>
           <ComponentA color="#000" />
         </JssProvider>
       )
 
       render(
-        <JssProvider jss={localJss} registry={customSheets2}>
+        <JssProvider registry={customSheets2}>
           <ComponentB color="#000" />
         </JssProvider>,
         node
@@ -484,14 +489,13 @@ describe('React-JSS: JssProvider', () => {
       const Component1 = injectSheet({a: {color: 'red'}})()
       const Component2 = injectSheet({a: {color: 'red'}})()
       const registry = new SheetsRegistry()
-      const generateId = localJss.options.createGenerateId()
 
       renderToString(
         <div>
-          <JssProvider registry={registry} generateId={generateId} jss={localJss}>
+          <JssProvider registry={registry} generateId={generateId}>
             <Component1 />
           </JssProvider>
-          <JssProvider registry={registry} generateId={generateId} jss={localJss}>
+          <JssProvider registry={registry} generateId={generateId}>
             <Component2 />
           </JssProvider>
         </div>
@@ -511,23 +515,16 @@ describe('React-JSS: JssProvider', () => {
       const MyRenderComponent = () => null
       const MyComponent = injectSheet({a: {color: 'red'}})(MyRenderComponent)
       const registry = new SheetsRegistry()
-      const localJss2 = create({
-        ...preset(),
-        virtual: true,
-        createGenerateId: () => {
-          let counter = 0
-          return (rule, sheet) => `${sheet.options.classNamePrefix}${rule.key}-${counter++}`
-        }
-      })
+      const generateId2 = (rule, sheet) => `${sheet.options.classNamePrefix}${rule.key}`
 
       renderToString(
-        <JssProvider registry={registry} jss={localJss2} classNamePrefix="MyApp-">
+        <JssProvider registry={registry} generateId={generateId2} classNamePrefix="MyApp-">
           <MyComponent />
         </JssProvider>
       )
 
       expect(registry.toString()).to.be(stripIndent`
-        .MyApp-MyRenderComponent-a-0 {
+        .MyApp-MyRenderComponent-a {
           color: red;
         }
       `)

@@ -1,11 +1,13 @@
 // @flow
 import React, {Component, type Node} from 'react'
 import PropTypes from 'prop-types'
+import warning from 'warning'
 import {
-  createGenerateId as createGenerateIdDefault,
+  createGenerateId,
   type Jss,
   type GenerateId,
-  SheetsRegistry
+  SheetsRegistry,
+  type StyleSheetFactoryOptions
 } from 'jss'
 import type {Context} from './types'
 import JssContext from './JssContext'
@@ -18,10 +20,9 @@ type Props = {
   generateId?: GenerateId,
   classNamePrefix?: string,
   disableStylesGeneration?: boolean,
+  sheetOptions: StyleSheetFactoryOptions,
   children: Node
 }
-
-const defaultGenerateId = createGenerateIdDefault()
 
 export default class JssProvider extends Component<Props> {
   static propTypes = {
@@ -30,52 +31,67 @@ export default class JssProvider extends Component<Props> {
     generateId: PropTypes.func,
     classNamePrefix: PropTypes.string,
     disableStylesGeneration: PropTypes.bool,
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
+    sheetOptions: PropTypes.shape({})
   }
 
-  createContext(outerContext: Context): Context {
-    const {registry, classNamePrefix, jss, generateId, disableStylesGeneration} = this.props
-    // Clone the outer context
-    const context = {...outerContext}
+  managers: {} = {}
 
-    if (registry) {
-      context.registry = registry
-      // This way we identify a new request on the server, because user will create
-      // a new Registry instance for each.
-      if (registry !== this.registry) {
-        // We reset managers because we have to regenerate all sheets for the new request.
-        this.managers = {}
-        this.registry = registry
+  generateId = createGenerateId()
+
+  createContext(outerContext: Context): Context {
+    const {
+      registry,
+      classNamePrefix,
+      jss,
+      generateId,
+      disableStylesGeneration,
+      sheetOptions
+    } = this.props
+    // Clone the outer context
+    const context = {
+      ...outerContext,
+      managers: this.managers
+    }
+
+    if (sheetOptions) {
+      warning(
+        'generateId' in sheetOptions,
+        '[JssProvider] Do not pass the generateId inside the sheet options! We have a special prop for that!'
+      )
+
+      context.sheetOptions = {
+        ...context.sheetOptions,
+        ...sheetOptions
       }
     }
 
-    if (this.managers) {
-      context.managers = this.managers
+    if (registry) {
+      context.registry = registry
     }
 
-    if (!context.sheetOptions.generateId) {
-      context.sheetOptions.generateId = generateId || (jss && jss.generateId) || defaultGenerateId
+    if (generateId) {
+      context.sheetOptions.generateId = generateId
+    } else if (!context.sheetOptions.generateId) {
+      context.sheetOptions.generateId = this.generateId
     }
 
+    // Merge the classname prefix
     if (classNamePrefix) {
       context.sheetOptions.classNamePrefix =
         classNamePrefix + (context.sheetOptions.classNamePrefix || '')
     }
+
     if (jss) {
       context.jss = jss
     }
+
     if (disableStylesGeneration !== undefined) {
       context.disableStylesGeneration = disableStylesGeneration
     }
 
     return context
   }
-
-  registry: SheetsRegistry
-
-  managers: {}
-
-  generateId: GenerateId
 
   renderProvider = (outerContext: Context) => {
     const {children} = this.props

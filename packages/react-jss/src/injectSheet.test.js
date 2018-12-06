@@ -7,19 +7,19 @@ import {spy} from 'sinon'
 import {render, unmountComponentAtNode} from 'react-dom'
 
 import getDisplayName from './getDisplayName'
-import createHoc from './createHoc'
 import injectSheet, {JssProvider, ThemeProvider} from '.'
 
 const createGenerateId = () => rule => `${rule.key}-id`
-const removeWhitespaces = s => s.replace(/\s/g, '')
 
 describe('React-JSS: injectSheet', () => {
   let jss
   let node
+  let generateId
 
   beforeEach(() => {
     sheets.reset()
     jss = create({createGenerateId})
+    generateId = createGenerateId()
     node = document.body.appendChild(document.createElement('div'))
   })
 
@@ -67,23 +67,6 @@ describe('React-JSS: injectSheet', () => {
           <MyComponent />
           <MyComponent />
           <MyComponent />
-        </div>,
-        node
-      )
-      expect(document.querySelectorAll('style').length).to.be(1)
-      unmountComponentAtNode(node)
-      expect(document.querySelectorAll('style').length).to.be(0)
-    })
-
-    it('should reuse one sheet for many elements wrapped into a JssProvider', () => {
-      render(
-        <div>
-          <JssProvider>
-            <MyComponent />
-          </JssProvider>
-          <JssProvider>
-            <MyComponent />
-          </JssProvider>
         </div>,
         node
       )
@@ -319,13 +302,15 @@ describe('React-JSS: injectSheet', () => {
       InnerComponent.defaultProps = {
         classes: {default: 'default'}
       }
-      const MyComponent = injectSheet(
-        {
-          a: {color: 'red'}
-        },
-        {jss}
-      )(InnerComponent)
-      render(<MyComponent />, node)
+      const MyComponent = injectSheet({
+        a: {color: 'red'}
+      })(InnerComponent)
+      render(
+        <JssProvider generateId={generateId}>
+          <MyComponent />
+        </JssProvider>,
+        node
+      )
       expect(classes).to.eql({default: 'default', a: 'a-id'})
     })
 
@@ -338,85 +323,44 @@ describe('React-JSS: injectSheet', () => {
       InnerComponent.defaultProps = {
         classes: {default: 'default'}
       }
-      const MyComponent = injectSheet(
-        {
-          a: {color: 'red'}
-        },
-        {jss}
-      )(InnerComponent)
-      render(<MyComponent classes={{user: 'user'}} />, node)
+      const MyComponent = injectSheet({
+        a: {color: 'red'}
+      })(InnerComponent)
+      render(
+        <JssProvider generateId={generateId}>
+          <MyComponent classes={{user: 'user'}} />
+        </JssProvider>,
+        node
+      )
       expect(classes).to.eql({default: 'default', a: 'a-id', user: 'user'})
     })
   })
 
   describe('classNamePrefix', () => {
     let classNamePrefix
+    const generateId2 = () => (rule, sheet) => {
+      classNamePrefix = sheet.options.classNamePrefix
+      return `${rule.key}-id`
+    }
 
     const renderTest = () => {
-      const localJss = create({
-        createGenerateId: () => (rule, sheet) => {
-          classNamePrefix = sheet.options.classNamePrefix
-          return `${rule.key}-id`
-        }
-      })
       function DisplayNameTest() {
         return null
       }
-      const MyComponent = injectSheet(
-        {
-          a: {color: 'red'}
-        },
-        {jss: localJss}
-      )(DisplayNameTest)
-      render(<MyComponent />, node)
+      const MyComponent = injectSheet({
+        a: {color: 'red'}
+      })(DisplayNameTest)
+      render(
+        <JssProvider generateId={generateId2}>
+          <MyComponent />
+        </JssProvider>,
+        node
+      )
     }
 
     it('should pass displayName as prefix', () => {
       renderTest()
       expect(classNamePrefix).to.be('DisplayNameTest-')
-    })
-
-    it.skip('should pass no prefix in production', () => {
-      // Rewrire currently doesn't work, most probably because of how we reset
-      // the tests #118
-      createHoc.__Rewire__('env', 'production')
-      renderTest()
-      expect(classNamePrefix).to.be(undefined)
-      createHoc.__ResetDependency__('env')
-    })
-  })
-
-  describe('rerender with a new JSS instance when using a ThemeProvider', () => {
-    it('should correctly render with a new JSS instance', () => {
-      const ComponentA = injectSheet(() => ({a: {left: '2px'}}))()
-      const ComponentB = ({localJss}) => (
-        <JssProvider jss={localJss}>
-          <ThemeProvider theme={{}}>
-            <ComponentA />
-          </ThemeProvider>
-        </JssProvider>
-      )
-      render(<ComponentB localJss={jss} />, node)
-
-      const newJss = create({
-        createGenerateId,
-        plugins: [
-          {
-            onProcessStyle: () => ({right: '2px'})
-          }
-        ]
-      })
-
-      render(<ComponentB localJss={newJss} />, node)
-
-      const style = document.querySelectorAll('style')[0]
-      expect(removeWhitespaces(style.innerText)).to.be(
-        removeWhitespaces(`
-        .a-id {
-          right: 2px;
-        }
-      `)
-      )
     })
   })
 })
