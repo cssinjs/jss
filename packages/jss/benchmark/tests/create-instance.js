@@ -4,7 +4,7 @@ import preset from 'jss-preset-default'
 // Avoid memory leak with registry.
 const options = {virtual: true}
 
-suite('create a new instance with and without preset', () => {
+suite('create a new instance', () => {
   benchmark('without preset', () => {
     create(options)
   })
