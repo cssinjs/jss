@@ -2,7 +2,7 @@
 
 JSS is designed to stay as close as possible to the CSS syntax, however there are some exceptions. JSS uses a plugins based architecture, so some of the syntax is added by plugins from the core package and some are added by optional plugins, which you can [setup](./setup.md).
 
-## Regular Rule, without plugins
+## Basic syntax
 
 **Package: [jss](https://github.com/cssinjs/jss/tree/docs/packages/jss)**
 
@@ -18,7 +18,7 @@ const styles = {
 Compiles to:
 
 ```css
-.button-jss-0 {
+.button-0 {
   color: red;
   font-size: 12px;
 }
@@ -42,9 +42,87 @@ const styles = {
 Compiles to:
 
 ```css
-.button-jss-0 {
+.button-0 {
   color: red;
   font-size: 12px;
+}
+```
+
+## Global selectors
+
+**Package: [jss-plugin-syntax-global](https://github.com/cssinjs/jss/tree/docs/packages/jss-plugin-syntax-global)**
+
+Selectors have a generated (scoped) suffix by default to avoid conflicts. You can use this plugin to generate a global selector.
+
+### Top level global declarations block
+
+```javascript
+const styles = {
+  '@global': {
+    body: {
+      color: 'green'
+    },
+    a: {
+      textDecoration: 'underline'
+    }
+  }
+}
+```
+
+Compiles to:
+
+```css
+body {
+  color: green;
+}
+a {
+  text-decoration: underline;
+}
+```
+
+### Nested global declarations block
+
+```javascript
+const styles = {
+  button: {
+    float: 'left',
+    '@global': {
+      span: {color: 'red'}
+    }
+  }
+}
+```
+
+Compiles to:
+
+```css
+.button-0 {
+  float: left;
+}
+.button-0 span {
+  color: red;
+}
+```
+
+### Nested global prefix
+
+```javascript
+const styles = {
+  button: {
+    float: 'left',
+    '@global span': {color: 'red'}
+  }
+}
+```
+
+Compiles to:
+
+```css
+.button-0 {
+  float: left;
+}
+.button-0 span {
+  color: red;
 }
 ```
 
@@ -68,7 +146,7 @@ const styles = {
 Compiles to:
 
 ```css
-.button-jss-0 {
+.button-0 {
   line-height: 3;
   font-size: 1.7px;
   height: 200px;
@@ -111,11 +189,11 @@ const styles = {
 Compiles to:
 
 ```css
-.button-jss-0 {
+.button-0 {
   width: 100px;
 }
 @media (min-width: 1024px) : {
-  .button-jss-0 {
+  .button-0 {
     width: 200px;
   }
 }
@@ -144,7 +222,7 @@ const styles = {
 Compiles to:
 
 ```css
-@keyframes keyframes-slideRight-0-1-2 {
+@keyframes keyframes-slideRight-0 {
   from {
     opacity: 0;
   }
@@ -152,8 +230,8 @@ Compiles to:
     opacity: 1;
   }
 }
-.container-0-1-3 {
-  animation-name: keyframes-slideRight-0-1-2;
+.container-1 {
+  animation-name: keyframes-slideRight-0;
 }
 ```
 
@@ -184,7 +262,7 @@ const styles = {
 Compiles to:
 
 ```css
-.container--jss-0-0 {
+.container-0 {
   background: red;
   background: linear-gradient(to right, red 0%, green 100%);
 }
@@ -287,7 +365,7 @@ const styles = {
 Compiles to:
 
 ```css
-.button-12345 {
+.button-0 {
   border: 1px solid red, 1px solid blue;
 }
 ```
@@ -308,7 +386,7 @@ const styles = {
 Compiles to:
 
 ```css
-.button-12345 {
+.button-0 {
   border: 1px solid red, 1px solid blue;
 }
 ```
@@ -327,7 +405,7 @@ const styles = {
 Compiles to:
 
 ```css
-.button-12345 {
+.button-0 {
   margin: 5px 10px;
 }
 ```
@@ -346,7 +424,7 @@ const styles = {
 Compiles to:
 
 ```css
-.button-12345 {
+.button-0 {
   color: red !important;
   margin: 5px 10px !important;
 }
@@ -377,7 +455,7 @@ const styles = {
 Compiles to:
 
 ```css
-.button-jss-0-1:after {
+.button-0:after {
   content: 'JSS';
 }
 ```
@@ -401,7 +479,7 @@ const styles = {
 Compiles to:
 
 ```css
-.button-jss-0-1 {
+.button-0 {
   color: '#0000B3';
 }
 ```
