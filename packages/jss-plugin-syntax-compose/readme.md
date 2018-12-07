@@ -182,13 +182,13 @@ It renders to:
 
 ## Caveats
 
-- Doesn't work within [global Style Sheets](https://github.com/cssinjs/jss-global).
-- Does not work inside of [nested rules](https://github.com/cssinjs/jss-nested).
+- Doesn't work within [global Style Sheets](https://github.com/cssinjs/jss-plugin-syntax-global).
+- Does not work inside of [nested rules](https://github.com/cssinjs/jss-plugin-syntax-nested).
 - When composing local rules, they need to be defined first. Otherwise you get wrong css selector order and specificity.
 
 ## Issues
 
-File a bug against [cssinjs/jss prefixed with \[jss-compose\]](https://github.com/cssinjs/jss/issues/new?title=[jss-compose]%20).
+File a bug against [cssinjs/jss prefixed with \[jss-plugin-syntax-compose\]](https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-syntax-compose]%20).
 
 ## Run tests
 

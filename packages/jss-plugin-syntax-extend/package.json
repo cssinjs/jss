@@ -3,7 +3,7 @@
   "description": "JSS plugin that enables mixing in styles.",
   "version": "6.2.0",
   "license": "MIT",
-  "homepage": "https://cssinjs.org/jss-extend",
+  "homepage": "https://cssinjs.org/jss-plugin-syntax-extend",
   "main": "dist/jss-plugin-syntax-extend.cjs.js",
   "module": "dist/jss-plugin-syntax-extend.esm.js",
   "typings": "./src/index.d.ts",

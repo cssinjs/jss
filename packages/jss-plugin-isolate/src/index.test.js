@@ -280,7 +280,7 @@ describe('jss-plugin-isolate', () => {
     })
   })
 
-  describe('nested media queries with jss-nested', () => {
+  describe('nested media queries with jss-plugin-syntax-nested', () => {
     let sheet
 
     beforeEach(() => {
@@ -301,7 +301,7 @@ describe('jss-plugin-isolate', () => {
     })
   })
 
-  describe('nested media queries with jss-nested with isolate:false', () => {
+  describe('nested media queries with jss-plugin-syntax-nested with isolate:false', () => {
     beforeEach(() => {
       jss = create().use(isolate(), nested())
       jss.createStyleSheet({

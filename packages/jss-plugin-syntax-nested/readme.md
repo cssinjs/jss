@@ -151,11 +151,11 @@ Compiles to:
 
 ## Demo
 
-[Simple](http://cssinjs.github.io/examples/plugins/jss-nested/simple/index.html)
+[Simple](http://cssinjs.github.io/examples/plugins/jss-plugin-syntax-nested/simple/index.html)
 
 ## Issues
 
-File a bug against [cssinjs/jss prefixed with \[jss-nested\]](https://github.com/cssinjs/jss/issues/new?title=[jss-nested]%20).
+File a bug against [cssinjs/jss prefixed with \[jss-plugin-syntax-nested\]](https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-syntax-nested]%20).
 
 ## Run tests
 

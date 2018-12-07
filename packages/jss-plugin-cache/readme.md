@@ -24,7 +24,7 @@ in general.
 
 ## Issues
 
-File a bug against [cssinjs/jss prefixed with \[jss-cache\]](https://github.com/cssinjs/jss/issues/new?title=[jss-cache]%20).
+File a bug against [cssinjs/jss prefixed with \[jss-plugin-cache\]](https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-cache]%20).
 
 ## Run tests
 

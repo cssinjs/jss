@@ -27,7 +27,7 @@ Compiles to:
 
 ## Demo
 
-[Simple](http://cssinjs.github.io/examples/plugins/jss-props-sort/simple/index.html)
+[Simple](http://cssinjs.github.io/examples/plugins/jss-plugin-props-sort/simple/index.html)
 
 ## Run tests
 

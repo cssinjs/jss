@@ -4,7 +4,7 @@ Can you remember what each of those values mean `box-shadow: 2px 2px 2px 1px gol
 
 Make sure you read [how to use
 plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-custom-plugins)
-in general and [read full documentation](https://github.com/cssinjs/jss-expand/blob/master/docs/index.md).
+in general and [read full documentation](https://github.com/cssinjs/jss-plugin-syntax-expand/blob/master/docs/index.md).
 
 [![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 
@@ -110,11 +110,11 @@ will be converted to
 
 1.  Default unit support.
 
-Now, using expanded arrays and objects syntax, you don't need to use quotes for the most numeric values! This is achieved in combination with [jss-default-unit](https://github.com/cssinjs/jss-default-unit) plugin.
+Now, using expanded arrays and objects syntax, you don't need to use quotes for the most numeric values! This is achieved in combination with [jss-plugin-syntax-default-unit](https://github.com/cssinjs/jss-plugin-syntax-default-unit) plugin.
 
 ## Issues
 
-File a bug against [cssinjs/jss prefixed with \[jss-expand\]](https://github.com/cssinjs/jss/issues/new?title=[jss-expand]%20).
+File a bug against [cssinjs/jss prefixed with \[jss-plugin-syntax-expand\]](https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-syntax-expand]%20).
 
 ## Run tests
 

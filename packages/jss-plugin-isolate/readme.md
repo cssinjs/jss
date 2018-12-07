@@ -185,7 +185,7 @@ jss.use(
 
 ## Demo
 
-[Simple](http://cssinjs.github.io/examples/plugins/jss-isolate/simple/index.html)
+[Simple](http://cssinjs.github.io/examples/plugins/jss-plugin-isolate/simple/index.html)
 
 ## Reseted properties
 
@@ -193,7 +193,7 @@ Here are all [inherited](https://github.com/iamstarkov/initize/blob/master/inher
 
 ## Issues
 
-File a bug against [cssinjs/jss prefixed with \[jss-isolate\]](https://github.com/cssinjs/jss/issues/new?title=[jss-isolate]%20).
+File a bug against [cssinjs/jss prefixed with \[jss-plugin-isolate\]](https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-isolate]%20).
 
 ## Run tests
 

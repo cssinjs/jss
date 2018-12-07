@@ -16,7 +16,7 @@ See `jss.setup()` below for `options` object description.
 
 ```javascript
 import {create} from 'jss'
-import camelCase from 'jss-camel-case'
+import camelCase from 'jss-plugin-syntax-camel-case'
 import somePlugin from 'jss-some-plugin'
 
 const jss = create()
@@ -57,7 +57,7 @@ jss.setup(preset())
 `jss.use(plugin)`
 
 ```javascript
-import global from 'jss-global'
+import global from 'jss-plugin-syntax-global'
 import jss from 'jss'
 
 jss.use(global())

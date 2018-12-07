@@ -3,7 +3,7 @@
   "description": "JSS plugin that caches the rules and delivers insane performance.",
   "version": "3.0.0",
   "license": "MIT",
-  "homepage": "https://cssinjs.org/jss-cache",
+  "homepage": "https://cssinjs.org/jss-plugin-cache",
   "main": "dist/jss-plugin-cache.cjs.js",
   "module": "dist/jss-plugin-cache.esm.js",
   "typings": "./src/index.d.ts",

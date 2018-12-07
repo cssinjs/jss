@@ -3,7 +3,7 @@
   "description": "JSS plugin enables string templates",
   "version": "1.0.1",
   "license": "MIT",
-  "homepage": "https://cssinjs.org/jss-template",
+  "homepage": "https://cssinjs.org/jss-plugin-syntax-template",
   "main": "dist/jss-plugin-syntax-template.cjs.js",
   "module": "dist/jss-plugin-syntax-template.esm.js",
   "typings": "./src/index.d.ts",

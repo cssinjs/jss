@@ -3,7 +3,7 @@
   "description": "JSS plugin for classes composition",
   "version": "5.0.0",
   "license": "MIT",
-  "homepage": "https://cssinjs.org/jss-compose",
+  "homepage": "https://cssinjs.org/jss-plugin-syntax-compose",
   "main": "dist/jss-plugin-syntax-compose.cjs.js",
   "module": "dist/jss-plugin-syntax-compose.esm.js",
   "typings": "./src/index.d.ts",

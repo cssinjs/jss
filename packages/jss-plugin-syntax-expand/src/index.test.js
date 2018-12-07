@@ -267,7 +267,7 @@ describe('jss-plugin-syntax-expand', () => {
     })
   })
 
-  describe('integration with jss-camel-case', () => {
+  describe('integration with jss-plugin-syntax-camel-case', () => {
     let sheet
 
     beforeEach(() => {

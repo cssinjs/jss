@@ -134,7 +134,7 @@ export default {
   'grid-auto-columns': px,
 
   // Not existing properties.
-  // Used to avoid issues with jss-expand integration.
+  // Used to avoid issues with jss-plugin-syntax-expand integration.
   'box-shadow-x': px,
   'box-shadow-y': px,
   'box-shadow-blur': px,

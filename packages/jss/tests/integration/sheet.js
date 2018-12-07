@@ -53,7 +53,7 @@ describe('Integration: sheet', () => {
     it('should ref original style object in RuleList#raw', () => {
       const styles = {a: {color: 'red'}}
       const sheet = jss.createStyleSheet(styles)
-      // jss-cache relies on `a` being a ref to the original object.
+      // jss-plugin-cache relies on `a` being a ref to the original object.
       expect(sheet.getRule('a').options.parent.rules.raw.a).to.be(styles.a)
     })
 

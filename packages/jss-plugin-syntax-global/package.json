@@ -3,7 +3,7 @@
   "description": "Global styles for JSS",
   "version": "3.0.0",
   "license": "MIT",
-  "homepage": "https://cssinjs.org/jss-global",
+  "homepage": "https://cssinjs.org/jss-plugin-syntax-global",
   "main": "dist/jss-plugin-syntax-global.cjs.js",
   "module": "dist/jss-plugin-syntax-global.esm.js",
   "typings": "./src/index.d.ts",

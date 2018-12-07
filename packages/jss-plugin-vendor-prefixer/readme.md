@@ -31,7 +31,7 @@ Compiles to:
 
 ## Issues
 
-File a bug against [cssinjs/jss prefixed with \[jss-vendor-prefixer\]](https://github.com/cssinjs/jss/issues/new?title=[jss-vendor-prefixer]%20).
+File a bug against [cssinjs/jss prefixed with \[jss-plugin-vendor-prefixer\]](https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-vendor-prefixer]%20).
 
 ## Run tests
 

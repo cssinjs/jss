@@ -9,7 +9,7 @@ const settings = {
   createGenerateId: () => rule => `${rule.key}-id`
 }
 
-describe('jss-global', () => {
+describe('jss-plugin-syntax-global', () => {
   let jss
 
   beforeEach(() => {

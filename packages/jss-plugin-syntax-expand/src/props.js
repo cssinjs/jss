@@ -96,22 +96,22 @@ export const propObj = {
     property: null,
     duration: null,
     'timing-function': null,
-    timingFunction: null, // Needed for avoiding comilation issues with jss-camel-case
+    timingFunction: null, // Needed for avoiding comilation issues with jss-plugin-syntax-camel-case
     delay: null
   },
   animation: {
     name: null,
     duration: null,
     'timing-function': null,
-    timingFunction: null, // Needed to avoid compilation issues with jss-camel-case
+    timingFunction: null, // Needed to avoid compilation issues with jss-plugin-syntax-camel-case
     delay: null,
     'iteration-count': null,
-    iterationCount: null, // Needed to avoid compilation issues with jss-camel-case
+    iterationCount: null, // Needed to avoid compilation issues with jss-plugin-syntax-camel-case
     direction: null,
     'fill-mode': null,
-    fillMode: null, // Needed to avoid compilation issues with jss-camel-case
+    fillMode: null, // Needed to avoid compilation issues with jss-plugin-syntax-camel-case
     'play-state': null,
-    playState: null // Needed to avoid compilation issues with jss-camel-case
+    playState: null // Needed to avoid compilation issues with jss-plugin-syntax-camel-case
   },
   'box-shadow': {
     x: 0,
@@ -152,7 +152,7 @@ export const customPropObj = {
     stretch: 'font-stretch',
     size: 'font-size',
     family: 'font-family',
-    lineHeight: 'line-height', // Needed to avoid compilation issues with jss-camel-case
+    lineHeight: 'line-height', // Needed to avoid compilation issues with jss-plugin-syntax-camel-case
     'line-height': 'line-height'
   },
   flex: {

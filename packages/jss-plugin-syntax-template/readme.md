@@ -33,7 +33,7 @@ const styles = {
 
 ## Issues
 
-File a bug against [cssinjs/jss prefixed with \[jss-template\]](https://github.com/cssinjs/jss/issues/new?title=[jss-template]%20).
+File a bug against [cssinjs/jss prefixed with \[jss-plugin-syntax-template\]](https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-syntax-template]%20).
 
 ## Run tests
 

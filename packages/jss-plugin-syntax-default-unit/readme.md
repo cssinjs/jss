@@ -8,35 +8,11 @@ Make sure you read [how to use
 plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-custom-plugins)
 in general.
 
-## Example
-
-```javascript
-const styles = {
-  container: {
-    'line-height': 3,
-    'font-size': 1.7,
-    height: 200,
-    'z-index': 1
-  }
-}
-```
-
-Compiles to:
-
-```css
-.container-jss-0 {
-  line-height: 3;
-  font-size: 1.7px;
-  height: 200px;
-  z-index: 1;
-}
-```
-
 ## Customizing defaults
 
 ```javascript
 import jss from 'jss'
-import defaultUnit from 'jss-default-unit'
+import defaultUnit from 'jss-plugin-syntax-default-unit'
 
 const options = {
   'line-height': 'rem',
@@ -68,11 +44,11 @@ Compiles to:
 
 ## Demo
 
-[Simple](http://cssinjs.github.io/examples/plugins/jss-default-unit/simple/index.html)
+[Simple](http://cssinjs.github.io/examples/plugins/jss-plugin-syntax-default-unit/simple/index.html)
 
 ## Issues
 
-File a bug against [cssinjs/jss prefixed with \[jss-default-unit\]](https://github.com/cssinjs/jss/issues/new?title=[jss-default-unit]%20).
+File a bug against [cssinjs/jss prefixed with \[jss-plugin-syntax-default-unit\]](https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-syntax-default-unit]%20).
 
 ## Run tests
 

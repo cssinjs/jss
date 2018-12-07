@@ -57,15 +57,15 @@ const styles = {
   myButton: {
     color: 'green',
     margin: {
-      // jss-expand gives more readable syntax
-      top: 5, // jss-default-unit makes this 5px
+      // jss-plugin-syntax-expand gives more readable syntax
+      top: 5, // jss-plugin-syntax-default-unit makes this 5px
       right: 0,
       bottom: 0,
       left: '1rem'
     },
     '& span': {
-      // jss-nested applies this to a child span
-      fontWeight: 'bold' // jss-camel-case turns this into 'font-weight'
+      // jss-plugin-syntax-nested applies this to a child span
+      fontWeight: 'bold' // jss-plugin-syntax-camel-case turns this into 'font-weight'
     }
   },
   myLabel: {
@@ -402,7 +402,7 @@ If you want to specify a JSS version and plugins to use, you should create your 
 import React from 'react'
 import {create as createJss} from 'jss'
 import {JssProvider} from 'react-jss'
-import vendorPrefixer from 'jss-vendor-prefixer'
+import vendorPrefixer from 'jss-plugin-vendor-prefixer'
 
 const jss = createJss()
 jss.use(vendorPrefixer())

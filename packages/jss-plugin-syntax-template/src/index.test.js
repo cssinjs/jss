@@ -10,7 +10,7 @@ const settings = {
   createGenerateId: () => rule => `${rule.key}-id`
 }
 
-describe('jss-template', () => {
+describe('jss-plugin-syntax-template', () => {
   let jss
   let warning
 

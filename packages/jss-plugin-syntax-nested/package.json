@@ -3,7 +3,7 @@
   "description": "JSS plugin that enables support for nested selectors",
   "version": "6.0.1",
   "license": "MIT",
-  "homepage": "https://cssinjs.org/jss-nested",
+  "homepage": "https://cssinjs.org/jss-plugin-syntax-nested",
   "main": "dist/jss-plugin-syntax-nested.cjs.js",
   "module": "dist/jss-plugin-syntax-nested.esm.js",
   "typings": "./src/index.d.ts",

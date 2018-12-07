@@ -4,68 +4,9 @@ If you want to write regular globally scoped CSS with JSS, this plugin is for yo
 
 [![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 
-## Top level global declarations block
-
-```javascript
-const styles = {
-  '@global': {
-    body: {
-      color: 'green'
-    },
-    a: {
-      textDecoration: 'underline'
-    },
-    '@keyframes a': {
-      to: {
-        width: '100%'
-      }
-    }
-  }
-}
-```
-
-## Top level global prefix
-
-```javascript
-const styles = {
-  '@global body': {
-    color: 'green'
-  },
-  '@global @keyframes a': {
-    to: {
-      width: '100%'
-    }
-  }
-}
-```
-
-## Nested global declarations block
-
-```javascript
-const styles = {
-  button: {
-    float: 'left',
-    '@global': {
-      span: {color: 'red'}
-    }
-  }
-}
-```
-
-## Nested global prefix
-
-```javascript
-const styles = {
-  button: {
-    float: 'left',
-    '@global span': {color: 'red'}
-  }
-}
-```
-
 ## Issues
 
-File a bug against [cssinjs/jss prefixed with \[jss-global\]](https://github.com/cssinjs/jss/issues/new?title=[jss-global]%20).
+File a bug against [cssinjs/jss prefixed with \[jss-plugin-syntax-global\]](https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-syntax-global]%20).
 
 ## Run tests
 

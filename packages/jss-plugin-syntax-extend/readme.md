@@ -78,13 +78,13 @@ const styles = {
 
 ## Demo
 
-[Simple demo](http://cssinjs.github.io/examples/plugins/jss-extend/simple/)
+[Simple demo](http://cssinjs.github.io/examples/plugins/jss-plugin-syntax-extend/simple/)
 
-[Multi objects demo](http://cssinjs.github.io/examples/plugins/jss-extend/multi/)
+[Multi objects demo](http://cssinjs.github.io/examples/plugins/jss-plugin-syntax-extend/multi/)
 
 ## Issues
 
-File a bug against [cssinjs/jss prefixed with \[jss-extend\]](https://github.com/cssinjs/jss/issues/new?title=[jss-extend]%20).
+File a bug against [cssinjs/jss prefixed with \[jss-plugin-syntax-extend\]](https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-syntax-extend]%20).
 
 ## Run tests
 
