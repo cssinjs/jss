@@ -156,6 +156,8 @@ Compiles to:
 
 ## Media Queries
 
+**Package: [jss](https://github.com/cssinjs/jss/tree/docs/packages/jss)**
+
 ```javascript
 const styles = {
   button: {
@@ -201,6 +203,8 @@ Compiles to:
 
 ## Keyframes Animation
 
+**Package: [jss](https://github.com/cssinjs/jss/tree/docs/packages/jss)**
+
 Keyframes name will use the same id generator function as the class names. Animation name will be scoped by default. In order to access it within the same style sheet, you can use `$ref` syntax as a value of `animationName` or `animation` property.
 
 Additionally generated name can be accessed through `sheet.keyframes.{name}` map.
@@ -237,6 +241,8 @@ Compiles to:
 
 ## Fallbacks
 
+**Package: [jss](https://github.com/cssinjs/jss/tree/docs/packages/jss)**
+
 ```javascript
 const styles = {
   container: {
@@ -269,6 +275,8 @@ Compiles to:
 ```
 
 ## Font Face
+
+**Package: [jss](https://github.com/cssinjs/jss/tree/docs/packages/jss)**
 
 ```javascript
 const styles = {
@@ -343,6 +351,8 @@ Compiles to:
 ```
 
 ## Alternative syntax for space and comma separated values
+
+**Package: [jss](https://github.com/cssinjs/jss/tree/docs/packages/jss)**
 
 In order to describe space or comma separated CSS values in a JavaScript way, we introduced an array based syntax.
 
@@ -430,15 +440,13 @@ Compiles to:
 }
 ```
 
-## Writing global selectors
-
-Global selectors can be used when the [jss-plugin-syntax-global](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-syntax-global) plugin is installed.
-
 ## Pseudo and Nested Selectors
 
 Are supported through the [jss-plugin-syntax-nested](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-syntax-nested) plugin.
 
 ## Property "content"
+
+**Package: [jss](https://github.com/cssinjs/jss/tree/docs/packages/jss)**
 
 When assigning a string to the content property it requires double or single quotes in CSS. Therefore you also have to provide the quotes within the value string for content to match how it will be represented in CSS.
 
@@ -486,6 +494,8 @@ Compiles to:
 
 ## Typed CSSOM (Houdini)
 
+**Package: [jss](https://github.com/cssinjs/jss/tree/docs/packages/jss)**
+
 Typed CSSOM values are supported. You can learn more about them [here](https://developers.google.com/web/updates/2018/03/cssom) and track the standardization progress [here](https://ishoudinireadyyet.com/). Also make sure you use a [polyfill](https://github.com/csstools/css-typed-om) for browsers without support. It will make most sence when used together with function values and observables for frequent updates.
 
 ```javascript
@@ -495,7 +505,3 @@ const styles = {
   }
 }
 ```
-
-## Plugins
-
-JSS plugins give you even more features, [read about them](plugins.md).
