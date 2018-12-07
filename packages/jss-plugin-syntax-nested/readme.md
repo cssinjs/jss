@@ -3,7 +3,7 @@
 [![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 
 Make sure you read [how to use
-plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-plugins)
+plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-custom-plugins)
 in general.
 
 ## Use `&` to reference selector of the parent rule.

@@ -11,7 +11,7 @@ This plugin protects styles from inheritance. It automatically creates a reset r
 Optionally you can also reset non-inherited properties, which would lead to even stronger isolation, as a protection against "greedy" selectors.
 
 Make sure you read [how to use
-plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-plugins)
+plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-custom-plugins)
 in general.
 
 ## Usage example

@@ -9,7 +9,7 @@ If you want dynamic behavior for your Style Sheet, you can use functions as a va
 _Plugins are applied by default to function rules or values._
 
 Make sure you read [how to use
-plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-plugins)
+plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-custom-plugins)
 in general.
 
 ## Function values

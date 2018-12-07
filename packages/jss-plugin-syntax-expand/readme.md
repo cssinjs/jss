@@ -3,7 +3,7 @@
 Can you remember what each of those values mean `box-shadow: 2px 2px 2px 1px gold;` and in which order they have to be used? Me neither. CSS values are sometimes cryptic. This plugin makes them easy to read and to remember.
 
 Make sure you read [how to use
-plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-plugins)
+plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-custom-plugins)
 in general and [read full documentation](https://github.com/cssinjs/jss-expand/blob/master/docs/index.md).
 
 [![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)

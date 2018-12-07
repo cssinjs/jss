@@ -9,7 +9,7 @@ In order to create highly dynamic animations, you may want to use streams. Take 
 _Plugins are **not** applied by default to observable rules or values._
 
 Make sure you read [how to use
-plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-plugins)
+plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-custom-plugins)
 in general.
 
 ## Observable values

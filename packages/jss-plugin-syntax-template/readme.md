@@ -3,7 +3,7 @@
 [![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 
 Make sure you read [how to use
-plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-plugins)
+plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-custom-plugins)
 in general.
 
 This plugin allows you to use string templates to declare CSS rules. It implements a **very naive** but **very fast (~42000 ops/sec)** runtime CSS parser, with certain limitations:

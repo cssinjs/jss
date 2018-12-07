@@ -1,8 +1,34 @@
 # JSON API for declaring Style Sheets
 
-JSS is designed to stay as close as possible to the CSS syntax, however there are some exceptions. JSS uses a plugins based architecture, so some of the syntax is added by plugins from the core package and some are added by optional plugins, which you can install invididually or by using [default preset](https://github.com/cssinjs/jss/tree/master/packages/jss-preset-default).
+JSS is designed to stay as close as possible to the CSS syntax, however there are some exceptions. JSS uses a plugins based architecture, so some of the syntax is added by plugins from the core package and some are added by optional plugins, which you can [setup](./setup.md).
 
 ## Regular Rule, without plugins
+
+**Package: [jss](https://github.com/cssinjs/jss/tree/docs/packages/jss)**
+
+```javascript
+const styles = {
+  button: {
+    color: 'red',
+    'font-size': '12px'
+  }
+}
+```
+
+Compiles to:
+
+```css
+.button-jss-0 {
+  color: red;
+  font-size: 12px;
+}
+```
+
+## Camel case syntax
+
+**Package: [jss-plugin-syntax-camel-case](https://github.com/cssinjs/jss/tree/docs/packages/jss-plugin-syntax-camel-case)**
+
+Once plugin is used, we can write CSS properties in camel case syntax.
 
 ```javascript
 const styles = {
@@ -19,6 +45,34 @@ Compiles to:
 .button-jss-0 {
   color: red;
   font-size: 12px;
+}
+```
+
+## Default units
+
+**Package: [jss-plugin-syntax-default-unit](https://github.com/cssinjs/jss/tree/docs/packages/jss-plugin-syntax-default-unit)**
+
+Provide numeric values in your style definitions, and the plugin will insert the corresponding units. Defaults to px for sizes, ms for durations, and % for transform origins, and these can be customized.
+
+```javascript
+const styles = {
+  button: {
+    'line-height': 3,
+    'font-size': 1.7,
+    height: 200,
+    'z-index': 1
+  }
+}
+```
+
+Compiles to:
+
+```css
+.button-jss-0 {
+  line-height: 3;
+  font-size: 1.7px;
+  height: 200px;
+  z-index: 1;
 }
 ```
 
@@ -216,7 +270,7 @@ In order to describe space or comma separated CSS values in a JavaScript way, we
 
 There are some advantages in using this syntax:
 
-1.  Plugin `jss-default-unit` is able to set default unit effectively for numeric values.
+1.  Plugin `jss-plugin-syntax-default-unit` is able to set default unit effectively for numeric values.
 2.  You can use variables inside of a value declaration without string templates or concatenations.
 
 ### Comma separated values
