@@ -1,6 +1,6 @@
 # JSON API for declaring Style Sheets
 
-JSS is designed to stay as close as possible to the CSS syntax, however there are some exceptions. JSS uses a plugins based architecture, so some of the syntax is added by plugins from the core package and some are added by optional plugins, which you can [setup](./setup.md).
+JSS is designed to stay as close as possible to the CSS syntax, however there are some exceptions. JSS uses a plugin-based architecture, so some of the syntax is added by plugins from the core package and others by optional plugins, which you can [setup](./setup.md).
 
 ## Basic syntax
 
