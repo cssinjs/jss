@@ -1,6 +1,6 @@
 # JSON API for declaring Style Sheets
 
-JSS is designed to stay as close as possible to the CSS syntax, however there are some exceptions.
+JSS is designed to stay as close as possible to the CSS syntax, however there are some exceptions. JSS uses a plugins based architecture, so some of the syntax is added by plugins from the core package and some are added by optional plugins, which you can install invididually or by using [default preset](https://github.com/cssinjs/jss/tree/master/packages/jss-preset-default).
 
 ## Regular Rule, without plugins
 
@@ -8,7 +8,7 @@ JSS is designed to stay as close as possible to the CSS syntax, however there ar
 const styles = {
   button: {
     color: 'red',
-    'font-size': '12px'
+    fontSize: '12px'
   }
 }
 ```
@@ -300,11 +300,11 @@ Compiles to:
 
 ## Writing global selectors
 
-Global selectors can be used when the [jss-global](https://github.com/cssinjs/jss-global) plugin is installed.
+Global selectors can be used when the [jss-plugin-syntax-global](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-syntax-global) plugin is installed.
 
 ## Pseudo and Nested Selectors
 
-Are supported through the [jss-nested](https://github.com/cssinjs/jss-nested) plugin.
+Are supported through the [jss-plugin-syntax-nested](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-syntax-nested) plugin.
 
 ## Property "content"
 

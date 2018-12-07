@@ -109,7 +109,7 @@ console.log(sheet.classes.button) // button-d4f43g
 
 ## Create a Style Sheet with global selectors
 
-You need to have the [jss-global](https://github.com/cssinjs/jss-global) plugin installed.
+You need to have the [jss-plugin-syntax-global](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-syntax-global) plugin installed.
 
 ## Style Sheets registry
 
@@ -388,7 +388,7 @@ console.log(sheet.toString())
 
 `createGenerateId`
 
-Option `createGenerateId` allows you to specify a function which returns a class name generator function `generateId(rule, sheet)`. This pattern is used to allow JSS reset the counter upon factory invocation, when needed. For example, it is used in [React-JSS](https://github.com/cssinjs/react-jss) to reset the counter on each request for server-side rendering.
+Option `createGenerateId` allows you to specify a function which returns a class name generator function `generateId(rule, sheet)`. This pattern is used to allow JSS reset the counter upon factory invocation, when needed. For example, it is used in [React-JSS](https://github.com/cssinjs/jss/tree/master/packages/react-jss) to reset the counter on each request for server-side rendering.
 
 By default class names generator uses a simple counter to ensure uniqueness of the class names. It consists of `classNamePrefix` Style Sheet option + rule name + counter. **Note**: in production (`NODE_ENV=production`) it uses just the `c` + rules counter.
 

@@ -8,7 +8,7 @@
 
 1.  **True rules isolation.**
 
-    Scoped selectors are not enough. CSS has properties which are inherited automatically from the parent element, if not explicitly defined. Thanks to [jss-isolate](https://github.com/cssinjs/jss-isolate) plugin, JSS rules will not inherit properties.
+    Scoped selectors are not enough. CSS has properties which are inherited automatically from the parent element, if not explicitly defined. Thanks to [jss-plugin-isolate](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-isolate) plugin, JSS rules will not inherit properties.
 
 1.  **Avoids slow selectors.**
 
@@ -29,7 +29,7 @@
 
 1.  **Vendor Prefixing.**
 
-    Using JSS [vendor-prefixer](https://github.com/cssinjs/jss-vendor-prefixer) plugin, prefixes added at runtime very efficiently, only for the required browser and do _not_ increase download size.
+    Using JSS [vendor-prefixer](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-vendor-prefixer) plugin, prefixes added at runtime very efficiently, only for the required browser and do _not_ increase download size.
 
 1.  **Download size.**
 
