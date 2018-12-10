@@ -1,21 +1,21 @@
 {
   "dist/jss.js": {
-    "bundled": 60552,
+    "bundled": 60561,
     "minified": 22716,
     "gzipped": 6861
   },
   "dist/jss.min.js": {
-    "bundled": 59676,
+    "bundled": 59685,
     "minified": 22095,
     "gzipped": 6550
   },
   "dist/jss.cjs.js": {
-    "bundled": 53735,
+    "bundled": 53744,
     "minified": 23637,
     "gzipped": 6626
   },
   "dist/jss.esm.js": {
-    "bundled": 53219,
+    "bundled": 53228,
     "minified": 23218,
     "gzipped": 6539,
     "treeshaked": {
@@ -24,7 +24,7 @@
         "import_statements": 309
       },
       "webpack": {
-        "code": 21208
+        "code": 21217
       }
     }
   }
