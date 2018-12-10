@@ -88,6 +88,8 @@ export default function createHOC<
   // $FlowFixMe: DefaultProps is missing in type definitions
   const {classes: defaultClasses = {}, ...defaultProps} = {...InnerComponent.defaultProps}
 
+  const getTheme = props => (isThemingEnabled ? props.theme : noTheme)
+
   class Jss extends Component<OuterPropsType, State> {
     static displayName = `Jss(${displayName})`
 
@@ -96,10 +98,6 @@ export default function createHOC<
     }
 
     static defaultProps = defaultProps
-
-    static getTheme(props) {
-      return isThemingEnabled ? props.theme : noTheme
-    }
 
     constructor(props: OuterPropsType) {
       super(props)
@@ -153,7 +151,7 @@ export default function createHOC<
     }
 
     getStaticSheet(): StyleSheet {
-      const theme = Jss.getTheme(this.props)
+      const theme = getTheme(this.props)
       let staticSheet = this.manager.get(theme)
 
       if (staticSheet) {
@@ -198,7 +196,7 @@ export default function createHOC<
       const {dynamicSheet, staticSheet} = state
       const {registry} = props
 
-      this.manager.manage(Jss.getTheme(props))
+      this.manager.manage(getTheme(props))
       if (staticSheet && registry) {
         registry.add(staticSheet)
       }
@@ -213,7 +211,7 @@ export default function createHOC<
     }
 
     unmanage(props, state) {
-      this.manager.unmanage(Jss.getTheme(props))
+      this.manager.unmanage(getTheme(props))
 
       if (state.dynamicSheet) {
         this.jss.removeStyleSheet(state.dynamicSheet)
