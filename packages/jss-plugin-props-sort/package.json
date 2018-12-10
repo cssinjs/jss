@@ -8,7 +8,7 @@
   "module": "dist/jss-plugin-props-sort.esm.js",
   "typings": "./src/index.d.ts",
   "author": {
-    "name": "Oleg Slobodskoi",
+    "name": "Oleg Isonen (Slobodskoi)",
     "email": "oleg008@gmail.com"
   },
   "repository": {
