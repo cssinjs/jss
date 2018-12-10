@@ -20,9 +20,13 @@ const createGenerateId = () => {
 
 describe('React-JSS: theming', () => {
   let node
+  let localJss
+  let generateId
 
   beforeEach(() => {
     node = document.body.appendChild(document.createElement('div'))
+    localJss = create(preset())
+    generateId = createGenerateId()
   })
 
   afterEach(() => {
@@ -46,14 +50,6 @@ describe('React-JSS: theming', () => {
 
   const ThemedStaticComponent = injectSheet(themedStaticStyles)()
   const ThemedDynamicComponent = injectSheet(themedDynamicStyles)()
-
-  let localJss
-  let generateId
-
-  beforeEach(() => {
-    localJss = create(preset())
-    generateId = createGenerateId()
-  })
 
   it('should have correct meta attribute for static styles', () => {
     render(
