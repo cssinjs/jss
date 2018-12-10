@@ -57,7 +57,7 @@ export default class JssProvider extends Component<Props> {
     if (sheetOptions) {
       warning(
         'generateId' in sheetOptions,
-        '[JssProvider] Do not pass the generateId inside the sheet options! We have a special prop for that!'
+        '[JSS] Pass generateId as a prop instead of sheet options.'
       )
 
       context.sheetOptions = {
