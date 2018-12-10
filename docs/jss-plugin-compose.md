@@ -1,14 +1,8 @@
-# JSS plugin for classes composition
+## Enables classes composition
 
 This plugin allows you to use CSS frameworks and legacy code together with JSS as well as reuse Rules more granularly.
 
-Make sure you read [how to use
-plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-custom-plugins)
-in general.
-
-[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
-
-## Compose with global classes.
+### Compose with global classes.
 
 To combine JSS with CSS framework like [Material Design Lite](https://getmdl.io/) or [Bootstrap](http://getbootstrap.com/) and others.
 
@@ -59,7 +53,7 @@ It renders to:
 <button class="buttonActive-123456 btn btn-primary">Active Button</button>
 ```
 
-## Compose with local classes.
+### Compose with local classes.
 
 Manage element states without rules duplication.
 To reference a local rule, prefix the rule name with `$` symbol.
@@ -137,7 +131,7 @@ It renders to:
 <button class="buttonDisabled-123456 button-123456 active-123456 disabled-123456">Disabled Button with active state</button>
 ```
 
-## Mix global and local classes.
+### Mix global and local classes.
 
 You can compose both local and global classes at the same time.
 
@@ -180,23 +174,8 @@ It renders to:
 <button class="button-123456 active-123456 btn btn-primary">Button</button>
 ```
 
-## Caveats
+### Caveats
 
-- Doesn't work within [global Style Sheets](https://github.com/cssinjs/jss-plugin-syntax-global).
-- Does not work inside of [nested rules](https://github.com/cssinjs/jss-plugin-syntax-nested).
+- Doesn't work within [global Style Sheets](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-syntax-global).
+- Does not work inside of [nested rules](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-syntax-nested).
 - When composing local rules, they need to be defined first. Otherwise you get wrong css selector order and specificity.
-
-## Issues
-
-File a bug against [cssinjs/jss prefixed with \[jss-plugin-syntax-compose\]](https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-syntax-compose]%20).
-
-## Run tests
-
-```bash
-yarn
-yarn test
-```
-
-## License
-
-MIT

@@ -1,10 +1,8 @@
-# Features
+## Better syntax for complex properties
 
-### Expanded properties.
+This plugin makes complex properties like `box-shadow: 2px 2px 2px 1px gold;` easier to read and to remember.
 
-A much more readable syntax and less repetitions compared to CSS.
-
-```js
+```javascript
 const styles = {
   container: {
     border: {
@@ -16,7 +14,7 @@ const styles = {
 }
 ```
 
-will output:
+compiles to:
 
 ```css
 .container {
@@ -24,11 +22,9 @@ will output:
 }
 ```
 
-See [properties section](#supported-properties) for more details.
+### Using arrays for space separated values.
 
-### Using arrays for space separated properties.
-
-```js
+```javascript
 const styles = {
   container: {
     padding: [5, 10, 5],
@@ -37,7 +33,7 @@ const styles = {
 }
 ```
 
-will output
+compiles to
 
 ```css
 .container {
@@ -46,7 +42,88 @@ will output
 }
 ```
 
-Supported properties:
+### Using arrays for multi value properties.
+
+```javascript
+const styles = {
+  container: {
+    transition: [['opacity', '200ms'], ['width', '300ms']]
+  }
+}
+```
+
+compiles to:
+
+```css
+.container {
+  transition: opacity 200ms, width 300ms;
+}
+```
+
+### Use objects inside of arrays.
+
+```javascript
+const styles = {
+  container: {
+    transition: [
+      {
+        property: 'opacity',
+        duration: '200ms'
+      },
+      {
+        property: 'width',
+        duration: '300ms'
+      }
+    ]
+  }
+}
+```
+
+compiles to:
+
+```css
+.container {
+  transition: opacity 200ms, width 300ms;
+}
+```
+
+### Fallbacks are supported.
+
+JSS has a [fallbacks api](https://github.com/cssinjs/jss/blob/master/docs/json-api.md#fallbacks) which is also supported.
+
+```javascript
+const styles = {
+  container: {
+    button: {
+      background: {
+        image: 'linear-gradient(red, green)'
+      },
+      fallbacks: {
+        background: {
+          color: 'red',
+          repeat: 'no-repeat',
+          position: [0, 0]
+        }
+      }
+    }
+  }
+}
+```
+
+compiles to:
+
+```css
+.container {
+  background: red no-repeat 0 0;
+  background: linear-gradient(red, green);
+}
+```
+
+### Default unit support.
+
+Now, using expanded arrays and objects syntax, you don't need to use quotes for the most numeric values! This is achieved in combination with [jss-plugin-syntax-default-unit](./jss-plugin-default-unit-syntax.md) plugin.
+
+### Supported properties.
 
 - `backgroundSize`
 - `backgroundPosition`
@@ -69,88 +146,7 @@ Supported properties:
 - `transform`
 - `transition`
 
-### Using arrays for multi value properties.
-
-```js
-const styles = {
-  container: {
-    transition: [['opacity', '200ms'], ['width', '300ms']]
-  }
-}
-```
-
-will output
-
-```css
-.container {
-  transition: opacity 200ms, width 300ms;
-}
-```
-
-### Use objects inside of arrays.
-
-```js
-const styles = {
-  container: {
-    transition: [
-      {
-        property: 'opacity',
-        duration: '200ms'
-      },
-      {
-        property: 'width',
-        duration: '300ms'
-      }
-    ]
-  }
-}
-```
-
-will output:
-
-```css
-.container {
-  transition: opacity 200ms, width 300ms;
-}
-```
-
-### Fallbacks are supported.
-
-JSS has a [fallbacks api](https://github.com/cssinjs/jss/blob/master/docs/json-api.md#fallbacks) which is also supported.
-
-```js
-const styles = {
-  container: {
-    button: {
-      background: {
-        image: 'linear-gradient(red, green)'
-      },
-      fallbacks: {
-        background: {
-          color: 'red',
-          repeat: 'no-repeat',
-          position: [0, 0]
-        }
-      }
-    }
-  }
-}
-```
-
-will output:
-
-```css
-.container {
-  background: red no-repeat 0 0;
-  background: linear-gradient(red, green);
-}
-```
-
-## Supported properties.
-
-A list of all properties supported in expanded syntax and their corresponding defaults.
-
-```js
+```javascript
 const styles = {
   container: {
     padding: {
@@ -160,7 +156,7 @@ const styles = {
 }
 ```
 
-Will output:
+compiles to:
 
 ```css
 .container {
@@ -168,9 +164,9 @@ Will output:
 }
 ```
 
-### padding
+#### padding
 
-```js
+```javascript
 const styles = {
   container: {
     padding: {
@@ -183,9 +179,9 @@ const styles = {
 }
 ```
 
-### margin
+#### margin
 
-```js
+```javascript
 const styles = {
   container: {
     margin: {
@@ -198,9 +194,9 @@ const styles = {
 }
 ```
 
-### font
+#### font
 
-```js
+```javascript
 const styles = {
   container: {
     font: {
@@ -216,11 +212,11 @@ const styles = {
 }
 ```
 
-### background
+#### background
 
 Unlike pure CSS, `background-size` property can be written inside common `background` property.
 
-```js
+```javascript
 const styles = {
   container: {
     background: {
@@ -235,13 +231,13 @@ const styles = {
 }
 ```
 
-### border
+#### border
 
 Same goes for `borderTop`, `borderRight`, `borderBottom`, `borderLeft`.
 
 Unlike pure CSS, `border-radius` property can be written inside common `border` property.
 
-```js
+```javascript
 const styles = {
   container: {
     border: {
@@ -253,9 +249,9 @@ const styles = {
 }
 ```
 
-### outline
+#### outline
 
-```js
+```javascript
 const styles = {
   container: {
     outline: {
@@ -267,9 +263,9 @@ const styles = {
 }
 ```
 
-### listStyle
+#### listStyle
 
-```js
+```javascript
 const styles = {
   container: {
     listStyle: {
@@ -281,9 +277,9 @@ const styles = {
 }
 ```
 
-### transition
+#### transition
 
-```js
+```javascript
 const styles = {
   container: {
     transition: {
@@ -296,9 +292,9 @@ const styles = {
 }
 ```
 
-### animation
+#### animation
 
-```js
+```javascript
 const styles = {
   container: {
     animation: {
@@ -315,9 +311,9 @@ const styles = {
 }
 ```
 
-### boxShadow
+#### boxShadow
 
-```js
+```javascript
 const styles = {
   container: {
     boxShadow: {
@@ -332,9 +328,9 @@ const styles = {
 }
 ```
 
-### textShadow
+#### textShadow
 
-```js
+```javascript
 const styles = {
   container: {
     textShadow: {
@@ -347,9 +343,9 @@ const styles = {
 }
 ```
 
-### flex
+#### flex
 
-```js
+```javascript
 const styles = {
   container: {
     flex: {
@@ -364,9 +360,9 @@ const styles = {
 }
 ```
 
-### align
+#### align
 
-```js
+```javascript
 const styles = {
   container: {
     align: {
@@ -378,9 +374,9 @@ const styles = {
 }
 ```
 
-### grid
+#### grid
 
-```js
+```javascript
 const styles = {
   container: {
     grid: {

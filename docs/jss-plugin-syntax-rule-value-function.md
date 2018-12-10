@@ -1,6 +1,4 @@
-# JSS plugin that allows to use functions for dynamic styles
-
-[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
+## Enables functions for dynamic styles
 
 If you want dynamic behavior for your Style Sheet, you can use functions as a value which return the actual value or a rule. If function returns `null|undefined|false` - property will be removed. Use [sheet.update(data)](https://github.com/cssinjs/jss/blob/master/docs/js-api.md#update-function-values) in order to pass the data object.
 
@@ -8,33 +6,23 @@ If you want dynamic behavior for your Style Sheet, you can use functions as a va
 
 _Plugins are applied by default to function rules or values._
 
-Make sure you read [how to use
-plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-custom-plugins)
-in general.
-
-## Function values
+### Function values
 
 ```javascript
-import jss from 'jss'
-
 const styles = {
   button: {
     color: data => data.color
   }
 }
-
-const sheet = jss.createStyleSheet(styles, {link: true}).attach()
-
-sheet.update({color: 'red'})
 ```
 
 ```css
-.button-1-2-3 {
+.button-0 {
   color: red;
 }
 ```
 
-## Function rules
+### Function rules
 
 Similar to function values, you can use a function to return a dynamic style object. Use [sheet.update(data)](https://github.com/cssinjs/jss/blob/master/docs/js-api.md#update-function-values) in order to pass the data object. Sheet option `link: true` is required for this to function.
 
@@ -47,7 +35,7 @@ const styles = {
 }
 ```
 
-## Support of "!important"
+### Support of "!important"
 
 To use the `!important` modifier with function values, you must use [array syntax](https://github.com/cssinjs/jss/blob/master/docs/json-api.md#alternative-syntax-for-space-and-comma-separated-values):
 
@@ -59,21 +47,20 @@ const styles = {
 }
 ```
 
-## Demo
+### Updating
 
-[Simple](http://cssinjs.github.io/examples/function-values/index.html)
+```javascript
+import jss from 'jss'
 
-## Issues
+// Note that `link` option is required.
+const sheet = jss
+  .createStyleSheet(
+    {
+      /* styles */
+    },
+    {link: true}
+  )
+  .attach()
 
-File a bug against [cssinjs/jss prefixed with \[jss-plugin-syntax-rule-value-function\]](https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-syntax-rule-value-function]%20).
-
-## Run tests
-
-```bash
-yarn
-yarn test
+sheet.update({color: 'red'})
 ```
-
-## License
-
-MIT

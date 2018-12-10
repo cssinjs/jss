@@ -1,12 +1,10 @@
-# JSS plugin that enables mixing in styles
-
-[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
+## Extending styles
 
 This plugin implements a custom property `extend` which allows you to mix in styles in various ways.
 
 Style object own properties always take precedence over extended objects, so you can always override the extended definition. Exception is function values.
 
-## Use style object reference
+### Use style object reference
 
 ```javascript
 const buttonColor = {
@@ -24,7 +22,7 @@ const styles = {
 }
 ```
 
-## Use rule name from the current styles object
+### Use rule name from the current styles object
 
 ```javascript
 const styles = {
@@ -38,7 +36,7 @@ const styles = {
 }
 ```
 
-## Use array of style objects
+### Use array of style objects
 
 ```javascript
 const styles = {
@@ -61,7 +59,7 @@ const styles = {
 }
 ```
 
-## Use function which returns a style object
+### Use function which returns a style object
 
 Nested `extend` inside of the function is not supported. Will override other properties defined in the same rule.
 
@@ -76,23 +74,8 @@ const styles = {
 }
 ```
 
-## Demo
+### Demo
 
 [Simple demo](http://cssinjs.github.io/examples/plugins/jss-plugin-syntax-extend/simple/)
 
 [Multi objects demo](http://cssinjs.github.io/examples/plugins/jss-plugin-syntax-extend/multi/)
-
-## Issues
-
-File a bug against [cssinjs/jss prefixed with \[jss-plugin-syntax-extend\]](https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-syntax-extend]%20).
-
-## Run tests
-
-```bash
-yarn
-yarn test
-```
-
-## License
-
-MIT

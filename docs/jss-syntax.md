@@ -1,10 +1,8 @@
-# JSON API for declaring Style Sheets
+# Objects based styles syntax for declaring Style Sheets
 
 JSS is designed to stay as close as possible to the CSS syntax, however there are some exceptions. JSS uses a plugin-based architecture, so some of the syntax is added by plugins from the core package and others by optional plugins, which you can [setup](./setup.md).
 
 ## Basic syntax
-
-**Package: [jss](https://github.com/cssinjs/jss/tree/docs/packages/jss)**
 
 ```javascript
 const styles = {
@@ -24,139 +22,7 @@ Compiles to:
 }
 ```
 
-## Camel case syntax
-
-**Package: [jss-plugin-syntax-camel-case](https://github.com/cssinjs/jss/tree/docs/packages/jss-plugin-syntax-camel-case)**
-
-Once plugin is used, we can write CSS properties in camel case syntax.
-
-```javascript
-const styles = {
-  button: {
-    color: 'red',
-    fontSize: '12px'
-  }
-}
-```
-
-Compiles to:
-
-```css
-.button-0 {
-  color: red;
-  font-size: 12px;
-}
-```
-
-## Global selectors
-
-**Package: [jss-plugin-syntax-global](https://github.com/cssinjs/jss/tree/docs/packages/jss-plugin-syntax-global)**
-
-Selectors have a generated (scoped) suffix by default to avoid conflicts. You can use this plugin to generate a global selector.
-
-### Top level global declarations block
-
-```javascript
-const styles = {
-  '@global': {
-    body: {
-      color: 'green'
-    },
-    a: {
-      textDecoration: 'underline'
-    }
-  }
-}
-```
-
-Compiles to:
-
-```css
-body {
-  color: green;
-}
-a {
-  text-decoration: underline;
-}
-```
-
-### Nested global declarations block
-
-```javascript
-const styles = {
-  button: {
-    float: 'left',
-    '@global': {
-      span: {color: 'red'}
-    }
-  }
-}
-```
-
-Compiles to:
-
-```css
-.button-0 {
-  float: left;
-}
-.button-0 span {
-  color: red;
-}
-```
-
-### Nested global prefix
-
-```javascript
-const styles = {
-  button: {
-    float: 'left',
-    '@global span': {color: 'red'}
-  }
-}
-```
-
-Compiles to:
-
-```css
-.button-0 {
-  float: left;
-}
-.button-0 span {
-  color: red;
-}
-```
-
-## Default units
-
-**Package: [jss-plugin-syntax-default-unit](https://github.com/cssinjs/jss/tree/docs/packages/jss-plugin-syntax-default-unit)**
-
-Provide numeric values in your style definitions, and the plugin will insert the corresponding units. Defaults to px for sizes, ms for durations, and % for transform origins, and these can be customized.
-
-```javascript
-const styles = {
-  button: {
-    'line-height': 3,
-    'font-size': 1.7,
-    height: 200,
-    'z-index': 1
-  }
-}
-```
-
-Compiles to:
-
-```css
-.button-0 {
-  line-height: 3;
-  font-size: 1.7px;
-  height: 200px;
-  z-index: 1;
-}
-```
-
 ## Media Queries
-
-**Package: [jss](https://github.com/cssinjs/jss/tree/docs/packages/jss)**
 
 ```javascript
 const styles = {
@@ -203,8 +69,6 @@ Compiles to:
 
 ## Keyframes Animation
 
-**Package: [jss](https://github.com/cssinjs/jss/tree/docs/packages/jss)**
-
 Keyframes name will use the same id generator function as the class names. Animation name will be scoped by default. In order to access it within the same style sheet, you can use `$ref` syntax as a value of `animationName` or `animation` property.
 
 Additionally generated name can be accessed through `sheet.keyframes.{name}` map.
@@ -241,8 +105,6 @@ Compiles to:
 
 ## Fallbacks
 
-**Package: [jss](https://github.com/cssinjs/jss/tree/docs/packages/jss)**
-
 ```javascript
 const styles = {
   container: {
@@ -275,8 +137,6 @@ Compiles to:
 ```
 
 ## Font Face
-
-**Package: [jss](https://github.com/cssinjs/jss/tree/docs/packages/jss)**
 
 ```javascript
 const styles = {
@@ -351,8 +211,6 @@ Compiles to:
 ```
 
 ## Alternative syntax for space and comma separated values
-
-**Package: [jss](https://github.com/cssinjs/jss/tree/docs/packages/jss)**
 
 In order to describe space or comma separated CSS values in a JavaScript way, we introduced an array based syntax.
 
@@ -442,8 +300,6 @@ Compiles to:
 
 ## Property "content"
 
-**Package: [jss](https://github.com/cssinjs/jss/tree/docs/packages/jss)**
-
 When assigning a string to the content property it requires double or single quotes in CSS. Therefore you also have to provide the quotes within the value string for content to match how it will be represented in CSS.
 
 ```javascript
@@ -490,8 +346,6 @@ Compiles to:
 
 ## Typed CSSOM (Houdini)
 
-**Package: [jss](https://github.com/cssinjs/jss/tree/docs/packages/jss)**
-
 Typed CSSOM values are supported. You can learn more about them [here](https://developers.google.com/web/updates/2018/03/cssom) and track the standardization progress [here](https://ishoudinireadyyet.com/). Also make sure you use a [polyfill](https://github.com/csstools/css-typed-om) for browsers without support. It will make most sence when used together with function values and observables for frequent updates.
 
 ```javascript
@@ -499,152 +353,5 @@ const styles = {
   button: {
     margin: CSS.px(10)
   }
-}
-```
-
-## Pseudo and Nested Selectors
-
-**Package: [jss-plugin-syntax-nested](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-syntax-nested)**
-
-### Use `&` to reference selector of the parent rule
-
-```javascript
-const styles = {
-  container: {
-    padding: 20,
-    '&:hover': {
-      background: 'blue'
-    },
-    // Add a global .clear class to the container.
-    '&.clear': {
-      clear: 'both'
-    },
-    // Reference a global .button scoped to the container.
-    '& .button': {
-      background: 'red'
-    },
-    // Use multiple container refs in one selector
-    '&.selected, &.active': {
-      border: '1px solid red'
-    }
-  }
-}
-```
-
-Compiles to:
-
-```css
-.container-0 {
-  padding: 20px;
-}
-.container-0:hover {
-  background: blue;
-}
-.container-0.clear {
-  clear: both;
-}
-.container-0 .button {
-  background: red;
-}
-.container-0.selected,
-.container-0.active {
-  border: 1px solid red;
-}
-```
-
-### Use `$ruleName` to reference a local rule within the same style sheet
-
-```javascript
-const styles = {
-  container: {
-    // Reference the local rule "button".
-    '& $button': {
-      padding: '10px'
-    },
-    // Multiple local refs in one rule.
-    '&:hover $button, &:active $button': {
-      color: 'red'
-    },
-    '&:focus $button': {
-      color: 'blue'
-    }
-  },
-  button: {
-    color: 'grey'
-  }
-}
-```
-
-Compiles to:
-
-```css
-.button-0 {
-  color: grey;
-}
-.container-0 .button-1 {
-  padding: 10px;
-}
-.container-0:hover .button-1,
-.container-0:active .button-1 {
-  color: red;
-}
-.container-0:focus .button-1 {
-  color: blue;
-}
-```
-
-### Nest at-rules
-
-```javascript
-const styles = {
-  button: {
-    color: 'red',
-    '@media (min-width: 1024px)': {
-      width: 200
-    }
-  }
-}
-```
-
-Compiles to:
-
-```css
-.button-0 {
-  color: red;
-}
-@media (min-width: 1024px) {
-  .button-0 {
-    width: 200px;
-  }
-}
-```
-
-### Deep nesting
-
-```javascript
-const styles = {
-  button: {
-    '&$warn': {
-      color: 'red',
-      '&:hover, &:focus': {
-        color: 'white',
-        background: 'red'
-      }
-    }
-  },
-  warn: {}
-}
-```
-
-Compiles to:
-
-```css
-.button-0.warn-1 {
-  color: red;
-}
-.button-0.warn-1:hover,
-.button-0.warn-1:focus {
-  color: white;
-  background: red;
 }
 ```

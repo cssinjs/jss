@@ -1,6 +1,4 @@
-# True rules isolation through automatic properties reset
-
-[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
+## Enables rules isolation through automatic properties reset
 
 Some of the CSS properties are inheritable. It means that these properties apply to the child nodes from parent nodes. See [this article](https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Getting_started/Cascading_and_inheritance) for more details.
 
@@ -14,7 +12,7 @@ Make sure you read [how to use
 plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-custom-plugins)
 in general.
 
-## Usage example
+### Usage example
 
 ```javascript
 const styles = {
@@ -37,7 +35,7 @@ const styles = {
 }
 ```
 
-## Option `isolate`
+### Option `isolate`
 
 Option `isolate` can be a `boolean` or a `string`.
 The default value is `true`, but you can override it in 3 different layers.
@@ -106,7 +104,7 @@ const styles = {
 }
 ```
 
-## Isolation by convention
+### Isolation by convention
 
 You can assign any string to the `isolate` option. It will be used to match a rule name to isolate. All other rules will remain unisolated.
 
@@ -133,7 +131,7 @@ const styles = {
 }
 ```
 
-## Option `reset`
+### Option `reset`
 
 Default value for `reset` option is `inherited`.
 
@@ -183,25 +181,10 @@ jss.use(
 )
 ```
 
-## Demo
+### Demo
 
 [Simple](http://cssinjs.github.io/examples/plugins/jss-plugin-isolate/simple/index.html)
 
-## Reseted properties
+### Reseted properties
 
-Here are all [inherited](https://github.com/iamstarkov/initize/blob/master/inherited.js) and all [non-inherited](https://github.com/iamstarkov/initize/blob/master/all.js) properties we reset.
-
-## Issues
-
-File a bug against [cssinjs/jss prefixed with \[jss-plugin-isolate\]](https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-isolate]%20).
-
-## Run tests
-
-```bash
-yarn
-yarn test
-```
-
-## License
-
-MIT
+Here are all [inherited](https://github.com/iamstarkov/css-initials/blob/master/inherited.js) and all [non-inherited](https://github.com/iamstarkov/css-initials/blob/master/all.js) properties we reset.

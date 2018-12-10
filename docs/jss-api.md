@@ -379,7 +379,7 @@ console.log(sheet.toString())
 ```
 
 ```css
-.button-d4f43g {
+.button-0 {
   float: left;
 }
 ```

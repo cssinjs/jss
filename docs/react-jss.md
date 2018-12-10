@@ -1,6 +1,4 @@
-# JSS integration with React
-
-[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
+## JSS integration with React
 
 React-JSS provides components for [JSS](https://github.com/cssinjs/jss) as a layer of abstraction. JSS and the [default preset](https://github.com/cssinjs/jss-preset-default) are already built in! Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
 
@@ -13,7 +11,7 @@ Benefits compared to lower level core:
 - A Style Sheet gets shared between all elements.
 - Function values and rules are updated automatically with props.
 
-## Table of Contents
+### Table of Contents
 
 - [Install](#install)
 - [Usage](#usage)
@@ -30,20 +28,20 @@ Benefits compared to lower level core:
 - [Contributing](#contributing)
 - [License](#license)
 
-## Install
+### Install
 
 ```
 yarn add react-jss
 ```
 
-## Usage
+### Usage
 
 React-JSS wraps your component with a [higher-order component](https://medium.com/@dan_abramov/mixins-are-dead-long-live-higher-order-components-94a0d2f9e750).
 It injects a `classes` prop, which is a simple map of rule names and generated class names. It can act both as a simple wrapping function and as an [ES7 decorator](https://github.com/wycats/javascript-decorators).
 
 Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
 
-### Basic
+#### Basic
 
 ```javascript
 import React from 'react'
@@ -118,7 +116,7 @@ and
 }
 ```
 
-### Dynamic values
+#### Dynamic values
 
 You can use [function values](https://github.com/cssinjs/jss/blob/master/docs/json-api.md#function-values), function rules and observables out of the box. Function values and function rules will receive a props object once the component receives new props or mounts for the first time.
 
@@ -186,7 +184,7 @@ and
 }
 ```
 
-### Theming
+#### Theming
 
 The idea is that you define a theme, wrap your application with `ThemeProvider` and pass the `theme` to `ThemeProvider`. ThemeProvider will pass it over `context` to your styles creator function and to your props. After that you may change your theme, and all your components will get the new theme automatically.
 
@@ -282,7 +280,7 @@ const App = () => (
 )
 ```
 
-### Server-side rendering
+#### Server-side rendering
 
 After the application is mounted, you should remove the style tag used by critical CSS rendered server-side.
 
@@ -317,7 +315,7 @@ export default function render(req, res) {
 }
 ```
 
-### React tree traversing
+#### React tree traversing
 
 For traversing the React tree outside of the HTML rendering, you should add `disableStylesGeneration` property.
 
@@ -343,7 +341,7 @@ async function main() {
 main()
 ```
 
-### Reuse styles in different components
+#### Reuse styles in different components
 
 In order to reuse the same styles **and** the same generated style sheet between 2 entirely different and unrelated components, we suggest extracting a renderer component and reusing that.
 
@@ -375,7 +373,7 @@ const SomeComponent2 = () => (
 
 Alternatively you can create own Style Sheet and use the `composes` feature. Also you can mix in a common styles object, but take into account that it can increase the overall CSS size.
 
-### The inner component
+#### The inner component
 
 ```es6
 const InnerComponent = () => null
@@ -383,7 +381,7 @@ const StyledComponent = injectSheet(styles, InnerComponent)
 console.log(StyledComponent.InnerComponent) // Prints out the inner component.
 ```
 
-### The inner ref
+#### The inner ref
 
 In order to get a `ref` to the inner element, use the `innerRef` prop.
 
@@ -394,7 +392,7 @@ const StyledComponent = injectSheet({})(InnerComponent)
 <StyledComponent innerRef={(ref) => {console.log(ref)}} />
 ```
 
-### Custom setup
+#### Custom setup
 
 If you want to specify a JSS version and plugins to use, you should create your [own JSS instance](https://github.com/cssinjs/jss/blob/master/docs/js-api.md#create-an-own-jss-instance), [setup plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-custom-plugins) and pass it to `JssProvider`.
 
@@ -421,7 +419,7 @@ You can also access the JSS instance being used by default.
 import {jss} from 'react-jss'
 ```
 
-### Multi-tree setup
+#### Multi-tree setup
 
 In case you render multiple react rendering trees in one application, you will get class name collisions, because every JssProvider rerender will reset the class names generator. If you want to avoid this, you can share the class names generator between multiple JssProvider instances.
 
@@ -469,7 +467,7 @@ const Component = () => (
 )
 ```
 
-### Decorators
+#### Decorators
 
 _Beware that [decorators are stage-2 proposal](https://tc39.github.io/proposal-decorators/), so there are [no guarantees that decorators will make its way into language specification](https://tc39.github.io/process-document/). Do not use it in production. Use it at your own risk and only if you know what you are doing._
 
@@ -503,7 +501,7 @@ class Button extends Component {
 export default Button
 ```
 
-## Injection order
+### Injection order
 
 Style tags are injected in the exact same order as the `injectSheet()` invocation.
 Source order specificity is higher the lower style tag is in the tree, therefore you should call `injectSheet` of components you want to override first.
@@ -526,7 +524,7 @@ const Button = injectSheet(buttonStyles)(() => (
 ))
 ```
 
-## Whitelist injected props
+### Whitelist injected props
 
 By default "classes" and "theme" are going to be injected to the child component over props. Property `theme` is only passed when you use a function instead of styles object.
 If you want to whitelist some of them, you can now use option `inject`. For e.g. if you want to access the StyleSheet instance, you need to pass `{inject: ['sheet']}` and it will be available as `props.sheet`.
@@ -544,11 +542,3 @@ const Button = injectSheet(styles, {inject: ['classes', 'sheet']})(({classes}) =
   <button>My button</button>
 ))
 ```
-
-## Contributing
-
-See our [contribution guidelines](./contributing.md).
-
-## License
-
-MIT
