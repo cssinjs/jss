@@ -69,7 +69,7 @@ You can use JSS with or without [plugins](https://github.com/cssinjs?q=plugin). 
 
 ```javascript
 import jss from 'jss'
-import camelCase from 'jss-plugin-syntax-camel-case'
+import camelCase from 'jss-plugin-camel-case'
 import somePlugin from 'jss-some-plugin'
 
 // Use plugins.

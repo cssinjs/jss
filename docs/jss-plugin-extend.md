@@ -76,6 +76,6 @@ const styles = {
 
 ### Demo
 
-[Simple demo](http://cssinjs.github.io/examples/plugins/jss-plugin-syntax-extend/simple/)
+[Simple demo](http://cssinjs.github.io/examples/plugins/jss-plugin-extend/simple/)
 
-[Multi objects demo](http://cssinjs.github.io/examples/plugins/jss-plugin-syntax-extend/multi/)
+[Multi objects demo](http://cssinjs.github.io/examples/plugins/jss-plugin-extend/multi/)

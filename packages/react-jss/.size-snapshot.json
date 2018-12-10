@@ -1,21 +1,21 @@
 {
   "dist/react-jss.js": {
-    "bundled": 147748,
+    "bundled": 147804,
     "minified": 48996,
     "gzipped": 14503
   },
   "dist/react-jss.min.js": {
-    "bundled": 112924,
+    "bundled": 112980,
     "minified": 38291,
     "gzipped": 11780
   },
   "dist/react-jss.cjs.js": {
-    "bundled": 16595,
+    "bundled": 16609,
     "minified": 6965,
     "gzipped": 2424
   },
   "dist/react-jss.esm.js": {
-    "bundled": 16113,
+    "bundled": 16127,
     "minified": 6562,
     "gzipped": 2317,
     "treeshaked": {

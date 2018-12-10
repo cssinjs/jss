@@ -15,14 +15,14 @@ If you are a Sass (SCSS) user, this course will show how to express popular Sass
 
 - Framework agnostic
 - [Scoped selectors by default](docs/json-api.md)
-- [Function values and rules](packages/jss-plugin-syntax-rule-value-function/readme.md)
-- [Observables](packages/jss-plugin-syntax-rule-value-observable/readme.md)
+- [Function values and rules](packages/jss-plugin-rule-value-function/readme.md)
+- [Observables](packages/jss-plugin-rule-value-observable/readme.md)
 - [SSR](docs/ssr.md)
 - [Plugins support](docs/plugins.md)
-- [Global CSS](https://github.com/cssinjs/jss-plugin-syntax-global)
-- [Expanded syntax](https://github.com/cssinjs/jss-plugin-syntax-expand)
-- [Composition syntax](https://github.com/cssinjs/jss-plugin-syntax-compose)
-- [Template strings syntax](https://github.com/cssinjs/jss-plugin-syntax-template)
+- [Global CSS](https://github.com/cssinjs/jss-plugin-global)
+- [Expanded syntax](https://github.com/cssinjs/jss-plugin-expand)
+- [Composition syntax](https://github.com/cssinjs/jss-plugin-compose)
+- [Template strings syntax](https://github.com/cssinjs/jss-plugin-template)
 - [Isolation](https://github.com/cssinjs/jss-plugin-isolate)
 
 ## Integrations

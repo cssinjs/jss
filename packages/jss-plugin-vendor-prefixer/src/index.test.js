@@ -2,7 +2,7 @@ import expect from 'expect.js'
 import {create} from 'jss'
 import cssVendor from 'css-vendor'
 import browser from 'detect-browser'
-import functionPlugin from 'jss-plugin-syntax-rule-value-function'
+import functionPlugin from 'jss-plugin-rule-value-function'
 
 import vendorPrefixer from './index'
 

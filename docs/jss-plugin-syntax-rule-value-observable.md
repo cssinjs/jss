@@ -56,9 +56,9 @@ By default plugin are applied to the values or rules returned from Observables. 
 
 ```javascript
 import jss from 'jss'
-import pluginObservable from 'jss-plugin-syntax-rule-value-observable'
-import pluginCamelCase from 'jss-plugin-syntax-camel-case'
-import pluginDefaultUnit from 'jss-plugin-syntax-default-unit'
+import pluginObservable from 'jss-plugin-rule-value-observable'
+import pluginCamelCase from 'jss-plugin-camel-case'
+import pluginDefaultUnit from 'jss-plugin-default-unit'
 
 jss.use(pluginObservable({process: false}), pluginCamelCase(), pluginDefaultUnit())
 ```

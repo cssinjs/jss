@@ -176,6 +176,6 @@ It renders to:
 
 ### Caveats
 
-- Doesn't work within [global Style Sheets](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-syntax-global).
-- Does not work inside of [nested rules](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-syntax-nested).
+- Doesn't work within [global Style Sheets](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-global).
+- Does not work inside of [nested rules](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-nested).
 - When composing local rules, they need to be defined first. Otherwise you get wrong css selector order and specificity.

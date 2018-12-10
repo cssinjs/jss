@@ -10,15 +10,15 @@ The order in which plugins are registered matters since they will be applied seq
 
 In case you use any of the following plugins please bear in mind that they should be registered in this order:
 
-1.  jss-plugin-syntax-template - JSS plugin enables string templates
+1.  jss-plugin-template - JSS plugin enables string templates
 1.  jss-plugin-cache - JSS plugin that caches the rules and delivers insane performance.
-1.  jss-plugin-syntax-global - JSS plugin, allows global styles.
-1.  jss-plugin-syntax-extend - JSS plugin, allows to extend rules at compile time.
-1.  jss-plugin-syntax-nested - JSS plugin, allows nested selectors and pseudo selectors.
-1.  jss-plugin-syntax-compose - JSS plugin, allows classes composition.
-1.  jss-plugin-syntax-camel-case - JSS plugin, allows to write styles in camel case.
-1.  jss-plugin-syntax-default-unit - JSS plugin, adds default units to numeric values.
-1.  jss-plugin-syntax-expand - JSS plugin, gives you a better syntax than CSS itself.
+1.  jss-plugin-global - JSS plugin, allows global styles.
+1.  jss-plugin-extend - JSS plugin, allows to extend rules at compile time.
+1.  jss-plugin-nested - JSS plugin, allows nested selectors and pseudo selectors.
+1.  jss-plugin-compose - JSS plugin, allows classes composition.
+1.  jss-plugin-camel-case - JSS plugin, allows to write styles in camel case.
+1.  jss-plugin-default-unit - JSS plugin, adds default units to numeric values.
+1.  jss-plugin-expand - JSS plugin, gives you a better syntax than CSS itself.
 1.  jss-plugin-vendor-prefixer - JSS plugin, adds vendor prefixes at runtime, in the browser (not for SSR)
 1.  jss-plugin-props-sort - JSS plugin, ensures alphabetical props order.
 1.  jss-plugin-isolate - JSS plugin, gives you rules isolation through automatic properties reset.

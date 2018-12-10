@@ -16,7 +16,7 @@ See `jss.setup()` below for `options` object description.
 
 ```javascript
 import {create} from 'jss'
-import camelCase from 'jss-plugin-syntax-camel-case'
+import camelCase from 'jss-plugin-camel-case'
 import somePlugin from 'jss-some-plugin'
 
 const jss = create()
@@ -57,7 +57,7 @@ jss.setup(preset())
 `jss.use(plugin)`
 
 ```javascript
-import global from 'jss-plugin-syntax-global'
+import global from 'jss-plugin-global'
 import jss from 'jss'
 
 jss.use(global())
@@ -109,7 +109,7 @@ console.log(sheet.classes.button) // button-d4f43g
 
 ## Create a Style Sheet with global selectors
 
-You need to have the [jss-plugin-syntax-global](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-syntax-global) plugin installed.
+You need to have the [jss-plugin-global](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-global) plugin installed.
 
 ## Style Sheets registry
 

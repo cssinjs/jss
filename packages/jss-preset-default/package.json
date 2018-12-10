@@ -41,16 +41,16 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "jss-plugin-props-sort": "^6.0.0",
-    "jss-plugin-syntax-camel-case": "^6.1.0",
-    "jss-plugin-syntax-compose": "^5.0.0",
-    "jss-plugin-syntax-default-unit": "^8.0.2",
-    "jss-plugin-syntax-expand": "^5.3.0",
-    "jss-plugin-syntax-extend": "^6.2.0",
-    "jss-plugin-syntax-global": "^3.0.0",
-    "jss-plugin-syntax-nested": "^6.0.1",
-    "jss-plugin-syntax-rule-value-function": "^0.1.0",
-    "jss-plugin-syntax-rule-value-observable": "^0.1.0",
-    "jss-plugin-syntax-template": "^1.0.1",
+    "jss-plugin-camel-case": "^6.1.0",
+    "jss-plugin-compose": "^5.0.0",
+    "jss-plugin-default-unit": "^8.0.2",
+    "jss-plugin-expand": "^5.3.0",
+    "jss-plugin-extend": "^6.2.0",
+    "jss-plugin-global": "^3.0.0",
+    "jss-plugin-nested": "^6.0.1",
+    "jss-plugin-rule-value-function": "^0.1.0",
+    "jss-plugin-rule-value-observable": "^0.1.0",
+    "jss-plugin-template": "^1.0.1",
     "jss-plugin-vendor-prefixer": "^8.0.0"
   }
 }

@@ -28,7 +28,7 @@ Compiles to:
 
 ```javascript
 import jss from 'jss'
-import defaultUnit from 'jss-plugin-syntax-default-unit'
+import defaultUnit from 'jss-plugin-default-unit'
 
 const options = {
   'line-height': 'rem',

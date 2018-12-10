@@ -216,7 +216,7 @@ In order to describe space or comma separated CSS values in a JavaScript way, we
 
 There are some advantages in using this syntax:
 
-1.  Plugin `jss-plugin-syntax-default-unit` is able to set default unit effectively for numeric values.
+1.  Plugin `jss-plugin-default-unit` is able to set default unit effectively for numeric values.
 2.  You can use variables inside of a value declaration without string templates or concatenations.
 
 ### Comma separated values

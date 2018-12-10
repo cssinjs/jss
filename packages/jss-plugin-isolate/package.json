@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "jss": "^9.0.0",
-    "jss-plugin-syntax-nested": "^6.0.0"
+    "jss-plugin-nested": "^6.0.0"
   },
   "peerDependencies": {
     "jss": "^9.0.0"

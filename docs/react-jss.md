@@ -55,15 +55,15 @@ const styles = {
   myButton: {
     color: 'green',
     margin: {
-      // jss-plugin-syntax-expand gives more readable syntax
-      top: 5, // jss-plugin-syntax-default-unit makes this 5px
+      // jss-plugin-expand gives more readable syntax
+      top: 5, // jss-plugin-default-unit makes this 5px
       right: 0,
       bottom: 0,
       left: '1rem'
     },
     '& span': {
-      // jss-plugin-syntax-nested applies this to a child span
-      fontWeight: 'bold' // jss-plugin-syntax-camel-case turns this into 'font-weight'
+      // jss-plugin-nested applies this to a child span
+      fontWeight: 'bold' // jss-plugin-camel-case turns this into 'font-weight'
     }
   },
   myLabel: {
