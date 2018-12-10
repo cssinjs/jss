@@ -79,7 +79,7 @@ export default class JssProvider extends Component<Props> {
     // Merge the classname prefix
     if (classNamePrefix) {
       context.sheetOptions.classNamePrefix =
-        classNamePrefix + (context.sheetOptions.classNamePrefix || '')
+        (context.sheetOptions.classNamePrefix || '') + classNamePrefix
     }
 
     if (jss) {

@@ -104,13 +104,10 @@ export default function createHOC<
 
       const {sheetOptions: contextSheetOptions} = props
 
-      this.classNamePrefix =
-        contextSheetOptions && contextSheetOptions.classNamePrefix
-          ? contextSheetOptions.classNamePrefix + defaultClassNamePrefix
-          : defaultClassNamePrefix
+      this.classNamePrefix = (contextSheetOptions.classNamePrefix || '') + defaultClassNamePrefix
 
       this.state = this.createState()
-      this.manage(this.props, this.state)
+      this.manage(props, this.state)
     }
 
     componentDidUpdate(prevProps: OuterPropsType, prevState: State) {

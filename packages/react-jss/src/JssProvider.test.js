@@ -111,7 +111,7 @@ describe('React-JSS: JssProvider', () => {
         )
 
         expect(registry.toString()).to.be(stripIndent`
-          .B-NoRenderer-a {
+          .A-B-NoRenderer-a {
             color: red;
           }
         `)
@@ -393,7 +393,7 @@ describe('React-JSS: JssProvider', () => {
       let registry = new SheetsRegistry()
 
       renderToString(
-        <JssProvider registry={registry}>
+        <JssProvider registry={registry} generateId={generateId}>
           <MyComponent border="green" />
         </JssProvider>
       )
@@ -408,9 +408,10 @@ describe('React-JSS: JssProvider', () => {
       `)
 
       registry = new SheetsRegistry()
+      generateId = createGenerateId()
 
       renderToString(
-        <JssProvider registry={registry}>
+        <JssProvider registry={registry} generateId={generateId}>
           <MyComponent border="blue" />
         </JssProvider>
       )
