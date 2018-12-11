@@ -9,7 +9,7 @@ import {
   SheetsRegistry,
   type StyleSheetFactoryOptions
 } from 'jss'
-import type {Context} from './types'
+import type {Context, Managers} from './types'
 import JssContext from './JssContext'
 
 /* eslint-disable react/require-default-props */
@@ -35,7 +35,7 @@ export default class JssProvider extends Component<Props> {
     sheetOptions: PropTypes.shape({})
   }
 
-  managers: {} = {}
+  managers: Managers = {}
 
   generateId = createGenerateId()
 

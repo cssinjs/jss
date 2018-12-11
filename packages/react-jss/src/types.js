@@ -5,6 +5,8 @@ import {type Theming} from 'theming'
 
 export type Theme = {}
 
+export type Managers = {[key: number]: SheetsManager}
+
 export type Options = {
   theming?: Theming<Theme>,
   inject?: Array<'classes' | 'themes' | 'sheet'>,
@@ -20,7 +22,7 @@ export type InnerProps = {
 export type Context = {
   jss?: Jss,
   registry?: SheetsRegistry,
-  managers?: {[key: number]: SheetsManager},
+  managers?: Managers,
   sheetOptions: StyleSheetFactoryOptions,
   disableStylesGeneration: boolean
 }
