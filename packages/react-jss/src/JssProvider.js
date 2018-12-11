@@ -60,7 +60,7 @@ export default class JssProvider extends Component<Props> {
       context.sheetOptions.classNamePrefix =
         (context.sheetOptions.classNamePrefix || '') + classNamePrefix
     }
-      
+
     if (media !== undefined) {
       context.sheetOptions.media = media
     }

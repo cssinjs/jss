@@ -112,7 +112,7 @@ export default function createHOC<
     }
 
     get jss() {
-      return this.props.jssContext.jss || optionsJss || jss
+      return this.props.jssContext.jss || optionsJss || defaultJss
     }
 
     get manager(): SheetsManager {
