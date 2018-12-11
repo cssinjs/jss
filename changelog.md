@@ -11,6 +11,7 @@
 - [all] Added TypeScript definitions to all packages ([#889](https://github.com/cssinjs/jss/pull/889))
 - [jss-plugin-syntax-nested] Fixed referencing rules inside media queries ([#900](https://github.com/cssinjs/jss/pull/900))
 - [jss-plugin-syntax-global] TypeError: Cannot read property '@global' of undefined ([#905](https://github.com/cssinjs/jss/pull/905))
+- [react-jss] Move JssContext to new React Context, deprecate the `sheetOptions` prop on the JssProvider and support a `media` prop ([#924](https://github.com/cssinjs/jss/pull/924))
 
 ### Breaking changes
 
