@@ -85,7 +85,7 @@ export default function createHOC<
     constructor(props: OuterPropsType) {
       super(props)
 
-      const {sheetOptions: contextSheetOptions} = props
+      const {sheetOptions: contextSheetOptions} = props.jssContext
 
       this.classNamePrefix = (contextSheetOptions.classNamePrefix || '') + defaultClassNamePrefix
 
@@ -112,11 +112,11 @@ export default function createHOC<
     }
 
     get jss() {
-      return this.props.jss || optionsJss || defaultJss
+      return this.props.jssContext.jss || optionsJss || jss
     }
 
     get manager(): SheetsManager {
-      const {managers} = this.props
+      const {managers} = this.props.jssContext
 
       // If `managers` map is present in the context, we use it in order to
       // let JssProvider reset them when new response has to render server-side.
@@ -138,7 +138,7 @@ export default function createHOC<
         return staticSheet
       }
 
-      const contextSheetOptions = this.props.sheetOptions
+      const contextSheetOptions = this.props.jssContext.sheetOptions
       const styles = getStyles(stylesOrCreator, theme)
       staticSheet = this.jss.createStyleSheet(styles, {
         ...sheetOptions,
@@ -159,7 +159,7 @@ export default function createHOC<
 
       if (!dynamicStyles) return undefined
 
-      const contextSheetOptions = this.props.sheetOptions
+      const contextSheetOptions = this.props.jssContext.sheetOptions
 
       return this.jss.createStyleSheet(dynamicStyles, {
         ...sheetOptions,
@@ -174,7 +174,7 @@ export default function createHOC<
 
     manage(props, state) {
       const {dynamicSheet, staticSheet} = state
-      const {registry} = props
+      const {registry} = props.jssContext
 
       this.manager.manage(getTheme(props))
       if (staticSheet && registry) {
@@ -213,7 +213,7 @@ export default function createHOC<
     }
 
     createState(): State {
-      if (this.props.disableStylesGeneration) {
+      if (this.props.jssContext.disableStylesGeneration) {
         return {classes: {}}
       }
 
@@ -232,11 +232,7 @@ export default function createHOC<
       const {
         innerRef,
         theme,
-        jss: jssProps,
-        sheetOptions: sheetOptionsProp,
-        disableStylesGeneration,
-        registry,
-        managers,
+        jssContext,
         // $FlowFixMe: Flow complains for no reason...
         ...props
       } = this.props
@@ -252,19 +248,19 @@ export default function createHOC<
     }
   }
 
-  return function ContextSubscriber(props) {
+  return function JssContextSubscriber(props) {
     return (
       <JssContext.Consumer>
         {context => {
           if (isThemingEnabled || injectTheme) {
             return (
               <ThemeConsumer>
-                {theme => <Jss theme={theme} {...context} {...props} />}
+                {theme => <Jss theme={theme} {...props} jssContext={context} />}
               </ThemeConsumer>
             )
           }
 
-          return <Jss {...context} {...props} />
+          return <Jss {...props} jssContext={context} />
         }}
       </JssContext.Consumer>
     )

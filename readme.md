@@ -2,7 +2,6 @@
 
 [![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 [![Build Status](https://travis-ci.org/cssinjs/jss.svg?branch=master)](https://travis-ci.org/cssinjs/jss)
-[![codecov](https://codecov.io/gh/cssinjs/jss/branch/master/graph/badge.svg)](https://codecov.io/gh/cssinjs/jss)
 [![OpenCollective](https://opencollective.com/jss/backers/badge.svg)](#backers)
 [![OpenCollective](https://opencollective.com/jss/sponsors/badge.svg)](#sponsors)
 
@@ -16,8 +15,8 @@ If you are a Sass (SCSS) user, this course will show how to express popular Sass
 
 - Framework agnostic
 - [Scoped selectors by default](docs/json-api.md#regular-rule-without-plugins)
-- [Function values and rules](docs/json-api.md#function-values)
-- [Observables](docs/json-api.md#observable-values)
+- [Function values and rules](packages/jss-plugin-syntax-rule-value-function/readme.md)
+- [Observables](packages/jss-plugin-syntax-rule-value-observable/readme.md)
 - [SSR](docs/ssr.md)
 - [Plugins support](docs/plugins.md)
 - [Global CSS](https://github.com/cssinjs/jss-global)

@@ -5,6 +5,8 @@ import {type Theming} from 'theming'
 
 export type Theme = {}
 
+export type Managers = {[key: number]: SheetsManager}
+
 export type Options = {
   theming?: Theming<Theme>,
   injectTheme?: boolean,
@@ -19,13 +21,14 @@ export type InnerProps = {
 export type Context = {
   jss?: Jss,
   registry?: SheetsRegistry,
-  managers?: {[key: number]: SheetsManager},
+  managers?: Managers,
   sheetOptions: StyleSheetFactoryOptions,
   disableStylesGeneration: boolean
 }
 
-export type OuterProps<Props, InnerComponent> = Context & {
-  innerRef: (instance: ElementRef<InnerComponent>) => void
+export type OuterProps<Props, InnerComponent> = {
+  innerRef: (instance: ElementRef<InnerComponent>) => void,
+  jssContext: Context
 } & Props
 export type Styles = {[string]: {}}
 export type StylesCreator = (theme: Theme) => Styles
