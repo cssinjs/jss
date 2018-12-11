@@ -34,7 +34,6 @@ export default class JssProvider extends Component<Props> {
     children: PropTypes.node.isRequired,
     sheetOptions: PropTypes.shape({
       media: PropTypes.string,
-      meta: PropTypes.string,
       element: PropTypes.instanceOf(HTMLStyleElement)
     })
   }
