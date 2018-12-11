@@ -40,6 +40,10 @@ export default class JssProvider extends Component<Props> {
 
   managers: Managers = {}
 
+  /**
+   * We need to merge the outer context with the props,
+   * because we allow overriding any prop at any level.
+   */
   createContext(outerContext: Context): Context {
     const {
       registry,
@@ -74,7 +78,9 @@ export default class JssProvider extends Component<Props> {
     if (generateId) {
       context.sheetOptions.generateId = generateId
     } else if (!context.sheetOptions.generateId) {
-      this.generateId = createGenerateId()
+      if (!this.generateId) {
+        this.generateId = createGenerateId()
+      }
       context.sheetOptions.generateId = this.generateId
     }
 
