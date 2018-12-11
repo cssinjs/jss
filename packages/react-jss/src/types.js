@@ -27,8 +27,9 @@ export type Context = {
   disableStylesGeneration: boolean
 }
 
-export type OuterProps<Props, InnerComponent> = Context & {
-  innerRef: (instance: ElementRef<InnerComponent>) => void
+export type OuterProps<Props, InnerComponent> = {
+  innerRef: (instance: ElementRef<InnerComponent>) => void,
+  jssContext: Context
 } & Props
 export type Styles = {[string]: {}}
 export type StylesCreator = (theme: Theme) => Styles
