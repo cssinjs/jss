@@ -5,6 +5,8 @@ import {type Theming} from 'theming'
 
 export type Theme = {}
 
+export type Managers = {[key: number]: SheetsManager}
+
 export type Options = {
   theming?: Theming<Theme>,
   inject?: Array<'classes' | 'themes' | 'sheet'>,
@@ -18,15 +20,17 @@ export type InnerProps = {
 }
 // Needs to be hard coded for stricter types
 export type Context = {
-  '64a55d578f856d258dc345b094a2a2b3'?: Jss,
-  d4bd0baacbc52bbd48bbb9eb24344ecd?: SheetsRegistry,
-  b768b78919504fba9de2c03545c5cd3a?: {[key: number]: SheetsManager},
-  '6fc570d6bd61383819d0f9e7407c452d': StyleSheetFactoryOptions & {disableStylesGeneration?: boolean}
+  jss?: Jss,
+  registry?: SheetsRegistry,
+  managers?: Managers,
+  sheetOptions: StyleSheetFactoryOptions,
+  disableStylesGeneration: boolean
 }
 
-export type OuterProps<Props, InnerComponent> = Props & {
-  innerRef: (instance: ElementRef<InnerComponent>) => void
-}
+export type OuterProps<Props, InnerComponent> = {
+  innerRef: (instance: ElementRef<InnerComponent>) => void,
+  jssContext: Context
+} & Props
 export type Styles = {[string]: {}}
 export type StylesCreator = (theme: Theme) => Styles
 export type StylesOrCreator = Styles | StylesCreator

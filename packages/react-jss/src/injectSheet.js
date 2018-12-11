@@ -29,6 +29,9 @@ export default function injectSheet(styles: StylesOrCreator, options?: Options =
   return (InnerComponent: ComponentType<InnerProps> = NoRenderer) => {
     const Jss = createHoc(styles, InnerComponent, {...options, index})
 
+    // $FlowFixMe
+    Jss.InnerComponent = InnerComponent
+
     return hoistNonReactStatics(Jss, InnerComponent, {inner: true})
   }
 }

@@ -13,11 +13,20 @@ import injectSheet, {createTheming, ThemeProvider, JssProvider, SheetsRegistry} 
 
 const removeWhitespaces = s => s.replace(/\s/g, '')
 
+const createGenerateId = () => {
+  let counter = 0
+  return rule => `${rule.key}-${counter++}`
+}
+
 describe('React-JSS: theming', () => {
   let node
+  let localJss
+  let generateId
 
   beforeEach(() => {
     node = document.body.appendChild(document.createElement('div'))
+    localJss = create(preset())
+    generateId = createGenerateId()
   })
 
   afterEach(() => {
@@ -41,18 +50,6 @@ describe('React-JSS: theming', () => {
 
   const ThemedStaticComponent = injectSheet(themedStaticStyles)()
   const ThemedDynamicComponent = injectSheet(themedDynamicStyles)()
-
-  let localJss
-
-  beforeEach(() => {
-    localJss = create({
-      ...preset(),
-      createGenerateId: () => {
-        let counter = 0
-        return rule => `${rule.key}-${counter++}`
-      }
-    })
-  })
 
   it('should have correct meta attribute for static styles', () => {
     render(
@@ -356,7 +353,7 @@ describe('React-JSS: theming', () => {
     const ComponentA = injectSheet(() => ({a: {color: 'red'}}))()
     const ComponentB = injectSheet(() => ({b: {color: 'green'}}))()
     render(
-      <JssProvider jss={localJss}>
+      <JssProvider jss={localJss} generateId={generateId}>
         <ThemeProvider theme={{}}>
           <div>
             <ComponentA />
@@ -388,7 +385,7 @@ describe('React-JSS: theming', () => {
     const registry = new SheetsRegistry()
 
     renderToString(
-      <JssProvider registry={registry} jss={localJss}>
+      <JssProvider registry={registry} generateId={generateId}>
         <ThemeProvider theme={{}}>
           <div>
             <ComponentA />
