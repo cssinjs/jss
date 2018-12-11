@@ -269,7 +269,7 @@ export default function createHOC<
     }
   }
 
-  return function ContextSubscriber(props) {
+  return function JssContextSubscriber(props) {
     return (
       <JssContext.Consumer>
         {context => {
