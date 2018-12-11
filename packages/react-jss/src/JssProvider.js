@@ -2,7 +2,7 @@
 import React, {Component, type Node} from 'react'
 import PropTypes from 'prop-types'
 import warning from 'warning'
-import {
+import defaultJss, {
   createGenerateId,
   type Jss,
   type GenerateId,
@@ -27,17 +27,19 @@ type Props = {
 export default class JssProvider extends Component<Props> {
   static propTypes = {
     registry: PropTypes.instanceOf(SheetsRegistry),
-    jss: PropTypes.shape({}),
+    jss: PropTypes.instanceOf(defaultJss.constructor),
     generateId: PropTypes.func,
     classNamePrefix: PropTypes.string,
     disableStylesGeneration: PropTypes.bool,
     children: PropTypes.node.isRequired,
-    sheetOptions: PropTypes.shape({})
+    sheetOptions: PropTypes.shape({
+      media: PropTypes.string,
+      meta: PropTypes.string,
+      element: PropTypes.instanceOf(HTMLStyleElement)
+    })
   }
 
   managers: Managers = {}
-
-  generateId = createGenerateId()
 
   createContext(outerContext: Context): Context {
     const {
@@ -73,6 +75,7 @@ export default class JssProvider extends Component<Props> {
     if (generateId) {
       context.sheetOptions.generateId = generateId
     } else if (!context.sheetOptions.generateId) {
+      this.generateId = createGenerateId()
       context.sheetOptions.generateId = this.generateId
     }
 
@@ -92,6 +95,8 @@ export default class JssProvider extends Component<Props> {
 
     return context
   }
+
+  generateId: GenerateId
 
   renderProvider = (outerContext: Context) => {
     const {children} = this.props
