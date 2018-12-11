@@ -1,14 +1,7 @@
 // @flow
 import React, {Component, type Node} from 'react'
 import PropTypes from 'prop-types'
-import warning from 'warning'
-import defaultJss, {
-  createGenerateId,
-  type Jss,
-  type GenerateId,
-  SheetsRegistry,
-  type StyleSheetFactoryOptions
-} from 'jss'
+import defaultJss, {createGenerateId, type Jss, type GenerateId, SheetsRegistry} from 'jss'
 import type {Context, Managers} from './types'
 import JssContext from './JssContext'
 
@@ -20,7 +13,7 @@ type Props = {
   generateId?: GenerateId,
   classNamePrefix?: string,
   disableStylesGeneration?: boolean,
-  sheetOptions: StyleSheetFactoryOptions,
+  media?: string,
   children: Node
 }
 
@@ -32,10 +25,7 @@ export default class JssProvider extends Component<Props> {
     classNamePrefix: PropTypes.string,
     disableStylesGeneration: PropTypes.bool,
     children: PropTypes.node.isRequired,
-    sheetOptions: PropTypes.shape({
-      media: PropTypes.string,
-      element: PropTypes.instanceOf(HTMLStyleElement)
-    })
+    media: PropTypes.string
   }
 
   managers: Managers = {}
@@ -45,30 +35,11 @@ export default class JssProvider extends Component<Props> {
    * because we allow overriding any prop at any level.
    */
   createContext(outerContext: Context): Context {
-    const {
-      registry,
-      classNamePrefix,
-      jss,
-      generateId,
-      disableStylesGeneration,
-      sheetOptions
-    } = this.props
+    const {registry, classNamePrefix, jss, generateId, disableStylesGeneration, media} = this.props
     // Clone the outer context
     const context = {
       ...outerContext,
       managers: this.managers
-    }
-
-    if (sheetOptions) {
-      warning(
-        'generateId' in sheetOptions,
-        '[JSS] Pass generateId as a prop instead of sheet options.'
-      )
-
-      context.sheetOptions = {
-        ...context.sheetOptions,
-        ...sheetOptions
-      }
     }
 
     if (registry) {
@@ -88,6 +59,10 @@ export default class JssProvider extends Component<Props> {
     if (classNamePrefix) {
       context.sheetOptions.classNamePrefix =
         (context.sheetOptions.classNamePrefix || '') + classNamePrefix
+    }
+
+    if (media !== undefined) {
+      context.sheetOptions.media = media
     }
 
     if (jss) {
