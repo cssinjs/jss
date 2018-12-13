@@ -120,9 +120,7 @@ function setSelector(cssRule: CSSStyleRule, selectorText: string): boolean {
 /**
  * Gets the `head` element upon the first call and caches it.
  */
-const getHead = memoize(
-  (): HTMLElement => document.head || document.getElementsByTagName('head')[0]
-)
+const getHead = memoize((): HTMLElement => document.querySelector('head))
 
 /**
  * Find attached sheet with an index higher than the passed one.
