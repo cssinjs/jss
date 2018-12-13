@@ -135,5 +135,22 @@ export default [
       replace({'process.env.VERSION': JSON.stringify(pkg.version)}),
       sizeSnapshot(snapshotOptions)
     ]
+  },
+
+  {
+    input,
+    output: {file: pkg.unpkg, format: 'esm'},
+    plugins: [
+      nodeResolve(),
+      babel(getBabelOptions({useESModules: true})),
+      commonjs(commonjsOptions),
+      nodeGlobals({process: false}),
+      replace({
+        'process.env.VERSION': JSON.stringify(pkg.version)
+      })
+      // sizeSnapshot barfs with
+      // [!] (size-snapshot plugin) Error: Error transforming bundle with 'size-snapshot' plugin: ModuleNotFoundError: Module not found: Error: Can't resolve 'jss/node_modules/rollup-plugin-size-snapshot/node_modules/webpack/buildin/harmony-module.js' in '/'
+      // sizeSnapshot(snapshotOptions),
+    ]
   }
 ]

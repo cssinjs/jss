@@ -6,6 +6,7 @@
   "homepage": "https://cssinjs.org/jss-compose",
   "main": "dist/jss-plugin-syntax-compose.cjs.js",
   "module": "dist/jss-plugin-syntax-compose.esm.js",
+  "unpkg": "dist/jss-plugin-syntax-compose.bundle.js",
   "typings": "./src/index.d.ts",
   "author": {
     "name": "Pavel Davydov",

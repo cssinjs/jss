@@ -6,6 +6,7 @@
   "homepage": "https://cssinjs.org/jss-vendor-prefixer",
   "main": "dist/jss-plugin-vendor-prefixer.cjs.js",
   "module": "dist/jss-plugin-vendor-prefixer.esm.js",
+  "unpkg": "dist/jss-plugin-vendor-prefixer.bundle.js",
   "typings": "./src/index.d.ts",
   "author": {
     "name": "Oleg Slobodskoi",
