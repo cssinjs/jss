@@ -231,13 +231,10 @@ export default function createHOC<
       const {classes} = this.state
       const {
         innerRef,
-        theme,
         jssContext,
         // $FlowFixMe: Flow complains for no reason...
         ...props
       } = this.props
-
-      if (injectTheme && props.theme) props.theme = theme
 
       // We have merged classes already.
       props.classes = classes
