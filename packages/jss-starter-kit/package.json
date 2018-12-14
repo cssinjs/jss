@@ -1,0 +1,48 @@
+{
+  "name": "jss-starter-kit",
+  "description": "A bundle to get you started playing with JSS.  Not optimized for production deployment.",
+  "version": "9.8.4",
+  "license": "MIT",
+  "homepage": "https://cssinjs.org/",
+  "main": "dist/jss-starter-kit.cjs.js",
+  "module": "dist/jss-starter-kit.esm.js",
+  "unpkg": "dist/jss-starter-kit.bundle.js",
+  "typings": "./src/index.d.ts",
+  "author": {
+    "name": "Oleg Slobodskoi",
+    "email": "oleg008@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cssinjs/jss.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cssinjs/jss/issues/new"
+  },
+  "files": [
+    "dist",
+    "src",
+    "LICENSE"
+  ],
+  "keywords": [
+    "jss",
+    "style",
+    "sheet",
+    "stylesheet",
+    "css",
+    "components",
+    "composable",
+    "css in js",
+    "css-in-js"
+  ],
+  "scripts": {
+    "build": "node ../../scripts/build.js",
+    "check-snapshot": "node ../../scripts/match-snapshot.js"
+  },
+  "dependencies": {
+    "jss": "^9",
+    "jss-plugin-cache": "^3",
+    "jss-plugin-isolate": "^5",
+    "jss-preset-default": "^4"
+  }
+}

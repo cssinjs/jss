@@ -46,7 +46,13 @@ const getBabelOptions = ({useESModules}) => ({
 })
 
 const commonjsOptions = {
-  ignoreGlobal: true
+  ignoreGlobal: true,
+  // The CommonJS plugin can't resolve the exports in `react` automatically.
+  // https://github.com/rollup/rollup-plugin-commonjs#custom-named-exports
+  // https://github.com/reduxjs/react-redux/issues/643#issuecomment-285008041
+  namedExports: {
+    react: ['Component']
+  }
 }
 
 const snapshotOptions = {
@@ -146,11 +152,11 @@ export default [
       commonjs(commonjsOptions),
       nodeGlobals({process: false}),
       replace({
+        'process.env.NODE_ENV': JSON.stringify('development'),
         'process.env.VERSION': JSON.stringify(pkg.version)
       })
-      // sizeSnapshot barfs with
-      // [!] (size-snapshot plugin) Error: Error transforming bundle with 'size-snapshot' plugin: ModuleNotFoundError: Module not found: Error: Can't resolve 'jss/node_modules/rollup-plugin-size-snapshot/node_modules/webpack/buildin/harmony-module.js' in '/'
-      // sizeSnapshot(snapshotOptions),
+      // size-snapshot is disabled until this is resolved:
+      // https://github.com/TrySound/rollup-plugin-size-snapshot/issues/24
     ]
   }
 ]
