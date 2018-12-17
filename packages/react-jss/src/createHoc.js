@@ -232,6 +232,7 @@ export default function createHOC<
       const {
         innerRef,
         jssContext,
+        theme,
         // $FlowFixMe: Flow complains for no reason...
         ...props
       } = this.props
@@ -240,6 +241,7 @@ export default function createHOC<
       props.classes = classes
 
       if (innerRef) props.ref = innerRef
+      if (injectTheme) props.theme = theme
 
       return <InnerComponent {...props} />
     }
