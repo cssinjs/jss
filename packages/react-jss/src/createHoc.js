@@ -4,7 +4,7 @@ import React, {Component, type ComponentType} from 'react'
 import PropTypes from 'prop-types'
 import {ThemeContext} from 'theming'
 import {getDynamicStyles, SheetsManager, type StyleSheet, type Classes} from 'jss'
-import jss from './jss'
+import defaultJss from './jss'
 import compose from './compose'
 import getDisplayName from './getDisplayName'
 import JssContext from './JssContext'
@@ -48,22 +48,6 @@ const getStyles = (stylesOrCreator: StylesOrCreator, theme: Theme) => {
   return stylesOrCreator(theme)
 }
 
-// Returns an object with array property as a key and true as a value.
-const toMap = arr =>
-  arr.reduce(
-    (map, prop) => ({
-      ...map,
-      [prop]: true
-    }),
-    {}
-  )
-
-const defaultInjectProps = {
-  sheet: false,
-  classes: true,
-  theme: true
-}
-
 let managersCounter = 0
 
 export default function createHOC<
@@ -76,8 +60,7 @@ export default function createHOC<
   options: Options
 ): ComponentType<OuterPropsType> {
   const isThemingEnabled = typeof stylesOrCreator === 'function'
-  const {theming, inject, jss: optionsJss, ...sheetOptions} = options
-  const injectMap = inject ? toMap(inject) : defaultInjectProps
+  const {theming, injectTheme, jss: optionsJss, ...sheetOptions} = options
   const displayName = getDisplayName(InnerComponent)
   const defaultClassNamePrefix = env === 'production' ? '' : `${displayName}-`
   const noTheme = {}
@@ -88,7 +71,7 @@ export default function createHOC<
   // $FlowFixMe: DefaultProps is missing in type definitions
   const {classes: defaultClasses = {}, ...defaultProps} = {...InnerComponent.defaultProps}
 
-  const getTheme = props => (isThemingEnabled ? props.theme : noTheme)
+  const getTheme = props => (isThemingEnabled && props.theme ? props.theme : noTheme)
 
   class Jss extends Component<OuterPropsType, State> {
     static displayName = `Jss(${displayName})`
@@ -129,7 +112,7 @@ export default function createHOC<
     }
 
     get jss() {
-      return this.props.jssContext.jss || optionsJss || jss
+      return this.props.jssContext.jss || optionsJss || defaultJss
     }
 
     get manager(): SheetsManager {
@@ -245,23 +228,22 @@ export default function createHOC<
     }
 
     render() {
-      const {dynamicSheet, classes, staticSheet} = this.state
+      const {classes} = this.state
       const {
         innerRef,
-        theme,
         jssContext,
+        theme,
         // $FlowFixMe: Flow complains for no reason...
         ...props
       } = this.props
-      const sheet = dynamicSheet || staticSheet
-
-      if (injectMap.sheet && !props.sheet && sheet) props.sheet = sheet
-      if (injectMap.theme) props.theme = theme
 
       // We have merged classes already.
-      if (injectMap.classes) props.classes = classes
+      props.classes = classes
 
-      return <InnerComponent ref={innerRef} {...props} />
+      if (innerRef) props.ref = innerRef
+      if (injectTheme) props.theme = theme
+
+      return <InnerComponent {...props} />
     }
   }
 
@@ -269,7 +251,7 @@ export default function createHOC<
     return (
       <JssContext.Consumer>
         {context => {
-          if (isThemingEnabled || injectMap.theme) {
+          if (isThemingEnabled || injectTheme) {
             return (
               <ThemeConsumer>
                 {theme => <Jss theme={theme} {...props} jssContext={context} />}

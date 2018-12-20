@@ -1,5 +1,5 @@
 // @flow
-import type {StyleSheet, StyleSheetFactoryOptions, Jss, SheetsRegistry, SheetsManager} from 'jss'
+import type {StyleSheetFactoryOptions, Jss, SheetsRegistry, SheetsManager} from 'jss'
 import type {Node, ElementRef} from 'react'
 import {type Theming} from 'theming'
 
@@ -9,14 +9,13 @@ export type Managers = {[key: number]: SheetsManager}
 
 export type Options = {
   theming?: Theming<Theme>,
-  inject?: Array<'classes' | 'themes' | 'sheet'>,
+  injectTheme?: boolean,
   jss?: Jss
 } & StyleSheetFactoryOptions
 export type InnerProps = {
   children?: Node,
   classes?: {},
-  theme: Theme,
-  sheet?: StyleSheet
+  theme?: Theme
 }
 // Needs to be hard coded for stricter types
 export type Context = {

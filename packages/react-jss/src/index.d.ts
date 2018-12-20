@@ -25,7 +25,7 @@ export const JssProvider: React.ComponentType<{
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 type Options = {
   index?: number
-  inject?: Array<'classes' | 'theme' | 'sheet'>
+  injectTheme?: boolean
   jss?: Jss
 } & StyleSheetFactoryOptions
 
