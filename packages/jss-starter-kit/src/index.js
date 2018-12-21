@@ -24,5 +24,4 @@ export {default as vendorPrefixer} from 'jss-plugin-vendor-prefixer'
 export {default as propsSort} from 'jss-plugin-props-sort'
 export {default as isolate} from 'jss-plugin-isolate'
 export {default as cache} from 'jss-plugin-cache'
-
-export default jss
+export * as reactJss from 'react-jss'

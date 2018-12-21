@@ -6,3 +6,4 @@
 
 [options]
 include_warnings=true
+esproposal.export_star_as=enable

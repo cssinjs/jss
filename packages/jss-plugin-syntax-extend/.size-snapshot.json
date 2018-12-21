@@ -2,22 +2,22 @@
   "dist/jss-plugin-syntax-extend.js": {
     "bundled": 5328,
     "minified": 1824,
-    "gzipped": 919
+    "gzipped": 922
   },
   "dist/jss-plugin-syntax-extend.min.js": {
     "bundled": 4212,
     "minified": 1304,
-    "gzipped": 639
+    "gzipped": 643
   },
   "dist/jss-plugin-syntax-extend.cjs.js": {
     "bundled": 3504,
     "minified": 1407,
-    "gzipped": 627
+    "gzipped": 628
   },
   "dist/jss-plugin-syntax-extend.esm.js": {
     "bundled": 3286,
     "minified": 1239,
-    "gzipped": 558,
+    "gzipped": 562,
     "treeshaked": {
       "rollup": {
         "code": 16,

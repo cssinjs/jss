@@ -7,17 +7,17 @@
   "dist/jss-plugin-syntax-template.min.js": {
     "bundled": 1851,
     "minified": 615,
-    "gzipped": 389
+    "gzipped": 390
   },
   "dist/jss-plugin-syntax-template.cjs.js": {
     "bundled": 1275,
     "minified": 638,
-    "gzipped": 386
+    "gzipped": 388
   },
   "dist/jss-plugin-syntax-template.esm.js": {
     "bundled": 1057,
     "minified": 470,
-    "gzipped": 304,
+    "gzipped": 303,
     "treeshaked": {
       "rollup": {
         "code": 16,
