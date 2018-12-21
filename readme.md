@@ -15,8 +15,8 @@ If you are a Sass (SCSS) user, this course will show how to express popular Sass
 
 - Framework agnostic
 - [Scoped selectors by default](docs/json-api.md#regular-rule-without-plugins)
-- [Function values and rules](packages/jss-plugin-syntax-rule-value-function/readme.md)
-- [Observables](packages/jss-plugin-syntax-rule-value-observable/readme.md)
+- [Function values and rules](packages/jss-plugin-rule-value-function/readme.md)
+- [Observables](packages/jss-plugin-rule-value-observable/readme.md)
 - [SSR](docs/ssr.md)
 - [Plugins support](docs/plugins.md)
 - [Global CSS](https://github.com/cssinjs/jss-global)
@@ -116,8 +116,7 @@ Result
   </style>
 </head>
 <body>
-  <button class="button-123456">Button</button>
-  <button class="ctaButton-789012">CTA Button</button>
+  <button class="button-123456">Button</button> <button class="ctaButton-789012">CTA Button</button>
 </body>
 ```
 

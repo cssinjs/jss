@@ -1,23 +1,23 @@
 {
-  "name": "jss-plugin-isolate",
-  "description": "True rules isolation through automatic properties reset.",
-  "version": "5.1.0",
+  "name": "jss-plugin-template",
+  "description": "JSS plugin enables string templates",
+  "version": "1.0.1",
   "license": "MIT",
-  "homepage": "https://cssinjs.org/jss-isolate",
-  "main": "dist/jss-plugin-isolate.cjs.js",
-  "module": "dist/jss-plugin-isolate.esm.js",
-  "unpkg": "dist/jss-plugin-isolate.bundle.js",
+  "homepage": "https://cssinjs.org/jss-template",
+  "main": "dist/jss-plugin-template.cjs.js",
+  "module": "dist/jss-plugin-template.esm.js",
+  "unpkg": "dist/jss-plugin-template.bundle.js",
   "typings": "./src/index.d.ts",
   "author": {
-    "name": "Maksim Koretskiy",
-    "email": "mr.green.tv@gmail.com"
+    "name": "Oleg Slobodskoi",
+    "email": "oleg008@gmail.com"
   },
   "repository": {
     "type": "git",
     "url": "git@github.com:cssinjs/jss.git"
   },
   "bugs": {
-    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-isolate]"
+    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-template]"
   },
   "files": [
     "dist",
@@ -30,22 +30,20 @@
     "css in js",
     "jss",
     "plugin",
-    "isolation",
-    "reset"
+    "template"
   ],
   "scripts": {
     "build": "node ../../scripts/build.js",
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
-    "jss": "^9.0.0",
-    "jss-plugin-nested": "^6.0.0"
+    "jss": "^9.0.0"
   },
   "peerDependencies": {
     "jss": "^9.0.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "css-initials": "^0.2.0"
+    "warning": "^3.0.0"
   }
 }

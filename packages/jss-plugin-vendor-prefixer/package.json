@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "jss": "^9.5.0",
-    "jss-plugin-syntax-rule-value-function": "^0.1.0"
+    "jss-plugin-rule-value-function": "^0.1.0"
   },
   "peerDependencies": {
     "jss": "^9.5.0"

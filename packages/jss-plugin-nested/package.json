@@ -1,23 +1,23 @@
 {
-  "name": "jss-plugin-isolate",
-  "description": "True rules isolation through automatic properties reset.",
-  "version": "5.1.0",
+  "name": "jss-plugin-nested",
+  "description": "JSS plugin that enables support for nested selectors",
+  "version": "6.0.1",
   "license": "MIT",
-  "homepage": "https://cssinjs.org/jss-isolate",
-  "main": "dist/jss-plugin-isolate.cjs.js",
-  "module": "dist/jss-plugin-isolate.esm.js",
-  "unpkg": "dist/jss-plugin-isolate.bundle.js",
+  "homepage": "https://cssinjs.org/jss-nested",
+  "main": "dist/jss-plugin-nested.cjs.js",
+  "module": "dist/jss-plugin-nested.esm.js",
+  "unpkg": "dist/jss-plugin-nested.bundle.js",
   "typings": "./src/index.d.ts",
   "author": {
-    "name": "Maksim Koretskiy",
-    "email": "mr.green.tv@gmail.com"
+    "name": "Oleg Slobodskoi",
+    "email": "oleg008@gmail.com"
   },
   "repository": {
     "type": "git",
     "url": "git@github.com:cssinjs/jss.git"
   },
   "bugs": {
-    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-isolate]"
+    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-nested]"
   },
   "files": [
     "dist",
@@ -30,8 +30,8 @@
     "css in js",
     "jss",
     "plugin",
-    "isolation",
-    "reset"
+    "nested",
+    "nesting"
   ],
   "scripts": {
     "build": "node ../../scripts/build.js",
@@ -39,13 +39,13 @@
   },
   "devDependencies": {
     "jss": "^9.0.0",
-    "jss-plugin-nested": "^6.0.0"
+    "jss-plugin-rule-value-function": "^0.1.0"
   },
   "peerDependencies": {
     "jss": "^9.0.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "css-initials": "^0.2.0"
+    "warning": "^3.0.0"
   }
 }

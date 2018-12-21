@@ -1,0 +1,52 @@
+{
+  "name": "jss-plugin-extend",
+  "description": "JSS plugin that enables mixing in styles.",
+  "version": "6.2.0",
+  "license": "MIT",
+  "homepage": "https://cssinjs.org/jss-extend",
+  "main": "dist/jss-plugin-extend.cjs.js",
+  "module": "dist/jss-plugin-extend.esm.js",
+  "unpkg": "dist/jss-plugin-extend.bundle.js",
+  "typings": "./src/index.d.ts",
+  "author": {
+    "name": "Oleg Slobodskoi",
+    "email": "oleg008@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cssinjs/jss.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-extend]"
+  },
+  "files": [
+    "dist",
+    "src",
+    "LICENSE"
+  ],
+  "keywords": [
+    "jss",
+    "plugin",
+    "extend",
+    "css-in-js",
+    "cssinjs",
+    "css in js"
+  ],
+  "scripts": {
+    "build": "node ../../scripts/build.js",
+    "check-snapshot": "node ../../scripts/match-snapshot.js"
+  },
+  "devDependencies": {
+    "jss": "^9.7.0",
+    "jss-plugin-expand": "^5.1.0",
+    "jss-plugin-nested": "^6.0.1",
+    "jss-plugin-rule-value-function": "^0.1.0"
+  },
+  "peerDependencies": {
+    "jss": "^9.7.0"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0",
+    "warning": "^3.0.0"
+  }
+}
