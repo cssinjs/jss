@@ -12,12 +12,12 @@
   "dist/jss-starter-kit.cjs.js": {
     "bundled": 2333,
     "minified": 2119,
-    "gzipped": 683
+    "gzipped": 684
   },
   "dist/jss-starter-kit.esm.js": {
     "bundled": 1377,
     "minified": 1265,
-    "gzipped": 457,
+    "gzipped": 458,
     "treeshaked": {
       "rollup": {
         "code": 784,
