@@ -247,21 +247,24 @@ export default function createHOC<
     }
   }
 
-  return function JssContextSubscriber(props) {
-    return (
-      <JssContext.Consumer>
-        {context => {
-          if (isThemingEnabled || injectTheme) {
-            return (
-              <ThemeConsumer>
-                {theme => <Jss theme={theme} {...props} jssContext={context} />}
-              </ThemeConsumer>
-            )
-          }
+  // $FlowFixMe: Sadly there is no support for forwardRef yet
+  const JssContextSubscriber = React.forwardRef((props, ref) => (
+    <JssContext.Consumer>
+      {context => {
+        if (isThemingEnabled || injectTheme) {
+          return (
+            <ThemeConsumer>
+              {theme => <Jss innerRef={ref} theme={theme} {...props} jssContext={context} />}
+            </ThemeConsumer>
+          )
+        }
 
-          return <Jss {...props} jssContext={context} />
-        }}
-      </JssContext.Consumer>
-    )
-  }
+        return <Jss innerRef={ref} {...props} jssContext={context} />
+      }}
+    </JssContext.Consumer>
+  ))
+
+  JssContextSubscriber.displayName = 'JssContextSubscriber'
+
+  return JssContextSubscriber
 }
