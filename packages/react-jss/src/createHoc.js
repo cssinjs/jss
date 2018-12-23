@@ -3,9 +3,10 @@
 import React, {Component, type ComponentType} from 'react'
 import PropTypes from 'prop-types'
 import {ThemeContext} from 'theming'
-import {getDynamicStyles, SheetsManager, type StyleSheet, type Classes} from 'jss'
+import {getDynamicStyles, SheetsManager, type StyleSheet} from 'jss'
+import memoize from 'memoize-one'
 import defaultJss from './jss'
-import compose from './compose'
+import mergeClasses from './merge-classes'
 import getDisplayName from './getDisplayName'
 import JssContext from './JssContext'
 import type {Options, Theme, StylesOrCreator, InnerProps, OuterProps} from './types'
@@ -68,9 +69,6 @@ export default function createHOC<
   const manager = new SheetsManager()
   const ThemeConsumer = (theming && theming.context.Consumer) || ThemeContext.Consumer
 
-  // $FlowFixMe: DefaultProps is missing in type definitions
-  const {classes: defaultClasses = {}, ...defaultProps} = {...InnerComponent.defaultProps}
-
   const getTheme = props => (isThemingEnabled && props.theme ? props.theme : noTheme)
 
   class Jss extends Component<OuterPropsType, State> {
@@ -80,7 +78,14 @@ export default function createHOC<
       innerRef: PropTypes.func
     }
 
-    static defaultProps = defaultProps
+    // $FlowFixMe
+    static defaultProps = {...InnerComponent.defaultProps}
+
+    mergeClassesProp = memoize(classesProp => {
+      const {classes} = this.state
+
+      return classesProp ? mergeClasses(classes, classesProp) : classes
+    })
 
     constructor(props: OuterPropsType) {
       super(props)
@@ -198,20 +203,6 @@ export default function createHOC<
       }
     }
 
-    computeClasses(staticSheet: StyleSheet, dynamicSheet?: StyleSheet): Classes {
-      const jssClasses = dynamicSheet
-        ? compose(
-            staticSheet.classes,
-            dynamicSheet.classes
-          )
-        : staticSheet.classes
-      return {
-        ...defaultClasses,
-        ...jssClasses,
-        ...this.props.classes
-      }
-    }
-
     createState(): State {
       if (this.props.jssContext.disableStylesGeneration) {
         return {classes: {}}
@@ -223,22 +214,22 @@ export default function createHOC<
       return {
         staticSheet,
         dynamicSheet,
-        classes: this.computeClasses(staticSheet, dynamicSheet)
+        classes: mergeClasses(staticSheet.classes, dynamicSheet ? dynamicSheet.classes : {})
       }
     }
 
     render() {
-      const {classes} = this.state
       const {
         innerRef,
         jssContext,
         theme,
+        classes,
         // $FlowFixMe: Flow complains for no reason...
         ...props
       } = this.props
 
-      // We have merged classes already.
-      props.classes = classes
+      // Merge the class names for the user into the sheet classes
+      props.classes = this.mergeClassesProp(classes)
 
       if (innerRef) props.ref = innerRef
       if (injectTheme) props.theme = theme
