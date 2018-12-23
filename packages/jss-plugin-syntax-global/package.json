@@ -6,6 +6,7 @@
   "homepage": "https://cssinjs.org/jss-global",
   "main": "dist/jss-plugin-syntax-global.cjs.js",
   "module": "dist/jss-plugin-syntax-global.esm.js",
+  "unpkg": "dist/jss-plugin-syntax-global.bundle.js",
   "typings": "./src/index.d.ts",
   "author": {
     "name": "Oleg Slobodskoi",

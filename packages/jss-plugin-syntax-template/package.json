@@ -6,6 +6,7 @@
   "homepage": "https://cssinjs.org/jss-template",
   "main": "dist/jss-plugin-syntax-template.cjs.js",
   "module": "dist/jss-plugin-syntax-template.esm.js",
+  "unpkg": "dist/jss-plugin-syntax-template.bundle.js",
   "typings": "./src/index.d.ts",
   "author": {
     "name": "Oleg Slobodskoi",

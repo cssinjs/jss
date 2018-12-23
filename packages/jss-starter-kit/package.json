@@ -1,12 +1,12 @@
 {
-  "name": "jss",
-  "description": "A lib for generating Style Sheets with JavaScript.",
+  "name": "jss-starter-kit",
+  "description": "A bundle to get you started playing with JSS.  Not optimized for production deployment.",
   "version": "9.8.4",
   "license": "MIT",
   "homepage": "https://cssinjs.org/",
-  "main": "dist/jss.cjs.js",
-  "module": "dist/jss.esm.js",
-  "unpkg": "dist/jss.bundle.js",
+  "main": "dist/jss-starter-kit.cjs.js",
+  "module": "dist/jss-starter-kit.esm.js",
+  "unpkg": "dist/jss-starter-kit.bundle.js",
   "typings": "./src/index.d.ts",
   "author": {
     "name": "Oleg Slobodskoi",
@@ -40,9 +40,9 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0",
-    "is-in-browser": "^1.1.3",
-    "symbol-observable": "^1.2.0",
-    "warning": "^3.0.0"
+    "jss": "^9",
+    "jss-plugin-cache": "^3",
+    "jss-plugin-isolate": "^5",
+    "jss-preset-default": "^4"
   }
 }

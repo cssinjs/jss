@@ -1,5 +1,6 @@
-## Next / 2018-09-16
+## Next / 2018-12-18
 
+- [jss-starter-kit] Introduced `jss-starter-kit.bundle.js`, which packages all the other libraries into one import for playgrounds like Codepen. ([#936](https://github.com/cssinjs/jss/pull/936))
 - [jss] Fix multiple cases where linking CSS rules didn't work ([#815](https://github.com/cssinjs/jss/pull/815), [#710](https://github.com/cssinjs/jss/pull/710), [#664](https://github.com/cssinjs/jss/pull/664))
 - [jss] Added support for Typed CSSOM values ([#882](https://github.com/cssinjs/jss/pull/882))
 - [jss] Added scoped keyframes support ([#346](https://github.com/cssinjs/jss/pull/346))

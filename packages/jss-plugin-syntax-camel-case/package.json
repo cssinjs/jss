@@ -6,6 +6,7 @@
   "homepage": "https://cssinjs.org/jss-camel-case",
   "main": "dist/jss-plugin-syntax-camel-case.cjs.js",
   "module": "dist/jss-plugin-syntax-camel-case.esm.js",
+  "unpkg": "dist/jss-plugin-syntax-camel-case.bundle.js",
   "typings": "./src/index.d.ts",
   "author": {
     "name": "Oleg Slobodskoi",
