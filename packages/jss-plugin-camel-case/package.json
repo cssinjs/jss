@@ -3,9 +3,10 @@
   "description": "JSS plugin that allows to write camel cased rule properties",
   "version": "6.1.0",
   "license": "MIT",
-  "homepage": "https://cssinjs.org/jss-plugin-camel-case",
+  "homepage": "https://cssinjs.org/jss-camel-case",
   "main": "dist/jss-plugin-camel-case.cjs.js",
   "module": "dist/jss-plugin-camel-case.esm.js",
+  "unpkg": "dist/jss-plugin-camel-case.bundle.js",
   "typings": "./src/index.d.ts",
   "author": {
     "name": "Oleg Isonen (Slobodskoi)",

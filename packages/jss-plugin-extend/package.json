@@ -3,9 +3,10 @@
   "description": "JSS plugin that enables mixing in styles.",
   "version": "6.2.0",
   "license": "MIT",
-  "homepage": "https://cssinjs.org/jss-plugin-extend",
+  "homepage": "https://cssinjs.org/jss-extend",
   "main": "dist/jss-plugin-extend.cjs.js",
   "module": "dist/jss-plugin-extend.esm.js",
+  "unpkg": "dist/jss-plugin-extend.bundle.js",
   "typings": "./src/index.d.ts",
   "author": {
     "name": "Oleg Isonen (Slobodskoi)",

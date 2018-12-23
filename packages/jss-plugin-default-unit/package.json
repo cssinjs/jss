@@ -3,9 +3,10 @@
   "description": "JSS plugin that adds default custom unit to numeric values where needed",
   "version": "8.0.2",
   "license": "MIT",
-  "homepage": "https://cssinjs.org/jss-plugin-default-unit",
+  "homepage": "https://cssinjs.org/jss-default-unit",
   "main": "dist/jss-plugin-default-unit.cjs.js",
   "module": "dist/jss-plugin-default-unit.esm.js",
+  "unpkg": "dist/jss-plugin-default-unit.bundle.js",
   "typings": "./src/index.d.ts",
   "author": {
     "name": "Oleg Isonen (Slobodskoi)",

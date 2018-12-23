@@ -121,7 +121,7 @@ compiles to:
 
 ### Default unit support.
 
-Now, using expanded arrays and objects syntax, you don't need to use quotes for the most numeric values! This is achieved in combination with [jss-plugin-default-unit](./jss-plugin-default-unit-syntax.md) plugin.
+Now, using expanded arrays and objects syntax, you don't need to use quotes for the most numeric values! This is achieved in combination with [jss-plugin-default-unit](./jss-plugin-default-unit.md) plugin.
 
 ### Supported properties.
 

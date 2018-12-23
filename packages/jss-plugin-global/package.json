@@ -3,9 +3,10 @@
   "description": "Global styles for JSS",
   "version": "3.0.0",
   "license": "MIT",
-  "homepage": "https://cssinjs.org/jss-plugin-global",
+  "homepage": "https://cssinjs.org/jss-global",
   "main": "dist/jss-plugin-global.cjs.js",
   "module": "dist/jss-plugin-global.esm.js",
+  "unpkg": "dist/jss-plugin-global.bundle.js",
   "typings": "./src/index.d.ts",
   "author": {
     "name": "Oleg Isonen (Slobodskoi)",

@@ -50,8 +50,8 @@ If you are a Sass (SCSS) user, this course will show how to express popular Sass
 ## Example
 
 Try it out on [playground](https://codesandbox.io/s/z21lpmvv33).
-You need to [setup plugins](docs/setup.md#setup-with-plugins) before.
-You can use a [preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with default plugins.
+You need to [setup plugins](docs/setup.md#setup-with-plugins) first.
+You can use a [preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with default plugins, or try [`jss-starter-kit`](packages/jss-starter-kit) for easy experimentation..
 
 ```javascript
 import jss from 'jss'

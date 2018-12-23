@@ -3,9 +3,10 @@
   "description": "JSS plugin enables string templates",
   "version": "1.0.1",
   "license": "MIT",
-  "homepage": "https://cssinjs.org/jss-plugin-template",
+  "homepage": "https://cssinjs.org/jss-template",
   "main": "dist/jss-plugin-template.cjs.js",
   "module": "dist/jss-plugin-template.esm.js",
+  "unpkg": "dist/jss-plugin-template.bundle.js",
   "typings": "./src/index.d.ts",
   "author": {
     "name": "Oleg Isonen (Slobodskoi)",

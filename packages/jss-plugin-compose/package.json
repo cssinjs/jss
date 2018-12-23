@@ -3,9 +3,10 @@
   "description": "JSS plugin for classes composition",
   "version": "5.0.0",
   "license": "MIT",
-  "homepage": "https://cssinjs.org/jss-plugin-compose",
+  "homepage": "https://cssinjs.org/jss-compose",
   "main": "dist/jss-plugin-compose.cjs.js",
   "module": "dist/jss-plugin-compose.esm.js",
+  "unpkg": "dist/jss-plugin-compose.bundle.js",
   "typings": "./src/index.d.ts",
   "author": {
     "name": "Pavel Davydov",

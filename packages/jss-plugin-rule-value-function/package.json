@@ -6,6 +6,7 @@
   "homepage": "https://cssinjs.org/",
   "main": "dist/jss-plugin-rule-value-function.cjs.js",
   "module": "dist/jss-plugin-rule-value-function.esm.js",
+  "unpkg": "dist/jss-plugin-rule-value-function.bundle.js",
   "typings": "./src/index.d.ts",
   "author": {
     "name": "Oleg Isonen (Slobodskoi)",

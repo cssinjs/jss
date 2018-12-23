@@ -10,6 +10,9 @@ yarn add jss
 
 For bower or direct script injection use [unpkg](https://unpkg.com):
 
+Unminified, bundled ESM:
+https://unpkg.com/jss-starter-kit/dist/jss-starter-kit.bundle.js
+
 Unminified UMD:
 https://unpkg.com/jss/dist/jss.js
 
