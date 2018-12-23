@@ -8,8 +8,9 @@ If you'd like to use JSS in production, try including the "jss" and "jss-preset-
 
 jss.setup(preset())
 
-export {default as jss} from 'jss'
-export {default as preset} from 'jss-preset-default'
+export {jss, preset}
+
+export * as reactJss from 'react-jss'
 export {default as functions} from 'jss-plugin-syntax-rule-value-function'
 export {default as observable} from 'jss-plugin-syntax-rule-value-observable'
 export {default as template} from 'jss-plugin-syntax-template'
@@ -24,5 +25,3 @@ export {default as vendorPrefixer} from 'jss-plugin-vendor-prefixer'
 export {default as propsSort} from 'jss-plugin-props-sort'
 export {default as isolate} from 'jss-plugin-isolate'
 export {default as cache} from 'jss-plugin-cache'
-
-export default jss
