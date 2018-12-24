@@ -2,8 +2,19 @@
 
 ## Access the global JSS instance
 
+There is a global Jss instance which is the default export of the package. You can also create your own local Jss instance.
+
 ```javascript
 import jss from 'jss'
+```
+
+## Quick setup with preset
+
+```javascript
+import preset from 'jss-preset-default'
+import jss from 'jss'
+
+jss.setup(preset())
 ```
 
 ## Create an own JSS instance
@@ -42,15 +53,6 @@ Options:
 **Note**: Each `jss.setup()` call will perform a shallow merge with the old options except for `plugins`. Passed `plugins` will be added to the existing plugins.
 
 See [setup examples](./setup.md#specify-dom-insertion-point).
-
-## Quick setup with preset
-
-```javascript
-import preset from 'jss-preset-default'
-import jss from 'jss'
-
-jss.setup(preset())
-```
 
 ## Add a plugin
 
@@ -100,7 +102,7 @@ console.log(sheet.classes.button) // button-d4f43g
 
 ```html
 <style media="print">
-  .button-d4f43g {
+  .button-0 {
     width: 100px;
     height: 100px;
   }
