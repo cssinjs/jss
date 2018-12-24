@@ -2,15 +2,15 @@
 
 ## Install
 
-Using yarn
+### Using yarn
 
 ```bash
 yarn add jss
 ```
 
-For bower or direct script injection use [unpkg](https://unpkg.com):
+### Using free CDN [unpkg](https://unpkg.com):
 
-Unminified, bundled ESM:
+Unminified, bundled ESM starter kit for experimenting:
 https://unpkg.com/jss-starter-kit/dist/jss-starter-kit.bundle.js
 
 Unminified UMD:
@@ -25,11 +25,9 @@ https://unpkg.com/jss/dist/jss.esm.js
 Minified UMD:
 https://unpkg.com/jss/dist/jss.min.js
 
-Polyfills:
+## Polyfills
 
-Only in development mode:
-
-[CSS.escape](https://github.com/mathiasbynens/CSS.escape)
+- WeakMap - for `jss-plugin-cache` (not part of the default preset).
 
 ## Setup with the default preset
 

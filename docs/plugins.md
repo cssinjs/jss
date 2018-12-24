@@ -1,29 +1,29 @@
 # JSS Plugins
 
-Plugins API allows to modify sheets and rules at different stages. A plugin can for e.g. add new style properties, modify values or even add new rules.
-
-A number of [plugins](https://github.com/cssinjs?q=plugin) do exist already. We are happy to add more.
+Plugins API allows to modify style sheets at different stages. A plugin can for example add new style properties, modify values or add new rules.
 
 ## Order does matter
 
-The order in which plugins are registered matters since they will be applied sequentially.
+The order in which plugins are registered matters, because they will be applied in the same sequential order.
 
 In case you use any of the following plugins please bear in mind that they should be registered in this order:
 
-1.  jss-plugin-template - JSS plugin enables string templates
-1.  jss-plugin-cache - JSS plugin that caches the rules and delivers insane performance.
-1.  jss-plugin-global - JSS plugin, allows global styles.
-1.  jss-plugin-extend - JSS plugin, allows to extend rules at compile time.
-1.  jss-plugin-nested - JSS plugin, allows nested selectors and pseudo selectors.
-1.  jss-plugin-compose - JSS plugin, allows classes composition.
-1.  jss-plugin-camel-case - JSS plugin, allows to write styles in camel case.
-1.  jss-plugin-default-unit - JSS plugin, adds default units to numeric values.
-1.  jss-plugin-expand - JSS plugin, gives you a better syntax than CSS itself.
-1.  jss-plugin-vendor-prefixer - JSS plugin, adds vendor prefixes at runtime, in the browser (not for SSR)
-1.  jss-plugin-props-sort - JSS plugin, ensures alphabetical props order.
-1.  jss-plugin-isolate - JSS plugin, gives you rules isolation through automatic properties reset.
+1. [jss-plugin-rule-value-function](https://yarnpkg.com/en/package/jss-plugin-rule-value-function) - enables functions for dynamic styles.
+1. [jss-plugin-rule-value-observable](https://yarnpkg.com/en/package/jss-plugin-rule-value-observable) - enables TC39 Observables.
+1. [jss-plugin-template](https://yarnpkg.com/en/package/jss-plugin-template) - enables string templates.
+1. [jss-plugin-cache](https://yarnpkg.com/en/package/jss-plugin-cache) - caches the rules by reference for performance.
+1. [jss-plugin-global](https://yarnpkg.com/en/package/jss-plugin-global) - enables global styles.
+1. [jss-plugin-extend](https://yarnpkg.com/en/package/jss-plugin-extend) - enables extending rules at compile time.
+1. [jss-plugin-nested](https://yarnpkg.com/en/package/jss-plugin-nested) - enables nesting selectors and pseudo selectors.
+1. [jss-plugin-compose](https://yarnpkg.com/en/package/jss-plugin-compose) - enables composing classes.
+1. [jss-plugin-camel-case](https://yarnpkg.com/en/package/jss-plugin-camel-case) - enables camel case syntax for properties.
+1. [jss-plugin-default-unit](https://yarnpkg.com/en/package/jss-plugin-default-unit) - adds default units to numeric values.
+1. [jss-plugin-expand](https://yarnpkg.com/en/package/jss-plugin-expand) - enables better syntax for complex properties and values.
+1. [jss-plugin-vendor-prefixer](https://yarnpkg.com/en/package/jss-plugin-vendor-prefixer) - adds vendor prefixes in the browser runtime (not for SSR).
+1. [jss-plugin-props-sort](https://yarnpkg.com/en/package/jss-plugin-props-sort) - ensures alphabetical props order.
+1. [jss-plugin-isolate](https://yarnpkg.com/en/package/jss-plugin-isolate) - enables rules isolation through automatic properties reset.
 
-To make your life easier, we made [jss-default-preset](https://yarnpkg.com/en/package/jss-preset-default) which is a ready to use and ordered preset of plugins.
+[jss-default-preset](https://yarnpkg.com/en/package/jss-preset-default) a preset that allows you to setup a predefined list of most useful plugins wiht one function call.
 
 ## Authoring plugins
 
