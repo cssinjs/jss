@@ -2,7 +2,7 @@
 /**
  * A better abstraction over CSS.
  *
- * @copyright Oleg Slobodskoi / Isonen 2014-present
+ * @copyright Oleg Isonen (Slobodskoi) / Isonen 2014-present
  * @website https://github.com/cssinjs/jss
  * @license MIT
  */

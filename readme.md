@@ -14,16 +14,16 @@ If you are a Sass (SCSS) user, this course will show how to express popular Sass
 ## Key features
 
 - Framework agnostic
-- [Scoped selectors by default](docs/json-api.md#regular-rule-without-plugins)
-- [Function values and rules](packages/jss-plugin-syntax-rule-value-function/readme.md)
-- [Observables](packages/jss-plugin-syntax-rule-value-observable/readme.md)
+- [Scoped selectors by default](docs/json-api.md)
+- [Function values and rules](packages/jss-plugin-rule-value-function/readme.md)
+- [Observables](packages/jss-plugin-rule-value-observable/readme.md)
 - [SSR](docs/ssr.md)
 - [Plugins support](docs/plugins.md)
-- [Global CSS](https://github.com/cssinjs/jss-global)
-- [Expanded syntax](https://github.com/cssinjs/jss-expand)
-- [Composition syntax](https://github.com/cssinjs/jss-compose)
-- [Template strings syntax](https://github.com/cssinjs/jss-template)
-- [Isolation](https://github.com/cssinjs/jss-isolate)
+- [Global CSS](https://github.com/cssinjs/jss-plugin-global)
+- [Expanded syntax](https://github.com/cssinjs/jss-plugin-expand)
+- [Composition syntax](https://github.com/cssinjs/jss-plugin-compose)
+- [Template strings syntax](https://github.com/cssinjs/jss-plugin-template)
+- [Isolation](https://github.com/cssinjs/jss-plugin-isolate)
 
 ## Integrations
 
@@ -96,28 +96,28 @@ Result
 ```html
 <head>
   <style>
-    .button-123456 {
+    .button-0 {
       font-size: 12px;
     }
-    .button-123456:hover {
+    .button-0:hover {
       background: blue;
     }
-    .ctaButton-789012 {
+    .ctaButton-1 {
       font-size: 12px;
     }
-    .ctaButton-789012:hover {
+    .ctaButton-1:hover {
       background: red;
     }
     @media (min-width: 1024px) {
-      .button-123456 {
+      .button-0 {
         min-width: 200px;
       }
     }
   </style>
 </head>
 <body>
-  <button class="button-123456">Button</button>
-  <button class="ctaButton-789012">CTA Button</button>
+  <button class="button-0">Button</button>
+  <button class="ctaButton-1">CTA Button</button>
 </body>
 ```
 
@@ -187,8 +187,6 @@ Support us with a monthly donation and help us continue our activities. [[Become
 <a href="https://opencollective.com/jss/backer/29/website" target="_blank"><img src="https://opencollective.com/jss/backer/29/avatar.svg"></a>
 
 ### Sponsors
-
-[![Chatgrape](https://ug-cdn.com/static/chatgrape/static/images/logo-grape-short-cg-fontrender.svg)](https://www.chatgrape.com/)
 
 Become a sponsor and get your logo on our README on Github with a link to your site. [[Become a sponsor](https://opencollective.com/jss#sponsor)]
 

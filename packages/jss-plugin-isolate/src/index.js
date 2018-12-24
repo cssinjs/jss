@@ -9,7 +9,7 @@ type Options = {
 }
 
 const resetSheetOptions = {
-  meta: 'jss-isolate',
+  meta: 'jss-plugin-isolate',
   // Lets make it always the first one in sheets for testing
   // and specificity.
   index: -Infinity,

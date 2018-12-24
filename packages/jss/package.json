@@ -9,7 +9,7 @@
   "unpkg": "dist/jss.bundle.js",
   "typings": "./src/index.d.ts",
   "author": {
-    "name": "Oleg Slobodskoi",
+    "name": "Oleg Isonen (Slobodskoi)",
     "email": "oleg008@gmail.com"
   },
   "repository": {

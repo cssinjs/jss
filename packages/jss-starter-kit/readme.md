@@ -14,7 +14,7 @@ There's an instance of JSS already set up with all of the default plugins, expor
 import {jss} from 'https://unpkg.com/jss-starter-kit'
 
 // Notice that you can use camel-cased style keys here, because
-// the default preset include jss-plugin-syntax-camel-case.  If you want to use
+// the default preset include jss-plugin-camel-case.  If you want to use
 // jss in your production application, you'll need to manually install the
 // plugins you need.
 const {classes} = jss

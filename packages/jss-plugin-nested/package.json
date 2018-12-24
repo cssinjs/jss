@@ -1,0 +1,51 @@
+{
+  "name": "jss-plugin-nested",
+  "description": "JSS plugin that enables support for nested selectors",
+  "version": "6.0.1",
+  "license": "MIT",
+  "homepage": "https://cssinjs.org/jss-nested",
+  "main": "dist/jss-plugin-nested.cjs.js",
+  "module": "dist/jss-plugin-nested.esm.js",
+  "unpkg": "dist/jss-plugin-nested.bundle.js",
+  "typings": "./src/index.d.ts",
+  "author": {
+    "name": "Oleg Isonen (Slobodskoi)",
+    "email": "oleg008@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cssinjs/jss.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-nested]"
+  },
+  "files": [
+    "dist",
+    "src",
+    "LICENSE"
+  ],
+  "keywords": [
+    "cssinjs",
+    "css-in-js",
+    "css in js",
+    "jss",
+    "plugin",
+    "nested",
+    "nesting"
+  ],
+  "scripts": {
+    "build": "node ../../scripts/build.js",
+    "check-snapshot": "node ../../scripts/match-snapshot.js"
+  },
+  "devDependencies": {
+    "jss": "^9.0.0",
+    "jss-plugin-rule-value-function": "^0.1.0"
+  },
+  "peerDependencies": {
+    "jss": "^9.0.0"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0",
+    "warning": "^3.0.0"
+  }
+}

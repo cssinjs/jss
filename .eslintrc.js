@@ -9,5 +9,13 @@ module.exports = {
     benchmark: true,
     __VERSION__: true,
     CSS: true
-  }
+  },
+  overrides: [
+    {
+      files: ['docs/*.md', 'docs/**/*.md'],
+      rules: {
+        'no-console': 'off'
+      }
+    }
+  ]
 }

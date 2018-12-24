@@ -28,7 +28,7 @@
 
 ## Plugins
 
-[jss-vendor-prefixer-ie10](https://github.com/alexkuz/jss-vendor-prefixer-ie10) JSS plugin that handles vendor prefixes for the legacy browsers.
+[jss-plugin-vendor-prefixer-ie10](https://github.com/alexkuz/jss-plugin-vendor-prefixer-ie10) JSS plugin that handles vendor prefixes for the legacy browsers.
 
 [jss-legacy-browsers](https://github.com/moliver-bb/jss-legacy-browsers) JSS plugin that handles legacy browser support
 
