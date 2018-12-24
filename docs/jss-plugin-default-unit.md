@@ -24,7 +24,7 @@ Compiles to:
 }
 ```
 
-## Customizing defaults
+### Customizing defaults
 
 ```javascript
 import jss from 'jss'

@@ -1,14 +1,14 @@
-# Enables caching JSS rules
+## Enables caching JSS rules
 
 This plugin will cache JSS rules by comparing a reference from the object.
 
 It should be used as a **first** plugin, to bail out before any unnecessary work is done!!!
 
-## Polyfills
+### Polyfills
 
 1. This plugin is using a `WeakMap`. If you support browsers which do not support WeakMap, you will have to include a polyfill.
 
-## Caveats
+### Caveats
 
 1.  Don't use it if you mutate your `styles`.
 
