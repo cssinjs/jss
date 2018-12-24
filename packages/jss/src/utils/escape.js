@@ -3,7 +3,7 @@ export default str => {
   // input for selectors, we are generating a valid selector.
   if (process.env.NODE_ENV === 'production') return str
 
-  const escapeRegex = /([[\].#*$><+~=|^:(),"'`])/g
+  const escapeRegex = /([[\].#*$><+~=|^:(),"'`\s])/g
   const nativeEscape = typeof CSS !== 'undefined' && CSS.escape
 
   return nativeEscape ? nativeEscape(str) : str.replace(escapeRegex, '\\$1')

@@ -1,17 +1,18 @@
 ## Next / 2018-12-18
 
-- [jss-starter-kit] Introduced `jss-starter-kit.bundle.js`, which packages all the other libraries into one import for playgrounds like Codepen. ([#936](https://github.com/cssinjs/jss/pull/936))
+- [jss] Fix class name white space escaping in dev mode ([938](https://github.com/cssinjs/jss/issues/938))
+- [jss-starter-kit] Introduce `jss-starter-kit.bundle.js`, which packages all the other libraries into one import for playgrounds like Codepen. ([#936](https://github.com/cssinjs/jss/pull/936))
 - [jss] Fix multiple cases where linking CSS rules didn't work ([#815](https://github.com/cssinjs/jss/pull/815), [#710](https://github.com/cssinjs/jss/pull/710), [#664](https://github.com/cssinjs/jss/pull/664))
-- [jss] Added support for Typed CSSOM values ([#882](https://github.com/cssinjs/jss/pull/882))
-- [jss] Added scoped keyframes support ([#346](https://github.com/cssinjs/jss/pull/346))
+- [jss] Add support for Typed CSSOM values ([#882](https://github.com/cssinjs/jss/pull/882))
+- [jss] Add scoped keyframes support ([#346](https://github.com/cssinjs/jss/pull/346))
 - [jss] Function values and function rules support now fallbacks, media queries, nesting, global styles ([#682](https://github.com/cssinjs/jss/pull/682))
 - [react-jss] Remove old lifecycle hooks ([#834](https://github.com/cssinjs/jss/pull/834))
-- [react-jss] Added flow types ([#818](https://github.com/cssinjs/jss/pull/818))
+- [react-jss] Add flow types ([#818](https://github.com/cssinjs/jss/pull/818))
 - [jss] Fix sheet ordering when the last sheet was the last sibling in the head element ([#819](https://github.com/cssinjs/jss/pull/819))
 - [jss] Migrated to a monorepo structure ([#729](https://github.com/cssinjs/jss/pull/729))
-- [all] Added TypeScript definitions to all packages ([#889](https://github.com/cssinjs/jss/pull/889))
-- [jss-plugin-syntax-nested] Fixed referencing rules inside media queries ([#900](https://github.com/cssinjs/jss/pull/900))
-- [jss-plugin-syntax-global] TypeError: Cannot read property '@global' of undefined ([#905](https://github.com/cssinjs/jss/pull/905))
+- [all] Add TypeScript definitions to all packages ([#889](https://github.com/cssinjs/jss/pull/889))
+- [jss-plugin-syntax-nested] Fix referencing rules inside media queries ([#900](https://github.com/cssinjs/jss/pull/900))
+- [jss-plugin-syntax-global] Fix TypeError: Cannot read property '@global' of undefined ([#905](https://github.com/cssinjs/jss/pull/905))
 
 ### Breaking changes
 
