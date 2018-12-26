@@ -6,6 +6,6 @@
 
 2.  Rehydration.
 
-    Once JS on the client is loaded, components initialized and your JSS styles are regenerated, it's a good time to remove server-side generated style tag in order to avoid side-effects, [example in react](https://github.com/cssinjs/examples/blob/gh-pages/react-ssr/src/client.js).
+    Once JS is loaded on the client, components initialized and your JSS styles are regenerated, it's a good time to remove server-side generated style tag to avoid side-effects, [example in react](https://github.com/cssinjs/examples/blob/gh-pages/react-ssr/src/client.js).
 
-[Here](http://cssinjs.github.io/examples/react-ssr/dist/index.html) is a live demo with react, ssr and react-jss.
+[Here](http://cssinjs.github.io/examples/react-ssr/dist/index.html) is a live demo with react, SSR and react-jss.
