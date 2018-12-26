@@ -1,7 +1,7 @@
 {
   "name": "jss-plugin-nested",
   "description": "JSS plugin that enables support for nested selectors",
-  "version": "6.0.1",
+  "version": "10.0.0-alpha.1",
   "license": "MIT",
   "homepage": "https://cssinjs.org/jss-nested",
   "main": "dist/jss-plugin-nested.cjs.js",
@@ -38,8 +38,8 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
-    "jss": "^9.0.0",
-    "jss-plugin-rule-value-function": "^0.1.0"
+    "jss": "^10.0.0-alpha.1",
+    "jss-plugin-rule-value-function": "^10.0.0-alpha.1"
   },
   "peerDependencies": {
     "jss": "^9.0.0"

@@ -1,7 +1,7 @@
 {
   "name": "jss-plugin-compose",
   "description": "JSS plugin for classes composition",
-  "version": "5.0.0",
+  "version": "10.0.0-alpha.1",
   "license": "MIT",
   "homepage": "https://cssinjs.org/jss-compose",
   "main": "dist/jss-plugin-compose.cjs.js",
@@ -38,7 +38,7 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
-    "jss": "^9.0.0"
+    "jss": "^10.0.0-alpha.1"
   },
   "peerDependencies": {
     "jss": "^9.0.0"
