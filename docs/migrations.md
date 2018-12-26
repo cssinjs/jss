@@ -14,5 +14,5 @@
 1. Renamed ID generator function.
    Due to the fact, that we now use the same ID generator function for both class names and keyframes ID, we had to rename functions `createGenerateClassName` and `generateClassName` to `createGenerateId` and `generateId`.
 
-1. Dropping support for React 0.13, 0.14 and 0.15.
-   React-JSS has migrated to the new Context API and now requires React v16 or higher.
+1. Dropping support for older React versions.
+   React-JSS has migrated to the new Context API and now requires React v16.3 or higher.
