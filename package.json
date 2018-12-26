@@ -1,5 +1,5 @@
 {
-  "name": "jss-repository",
+  "name": "jss",
   "private": true,
   "workspaces": [
     "packages/*"
