@@ -56,7 +56,7 @@ It renders to:
 ### Compose with local classes.
 
 Manage element states without rules duplication.
-To reference a local rule, prefix the rule name with `$` symbol.
+To reference a local rule, prefix the rule name with the `$` symbol.
 
 ```javascript
 const styles = {
@@ -176,6 +176,6 @@ It renders to:
 
 ### Caveats
 
-- Doesn't work within [global Style Sheets](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-global).
-- Does not work inside of [nested rules](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-nested).
-- When composing local rules, they need to be defined first. Otherwise you get wrong css selector order and specificity.
+- It doesn't work within [global Style Sheets](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-global).
+- It does not work inside of [nested rules](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-nested).
+- When composing local rules, they need to be defined first. Otherwise, you get wrong CSS selector order and specificity.

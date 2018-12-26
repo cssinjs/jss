@@ -42,7 +42,7 @@ compiles to
 }
 ```
 
-### Using arrays for multi value properties.
+### Using arrays for multi-value properties.
 
 ```javascript
 const styles = {
@@ -87,9 +87,9 @@ compiles to:
 }
 ```
 
-### Fallbacks are supported.
+### Fallbacks support
 
-JSS has a [fallbacks api](https://github.com/cssinjs/jss/blob/master/docs/json-api.md#fallbacks) which is also supported.
+Expanded syntax has support for [fallbacks api](https://github.com/cssinjs/jss/blob/master/docs/json-api.md#fallbacks).
 
 ```javascript
 const styles = {

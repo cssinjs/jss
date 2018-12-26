@@ -1,6 +1,6 @@
 ## Add vendor prefixes in the browser
 
-This vendor prefixer knows which properties and values are supported in the current runtime and changes only whats required. The best thing is - you don't need to download all of them. Also it is very fast, all checks are cached.
+This vendor prefixer knows which properties and values are supported in the current runtime and changes only what's required. The best thing is - you don't need to download all of them. Also, it is fast, because all checks are cached.
 
 ### Example
 

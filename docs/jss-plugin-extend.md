@@ -2,7 +2,7 @@
 
 This plugin implements a custom property `extend` which allows you to mix in styles in various ways.
 
-Style object own properties always take precedence over extended objects, so you can always override the extended definition. Exception is function values.
+Style object own properties always take precedence over extended objects, so you can always override the extended definition. An exception is function values.
 
 ### Use style object reference
 
@@ -36,7 +36,7 @@ const styles = {
 }
 ```
 
-### Use array of style objects
+### Use an array of style objects
 
 ```javascript
 const styles = {

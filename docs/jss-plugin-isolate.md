@@ -2,11 +2,11 @@
 
 Some of the CSS properties are inheritable. It means that these properties apply to the child nodes from parent nodes. See [this article](https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Getting_started/Cascading_and_inheritance) for more details.
 
-Due to this reason styles in reusable UI components can be broken if all inheritable properties were not defined explicitly for each element. It can cost You extra efforts to build strong isolation in a component.
+Due to this reason styles in reusable UI components can be broken if all inheritable properties were not defined explicitly for each element. It can cost you extra efforts to build strong isolation in a component.
 
-This plugin protects styles from inheritance. It automatically creates a reset rule and applies to every user's rule.
+This plugin protects styles from inheritance. It automatically creates a reset rule and applies to every user's `rule`.
 
-Optionally you can also reset non-inherited properties, which would lead to even stronger isolation, as a protection against "greedy" selectors.
+Optionally you can also reset non-inherited properties, which would lead to even stronger isolation, as protection against "greedy" selectors.
 
 Make sure you read [how to use
 plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-custom-plugins)
@@ -16,7 +16,7 @@ in general.
 
 ```javascript
 const styles = {
-  // All atRules will be ignored in reset.
+  // All `atRules` will be ignored in reset.
   '@font-face': {
     fontFamily: 'MyHelvetica',
     src: 'local("Helvetica")'
@@ -135,7 +135,7 @@ const styles = {
 
 Default value for `reset` option is `inherited`.
 
-If you want to reset some properties additionally to `inherited` once, you can pass a map of props-values. For e.g. you can set `box-sizing` to be `border-box` by default for every isolated rule without messing around with greedy selectors like this: `* {box-sizing: border-box}`.
+If you want to reset some properties additionally to `inherited` once, you can pass a map of props-values. E.g., you can set `box-sizing` to be `border-box` by default for every isolated rule without messing around with greedy selectors like this: `* {box-sizing: border-box}`.
 
 ```javascript
 import jss from 'jss'
