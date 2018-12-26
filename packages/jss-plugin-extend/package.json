@@ -1,7 +1,7 @@
 {
   "name": "jss-plugin-extend",
   "description": "JSS plugin that enables mixing in styles.",
-  "version": "10.0.0-alpha.1",
+  "version": "10.0.0-alpha.2",
   "license": "MIT",
   "homepage": "https://cssinjs.org/jss-extend",
   "main": "dist/jss-plugin-extend.cjs.js",
@@ -37,10 +37,10 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
-    "jss": "^10.0.0-alpha.1",
-    "jss-plugin-expand": "^10.0.0-alpha.1",
-    "jss-plugin-nested": "^10.0.0-alpha.1",
-    "jss-plugin-rule-value-function": "^10.0.0-alpha.1"
+    "jss": "^10.0.0-alpha.2",
+    "jss-plugin-expand": "^10.0.0-alpha.2",
+    "jss-plugin-nested": "^10.0.0-alpha.2",
+    "jss-plugin-rule-value-function": "^10.0.0-alpha.2"
   },
   "peerDependencies": {
     "jss": "^9.7.0"
