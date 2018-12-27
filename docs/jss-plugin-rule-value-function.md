@@ -1,8 +1,8 @@
 ## Enables functions for dynamic styles
 
-If you want dynamic behavior for your Style Sheet, you can use functions as a value which returns the actual value or a rule. If function returns `null|undefined|false` - property will be removed. Use [sheet.update(data)](https://github.com/cssinjs/jss/blob/master/docs/js-api.md#update-function-values) in order to pass the data object.
+If you want dynamic behavior for your Style Sheet, you can use functions as a value which returns the actual value or a rule. If function returns `null|undefined|false` - property will be removed. Use [sheet.update(data)](https://github.com/cssinjs/jss/blob/master/docs/jss-api.md#update-function-values) in order to pass the data object.
 
-[Sheet option](https://github.com/cssinjs/jss/blob/master/docs/js-api.md#create-style-sheet) `link: true` is required for this to function.
+[Sheet option](https://github.com/cssinjs/jss/blob/master/docs/jss-api.md#create-style-sheet) `link: true` is required for this to function.
 
 _Plugins are applied by default to function rules or values._
 
@@ -24,7 +24,7 @@ const styles = {
 
 ### Function rules
 
-Similar to function values, you can use a function to return a dynamic style object. Use [sheet.update(data)](https://github.com/cssinjs/jss/blob/master/docs/js-api.md#update-function-values) in order to pass the data object. Sheet option `link: true` is required for this to function.
+Similar to function values, you can use a function to return a dynamic style object. Use [sheet.update(data)](https://github.com/cssinjs/jss/blob/master/docs/jss-api.md#update-function-values) in order to pass the data object. Sheet option `link: true` is required for this to function.
 
 ```javascript
 const styles = {

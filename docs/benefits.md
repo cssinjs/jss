@@ -8,7 +8,7 @@
 
 1.  **True rules isolation.**
 
-    Scoped selectors are not enough. CSS has properties which are inherited automatically from the parent element, if not explicitly defined. Thanks to [jss-plugin-isolate](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-isolate) plugin, JSS rules will not inherit properties.
+    Scoped selectors are not enough. CSS has properties which are inherited automatically from the parent element, if not explicitly defined. Thanks to [jss-plugin-isolate](jss-plugin-isolate.md) plugin, JSS rules will not inherit properties.
 
 1.  **Avoids slow selectors.**
 

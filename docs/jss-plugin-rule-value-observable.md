@@ -2,7 +2,7 @@
 
 To create highly dynamic animations, you may want to use streams. Take a look at the [tc39 observable proposal](https://github.com/tc39/proposal-observable).
 
-[Sheet option](https://github.com/cssinjs/jss/blob/master/docs/js-api.md#create-style-sheet) `link: true` is required for this to function.
+[Sheet option](https://github.com/cssinjs/jss/blob/master/docs/jss-api.md#create-style-sheet) `link: true` is required for this to function.
 
 ### Observable values
 
