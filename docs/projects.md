@@ -2,7 +2,7 @@
 
 ## Integrations
 
-[React-JSS](https://github.com/cssinjs/react-jss) - HOC interface for React with theming support.
+[React-JSS]./docs/react-jss.md) - HOC interface for React with theming support.
 
 [Styled-JSS](https://github.com/cssinjs/styled-jss) - styled components interface for React.
 

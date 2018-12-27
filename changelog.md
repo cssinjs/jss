@@ -43,4 +43,4 @@
 - [jss-plugin-template](https://github.com/cssinjs/jss-template/blob/master/changelog.md)
 - [jss-plugin-vendor-prefixer](https://github.com/cssinjs/jss-vendor-prefixer/blob/master/changelog.md)
 - [jss-preset-default](https://github.com/cssinjs/jss-preset-default/blob/master/changelog.md)
-- [react-jss](https://github.com/cssinjs/react-jss/blob/master/changelog.md)
+- [react-jss]./docs/react-jss.md/blob/master/changelog.md)

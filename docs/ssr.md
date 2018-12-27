@@ -2,7 +2,7 @@
 
 1.  Render the document.
 
-    The only JSS specific thing you need to know is the [Style Sheets registry](./js-api.md#style-sheets-registry). It will allow you to get all attached sheets as a CSS string. Rendering of the document depends on the framework you use, here is an [example in react](https://github.com/cssinjs/examples/blob/gh-pages/react-ssr/src/server.js).
+    The only JSS specific thing you need to know is the [Style Sheets registry](./jss-api.md#style-sheets-registry). It will allow you to get all attached sheets as a CSS string. Rendering of the document depends on the framework you use, here is an [example in react](https://github.com/cssinjs/examples/blob/gh-pages/react-ssr/src/server.js).
 
 2.  Rehydration.
 
