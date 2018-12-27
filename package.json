@@ -19,7 +19,7 @@
     "posttest": "[ -z \"$TRAVIS\" ] || codecov",
     "codecov": "codecov",
     "bench": "cross-env BENCHMARK=true karma start --single-run",
-    "pre-commit": "lint-staged && yarn typecheck && yarn ts-check"
+    "pre-commit": "lint-staged && yarn typecheck && yarn ts-check && yarn check-snapshots"
   },
   "lint-staged": {
     "**/*.{js,md,json,ts}": [
