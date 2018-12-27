@@ -1,5 +1,5 @@
 /* @flow */
-import warning from 'warning'
+import warning from 'tiny-warning'
 import toCss from '../utils/toCss'
 import toCssValue from '../utils/toCssValue'
 import escape from '../utils/escape'

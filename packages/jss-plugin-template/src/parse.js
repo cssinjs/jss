@@ -1,5 +1,5 @@
 // @flow
-import warning from 'warning'
+import warning from 'tiny-warning'
 
 const semiWithNl = /;\n/
 
@@ -18,7 +18,7 @@ export default (cssText: string) => {
     if (!decl) continue
     const colonIndex = decl.indexOf(':')
     if (colonIndex === -1) {
-      warning(false, 'Malformed CSS string "%s"', decl)
+      warning(false, `Malformed CSS string "${decl}"`)
       continue
     }
     const prop = decl.substr(0, colonIndex).trim()

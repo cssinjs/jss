@@ -1,5 +1,5 @@
 /* @flow */
-import warning from 'warning'
+import warning from 'tiny-warning'
 import type {Rule, GenerateId} from '../types'
 import StyleSheet from '../StyleSheet'
 import moduleId from './moduleId'
@@ -21,7 +21,7 @@ export default (): GenerateId => {
     ruleCounter += 1
 
     if (ruleCounter > maxRules) {
-      warning(false, '[JSS] You might have a memory leak. Rule counter is at %s.', ruleCounter)
+      warning(false, `[JSS] You might have a memory leak. Rule counter is at ${ruleCounter}.`)
     }
 
     let prefix = defaultPrefix

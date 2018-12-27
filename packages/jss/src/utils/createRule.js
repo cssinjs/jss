@@ -1,5 +1,5 @@
 /* @flow */
-import warning from 'warning'
+import warning from 'tiny-warning'
 import type {Rule, RuleOptions, JssStyle} from '../types'
 import cloneStyle from './cloneStyle'
 
@@ -19,7 +19,7 @@ export default function createRule(
 
   // It is an at-rule and it has no instance.
   if (name[0] === '@') {
-    warning(false, '[JSS] Unknown rule %s', name)
+    warning(false, `[JSS] Unknown rule ${name}`)
   }
 
   return null

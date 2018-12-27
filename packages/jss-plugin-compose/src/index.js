@@ -1,5 +1,5 @@
 // @flow
-import warning from 'warning'
+import warning from 'tiny-warning'
 import type {Plugin, StyleSheet} from 'jss'
 
 /**
@@ -35,12 +35,12 @@ function registerClass(rule, className) {
     const refRule = parent.getRule(className.substr(1))
 
     if (!refRule) {
-      warning(false, '[JSS] Referenced rule is not defined. \r\n%s', rule)
+      warning(false, `[JSS] Referenced rule is not defined. \r\n${rule.toString()}'`)
       return false
     }
 
     if (refRule === rule) {
-      warning(false, '[JSS] Cyclic composition detected. \r\n%s', rule)
+      warning(false, `[JSS] Cyclic composition detected. \r\n${rule.toString()}`)
       return false
     }
 

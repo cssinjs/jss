@@ -1,5 +1,5 @@
 // @flow
-import warning from 'warning'
+import warning from 'tiny-warning'
 import type {Plugin, StyleRule, StyleSheet} from 'jss'
 
 const separatorRegExp = /\s*,\s*/g
@@ -25,9 +25,8 @@ export default function jssNested(): Plugin {
 
       warning(
         false,
-        '[JSS] Could not find the referenced rule %s in %s.',
-        key,
-        container.options.meta || container
+        `[JSS] Could not find the referenced rule ${key} in ${container.options.meta ||
+          container.toString()}.`
       )
       return key
     }
