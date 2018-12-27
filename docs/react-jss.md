@@ -2,12 +2,12 @@
 
 React-JSS provides components for [JSS](https://github.com/cssinjs/jss) as a layer of abstraction. JSS and the [default preset](https://github.com/cssinjs/jss-preset-default) are already built in! Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
 
-Benefits compared to lower level core:
+Benefits compared to the lower level core:
 
 - Theming support.
 - Critical CSS extraction.
 - Lazy evaluation - sheet is created only when the component will mount.
-- Auto attach/detach - sheet will be rendered to the DOM when the component is about to mount, and will be removed when no element needs it.
+- Auto-attach/detach - sheet will be rendered to the DOM when the component is about to mount and removed when no element needs it.
 - A Style Sheet gets shared between all elements.
 - Function values and rules are updated automatically with props.
 
@@ -120,10 +120,9 @@ and
 
 You can use [function values](https://github.com/cssinjs/jss/blob/master/docs/json-api.md#function-values), function rules and observables out of the box. Function values and function rules will receive a props object once the component receives new props or mounts for the first time.
 
-There are 2 caveats:
+Caveats:
 
-1.  Static properties are rendered first, so function values will have higher source order specificity.
-1.  They have a [number of limitations](https://github.com/cssinjs/jss/issues/682) regarding the syntax, since they don't run through all plugins right now.
+Static properties being rendered first so that function values will have higher source order specificity.
 
 ```javascript
 import React from 'react'
@@ -186,17 +185,17 @@ and
 
 #### Theming
 
-The idea is that you define a theme, wrap your application with `ThemeProvider` and pass the `theme` to `ThemeProvider`. ThemeProvider will pass it over `context` to your styles creator function and to your props. After that you may change your theme, and all your components will get the new theme automatically.
+The idea is that you define a theme, wrap your application with `ThemeProvider` and pass the `theme` to `ThemeProvider`. ThemeProvider will pass it over `context` to your styles creator function and your props. After that, you may change your theme, and all your components will get the new theme automatically.
 
-Under the hood `react-jss` uses the unified CSSinJS `theming` solution for React. You can find [detailed docs in its repo](https://github.com/iamstarkov/theming).
+Under the hood `react-jss` uses the unified CSSinJS `theming` solution for React. You can find [full docs in its repo](https://github.com/iamstarkov/theming).
 
-Using `ThemeProvider`:
+Usage of `ThemeProvider`:
 
 - It has a `theme` prop which should be an `object` or `function`:
-  - If it is an `Object` and used in a root `ThemeProvider` then it's intact and being passed down the react tree.
-  - If it is `Object` and used in a nested `ThemeProvider` then it's being merged with theme from a parent `ThemeProvider` and passed down the react tree.
-  - If it is `Function` and used in a nested `ThemeProvider` then it's being applied to the theme from a parent `ThemeProvider`. If result is an `Object` it will be passed down the react tree, throws otherwise.
-- `ThemeProvider` as every other component can render only single child, because it uses `React.Children.only` in render and throws otherwise.
+  - If it is an `Object` and used in a root `ThemeProvider`, then it's intact and being passed down the React Tree.
+  - If it is `Object` and used in a nested `ThemeProvider`, then it gets merged with the theme from a parent `ThemeProvider` and passed down the react tree.
+  - If it is `Function` and used in a nested `ThemeProvider`, then it's being applied to the theme from a parent `ThemeProvider`. If the result is an `Object` it will be passed down the react tree, throws otherwise.
+- `ThemeProvider` as every other component can render only a single child because it uses `React.Children.only` in render and throws otherwise.
 - [Read more about `ThemeProvider` in `theming`'s documentation.](https://github.com/iamstarkov/theming#themeprovider)
 
 ```javascript
@@ -240,7 +239,7 @@ import injectSheet, {withTheme} from 'react-jss'
 const Button = withTheme(({theme}) => <button>I can access {theme.colorPrimary}</button>)
 ```
 
-_Namespaced_ themes can be used so that a set of UI components should not conflict with another set of UI components from a different library using also `react-jss`.
+Use _namespaced_ themes so that a set of UI components gets no conflicts with another set of UI components from a different library also using `react-jss`.
 
 ```javascript
 import React from 'react'
@@ -343,7 +342,7 @@ main()
 
 #### Reuse styles in different components
 
-In order to reuse the same styles **and** the same generated style sheet between 2 entirely different and unrelated components, we suggest extracting a renderer component and reusing that.
+To reuse the same styles **and** the same generated style sheet between 2 entirely different and unrelated components, we suggest extracting a renderer component and reusing that.
 
 ```javascript
 import React from 'react'
@@ -371,7 +370,7 @@ const SomeComponent2 = () => (
 )
 ```
 
-Alternatively you can create own Style Sheet and use the `composes` feature. Also you can mix in a common styles object, but take into account that it can increase the overall CSS size.
+Alternatively, you can create own Style Sheet and use the `composes` feature. Also, you can mix in a common styles object but take into account that it can increase the overall CSS size.
 
 #### The inner component
 
@@ -383,7 +382,7 @@ console.log(StyledComponent.InnerComponent) // Prints out the inner component.
 
 #### The inner ref
 
-In order to get a `ref` to the inner element, use the `innerRef` prop.
+To get a `ref` to the inner element, use the `innerRef` prop.
 
 ```es6
 const InnerComponent = () => null
@@ -413,7 +412,7 @@ const Component = () => (
 )
 ```
 
-You can also access the JSS instance being used by default.
+You can also access the default JSS instance.
 
 ```javascript
 import {jss} from 'react-jss'
@@ -421,9 +420,9 @@ import {jss} from 'react-jss'
 
 #### Multi-tree setup
 
-In case you render multiple react rendering trees in one application, you will get class name collisions, because every JssProvider rerender will reset the class names generator. If you want to avoid this, you can share the class names generator between multiple JssProvider instances.
+In case you render multiple react rendering trees in one application, you will get class name collisions because every JssProvider rerender will reset the class names generator. If you want to avoid this, you can share the class names generator between multiple JssProvider instances.
 
-**Note**: in case of SSR, make sure to create a new generator for **each** request. Otherwise class names will become indeterministic and at some point you may run out of max safe integer numbers.
+**Note**: in case of SSR, make sure to create a new generator for **each** request. Otherwise, class names will become indeterministic, and at some point, you may run out of max safe integer numbers.
 
 ```javascript
 import React from 'react'
@@ -445,7 +444,7 @@ const Component = () => (
 )
 ```
 
-You can also additionally use the `classNamePrefix` prop in order to add the app/subtree name to each class name.
+You can also additionally use the `classNamePrefix` prop to add the app/subtree name to each class name.
 This way you can see which app generated a class name in the DOM view.
 
 ```javascript
@@ -503,8 +502,8 @@ export default Button
 
 ### Injection order
 
-Style tags are injected in the exact same order as the `injectSheet()` invocation.
-Source order specificity is higher the lower style tag is in the tree, therefore you should call `injectSheet` of components you want to override first.
+Injection of style tags happens in the same order as the `injectSheet()` invocation.
+Source order specificity is higher the lower style tag is in the tree. Therefore you should call `injectSheet` of components you want to override first.
 
 Example
 
@@ -526,8 +525,8 @@ const Button = injectSheet(buttonStyles)(() => (
 
 ### Whitelist injected props
 
-By default "classes" and "theme" are going to be injected to the child component over props. Property `theme` is only passed when you use a function instead of styles object.
-If you want to whitelist some of them, you can now use option `inject`. For e.g. if you want to access the StyleSheet instance, you need to pass `{inject: ['sheet']}` and it will be available as `props.sheet`.
+By default "classes" and "theme" are going to be injected into the child component over props. Property `theme` is only passed when you use a function instead of styles object.
+If you want to whitelist some of them, you can now use option `inject`. E.g., if you want to access the StyleSheet instance, you need to pass `{inject: ['sheet']}` and it will be available as `props.sheet`.
 
 All user props passed to the HOC will still be forwarded as usual.
 

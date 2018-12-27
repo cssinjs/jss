@@ -7,9 +7,9 @@
 
 [JSS is a more powerful abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It uses JavaScript as a language to describe styles in a declarative and maintainable way. It is a [high performance](https://github.com/cssinjs/jss/blob/master/docs/performance.md) JS to CSS compiler which works at runtime and server-side. This core library is low level and framework agnostic. It is about 6KB (minified and gzipped) and is extensible via [plugins](docs/plugins.md) API.
 
-Feel free to ask any JSS related questions on twitter by using hashtag `#cssinjs` and mentioning [@oleg008](https://twitter.com/oleg008), [watch my latest talk](https://www.youtube.com/watch?v=i3TIrcnMIng) about "Unique Value Proposition of CSSinJS" and try it on a [playground](https://codesandbox.io/s/z21lpmvv33).
+Feel free to ask any JSS related questions on Twitter by using hashtag `#cssinjs` and mentioning [@oleg008](https://twitter.com/oleg008), [watch my latest talk](https://www.youtube.com/watch?v=i3TIrcnMIng) about "Unique Value Proposition of CSSinJS" and try it on a [playground](https://codesandbox.io/s/z21lpmvv33).
 
-If you are a Sass (SCSS) user, this course will show how to express popular Sass language features using latest JavaScript features: [Convert SCSS (Sass) to CSS-in-JS](https://egghead.io/courses/convert-scss-sass-to-css-in-js).
+If you are a Sass (SCSS) user, this course will show how to express popular Sass language features using the latest JavaScript features: [Convert SCSS (Sass) to CSS-in-JS](https://egghead.io/courses/convert-scss-sass-to-css-in-js).
 
 ## Key features
 
@@ -123,19 +123,19 @@ Result
 
 ## When should I use it?
 
-- You build a JavaScript heavy application.
+- You build a JavaScript-heavy application.
 - You use components based architecture.
 - You build a reusable UI library.
-- You need a collision free CSS (external content, third-party UI components ...).
-- You need code sharing between js and css.
+- You need a collision-free CSS (external content, third-party UI components ...).
+- You need code sharing between JS and CSS.
 - Minimal download size is important to you.
-- Robustness and code reuse is important to you.
-- Ease of maintenance is important to you.
-- You just want to use any of its [benefits](docs/benefits.md)
+- Robustness and code reuse is essential to you.
+- Ease of maintenance is critical to you.
+- You want to use any of its [benefits](docs/benefits.md)
 
 ## Roadmap
 
-We don't have a strict roadmap, we work on issues depending on personal priorities. If you are looking to help - [important](https://github.com/cssinjs/jss/issues?q=is%3Aopen+is%3Aissue+label%3Aimportant) issues is what we should focus on.
+We don't have a strict roadmap. We work on issues depending on personal priorities. If you are looking to help, [important](https://github.com/cssinjs/jss/issues?q=is%3Aopen+is%3Aissue+label%3Aimportant) issues are tagged.
 
 ## Browsers Support
 

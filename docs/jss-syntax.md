@@ -1,6 +1,6 @@
 # Objects based styles syntax for declaring Style Sheets
 
-JSS is designed to stay as close as possible to the CSS syntax, however there are some exceptions. JSS uses a plugin-based architecture, so some of the syntax is added by plugins from the core package and others by optional plugins, which you can [setup](./setup.md).
+JSS is designed to stay as close as possible to the CSS syntax. However, there are some exceptions. JSS uses a plugin-based architecture, so plugins add some of the syntaxes from the core package and others by optional plugins, which you can [setup](./setup.md).
 
 ## Basic syntax
 
@@ -69,11 +69,11 @@ Compiles to:
 
 ## Keyframes Animation
 
-Keyframes name will use the same id generator function as the class names. Animation name will be scoped by default. In order to access it within the same style sheet, you can use `$ref` syntax as a value of `animationName` or `animation` property.
+Keyframes name will use the same id generator function as the class names. Animation name gets scoped by default. To access it within the same style sheet, you can use `$ref` syntax as a value of `animationName` or `animation` property.
 
-Additionally generated name can be accessed through `sheet.keyframes.{name}` map.
+Additionally, you can access generated name through `sheet.keyframes.{name}` map.
 
-In order to generate a global animation name, you can use `@global` rule.
+To generate a global animation name, you can use `@global` rule.
 
 ```javascript
 const styles = {
@@ -212,9 +212,9 @@ Compiles to:
 
 ## Alternative syntax for space and comma separated values
 
-In order to describe space or comma separated CSS values in a JavaScript way, we introduced an array based syntax.
+To describe space or comma separated CSS values in a JavaScript way, we introduced an array based syntax.
 
-There are some advantages in using this syntax:
+There are some advantages to using this syntax:
 
 1.  Plugin `jss-plugin-default-unit` is able to set default unit effectively for numeric values.
 2.  You can use variables inside of a value declaration without string templates or concatenations.
@@ -300,7 +300,7 @@ Compiles to:
 
 ## Property "content"
 
-When assigning a string to the content property it requires double or single quotes in CSS. Therefore you also have to provide the quotes within the value string for content to match how it will be represented in CSS.
+When assigning a string to the content property, it requires double or single quotes in CSS. Therefore you also have to provide the quotes within the value string for content to match how it will get represented in CSS.
 
 ```javascript
 const styles = {
@@ -322,7 +322,7 @@ Compiles to:
 
 ## Working with colors
 
-You can use any color conversion tool, for e.g. [this one](https://yarnpkg.com/en/package/color).
+You can use any color conversion tool, e.g. [this one](https://yarnpkg.com/en/package/color).
 
 ```javascript
 import color from 'color'
@@ -346,7 +346,7 @@ Compiles to:
 
 ## Typed CSSOM
 
-Typed CSSOM (Houdini) values are supported. You can learn more about them [here](https://developers.google.com/web/updates/2018/03/cssom) and track the standardization progress [here](https://ishoudinireadyyet.com/). Also make sure you use a [polyfill](https://github.com/csstools/css-typed-om) for browsers without support. It will make most sense when used together with function values and observables for frequent updates.
+JSS supports Typed CSSOM (Houdini) values. You can learn more about them [here](https://developers.google.com/web/updates/2018/03/cssom) and track the standardization progress [here](https://ishoudinireadyyet.com/). Also, make sure you use a [polyfill](https://github.com/csstools/css-typed-om) for browsers without support. It will make the most sense when used together with function values and observables for frequent updates.
 
 ```javascript
 const styles = {

@@ -1,6 +1,6 @@
 ## Default units for numeric values
 
-Provide numeric values in your style definitions, and the plugin will insert the corresponding units. Defaults to px for sizes, ms for durations, and % for transform origins, and these can be customized.
+Provide numeric values in your style definitions, and the plugin will insert the corresponding units. Defaults to px for sizes, ms for durations, and % for transform origins and these can be customized.
 
 ```javascript
 const styles = {

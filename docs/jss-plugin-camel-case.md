@@ -1,6 +1,6 @@
 ## Camel case syntax
 
-Once plugin is used, we can write CSS properties in camel case syntax.
+After using this plugin, we can write CSS properties in camel case syntax.
 
 ```javascript
 const styles = {

@@ -1,10 +1,8 @@
 ## Enables TC39 Observables
 
-In order to create highly dynamic animations, you may want to use streams. Take a look at the [tc39 observable proposal](https://github.com/tc39/proposal-observable).
+To create highly dynamic animations, you may want to use streams. Take a look at the [tc39 observable proposal](https://github.com/tc39/proposal-observable).
 
 [Sheet option](https://github.com/cssinjs/jss/blob/master/docs/js-api.md#create-style-sheet) `link: true` is required for this to function.
-
-_Plugins are **not** applied by default to observable rules or values._
 
 ### Observable values
 
@@ -28,7 +26,7 @@ const styles = {
 
 ### Observable rules
 
-Similar to observable values, you can declare observable rules. Stream should contain in this case the style object. Sheet option `link: true` is required for this to function.
+Similar to observable values, you can declare "observable" rules. A stream should contain in this case the style object. Sheet option `link: true` is required for this to function.
 
 ```javascript
 import {Observable} from 'rxjs'
@@ -52,7 +50,7 @@ const styles = {
 
 ### Without processing overhead
 
-By default plugin are applied to the values or rules returned from Observables. If you want to turn the processing of for performance reasons, you can pass an option `process: false`.
+By default, the plugin gets applied to the values or rules returned from Observables. If you want to turn the processing of for performance reasons, you can pass an option `process: false`.
 
 ```javascript
 import jss from 'jss'

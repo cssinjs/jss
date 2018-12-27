@@ -6,9 +6,9 @@ Preset allows a quick setup with default settings and a [default plugins](https:
 
 `preset()`
 
-Preset exports a default function which accepts options. Options is a map of plugin name in camel case and plugin options as value.
+It exports a default function which accepts options. Options is a map of plugin name in camel case and plugin options as value.
 
-It returns a JSS options object, which can be passed to JSS constructor or the `setup`.
+It returns a JSS options object, which you can pass to JSS constructor or the `setup`.
 
 ```javascript
 import preset from 'jss-preset-default'
