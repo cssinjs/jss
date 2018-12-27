@@ -14,7 +14,7 @@ If you are a Sass (SCSS) user, this course will show how to express popular Sass
 ## Key features
 
 - Framework agnostic
-- [Scoped selectors by default](docs/json-api.md)
+- [Scoped selectors by default](docs/jss-syntax.md)
 - [Function values and rules](packages/jss-plugin-rule-value-function/readme.md)
 - [Observables](packages/jss-plugin-rule-value-observable/readme.md)
 - [SSR](docs/ssr.md)
@@ -37,7 +37,7 @@ If you are a Sass (SCSS) user, this course will show how to express popular Sass
 1.  [Live examples](https://github.com/cssinjs/examples)
 1.  [Benefits](docs/benefits.md)
 1.  [Setup](docs/setup.md)
-1.  [JSON API (JSS Syntax)](docs/json-api.md)
+1.  [Core JSS Syntax](docs/jss-syntax.md)
 1.  [JavaScript API](docs/js-api.md)
 1.  [Server-side rendering](docs/ssr.md)
 1.  [Performance](docs/performance.md)

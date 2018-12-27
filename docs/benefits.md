@@ -4,7 +4,7 @@
 
 1.  **Scoped selectors.**
 
-    CSS has just one global namespace. Avoiding selector collisions in non-trivial applications is impossible. Naming conventions like BEM might help within one project, but will not when integrating third-party code. JSS generates unique class names by default when it compiles JSON representation to CSS.
+    CSS has just one global namespace. Avoiding selector collisions in non-trivial applications is impossible. Naming conventions like BEM might help within one project, but will not when integrating third-party code. JSS generates unique class names by default when it compiles JavaScript styles representation to CSS.
 
 1.  **True rules isolation.**
 
@@ -76,7 +76,7 @@
     - Keyframes animation
     - Font face
     - Pseudo selectors
-    - Fallbacks: you can define the same property [multiple times](./json-api.md#fallbacks), like you know it from CSS.
+    - Fallbacks: you can define the same property [multiple times](./jss-syntax.md#fallbacks), like you know it from CSS.
     - Automatic vendor prefixing
 
 1.  **Performance.**

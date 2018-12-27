@@ -13,7 +13,7 @@ JSS has some performance advantages.
 
 These benchmarks are used to ensure performance after code changes.
 
-However, one test compiles bootstrap library from JSS JSON to a CSS string. On my machine in Chrome ~130KB JSON compiles at **180 ops/sec**.
+However, one test compiles bootstrap library from JSS to a CSS string. On my machine in Chrome ~130KB JSS compiles at **180 ops/sec**.
 
 ```bash
 yarn
