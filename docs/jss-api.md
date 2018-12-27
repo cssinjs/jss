@@ -258,7 +258,7 @@ sheet.addRules({
 
 `sheet.update(data)`
 
-If you use [function values](./json-api.md#function-values), you will want to update them with new data. This method will call all your function values, pass the `data` param and update the CSS Rule if needed.
+If you use [function values](./jss-syntax.md#function-values), you will want to update them with new data. This method will call all your function values, pass the `data` param and update the CSS Rule if needed.
 
 ```javascript
 import jss from 'jss'

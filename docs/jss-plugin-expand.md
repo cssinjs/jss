@@ -89,7 +89,7 @@ compiles to:
 
 ### Fallbacks support
 
-Expanded syntax has support for [fallbacks api](https://github.com/cssinjs/jss/blob/master/docs/json-api.md#fallbacks).
+Expanded syntax has support for [fallbacks api](https://github.com/cssinjs/jss/blob/master/docs/jss-syntax.md#fallbacks).
 
 ```javascript
 const styles = {

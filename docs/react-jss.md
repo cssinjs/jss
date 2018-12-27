@@ -118,7 +118,7 @@ and
 
 #### Dynamic values
 
-You can use [function values](https://github.com/cssinjs/jss/blob/master/docs/json-api.md#function-values), function rules and observables out of the box. Function values and function rules will receive a props object once the component receives new props or mounts for the first time.
+You can use [function values](https://github.com/cssinjs/jss/blob/master/docs/jss-syntax.md#function-values), function rules and observables out of the box. Function values and function rules will receive a props object once the component receives new props or mounts for the first time.
 
 Caveats:
 

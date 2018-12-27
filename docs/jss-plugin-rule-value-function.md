@@ -37,7 +37,7 @@ const styles = {
 
 ### Support of "!important"
 
-To use the `!important` modifier with function values, you must use [array syntax](https://github.com/cssinjs/jss/blob/master/docs/json-api.md#alternative-for-space-and-comma-separated-values):
+To use the `!important` modifier with function values, you must use [array syntax](https://github.com/cssinjs/jss/blob/master/docs/jss-syntax.md#alternative-for-space-and-comma-separated-values):
 
 ```javascript
 const styles = {
