@@ -2,7 +2,7 @@
 
 ## Integrations
 
-[React-JSS](https://github.com/cssinjs/react-jss) - HOC interface for React with theming support.
+[React-JSS](./docs/react-jss.md) - HOC interface for React with theming support.
 
 [Styled-JSS](https://github.com/cssinjs/styled-jss) - styled components interface for React.
 
@@ -28,7 +28,7 @@
 
 ## Plugins
 
-[jss-vendor-prefixer-ie10](https://github.com/alexkuz/jss-vendor-prefixer-ie10) JSS plugin that handles vendor prefixes for the legacy browsers.
+[jss-plugin-vendor-prefixer-ie10](https://github.com/alexkuz/jss-plugin-vendor-prefixer-ie10) JSS plugin that handles vendor prefixes for the legacy browsers.
 
 [jss-legacy-browsers](https://github.com/moliver-bb/jss-legacy-browsers) JSS plugin that handles legacy browser support
 
@@ -56,7 +56,7 @@
 
 [babel-plugin-jss-css](https://github.com/alexkuz/babel-plugin-jss-css) Babel plugin for [jss-css](https://github.com/alexkuz/jss-css) module.
 
-[jss-loader](https://github.com/markdalgleish/jss-loader) Webpack loader - use JavaScript as your CSS preprocessor!
+[jss-loader](https://github.com/cssinjs/jss-loader) Webpack loader - use JavaScript as your CSS preprocessor!
 
 [jss-sheet-Loader](https://github.com/wellguimaraes/jss-sheet-loader) Webpack loader for JSS to simplify styles creation and usage.
 

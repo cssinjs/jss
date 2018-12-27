@@ -41,12 +41,19 @@ const getBabelOptions = ({useESModules}) => ({
   presets: [['@babel/env', {loose: true}], '@babel/flow', '@babel/react'],
   plugins: [
     ['@babel/proposal-class-properties', {loose: true}],
-    ['@babel/transform-runtime', {useESModules}]
+    ['@babel/transform-runtime', {useESModules}],
+    ['@babel/plugin-proposal-export-namespace-from']
   ]
 })
 
 const commonjsOptions = {
-  ignoreGlobal: true
+  ignoreGlobal: true,
+  // The CommonJS plugin can't resolve the exports in `react` automatically.
+  // https://github.com/rollup/rollup-plugin-commonjs#custom-named-exports
+  // https://github.com/reduxjs/react-redux/issues/643#issuecomment-285008041
+  namedExports: {
+    react: ['Component']
+  }
 }
 
 const snapshotOptions = {
@@ -134,6 +141,23 @@ export default [
       nodeGlobals({process: false}),
       replace({'process.env.VERSION': JSON.stringify(pkg.version)}),
       sizeSnapshot(snapshotOptions)
+    ]
+  },
+
+  {
+    input,
+    output: {file: pkg.unpkg, format: 'esm'},
+    plugins: [
+      nodeResolve(),
+      babel(getBabelOptions({useESModules: true})),
+      commonjs(commonjsOptions),
+      nodeGlobals({process: false}),
+      replace({
+        'process.env.NODE_ENV': JSON.stringify('development'),
+        'process.env.VERSION': JSON.stringify(pkg.version)
+      })
+      // size-snapshot is disabled until this is resolved:
+      // https://github.com/TrySound/rollup-plugin-size-snapshot/issues/24
     ]
   }
 ]

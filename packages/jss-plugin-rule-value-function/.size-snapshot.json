@@ -1,0 +1,31 @@
+{
+  "dist/jss-plugin-rule-value-function.js": {
+    "bundled": 2025,
+    "minified": 729,
+    "gzipped": 424
+  },
+  "dist/jss-plugin-rule-value-function.min.js": {
+    "bundled": 2025,
+    "minified": 729,
+    "gzipped": 424
+  },
+  "dist/jss-plugin-rule-value-function.cjs.js": {
+    "bundled": 1642,
+    "minified": 631,
+    "gzipped": 366
+  },
+  "dist/jss-plugin-rule-value-function.esm.js": {
+    "bundled": 1564,
+    "minified": 567,
+    "gzipped": 319,
+    "treeshaked": {
+      "rollup": {
+        "code": 12,
+        "import_statements": 12
+      },
+      "webpack": {
+        "code": 1017
+      }
+    }
+  }
+}

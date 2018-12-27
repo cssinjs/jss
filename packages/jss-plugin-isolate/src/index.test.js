@@ -1,7 +1,7 @@
 import expect from 'expect.js'
 import {create, sheets} from 'jss'
 
-import nested from 'jss-plugin-syntax-nested'
+import nested from 'jss-plugin-nested'
 import isolate from './index'
 
 describe('jss-plugin-isolate', () => {
@@ -280,7 +280,7 @@ describe('jss-plugin-isolate', () => {
     })
   })
 
-  describe('nested media queries with jss-nested', () => {
+  describe('nested media queries with jss-plugin-nested', () => {
     let sheet
 
     beforeEach(() => {
@@ -301,7 +301,7 @@ describe('jss-plugin-isolate', () => {
     })
   })
 
-  describe('nested media queries with jss-nested with isolate:false', () => {
+  describe('nested media queries with jss-plugin-nested with isolate:false', () => {
     beforeEach(() => {
       jss = create().use(isolate(), nested())
       jss.createStyleSheet({

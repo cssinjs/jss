@@ -1,5 +1,5 @@
 {
-  "name": "jss-repository",
+  "name": "jss",
   "private": true,
   "workspaces": [
     "packages/*"
@@ -19,7 +19,7 @@
     "posttest": "[ -z \"$TRAVIS\" ] || codecov",
     "codecov": "codecov",
     "bench": "cross-env BENCHMARK=true karma start --single-run",
-    "pre-commit": "lint-staged && yarn typecheck && yarn ts-check"
+    "pre-commit": "lint-staged && yarn typecheck && yarn ts-check && yarn check-snapshots"
   },
   "lint-staged": {
     "**/*.{js,md,json,ts}": [
@@ -37,6 +37,7 @@
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.2.0",
     "@babel/plugin-transform-runtime": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-flow": "^7.0.0",

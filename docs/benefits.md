@@ -4,20 +4,20 @@
 
 1.  **Scoped selectors.**
 
-    CSS has just one global namespace. It is impossible to avoid selector collisions in non-trivial applications. Naming conventions like BEM might help within one project, but will not when integrating third-party code. JSS generates unique class names by default when it compiles JSON representation to CSS.
+    CSS has just one global namespace. Avoiding selector collisions in non-trivial applications is impossible. Naming conventions like BEM might help within one project, but will not when integrating third-party code. JSS generates unique class names by default when it compiles JavaScript styles representation to CSS.
 
 1.  **True rules isolation.**
 
-    Scoped selectors are not enough. CSS has properties which are inherited automatically from the parent element, if not explicitly defined. Thanks to [jss-isolate](https://github.com/cssinjs/jss-isolate) plugin, JSS rules will not inherit properties.
+    Scoped selectors are not enough. CSS has properties which are inherited automatically from the parent element, if not explicitly defined. Thanks to [jss-plugin-isolate](jss-plugin-isolate.md) plugin, JSS rules will not inherit properties.
 
 1.  **Avoids slow selectors.**
 
-    Because JSS rules are collision free, there is no need to write deeply nested selectors. This leads to stable [performance](performance.md) at scale.
+    Because JSS rules are collision-free, there is no need to write deeply nested selectors. This leads to stable [performance](performance.md) at scale.
 
 1.  **Code reuse, expressiveness.**
 
     CSS is limited to applying multiple selectors to the same node in its code reuse capabilities.
-    JSS allows you to compose rules from multiple sources. You can reuse existing rules, you can use functions to generate rules and to calculate values. This way we can avoid repetitions in a very explicit way.
+    JSS allows you to compose rules from multiple sources. You can reuse existing rules, use functions to generate rules and to calculate values. This way we can avoid repetitions in a very explicit way.
 
 1.  **Refactoring.**
 
@@ -25,18 +25,18 @@
 
 1.  **Dead code elimination.**
 
-    If you put your styles into a component where they are used and use closure compiler.
+    If you use "closure compiler" and put your styles into a component where they get used.
 
 1.  **Vendor Prefixing.**
 
-    Using JSS [vendor-prefixer](https://github.com/cssinjs/jss-vendor-prefixer) plugin, prefixes added at runtime very efficiently, only for the required browser and do _not_ increase download size.
+    Using JSS [vendor-prefixer](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-vendor-prefixer) plugin, prefixes added at runtime very efficiently, only for the required browser and don't increase download size.
 
 1.  **Download size.**
 
-    JSS styles size is up to 50% smaller, you can save a bandwidth and increase site performance if you generate CSS at runtime:
+    JSS styles size is up to 50% smaller, so you can save bandwidth and increase site performance if you generate CSS at runtime:
 
     - Better code reuse
-    - No pregenerated vendor prefixes
+    - No pre-generated vendor prefixes
     - No selectors
     - JavaScript Compressors like [Closure Compiler](https://closure-compiler.appspot.com)
     - Other at-runtime optimizations provided by plugins
@@ -45,28 +45,28 @@
 
     You can easily share constants and functions between JS and CSS.
 
-1.  **Adoption to environment.**
+1.  **Adoption to the environment.**
 
-    You can generate styles according the environment requirements at runtime, for e.g. you can express any complex condition considering for e.g. pixel density, resolution and device type at the same time. You can compose new Style Sheets based on settings and environment out of existing once.
+    You can generate styles according to the environmental requirements at runtime, e.g. you can express any complex condition considering, e.g. pixel density, resolution and device type at the same time. You can compose new Style Sheets based on settings and environment out of existing once.
 
 ## Compared to server-side preprocessing languages (stylus/less/sass/css-modules and co.)
 
-1.  Aforementioned benefits.
+1.  Benefits mentioned above.
 1.  There is no build step, as a result—no dependency to build tools at all.
 1.  Just one language, standardized by w3c.
 
-    There is no need to learn new preprocessing languages. They all come with a burden of a new syntax for variables, functions, mixins, extends and others. At the same time there is nothing they can do JavaScript can't.
+    There is no need to learn new preprocessing languages. They all come with a burden of a new syntax for variables, functions, mixins, extends and others. At the same time, there is nothing they can do JavaScript can't.
 
 ## Compared to Inline Styles
 
 1.  **Rules caching.**
 
-    Inline styles can not be cached, they need to be applied to an element once they needed. CSS rules generated by JSS are created once and used during the complete application lifecycle.
+    Inline styles cannot get cached. They need to be applied to an element once they required. CSS rules generated by JSS are created once and used during the complete application lifecycle.
 
 1.  **Rules sharing.**
 
-    Inline styles are applied to every element directly and can not be shared between multiple elements. This becomes important when you have a list of items styled equally. In JSS a CSS rule is shared for all items.
-    Inline styles are a good fit for state dependent styles and animations.
+    Inline styles are applied to every element directly and cannot get shared between multiple elements. It becomes crucial when you have a list of items styled equally. In JSS a CSS rule is shared between all items.
+    Inline styles are a good fit for state-dependent styles and animations.
 
 1.  **All CSS features included.**
 
@@ -76,7 +76,7 @@
     - Keyframes animation
     - Font face
     - Pseudo selectors
-    - Fallbacks: you can define the same property [multiple times](./json-api.md#fallbacks), like you know it from CSS.
+    - Fallbacks: you can define the same property [multiple times](./jss-syntax.md#fallbacks), like you know it from CSS.
     - Automatic vendor prefixing
 
 1.  **Performance.**
@@ -91,9 +91,9 @@
 
 ## Compared to Aphrodite
 
-1.  Supports children, siblings and any other kinds of selectors.
-1.  Has support for global styles, without auto namespacing.
-1.  Renders styles before component is rendered. It gives you an access to computed styles right after render and avoids additional recalcs and repaints, which can cause flickers and general performance overhead.
+1.  It has support for children, siblings and any other kinds of selectors.
+1.  It has support for global styles, without auto namespacing.
+1.  It renders styles before the component gets rendered. It gives you access to computed styles right after render and avoids additional recalcs and repaints, which can cause flickers and general performance overhead.
 1.  No auto "!important" insertion. You can write a plugin for this though.
 
 More details in [the article](https://medium.com/@oleg008/aphrodite-vs-jss-a15761b91ee3).
@@ -102,7 +102,7 @@ More details in [the article](https://medium.com/@oleg008/aphrodite-vs-jss-a1576
 
 1.  **Extensible core architecture.**
 
-    Small core, everything else is a plugin. It is similar to [postcss](http://postcss.org/) at this point. It allows you to create your own setup with selected plugins, which fix **your** problems. Also it allows you to create your very specific custom modifiers.
+    Small core, everything else is a plugin. It is similar to [postcss](http://postcss.org/) at this point. It allows you to create your setup with selected plugins, which fix **your** problems. Also, it will enable you to create your very specific custom modifiers.
 
 ## Related articles
 

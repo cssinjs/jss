@@ -1,11 +1,12 @@
 {
   "name": "jss-plugin-isolate",
   "description": "True rules isolation through automatic properties reset.",
-  "version": "5.1.0",
+  "version": "10.0.0-alpha.3",
   "license": "MIT",
-  "homepage": "https://cssinjs.org/jss-isolate",
+  "homepage": "https://cssinjs.org/jss-plugin-isolate",
   "main": "dist/jss-plugin-isolate.cjs.js",
   "module": "dist/jss-plugin-isolate.esm.js",
+  "unpkg": "dist/jss-plugin-isolate.bundle.js",
   "typings": "./src/index.d.ts",
   "author": {
     "name": "Maksim Koretskiy",
@@ -37,8 +38,8 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
-    "jss": "^9.0.0",
-    "jss-plugin-syntax-nested": "^6.0.0"
+    "jss": "^10.0.0-alpha.3",
+    "jss-plugin-nested": "^10.0.0-alpha.3"
   },
   "peerDependencies": {
     "jss": "^9.0.0"

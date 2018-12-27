@@ -1,14 +1,15 @@
 {
   "name": "jss",
   "description": "A lib for generating Style Sheets with JavaScript.",
-  "version": "9.8.4",
+  "version": "10.0.0-alpha.3",
   "license": "MIT",
   "homepage": "https://cssinjs.org/",
   "main": "dist/jss.cjs.js",
   "module": "dist/jss.esm.js",
+  "unpkg": "dist/jss.bundle.js",
   "typings": "./src/index.d.ts",
   "author": {
-    "name": "Oleg Slobodskoi",
+    "name": "Oleg Isonen (Slobodskoi)",
     "email": "oleg008@gmail.com"
   },
   "repository": {

@@ -4,7 +4,7 @@ import type {Classes} from 'jss'
  * Adds `composes` property to each top level rule
  * in order to have a composed class name for dynamic style sheets.
  *
- * It relies on jss-compose and jss-extend plugins.
+ * It relies on jss-plugin-compose and jss-plugin-extend plugins.
  *
  * Example:
  * classes:  {left: 'a', button: 'b'}
