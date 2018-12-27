@@ -5,7 +5,7 @@
 [![OpenCollective](https://opencollective.com/jss/backers/badge.svg)](#backers)
 [![OpenCollective](https://opencollective.com/jss/sponsors/badge.svg)](#sponsors)
 
-[JSS is a more powerful abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It uses JavaScript as a language to describe styles in a declarative and maintainable way. It is a [high performance](https://github.com/cssinjs/jss/blob/master/docs/performance.md) JS to CSS compiler which works at runtime and server-side. This core library is low level and framework agnostic. It is about 6KB (minified and gzipped) and is extensible via [plugins]./docs/plugins.md) API.
+[JSS is a more powerful abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It uses JavaScript as a language to describe styles in a declarative and maintainable way. It is a [high performance](https://github.com/cssinjs/jss/blob/master/docs/performance.md) JS to CSS compiler which works at runtime and server-side. This core library is low level and framework agnostic. It is about 6KB (minified and gzipped) and is extensible via [plugins](./docs/plugins.md) API.
 
 Feel free to ask any JSS related questions on Twitter by using hashtag `#cssinjs` and mentioning [@oleg008](https://twitter.com/oleg008), [watch my latest talk](https://www.youtube.com/watch?v=i3TIrcnMIng) about "Unique Value Proposition of CSSinJS" and try it on a [playground](https://codesandbox.io/s/z21lpmvv33).
 
@@ -14,11 +14,11 @@ If you are a Sass (SCSS) user, this course will show how to express popular Sass
 ## Key features
 
 - Framework agnostic
-- [Scoped selectors by default]./docs/jss-syntax.md)
+- [Scoped selectors by default](./docs/jss-syntax.md)
 - [Function values and rules](packages/jss-plugin-rule-value-function/readme.md)
 - [Observables](packages/jss-plugin-rule-value-observable/readme.md)
-- [SSR]./docs/ssr.md)
-- [Plugins support]./docs/plugins.md)
+- [SSR](./docs/ssr.md)
+- [Plugins support](./docs/plugins.md)
 - [Global CSS](./docs/jss-plugin-global.md)
 - [Expanded syntax](./docs/jss-plugin-expand.md)
 - [Composition syntax](./docs/jss-plugin-compose.md)
@@ -38,18 +38,18 @@ If you are a Sass (SCSS) user, this course will show how to express popular Sass
 1.  [Benefits](./docs/benefits.md)
 1.  [Setup](./docs/setup.md)
 1.  [Core JSS Syntax](./docs/jss-syntax.md)
-1.  [JavaScript API]./docs/jss-api.md)
-1.  [Server-side rendering]./docs/ssr.md)
-1.  [Performance]./docs/performance.md)
-1.  [Plugins API]./docs/plugins.md)
-1.  [All related projects]./docs/projects.md)
+1.  [JavaScript API](./docs/jss-api.md)
+1.  [Server-side rendering](./docs/ssr.md)
+1.  [Performance](./docs/performance.md)
+1.  [Plugins API](./docs/plugins.md)
+1.  [All related projects](./docs/projects.md)
 1.  [CLI Converter](https://github.com/cssinjs/cli)
 1.  [Contributing](./contributing.md)
 
 ## Example
 
 Try it out on [playground](https://codesandbox.io/s/z21lpmvv33).
-You need to [setup plugins]./docs/setup.md#setup-with-plugins) first.
+You need to [setup plugins](./docs/setup.md#setup-with-plugins) first.
 You can use a [preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with default plugins, or try [`jss-starter-kit`](packages/jss-starter-kit) for easy experimentation.
 
 ```javascript
@@ -130,7 +130,7 @@ Result
 - Minimal download size is important to you.
 - Robustness and code reuse is essential to you.
 - Ease of maintenance is critical to you.
-- You want to use any of its [benefits]./docs/benefits.md)
+- You want to use any of its [benefits](./docs/benefits.md)
 
 ## Roadmap
 
