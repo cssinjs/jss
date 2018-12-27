@@ -322,7 +322,9 @@ describe('jss-plugin-extend', () => {
     })
 
     it('error if extend using same rule name', () => {
-      expect(warning).to.be('[JSS] A rule tries to extend itself \\r\\n.a-id {\\n  extend: a;\\n  width: 1px;\\n}')
+      expect(warning).to.be(
+        '[JSS] A rule tries to extend itself \\r\\n.a-id {\\n  extend: a;\\n  width: 1px;\\n}'
+      )
       expect(sheet.getRule('a')).to.not.be(undefined)
       expect(sheet.toString()).to.be('.a-id {\n  width: 1px;\n}')
     })

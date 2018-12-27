@@ -258,7 +258,9 @@ describe('jss-plugin-compose', () => {
           color: 'red'
         }
       })
-      expect(warning).to.be('[JSS] Cyclic composition detected. \\r\\n.a-id {\\n  composes: $a;\\n  color: red;\\n}')
+      expect(warning).to.be(
+        '[JSS] Cyclic composition detected. \\r\\n.a-id {\\n  composes: $a;\\n  color: red;\\n}'
+      )
     })
 
     it("should warn when try to compose ref which can't be resolved", () => {
@@ -268,7 +270,9 @@ describe('jss-plugin-compose', () => {
           color: 'red'
         }
       })
-      expect(warning).to.be('[JSS] Referenced rule is not defined. \\r\\n.a-id {\\n  composes: $b;\\n  color: red;\\n}')
+      expect(warning).to.be(
+        '[JSS] Referenced rule is not defined. \\r\\n.a-id {\\n  composes: $b;\\n  color: red;\\n}'
+      )
     })
   })
 })

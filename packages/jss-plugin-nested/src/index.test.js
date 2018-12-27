@@ -405,7 +405,9 @@ describe('jss-plugin-nested', () => {
         }
       })
 
-      expect(warning).to.be('[JSS] Could not find the referenced rule b in .a-id {\\n  & $b: [object Object];\\n}.')
+      expect(warning).to.be(
+        '[JSS] Could not find the referenced rule b in .a-id {\\n  & $b: [object Object];\\n}.'
+      )
     })
   })
 
