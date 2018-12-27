@@ -4,12 +4,12 @@ import React, {Component, type ComponentType} from 'react'
 import PropTypes from 'prop-types'
 import {ThemeContext} from 'theming'
 import {getDynamicStyles, SheetsManager, type StyleSheet} from 'jss'
-import memoize from 'memoize-one'
 import defaultJss from './jss'
 import mergeClasses from './merge-classes'
 import getDisplayName from './getDisplayName'
 import JssContext from './JssContext'
 import type {Options, Theme, StylesOrCreator, InnerProps, OuterProps} from './types'
+import memoize from './memoize-one'
 
 const env = process.env.NODE_ENV
 
