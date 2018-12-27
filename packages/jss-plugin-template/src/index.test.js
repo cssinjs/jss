@@ -15,7 +15,7 @@ describe('jss-plugin-template', () => {
   let warning
 
   beforeEach(() => {
-    parse.__Rewire__('warning', (condition, message) => {
+    parse.__Rewire__('tiny-warning', (condition, message) => {
       warning = message
     })
 
@@ -23,7 +23,7 @@ describe('jss-plugin-template', () => {
   })
 
   afterEach(() => {
-    parse.__ResetDependency__('warning')
+    parse.__ResetDependency__('tiny-warning')
     warning = undefined
   })
 

@@ -16,7 +16,7 @@ describe('jss-plugin-nested', () => {
   let warning
 
   beforeEach(() => {
-    nested.__Rewire__('warning', (condition, message) => {
+    nested.__Rewire__('tiny-warning', (condition, message) => {
       warning = message
     })
 
@@ -24,7 +24,7 @@ describe('jss-plugin-nested', () => {
   })
 
   afterEach(() => {
-    nested.__ResetDependency__('warning')
+    nested.__ResetDependency__('tiny-warning')
     warning = undefined
   })
 
@@ -405,7 +405,7 @@ describe('jss-plugin-nested', () => {
         }
       })
 
-      expect(warning).to.be('[JSS] Could not find the referenced rule %s in %s.')
+      expect(warning).to.be('[JSS] Could not find the referenced rule b in .a-id {\\n  & $b: [object Object];\\n}.')
     })
   })
 

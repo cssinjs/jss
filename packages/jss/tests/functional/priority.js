@@ -167,13 +167,13 @@ describe('Functional: dom priority', () => {
 
     beforeEach(() => {
       warned = false
-      DomRenderer.__Rewire__('warning', () => {
+      DomRenderer.__Rewire__('tiny-warning', () => {
         warned = true
       })
     })
 
     afterEach(() => {
-      DomRenderer.__ResetDependency__('warning')
+      DomRenderer.__ResetDependency__('tiny-warning')
     })
 
     it('should warn when string insertion point not found', () => {

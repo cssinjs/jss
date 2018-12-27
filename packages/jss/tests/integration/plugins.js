@@ -71,14 +71,14 @@ describe('Integration: plugins', () => {
     it('should warn when unknown hook name is used', () => {
       let receivedWarning
       // eslint-disable-next-line no-underscore-dangle
-      PluginsRegistry.__Rewire__('warning', (flag, warning) => {
+      PluginsRegistry.__Rewire__('tiny-warning', (flag, warning) => {
         receivedWarning = warning
       })
       jss.use({
         unknownHook: () => null
       })
       jss.createStyleSheet({a: {color: 'red'}})
-      expect(receivedWarning).to.be('[JSS] Unknown hook "%s".')
+      expect(receivedWarning).to.be('[JSS] Unknown hook "unknownHook".')
     })
 
     it('should run user-defined plugins in .setup() first, internal second', () => {

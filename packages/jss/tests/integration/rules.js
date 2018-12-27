@@ -326,7 +326,7 @@ describe('Integration: rules', () => {
       let warned = false
 
       before(() => {
-        createRule.__Rewire__('warning', () => {
+        createRule.__Rewire__('tiny-warning', () => {
           warned = true
         })
       })
@@ -339,7 +339,7 @@ describe('Integration: rules', () => {
       })
 
       after(() => {
-        createRule.__ResetDependency__('warning')
+        createRule.__ResetDependency__('tiny-warning')
       })
     })
 

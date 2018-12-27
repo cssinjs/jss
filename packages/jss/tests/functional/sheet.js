@@ -297,7 +297,7 @@ describe('Functional: sheet', () => {
     let warned = false
 
     beforeEach(() => {
-      DomRenderer.__Rewire__('warning', () => {
+      DomRenderer.__Rewire__('tiny-warning', () => {
         warned = true
       })
       sheet = jss.createStyleSheet().attach()
@@ -307,7 +307,7 @@ describe('Functional: sheet', () => {
 
     afterEach(() => {
       sheet.detach()
-      DomRenderer.__ResetDependency__('warning')
+      DomRenderer.__ResetDependency__('tiny-warning')
       warned = false
     })
 
@@ -350,14 +350,14 @@ describe('Functional: sheet', () => {
     let sheet
 
     beforeEach(() => {
-      DomRenderer.__Rewire__('warning', () => {
+      DomRenderer.__Rewire__('tiny-warning', () => {
         warned = true
       })
       escape.__Rewire__('env', 'production')
     })
 
     afterEach(() => {
-      DomRenderer.__ResetDependency__('warning')
+      DomRenderer.__ResetDependency__('tiny-warning')
       escape.__ResetDependency__('env')
       sheet.detach()
       warned = false
@@ -497,14 +497,14 @@ describe('Functional: sheet', () => {
     let warned = false
 
     beforeEach(() => {
-      stylePlugin.__Rewire__('warning', () => {
+      stylePlugin.__Rewire__('tiny-warning', () => {
         warned = true
       })
     })
 
     afterEach(() => {
       warned = false
-      stylePlugin.__ResetDependency__('warning')
+      stylePlugin.__ResetDependency__('tiny-warning')
     })
 
     it('should warn when sheet not linked but attached', () => {

@@ -11,14 +11,14 @@ describe('jss-plugin-compose', () => {
   let warning
 
   beforeEach(() => {
-    compose.__Rewire__('warning', (condition, message) => {
+    compose.__Rewire__('tiny-warning', (condition, message) => {
       warning = message
     })
     jss = create(settings).use(compose())
   })
 
   afterEach(() => {
-    compose.__ResetDependency__('warning')
+    compose.__ResetDependency__('tiny-warning')
     warning = undefined
   })
 
@@ -258,7 +258,7 @@ describe('jss-plugin-compose', () => {
           color: 'red'
         }
       })
-      expect(warning).to.be('[JSS] Cyclic composition detected. \r\n%s')
+      expect(warning).to.be('[JSS] Cyclic composition detected. \\r\\n.a-id {\\n  composes: $a;\\n  color: red;\\n}')
     })
 
     it("should warn when try to compose ref which can't be resolved", () => {
@@ -268,7 +268,7 @@ describe('jss-plugin-compose', () => {
           color: 'red'
         }
       })
-      expect(warning).to.be('[JSS] Referenced rule is not defined. \r\n%s')
+      expect(warning).to.be('[JSS] Referenced rule is not defined. \\r\\n.a-id {\\n  composes: $b;\\n  color: red;\\n}')
     })
   })
 })
