@@ -1,8 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 
 import expect from 'expect.js'
-import {create} from '../../src'
 import sinon from 'sinon'
+import {create} from '../../src'
 
 describe('Functional: dom priority', () => {
   function createDummySheets() {

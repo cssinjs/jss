@@ -5,7 +5,6 @@ import expect from 'expect.js'
 import sinon from 'sinon'
 
 import {create} from '../../src'
-import createRule from '../../src/utils/createRule'
 import {createGenerateId} from '../utils'
 
 describe('Integration: rules', () => {
