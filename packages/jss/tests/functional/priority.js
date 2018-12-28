@@ -2,7 +2,7 @@
 
 import expect from 'expect.js'
 import {create} from '../../src'
-import DomRenderer from '../../src/renderers/DomRenderer'
+import sinon from 'sinon'
 
 describe('Functional: dom priority', () => {
   function createDummySheets() {
@@ -163,29 +163,32 @@ describe('Functional: dom priority', () => {
   })
 
   describe('insertion point specified but not found in the document', () => {
-    let warned
+    let spy
 
     beforeEach(() => {
-      warned = false
-      DomRenderer.__Rewire__('tiny-warning', () => {
-        warned = true
-      })
+      spy = sinon.spy(console, 'warn')
     })
 
     afterEach(() => {
-      DomRenderer.__ResetDependency__('tiny-warning')
+      console.warn.restore()
     })
 
     it('should warn when string insertion point not found', () => {
       const jss = create({insertionPoint: 'something'})
       jss.createStyleSheet().attach()
-      expect(warned).to.be(true)
+
+      expect(spy.callCount).to.be(1)
+      expect(spy.calledWithExactly('Warning: [JSS] Insertion point "something" not found.')).to.be(
+        true
+      )
     })
 
     it('should warn when element insertion point not found', () => {
       const jss = create({insertionPoint: document.createElement('div')})
       jss.createStyleSheet().attach()
-      expect(warned).to.be(true)
+
+      expect(spy.callCount).to.be(1)
+      expect(spy.calledWithExactly('Warning: [JSS] Insertion point is not in the DOM.')).to.be(true)
     })
   })
 

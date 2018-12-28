@@ -35,12 +35,12 @@ function registerClass(rule, className) {
     const refRule = parent.getRule(className.substr(1))
 
     if (!refRule) {
-      warning(false, `[JSS] Referenced rule is not defined. \r\n${rule.toString()}'`)
+      warning(false, `[JSS] Referenced rule is not defined. \n${rule.toString()}`)
       return false
     }
 
     if (refRule === rule) {
-      warning(false, `[JSS] Cyclic composition detected. \r\n${rule.toString()}`)
+      warning(false, `[JSS] Cyclic composition detected. \n${rule.toString()}`)
       return false
     }
 

@@ -4,6 +4,7 @@ import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
 import nested from 'jss-plugin-nested'
 import expand from 'jss-plugin-expand'
+import sinon from 'sinon'
 import functionPlugin from 'jss-plugin-rule-value-function'
 import {create} from 'jss'
 
@@ -14,19 +15,16 @@ const settings = {
 }
 
 describe('jss-plugin-extend', () => {
+  let spy
   let jss
-  let warning
 
   beforeEach(() => {
-    extend.__Rewire__('tiny-warning', (condition, message) => {
-      warning = message
-    })
+    spy = sinon.spy(console, 'warn')
     jss = create(settings).use(functionPlugin(), extend(), nested(), expand())
   })
 
   afterEach(() => {
-    extend.__ResetDependency__('tiny-warning')
-    warning = undefined
+    console.warn.restore()
   })
 
   describe('simple extend', () => {
@@ -322,9 +320,13 @@ describe('jss-plugin-extend', () => {
     })
 
     it('error if extend using same rule name', () => {
-      expect(warning).to.be(
-        '[JSS] A rule tries to extend itself \\r\\n.a-id {\\n  extend: a;\\n  width: 1px;\\n}'
-      )
+      expect(spy.callCount).to.be(1)
+      expect(
+        spy.calledWithExactly(
+          'Warning: [JSS] A rule tries to extend itself \n.a-id {\n  extend: a;\n  width: 1px;\n}'
+        )
+      ).to.be(true)
+
       expect(sheet.getRule('a')).to.not.be(undefined)
       expect(sheet.toString()).to.be('.a-id {\n  width: 1px;\n}')
     })

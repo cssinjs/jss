@@ -4,6 +4,7 @@ import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import jssExtend from 'jss-plugin-extend'
 import {create} from 'jss'
+import sinon from 'sinon'
 import functionPlugin from 'jss-plugin-rule-value-function'
 import nested from '.'
 
@@ -13,19 +14,15 @@ const settings = {
 
 describe('jss-plugin-nested', () => {
   let jss
-  let warning
+  let spy
 
   beforeEach(() => {
-    nested.__Rewire__('tiny-warning', (condition, message) => {
-      warning = message
-    })
-
+    spy = sinon.spy(console, 'warn')
     jss = create(settings).use(nested())
   })
 
   afterEach(() => {
-    nested.__ResetDependency__('tiny-warning')
-    warning = undefined
+    console.warn.restore()
   })
 
   describe('nesting with space', () => {
@@ -405,9 +402,12 @@ describe('jss-plugin-nested', () => {
         }
       })
 
-      expect(warning).to.be(
-        '[JSS] Could not find the referenced rule b in .a-id {\\n  & $b: [object Object];\\n}.'
-      )
+      expect(spy.callCount).to.be(1)
+      expect(
+        spy.calledWithExactly(
+          'Warning: [JSS] Could not find the referenced rule b in .a-id {\n  & $b: [object Object];\n}.'
+        )
+      ).to.be(true)
     })
   })
 

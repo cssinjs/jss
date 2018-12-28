@@ -14,7 +14,7 @@ function mergeExtend(style, rule, sheet, newStyle) {
     const refRule = sheet.getRule(style.extend)
     if (!refRule) return
     if (refRule === rule) {
-      warning(false, `[JSS] A rule tries to extend itself \r\n${rule.toString()}`)
+      warning(false, `[JSS] A rule tries to extend itself \n${rule.toString()}`)
       return
     }
     const {parent} = refRule.options

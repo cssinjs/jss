@@ -2,10 +2,9 @@
 
 import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
+import sinon from 'sinon'
 
 import {create} from '../../src'
-import DomRenderer from '../../src/renderers/DomRenderer'
-import stylePlugin from '../../src/plugins/styleRule'
 import escape from '../../src/utils/escape'
 import {
   createGenerateId,
@@ -23,9 +22,15 @@ const isKeyframesSupported = 'animationName' in document.body.style
 
 describe('Functional: sheet', () => {
   let jss
+  let spy
 
   beforeEach(() => {
+    spy = sinon.spy(console, 'warn')
     jss = create(settings)
+  })
+
+  afterEach(() => {
+    console.warn.restore()
   })
 
   describe('sheet.attach() CSS check from DOM', () => {
@@ -294,12 +299,8 @@ describe('Functional: sheet', () => {
   describe('.addRule() with empty styles', () => {
     let sheet
     let style
-    let warned = false
 
     beforeEach(() => {
-      DomRenderer.__Rewire__('tiny-warning', () => {
-        warned = true
-      })
       sheet = jss.createStyleSheet().attach()
       sheet.addRule('a', {})
       style = getStyle()
@@ -307,8 +308,6 @@ describe('Functional: sheet', () => {
 
     afterEach(() => {
       sheet.detach()
-      DomRenderer.__ResetDependency__('tiny-warning')
-      warned = false
     })
 
     it('should not render', () => {
@@ -316,7 +315,7 @@ describe('Functional: sheet', () => {
     })
 
     it('should not warn', () => {
-      expect(warned).to.be(false)
+      expect(spy.callCount).to.be(0)
     })
   })
 
@@ -346,27 +345,26 @@ describe('Functional: sheet', () => {
   })
 
   describe('.addRule() with invalid decl to attached sheet', () => {
-    let warned = false
     let sheet
 
     beforeEach(() => {
-      DomRenderer.__Rewire__('tiny-warning', () => {
-        warned = true
-      })
       escape.__Rewire__('env', 'production')
     })
 
     afterEach(() => {
-      DomRenderer.__ResetDependency__('tiny-warning')
       escape.__ResetDependency__('env')
       sheet.detach()
-      warned = false
     })
 
     it('should warn', () => {
       sheet = jss.createStyleSheet().attach()
       sheet.addRule('%%%%', {color: 'red'})
-      expect(warned).to.be(true)
+      expect(spy.callCount).to.be(1)
+      expect(
+        spy.calledWithExactly(
+          'Warning: [JSS] Can not insert an unsupported rule \n.%%%%-id {\n  color: red;\n}'
+        )
+      ).to.be(true)
     })
   })
 
@@ -494,34 +492,26 @@ describe('Functional: sheet', () => {
   })
 
   describe('warn on rule.prop() call', () => {
-    let warned = false
-
-    beforeEach(() => {
-      stylePlugin.__Rewire__('tiny-warning', () => {
-        warned = true
-      })
-    })
-
-    afterEach(() => {
-      warned = false
-      stylePlugin.__ResetDependency__('tiny-warning')
-    })
-
     it('should warn when sheet not linked but attached', () => {
       const sheet = jss.createStyleSheet({a: {color: 'green'}}).attach()
       sheet.getRule('a').prop('color', 'red')
-      expect(warned).to.be(true)
+      expect(spy.callCount).to.be(1)
+      expect(
+        spy.calledWithExactly(
+          'Warning: [JSS] Rule is not linked. Missing sheet option "link: true".'
+        )
+      ).to.be(true)
     })
 
     it('should not warn when sheet is not linked but also not attached', () => {
       const sheet = jss.createStyleSheet({a: {color: 'green'}})
       sheet.getRule('a').prop('color', 'red')
-      expect(warned).to.be(false)
+      expect(spy.callCount).to.be(0)
     })
 
     it('should not warn when there is no sheet', () => {
       jss.createRule({color: 'green'}).prop('color', 'red')
-      expect(warned).to.be(false)
+      expect(spy.callCount).to.be(0)
     })
   })
 

@@ -2,24 +2,22 @@
 
 import expect from 'expect.js'
 import {create} from 'jss'
+import sinon from 'sinon'
 import compose from '.'
 
 const settings = {createGenerateId: () => rule => `${rule.key}-id`}
 
 describe('jss-plugin-compose', () => {
   let jss
-  let warning
+  let spy
 
   beforeEach(() => {
-    compose.__Rewire__('tiny-warning', (condition, message) => {
-      warning = message
-    })
+    spy = sinon.spy(console, 'warn')
     jss = create(settings).use(compose())
   })
 
   afterEach(() => {
-    compose.__ResetDependency__('tiny-warning')
-    warning = undefined
+    console.warn.restore()
   })
 
   describe('Ref composition', () => {
@@ -38,7 +36,7 @@ describe('jss-plugin-compose', () => {
     })
 
     afterEach(() => {
-      expect(warning).to.be(undefined)
+      expect(spy.callCount).to.be(0)
     })
 
     it('should add rules', () => {
@@ -68,7 +66,7 @@ describe('jss-plugin-compose', () => {
     })
 
     afterEach(() => {
-      expect(warning).to.be(undefined)
+      expect(spy.callCount).to.be(0)
     })
 
     it('should compose classes', () => {
@@ -110,7 +108,7 @@ describe('jss-plugin-compose', () => {
     })
 
     afterEach(() => {
-      expect(warning).to.be(undefined)
+      expect(spy.callCount).to.be(0)
     })
 
     it('should add rules', () => {
@@ -172,7 +170,7 @@ describe('jss-plugin-compose', () => {
     })
 
     afterEach(() => {
-      expect(warning).to.be(undefined)
+      expect(spy.callCount).to.be(0)
     })
 
     it('should add rules', () => {
@@ -221,7 +219,7 @@ describe('jss-plugin-compose', () => {
     })
 
     afterEach(() => {
-      expect(warning).to.be(undefined)
+      expect(spy.callCount).to.be(0)
     })
 
     it('should add rules', () => {
@@ -258,9 +256,17 @@ describe('jss-plugin-compose', () => {
           color: 'red'
         }
       })
-      expect(warning).to.be(
-        '[JSS] Cyclic composition detected. \\r\\n.a-id {\\n  composes: $a;\\n  color: red;\\n}'
-      )
+
+      expect(spy.callCount).to.be(1)
+      expect(
+        spy.calledWithExactly(
+          'Warning: [JSS] Cyclic composition detected. \n' +
+            '.a-id {\n' +
+            '  composes: $a;\n' +
+            '  color: red;\n' +
+            '}'
+        )
+      ).to.be(true)
     })
 
     it("should warn when try to compose ref which can't be resolved", () => {
@@ -270,9 +276,13 @@ describe('jss-plugin-compose', () => {
           color: 'red'
         }
       })
-      expect(warning).to.be(
-        '[JSS] Referenced rule is not defined. \\r\\n.a-id {\\n  composes: $b;\\n  color: red;\\n}'
-      )
+
+      expect(spy.callCount).to.be(1)
+      expect(
+        spy.calledWithExactly(
+          'Warning: [JSS] Referenced rule is not defined. \n.a-id {\n  composes: $b;\n  color: red;\n}'
+        )
+      ).to.be(true)
     })
   })
 })
