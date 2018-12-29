@@ -12,7 +12,7 @@ const plugins = [
 ]
 
 module.exports = {
-  entry: './packages/jss/src/index',
+  entry: './packages/jss/src',
   output: {
     library: 'jss',
     libraryTarget: 'umd'
@@ -24,12 +24,8 @@ module.exports = {
         loader: 'babel-loader',
         test: /\.js$/,
         exclude: /node_modules/
-      },
-      {
-        loader: 'json-loader',
-        test: /\.json$/
       }
     ]
   },
-  devtool: 'source-map'
+  devtool: 'inline-source-map'
 }
