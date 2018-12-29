@@ -270,7 +270,7 @@ const insertRule = (
       c.appendRule(rule)
     }
   } catch (err) {
-    warning(false, `[JSS] Can not insert an unsupported rule \n\r${rule}`)
+    warning(false, `[JSS] Can not insert an unsupported rule \n${rule}`)
     return false
   }
   return container.cssRules[index]
