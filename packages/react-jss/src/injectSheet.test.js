@@ -7,7 +7,6 @@ import {spy} from 'sinon'
 import {render, unmountComponentAtNode} from 'react-dom'
 
 import getDisplayName from './getDisplayName'
-import createHoc from './createHoc'
 import injectSheet, {JssProvider, ThemeProvider} from '.'
 
 const createGenerateId = () => rule => `${rule.key}-id`
@@ -376,13 +375,11 @@ describe('React-JSS: injectSheet', () => {
       expect(classNamePrefix).to.be('DisplayNameTest-')
     })
 
-    it.skip('should pass no prefix in production', () => {
-      // Rewrire currently doesn't work, most probably because of how we reset
-      // the tests #118
-      createHoc.__Rewire__('env', 'production')
+    it('should pass no prefix in production', () => {
+      process.env.NODE_ENV = 'production'
       renderTest()
-      expect(classNamePrefix).to.be(undefined)
-      createHoc.__ResetDependency__('env')
+      expect(classNamePrefix).to.be('')
+      process.env.NODE_ENV = 'development'
     })
   })
 

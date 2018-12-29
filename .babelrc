@@ -7,14 +7,6 @@
   "plugins": [
     "transform-es3-member-expression-literals",
     "transform-es3-property-literals",
-    "transform-flow-strip-types",
-    "transform-inline-environment-variables"
-  ],
-  "env": {
-    "test": {
-      "plugins": [
-        "rewire"
-      ]
-    }
-  }
+    "transform-flow-strip-types"
+  ]
 }

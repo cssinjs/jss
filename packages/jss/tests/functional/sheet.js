@@ -5,7 +5,6 @@ import expect from 'expect.js'
 import sinon from 'sinon'
 
 import {create} from '../../src'
-import escape from '../../src/utils/escape'
 import {
   createGenerateId,
   computeStyle,
@@ -345,19 +344,16 @@ describe('Functional: sheet', () => {
   })
 
   describe('.addRule() with invalid decl to attached sheet', () => {
-    let sheet
-
-    beforeEach(() => {
-      escape.__Rewire__('env', 'production')
+    before(() => {
+      process.env.NODE_ENV = 'production'
     })
 
-    afterEach(() => {
-      escape.__ResetDependency__('env')
-      sheet.detach()
+    after(() => {
+      process.env.NODE_ENV = 'development'
     })
 
     it('should warn', () => {
-      sheet = jss.createStyleSheet().attach()
+      const sheet = jss.createStyleSheet().attach()
       sheet.addRule('%%%%', {color: 'red'})
       expect(spy.callCount).to.be(1)
       expect(
@@ -365,6 +361,7 @@ describe('Functional: sheet', () => {
           'Warning: [JSS] Can not insert an unsupported rule \n.%%%%-id {\n  color: red;\n}'
         )
       ).to.be(true)
+      sheet.detach()
     })
   })
 

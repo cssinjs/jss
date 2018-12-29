@@ -10,14 +10,14 @@
     "gzipped": 6254
   },
   "dist/jss.cjs.js": {
-    "bundled": 53904,
-    "minified": 23707,
-    "gzipped": 6617
+    "bundled": 53885,
+    "minified": 23702,
+    "gzipped": 6604
   },
   "dist/jss.esm.js": {
-    "bundled": 53368,
-    "minified": 23273,
-    "gzipped": 6528,
+    "bundled": 53349,
+    "minified": 23268,
+    "gzipped": 6516,
     "treeshaked": {
       "rollup": {
         "code": 19725,

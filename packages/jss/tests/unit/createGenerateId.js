@@ -25,24 +25,22 @@ describe('Unit: jss - createGenerateId', () => {
     expect(generate({key: 'a'}, sheetMock)).to.be('pa-0-0-1')
   })
 
-  it('should increment jss lib version', () => {
-    createGenerateId.__Rewire__('moduleId', 6)
+  it.skip('should increment jss lib version', () => {
     const generate = createGenerateId()
     expect(generate({key: 'a'})).to.be('a-6-1')
-    createGenerateId.__ResetDependency__('moduleId')
   })
 
   it('should generate a production class name', () => {
-    createGenerateId.__Rewire__('env', 'production')
+    process.env.NODE_ENV = 'production'
     const generate = createGenerateId()
     expect(generate()).to.be('c01')
-    createGenerateId.__ResetDependency__('env')
+    process.env.NODE_ENV = 'development'
   })
 
   it('should add prefix a production class name', () => {
-    createGenerateId.__Rewire__('env', 'production')
+    process.env.NODE_ENV = 'production'
     const generate = createGenerateId()
     expect(generate({key: 'a'}, sheetMock)).to.be('p001')
-    createGenerateId.__ResetDependency__('env')
+    process.env.NODE_ENV = 'development'
   })
 })

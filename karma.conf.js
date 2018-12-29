@@ -21,6 +21,7 @@ module.exports = config => {
       'node_modules/es5-shim/es5-sham.js',
       'node_modules/css.escape/css.escape.js',
       'node_modules/raf/polyfill.js',
+      './packages/jss/tests/setup.js',
       './packages/jss/tests/index.js',
       './packages/jss-plugin-rule-value-function/src/index.test.js',
       './packages/jss-plugin-rule-value-observable/src/index.test.js',

@@ -6,8 +6,6 @@ import moduleId from './moduleId'
 
 const maxRules = 1e10
 
-const env = process.env.NODE_ENV
-
 /**
  * Returns a function which generates unique class names based on counters.
  * When new generator function is created, rule counter is reseted.
@@ -15,7 +13,7 @@ const env = process.env.NODE_ENV
  */
 export default (): GenerateId => {
   let ruleCounter = 0
-  const defaultPrefix = env === 'production' ? 'c' : ''
+  const defaultPrefix = process.env.NODE_ENV === 'production' ? 'c' : ''
 
   return (rule: Rule, sheet?: StyleSheet): string => {
     ruleCounter += 1
@@ -32,7 +30,7 @@ export default (): GenerateId => {
       if (sheet.options.jss.id != null) jssId += sheet.options.jss.id
     }
 
-    if (env === 'production') {
+    if (process.env.NODE_ENV === 'production') {
       return `${prefix}${moduleId}${jssId}${ruleCounter}`
     }
 

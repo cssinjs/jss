@@ -12,9 +12,9 @@ describe('Unit: jss - escape', () => {
     })
 
     it('should not escape in production', () => {
-      escape.__Rewire__('env', 'production')
+      process.env.NODE_ENV = 'production'
       expect(escape('test()')).to.be('test()')
-      escape.__ResetDependency__('env')
+      process.env.NODE_ENV = 'development'
     })
   })
 
