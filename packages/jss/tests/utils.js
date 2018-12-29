@@ -1,9 +1,13 @@
+import {sheets} from '../src'
+
+const {slice} = []
+
 export function removeWhitespace(str) {
   return str.replace(/\s/g, '')
 }
 
 export function getRules(style) {
-  return [...style.sheet.cssRules]
+  return slice.call(style.sheet.cssRules)
 }
 
 export function getStyle() {
@@ -21,6 +25,10 @@ export function getCss(style) {
   // We try to use the most complete version.
   // Potentially this is fragile too.
   return textContent.length > cssText.length ? textContent : cssText
+}
+
+export function getCssFromSheet(sheet) {
+  return [...sheet.renderer.getRules()].map(rule => removeWhitespace(rule.cssText)).join('')
 }
 
 /**
@@ -49,3 +57,13 @@ export function computeStyle(className) {
 }
 
 export const createGenerateId = () => rule => `${rule.key}-id`
+
+// Make sure tests are isolated.
+afterEach(() => {
+  sheets.reset()
+
+  const styles = document.head.querySelectorAll('[data-jss]')
+  for (let i = 0; i < styles.length; i++) {
+    document.head.removeChild(styles[i])
+  }
+})
