@@ -2,19 +2,22 @@
 
 import expect from 'expect.js'
 import escape from '../../src/utils/escape'
+import {resetSheets} from '../../../../tests/utils'
 
 const originalEscape = CSS.escape
 
 describe('Unit: jss - escape', () => {
+  beforeEach(resetSheets())
+
   describe('with CSS.escape', () => {
     it('should escape in development', () => {
       expect(escape('test()')).to.be('test\\(\\)')
     })
 
     it('should not escape in production', () => {
-      escape.__Rewire__('env', 'production')
+      process.env.NODE_ENV = 'production'
       expect(escape('test()')).to.be('test()')
-      escape.__ResetDependency__('env')
+      process.env.NODE_ENV = 'development'
     })
   })
 

@@ -11,8 +11,6 @@ import * as ns from './ns'
 import contextTypes from './contextTypes'
 import type {Options, Theme, StylesOrCreator, InnerProps, OuterProps, Context} from './types'
 
-const env = process.env.NODE_ENV
-
 // Like a Symbol
 const dynamicStylesNs = Math.random()
 
@@ -80,7 +78,7 @@ export default function createHOC<
   const {theming, inject, jss: optionsJss, ...sheetOptions} = options
   const injectMap = inject ? toMap(inject) : defaultInjectProps
   const displayName = getDisplayName(InnerComponent)
-  const defaultClassNamePrefix = env === 'production' ? '' : `${displayName}-`
+  const defaultClassNamePrefix = process.env.NODE_ENV === 'production' ? '' : `${displayName}-`
   const noTheme = {}
   const managerId = managersCounter++
   const manager = new SheetsManager()
@@ -108,6 +106,8 @@ export default function createHOC<
 
     constructor(props: OuterPropsType, context: Context) {
       super(props, context)
+
+      this.context = context
 
       const contextSheetOptions = context[ns.sheetOptions]
 

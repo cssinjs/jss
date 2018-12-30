@@ -3,10 +3,12 @@ import {stripIndent} from 'common-tags'
 import sinon from 'sinon'
 import {create} from '../../src'
 import StyleSheet from '../../src/StyleSheet'
-import {createGenerateId} from '../utils'
+import {resetSheets, createGenerateId} from '../../../../tests/utils'
 
 describe('Integration: plugins', () => {
   let jss
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     jss = create({createGenerateId})

@@ -5,10 +5,12 @@ import expect from 'expect.js'
 import sinon from 'sinon'
 
 import {create} from '../../src'
-import {createGenerateId} from '../utils'
+import {resetSheets, createGenerateId} from '../../../../tests/utils'
 
 describe('Integration: rules', () => {
   let jss
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     jss = create({createGenerateId})
