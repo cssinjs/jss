@@ -38,7 +38,7 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "peerDependencies": {
-    "jss": "^9.0.0"
+    "jss": "^10.0.0-alpha.3"
   },
   "devDependencies": {
     "jss": "^10.0.0-alpha.3",
