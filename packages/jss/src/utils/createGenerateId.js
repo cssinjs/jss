@@ -13,7 +13,8 @@ const maxRules = 1e10
  */
 export default (): GenerateId => {
   let ruleCounter = 0
-  const defaultPrefix = process.env.NODE_ENV === 'production' ? 'c' : ''
+  const env = process.env.NODE_ENV
+  const defaultPrefix = env === 'production' ? 'c' : ''
 
   return (rule: Rule, sheet?: StyleSheet): string => {
     ruleCounter += 1
@@ -30,7 +31,7 @@ export default (): GenerateId => {
       if (sheet.options.jss.id != null) jssId += sheet.options.jss.id
     }
 
-    if (process.env.NODE_ENV === 'production') {
+    if (env === 'production') {
       return `${prefix}${moduleId}${jssId}${ruleCounter}`
     }
 
