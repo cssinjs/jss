@@ -1,6 +1,6 @@
 ## Default preset for JSS with selected plugins
 
-Preset allows a quick setup with default settings and a [default plugins](https://github.com/cssinjs/jss/blob/master/packages/jss-preset-default/package.json#L43) so that you don't need to [setup plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-custom-plugins) manually.
+Preset allows a quick setup with default settings and a [default plugins](https://github.com/cssinjs/jss/blob/master/packages/jss-preset-default/package.json#L44) so that you don't need to [setup plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-custom-plugins) manually.
 
 ### API
 
