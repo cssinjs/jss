@@ -5,17 +5,11 @@
 [![OpenCollective](https://opencollective.com/jss/backers/badge.svg)](#backers)
 [![OpenCollective](https://opencollective.com/jss/sponsors/badge.svg)](#sponsors)
 
-JSS is an authoring tool for CSS which allows you to use JavaScript to describe styles in a declarative and reusable way. JSS can compile in the browser, server-side or at build time in Node.
+JSS is an authoring tool for CSS which allows you to use JavaScript to describe styles in a declarative, conflict-free and reusable way. It can compile in the browser, server-side or at build time in Node.
 
-JSS is framework agnostic. It consists of multiple packages: the core, plugins, framework integrations and others. You can learn more on [cssinjs.org](https://cssinjs.org).
+JSS is framework agnostic. It consists of multiple packages: the core, plugins, framework integrations and others. Learn more on [cssinjs.org](https://cssinjs.org).
 
-## Thanks
-
-Thanks to [BrowserStack](https://www.browserstack.com) for providing the infrastructure that allows us to run our tests in real browsers and to all awesome [contributors](https://github.com/cssinjs/jss/graphs/contributors).
-
-<a href="https://www.browserstack.com" target="_blank"><img src="https://www.browserstack.com/images/layout/logo.svg"></a>
-
-### Backers
+## Backers
 
 Support us with a monthly donation and help us continue our activities. [[Become a backer](https://opencollective.com/jss#backer)]
 
@@ -50,7 +44,7 @@ Support us with a monthly donation and help us continue our activities. [[Become
 <a href="https://opencollective.com/jss/backer/28/website" target="_blank"><img src="https://opencollective.com/jss/backer/28/avatar.svg"></a>
 <a href="https://opencollective.com/jss/backer/29/website" target="_blank"><img src="https://opencollective.com/jss/backer/29/avatar.svg"></a>
 
-### Sponsors
+## Sponsors
 
 Become a sponsor and get your logo on our README on Github with a link to your site. [[Become a sponsor](https://opencollective.com/jss#sponsor)]
 
@@ -84,3 +78,9 @@ Become a sponsor and get your logo on our README on Github with a link to your s
 <a href="https://opencollective.com/jss/sponsor/27/website" target="_blank"><img src="https://opencollective.com/jss/sponsor/27/avatar.svg"></a>
 <a href="https://opencollective.com/jss/sponsor/28/website" target="_blank"><img src="https://opencollective.com/jss/sponsor/28/avatar.svg"></a>
 <a href="https://opencollective.com/jss/sponsor/29/website" target="_blank"><img src="https://opencollective.com/jss/sponsor/29/avatar.svg"></a>
+
+## Thanks
+
+Thanks to [BrowserStack](https://www.browserstack.com) for providing the infrastructure that allows us to run our tests in real browsers and to all awesome [contributors](https://github.com/cssinjs/jss/graphs/contributors).
+
+<a href="https://www.browserstack.com" target="_blank"><img src="https://www.browserstack.com/images/layout/logo.svg"></a>
