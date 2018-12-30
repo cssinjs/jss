@@ -3,6 +3,7 @@
 import expect from 'expect.js'
 import sinon from 'sinon'
 import {create} from '../../src'
+import {resetSheets} from '../../../../tests/utils'
 
 describe('Functional: dom priority', () => {
   function createDummySheets() {
@@ -14,6 +15,8 @@ describe('Functional: dom priority', () => {
       document.head.appendChild(dummySheet)
     }
   }
+
+  beforeEach(resetSheets())
 
   describe('without insertion point', () => {
     let jss

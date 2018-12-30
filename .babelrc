@@ -1,12 +1,11 @@
 {
   "presets": [
-    "es2015",
-    "stage-0",
-    "react"
+    "react",
+    "flow",
+    "env"
   ],
   "plugins": [
-    "transform-es3-member-expression-literals",
-    "transform-es3-property-literals",
-    "transform-flow-strip-types"
+    "transform-class-properties",
+    "transform-object-rest-spread"
   ]
 }

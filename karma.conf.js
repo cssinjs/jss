@@ -1,4 +1,4 @@
-const webpackConfig = require('./webpack.config')
+const webpack = require('./webpack.config')
 const browsers = require('./browsers')
 
 const isBench = process.env.BENCHMARK === 'true'
@@ -21,36 +21,16 @@ module.exports = config => {
       'node_modules/es5-shim/es5-sham.js',
       'node_modules/css.escape/css.escape.js',
       'node_modules/raf/polyfill.js',
-      './packages/jss/tests/setup.js',
-      './packages/jss/tests/index.js',
-      './packages/jss-plugin-rule-value-function/src/index.test.js',
-      './packages/jss-plugin-rule-value-observable/src/index.test.js',
-      './packages/jss-plugin-expand/src/index.test.js',
-      './packages/jss-plugin-default-unit/src/index.test.js',
-      './packages/jss-plugin-camel-case/src/index.test.js',
-      './packages/jss-plugin-nested/src/index.test.js',
-      './packages/jss-plugin-extend/src/index.test.js',
-      './packages/jss-plugin-compose/src/index.test.js',
-      './packages/jss-plugin-global/src/index.test.js',
-      './packages/jss-plugin-vendor-prefixer/src/index.test.js',
-      './packages/jss-plugin-cache/src/index.test.js',
-      './packages/jss-plugin-props-sort/src/index.test.js',
-      './packages/jss-plugin-isolate/src/index.test.js',
-      './packages/jss-plugin-template/src/index.test.js',
-      './packages/react-jss/tests/theming.js',
-      './packages/react-jss/tests/dynamic-styles.js',
-      './packages/react-jss/src/index.test.js',
-      './packages/react-jss/src/compose.test.js',
-      './packages/react-jss/src/JssProvider.test.js',
-      './packages/react-jss/src/injectSheet.test.js'
+
+      './packages/*/tests/*.js',
+      './packages/*/tests/**/*.js',
+      './packages/*/src/**/*.test.js'
     ],
     preprocessors: {
       'node_modules/raf/polyfill.js': ['webpack'],
       './packages/**/*.js': ['webpack', 'sourcemap']
     },
-    webpack: Object.assign(webpackConfig, {
-      devtool: 'inline-source-map'
-    }),
+    webpack,
     webpackServer: {
       noInfo: true
     },

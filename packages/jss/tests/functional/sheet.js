@@ -6,6 +6,7 @@ import sinon from 'sinon'
 
 import {create} from '../../src'
 import {
+  resetSheets,
   createGenerateId,
   computeStyle,
   getStyle,
@@ -13,7 +14,7 @@ import {
   getRules,
   removeWhitespace,
   removeVendorPrefixes
-} from '../utils'
+} from '../../../../tests/utils'
 
 const settings = {createGenerateId}
 
@@ -22,6 +23,8 @@ const isKeyframesSupported = 'animationName' in document.body.style
 describe('Functional: sheet', () => {
   let jss
   let spy
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     spy = sinon.spy(console, 'warn')

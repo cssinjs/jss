@@ -8,16 +8,17 @@ import {render, unmountComponentAtNode} from 'react-dom'
 
 import getDisplayName from './getDisplayName'
 import injectSheet, {JssProvider, ThemeProvider} from '.'
+import {resetSheets, createGenerateId} from '../../../tests/utils'
 
-const createGenerateId = () => rule => `${rule.key}-id`
 const removeWhitespaces = s => s.replace(/\s/g, '')
 
 describe('React-JSS: injectSheet', () => {
   let jss
   let node
 
+  beforeEach(resetSheets(sheets))
+
   beforeEach(() => {
-    sheets.reset()
     jss = create({createGenerateId})
     node = document.body.appendChild(document.createElement('div'))
   })
@@ -47,10 +48,8 @@ describe('React-JSS: injectSheet', () => {
         </React.StrictMode>,
         node
       )
-      /* eslint-disable no-console */
       expect(console.error.notCalled).to.be(true)
       console.error.restore()
-      /* eslint-enable no-console */
     })
 
     it('should attach and detach a sheet', () => {
