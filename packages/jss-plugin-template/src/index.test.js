@@ -59,7 +59,7 @@ describe('jss-plugin-template', () => {
       })
 
       expect(spy.callCount).to.be(1)
-      expect(spy.calledWithExactly('Warning: Malformed CSS string "color red;"')).to.be(true)
+      expect(spy.calledWithExactly('Warning: [JSS] Malformed CSS string "color red;"')).to.be(true)
     })
 
     it('should strip spaces', () => {
