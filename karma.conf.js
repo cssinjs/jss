@@ -16,10 +16,7 @@ module.exports = config => {
     browsers: ['Chrome'],
     frameworks: ['mocha'],
     files: [
-      'node_modules/babel-polyfill/dist/polyfill.js',
-      'node_modules/es5-shim/es5-shim.js',
-      'node_modules/es5-shim/es5-sham.js',
-      'node_modules/css.escape/css.escape.js',
+      'node_modules/@babel/polyfill/dist/polyfill.js',
       'node_modules/raf/polyfill.js',
 
       './packages/*/tests/*.js',
@@ -31,8 +28,8 @@ module.exports = config => {
       './packages/**/*.js': ['webpack', 'sourcemap']
     },
     webpack,
-    webpackServer: {
-      noInfo: true
+    webpackMiddleware: {
+      stats: 'errors-only'
     },
     reporters: ['mocha', 'coverage'],
     coverageReporter: {
