@@ -107,6 +107,8 @@ export default function createHOC<
     constructor(props: OuterPropsType, context: Context) {
       super(props, context)
 
+      this.context = context
+
       const contextSheetOptions = context[ns.sheetOptions]
 
       if (contextSheetOptions && contextSheetOptions.classNamePrefix) {

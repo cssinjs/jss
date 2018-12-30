@@ -12,10 +12,14 @@ const plugins = [
 ]
 
 module.exports = {
+  mode: 'none',
   entry: './packages/jss/src/index',
   output: {
     library: 'jss',
     libraryTarget: 'umd'
+  },
+  optimization: {
+    nodeEnv: false
   },
   plugins,
   module: {
@@ -23,7 +27,11 @@ module.exports = {
       {
         loader: 'babel-loader',
         test: /\.js$/,
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        options: {
+          presets: ['@babel/react', '@babel/flow', '@babel/env'],
+          plugins: ['@babel/proposal-class-properties', '@babel/proposal-object-rest-spread']
+        }
       }
     ]
   },
