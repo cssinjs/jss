@@ -6,8 +6,8 @@
   ],
   "scripts": {
     "build": "lerna run prepare",
-    "prepublish": "yarn check-snapshots && yarn build && yarn typecheck && yarn lint && yarn format:ci && yarn test",
-    "publish": "lerna publish",
+    "prepublish-packages": "yarn check-snapshots && yarn build && yarn typecheck && yarn lint && yarn format:ci && yarn test",
+    "publish-packages": "lerna publish",
     "typecheck": "flow check --max-warnings=0",
     "ts-check": "tsc",
     "lint": "eslint scripts/ packages/ docs/ --ext js,md",
