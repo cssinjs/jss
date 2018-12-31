@@ -1,13 +1,7 @@
-# JSS
-
 [![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 [![Build Status](https://travis-ci.org/cssinjs/jss.svg?branch=master)](https://travis-ci.org/cssinjs/jss)
 [![OpenCollective](https://opencollective.com/jss/backers/badge.svg)](#backers)
 [![OpenCollective](https://opencollective.com/jss/sponsors/badge.svg)](#sponsors)
-
-JSS is an authoring tool for CSS which allows you to use JavaScript to describe styles in a declarative, conflict-free and reusable way. It can compile in the browser, server-side or at build time in Node.
-
-JSS is framework agnostic. It consists of multiple packages: the core, plugins, framework integrations and others. Learn more on [cssinjs.org](https://cssinjs.org).
 
 ## Backers
 
@@ -79,7 +73,7 @@ Become a sponsor and get your logo on our README on Github with a link to your s
 <a href="https://opencollective.com/jss/sponsor/28/website" target="_blank"><img src="https://opencollective.com/jss/sponsor/28/avatar.svg"></a>
 <a href="https://opencollective.com/jss/sponsor/29/website" target="_blank"><img src="https://opencollective.com/jss/sponsor/29/avatar.svg"></a>
 
-## Thanks
+## Supporters
 
 Thanks to [BrowserStack](https://www.browserstack.com) for providing the infrastructure that allows us to run our tests in real browsers and to all awesome [contributors](https://github.com/cssinjs/jss/graphs/contributors).
 
