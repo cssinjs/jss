@@ -30,7 +30,7 @@ Yes, you can use `jss-plugin-global` and `jss-plugin-nested` to generate global 
 
 1. Is JSS used in production?
 
-Yes, JSS is used by popular, high load products, such as [Kijiji](https://kijiji.ca), [Chatgrape](https://chatgrape.com), [Nordnet Bank](xxx).
+Yes, JSS is used by popular, high load products, such as [Kijiji](https://kijiji.ca), [Chatgrape](https://chatgrape.com), [Nordnet Bank](https://www.nordnet.se).
 
 Also, it is used by the most popular React UI library - [Material-UI](https://material-ui.com), which is used by a considerable number of small and large products.
 

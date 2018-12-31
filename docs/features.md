@@ -30,7 +30,7 @@
 
 1. Plugins.
 
-   JSS core implements a plugin-based architecture. It allows you to create custom plugins which can implement custom syntax or other powerful abilities. JSS has many official plugins, which can be installed individually or using a default preset. A good example for community plugin is [jss-rte](xxx).
+   JSS core implements a plugin-based architecture. It allows you to create custom plugins which can implement custom syntax or other powerful abilities. JSS has many official plugins, which can be installed individually or using a default preset. A good example for community plugin is [jss-rtl](https://yarnpkg.com/en/package/jss-rtl).
 
 1. Expressive syntax.
 
