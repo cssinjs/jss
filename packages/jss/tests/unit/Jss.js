@@ -5,9 +5,12 @@ import PluginsRegistry from '../../src/PluginsRegistry'
 import sheets from '../../src/sheets'
 import DomRenderer from '../../src/renderers/DomRenderer'
 import VirtualRenderer from '../../src/renderers/VirtualRenderer'
+import {resetSheets} from '../../../../tests/utils'
 
 describe('Unit: jss', () => {
   let jss
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     jss = new Jss()

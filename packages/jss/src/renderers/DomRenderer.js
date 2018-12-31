@@ -1,5 +1,5 @@
 /* @flow */
-import warning from 'warning'
+import warning from 'tiny-warning'
 import sheets from '../sheets'
 import type StyleSheet from '../StyleSheet'
 import type {
@@ -99,9 +99,7 @@ function removeProperty(cssRule: HTMLElement | CSSStyleRule | CSSKeyframeRule, p
   } catch (err) {
     warning(
       false,
-      '[JSS] DOMException "%s" was thrown. Tried to remove property "%s".',
-      err.message,
-      prop
+      `[JSS] DOMException "${err.message}" was thrown. Tried to remove property "${prop}".`
     )
   }
 }
@@ -214,7 +212,7 @@ function findPrevNode(options: PriorityOptions): PrevNode | false {
 
     // If user specifies an insertion point and it can't be found in the document -
     // bad specificity issues may appear.
-    warning(insertionPoint === 'jss', '[JSS] Insertion point "%s" not found.', insertionPoint)
+    warning(false, `[JSS] Insertion point "${insertionPoint}" not found.`)
   }
 
   return false
@@ -272,7 +270,7 @@ const insertRule = (
       c.appendRule(rule)
     }
   } catch (err) {
-    warning(false, '[JSS] Can not insert an unsupported rule \n\r%s', rule)
+    warning(false, `[JSS] Can not insert an unsupported rule \n${rule}`)
     return false
   }
   return container.cssRules[index]

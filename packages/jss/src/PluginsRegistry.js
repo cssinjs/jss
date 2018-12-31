@@ -1,5 +1,5 @@
 /* @flow */
-import warning from 'warning'
+import warning from 'tiny-warning'
 import type StyleSheet from './StyleSheet'
 import type {
   Plugin,
@@ -122,7 +122,9 @@ export default class PluginsRegistry {
         for (const name in plugin) {
           if (name in registry) {
             registry[name].push(plugin[name])
-          } else warning(false, '[JSS] Unknown hook "%s".', name)
+          } else {
+            warning(false, `[JSS] Unknown hook "${name}".`)
+          }
         }
         return registry
       },

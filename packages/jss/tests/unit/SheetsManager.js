@@ -1,7 +1,10 @@
 import expect from 'expect.js'
 import SheetsManager from '../../src/SheetsManager'
+import {resetSheets} from '../../../../tests/utils'
 
 describe('Unit: SheetsManager', () => {
+  beforeEach(resetSheets())
+
   describe('.add()', () => {
     let manager
 

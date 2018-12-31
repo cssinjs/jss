@@ -1,13 +1,13 @@
 {
   "dist/jss-starter-kit.js": {
-    "bundled": 82495,
-    "minified": 33288,
-    "gzipped": 9576
+    "bundled": 81327,
+    "minified": 32915,
+    "gzipped": 9378
   },
   "dist/jss-starter-kit.min.js": {
-    "bundled": 81379,
-    "minified": 32768,
-    "gzipped": 9325
+    "bundled": 81014,
+    "minified": 32519,
+    "gzipped": 9194
   },
   "dist/jss-starter-kit.cjs.js": {
     "bundled": 2341,
