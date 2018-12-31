@@ -6,7 +6,7 @@
 yarn add jss
 ```
 
-Alternatively, you can use [unpkg CDN](./cdn-links.md).
+Alternatively, you can use [unpkg CDN](./cdn.md).
 
 ## Polyfills
 
