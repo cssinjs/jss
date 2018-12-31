@@ -1,5 +1,5 @@
 /* @flow */
-import warn from 'warning'
+import warn from 'tiny-warning'
 import type StyleSheet from './StyleSheet'
 
 /**
