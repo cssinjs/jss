@@ -1,6 +1,11 @@
 {
-  "lerna": "2.11.0",
   "npmClient": "yarn",
   "useWorkspaces": true,
-  "version": "10.0.0-alpha.3"
+  "version": "10.0.0-alpha.3",
+  "commands": {
+    "publish": {
+      "allowBranch": ["master"],
+      "forcePublish": "*"
+    }
+  }
 }
