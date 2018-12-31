@@ -10,7 +10,7 @@
 
 1. Does JSS support Critical CSS extraction?
 
-Yes.
+   Yes.
 
 1. Is it possible to fully extract CSS and use it with link tag?
 
