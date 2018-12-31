@@ -1,5 +1,5 @@
 /* @flow */
-import warning from 'warning'
+import warning from 'tiny-warning'
 import RuleList from '../RuleList'
 import type StyleSheet from '../StyleSheet'
 import type {
@@ -47,7 +47,7 @@ export class KeyframesRule implements ContainerRule {
       this.name = nameMatch[1]
     } else {
       this.name = 'noname'
-      warning(false, '[JSS] Bad keyframes name %s', key)
+      warning(false, `[JSS] Bad keyframes name ${key}`)
     }
     this.key = `${this.type}-${this.name}`
     this.options = options
@@ -96,7 +96,7 @@ const replaceRef = (style: JssStyle, prop: string, keyframes: KeyframesMap) => {
     if (ref[1] in keyframes) {
       style[prop] = value.replace(ref[0], keyframes[ref[1]])
     } else {
-      warning(false, '[JSS] Referenced keyframes rule "%s" is not defined.', ref[1])
+      warning(false, `[JSS] Referenced keyframes rule "${ref[1]}" is not defined.`)
     }
   }
 }

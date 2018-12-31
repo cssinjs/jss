@@ -1,21 +1,21 @@
 # Setting up Content Security Policy with JSS
 
-Content Security Policy (CSP) is a way of whitelisting what resources the browser should allow to load (and reach out to). There are many good resources on CSP for more information. [This explanation](https://helmetjs.github.io/docs/csp/) is a good place to start.
+Content Security Policy (CSP) is a way of whitelisting what resources the browser should allow to load (and reach out to). There are many excellent resources on CSP for more information. [This explanation](https://helmetjs.github.io/docs/csp/) is a good place to start.
 
-In general you should start with `Content-Security-Policy: default-src 'self';` and enable things as needed from there.
+In general, you should start with `Content-Security-Policy: default-src 'self';` and enable things as needed from there.
 
-In the case of JSS we need to set the `style-src` CSP directive. We don't want to just set it to `unsafe-inline` which will allow everything.
+In the case of JSS, we need to set the `style-src` CSP directive. We don't want to just set it to `unsafe-inline` which will allow everything.
 
 The solution is to include a _nonce_ (number used once):
 
 [MDN/CSP/style-src](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/style-src) notes the following:
 
 > 'nonce-{base64-value}'
-> A whitelist for specific inline scripts using a cryptographic nonce (number used once). **The server must generate a unique nonce value each time it transmits a policy. It is critical to provide an unguessable nonce, as bypassing a resource’s policy is otherwise trivial**. See [unsafe inline](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src#Unsafe_inline_script) script for an example.
+> A whitelist for specific inline scripts using a cryptographic nonce (number used once). **The server must generate a unique nonce value each time it transmits a policy. It is critical to provide an unguessable nonce, as bypassing a resource’s policy is otherwise trivial**. See [unsafe inline](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src#Unsafe_inline_script) script for example.
 
 Because the nonce must be generated to be unique and random for every request, this is not something that we can do at build time. Previously the docs suggested using the `__webpack_nonce__` variable with Webpack. However that is insecure because it never changes, so it could be trivially bypassed by an attacker, as noted in the Mozilla docs above.
 
-In order to communicate the nonce value to JSS, we're going use some basic templating with an express server.
+To communicate the nonce value to JSS, we're going use some basic templating with an express server.
 
 1.  In the server startup, we'll add middleware to generate the nonce.
 
@@ -54,9 +54,9 @@ In order to communicate the nonce value to JSS, we're going use some basic templ
 
 1.  Now we want to include this value in our page so that JSS can pick it up at runtime.
 
-    You can use any templating engine, or if you have SSR that should work too. For this example we'll use the [Nunjucks](https://github.com/mozilla/nunjucks) template engine.
+    You can use any templating engine, or if you have SSR, that should work too. For this example, we'll use the [Nunjucks](https://github.com/mozilla/nunjucks) template engine.
 
-1.  First create the template html file.
+1.  First, create the template HTML file.
 
     ```html
       <head>
@@ -87,7 +87,7 @@ In order to communicate the nonce value to JSS, we're going use some basic templ
 
 ## Setting the nonce attribute in styling loaded by Webpack
 
-You might still have some CSP violations if you use style/css/sass in addition to JSS. To fix this, set Webpack's `style-loader` to also set the nonce attribute to the placeholder template that we used above `{{ styleNonce }}`. This way, when the express server renders your html page as a template, it will fill in the proper nonce value.
+You might still have some CSP violations if you use style/css/sass in addition to JSS. To fix this, set Webpack's `style-loader` to also set the nonce attribute to the placeholder template that we used above `{{ styleNonce }}`. This way, when the express server renders your HTML page as a template, it will fill in the proper nonce value.
 
 ```js
 // webpack config

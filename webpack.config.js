@@ -3,36 +3,23 @@
 */
 
 const webpack = require('webpack')
-const path = require('path')
-
-const env = process.env.NODE_ENV
-const isProd = env === 'production'
-const isDev = env === 'development'
-const isTest = env === 'test'
+const lerna = require('./lerna.json')
 
 const plugins = [
   new webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify(env),
-    __DEV__: isDev,
-    __TEST__: isTest
+    'process.env.VERSION': JSON.stringify(lerna.version)
   })
 ]
 
-if (isProd) {
-  plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    })
-  )
-}
-
 module.exports = {
+  mode: 'none',
   entry: './packages/jss/src/index',
   output: {
     library: 'jss',
     libraryTarget: 'umd'
+  },
+  optimization: {
+    nodeEnv: false
   },
   plugins,
   module: {
@@ -40,20 +27,13 @@ module.exports = {
       {
         loader: 'babel-loader',
         test: /\.js$/,
-        exclude: /node_modules/
-      },
-      {
-        loader: 'json-loader',
-        test: /\.json$/
+        exclude: /node_modules/,
+        options: {
+          presets: ['@babel/react', '@babel/flow', '@babel/env'],
+          plugins: ['@babel/proposal-class-properties', '@babel/proposal-object-rest-spread']
+        }
       }
     ]
   },
-  devtool: 'source-map',
-
-  resolve: {
-    alias: {
-      // For plugins tests.
-      jss: path.join(__dirname, 'packages/jss')
-    }
-  }
+  devtool: 'inline-source-map'
 }

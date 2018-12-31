@@ -2,7 +2,7 @@
 
 ## Advantages
 
-JSS has a number of performance advantages.
+JSS has some performance advantages.
 
 - Incremental compilation and rendering (as soon as needed).
 - Rendered styles are cached. Compilation and DOM Rules creation happens only once.
@@ -13,14 +13,14 @@ JSS has a number of performance advantages.
 
 These benchmarks are used to ensure performance after code changes.
 
-However, one test compiles bootstrap library from JSS JSON to a CSS string. On my machine in Chrome ~130KB JSON compiles at **180 ops/sec**.
+However, one test compiles bootstrap library from JSS to a CSS string. On my machine in Chrome ~130KB JSS compiles at **180 ops/sec**.
 
 ```bash
 yarn
 yarn bench
 ```
 
-## Comparison to other CSSinJS libs
+## Comparison with other CSSinJS libs
 
 [css-in-js-perf-tests](https://github.com/hellofresh/css-in-js-perf-tests)
 
@@ -34,7 +34,7 @@ yarn bench
 
 ## JSPerf inline styles vs. classes
 
-Inline styles are also slower because of a simple fact that same styled items (for e.g. in a list) don't share the same rule.
+Inline styles are also slower because of a simple fact that same styled items (e.g. in a list) don't share the same rule.
 
 [JSPerf bench 1](http://jsperf.com/classes-vs-inline-styles/4)
 

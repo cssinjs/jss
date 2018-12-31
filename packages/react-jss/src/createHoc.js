@@ -11,8 +11,6 @@ import JssContext from './JssContext'
 import type {Options, Theme, StylesOrCreator, InnerProps, OuterProps} from './types'
 import memoize from './memoize-one'
 
-const env = process.env.NODE_ENV
-
 // Like a Symbol
 const dynamicStylesNs = Math.random()
 
@@ -63,7 +61,7 @@ export default function createHOC<
   const isThemingEnabled = typeof stylesOrCreator === 'function'
   const {theming, injectTheme, jss: optionsJss, ...sheetOptions} = options
   const displayName = getDisplayName(InnerComponent)
-  const defaultClassNamePrefix = env === 'production' ? '' : `${displayName}-`
+  const defaultClassNamePrefix = process.env.NODE_ENV === 'production' ? '' : `${displayName}-`
   const noTheme = {}
   const managerId = managersCounter++
   const manager = new SheetsManager()

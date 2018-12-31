@@ -1,0 +1,49 @@
+{
+  "name": "jss-plugin-template",
+  "description": "JSS plugin enables string templates",
+  "version": "10.0.0-alpha.3",
+  "license": "MIT",
+  "homepage": "https://cssinjs.org/jss-template",
+  "main": "dist/jss-plugin-template.cjs.js",
+  "module": "dist/jss-plugin-template.esm.js",
+  "unpkg": "dist/jss-plugin-template.bundle.js",
+  "typings": "./src/index.d.ts",
+  "author": {
+    "name": "Oleg Isonen (Slobodskoi)",
+    "email": "oleg008@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cssinjs/jss.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-template]"
+  },
+  "files": [
+    "dist",
+    "src",
+    "LICENSE"
+  ],
+  "keywords": [
+    "cssinjs",
+    "css-in-js",
+    "css in js",
+    "jss",
+    "plugin",
+    "template"
+  ],
+  "scripts": {
+    "build": "node ../../scripts/build.js",
+    "check-snapshot": "node ../../scripts/match-snapshot.js"
+  },
+  "devDependencies": {
+    "jss": "^10.0.0-alpha.3"
+  },
+  "peerDependencies": {
+    "jss": "^10.0.0-alpha.3"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0",
+    "tiny-warning": "^1.0.2"
+  }
+}

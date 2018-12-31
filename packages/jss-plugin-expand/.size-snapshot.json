@@ -1,0 +1,31 @@
+{
+  "dist/jss-plugin-expand.js": {
+    "bundled": 11123,
+    "minified": 4106,
+    "gzipped": 1445
+  },
+  "dist/jss-plugin-expand.min.js": {
+    "bundled": 11123,
+    "minified": 4106,
+    "gzipped": 1445
+  },
+  "dist/jss-plugin-expand.cjs.js": {
+    "bundled": 10144,
+    "minified": 4283,
+    "gzipped": 1451
+  },
+  "dist/jss-plugin-expand.esm.js": {
+    "bundled": 10062,
+    "minified": 4214,
+    "gzipped": 1406,
+    "treeshaked": {
+      "rollup": {
+        "code": 0,
+        "import_statements": 0
+      },
+      "webpack": {
+        "code": 951
+      }
+    }
+  }
+}

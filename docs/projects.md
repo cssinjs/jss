@@ -2,7 +2,7 @@
 
 ## Integrations
 
-[React-JSS](https://github.com/cssinjs/react-jss) - HOC interface for React with theming support.
+[React-JSS](./react-jss.md) - HOC interface for React with theming support.
 
 [Styled-JSS](https://github.com/cssinjs/styled-jss) - styled components interface for React.
 
@@ -10,7 +10,7 @@
 
 [glamor-jss](https://github.com/dan-lee/glamor-jss) - glamor like API.
 
-[Aesthetic](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic) - a React style abstraction layer with theme support.
+[Aesthetic](https://github.com/milesj/aesthetic) - a React style abstraction layer with theme support.
 
 [CSSX](https://github.com/krasimir/cssx) CSS syntax which can use JSS for rendering.
 
@@ -27,8 +27,6 @@
 [react-modal-dialog](https://github.com/qimingweng/react-modal-dialog) A modal dialog for ReactJS
 
 ## Plugins
-
-[jss-vendor-prefixer-ie10](https://github.com/alexkuz/jss-vendor-prefixer-ie10) JSS plugin that handles vendor prefixes for the legacy browsers.
 
 [jss-legacy-browsers](https://github.com/moliver-bb/jss-legacy-browsers) JSS plugin that handles legacy browser support
 
@@ -56,7 +54,7 @@
 
 [babel-plugin-jss-css](https://github.com/alexkuz/babel-plugin-jss-css) Babel plugin for [jss-css](https://github.com/alexkuz/jss-css) module.
 
-[jss-loader](https://github.com/markdalgleish/jss-loader) Webpack loader - use JavaScript as your CSS preprocessor!
+[jss-loader](https://github.com/cssinjs/jss-loader) Webpack loader - use JavaScript as your CSS preprocessor!
 
 [jss-sheet-Loader](https://github.com/wellguimaraes/jss-sheet-loader) Webpack loader for JSS to simplify styles creation and usage.
 

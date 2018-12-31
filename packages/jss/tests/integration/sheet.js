@@ -2,13 +2,15 @@
 
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
+import sinon from 'sinon'
 import {create} from '../../src'
 import {StyleRule} from '../../src/plugins/styleRule'
-import pluginKeyframes from '../../src/plugins/keyframesRule'
-import {createGenerateId} from '../utils'
+import {resetSheets, createGenerateId} from '../../../../tests/utils'
 
 describe('Integration: sheet', () => {
   let jss
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     jss = create({createGenerateId})
@@ -53,7 +55,7 @@ describe('Integration: sheet', () => {
     it('should ref original style object in RuleList#raw', () => {
       const styles = {a: {color: 'red'}}
       const sheet = jss.createStyleSheet(styles)
-      // jss-cache relies on `a` being a ref to the original object.
+      // jss-plugin-cache relies on `a` being a ref to the original object.
       expect(sheet.getRule('a').options.parent.rules.raw.a).to.be(styles.a)
     })
 
@@ -422,22 +424,25 @@ describe('Integration: sheet', () => {
   })
 
   describe('scoped keyframes', () => {
+    let spy
+
+    beforeEach(() => {
+      spy = sinon.spy(console, 'warn')
+    })
+
+    afterEach(() => {
+      console.warn.restore()
+    })
+
     it('should warn when keyframes name is invalid', () => {
-      let warned = false
-
-      pluginKeyframes.__Rewire__('warning', () => {
-        warned = true
-      })
-
       jss.createStyleSheet({
         '@keyframes %&': {
           to: {height: '100%'}
         }
       })
 
-      expect(warned).to.be(true)
-
-      pluginKeyframes.__ResetDependency__('warning')
+      expect(spy.callCount).to.be(1)
+      expect(spy.calledWithExactly('Warning: [JSS] Bad keyframes name @keyframes %&')).to.be(true)
     })
 
     it('should register keyframes', () => {
@@ -475,12 +480,6 @@ describe('Integration: sheet', () => {
     })
 
     it('should warn when referenced in animation-name keyframes not found', () => {
-      let warned = false
-
-      pluginKeyframes.__Rewire__('warning', () => {
-        warned = true
-      })
-
       jss.createStyleSheet({
         '@keyframes a': {
           to: {height: '100%'}
@@ -490,18 +489,13 @@ describe('Integration: sheet', () => {
         }
       })
 
-      expect(warned).to.be(true)
-
-      pluginKeyframes.__ResetDependency__('warning')
+      expect(spy.callCount).to.be(1)
+      expect(
+        spy.calledWithExactly('Warning: [JSS] Referenced keyframes rule "x" is not defined.')
+      ).to.be(true)
     })
 
     it('should warn when referenced in animation keyframes not found', () => {
-      let warned = false
-
-      pluginKeyframes.__Rewire__('warning', () => {
-        warned = true
-      })
-
       jss.createStyleSheet({
         '@keyframes a': {
           to: {height: '100%'}
@@ -511,18 +505,13 @@ describe('Integration: sheet', () => {
         }
       })
 
-      expect(warned).to.be(true)
-
-      pluginKeyframes.__ResetDependency__('warning')
+      expect(spy.callCount).to.be(1)
+      expect(
+        spy.calledWithExactly('Warning: [JSS] Referenced keyframes rule "x" is not defined.')
+      ).to.be(true)
     })
 
     it('should leave global animation name untouched', () => {
-      let warned = false
-
-      pluginKeyframes.__Rewire__('warning', () => {
-        warned = true
-      })
-
       const sheet = jss.createStyleSheet({
         '@keyframes a': {
           to: {height: '100%'}
@@ -532,7 +521,7 @@ describe('Integration: sheet', () => {
         }
       })
 
-      expect(warned).to.be(false)
+      expect(spy.callCount).to.be(0)
 
       expect(sheet.toString()).to.be(stripIndent`
         @keyframes keyframes-a-id {
@@ -544,7 +533,6 @@ describe('Integration: sheet', () => {
           animation-name: x;
         }
       `)
-      pluginKeyframes.__ResetDependency__('warning')
     })
 
     it('should unregister', () => {

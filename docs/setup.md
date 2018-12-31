@@ -2,13 +2,16 @@
 
 ## Install
 
-Using yarn
+### Using yarn
 
 ```bash
 yarn add jss
 ```
 
-For bower or direct script injection use [unpkg](https://unpkg.com):
+### Using free CDN [unpkg](https://unpkg.com):
+
+Unminified, bundled ESM starter kit for experimenting:
+https://unpkg.com/jss-starter-kit/dist/jss-starter-kit.bundle.js
 
 Unminified UMD:
 https://unpkg.com/jss/dist/jss.js
@@ -22,15 +25,13 @@ https://unpkg.com/jss/dist/jss.esm.js
 Minified UMD:
 https://unpkg.com/jss/dist/jss.min.js
 
-Polyfills:
+## Polyfills
 
-Only in development mode:
-
-[CSS.escape](https://github.com/mathiasbynens/CSS.escape)
+- WeakMap - for `jss-plugin-cache` (not part of the default preset).
 
 ## Setup with the default preset
 
-Use the [default preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with recommended plugins.
+Use the [default preset](https://github.com/cssinjs/jss/tree/master/packages/jss-preset-default) for quick setup with recommended plugins.
 
 First, install a preset from yarn:
 
@@ -59,17 +60,17 @@ const sheet = jss.createStyleSheet(style)
 // If you want to render on the client, insert it into DOM.
 sheet.attach()
 
-// If you want to render server-side, get the css text.
+// If you want to render server-side, get the CSS text.
 sheet.toString()
 ```
 
 ## Setup with custom plugins
 
-You can use JSS with or without [plugins](https://github.com/cssinjs?q=plugin). Make sure you use the plugins in the [right order](https://github.com/cssinjs/jss/blob/master/docs/plugins.md#order-does-matter) or just use a [preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with default plugins.
+You can use JSS with or without [plugins](https://github.com/cssinjs?q=plugin). Make sure you use the plugins in the [right order](https://github.com/cssinjs/jss/blob/master/docs/plugins.md#order-does-matter) or use a [preset](https://github.com/cssinjs/jss/tree/master/packages/jss-preset-default) for quick setup with default plugins.
 
 ```javascript
 import jss from 'jss'
-import camelCase from 'jss-camel-case'
+import camelCase from 'jss-plugin-camel-case'
 import somePlugin from 'jss-some-plugin'
 
 // Use plugins.
@@ -88,17 +89,17 @@ const sheet = jss.createStyleSheet(style)
 // If you want to render on the client, insert it into DOM.
 sheet.attach()
 
-// If you want to render server-side, get the css text.
+// If you want to render server-side, get the CSS text.
 sheet.toString()
 ```
 
-## Specify DOM insertion point
+## Specify the DOM insertion point
 
 You can instruct JSS to render your stylesheets starting at a specific point in the DOM by placing a comment node anywhere in the `head` of the document.
 
-This can be useful if you have another dependency that needs to come before or after the JSS Style Sheets for source order based specificity purposes.
+It can be useful if you have another dependency that needs to come before or after the JSS Style Sheets for source order specificity purposes.
 
-You can specify an `insertionPoint` during [jss.setup()](https://github.com/cssinjs/jss/blob/master/docs/js-api.md#setup-jss-instance).
+You can specify an `insertionPoint` during [jss.setup()](https://github.com/cssinjs/jss/blob/master/docs/jss-api.md#setup-jss-instance).
 
 ```html
 <head>

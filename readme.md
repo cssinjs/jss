@@ -5,29 +5,29 @@
 [![OpenCollective](https://opencollective.com/jss/backers/badge.svg)](#backers)
 [![OpenCollective](https://opencollective.com/jss/sponsors/badge.svg)](#sponsors)
 
-[JSS is a more powerful abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It uses JavaScript as a language to describe styles in a declarative and maintainable way. It is a [high performance](https://github.com/cssinjs/jss/blob/master/docs/performance.md) JS to CSS compiler which works at runtime and server-side. This core library is low level and framework agnostic. It is about 6KB (minified and gzipped) and is extensible via [plugins](docs/plugins.md) API.
+[JSS is a more powerful abstraction](https://medium.com/@oleg008/jss-is-css-d7d41400b635) over CSS. It uses JavaScript as a language to describe styles in a declarative and maintainable way. It is a [high performance](https://github.com/cssinjs/jss/blob/master/docs/performance.md) JS to CSS compiler which works at runtime and server-side. This core library is low level and framework agnostic. It is about 6KB (minified and gzipped) and is extensible via [plugins](./docs/plugins.md) API.
 
-Feel free to ask any JSS related questions on twitter by using hashtag `#cssinjs` and mentioning [@oleg008](https://twitter.com/oleg008), [watch my latest talk](https://www.youtube.com/watch?v=i3TIrcnMIng) about "Unique Value Proposition of CSSinJS" and try it on a [playground](https://codesandbox.io/s/z21lpmvv33).
+Feel free to ask any JSS related questions on Twitter by using hashtag `#cssinjs` and mentioning [@oleg008](https://twitter.com/oleg008), [watch my latest talk](https://www.youtube.com/watch?v=i3TIrcnMIng) about "Unique Value Proposition of CSSinJS" and try it on a [playground](https://codesandbox.io/s/z21lpmvv33).
 
-If you are a Sass (SCSS) user, this course will show how to express popular Sass language features using latest JavaScript features: [Convert SCSS (Sass) to CSS-in-JS](https://egghead.io/courses/convert-scss-sass-to-css-in-js).
+If you are a Sass (SCSS) user, this course will show how to express popular Sass language features using the latest JavaScript features: [Convert SCSS (Sass) to CSS-in-JS](https://egghead.io/courses/convert-scss-sass-to-css-in-js).
 
 ## Key features
 
 - Framework agnostic
-- [Scoped selectors by default](docs/json-api.md#regular-rule-without-plugins)
-- [Function values and rules](packages/jss-plugin-syntax-rule-value-function/readme.md)
-- [Observables](packages/jss-plugin-syntax-rule-value-observable/readme.md)
-- [SSR](docs/ssr.md)
-- [Plugins support](docs/plugins.md)
-- [Global CSS](https://github.com/cssinjs/jss-global)
-- [Expanded syntax](https://github.com/cssinjs/jss-expand)
-- [Composition syntax](https://github.com/cssinjs/jss-compose)
-- [Template strings syntax](https://github.com/cssinjs/jss-template)
-- [Isolation](https://github.com/cssinjs/jss-isolate)
+- [Scoped selectors by default](./docs/jss-syntax.md)
+- [Function values and rules](packages/jss-plugin-rule-value-function/readme.md)
+- [Observables](packages/jss-plugin-rule-value-observable/readme.md)
+- [SSR](./docs/ssr.md)
+- [Plugins support](./docs/plugins.md)
+- [Global CSS](./docs/jss-plugin-global.md)
+- [Expanded syntax](./docs/jss-plugin-expand.md)
+- [Composition syntax](./docs/jss-plugin-compose.md)
+- [Template strings syntax](./docs/jss-plugin-template.md)
+- [Isolation](./docs/jss-plugin-isolate.md)
 
 ## Integrations
 
-- [React-JSS](https://github.com/cssinjs/react-jss) - HOC interface for React with theming, try it on [playground](https://codesandbox.io/s/j3l06yyqpw).
+- [React-JSS](./docs/react-jss.md) - HOC interface for React with theming, try it on [playground](https://codesandbox.io/s/j3l06yyqpw).
 - [Styled-JSS](https://github.com/cssinjs/styled-jss) - styled components interface for React, try it on [playground](https://codesandbox.io/s/xl89zx8zz4).
 - [Glamor-JSS](https://github.com/dan-lee/glamor-jss) - glamor flavored CSS with JSS under the hood.
 - [Aphrodite-JSS](https://github.com/cssinjs/aphrodite-jss) - aphrodite like API.
@@ -35,23 +35,22 @@ If you are a Sass (SCSS) user, this course will show how to express popular Sass
 ## TOC
 
 1.  [Live examples](https://github.com/cssinjs/examples)
-1.  [Benefits](docs/benefits.md)
-1.  [Setup](docs/setup.md)
-1.  [JSON API (JSS Syntax)](docs/json-api.md)
-1.  [JavaScript API](docs/js-api.md)
-1.  [Server-side rendering](docs/ssr.md)
-1.  [Performance](docs/performance.md)
-1.  [Plugins API](docs/plugins.md)
-1.  [Official plugins](https://github.com/cssinjs?q=plugin)
-1.  [All related projects](docs/projects.md)
+1.  [Benefits](./docs/benefits.md)
+1.  [Setup](./docs/setup.md)
+1.  [Core JSS Syntax](./docs/jss-syntax.md)
+1.  [JavaScript API](./docs/jss-api.md)
+1.  [Server-side rendering](./docs/ssr.md)
+1.  [Performance](./docs/performance.md)
+1.  [Plugins API](./docs/plugins.md)
+1.  [All related projects](./docs/projects.md)
 1.  [CLI Converter](https://github.com/cssinjs/cli)
 1.  [Contributing](./contributing.md)
 
 ## Example
 
 Try it out on [playground](https://codesandbox.io/s/z21lpmvv33).
-You need to [setup plugins](docs/setup.md#setup-with-plugins) before.
-You can use a [preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with default plugins.
+You need to [setup plugins](./docs/setup.md#setup-with-plugins) first.
+You can use a [preset](https://github.com/cssinjs/jss-preset-default) for a quick setup with default plugins, or try [`jss-starter-kit`](packages/jss-starter-kit) for easy experimentation.
 
 ```javascript
 import jss from 'jss'
@@ -96,46 +95,46 @@ Result
 ```html
 <head>
   <style>
-    .button-123456 {
+    .button-0 {
       font-size: 12px;
     }
-    .button-123456:hover {
+    .button-0:hover {
       background: blue;
     }
-    .ctaButton-789012 {
+    .ctaButton-1 {
       font-size: 12px;
     }
-    .ctaButton-789012:hover {
+    .ctaButton-1:hover {
       background: red;
     }
     @media (min-width: 1024px) {
-      .button-123456 {
+      .button-0 {
         min-width: 200px;
       }
     }
   </style>
 </head>
 <body>
-  <button class="button-123456">Button</button>
-  <button class="ctaButton-789012">CTA Button</button>
+  <button class="button-0">Button</button>
+  <button class="ctaButton-1">CTA Button</button>
 </body>
 ```
 
 ## When should I use it?
 
-- You build a JavaScript heavy application.
+- You build a JavaScript-heavy application.
 - You use components based architecture.
 - You build a reusable UI library.
-- You need a collision free CSS (external content, third-party UI components ...).
-- You need code sharing between js and css.
+- You need a collision-free CSS (external content, third-party UI components ...).
+- You need code sharing between JS and CSS.
 - Minimal download size is important to you.
-- Robustness and code reuse is important to you.
-- Ease of maintenance is important to you.
-- You just want to use any of its [benefits](docs/benefits.md)
+- Robustness and code reuse is essential to you.
+- Ease of maintenance is critical to you.
+- You want to use any of its [benefits](./docs/benefits.md)
 
 ## Roadmap
 
-We don't have a strict roadmap, we work on issues depending on personal priorities. If you are looking to help - [important](https://github.com/cssinjs/jss/issues?q=is%3Aopen+is%3Aissue+label%3Aimportant) issues is what we should focus on.
+We don't have a strict roadmap. We work on issues depending on personal priorities. If you are looking to help, [important](https://github.com/cssinjs/jss/issues?q=is%3Aopen+is%3Aissue+label%3Aimportant) issues are tagged.
 
 ## Browsers Support
 
@@ -187,8 +186,6 @@ Support us with a monthly donation and help us continue our activities. [[Become
 <a href="https://opencollective.com/jss/backer/29/website" target="_blank"><img src="https://opencollective.com/jss/backer/29/avatar.svg"></a>
 
 ### Sponsors
-
-[![Chatgrape](https://ug-cdn.com/static/chatgrape/static/images/logo-grape-short-cg-fontrender.svg)](https://www.chatgrape.com/)
 
 Become a sponsor and get your logo on our README on Github with a link to your site. [[Become a sponsor](https://opencollective.com/jss#sponsor)]
 

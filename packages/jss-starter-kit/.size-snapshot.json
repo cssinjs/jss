@@ -1,0 +1,31 @@
+{
+  "dist/jss-starter-kit.js": {
+    "bundled": 81327,
+    "minified": 32915,
+    "gzipped": 9378
+  },
+  "dist/jss-starter-kit.min.js": {
+    "bundled": 81014,
+    "minified": 32519,
+    "gzipped": 9194
+  },
+  "dist/jss-starter-kit.cjs.js": {
+    "bundled": 2341,
+    "minified": 2127,
+    "gzipped": 689
+  },
+  "dist/jss-starter-kit.esm.js": {
+    "bundled": 1385,
+    "minified": 1273,
+    "gzipped": 462,
+    "treeshaked": {
+      "rollup": {
+        "code": 792,
+        "import_statements": 489
+      },
+      "webpack": {
+        "code": 2328
+      }
+    }
+  }
+}
