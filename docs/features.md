@@ -50,8 +50,6 @@
    - The static part of a Style Sheet gets shared between all elements.
    - Function values and rules are updated automatically with props as an argument.
 
-   Package Styled-JSS???
-
 1. JavaScript build pipeline.
 
    There is no need in additional build pipeline configuration for CSS. Whatever tool you choose to build your JavaScript, it will just work with JSS.
