@@ -2,7 +2,7 @@
   "dist/jss-plugin-template.js": {
     "bundled": 1756,
     "minified": 720,
-    "gzipped": 446
+    "gzipped": 447
   },
   "dist/jss-plugin-template.min.js": {
     "bundled": 1397,

@@ -10,7 +10,6 @@ import getDisplayName from './getDisplayName'
 import injectSheet, {JssProvider, ThemeProvider} from '.'
 import {resetSheets, createGenerateId} from '../../../tests/utils'
 
-const createGenerateId = () => rule => `${rule.key}-id`
 const removeWhitespaces = s => s.replace(/\s/g, '')
 
 describe('React-JSS: injectSheet', () => {
