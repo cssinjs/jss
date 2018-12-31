@@ -7,18 +7,18 @@ import {spy} from 'sinon'
 import {render, unmountComponentAtNode} from 'react-dom'
 
 import getDisplayName from './getDisplayName'
-import createHoc from './createHoc'
 import injectSheet, {JssProvider, ThemeProvider} from '.'
+import {resetSheets, createGenerateId} from '../../../tests/utils'
 
-const createGenerateId = () => rule => `${rule.key}-id`
 const removeWhitespaces = s => s.replace(/\s/g, '')
 
 describe('React-JSS: injectSheet', () => {
   let jss
   let node
 
+  beforeEach(resetSheets(sheets))
+
   beforeEach(() => {
-    sheets.reset()
     jss = create({createGenerateId})
     node = document.body.appendChild(document.createElement('div'))
   })
@@ -48,10 +48,8 @@ describe('React-JSS: injectSheet', () => {
         </React.StrictMode>,
         node
       )
-      /* eslint-disable no-console */
       expect(console.error.notCalled).to.be(true)
       console.error.restore()
-      /* eslint-enable no-console */
     })
 
     it('should attach and detach a sheet', () => {
@@ -376,13 +374,11 @@ describe('React-JSS: injectSheet', () => {
       expect(classNamePrefix).to.be('DisplayNameTest-')
     })
 
-    it.skip('should pass no prefix in production', () => {
-      // Rewrire currently doesn't work, most probably because of how we reset
-      // the tests #118
-      createHoc.__Rewire__('env', 'production')
+    it('should pass no prefix in production', () => {
+      process.env.NODE_ENV = 'production'
       renderTest()
-      expect(classNamePrefix).to.be(undefined)
-      createHoc.__ResetDependency__('env')
+      expect(classNamePrefix).to.be('')
+      process.env.NODE_ENV = 'development'
     })
   })
 

@@ -1,12 +1,10 @@
 /* @flow */
-import warning from 'warning'
+import warning from 'tiny-warning'
 import type {Rule, GenerateId} from '../types'
 import StyleSheet from '../StyleSheet'
 import moduleId from './moduleId'
 
 const maxRules = 1e10
-
-const env = process.env.NODE_ENV
 
 /**
  * Returns a function which generates unique class names based on counters.
@@ -15,13 +13,14 @@ const env = process.env.NODE_ENV
  */
 export default (): GenerateId => {
   let ruleCounter = 0
+  const env = process.env.NODE_ENV
   const defaultPrefix = env === 'production' ? 'c' : ''
 
   return (rule: Rule, sheet?: StyleSheet): string => {
     ruleCounter += 1
 
     if (ruleCounter > maxRules) {
-      warning(false, '[JSS] You might have a memory leak. Rule counter is at %s.', ruleCounter)
+      warning(false, `[JSS] You might have a memory leak. Rule counter is at ${ruleCounter}.`)
     }
 
     let prefix = defaultPrefix

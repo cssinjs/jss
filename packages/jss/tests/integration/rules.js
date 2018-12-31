@@ -2,13 +2,15 @@
 
 import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
+import sinon from 'sinon'
 
 import {create} from '../../src'
-import createRule from '../../src/utils/createRule'
-import {createGenerateId} from '../utils'
+import {resetSheets, createGenerateId} from '../../../../tests/utils'
 
 describe('Integration: rules', () => {
   let jss
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     jss = create({createGenerateId})
@@ -205,7 +207,7 @@ describe('Integration: rules', () => {
     })
 
     describe('@media rule', () => {
-      it('should return CSS from unnamed rule', () => {
+      it('should return CSS', () => {
         const rule = jss.createRule('@media print', {a: {display: 'none'}})
         expect(rule.type).to.be('conditional')
         expect(rule.key).to.be('@media print')
@@ -218,7 +220,7 @@ describe('Integration: rules', () => {
         `)
       })
 
-      it('should return CSS from named rule', () => {
+      it('should return CSS', () => {
         const rule = jss.createRule('@media print', {
           button: {display: 'none'}
         })
@@ -248,7 +250,7 @@ describe('Integration: rules', () => {
         `)
       })
 
-      it('should return CSS from named rule without empty rule', () => {
+      it('should return CSS without empty rule', () => {
         const rule = jss.createRule('@media print', {button: {}})
         expect(rule.type).to.be('conditional')
         expect(rule.key).to.be('@media print')
@@ -257,15 +259,11 @@ describe('Integration: rules', () => {
     })
 
     describe('@font-face rule', () => {
-      function checkSingle(options) {
-        const rule = jss.createRule(
-          '@font-face',
-          {
-            'font-family': 'MyHelvetica',
-            src: 'local("Helvetica")'
-          },
-          options
-        )
+      function checkSingle() {
+        const rule = jss.createRule('@font-face', {
+          'font-family': 'MyHelvetica',
+          src: 'local("Helvetica")'
+        })
         expect(rule.type).to.be('font-face')
         expect(rule.key).to.be('@font-face')
         expect(rule.toString()).to.be(stripIndent`
@@ -305,41 +303,34 @@ describe('Integration: rules', () => {
         `)
       }
 
-      it('should return CSS from named rule', () => {
+      it('should return CSS', () => {
         checkSingle()
       })
 
-      it('should return CSS from unnamed rule', () => {
-        checkSingle({named: false})
-      })
-
-      it('should handle multiple font-faces from named rule', () => {
+      it('should handle multiple font-faces', () => {
         checkMulti()
-      })
-
-      it('should handle multiple font-faces from unnamed rule', () => {
-        checkMulti({named: false})
       })
     })
 
     describe('unknown at-rule', () => {
-      let warned = false
+      let spy
 
       before(() => {
-        createRule.__Rewire__('warning', () => {
-          warned = true
-        })
+        spy = sinon.spy(console, 'warn')
       })
 
       it('should warn', () => {
         jss.createRule('@unknown', {
           color: 'red'
         })
-        expect(warned).to.be(true)
+
+        expect(spy.callCount).to.be(1)
+        expect(spy.args[0].length).to.be(1)
+        expect(spy.args[0][0]).to.be('Warning: [JSS] Unknown rule @unknown')
       })
 
-      after(() => {
-        createRule.__ResetDependency__('warning')
+      afterEach(() => {
+        console.warn.restore()
       })
     })
 

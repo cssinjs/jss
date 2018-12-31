@@ -2,13 +2,15 @@
 
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
+import sinon from 'sinon'
 import {create} from '../../src'
 import {StyleRule} from '../../src/plugins/styleRule'
-import pluginKeyframes from '../../src/plugins/keyframesRule'
-import {createGenerateId} from '../utils'
+import {resetSheets, createGenerateId} from '../../../../tests/utils'
 
 describe('Integration: sheet', () => {
   let jss
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     jss = create({createGenerateId})
@@ -78,18 +80,6 @@ describe('Integration: sheet', () => {
     })
   })
 
-  describe('sheet.getRule()', () => {
-    it('should return a rule by name and selector from named sheet', () => {
-      const sheet = jss.createStyleSheet({a: {float: 'left'}})
-      expect(sheet.getRule('a')).to.be.a(StyleRule)
-    })
-
-    it('should return a rule by selector from unnamed sheet', () => {
-      const sheet = jss.createStyleSheet({a: {float: 'left'}}, {named: false})
-      expect(sheet.getRule('a')).to.be.a(StyleRule)
-    })
-  })
-
   describe('sheet.indexOf()', () => {
     it('should return the index of a rule', () => {
       const sheet = jss.createStyleSheet({
@@ -143,32 +133,29 @@ describe('Integration: sheet', () => {
 
   describe('sheet.toString()', () => {
     it('should compile all rule types to CSS', () => {
-      const sheet = jss.createStyleSheet(
-        {
-          '@charset': '"utf-8"',
-          '@import': 'bla',
-          '@namespace': 'bla',
-          a: {
-            float: 'left'
-          },
-          '@font-face': {
-            'font-family': 'MyHelvetica',
-            src: 'local("Helvetica")'
-          },
-          '@keyframes a': {
-            from: {top: 0}
-          },
-          '@media print': {
-            b: {display: 'none'}
-          },
-          '@supports ( display: flexbox )': {
-            c: {
-              display: 'none'
-            }
-          }
+      const sheet = jss.createStyleSheet({
+        '@charset': '"utf-8"',
+        '@import': 'bla',
+        '@namespace': 'bla',
+        a: {
+          float: 'left'
         },
-        {named: false}
-      )
+        '@font-face': {
+          'font-family': 'MyHelvetica',
+          src: 'local("Helvetica")'
+        },
+        '@keyframes a': {
+          from: {top: 0}
+        },
+        '@media print': {
+          b: {display: 'none'}
+        },
+        '@supports ( display: flexbox )': {
+          c: {
+            display: 'none'
+          }
+        }
+      })
 
       expect(sheet.toString()).to.be(stripIndent`
         @charset "utf-8";
@@ -212,30 +199,7 @@ describe('Integration: sheet', () => {
       `)
     })
 
-    it('should compile multiple media queries in unnamed sheet', () => {
-      const sheet = jss.createStyleSheet({
-        a: {color: 'red'},
-        '@media (min-width: 1024px)': {a: {color: 'blue'}},
-        '@media (min-width: 1000px)': {a: {color: 'green'}}
-      })
-      expect(sheet.toString()).to.be(stripIndent`
-        .a-id {
-          color: red;
-        }
-        @media (min-width: 1024px) {
-          .a-id {
-            color: blue;
-          }
-        }
-        @media (min-width: 1000px) {
-          .a-id {
-            color: green;
-          }
-        }
-      `)
-    })
-
-    it('should compile multiple media queries in named sheet', () => {
+    it('should compile multiple media queries', () => {
       const sheet = jss.createStyleSheet({
         a: {color: 'red'},
         '@media (min-width: 1024px)': {a: {color: 'blue'}},
@@ -422,22 +386,25 @@ describe('Integration: sheet', () => {
   })
 
   describe('scoped keyframes', () => {
+    let spy
+
+    beforeEach(() => {
+      spy = sinon.spy(console, 'warn')
+    })
+
+    afterEach(() => {
+      console.warn.restore()
+    })
+
     it('should warn when keyframes name is invalid', () => {
-      let warned = false
-
-      pluginKeyframes.__Rewire__('warning', () => {
-        warned = true
-      })
-
       jss.createStyleSheet({
         '@keyframes %&': {
           to: {height: '100%'}
         }
       })
 
-      expect(warned).to.be(true)
-
-      pluginKeyframes.__ResetDependency__('warning')
+      expect(spy.callCount).to.be(1)
+      expect(spy.calledWithExactly('Warning: [JSS] Bad keyframes name @keyframes %&')).to.be(true)
     })
 
     it('should register keyframes', () => {
@@ -475,12 +442,6 @@ describe('Integration: sheet', () => {
     })
 
     it('should warn when referenced in animation-name keyframes not found', () => {
-      let warned = false
-
-      pluginKeyframes.__Rewire__('warning', () => {
-        warned = true
-      })
-
       jss.createStyleSheet({
         '@keyframes a': {
           to: {height: '100%'}
@@ -490,18 +451,13 @@ describe('Integration: sheet', () => {
         }
       })
 
-      expect(warned).to.be(true)
-
-      pluginKeyframes.__ResetDependency__('warning')
+      expect(spy.callCount).to.be(1)
+      expect(
+        spy.calledWithExactly('Warning: [JSS] Referenced keyframes rule "x" is not defined.')
+      ).to.be(true)
     })
 
     it('should warn when referenced in animation keyframes not found', () => {
-      let warned = false
-
-      pluginKeyframes.__Rewire__('warning', () => {
-        warned = true
-      })
-
       jss.createStyleSheet({
         '@keyframes a': {
           to: {height: '100%'}
@@ -511,18 +467,13 @@ describe('Integration: sheet', () => {
         }
       })
 
-      expect(warned).to.be(true)
-
-      pluginKeyframes.__ResetDependency__('warning')
+      expect(spy.callCount).to.be(1)
+      expect(
+        spy.calledWithExactly('Warning: [JSS] Referenced keyframes rule "x" is not defined.')
+      ).to.be(true)
     })
 
     it('should leave global animation name untouched', () => {
-      let warned = false
-
-      pluginKeyframes.__Rewire__('warning', () => {
-        warned = true
-      })
-
       const sheet = jss.createStyleSheet({
         '@keyframes a': {
           to: {height: '100%'}
@@ -532,7 +483,7 @@ describe('Integration: sheet', () => {
         }
       })
 
-      expect(warned).to.be(false)
+      expect(spy.callCount).to.be(0)
 
       expect(sheet.toString()).to.be(stripIndent`
         @keyframes keyframes-a-id {
@@ -544,7 +495,6 @@ describe('Integration: sheet', () => {
           animation-name: x;
         }
       `)
-      pluginKeyframes.__ResetDependency__('warning')
     })
 
     it('should unregister', () => {
