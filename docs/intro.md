@@ -16,6 +16,11 @@ If you’re interested in playing around with JSS, you can use an online code pl
 
 https://cssinjs.org/repl
 
+## Third-party API adapters
+
+- [Glamor-JSS](https://github.com/dan-lee/glamor-jss) - glamor flavored CSS with JSS under the hood.
+- [Aphrodite-JSS](https://github.com/cssinjs/aphrodite-jss) - aphrodite like API.
+
 ## JSS Example
 
 ```javascript
