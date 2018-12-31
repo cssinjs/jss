@@ -5,8 +5,8 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "lerna run build",
-    "prepublishOnly": "yarn check-snapshots && yarn build && yarn typecheck && yarn lint && yarn format:ci && yarn test",
+    "build": "lerna run prepare",
+    "prepublish": "yarn check-snapshots && yarn build && yarn typecheck && yarn lint && yarn format:ci && yarn test",
     "publish": "lerna publish",
     "typecheck": "flow check --max-warnings=0",
     "ts-check": "tsc",
@@ -69,7 +69,7 @@
     "karma-mocha-reporter": "^2.2.1",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^4.0.0-rc.5",
-    "lerna": "^2.11.0",
+    "lerna": "^3.8.0",
     "lint-staged": "^3.2.2",
     "mocha": "^3.2.0",
     "pre-commit": "^1.1.3",
