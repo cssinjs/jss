@@ -1,30 +1,30 @@
 {
   "dist/jss-plugin-compose.js": {
-    "bundled": 3739,
-    "minified": 1339,
-    "gzipped": 755
+    "bundled": 2536,
+    "minified": 933,
+    "gzipped": 541
   },
   "dist/jss-plugin-compose.min.js": {
-    "bundled": 2623,
-    "minified": 819,
-    "gzipped": 483
+    "bundled": 2294,
+    "minified": 719,
+    "gzipped": 432
   },
   "dist/jss-plugin-compose.cjs.js": {
-    "bundled": 2012,
-    "minified": 843,
-    "gzipped": 471
+    "bundled": 2033,
+    "minified": 862,
+    "gzipped": 480
   },
   "dist/jss-plugin-compose.esm.js": {
-    "bundled": 1794,
-    "minified": 671,
-    "gzipped": 385,
+    "bundled": 1815,
+    "minified": 690,
+    "gzipped": 396,
     "treeshaked": {
       "rollup": {
-        "code": 16,
-        "import_statements": 16
+        "code": 21,
+        "import_statements": 21
       },
       "webpack": {
-        "code": 1000
+        "code": 1005
       }
     }
   }

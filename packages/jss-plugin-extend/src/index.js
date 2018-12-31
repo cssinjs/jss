@@ -1,6 +1,6 @@
 // @flow
 /* eslint-disable no-use-before-define */
-import warning from 'warning'
+import warning from 'tiny-warning'
 import type {Plugin} from 'jss'
 
 const isObject = obj => obj && typeof obj === 'object' && !Array.isArray(obj)
@@ -14,7 +14,7 @@ function mergeExtend(style, rule, sheet, newStyle) {
     const refRule = sheet.getRule(style.extend)
     if (!refRule) return
     if (refRule === rule) {
-      warning(false, '[JSS] A rule tries to extend itself \r\n%s', rule)
+      warning(false, `[JSS] A rule tries to extend itself \n${rule.toString()}`)
       return
     }
     const {parent} = refRule.options

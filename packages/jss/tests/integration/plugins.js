@@ -1,12 +1,14 @@
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
+import sinon from 'sinon'
 import {create} from '../../src'
 import StyleSheet from '../../src/StyleSheet'
-import {createGenerateId} from '../utils'
-import PluginsRegistry from '../../src/PluginsRegistry'
+import {resetSheets, createGenerateId} from '../../../../tests/utils'
 
 describe('Integration: plugins', () => {
   let jss
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     jss = create({createGenerateId})
@@ -69,16 +71,16 @@ describe('Integration: plugins', () => {
     })
 
     it('should warn when unknown hook name is used', () => {
-      let receivedWarning
-      // eslint-disable-next-line no-underscore-dangle
-      PluginsRegistry.__Rewire__('warning', (flag, warning) => {
-        receivedWarning = warning
-      })
+      const spy = sinon.spy(console, 'warn')
+
       jss.use({
         unknownHook: () => null
       })
-      jss.createStyleSheet({a: {color: 'red'}})
-      expect(receivedWarning).to.be('[JSS] Unknown hook "%s".')
+
+      expect(spy.callCount).to.be(1)
+      expect(spy.calledWithExactly('Warning: [JSS] Unknown hook "unknownHook".')).to.be(true)
+
+      console.warn.restore()
     })
 
     it('should run user-defined plugins in .setup() first, internal second', () => {

@@ -2,13 +2,15 @@
 
 import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
+import sinon from 'sinon'
 
 import {create} from '../../src'
-import createRule from '../../src/utils/createRule'
-import {createGenerateId} from '../utils'
+import {resetSheets, createGenerateId} from '../../../../tests/utils'
 
 describe('Integration: rules', () => {
   let jss
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     jss = create({createGenerateId})
@@ -323,23 +325,24 @@ describe('Integration: rules', () => {
     })
 
     describe('unknown at-rule', () => {
-      let warned = false
+      let spy
 
       before(() => {
-        createRule.__Rewire__('warning', () => {
-          warned = true
-        })
+        spy = sinon.spy(console, 'warn')
       })
 
       it('should warn', () => {
         jss.createRule('@unknown', {
           color: 'red'
         })
-        expect(warned).to.be(true)
+
+        expect(spy.callCount).to.be(1)
+        expect(spy.args[0].length).to.be(1)
+        expect(spy.args[0][0]).to.be('Warning: [JSS] Unknown rule @unknown')
       })
 
-      after(() => {
-        createRule.__ResetDependency__('warning')
+      afterEach(() => {
+        console.warn.restore()
       })
     })
 

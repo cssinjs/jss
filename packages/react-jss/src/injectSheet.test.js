@@ -8,16 +8,19 @@ import {render, unmountComponentAtNode} from 'react-dom'
 
 import getDisplayName from './getDisplayName'
 import injectSheet, {JssProvider, ThemeProvider} from '.'
+import {resetSheets, createGenerateId} from '../../../tests/utils'
 
 const createGenerateId = () => rule => `${rule.key}-id`
+const removeWhitespaces = s => s.replace(/\s/g, '')
 
 describe('React-JSS: injectSheet', () => {
   let jss
   let node
   let generateId
 
+  beforeEach(resetSheets(sheets))
+
   beforeEach(() => {
-    sheets.reset()
     jss = create({createGenerateId})
     generateId = createGenerateId()
     node = document.body.appendChild(document.createElement('div'))
@@ -48,10 +51,8 @@ describe('React-JSS: injectSheet', () => {
         </React.StrictMode>,
         node
       )
-      /* eslint-disable no-console */
       expect(console.error.notCalled).to.be(true)
       console.error.restore()
-      /* eslint-enable no-console */
     })
 
     it('should attach and detach a sheet', () => {
@@ -361,6 +362,47 @@ describe('React-JSS: injectSheet', () => {
     it('should pass displayName as prefix', () => {
       renderTest()
       expect(classNamePrefix).to.be('DisplayNameTest-')
+    })
+
+    it('should pass no prefix in production', () => {
+      process.env.NODE_ENV = 'production'
+      renderTest()
+      expect(classNamePrefix).to.be('')
+      process.env.NODE_ENV = 'development'
+    })
+  })
+
+  describe('rerender with a new JSS instance when using a ThemeProvider', () => {
+    it('should correctly render with a new JSS instance', () => {
+      const ComponentA = injectSheet(() => ({a: {left: '2px'}}))()
+      const ComponentB = ({localJss}) => (
+        <JssProvider jss={localJss}>
+          <ThemeProvider theme={{}}>
+            <ComponentA />
+          </ThemeProvider>
+        </JssProvider>
+      )
+      render(<ComponentB localJss={jss} />, node)
+
+      const newJss = create({
+        createGenerateId,
+        plugins: [
+          {
+            onProcessStyle: () => ({right: '2px'})
+          }
+        ]
+      })
+
+      render(<ComponentB localJss={newJss} />, node)
+
+      const style = document.querySelectorAll('style')[0]
+      expect(removeWhitespaces(style.innerText)).to.be(
+        removeWhitespaces(`
+        .a-id {
+          right: 2px;
+        }
+      `)
+      )
     })
   })
 })

@@ -3,28 +3,24 @@
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import {create} from 'jss'
+import sinon from 'sinon'
 import template from '.'
-import parse from './parse'
 
 const settings = {
   createGenerateId: () => rule => `${rule.key}-id`
 }
 
 describe('jss-plugin-template', () => {
+  let spy
   let jss
-  let warning
 
   beforeEach(() => {
-    parse.__Rewire__('warning', (condition, message) => {
-      warning = message
-    })
-
+    spy = sinon.spy(console, 'warn')
     jss = create(settings).use(template())
   })
 
   afterEach(() => {
-    parse.__ResetDependency__('warning')
-    warning = undefined
+    console.warn.restore()
   })
 
   describe('template literals', () => {
@@ -54,20 +50,16 @@ describe('jss-plugin-template', () => {
           float: left;
         }
       `)
-      expect(warning).to.be(undefined)
+      expect(spy.callCount).to.be(0)
     })
 
     it('should warn when there is no colon found', () => {
       jss.createStyleSheet({
         a: 'color red;'
       })
-      jss.createStyleSheet({
-        a: `
-          color: red;
-          float: left;
-        `
-      })
-      expect(warning).to.not.be(undefined)
+
+      expect(spy.callCount).to.be(1)
+      expect(spy.calledWithExactly('Warning: [JSS] Malformed CSS string "color red;"')).to.be(true)
     })
 
     it('should strip spaces', () => {
