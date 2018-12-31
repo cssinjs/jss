@@ -1,7 +1,7 @@
 {
   "name": "react-jss",
   "description": "JSS integration with React",
-  "version": "10.0.0-alpha.4",
+  "version": "10.0.0-alpha.5",
   "license": "MIT",
   "main": "dist/react-jss.cjs.js",
   "module": "dist/react-jss.esm.js",
@@ -44,8 +44,8 @@
     "@babel/runtime": "^7.0.0",
     "@types/react": "^16.4.18",
     "hoist-non-react-statics": "^3.2.0",
-    "jss": "^10.0.0-alpha.4",
-    "jss-preset-default": "^10.0.0-alpha.4",
+    "jss": "^10.0.0-alpha.5",
+    "jss-preset-default": "^10.0.0-alpha.5",
     "prop-types": "^15.6.0",
     "theming": "^2.2.0"
   }

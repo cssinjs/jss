@@ -1,7 +1,7 @@
 {
   "name": "jss-plugin-props-sort",
   "description": "JSS plugin that ensures style properties extend each other instead of override",
-  "version": "10.0.0-alpha.4",
+  "version": "10.0.0-alpha.5",
   "license": "MIT",
   "homepage": "https://cssinjs.org/jss-plugin-props-sort",
   "main": "dist/jss-plugin-props-sort.cjs.js",
@@ -38,7 +38,7 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
-    "jss": "^10.0.0-alpha.4"
+    "jss": "^10.0.0-alpha.5"
   },
   "peerDependencies": {
     "jss": "^10.0.0-alpha.3"
