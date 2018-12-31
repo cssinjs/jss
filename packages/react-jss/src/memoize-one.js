@@ -1,6 +1,6 @@
 // @flow
 
-function memoize<Arg, Return>(fn: (arg: Arg) => Return) {
+const memoize = <Arg, Return>(fn: (arg: Arg) => Return) => {
   let lastArg
   let lastResult
 
