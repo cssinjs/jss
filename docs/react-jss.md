@@ -4,12 +4,11 @@ React-JSS provides components for [JSS](https://github.com/cssinjs/jss) as a lay
 
 Benefits compared to the lower level core:
 
-- Theming support.
-- Critical CSS extraction.
-- Lazy evaluation - sheet is created only when the component will mount.
-- Auto-attach/detach - sheet will be rendered to the DOM when the component is about to mount and removed when no element needs it.
-- A Style Sheet gets shared between all elements.
-- Function values and rules are updated automatically with props.
+- Dynamic Theming - allows context based theme propagation and runtime updates.
+- Critical CSS extraction - only CSS from rendered components gets extracted.
+- Lazy evaluation - Style Sheets are only created when a component gets mounted.
+- Static part of a Style Sheet is shared between all elements.
+- Function values and rules are updated automatically with props as an argument.
 
 ### Table of Contents
 

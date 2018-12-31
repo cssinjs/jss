@@ -207,7 +207,7 @@ describe('Integration: rules', () => {
     })
 
     describe('@media rule', () => {
-      it('should return CSS from unnamed rule', () => {
+      it('should return CSS', () => {
         const rule = jss.createRule('@media print', {a: {display: 'none'}})
         expect(rule.type).to.be('conditional')
         expect(rule.key).to.be('@media print')
@@ -220,7 +220,7 @@ describe('Integration: rules', () => {
         `)
       })
 
-      it('should return CSS from named rule', () => {
+      it('should return CSS', () => {
         const rule = jss.createRule('@media print', {
           button: {display: 'none'}
         })
@@ -250,7 +250,7 @@ describe('Integration: rules', () => {
         `)
       })
 
-      it('should return CSS from named rule without empty rule', () => {
+      it('should return CSS without empty rule', () => {
         const rule = jss.createRule('@media print', {button: {}})
         expect(rule.type).to.be('conditional')
         expect(rule.key).to.be('@media print')
@@ -259,15 +259,11 @@ describe('Integration: rules', () => {
     })
 
     describe('@font-face rule', () => {
-      function checkSingle(options) {
-        const rule = jss.createRule(
-          '@font-face',
-          {
-            'font-family': 'MyHelvetica',
-            src: 'local("Helvetica")'
-          },
-          options
-        )
+      function checkSingle() {
+        const rule = jss.createRule('@font-face', {
+          'font-family': 'MyHelvetica',
+          src: 'local("Helvetica")'
+        })
         expect(rule.type).to.be('font-face')
         expect(rule.key).to.be('@font-face')
         expect(rule.toString()).to.be(stripIndent`
@@ -307,20 +303,12 @@ describe('Integration: rules', () => {
         `)
       }
 
-      it('should return CSS from named rule', () => {
+      it('should return CSS', () => {
         checkSingle()
       })
 
-      it('should return CSS from unnamed rule', () => {
-        checkSingle({named: false})
-      })
-
-      it('should handle multiple font-faces from named rule', () => {
+      it('should handle multiple font-faces', () => {
         checkMulti()
-      })
-
-      it('should handle multiple font-faces from unnamed rule', () => {
-        checkMulti({named: false})
       })
     })
 
