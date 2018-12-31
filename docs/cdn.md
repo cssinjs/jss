@@ -1,4 +1,4 @@
-# CDN links using free CDN [unpkg](https://unpkg.com)
+# CDN links using [unpkg](https://unpkg.com)
 
 ## Unminified ESM starter kit for experiments
 
