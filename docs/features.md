@@ -2,7 +2,7 @@
 
 1. Real CSS.
 
-   JSS generates actual CSS, not Inline Styles. It supports every existing CSS feature.
+   JSS generates actual CSS, not Inline Styles. It supports every existing CSS feature. CSS rules are created once and reused across the elements using its class name in contrary to Inline Styles. Also, when DOM elements get updated, previously created CSS rules are applied.
 
 1. Collision-free selectors.
 
