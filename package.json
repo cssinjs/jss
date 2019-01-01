@@ -32,7 +32,8 @@
   },
   "pre-commit": "pre-commit",
   "engines": {
-    "node": ">=8"
+    "node": ">=8",
+    "yarn": ">=1.9"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
