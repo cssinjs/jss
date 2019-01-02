@@ -1,11 +1,13 @@
 language: node_js
 node_js:
-- '8'
+  - '8'
+yarn:
+  - '1.9'
 branches:
   only:
-  - master
+    - master
 after_success:
-- bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash)
 script:
   - yarn check-snapshots
   - yarn format:ci
