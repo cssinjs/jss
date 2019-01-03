@@ -1,7 +1,7 @@
 {
   "name": "jss-preset-default",
   "description": "Default preset for JSS with selected plugins.",
-  "version": "10.0.0-alpha.6",
+  "version": "10.0.0-alpha.7",
   "license": "MIT",
   "homepage": "https://cssinjs.org/jss-preset-default",
   "main": "dist/jss-preset-default.cjs.js",
@@ -34,24 +34,24 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
-    "jss": "^10.0.0-alpha.6"
+    "jss": "^10.0.0-alpha.7"
   },
   "peerDependencies": {
     "jss": "10.0.0-alpha.3"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "jss-plugin-camel-case": "^10.0.0-alpha.6",
-    "jss-plugin-compose": "^10.0.0-alpha.6",
-    "jss-plugin-default-unit": "^10.0.0-alpha.6",
-    "jss-plugin-expand": "^10.0.0-alpha.6",
-    "jss-plugin-extend": "^10.0.0-alpha.6",
-    "jss-plugin-global": "^10.0.0-alpha.6",
-    "jss-plugin-nested": "^10.0.0-alpha.6",
-    "jss-plugin-props-sort": "^10.0.0-alpha.6",
-    "jss-plugin-rule-value-function": "^10.0.0-alpha.6",
-    "jss-plugin-rule-value-observable": "^10.0.0-alpha.6",
-    "jss-plugin-template": "^10.0.0-alpha.6",
-    "jss-plugin-vendor-prefixer": "^10.0.0-alpha.6"
+    "jss-plugin-camel-case": "^10.0.0-alpha.7",
+    "jss-plugin-compose": "^10.0.0-alpha.7",
+    "jss-plugin-default-unit": "^10.0.0-alpha.7",
+    "jss-plugin-expand": "^10.0.0-alpha.7",
+    "jss-plugin-extend": "^10.0.0-alpha.7",
+    "jss-plugin-global": "^10.0.0-alpha.7",
+    "jss-plugin-nested": "^10.0.0-alpha.7",
+    "jss-plugin-props-sort": "^10.0.0-alpha.7",
+    "jss-plugin-rule-value-function": "^10.0.0-alpha.7",
+    "jss-plugin-rule-value-observable": "^10.0.0-alpha.7",
+    "jss-plugin-template": "^10.0.0-alpha.7",
+    "jss-plugin-vendor-prefixer": "^10.0.0-alpha.7"
   }
 }

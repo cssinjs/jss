@@ -7,12 +7,12 @@
   "dist/jss.min.js": {
     "bundled": 58884,
     "minified": 21528,
-    "gzipped": 6239
+    "gzipped": 6240
   },
   "dist/jss.cjs.js": {
     "bundled": 54135,
     "minified": 23721,
-    "gzipped": 6623
+    "gzipped": 6624
   },
   "dist/jss.esm.js": {
     "bundled": 53619,
