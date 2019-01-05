@@ -1,31 +1,39 @@
-type GenerateId = (rule: Rule, sheet?: StyleSheet) => string
+type GenerateId = (rule: Rule, sheet?: StyleSheet<string>) => string
+
 type CreateGenerateId = () => GenerateId
+
 type JssValue =
   | string
   | number
   | Array<string | number | Array<string | number> | '!important'>
   | null
   | false
-type JssStyle = {}
-type Classes = {[key: string]: string}
-type Keyframes = {[key: string]: string}
-type Styles = {[key: string]: JssStyle}
+
+type JssStyle = object
+
+type Styles<Name extends string> = Record<Name, object>
+
+type Classes<Name extends string> = Record<Name, string>
+
+type Keyframes<Name extends string> = Record<Name, string>
+
 type InsertionPoint = string | HTMLElement
-type UpdateOptions = {
+
+interface UpdateOptions {
   process?: boolean
   force?: boolean
 }
 
-type RuleListOptions = {
-  classes: Classes
+interface RuleListOptions {
+  classes: Classes<string>
   generateClassName: GenerateId
   Renderer: Renderer
   jss: Jss
-  sheet: StyleSheet
-  parent: ContainerRule | StyleSheet
+  sheet: StyleSheet<string>
+  parent: ContainerRule | StyleSheet<string>
 }
 
-type ToCssOptions = {
+interface ToCssOptions {
   indent?: number
   allowEmpty?: boolean
 }
@@ -44,12 +52,12 @@ declare class RuleList {
   toString(options?: ToCssOptions): string
 }
 
-type RuleOptions = {
+interface RuleOptions {
   selector?: string
-  sheet?: StyleSheet
+  sheet?: StyleSheet<string>
   index?: number
-  parent?: ContainerRule | StyleSheet
-  classes: Classes
+  parent?: ContainerRule | StyleSheet<string>
+  classes: Classes<string>
   jss: Jss
   generateId: GenerateId
   Renderer: Renderer
@@ -71,24 +79,24 @@ interface ContainerRule extends BaseRule {
 
 interface Plugin {
   onCreateRule?(name: string, decl: JssStyle, options: RuleOptions): Rule
-  onProcessRule?(rule: Rule, sheet?: StyleSheet): void
-  onProcessStyle?(style: JssStyle, rule: Rule, sheet?: StyleSheet): JssStyle
-  onProcessSheet?(sheet?: StyleSheet): void
+  onProcessRule?(rule: Rule, sheet?: StyleSheet<string>): void
+  onProcessStyle?(style: JssStyle, rule: Rule, sheet?: StyleSheet<string>): JssStyle
+  onProcessSheet?(sheet?: StyleSheet<string>): void
   onChangeValue?(value: string, prop: string, rule: Rule): string | null | false
-  onUpdate?(data: object, rule: Rule, sheet?: StyleSheet): void
+  onUpdate?(data: object, rule: Rule, sheet?: StyleSheet<string>): void
 }
 
 type Rule = BaseRule | ContainerRule
 
 declare class Renderer {
-  constructor(sheet?: StyleSheet)
+  constructor(sheet?: StyleSheet<string>)
   setProperty(cssRule: HTMLElement | CSSStyleRule, prop: string, value: JssValue): boolean
   getPropertyValue(cssRule: HTMLElement | CSSStyleRule, prop: string): string
   removeProperty(cssRule: HTMLElement | CSSStyleRule, prop: string): void
   setSelector(cssRule: CSSStyleRule, selectorText: string): boolean
   attach(): void
   detach(): void
-  deploy(sheet: StyleSheet): void
+  deploy(): void
   insertRule(rule: Rule): false | CSSRule
   deleteRule(cssRule: CSSRule): boolean
   replaceRule(cssRule: CSSRule, rule: Rule): false | CSSRule
@@ -96,24 +104,25 @@ declare class Renderer {
   getRules(): CSSRuleList | void
 }
 
-type JssOptions = {
+interface JssOptions {
   createGenerateId?: CreateGenerateId
   plugins?: Array<Plugin>
   insertionPoint?: InsertionPoint
   Renderer?: Renderer
   virtual?: boolean
 }
-type RuleFactoryOptions = {
+
+interface RuleFactoryOptions {
   selector?: string
   classes?: object
-  sheet?: StyleSheet
+  sheet?: StyleSheet<string>
   index?: number
   jss?: Jss
   generateId?: GenerateId
   Renderer?: Renderer
 }
 
-type StyleSheetFactoryOptions = {
+interface StyleSheetFactoryOptions {
   media?: string
   meta?: string
   index?: number
@@ -125,37 +134,30 @@ type StyleSheetFactoryOptions = {
 
 declare class SheetsRegistry {
   readonly index: number
-  add(sheet: StyleSheet): void
+  add(sheet: StyleSheet<string>): void
   reset(): void
-  remove(sheet: StyleSheet): void
+  remove(sheet: StyleSheet<string>): void
   toString(options?: ToCssOptions): string
 }
 
 declare class SheetsManager {
   readonly size: number
-  get(key: object): StyleSheet
-  add(key: object, sheet: StyleSheet): number
-  manage(key: object): StyleSheet
+  get(key: object): StyleSheet<string>
+  add(key: object, sheet: StyleSheet<string>): number
+  manage(key: object): StyleSheet<string>
   unmanage(key: object): void
 }
 
-type StyleSheetOptions = {
-  media?: string
-  meta?: string
-  link?: boolean
-  element?: HTMLStyleElement
-  index: number
-  generateId: GenerateId
-  classNamePrefix?: string
+interface StyleSheetOptions extends StyleSheetFactoryOptions {
   Renderer: Renderer
   insertionPoint?: InsertionPoint
   jss: Jss
 }
 
-declare class StyleSheet {
-  classes: Classes
-  keyframes: Keyframes
-  constructor(styles: object, options: StyleSheetOptions)
+declare class StyleSheet<ClassNames extends string, KeyframeNames extends string = string> {
+  classes: Classes<ClassNames>
+  keyframes: Keyframes<KeyframeNames>
+  constructor(styles: Styles<ClassNames>, options: StyleSheetOptions)
   attach(): this
   detach(): this
   addRule(name: string, decl: JssStyle, options?: RuleOptions): Rule
@@ -172,13 +174,27 @@ declare class StyleSheet {
 
 declare class Jss {
   constructor(options?: JssOptions)
-  createStyleSheet(styles: Styles, options?: StyleSheetFactoryOptions): StyleSheet
-  removeStyleSheet(sheet: StyleSheet): this
+  createStyleSheet<ClassNames extends string>(
+    styles: Styles<ClassNames>,
+    options?: StyleSheetFactoryOptions
+  ): StyleSheet<ClassNames>
+  removeStyleSheet(sheet: StyleSheet<string>): this
   setup(options?: JssOptions): this
   use(...plugins: Plugin[]): this
   createRule(style: JssStyle, options?: RuleFactoryOptions): Rule
   createRule(name: string, style: JssStyle, options?: RuleFactoryOptions): Rule
 }
+
+declare const sheets: SheetsRegistry
+declare const jss: Jss
+
+declare function create(options?: Partial<JssOptions>): Jss
+declare function createGenerateId(): GenerateId
+declare function createRule(name: string, decl: JssStyle, options: RuleOptions): Rule
+declare function toCssValue(value: JssValue, ignoreImportant: boolean): string
+declare function getDynamicStyles<ClassNames extends string>(
+  styles: Styles<ClassNames>
+): Styles<ClassNames> | null
 
 /**
  * Type exports
@@ -204,16 +220,19 @@ export {
   UpdateOptions
 }
 
-/*
+/**
  * Actual exports
  */
-declare const sheets: SheetsRegistry
-export {SheetsRegistry, sheets, RuleList, SheetsManager}
-export function create(options?: Partial<JssOptions>): Jss
-export function createGenerateId(): GenerateId
-export function createRule(name: string, decl: JssStyle, options: RuleOptions): Rule
-export function toCssValue(value: JssValue, ignoreImportant: boolean): string
-export function getDynamicStyles(styles: Styles): Styles | null
-declare const jss: Jss
+export {
+  SheetsRegistry,
+  sheets,
+  RuleList,
+  SheetsManager,
+  createGenerateId,
+  create,
+  createRule,
+  toCssValue,
+  getDynamicStyles
+}
 
 export default jss

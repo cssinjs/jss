@@ -32,16 +32,16 @@ type Options = {
 type InjectedProps<Styles, Theme> = {
   classes: {[key in keyof Styles]: string}
   theme?: Theme
-  sheet?: StyleSheet
+  sheet?: StyleSheet<string>
 }
 
 export default function injectSheet<
-  Style extends Styles,
+  Style extends Styles<string>,
   Theme extends object,
-  Props extends InjectedProps<Styles, Theme>
+  Props extends InjectedProps<Styles<string>, Theme>
 >(
   styles: Style,
   options?: Options
 ): (
   comp: React.ComponentType<Props>
-) => React.ComponentType<Omit<Props, InjectedProps<Styles, Theme>>>
+) => React.ComponentType<Omit<Props, InjectedProps<Styles<string>, Theme>>>
