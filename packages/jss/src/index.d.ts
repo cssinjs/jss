@@ -30,8 +30,8 @@ type ToCssOptions = {
   allowEmpty?: boolean
 }
 
-interface RuleList {
-  constructor(options: RuleListOptions): this
+declare class RuleList {
+  constructor(options: RuleListOptions)
   add(name: string, decl: JssStyle, options?: RuleOptions): Rule
   get(name: string): Rule
   remove(rule: Rule): void
@@ -55,13 +55,13 @@ type RuleOptions = {
   Renderer: Renderer
 }
 
-interface BaseRule {
+declare class BaseRule {
   type: string
   key: string
   isProcessed: boolean
   // eslint-disable-next-line no-use-before-define
   options: RuleOptions
-  constructor(key: string, style: JssStyle, options: RuleOptions): this
+  constructor(key: string, style: JssStyle, options: RuleOptions)
   toString(options?: ToCssOptions): string
 }
 
@@ -80,8 +80,8 @@ interface Plugin {
 
 type Rule = BaseRule | ContainerRule
 
-interface Renderer {
-  constructor(sheet?: StyleSheet): void
+declare class Renderer {
+  constructor(sheet?: StyleSheet)
   setProperty(cssRule: HTMLElement | CSSStyleRule, prop: string, value: JssValue): boolean
   getPropertyValue(cssRule: HTMLElement | CSSStyleRule, prop: string): string
   removeProperty(cssRule: HTMLElement | CSSStyleRule, prop: string): void
@@ -123,7 +123,7 @@ type StyleSheetFactoryOptions = {
   classNamePrefix?: string
 }
 
-interface SheetsRegistry {
+declare class SheetsRegistry {
   readonly index: number
   add(sheet: StyleSheet): void
   reset(): void
@@ -131,7 +131,7 @@ interface SheetsRegistry {
   toString(options?: ToCssOptions): string
 }
 
-interface SheetsManager {
+declare class SheetsManager {
   readonly size: number
   get(key: object): StyleSheet
   add(key: object, sheet: StyleSheet): number
@@ -152,10 +152,10 @@ type StyleSheetOptions = {
   jss: Jss
 }
 
-interface StyleSheet {
+declare class StyleSheet {
   classes: Classes
   keyframes: Keyframes
-  constructor(styles: object, options: StyleSheetOptions): this
+  constructor(styles: object, options: StyleSheetOptions)
   attach(): this
   detach(): this
   addRule(name: string, decl: JssStyle, options?: RuleOptions): Rule
@@ -170,8 +170,8 @@ interface StyleSheet {
   toString(options?: ToCssOptions): string
 }
 
-interface Jss {
-  constructor(options?: JssOptions): this
+declare class Jss {
+  constructor(options?: JssOptions)
   createStyleSheet(styles: Styles, options?: StyleSheetFactoryOptions): StyleSheet
   removeStyleSheet(sheet: StyleSheet): this
   setup(options?: JssOptions): this
