@@ -7,7 +7,7 @@ import injectSheet, {
   SheetsRegistry,
   withTheme,
   createTheming
-} from './index'
+} from '.'
 
 describe('React-JSS: exports', () => {
   it('should export injectSheet', () => {

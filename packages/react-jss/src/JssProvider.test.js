@@ -1,11 +1,10 @@
 /* eslint-disable global-require, react/prop-types */
 
 import expect from 'expect.js'
-import React, {Component} from 'react'
+import React from 'react'
 import {stripIndent} from 'common-tags'
-import preset from 'jss-preset-default'
-import {render, unmountComponentAtNode} from 'react-dom'
 import {create} from 'jss'
+import TestRenderer from 'react-test-renderer'
 
 import {renderToString} from 'react-dom/server'
 
@@ -17,17 +16,6 @@ const createGenerateId = () => {
 }
 
 describe('React-JSS: JssProvider', () => {
-  let node
-
-  beforeEach(() => {
-    node = document.body.appendChild(document.createElement('div'))
-  })
-
-  afterEach(() => {
-    unmountComponentAtNode(node)
-    node.parentNode.removeChild(node)
-  })
-
   describe('nested child JssProvider', () => {
     describe('generateId prop', () => {
       it('should forward from context', () => {
@@ -35,13 +23,12 @@ describe('React-JSS: JssProvider', () => {
         const registry = new SheetsRegistry()
         const MyComponent = injectSheet({a: {color: 'red'}})()
 
-        render(
+        TestRenderer.create(
           <JssProvider generateId={generateId}>
             <JssProvider registry={registry}>
               <MyComponent />
             </JssProvider>
-          </JssProvider>,
-          node
+          </JssProvider>
         )
 
         expect(registry.toString()).to.be(stripIndent`
@@ -57,13 +44,12 @@ describe('React-JSS: JssProvider', () => {
         const registry = new SheetsRegistry()
         const MyComponent = injectSheet({a: {color: 'red'}})()
 
-        render(
+        TestRenderer.create(
           <JssProvider generateId={generateIdParent}>
             <JssProvider generateId={generateIdChild} registry={registry}>
               <MyComponent />
             </JssProvider>
-          </JssProvider>,
-          node
+          </JssProvider>
         )
 
         expect(registry.toString()).to.be(stripIndent`
@@ -80,13 +66,12 @@ describe('React-JSS: JssProvider', () => {
         const registry = new SheetsRegistry()
         const MyComponent = injectSheet({a: {color: 'red'}})()
 
-        render(
+        const renderer = TestRenderer.create(
           <JssProvider classNamePrefix="A-">
             <JssProvider registry={registry} generateId={generateId}>
               <MyComponent />
             </JssProvider>
-          </JssProvider>,
-          node
+          </JssProvider>
         )
 
         expect(registry.toString()).to.be(stripIndent`
@@ -94,20 +79,21 @@ describe('React-JSS: JssProvider', () => {
             color: red;
           }
         `)
+
+        renderer.unmount()
       })
 
-      it('should overwrite over child props', () => {
+      it('should merge with child props', () => {
         const generateId = (rule, sheet) => sheet.options.classNamePrefix + rule.key
         const registry = new SheetsRegistry()
         const MyComponent = injectSheet({a: {color: 'red'}})()
 
-        render(
+        const renderer = TestRenderer.create(
           <JssProvider classNamePrefix="A-">
             <JssProvider classNamePrefix="B-" registry={registry} generateId={generateId}>
               <MyComponent />
             </JssProvider>
-          </JssProvider>,
-          node
+          </JssProvider>
         )
 
         expect(registry.toString()).to.be(stripIndent`
@@ -115,58 +101,37 @@ describe('React-JSS: JssProvider', () => {
             color: red;
           }
         `)
+
+        renderer.unmount()
       })
     })
 
     describe('jss prop', () => {
       it('should forward from context', () => {
-        let processed = true
-        const localJss = create().use({
-          onProcessRule: () => {
-            processed = true
-          }
-        })
-        const MyComponent = injectSheet({a: {color: 'red'}})()
+        const localJss = create()
+        const MyComponent = injectSheet({})()
 
-        render(
+        TestRenderer.create(
           <JssProvider jss={localJss}>
             <JssProvider>
               <MyComponent />
             </JssProvider>
-          </JssProvider>,
-          node
+          </JssProvider>
         )
-
-        expect(processed).to.be(true)
       })
 
       it('should overwrite over child props', () => {
-        let processed
+        const localJss1 = create()
+        const localJss2 = create()
+        const MyComponent = injectSheet({})()
 
-        const localJss1 = create().use({
-          onProcessRule: () => {
-            processed = localJss1
-          }
-        })
-
-        const localJss2 = create().use({
-          onProcessRule: () => {
-            processed = localJss2
-          }
-        })
-
-        const MyComponent = injectSheet({a: {color: 'red'}})()
-
-        render(
+        TestRenderer.create(
           <JssProvider jss={localJss1}>
             <JssProvider jss={localJss2}>
               <MyComponent />
             </JssProvider>
-          </JssProvider>,
-          node
+          </JssProvider>
         )
-
-        expect(processed).to.be(localJss2)
       })
     })
 
@@ -176,13 +141,12 @@ describe('React-JSS: JssProvider', () => {
         const registry = new SheetsRegistry()
         const MyComponent = injectSheet({a: {color: 'red'}})()
 
-        render(
+        TestRenderer.create(
           <JssProvider registry={registry}>
             <JssProvider generateId={generateId}>
               <MyComponent />
             </JssProvider>
-          </JssProvider>,
-          node
+          </JssProvider>
         )
 
         expect(registry.toString()).to.be(stripIndent`
@@ -198,17 +162,15 @@ describe('React-JSS: JssProvider', () => {
         const registryB = new SheetsRegistry()
         const MyComponent = injectSheet({a: {color: 'red'}})()
 
-        render(
+        TestRenderer.create(
           <JssProvider registry={registryA}>
             <JssProvider registry={registryB} generateId={generateId}>
               <MyComponent />
             </JssProvider>
-          </JssProvider>,
-          node
+          </JssProvider>
         )
 
         expect(registryA.toString()).to.be('')
-
         expect(registryB.toString()).to.be(stripIndent`
           .a {
             color: red;
@@ -223,13 +185,12 @@ describe('React-JSS: JssProvider', () => {
         const registry = new SheetsRegistry()
         const MyComponent = injectSheet({a: {color: 'red'}})()
 
-        render(
+        TestRenderer.create(
           <JssProvider registry={registry} disableStylesGeneration>
             <JssProvider generateId={generateId}>
               <MyComponent />
             </JssProvider>
-          </JssProvider>,
-          node
+          </JssProvider>
         )
 
         expect(registry.toString()).to.be('')
@@ -240,13 +201,12 @@ describe('React-JSS: JssProvider', () => {
         const registry = new SheetsRegistry()
         const MyComponent = injectSheet({a: {color: 'red'}})()
 
-        render(
+        TestRenderer.create(
           <JssProvider registry={registry} disableStylesGeneration>
             <JssProvider generateId={generateId} disableStylesGeneration={false}>
               <MyComponent />
             </JssProvider>
-          </JssProvider>,
-          node
+          </JssProvider>
         )
 
         expect(registry.toString()).to.be(stripIndent`
@@ -263,48 +223,41 @@ describe('React-JSS: JssProvider', () => {
       const registry = new SheetsRegistry()
       const A = injectSheet({a: {color: 'red'}})()
       const B = injectSheet({a: {color: 'green'}})()
-      const localJss = create({
-        createGenerateId: () => {
-          let counter = 0
-          return rule => `${rule.key}-${counter++}`
-        }
-      })
+      const generateId = createGenerateId()
 
-      class MyComponent extends Component {
-        value = true
+      function MyComponent(props) {
+        const Inner = props.value ? A : B
 
-        render() {
-          this.value = !this.value
-          const Inner = this.value ? A : B
-
-          return (
-            <JssProvider registry={registry} jss={localJss}>
-              <Inner />
-            </JssProvider>
-          )
-        }
+        return (
+          <JssProvider registry={registry} generateId={generateId}>
+            <Inner />
+          </JssProvider>
+        )
       }
 
-      render(<MyComponent />, node)
+      const renderer = TestRenderer.create(<MyComponent value={false} />)
       // TODO: Does this make sense?
       expect(registry.toString()).to.be(stripIndent`
         .a-0 {
           color: green;
         }
       `)
-      render(<MyComponent />, node)
+
+      renderer.update(<MyComponent value />)
       expect(registry.toString()).to.be(stripIndent`
         .a-1 {
           color: red;
         }
       `)
-      render(<MyComponent />, node)
+
+      renderer.update(<MyComponent value={false} />)
       expect(registry.toString()).to.be(stripIndent`
         .a-0 {
           color: green;
         }
       `)
-      render(<MyComponent />, node)
+
+      renderer.update(<MyComponent value />)
       expect(registry.toString()).to.be(stripIndent`
         .a-1 {
           color: red;
@@ -314,73 +267,6 @@ describe('React-JSS: JssProvider', () => {
   })
 
   describe('with JssProvider for SSR', () => {
-    let localJss
-    let generateId
-
-    beforeEach(() => {
-      localJss = create({
-        ...preset(),
-        virtual: true
-      })
-
-      generateId = createGenerateId()
-    })
-
-    it('should add style sheets to the registry from context', () => {
-      const customSheets = new SheetsRegistry()
-      const ComponentA = injectSheet({
-        button: {color: 'red'}
-      })()
-      const ComponentB = injectSheet({
-        button: {color: 'blue'}
-      })()
-
-      renderToString(
-        <JssProvider registry={customSheets} jss={localJss}>
-          <div>
-            <ComponentA />
-            <ComponentB />
-          </div>
-        </JssProvider>
-      )
-
-      expect(customSheets.registry.length).to.equal(2)
-    })
-
-    it('should use Jss instance from the context', () => {
-      let receivedSheet
-
-      const MyComponent = injectSheet({}, {inject: ['sheet']})(({sheet}) => {
-        receivedSheet = sheet
-        return null
-      })
-
-      renderToString(
-        <JssProvider jss={localJss}>
-          <MyComponent />
-        </JssProvider>
-      )
-
-      expect(receivedSheet.options.jss).to.be(localJss)
-    })
-
-    it('should add dynamic sheets', () => {
-      const customSheets = new SheetsRegistry()
-      const MyComponent = injectSheet({
-        button: {
-          width: () => 10
-        }
-      })()
-
-      renderToString(
-        <JssProvider registry={customSheets} jss={localJss}>
-          <MyComponent />
-        </JssProvider>
-      )
-
-      expect(customSheets.registry.length).to.be(2)
-    })
-
     it('should reset the class generator counter', () => {
       const styles = {
         button: {
@@ -391,6 +277,7 @@ describe('React-JSS: JssProvider', () => {
       const MyComponent = injectSheet(styles)()
 
       let registry = new SheetsRegistry()
+      let generateId = createGenerateId()
 
       renderToString(
         <JssProvider registry={registry} generateId={generateId}>
@@ -427,6 +314,7 @@ describe('React-JSS: JssProvider', () => {
     })
 
     it('should be idempotent', () => {
+      let generateId = createGenerateId()
       const MyComponent = injectSheet({
         button: {
           color: props => props.color
@@ -442,6 +330,8 @@ describe('React-JSS: JssProvider', () => {
         </JssProvider>
       )
 
+      generateId = createGenerateId()
+
       renderToString(
         <JssProvider registry={customSheets2}>
           <MyComponent color="#000" />
@@ -455,6 +345,7 @@ describe('React-JSS: JssProvider', () => {
     })
 
     it('should render deterministically on server and client', () => {
+      let generateId = createGenerateId()
       const ComponentA = injectSheet({
         button: {
           color: props => props.color
@@ -467,68 +358,24 @@ describe('React-JSS: JssProvider', () => {
         }
       })()
 
-      const customSheets1 = new SheetsRegistry()
-      const customSheets2 = new SheetsRegistry()
+      const registry1 = new SheetsRegistry()
+      const registry2 = new SheetsRegistry()
 
       renderToString(
-        <JssProvider registry={customSheets1}>
+        <JssProvider registry={registry1}>
           <ComponentA color="#000" />
         </JssProvider>
       )
 
-      render(
-        <JssProvider registry={customSheets2}>
+      generateId = createGenerateId()
+
+      TestRenderer.create(
+        <JssProvider registry={registry2}>
           <ComponentB color="#000" />
-        </JssProvider>,
-        node
-      )
-
-      expect(customSheets1.toString()).to.equal(customSheets2.toString())
-    })
-
-    it('should use generateId', () => {
-      const Component1 = injectSheet({a: {color: 'red'}})()
-      const Component2 = injectSheet({a: {color: 'red'}})()
-      const registry = new SheetsRegistry()
-
-      renderToString(
-        <div>
-          <JssProvider registry={registry} generateId={generateId}>
-            <Component1 />
-          </JssProvider>
-          <JssProvider registry={registry} generateId={generateId}>
-            <Component2 />
-          </JssProvider>
-        </div>
-      )
-
-      expect(registry.toString()).to.be(stripIndent`
-        .a-0 {
-          color: red;
-        }
-        .a-1 {
-          color: red;
-        }
-      `)
-    })
-
-    it('should use classNamePrefix', () => {
-      const MyRenderComponent = () => null
-      const MyComponent = injectSheet({a: {color: 'red'}})(MyRenderComponent)
-      const registry = new SheetsRegistry()
-      const generateId2 = (rule, sheet) => `${sheet.options.classNamePrefix}${rule.key}`
-
-      renderToString(
-        <JssProvider registry={registry} generateId={generateId2} classNamePrefix="MyApp-">
-          <MyComponent />
         </JssProvider>
       )
 
-      expect(registry.toString()).to.be(stripIndent`
-        .MyApp-MyRenderComponent-a {
-          color: red;
-        }
-      `)
+      expect(registry1.toString()).to.equal(registry2.toString())
     })
   })
 })

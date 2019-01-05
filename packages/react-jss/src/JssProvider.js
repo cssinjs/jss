@@ -46,6 +46,12 @@ export default class JssProvider extends Component<Props> {
       context.registry = registry
     }
 
+    if (registry !== this.registry && !generateId) {
+      this.generateId = createGenerateId()
+    }
+
+    this.registry = registry
+
     if (generateId) {
       context.sheetOptions.generateId = generateId
     } else if (!context.sheetOptions.generateId) {
@@ -57,8 +63,12 @@ export default class JssProvider extends Component<Props> {
 
     // Merge the classname prefix
     if (classNamePrefix) {
+      console.log(context.sheetOptions.classNamePrefix, classNamePrefix)
+
       context.sheetOptions.classNamePrefix =
         (context.sheetOptions.classNamePrefix || '') + classNamePrefix
+
+      console.log(context.sheetOptions.classNamePrefix)
     }
 
     if (media !== undefined) {
@@ -77,6 +87,8 @@ export default class JssProvider extends Component<Props> {
   }
 
   generateId: GenerateId
+
+  registry: ?SheetsRegistry
 
   renderProvider = (outerContext: Context) => {
     const {children} = this.props

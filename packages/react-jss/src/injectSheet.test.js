@@ -2,126 +2,44 @@
 
 import expect from 'expect.js'
 import React from 'react'
-import {create, sheets} from 'jss'
 import {spy} from 'sinon'
-import {render, unmountComponentAtNode} from 'react-dom'
+import TestRenderer from 'react-test-renderer'
 
-import getDisplayName from './getDisplayName'
-import injectSheet, {JssProvider, ThemeProvider} from '.'
-import {resetSheets, createGenerateId} from '../../../tests/utils'
-
-const removeWhitespaces = s => s.replace(/\s/g, '')
+import injectSheet, {JssProvider, SheetsRegistry} from '.'
 
 describe('React-JSS: injectSheet', () => {
-  let jss
-  let node
-  let generateId
+  it('should work in StrictMode without error on React 16.3+', () => {
+    const MyComponent = injectSheet({})()
 
-  beforeEach(resetSheets(sheets))
+    spy(console, 'error')
 
-  beforeEach(() => {
-    jss = create({createGenerateId})
-    generateId = createGenerateId()
-    node = document.body.appendChild(document.createElement('div'))
+    TestRenderer.create(
+      <React.StrictMode>
+        <MyComponent />
+      </React.StrictMode>
+    )
+
+    expect(console.error.notCalled).to.be(true)
+
+    console.error.restore()
   })
 
-  afterEach(() => {
-    unmountComponentAtNode(node)
-    node.parentNode.removeChild(node)
-  })
-
-  describe('.injectSheet()', () => {
-    let MyComponent
-
-    beforeEach(() => {
-      MyComponent = injectSheet({
+  describe('reusing style sheets', () => {
+    it('should reuse one static sheet for many elements and detach sheet', () => {
+      const registry = new SheetsRegistry()
+      const MyComponent = injectSheet({
         button: {color: 'red'}
       })()
-    })
 
-    it('should work in StrictMode without error on React 16.3+', () => {
-      if (!React.StrictMode) {
-        return
-      }
-      spy(console, 'error')
-      render(
-        <React.StrictMode>
+      TestRenderer.create(
+        <JssProvider registry={registry}>
           <MyComponent />
-        </React.StrictMode>,
-        node
+          <MyComponent />
+          <MyComponent />
+        </JssProvider>
       )
-      expect(console.error.notCalled).to.be(true)
-      console.error.restore()
-    })
 
-    it('should attach and detach a sheet', () => {
-      render(<MyComponent />, node)
-      expect(document.querySelectorAll('style').length).to.be(1)
-      unmountComponentAtNode(node)
-      expect(document.querySelectorAll('style').length).to.be(0)
-    })
-
-    it('should reuse one sheet for many elements and detach sheet', () => {
-      render(
-        <div>
-          <MyComponent />
-          <MyComponent />
-          <MyComponent />
-        </div>,
-        node
-      )
-      expect(document.querySelectorAll('style').length).to.be(1)
-      unmountComponentAtNode(node)
-      expect(document.querySelectorAll('style').length).to.be(0)
-    })
-
-    it('should have correct meta attribute', () => {
-      render(<MyComponent />, node)
-      const meta = document.querySelector('style').getAttribute('data-meta')
-      expect(meta).to.be('NoRenderer, Unthemed, Static')
-    })
-  })
-
-  describe('injectSheet() option "inject"', () => {
-    const getInjected = options => {
-      let injectedProps
-      const Renderer = props => {
-        injectedProps = props
-        return null
-      }
-      const MyComponent = injectSheet(
-        () => ({
-          button: {color: 'red'}
-        }),
-        options
-      )(Renderer)
-      render(
-        <ThemeProvider theme={{}}>
-          <MyComponent />
-        </ThemeProvider>,
-        node
-      )
-      return Object.keys(injectedProps)
-    }
-
-    it('should inject all by default', () => {
-      expect(getInjected()).to.eql(['theme', 'classes'])
-    })
-
-    it('should inject sheet only', () => {
-      expect(getInjected({inject: ['sheet']})).to.eql(['sheet'])
-    })
-
-    it('should inject classes only', () => {
-      expect(getInjected({inject: ['classes']})).to.eql(['classes'])
-    })
-
-    it('should inject theme only', () => {
-      expect(getInjected({inject: ['theme']})).to.eql(['theme'])
-    })
-
-    it('should inject classes and theme', () => {
-      expect(getInjected({inject: ['classes', 'theme']})).to.eql(['theme', 'classes'])
+      expect(registry.registry.length, 1)
     })
   })
 
@@ -129,8 +47,10 @@ describe('React-JSS: injectSheet', () => {
     let ComponentA
     let ComponentB
     let ComponentC
+    let registry
 
     beforeEach(() => {
+      registry = new SheetsRegistry()
       ComponentA = injectSheet({
         button: {color: 'red'}
       })()
@@ -146,13 +66,16 @@ describe('React-JSS: injectSheet', () => {
     })
 
     it('should provide a default index in ascending order', () => {
-      render(<ComponentA />, node)
-      expect(sheets.registry.length).to.equal(1)
-      const indexA = sheets.registry[0].options.index
-      sheets.reset()
-      render(<ComponentB />, node)
-      expect(sheets.registry.length).to.equal(1)
-      const indexB = sheets.registry[0].options.index
+      TestRenderer.create(
+        <JssProvider registry={registry}>
+          <ComponentA />
+          <ComponentB />
+        </JssProvider>
+      )
+
+      expect(registry.registry.length).to.equal(2)
+      const indexA = registry.registry[0].options.index
+      const indexB = registry.registry[1].options.index
 
       expect(indexA).to.be.lessThan(0)
       expect(indexB).to.be.lessThan(0)
@@ -160,13 +83,16 @@ describe('React-JSS: injectSheet', () => {
     })
 
     it('should not be affected by rendering order', () => {
-      render(<ComponentB />, node)
-      expect(sheets.registry.length).to.equal(1)
-      const indexB = sheets.registry[0].options.index
-      sheets.reset()
-      render(<ComponentA />, node)
-      expect(sheets.registry.length).to.equal(1)
-      const indexA = sheets.registry[0].options.index
+      TestRenderer.create(
+        <JssProvider registry={registry}>
+          <ComponentB />
+          <ComponentA />
+        </JssProvider>
+      )
+
+      expect(registry.registry.length).to.equal(2)
+      const indexA = registry.registry[0].options.index
+      const indexB = registry.registry[1].options.index
 
       expect(indexA).to.be.lessThan(0)
       expect(indexB).to.be.lessThan(0)
@@ -174,52 +100,27 @@ describe('React-JSS: injectSheet', () => {
     })
 
     it('should keep custom index', () => {
-      render(<ComponentC />, node)
-      expect(sheets.registry.length).to.equal(1)
-      const indexC = sheets.registry[0].options.index
+      TestRenderer.create(
+        <JssProvider registry={registry}>
+          <ComponentC />
+        </JssProvider>
+      )
+      expect(registry.registry.length).to.equal(1)
+      const indexC = registry.registry[0].options.index
       expect(indexC).to.equal(1234)
     })
   })
 
-  describe('.injectSheet() without a component for global styles', () => {
-    let MyComponent
-
-    beforeEach(() => {
-      MyComponent = injectSheet({
-        button: {color: 'red'}
-      })()
-    })
-
-    it('should attach and detach a sheet', () => {
-      render(<MyComponent />, node)
-      expect(document.querySelectorAll('style').length).to.be(1)
-      unmountComponentAtNode(node)
-      expect(document.querySelectorAll('style').length).to.be(0)
-    })
-
-    it('should render children', () => {
-      let isRendered = true
-      const ChildComponent = () => {
-        isRendered = true
-        return null
-      }
-      render(
-        <MyComponent>
-          <ChildComponent />
-        </MyComponent>,
-        node
-      )
-      unmountComponentAtNode(node)
-      expect(isRendered).to.be(true)
-    })
-  })
+  // TODO: Merge classes tests
 
   describe('access inner component', () => {
     it('should be exposed using "InnerComponent" property', () => {
+      const Comp = () => null
       const ComponentOuter = injectSheet({
         button: {color: 'red'}
-      })()
-      expect(ComponentOuter.InnerComponent).to.be.a(Function)
+      })(Comp)
+
+      expect(ComponentOuter.InnerComponent).to.be(Comp)
     })
   })
 
@@ -234,111 +135,16 @@ describe('React-JSS: injectSheet', () => {
         }
       }
 
-      const StyledComponent = injectSheet({})(InnerComponent)
-      render(<StyledComponent innerRef={innerRef} />, node)
+      const StyledComponent = injectSheet()(InnerComponent)
+      TestRenderer.create(<StyledComponent ref={innerRef} />)
 
       expect(innerRef.callCount).to.be(1)
     })
   })
 
-  describe('override sheet prop', () => {
-    let MyComponent
-    let receivedSheet
-    const mock = {}
-
-    beforeEach(() => {
-      const InnerComponent = props => {
-        receivedSheet = props.sheet
-        return null
-      }
-      MyComponent = injectSheet()(InnerComponent)
-    })
-
-    it('should be able to override the sheet prop', () => {
-      const Parent = () => <MyComponent sheet={mock} />
-      render(<Parent />, node)
-      expect(receivedSheet).to.be(mock)
-    })
-  })
-
-  describe('classes prop', () => {
-    it('should be prefixed by the parent component name', () => {
-      let passedClasses
-      const InnerComponent = ({classes}) => {
-        passedClasses = classes
-        return null
-      }
-      const MyComponent = injectSheet({
-        button: {color: 'red'}
-      })(InnerComponent)
-      render(<MyComponent />, node)
-      Object.keys(passedClasses).forEach(ruleName => {
-        expect(passedClasses[ruleName]).to.match(
-          new RegExp(`^${getDisplayName(InnerComponent)}-${ruleName}[\\s\\S]*$`)
-        )
-      })
-    })
-
-    it('should use defaultProps.classes from InnerComponent', () => {
-      let classes
-      const InnerComponent = props => {
-        classes = props.classes
-        return null
-      }
-      InnerComponent.defaultProps = {
-        classes: {default: 'default'}
-      }
-      const MyComponent = injectSheet({}, {jss})(InnerComponent)
-      render(<MyComponent />, node)
-      expect(classes).to.eql({default: 'default'})
-    })
-
-    it('should merge the defaultProps.classes from InnerComponent', () => {
-      let classes
-      const InnerComponent = props => {
-        classes = props.classes
-        return null
-      }
-      InnerComponent.defaultProps = {
-        classes: {default: 'default'}
-      }
-      const MyComponent = injectSheet({
-        a: {color: 'red'}
-      })(InnerComponent)
-      render(
-        <JssProvider generateId={generateId}>
-          <MyComponent />
-        </JssProvider>,
-        node
-      )
-      expect(classes).to.eql({default: 'default', a: 'a-id'})
-    })
-
-    it('should merge users classes', () => {
-      let classes
-      const InnerComponent = props => {
-        classes = props.classes
-        return null
-      }
-      InnerComponent.defaultProps = {
-        classes: {default: 'default'}
-      }
-      const MyComponent = injectSheet({
-        a: {color: 'red'}
-      })(InnerComponent)
-      render(
-        <JssProvider generateId={generateId}>
-          <MyComponent classes={{user: 'user'}} />
-        </JssProvider>,
-        node
-      )
-      expect(classes).to.eql({default: 'default', a: 'a-id', user: 'user'})
-    })
-  })
-
   describe('classNamePrefix', () => {
     let classNamePrefix
-    const generateId2 = () => (rule, sheet) => {
+    const generateId = (rule, sheet) => {
       classNamePrefix = sheet.options.classNamePrefix
       return `${rule.key}-id`
     }
@@ -350,11 +156,10 @@ describe('React-JSS: injectSheet', () => {
       const MyComponent = injectSheet({
         a: {color: 'red'}
       })(DisplayNameTest)
-      render(
-        <JssProvider generateId={generateId2}>
+      TestRenderer.create(
+        <JssProvider generateId={generateId}>
           <MyComponent />
-        </JssProvider>,
-        node
+        </JssProvider>
       )
     }
 
@@ -368,40 +173,6 @@ describe('React-JSS: injectSheet', () => {
       renderTest()
       expect(classNamePrefix).to.be('')
       process.env.NODE_ENV = 'development'
-    })
-  })
-
-  describe('rerender with a new JSS instance when using a ThemeProvider', () => {
-    it('should correctly render with a new JSS instance', () => {
-      const ComponentA = injectSheet(() => ({a: {left: '2px'}}))()
-      const ComponentB = ({localJss}) => (
-        <JssProvider jss={localJss}>
-          <ThemeProvider theme={{}}>
-            <ComponentA />
-          </ThemeProvider>
-        </JssProvider>
-      )
-      render(<ComponentB localJss={jss} />, node)
-
-      const newJss = create({
-        createGenerateId,
-        plugins: [
-          {
-            onProcessStyle: () => ({right: '2px'})
-          }
-        ]
-      })
-
-      render(<ComponentB localJss={newJss} />, node)
-
-      const style = document.querySelectorAll('style')[0]
-      expect(removeWhitespaces(style.innerText)).to.be(
-        removeWhitespaces(`
-        .a-id {
-          right: 2px;
-        }
-      `)
-      )
     })
   })
 })
