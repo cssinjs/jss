@@ -1,7 +1,7 @@
 {
   "name": "react-jss",
   "description": "JSS integration with React",
-  "version": "10.0.0-alpha.3",
+  "version": "10.0.0-alpha.7",
   "license": "MIT",
   "main": "dist/react-jss.cjs.js",
   "module": "dist/react-jss.esm.js",
@@ -34,7 +34,7 @@
     "decorator"
   ],
   "scripts": {
-    "build": "node ../../scripts/build.js",
+    "prepare": "node ../../scripts/build.js",
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "peerDependencies": {
@@ -45,8 +45,8 @@
     "@types/react": "^16.4.18",
     "create-react-context": "^0.2.3",
     "hoist-non-react-statics": "^3.2.0",
-    "jss": "^10.0.0-alpha.3",
-    "jss-preset-default": "^10.0.0-alpha.3",
+    "jss": "^10.0.0-alpha.7",
+    "jss-preset-default": "^10.0.0-alpha.7",
     "prop-types": "^15.6.0",
     "theming": "^3.0.0"
   }

@@ -3,7 +3,7 @@
 import expect from 'expect.js'
 import sinon from 'sinon'
 import {create} from '../../src'
-import {resetSheets} from '../../../../tests/utils'
+import {resetSheets, computeStyle} from '../../../../tests/utils'
 
 describe('Functional: dom priority', () => {
   function createDummySheets() {
@@ -17,6 +17,26 @@ describe('Functional: dom priority', () => {
   }
 
   beforeEach(resetSheets())
+
+  describe('enssure index and source order specificity', () => {
+    let jss
+
+    beforeEach(() => {
+      jss = create()
+    })
+
+    it('should have correct specificity w/o linking', () => {
+      const sheet1 = jss.createStyleSheet({a: {width: '5px'}}, {index: 1}).attach()
+      const sheet2 = jss.createStyleSheet({b: {width: '2px'}}, {index: 0}).attach()
+      expect(computeStyle(`${sheet1.classes.a} ${sheet2.classes.b}`).width).to.be('5px')
+    })
+
+    it('should have correct specificity w/ linking', () => {
+      const sheet1 = jss.createStyleSheet({a: {width: '5px'}}, {index: 1, link: true}).attach()
+      const sheet2 = jss.createStyleSheet({b: {width: '2px'}}, {index: 0, link: true}).attach()
+      expect(computeStyle(`${sheet1.classes.a} ${sheet2.classes.b}`).width).to.be('5px')
+    })
+  })
 
   describe('without insertion point', () => {
     let jss

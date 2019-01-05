@@ -2,28 +2,11 @@
 
 ## Install
 
-### Using yarn
-
 ```bash
 yarn add jss
 ```
 
-### Using free CDN [unpkg](https://unpkg.com):
-
-Unminified, bundled ESM starter kit for experimenting:
-https://unpkg.com/jss-starter-kit/dist/jss-starter-kit.bundle.js
-
-Unminified UMD:
-https://unpkg.com/jss/dist/jss.js
-
-Unminified CommonJS:
-https://unpkg.com/jss/dist/jss.cjs.js
-
-Unminified ESM:
-https://unpkg.com/jss/dist/jss.esm.js
-
-Minified UMD:
-https://unpkg.com/jss/dist/jss.min.js
+Alternatively, you can use [unpkg CDN](./cdn.md).
 
 ## Polyfills
 

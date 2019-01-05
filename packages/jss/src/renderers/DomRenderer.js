@@ -276,6 +276,15 @@ const insertRule = (
   return container.cssRules[index]
 }
 
+const createStyle = (): HTMLElement => {
+  const el = document.createElement('style')
+  // Without it, IE will have a broken source order specificity if we
+  // insert rules after we insert the style tag.
+  // It seems to kick-off the source order specificity algorithm.
+  el.textContent = '\n'
+  return el
+}
+
 export default class DomRenderer {
   getPropertyValue = getPropertyValue
 
@@ -298,7 +307,7 @@ export default class DomRenderer {
 
     this.sheet = sheet
     const {media, meta, element} = this.sheet ? this.sheet.options : {}
-    this.element = element || document.createElement('style')
+    this.element = element || createStyle()
     this.element.setAttribute('data-jss', '')
     if (media) this.element.setAttribute('media', media)
     if (meta) this.element.setAttribute('data-meta', meta)

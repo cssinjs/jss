@@ -15,13 +15,13 @@
     "gzipped": 6613
   },
   "dist/jss.esm.js": {
-    "bundled": 53349,
-    "minified": 23253,
-    "gzipped": 6526,
+    "bundled": 53619,
+    "minified": 23302,
+    "gzipped": 6536,
     "treeshaked": {
       "rollup": {
-        "code": 19725,
-        "import_statements": 337
+        "code": 19754,
+        "import_statements": 314
       },
       "webpack": {
         "code": 21248

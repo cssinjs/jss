@@ -1,7 +1,7 @@
 {
   "name": "jss-plugin-rule-value-observable",
   "description": "JSS plugin for TC39 Observables support",
-  "version": "10.0.0-alpha.3",
+  "version": "10.0.0-alpha.7",
   "license": "MIT",
   "homepage": "https://cssinjs.org/",
   "main": "dist/jss-plugin-rule-value-observable.cjs.js",
@@ -39,14 +39,14 @@
     "rxjs"
   ],
   "scripts": {
-    "build": "node ../../scripts/build.js",
+    "prepare": "node ../../scripts/build.js",
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "peerDependencies": {
     "jss": "^10.0.0-alpha.3"
   },
   "devDependencies": {
-    "jss": "^10.0.0-alpha.3"
+    "jss": "^10.0.0-alpha.7"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
