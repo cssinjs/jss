@@ -7,6 +7,11 @@ import TestRenderer from 'react-test-renderer'
 
 import injectSheet, {JssProvider, SheetsRegistry} from '.'
 
+const createGenerateId = () => {
+  let counter = 0
+  return rule => `${rule.key}-${counter++}`
+}
+
 describe('React-JSS: injectSheet', () => {
   it('should work in StrictMode without error on React 16.3+', () => {
     const MyComponent = injectSheet({})()
@@ -111,9 +116,71 @@ describe('React-JSS: injectSheet', () => {
     })
   })
 
-  // TODO: Merge classes tests
+  describe('should merge the classes', () => {
+    const styles = {
+      button: {color: 'red'}
+    }
 
-  describe('should merge the classes', () => {})
+    it('no default props + no user classes -> sheet classes', () => {
+      const Comp = () => null
+      const StyledComponent = injectSheet(styles)(Comp)
+      const renderer = TestRenderer.create(
+        <JssProvider generateId={createGenerateId()}>
+          <StyledComponent />
+        </JssProvider>
+      )
+      const injectedClasses = renderer.root.findByType(Comp).props.classes
+
+      expect(injectedClasses.button).to.be('button-0')
+    })
+
+    it('default props + no user classes -> merge sheet classes with default props classes', () => {
+      const Comp = () => null
+      Comp.defaultProps = {classes: {button: 'default-button'}}
+      const StyledComponent = injectSheet(styles)(Comp)
+      const renderer = TestRenderer.create(
+        <JssProvider generateId={createGenerateId()}>
+          <StyledComponent />
+        </JssProvider>
+      )
+      const injectedClasses = renderer.root.findByType(Comp).props.classes
+
+      expect(injectedClasses.button).to.be('button-0 default-button')
+    })
+
+    it('default props + user classes -> merge sheet classes with user classes prop', () => {
+      const Comp = () => null
+      Comp.defaultProps = {
+        classes: {
+          button: 'default-button',
+          test: 'test'
+        }
+      }
+      const StyledComponent = injectSheet(styles)(Comp)
+      const renderer = TestRenderer.create(
+        <JssProvider generateId={createGenerateId()}>
+          <StyledComponent classes={{button: 'custom-button'}} />
+        </JssProvider>
+      )
+      const injectedClasses = renderer.root.findByType(Comp).props.classes
+
+      expect(injectedClasses.button).to.be('button-0 custom-button')
+      expect(injectedClasses.test).to.be(undefined)
+    })
+
+    it('no default props + user classes -> merge sheet classes with user classes prop', () => {
+      const Comp = () => null
+      const StyledComponent = injectSheet(styles)(Comp)
+      const renderer = TestRenderer.create(
+        <JssProvider generateId={createGenerateId()}>
+          <StyledComponent classes={{button: 'custom-button'}} />
+        </JssProvider>
+      )
+      const injectedClasses = renderer.root.findByType(Comp).props.classes
+
+      expect(injectedClasses.button).to.be('button-0 custom-button')
+    })
+  })
 
   describe('access inner component', () => {
     it('should be exposed using "InnerComponent" property', () => {
