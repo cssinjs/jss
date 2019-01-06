@@ -16,11 +16,16 @@ const createGenerateId = () => {
 }
 
 describe('React-JSS: JssProvider', () => {
+  let registry
+
+  beforeEach(() => {
+    registry = new SheetsRegistry()
+  })
+
   describe('nested child JssProvider', () => {
     describe('generateId prop', () => {
       it('should forward from context', () => {
         const generateId = () => 'a'
-        const registry = new SheetsRegistry()
         const MyComponent = injectSheet({a: {color: 'red'}})()
 
         TestRenderer.create(
@@ -41,7 +46,6 @@ describe('React-JSS: JssProvider', () => {
       it('should overwrite over child props', () => {
         const generateIdParent = () => 'a'
         const generateIdChild = () => 'b'
-        const registry = new SheetsRegistry()
         const MyComponent = injectSheet({a: {color: 'red'}})()
 
         TestRenderer.create(
@@ -61,36 +65,13 @@ describe('React-JSS: JssProvider', () => {
     })
 
     describe('classNamePrefix prop', () => {
-      it('should forward from context', () => {
-        const generateId = (rule, sheet) => sheet.options.classNamePrefix + rule.key
-        const registry = new SheetsRegistry()
-        const MyComponent = injectSheet({a: {color: 'red'}})()
-
-        const renderer = TestRenderer.create(
-          <JssProvider classNamePrefix="A-">
-            <JssProvider registry={registry} generateId={generateId}>
-              <MyComponent />
-            </JssProvider>
-          </JssProvider>
-        )
-
-        expect(registry.toString()).to.be(stripIndent`
-          .A-NoRenderer-a {
-            color: red;
-          }
-        `)
-
-        renderer.unmount()
-      })
+      const generateId = (rule, sheet) => sheet.options.classNamePrefix + rule.key
+      const MyComponent = injectSheet({a: {color: 'red'}})()
 
       it('should merge with child props', () => {
-        const generateId = (rule, sheet) => sheet.options.classNamePrefix + rule.key
-        const registry = new SheetsRegistry()
-        const MyComponent = injectSheet({a: {color: 'red'}})()
-
-        const renderer = TestRenderer.create(
-          <JssProvider classNamePrefix="A-">
-            <JssProvider classNamePrefix="B-" registry={registry} generateId={generateId}>
+        TestRenderer.create(
+          <JssProvider classNamePrefix="A-" registry={registry} generateId={generateId}>
+            <JssProvider classNamePrefix="B-">
               <MyComponent />
             </JssProvider>
           </JssProvider>
@@ -101,8 +82,6 @@ describe('React-JSS: JssProvider', () => {
             color: red;
           }
         `)
-
-        renderer.unmount()
       })
     })
 
@@ -138,7 +117,6 @@ describe('React-JSS: JssProvider', () => {
     describe('registry prop', () => {
       it('should forward from context', () => {
         const generateId = () => 'a'
-        const registry = new SheetsRegistry()
         const MyComponent = injectSheet({a: {color: 'red'}})()
 
         TestRenderer.create(
@@ -182,7 +160,6 @@ describe('React-JSS: JssProvider', () => {
     describe('disableStylesGeneration prop', () => {
       it('should forward from context', () => {
         const generateId = () => 'a'
-        const registry = new SheetsRegistry()
         const MyComponent = injectSheet({a: {color: 'red'}})()
 
         TestRenderer.create(
@@ -198,7 +175,6 @@ describe('React-JSS: JssProvider', () => {
 
       it('should overwrite over child props', () => {
         const generateId = () => 'a'
-        const registry = new SheetsRegistry()
         const MyComponent = injectSheet({a: {color: 'red'}})()
 
         TestRenderer.create(
@@ -220,7 +196,6 @@ describe('React-JSS: JssProvider', () => {
 
   describe('JssProvider in a stateful component', () => {
     it('should not reset the class name generator', () => {
-      const registry = new SheetsRegistry()
       const A = injectSheet({a: {color: 'red'}})()
       const B = injectSheet({a: {color: 'green'}})()
       const generateId = createGenerateId()
@@ -275,11 +250,9 @@ describe('React-JSS: JssProvider', () => {
         }
       }
       const MyComponent = injectSheet(styles)()
-
-      let registry = new SheetsRegistry()
       let generateId = createGenerateId()
 
-      renderToString(
+      TestRenderer.create(
         <JssProvider registry={registry} generateId={generateId}>
           <MyComponent border="green" />
         </JssProvider>
@@ -314,7 +287,6 @@ describe('React-JSS: JssProvider', () => {
     })
 
     it('should be idempotent', () => {
-      let generateId = createGenerateId()
       const MyComponent = injectSheet({
         button: {
           color: props => props.color
@@ -323,17 +295,17 @@ describe('React-JSS: JssProvider', () => {
 
       const customSheets1 = new SheetsRegistry()
       const customSheets2 = new SheetsRegistry()
+      const generateId1 = createGenerateId()
+      const generateId2 = createGenerateId()
 
-      renderToString(
-        <JssProvider registry={customSheets1}>
+      TestRenderer.create(
+        <JssProvider registry={customSheets1} generateId={generateId1}>
           <MyComponent color="#000" />
         </JssProvider>
       )
 
-      generateId = createGenerateId()
-
-      renderToString(
-        <JssProvider registry={customSheets2}>
+      TestRenderer.create(
+        <JssProvider registry={customSheets2} generateId={generateId2}>
           <MyComponent color="#000" />
         </JssProvider>
       )
@@ -342,40 +314,6 @@ describe('React-JSS: JssProvider', () => {
       const result2 = customSheets2.toString()
 
       expect(result1).to.equal(result2)
-    })
-
-    it('should render deterministically on server and client', () => {
-      let generateId = createGenerateId()
-      const ComponentA = injectSheet({
-        button: {
-          color: props => props.color
-        }
-      })()
-
-      const ComponentB = injectSheet({
-        button: {
-          color: props => props.color
-        }
-      })()
-
-      const registry1 = new SheetsRegistry()
-      const registry2 = new SheetsRegistry()
-
-      renderToString(
-        <JssProvider registry={registry1}>
-          <ComponentA color="#000" />
-        </JssProvider>
-      )
-
-      generateId = createGenerateId()
-
-      TestRenderer.create(
-        <JssProvider registry={registry2}>
-          <ComponentB color="#000" />
-        </JssProvider>
-      )
-
-      expect(registry1.toString()).to.equal(registry2.toString())
     })
   })
 })

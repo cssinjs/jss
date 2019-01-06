@@ -37,20 +37,21 @@ export default class JssProvider extends Component<Props> {
   createContext(outerContext: Context): Context {
     const {registry, classNamePrefix, jss, generateId, disableStylesGeneration, media} = this.props
     // Clone the outer context
-    const context = {
-      ...outerContext,
-      managers: this.managers
-    }
+    const context = {...outerContext}
 
     if (registry) {
       context.registry = registry
+
+      // This way we identify a new request on the server, because user will create
+      // a new Registry instance for each.
+      if (registry !== this.registry) {
+        // We reset managers because we have to regenerate all sheets for the new request.
+        this.managers = {}
+        this.registry = registry
+      }
     }
 
-    if (registry !== this.registry && !generateId) {
-      this.generateId = createGenerateId()
-    }
-
-    this.registry = registry
+    context.managers = this.managers
 
     if (generateId) {
       context.sheetOptions.generateId = generateId
@@ -63,12 +64,8 @@ export default class JssProvider extends Component<Props> {
 
     // Merge the classname prefix
     if (classNamePrefix) {
-      console.log(context.sheetOptions.classNamePrefix, classNamePrefix)
-
       context.sheetOptions.classNamePrefix =
         (context.sheetOptions.classNamePrefix || '') + classNamePrefix
-
-      console.log(context.sheetOptions.classNamePrefix)
     }
 
     if (media !== undefined) {
@@ -86,7 +83,7 @@ export default class JssProvider extends Component<Props> {
     return context
   }
 
-  generateId: GenerateId
+  generateId: ?GenerateId
 
   registry: ?SheetsRegistry
 
