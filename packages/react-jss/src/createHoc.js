@@ -79,11 +79,10 @@ export default function createHOC<
     // $FlowFixMe
     static defaultProps = {...InnerComponent.defaultProps}
 
-    mergeClassesProp = memoize(classesProp => {
-      const {classes} = this.state
-
-      return classesProp ? mergeClasses(classes, classesProp) : classes
-    })
+    mergeClassesProp = memoize(
+      (sheetClasses, classesProp) =>
+        classesProp ? mergeClasses(sheetClasses, classesProp) : sheetClasses
+    )
 
     constructor(props: OuterPropsType) {
       super(props)
@@ -212,7 +211,9 @@ export default function createHOC<
       return {
         staticSheet,
         dynamicSheet,
-        classes: mergeClasses(staticSheet.classes, dynamicSheet ? dynamicSheet.classes : {})
+        classes: dynamicSheet
+          ? mergeClasses(staticSheet.classes, dynamicSheet.classes)
+          : staticSheet.classes
       }
     }
 
@@ -221,13 +222,14 @@ export default function createHOC<
         innerRef,
         jssContext,
         theme,
-        classes,
+        classes: userClasses,
         // $FlowFixMe: Flow complains for no reason...
         ...props
       } = this.props
+      const {classes: sheetClasses} = this.state
 
       // Merge the class names for the user into the sheet classes
-      props.classes = this.mergeClassesProp(classes)
+      props.classes = this.mergeClassesProp(sheetClasses, userClasses)
 
       if (innerRef) props.ref = innerRef
       if (injectTheme) props.theme = theme

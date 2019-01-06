@@ -1,14 +1,26 @@
 // @flow
 
-const memoize = <Arg, Return>(fn: (arg: Arg) => Return) => {
-  let lastArg
+const memoize = <Args: Array<any>, Return, Fn: (...args: Args) => Return>(fn: Fn) => {
+  let lastArgs
   let lastResult
 
-  return (arg: Arg): Return => {
-    if (typeof lastArg === 'undefined' || lastArg !== arg) {
-      lastArg = arg
-      lastResult = fn(arg)
+  return (...args: Args): Return => {
+    if (Array.isArray(lastArgs) && args.length === lastArgs.length) {
+      let isSame = true
+
+      for (let i = 0; i < args.length; i++) {
+        if (args[i] !== lastArgs[i]) {
+          isSame = false
+        }
+      }
+
+      if (isSame) {
+        return lastResult
+      }
     }
+
+    lastArgs = args
+    lastResult = fn(...args)
 
     return lastResult
   }
