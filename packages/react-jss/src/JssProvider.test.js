@@ -6,8 +6,6 @@ import {stripIndent} from 'common-tags'
 import {create} from 'jss'
 import TestRenderer from 'react-test-renderer'
 
-import {renderToString} from 'react-dom/server'
-
 import injectSheet, {SheetsRegistry, JssProvider} from '.'
 
 const createGenerateId = () => {
@@ -270,7 +268,7 @@ describe('React-JSS: JssProvider', () => {
       registry = new SheetsRegistry()
       generateId = createGenerateId()
 
-      renderToString(
+      TestRenderer.create(
         <JssProvider registry={registry} generateId={generateId}>
           <MyComponent border="blue" />
         </JssProvider>
