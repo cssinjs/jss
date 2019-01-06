@@ -24,6 +24,70 @@ describe('React-JSS: theming', () => {
   const ThemedStaticComponent = injectSheet(themedStaticStyles)()
   const ThemedDynamicComponent = injectSheet(themedDynamicStyles)()
 
+  describe('injecting the theme', () => {
+    const Comp = () => null
+
+    it('should not inject theme with static classes', () => {
+      const StyledComponent = injectSheet({})(Comp)
+      const renderer = TestRenderer.create(
+        <ThemeProvider theme={ThemeA}>
+          <StyledComponent />
+        </ThemeProvider>
+      )
+      const injectedTheme = renderer.root.findByType(Comp).props.theme
+
+      expect(injectedTheme).to.be(undefined)
+    })
+
+    it('should not inject theme with themed classes', () => {
+      const StyledComponent = injectSheet(() => ({}))(Comp)
+      const renderer = TestRenderer.create(
+        <ThemeProvider theme={ThemeA}>
+          <StyledComponent />
+        </ThemeProvider>
+      )
+      const injectedTheme = renderer.root.findByType(Comp).props.theme
+
+      expect(injectedTheme).to.be(undefined)
+    })
+
+    it('should inject theme with static classes and injectTheme option', () => {
+      const StyledComponent = injectSheet({}, {injectTheme: true})(Comp)
+      const renderer = TestRenderer.create(
+        <ThemeProvider theme={ThemeA}>
+          <StyledComponent />
+        </ThemeProvider>
+      )
+      const injectedTheme = renderer.root.findByType(Comp).props.theme
+
+      expect(injectedTheme).to.equal(ThemeA)
+    })
+
+    it('should inject theme with themed classes and injectTheme option', () => {
+      const StyledComponent = injectSheet(() => ({}), {injectTheme: true})(Comp)
+      const renderer = TestRenderer.create(
+        <ThemeProvider theme={ThemeA}>
+          <StyledComponent />
+        </ThemeProvider>
+      )
+      const injectedTheme = renderer.root.findByType(Comp).props.theme
+
+      expect(injectedTheme).to.equal(ThemeA)
+    })
+
+    it('should use the passed theme instead of the actual theme', () => {
+      const StyledComponent = injectSheet(() => ({}), {injectTheme: true})(Comp)
+      const renderer = TestRenderer.create(
+        <ThemeProvider theme={ThemeA}>
+          <StyledComponent theme={ThemeB} />
+        </ThemeProvider>
+      )
+      const injectedTheme = renderer.root.findByType(Comp).props.theme
+
+      expect(injectedTheme).to.equal(ThemeB)
+    })
+  })
+
   it('should have correct meta attribute for themed styles', () => {
     let sheet
     const generateId = (rule, s) => {

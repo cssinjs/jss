@@ -113,6 +113,8 @@ describe('React-JSS: injectSheet', () => {
 
   // TODO: Merge classes tests
 
+  describe('should merge the classes', () => {})
+
   describe('access inner component', () => {
     it('should be exposed using "InnerComponent" property', () => {
       const Comp = () => null
