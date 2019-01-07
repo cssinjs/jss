@@ -4,7 +4,7 @@ import hoistNonReactStatics from 'hoist-non-react-statics'
 import {getDynamicStyles, SheetsManager, type StyleSheet} from 'jss'
 import {ThemeContext} from 'theming'
 
-import type {Options, StylesOrCreator, InnerProps, Theme} from './types'
+import type {HOCProps, Options, Styles, InnerProps} from './types'
 import getDisplayName from './getDisplayName'
 import memoize from './memoize-one'
 import mergeClasses from './merge-classes'
@@ -33,11 +33,11 @@ let indexCounter = -100000
 
 let managersCounter = 0
 
-const NoRenderer = (props: {children?: ?Node}) => props.children || null
+const NoRenderer = (props: {children?: Node}) => props.children || null
 
 const noTheme = {}
 
-const getStyles = (styles: StylesOrCreator, theme: Theme) => {
+const getStyles = <Theme: {}>(styles: Styles<Theme>, theme: Theme) => {
   if (typeof styles !== 'function') {
     return styles
   }
@@ -49,19 +49,26 @@ const getStyles = (styles: StylesOrCreator, theme: Theme) => {
  *
  * `withStyles(styles, [options])(Component)`
  */
-export default function withStyles(styles: StylesOrCreator, options?: Options = {}) {
+export default function withStyles<Theme: {}, S: Styles<Theme>>(
+  styles: S,
+  options?: Options<Theme> = {}
+) {
   const {index = indexCounter++, theming, injectTheme, jss: optionsJss, ...sheetOptions} = options
   const isThemingEnabled = typeof styles === 'function'
   const ThemeConsumer = (theming && theming.context.Consumer) || ThemeContext.Consumer
-  const getTheme = props => (isThemingEnabled && props.theme ? props.theme : noTheme)
 
-  return (InnerComponent: ComponentType<InnerProps> = NoRenderer) => {
+  return <Props: InnerProps>(
+    InnerComponent: ComponentType<Props> = NoRenderer
+  ): ComponentType<Props> => {
     const displayName = getDisplayName(InnerComponent)
     const defaultClassNamePrefix = process.env.NODE_ENV === 'production' ? '' : `${displayName}-`
     const managerId = managersCounter++
     const manager = new SheetsManager()
+    // $FlowFixMe
+    const getTheme = (props: HOCProps<Theme, Props>): Theme =>
+      isThemingEnabled && props.theme ? props.theme : noTheme
 
-    class Jss extends Component<OuterPropsType, State> {
+    class Jss extends Component<HOCProps<Theme, Props>, State> {
       static displayName = `Jss(${displayName})`
 
       // $FlowFixMe
@@ -72,7 +79,7 @@ export default function withStyles(styles: StylesOrCreator, options?: Options = 
           classesProp ? mergeClasses(sheetClasses, classesProp) : sheetClasses
       )
 
-      constructor(props: OuterPropsType) {
+      constructor(props: HOCProps<Theme, Props>) {
         super(props)
 
         const {sheetOptions: contextSheetOptions} = props.jssContext
@@ -83,7 +90,7 @@ export default function withStyles(styles: StylesOrCreator, options?: Options = 
         this.manage(props, this.state)
       }
 
-      componentDidUpdate(prevProps: OuterPropsType, prevState: State) {
+      componentDidUpdate(prevProps: HOCProps<Theme, Props>, prevState: State) {
         const {dynamicSheet} = this.state
         if (dynamicSheet) dynamicSheet.update(this.props)
 
@@ -207,11 +214,12 @@ export default function withStyles(styles: StylesOrCreator, options?: Options = 
       }
 
       render() {
-        const {innerRef, jssContext, theme, classes: userClasses, ...props} = this.props
+        const {innerRef, jssContext, theme, classes, ...rest} = this.props
         const {classes: sheetClasses} = this.state
-
-        // Merge the class names for the user into the sheet classes
-        props.classes = this.mergeClassesProp(sheetClasses, userClasses)
+        const props = {
+          ...rest,
+          classes: this.mergeClassesProp(sheetClasses, classes)
+        }
 
         if (innerRef) props.ref = innerRef
         if (injectTheme) props.theme = theme
@@ -238,8 +246,6 @@ export default function withStyles(styles: StylesOrCreator, options?: Options = 
     ))
 
     JssContextSubscriber.displayName = 'JssContextSubscriber'
-
-    // $FlowFixMe
     JssContextSubscriber.InnerComponent = InnerComponent
 
     return hoistNonReactStatics(JssContextSubscriber, InnerComponent)

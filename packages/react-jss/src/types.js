@@ -1,23 +1,18 @@
 // @flow
 import type {StyleSheetFactoryOptions, Jss, SheetsRegistry, SheetsManager} from 'jss'
-import type {Node, ElementRef} from 'react'
+import type {Node} from 'react'
 import {type Theming} from 'theming'
 
-export type Theme = {}
+type StaticStyles = {[key: string]: {}}
 
 export type Managers = {[key: number]: SheetsManager}
 
-export type Options = {
+export type Options<Theme> = {
   theming?: Theming<Theme>,
   injectTheme?: boolean,
   jss?: Jss
 } & StyleSheetFactoryOptions
-export type InnerProps = {
-  children?: Node,
-  classes?: {},
-  theme?: Theme
-}
-// Needs to be hard coded for stricter types
+
 export type Context = {
   jss?: Jss,
   registry?: SheetsRegistry,
@@ -26,10 +21,16 @@ export type Context = {
   disableStylesGeneration: boolean
 }
 
-export type OuterProps<Props, InnerComponent> = {
-  innerRef: (instance: ElementRef<InnerComponent>) => void,
-  jssContext: Context
-} & Props
-export type Styles = {[string]: {}}
-export type StylesCreator = (theme: Theme) => Styles
-export type StylesOrCreator = Styles | StylesCreator
+export type HOCProps<Theme, Props> = Props & {
+  theme?: Theme,
+  jssContext: Context,
+  innerRef: any
+}
+
+export type InnerProps = {
+  children?: Node,
+  classes: {}
+}
+
+export type ThemedStyles<Theme> = (theme: Theme) => StaticStyles
+export type Styles<Theme> = StaticStyles | ThemedStyles<Theme>
