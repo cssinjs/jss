@@ -7,7 +7,7 @@ import {
   Styles,
   StyleSheetFactoryOptions
 } from 'jss'
-import {ThemeProvider, withTheme, createTheming} from 'theming'
+import {ThemeProvider, withTheme, createTheming, Theming} from 'theming'
 
 declare const jss: Jss
 declare const createGenerateId: CreateGenerateId
@@ -20,21 +20,22 @@ declare const JssProvider: ComponentType<{
   children: ReactNode
 }>
 
-type ThemedStyles = (theme: any) => Styles
+type ThemedStyles<Theme> = (theme: Theme) => Styles
 
-interface WithStyles<S extends Styles | ThemedStyles> {
-  classes: Record<S extends ThemedStyles ? keyof ReturnType<S> : keyof S, string>
+interface WithStyles<S extends Styles | ThemedStyles<any>> {
+  classes: Record<S extends ThemedStyles<any> ? keyof ReturnType<S> : keyof S, string>
 }
 
-interface Options extends StyleSheetFactoryOptions {
+interface Options<Theme> extends StyleSheetFactoryOptions {
   index?: number
   injectTheme?: boolean
   jss?: Jss
+  theming: Theming<Theme>
 }
 
-declare function withStyles<S extends Styles | ThemedStyles>(
+declare function withStyles<Theme, S extends Styles | ThemedStyles<Theme>>(
   styles: S,
-  options?: Options
+  options?: Options<Theme>
 ): <Props extends WithStyles<S>>(
   comp: ComponentType<Props>
 ) => ComponentType<Props & {classes?: Partial<Props['classes']>}>
