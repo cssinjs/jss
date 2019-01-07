@@ -5,16 +5,16 @@ import React from 'react'
 import {spy} from 'sinon'
 import TestRenderer from 'react-test-renderer'
 
-import injectSheet, {JssProvider, SheetsRegistry} from '.'
+import withStyles, {JssProvider, SheetsRegistry} from '.'
 
 const createGenerateId = () => {
   let counter = 0
   return rule => `${rule.key}-${counter++}`
 }
 
-describe('React-JSS: injectSheet', () => {
+describe('React-JSS: withStyles', () => {
   it('should work in StrictMode without error on React 16.3+', () => {
-    const MyComponent = injectSheet({})()
+    const MyComponent = withStyles({})()
 
     spy(console, 'error')
 
@@ -32,7 +32,7 @@ describe('React-JSS: injectSheet', () => {
   describe('reusing style sheets', () => {
     it('should reuse one static sheet for many elements and detach sheet', () => {
       const registry = new SheetsRegistry()
-      const MyComponent = injectSheet({
+      const MyComponent = withStyles({
         button: {color: 'red'}
       })()
 
@@ -48,7 +48,7 @@ describe('React-JSS: injectSheet', () => {
     })
   })
 
-  describe('.injectSheet() preserving source order', () => {
+  describe('.withStyles() preserving source order', () => {
     let ComponentA
     let ComponentB
     let ComponentC
@@ -56,13 +56,13 @@ describe('React-JSS: injectSheet', () => {
 
     beforeEach(() => {
       registry = new SheetsRegistry()
-      ComponentA = injectSheet({
+      ComponentA = withStyles({
         button: {color: 'red'}
       })()
-      ComponentB = injectSheet({
+      ComponentB = withStyles({
         button: {color: 'blue'}
       })()
-      ComponentC = injectSheet(
+      ComponentC = withStyles(
         {
           button: {color: 'green'}
         },
@@ -123,7 +123,7 @@ describe('React-JSS: injectSheet', () => {
 
     it('no default props + no user classes -> sheet classes', () => {
       const Comp = () => null
-      const StyledComponent = injectSheet(styles)(Comp)
+      const StyledComponent = withStyles(styles)(Comp)
       const renderer = TestRenderer.create(
         <JssProvider generateId={createGenerateId()}>
           <StyledComponent />
@@ -137,7 +137,7 @@ describe('React-JSS: injectSheet', () => {
     it('default props + no user classes -> merge sheet classes with default props classes', () => {
       const Comp = () => null
       Comp.defaultProps = {classes: {button: 'default-button'}}
-      const StyledComponent = injectSheet(styles)(Comp)
+      const StyledComponent = withStyles(styles)(Comp)
       const renderer = TestRenderer.create(
         <JssProvider generateId={createGenerateId()}>
           <StyledComponent />
@@ -156,7 +156,7 @@ describe('React-JSS: injectSheet', () => {
           test: 'test'
         }
       }
-      const StyledComponent = injectSheet(styles)(Comp)
+      const StyledComponent = withStyles(styles)(Comp)
       const renderer = TestRenderer.create(
         <JssProvider generateId={createGenerateId()}>
           <StyledComponent classes={{button: 'custom-button'}} />
@@ -170,7 +170,7 @@ describe('React-JSS: injectSheet', () => {
 
     it('no default props + user classes -> merge sheet classes with user classes prop', () => {
       const Comp = () => null
-      const StyledComponent = injectSheet(styles)(Comp)
+      const StyledComponent = withStyles(styles)(Comp)
       const renderer = TestRenderer.create(
         <JssProvider generateId={createGenerateId()}>
           <StyledComponent classes={{button: 'custom-button'}} />
@@ -185,7 +185,7 @@ describe('React-JSS: injectSheet', () => {
   describe('access inner component', () => {
     it('should be exposed using "InnerComponent" property', () => {
       const Comp = () => null
-      const ComponentOuter = injectSheet({
+      const ComponentOuter = withStyles({
         button: {color: 'red'}
       })(Comp)
 
@@ -204,7 +204,7 @@ describe('React-JSS: injectSheet', () => {
         }
       }
 
-      const StyledComponent = injectSheet()(InnerComponent)
+      const StyledComponent = withStyles()(InnerComponent)
       TestRenderer.create(<StyledComponent ref={innerRef} />)
 
       expect(innerRef.callCount).to.be(1)
@@ -222,7 +222,7 @@ describe('React-JSS: injectSheet', () => {
       function DisplayNameTest() {
         return null
       }
-      const MyComponent = injectSheet({
+      const MyComponent = withStyles({
         a: {color: 'red'}
       })(DisplayNameTest)
       TestRenderer.create(

@@ -1,5 +1,5 @@
 import expect from 'expect.js'
-import injectSheet, {
+import withStyles, {
   jss,
   createGenerateId,
   ThemeProvider,
@@ -10,8 +10,8 @@ import injectSheet, {
 } from '.'
 
 describe('React-JSS: exports', () => {
-  it('should export injectSheet', () => {
-    expect(injectSheet).to.be.a(Function)
+  it('should export withStyles', () => {
+    expect(withStyles).to.be.a(Function)
   })
 
   it('should export jss', () => {

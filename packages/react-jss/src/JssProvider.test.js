@@ -6,7 +6,7 @@ import {stripIndent} from 'common-tags'
 import {create} from 'jss'
 import TestRenderer from 'react-test-renderer'
 
-import injectSheet, {SheetsRegistry, JssProvider} from '.'
+import withStyles, {SheetsRegistry, JssProvider} from '.'
 
 const createGenerateId = () => {
   let counter = 0
@@ -24,7 +24,7 @@ describe('React-JSS: JssProvider', () => {
     describe('generateId prop', () => {
       it('should forward from context', () => {
         const generateId = () => 'a'
-        const MyComponent = injectSheet({a: {color: 'red'}})()
+        const MyComponent = withStyles({a: {color: 'red'}})()
 
         TestRenderer.create(
           <JssProvider generateId={generateId}>
@@ -44,7 +44,7 @@ describe('React-JSS: JssProvider', () => {
       it('should overwrite over child props', () => {
         const generateIdParent = () => 'a'
         const generateIdChild = () => 'b'
-        const MyComponent = injectSheet({a: {color: 'red'}})()
+        const MyComponent = withStyles({a: {color: 'red'}})()
 
         TestRenderer.create(
           <JssProvider generateId={generateIdParent}>
@@ -64,7 +64,7 @@ describe('React-JSS: JssProvider', () => {
 
     describe('classNamePrefix prop', () => {
       const generateId = (rule, sheet) => sheet.options.classNamePrefix + rule.key
-      const MyComponent = injectSheet({a: {color: 'red'}})()
+      const MyComponent = withStyles({a: {color: 'red'}})()
 
       it('should merge with child props', () => {
         TestRenderer.create(
@@ -86,7 +86,7 @@ describe('React-JSS: JssProvider', () => {
     describe('jss prop', () => {
       it('should forward from context', () => {
         const localJss = create()
-        const MyComponent = injectSheet({})()
+        const MyComponent = withStyles({})()
 
         TestRenderer.create(
           <JssProvider jss={localJss}>
@@ -100,7 +100,7 @@ describe('React-JSS: JssProvider', () => {
       it('should overwrite over child props', () => {
         const localJss1 = create()
         const localJss2 = create()
-        const MyComponent = injectSheet({})()
+        const MyComponent = withStyles({})()
 
         TestRenderer.create(
           <JssProvider jss={localJss1}>
@@ -115,7 +115,7 @@ describe('React-JSS: JssProvider', () => {
     describe('registry prop', () => {
       it('should forward from context', () => {
         const generateId = () => 'a'
-        const MyComponent = injectSheet({a: {color: 'red'}})()
+        const MyComponent = withStyles({a: {color: 'red'}})()
 
         TestRenderer.create(
           <JssProvider registry={registry}>
@@ -136,7 +136,7 @@ describe('React-JSS: JssProvider', () => {
         const generateId = () => 'a'
         const registryA = new SheetsRegistry()
         const registryB = new SheetsRegistry()
-        const MyComponent = injectSheet({a: {color: 'red'}})()
+        const MyComponent = withStyles({a: {color: 'red'}})()
 
         TestRenderer.create(
           <JssProvider registry={registryA}>
@@ -158,7 +158,7 @@ describe('React-JSS: JssProvider', () => {
     describe('disableStylesGeneration prop', () => {
       it('should forward from context', () => {
         const generateId = () => 'a'
-        const MyComponent = injectSheet({a: {color: 'red'}})()
+        const MyComponent = withStyles({a: {color: 'red'}})()
 
         TestRenderer.create(
           <JssProvider registry={registry} disableStylesGeneration>
@@ -173,7 +173,7 @@ describe('React-JSS: JssProvider', () => {
 
       it('should overwrite over child props', () => {
         const generateId = () => 'a'
-        const MyComponent = injectSheet({a: {color: 'red'}})()
+        const MyComponent = withStyles({a: {color: 'red'}})()
 
         TestRenderer.create(
           <JssProvider registry={registry} disableStylesGeneration>
@@ -194,8 +194,8 @@ describe('React-JSS: JssProvider', () => {
 
   describe('JssProvider in a stateful component', () => {
     it('should not reset the class name generator', () => {
-      const A = injectSheet({a: {color: 'red'}})()
-      const B = injectSheet({a: {color: 'green'}})()
+      const A = withStyles({a: {color: 'red'}})()
+      const B = withStyles({a: {color: 'green'}})()
       const generateId = createGenerateId()
 
       function MyComponent(props) {
@@ -247,7 +247,7 @@ describe('React-JSS: JssProvider', () => {
           border: ({border}) => border
         }
       }
-      const MyComponent = injectSheet(styles)()
+      const MyComponent = withStyles(styles)()
       let generateId = createGenerateId()
 
       TestRenderer.create(
@@ -285,7 +285,7 @@ describe('React-JSS: JssProvider', () => {
     })
 
     it('should be idempotent', () => {
-      const MyComponent = injectSheet({
+      const MyComponent = withStyles({
         button: {
           color: props => props.color
         }
