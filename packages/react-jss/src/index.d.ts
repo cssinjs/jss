@@ -26,19 +26,21 @@ interface WithStyles<S extends Styles | ThemedStyles<any>> {
   classes: Record<S extends ThemedStyles<any> ? keyof ReturnType<S> : keyof S, string>
 }
 
-interface Options<Theme> extends StyleSheetFactoryOptions {
+interface Options extends StyleSheetFactoryOptions {
   index?: number
   injectTheme?: boolean
   jss?: Jss
-  theming: Theming<Theme>
+  theming: Theming<object>
 }
 
-declare function withStyles<Theme, S extends Styles | ThemedStyles<Theme>>(
+type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
+
+declare function withStyles<S extends Styles | ThemedStyles<any>>(
   styles: S,
-  options?: Options<Theme>
+  options?: Options
 ): <Props extends WithStyles<S>>(
   comp: ComponentType<Props>
-) => ComponentType<Props & {classes?: Partial<Props['classes']>}>
+) => ComponentType<Omit<Props, 'classes'> & {classes?: Partial<Props['classes']>}>
 
 export {
   SheetsRegistry,
