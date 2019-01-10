@@ -36,16 +36,15 @@ yarn add react-jss
 ### Usage
 
 React-JSS wraps your component with a [higher-order component](https://medium.com/@dan_abramov/mixins-are-dead-long-live-higher-order-components-94a0d2f9e750).
-It injects a `classes` prop, which is a simple map of rule names and generated class names. It can act both as a simple wrapping function and as an [ES7 decorator](https://github.com/wycats/javascript-decorators).
+It injects a `classes` prop, which is a simple map of rule names and generated class names.
 
 Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
 
 #### Basic
 
-```javascript
+```js
 import React from 'react'
 import {render} from 'react-dom'
-// Import React-JSS
 import withStyles from 'react-jss'
 
 // Create your Styles. Remember, since React-JSS uses the default preset,
@@ -123,7 +122,7 @@ Caveats:
 
 Static properties being rendered first so that function values will have higher source order specificity.
 
-```javascript
+```js
 import React from 'react'
 import withStyles from 'react-jss'
 
@@ -195,9 +194,9 @@ Usage of `ThemeProvider`:
   - If it is `Object` and used in a nested `ThemeProvider`, then it gets merged with the theme from a parent `ThemeProvider` and passed down the react tree.
   - If it is `Function` and used in a nested `ThemeProvider`, then it's being applied to the theme from a parent `ThemeProvider`. If the result is an `Object` it will be passed down the react tree, throws otherwise.
 - `ThemeProvider` as every other component can render only a single child because it uses `React.Children.only` in render and throws otherwise.
-- [Read more about `ThemeProvider` in `theming`'s documentation.](https://github.com/iamstarkov/theming#themeprovider)
+- [Read more about `ThemeProvider` in `theming`'s documentation.](https://github.com/cssinjs/theming#themeprovider)
 
-```javascript
+```js
 import React from 'react'
 import withStyles, {ThemeProvider} from 'react-jss'
 
@@ -229,25 +228,56 @@ const App = () => (
 )
 ```
 
-In case you need to access the theme but not render any CSS, you can also use `withTheme`. It is a Higher-order Component factory which takes a `React.Component` and maps the theme object from context to props. [Read more about `withTheme` in `theming`'s documentation.](https://github.com/iamstarkov/theming#withthemecomponent)
+#### Accessing the theme inside the styled component
 
-```javascript
+Pass the `injectTheme` option to `withStyles` so your theme will be injected into your wrapped component.
+
+```js
 import React from 'react'
-import withStyles, {withTheme} from 'react-jss'
+import withStyles from 'react-jss'
+
+const Button = ({classes, children}) => (
+  <button className={classes.button}>
+    <span className={classes.label}>{children}</span>
+  </button>
+)
+
+const styles = theme => ({
+  button: {
+    background: theme.colorPrimary
+  },
+  label: {
+    fontWeight: 'bold'
+  }
+})
+
+const StyledButton = withStyles(styles, {injectTheme: true})(Button)
+```
+
+#### Accessing the theme without a styled component
+
+In case you need to access the theme but not render any CSS, you can also use `withTheme`. It is a Higher-order Component factory which takes a `React.Component` and maps the theme object from context to props. [Read more about `withTheme` in `theming`'s documentation.](https://github.com/cssinjs/theming#withthemecomponent)
+
+```js
+import React from 'react'
+import {withTheme} from 'react-jss'
 
 const Button = withTheme(({theme}) => <button>I can access {theme.colorPrimary}</button>)
 ```
 
+#### Using custom Theming Context
+
 Use _namespaced_ themes so that a set of UI components gets no conflicts with another set of UI components from a different library also using `react-jss`.
 
-```javascript
+```js
 import React from 'react'
 import withStyles, {createTheming} from 'react-jss'
+const ThemeContext = React.createContext({});
 
 // Creating a namespaced theming object.
-const theming = createTheming('__MY_NAMESPACED_THEME__')
+const theming = createTheming(ThemeContext)
 
-const {ThemeProvider: MyThemeProvider} = theming
+const {ThemeProvider} = theming
 
 const styles = theme => ({
   button: {
@@ -271,7 +301,7 @@ const otherLibraryTheme = {}
 const App = () => (
   <OtherLibraryThemeProvider theme={otherLibraryTheme}>
     <OtherLibraryComponent />
-    <MyThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <StyledButton>Green Button</StyledButton>
     </MyThemeProvider>
   </OtherLibraryThemeProvider>
@@ -282,7 +312,7 @@ const App = () => (
 
 After the application is mounted, you should remove the style tag used by critical CSS rendered server-side.
 
-```javascript
+```js
 import React from 'react'
 import {renderToString} from 'react-dom/server'
 import {JssProvider, SheetsRegistry} from 'react-jss'
@@ -317,9 +347,9 @@ export default function render(req, res) {
 
 For traversing the React tree outside of the HTML rendering, you should add `disableStylesGeneration` property.
 
-```javascript
-import * as React from 'react'
-import * as ReactDOM from 'react-dom'
+```js
+import React from 'react'
+import ReactDOM from 'react-dom'
 import bootstrapper from 'react-async-bootstrapper'
 
 import {JssProvider} from 'react-jss'
@@ -343,7 +373,7 @@ main()
 
 To reuse the same styles **and** the same generated style sheet between 2 entirely different and unrelated components, we suggest extracting a renderer component and reusing that.
 
-```javascript
+```js
 import React from 'react'
 import withStyles from 'react-jss'
 
@@ -373,7 +403,7 @@ Alternatively, you can create own Style Sheet and use the `composes` feature. Al
 
 #### The inner component
 
-```es6
+```js
 const InnerComponent = () => null
 const StyledComponent = withStyles(styles, InnerComponent)
 console.log(StyledComponent.InnerComponent) // Prints out the inner component.
@@ -381,20 +411,27 @@ console.log(StyledComponent.InnerComponent) // Prints out the inner component.
 
 #### The inner ref
 
-To get a `ref` to the inner element, use the `innerRef` prop.
+To get a `ref` to the inner element, use the `ref` prop.
+We will forward the ref to the inner component.
 
-```es6
+```js
 const InnerComponent = () => null
 const StyledComponent = withStyles({})(InnerComponent)
 
-<StyledComponent innerRef={(ref) => {console.log(ref)}} />
+const App = (
+  <StyledComponent
+    innerRef={ref => {
+      console.log(ref)
+    }}
+  />
+)
 ```
 
 #### Custom setup
 
 If you want to specify a JSS version and plugins to use, you should create your [own JSS instance](https://github.com/cssinjs/jss/blob/master/docs/jss-api.md#create-an-own-jss-instance), [setup plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-custom-plugins) and pass it to `JssProvider`.
 
-```javascript
+```js
 import React from 'react'
 import {create as createJss} from 'jss'
 import {JssProvider} from 'react-jss'
@@ -413,7 +450,7 @@ const Component = () => (
 
 You can also access the default JSS instance.
 
-```javascript
+```js
 import {jss} from 'react-jss'
 ```
 
@@ -423,7 +460,7 @@ In case you render multiple react rendering trees in one application, you will g
 
 **Note**: in case of SSR, make sure to create a new generator for **each** request. Otherwise, class names will become indeterministic, and at some point, you may run out of max safe integer numbers.
 
-```javascript
+```js
 import React from 'react'
 import {createGenerateId, JssProvider} from 'react-jss'
 
@@ -446,7 +483,7 @@ const Component = () => (
 You can also additionally use the `classNamePrefix` prop to add the app/subtree name to each class name.
 This way you can see which app generated a class name in the DOM view.
 
-```javascript
+```js
 import React from 'react'
 import {JssProvider} from 'react-jss'
 
@@ -471,7 +508,7 @@ _Beware that [decorators are stage-2 proposal](https://tc39.github.io/proposal-d
 
 You will need [babel-plugin-transform-decorators-legacy](https://github.com/loganfsmyth/babel-plugin-transform-decorators-legacy).
 
-```javascript
+```js
 import React, {Component} from 'react'
 import withStyles from 'react-jss'
 
@@ -519,24 +556,5 @@ const Button = withStyles(buttonStyles)(() => (
   <button>
     <Label>my button</Label>
   </button>
-))
-```
-
-### Whitelist injected props
-
-By default "classes" and "theme" are going to be injected into the child component over props. Property `theme` is only passed when you use a function instead of styles object.
-If you want to whitelist some of them, you can now use option `inject`. E.g., if you want to access the StyleSheet instance, you need to pass `{inject: ['sheet']}` and it will be available as `props.sheet`.
-
-All user props passed to the HOC will still be forwarded as usual.
-
-```js
-import React from 'react'
-import withStyles from 'react-jss'
-
-const styles = {}
-
-// Only `classes` prop will be passed by the ReactJSS HOC now. No `sheet` or `theme`.
-const Button = withStyles(styles, {inject: ['classes', 'sheet']})(({classes}) => (
-  <button>My button</button>
 ))
 ```
