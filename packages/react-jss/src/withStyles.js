@@ -35,8 +35,6 @@ let managersCounter = 0
 
 const NoRenderer = (props: {children?: Node}) => props.children || null
 
-const noTheme = {}
-
 const getStyles = <Theme: {}>(styles: Styles<Theme>, theme: Theme) => {
   if (typeof styles !== 'function') {
     return styles
@@ -64,12 +62,13 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
     const defaultClassNamePrefix = process.env.NODE_ENV === 'production' ? '' : `${displayName}-`
     const managerId = managersCounter++
     const manager = new SheetsManager()
+    const noTheme = {}
     // $FlowFixMe
     const getTheme = (props: HOCProps<Theme, Props>): Theme =>
       isThemingEnabled && props.theme ? props.theme : noTheme
 
-    class Jss extends Component<HOCProps<Theme, Props>, State> {
-      static displayName = `Jss(${displayName})`
+    class WithStyles extends Component<HOCProps<Theme, Props>, State> {
+      static displayName = `WithStyles(${displayName})`
 
       // $FlowFixMe
       static defaultProps = {...InnerComponent.defaultProps}
@@ -135,8 +134,9 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
           return staticSheet
         }
 
+        const themedStyles = getStyles(styles, theme)
         const contextSheetOptions = this.props.jssContext.sheetOptions
-        staticSheet = this.jss.createStyleSheet(getStyles(styles, theme), {
+        staticSheet = this.jss.createStyleSheet(themedStyles, {
           ...sheetOptions,
           ...contextSheetOptions,
           index,
@@ -145,7 +145,7 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
         })
         this.manager.add(theme, staticSheet)
         // $FlowFixMe Cannot add random fields to instance of class StyleSheet
-        staticSheet[dynamicStylesNS] = getDynamicStyles(styles)
+        staticSheet[dynamicStylesNS] = getDynamicStyles(themedStyles)
 
         return staticSheet
       }
@@ -174,8 +174,12 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
         const {dynamicSheet, staticSheet} = state
         const {registry} = props.jssContext
 
+        if (!staticSheet) {
+          return
+        }
+
         this.manager.manage(getTheme(props))
-        if (staticSheet && registry) {
+        if (registry) {
           registry.add(staticSheet)
         }
 
@@ -235,12 +239,14 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
           if (isThemingEnabled || injectTheme) {
             return (
               <ThemeConsumer>
-                {theme => <Jss innerRef={ref} theme={theme} {...props} jssContext={context} />}
+                {theme => (
+                  <WithStyles innerRef={ref} theme={theme} {...props} jssContext={context} />
+                )}
               </ThemeConsumer>
             )
           }
 
-          return <Jss innerRef={ref} {...props} jssContext={context} />
+          return <WithStyles innerRef={ref} {...props} jssContext={context} />
         }}
       </JssContext.Consumer>
     ))
