@@ -6,8 +6,8 @@ Benefits compared to the lower level core:
 
 - Dynamic Theming - allows context based theme propagation and runtime updates.
 - Critical CSS extraction - only CSS from rendered components gets extracted.
-- Lazy evaluation - Style Sheets are only created when a component gets mounted.
-- Static part of a Style Sheet is shared between all elements.
+- Lazy evaluation - Style Sheets are created when a component mounts and removed when it's unmounted.
+- The static part of a Style Sheet will be shared between all elements.
 - Function values and rules are updated automatically with props as an argument.
 
 ### Table of Contents
@@ -36,7 +36,7 @@ yarn add react-jss
 ### Usage
 
 React-JSS wraps your component with a [higher-order component](https://medium.com/@dan_abramov/mixins-are-dead-long-live-higher-order-components-94a0d2f9e750).
-It injects a `classes` prop, which is a simple map of rule names and generated class names.
+It injects a `classes` prop, which is a simple map of rule names and generated class names.
 
 Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
 
@@ -116,7 +116,7 @@ and
 
 #### Dynamic values
 
-You can use [function values](jss-syntax.md#function-values), function rules and observables out of the box. Function values and function rules will receive a props object once the component receives new props or mounts for the first time.
+You can use [function values](jss-syntax.md#function-values), Function rules and observables out of the box. Function values and function rules will receive a props object once the component receives new props or mounts for the first time.
 
 Caveats:
 
@@ -272,7 +272,8 @@ Use _namespaced_ themes so that a set of UI components gets no conflicts with an
 ```js
 import React from 'react'
 import withStyles, {createTheming} from 'react-jss'
-const ThemeContext = React.createContext({});
+
+const ThemeContext = React.createContext({})
 
 // Creating a namespaced theming object.
 const theming = createTheming(ThemeContext)
@@ -303,7 +304,7 @@ const App = () => (
     <OtherLibraryComponent />
     <ThemeProvider theme={theme}>
       <StyledButton>Green Button</StyledButton>
-    </MyThemeProvider>
+    </ThemeProvider>
   </OtherLibraryThemeProvider>
 )
 ```
@@ -404,8 +405,10 @@ Alternatively, you can create own Style Sheet and use the `composes` feature. Al
 #### The inner component
 
 ```js
+import withStyles from 'react-jss'
+
 const InnerComponent = () => null
-const StyledComponent = withStyles(styles, InnerComponent)
+const StyledComponent = withStyles({})(InnerComponent)
 console.log(StyledComponent.InnerComponent) // Prints out the inner component.
 ```
 
@@ -415,12 +418,15 @@ To get a `ref` to the inner element, use the `ref` prop.
 We will forward the ref to the inner component.
 
 ```js
+import React from 'react'
+import withStyles from 'react-jss'
+
 const InnerComponent = () => null
 const StyledComponent = withStyles({})(InnerComponent)
 
 const App = (
   <StyledComponent
-    innerRef={ref => {
+    ref={ref => {
       console.log(ref)
     }}
   />
