@@ -5,19 +5,19 @@
     "gzipped": 845
   },
   "dist/jss-plugin-nested.min.js": {
-    "bundled": 4249,
-    "minified": 1361,
-    "gzipped": 738
+    "bundled": 4061,
+    "minified": 1330,
+    "gzipped": 719
   },
   "dist/jss-plugin-nested.cjs.js": {
-    "bundled": 3594,
-    "minified": 1375,
-    "gzipped": 737
+    "bundled": 3643,
+    "minified": 1412,
+    "gzipped": 762
   },
   "dist/jss-plugin-nested.esm.js": {
-    "bundled": 3360,
-    "minified": 1196,
-    "gzipped": 655,
+    "bundled": 3409,
+    "minified": 1233,
+    "gzipped": 681,
     "treeshaked": {
       "rollup": {
         "code": 64,
