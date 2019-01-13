@@ -5,19 +5,19 @@
     "gzipped": 541
   },
   "dist/jss-plugin-compose.min.js": {
-    "bundled": 2294,
-    "minified": 719,
-    "gzipped": 432
+    "bundled": 2079,
+    "minified": 686,
+    "gzipped": 418
   },
   "dist/jss-plugin-compose.cjs.js": {
-    "bundled": 2033,
-    "minified": 862,
-    "gzipped": 480
+    "bundled": 2131,
+    "minified": 936,
+    "gzipped": 510
   },
   "dist/jss-plugin-compose.esm.js": {
-    "bundled": 1815,
-    "minified": 690,
-    "gzipped": 396,
+    "bundled": 1913,
+    "minified": 764,
+    "gzipped": 426,
     "treeshaked": {
       "rollup": {
         "code": 21,

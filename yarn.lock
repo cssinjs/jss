@@ -2122,6 +2122,11 @@ babel-loader@^8.0.4:
     mkdirp "^0.5.1"
     util.promisify "^1.0.0"
 
+babel-plugin-dev-expression@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-dev-expression/-/babel-plugin-dev-expression-0.2.1.tgz#d4a7beefefbb50e3f2734990a82a2486cf9eb9ee"
+  integrity sha1-1Ke+7++7UOPyc0mQqCokhs+eue4=
+
 backo2@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/backo2/-/backo2-1.0.2.tgz#31ab1ac8b129363463e35b3ebb69f4dfcfba7947"
