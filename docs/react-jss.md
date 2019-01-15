@@ -42,7 +42,7 @@ Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
 
 #### Basic
 
-```js
+```javascript
 import React from 'react'
 import {render} from 'react-dom'
 import withStyles from 'react-jss'
@@ -122,7 +122,7 @@ Caveats:
 
 Static properties being rendered first so that function values will have higher source order specificity.
 
-```js
+```javascript
 import React from 'react'
 import withStyles from 'react-jss'
 
@@ -196,7 +196,7 @@ Usage of `ThemeProvider`:
 - `ThemeProvider` as every other component can render only a single child because it uses `React.Children.only` in render and throws otherwise.
 - [Read more about `ThemeProvider` in `theming`'s documentation.](https://github.com/cssinjs/theming#themeprovider)
 
-```js
+```javascript
 import React from 'react'
 import withStyles, {ThemeProvider} from 'react-jss'
 
@@ -232,7 +232,7 @@ const App = () => (
 
 Pass the `injectTheme` option to `withStyles` so your theme will be injected into your wrapped component.
 
-```js
+```javascript
 import React from 'react'
 import withStyles from 'react-jss'
 
@@ -258,7 +258,7 @@ const StyledButton = withStyles(styles, {injectTheme: true})(Button)
 
 In case you need to access the theme but not render any CSS, you can also use `withTheme`. It is a Higher-order Component factory which takes a `React.Component` and maps the theme object from context to props. [Read more about `withTheme` in `theming`'s documentation.](https://github.com/cssinjs/theming#withthemecomponent)
 
-```js
+```javascript
 import React from 'react'
 import {withTheme} from 'react-jss'
 
@@ -269,7 +269,7 @@ const Button = withTheme(({theme}) => <button>I can access {theme.colorPrimary}<
 
 Use _namespaced_ themes so that a set of UI components gets no conflicts with another set of UI components from a different library also using `react-jss`.
 
-```js
+```javascript
 import React from 'react'
 import withStyles, {createTheming} from 'react-jss'
 
@@ -313,7 +313,7 @@ const App = () => (
 
 After the application is mounted, you should remove the style tag used by critical CSS rendered server-side.
 
-```js
+```javascript
 import React from 'react'
 import {renderToString} from 'react-dom/server'
 import {JssProvider, SheetsRegistry} from 'react-jss'
@@ -348,7 +348,7 @@ export default function render(req, res) {
 
 For traversing the React tree outside of the HTML rendering, you should add `disableStylesGeneration` property.
 
-```js
+```javascript
 import React from 'react'
 import ReactDOM from 'react-dom'
 import bootstrapper from 'react-async-bootstrapper'
@@ -374,7 +374,7 @@ main()
 
 To reuse the same styles **and** the same generated style sheet between 2 entirely different and unrelated components, we suggest extracting a renderer component and reusing that.
 
-```js
+```javascript
 import React from 'react'
 import withStyles from 'react-jss'
 
@@ -404,7 +404,7 @@ Alternatively, you can create own Style Sheet and use the `composes` feature. Al
 
 #### The inner component
 
-```js
+```javascript
 import withStyles from 'react-jss'
 
 const InnerComponent = () => null
@@ -417,7 +417,7 @@ console.log(StyledComponent.InnerComponent) // Prints out the inner component.
 To get a `ref` to the inner element, use the `ref` prop.
 We will forward the ref to the inner component.
 
-```js
+```javascript
 import React from 'react'
 import withStyles from 'react-jss'
 
@@ -437,7 +437,7 @@ const App = (
 
 If you want to specify a JSS version and plugins to use, you should create your [own JSS instance](https://github.com/cssinjs/jss/blob/master/docs/jss-api.md#create-an-own-jss-instance), [setup plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-custom-plugins) and pass it to `JssProvider`.
 
-```js
+```javascript
 import React from 'react'
 import {create as createJss} from 'jss'
 import {JssProvider} from 'react-jss'
@@ -456,7 +456,7 @@ const Component = () => (
 
 You can also access the default JSS instance.
 
-```js
+```javascript
 import {jss} from 'react-jss'
 ```
 
@@ -466,7 +466,7 @@ In case you render multiple react rendering trees in one application, you will g
 
 **Note**: in case of SSR, make sure to create a new generator for **each** request. Otherwise, class names will become indeterministic, and at some point, you may run out of max safe integer numbers.
 
-```js
+```javascript
 import React from 'react'
 import {createGenerateId, JssProvider} from 'react-jss'
 
@@ -489,7 +489,7 @@ const Component = () => (
 You can also additionally use the `classNamePrefix` prop to add the app/subtree name to each class name.
 This way you can see which app generated a class name in the DOM view.
 
-```js
+```javascript
 import React from 'react'
 import {JssProvider} from 'react-jss'
 
@@ -514,7 +514,7 @@ _Beware that [decorators are stage-2 proposal](https://tc39.github.io/proposal-d
 
 You will need [babel-plugin-transform-decorators-legacy](https://github.com/loganfsmyth/babel-plugin-transform-decorators-legacy).
 
-```js
+```javascript
 import React, {Component} from 'react'
 import withStyles from 'react-jss'
 
@@ -549,7 +549,7 @@ Source order specificity is higher the lower style tag is in the tree. Therefore
 
 Example
 
-```js
+```javascript
 import React from 'react'
 import withStyles from 'react-jss'
 
