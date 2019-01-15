@@ -20,7 +20,7 @@
 - [react-jss] Add forwardRef support ([#943](https://github.com/cssinjs/jss/pull/943))
 - [react-jss] Extend classes instead of overwriting theme ([#946](https://github.com/cssinjs/jss/pull/946))
 - [react-jss] Add flow types ([#818](https://github.com/cssinjs/jss/pull/818))
-- [jss] Migrate to a monorepo using yarn workspaces and lerna ([#729](https://github.com/cssinjs/jss/pull/729))
+- [all] Migrate to a monorepo using yarn workspaces and lerna ([#729](https://github.com/cssinjs/jss/pull/729))
 - [all] Add TypeScript definitions to all packages ([#889](https://github.com/cssinjs/jss/pull/889))
 - [all] Use smaller version of the warning package ([#953](https://github.com/cssinjs/jss/pull/953))
 
