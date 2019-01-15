@@ -1,7 +1,7 @@
 // @flow
 import type {StyleSheetFactoryOptions, Jss, SheetsRegistry, SheetsManager} from 'jss'
 import type {Node} from 'react'
-import {type Theming} from 'theming'
+import type {Theming} from 'theming'
 
 type StaticStyles = {[key: string]: {}}
 
