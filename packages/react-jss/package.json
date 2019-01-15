@@ -47,6 +47,6 @@
     "jss": "^10.0.0-alpha.7",
     "jss-preset-default": "^10.0.0-alpha.7",
     "prop-types": "^15.6.0",
-    "theming": "^3.0.0"
+    "theming": "^3.0.1"
   }
 }

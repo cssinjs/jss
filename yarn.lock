@@ -3197,14 +3197,6 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-create-react-context@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/create-react-context/-/create-react-context-0.2.3.tgz#9ec140a6914a22ef04b8b09b7771de89567cb6f3"
-  integrity sha512-CQBmD0+QGgTaxDL3OX1IDXYqjkp2It4RIbcb99jS6AEg27Ga+a9G3JtK6SIu0HBwPLZlmwt9F7UwWA4Bn92Rag==
-  dependencies:
-    fbjs "^0.8.0"
-    gud "^1.0.0"
-
 cross-env@^3.1.3:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-3.2.4.tgz#9e0585f277864ed421ce756f81a980ff0d698aba"
@@ -4221,7 +4213,7 @@ fast-levenshtein@~2.0.4:
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
   integrity sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=
 
-fbjs@^0.8.0, fbjs@^0.8.16:
+fbjs@^0.8.16:
   version "0.8.17"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   integrity sha1-xNWY6taUkRJlPWWIsBpc3Nn5D90=
@@ -4765,11 +4757,6 @@ growl@1.9.2:
   version "1.9.2"
   resolved "https://registry.yarnpkg.com/growl/-/growl-1.9.2.tgz#0ea7743715db8d8de2c5ede1775e1b45ac85c02f"
   integrity sha1-Dqd0NxXbjY3ixe3hd14bRayFwC8=
-
-gud@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/gud/-/gud-1.0.0.tgz#a489581b17e6a70beca9abe3ae57de7a499852c0"
-  integrity sha512-zGEOVKFM5sVPPrYs7J5/hYEw2Pof8KCyOwyhG8sAF26mCAeUFAcYPu1mwB7hhpIP29zOIBaDqwuHdLp0jvZXjw==
 
 gzip-size@^5.0.0:
   version "5.0.0"
@@ -9231,16 +9218,16 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-theming@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/theming/-/theming-3.0.0.tgz#e623397e4b02f4318c7b272e2c7138cb8c99745e"
-  integrity sha512-GWC/wnwOjdwnTywiWn/4nedsossoj9Y8y6TtZmYfNJ7RYlo7tswUkWNYgRlohZNfGIoyLkc6qwnqiHYVOWWVnw==
+theming@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/theming/-/theming-3.0.1.tgz#c1bd098256be87dec6d0fbd7016409da3667896b"
+  integrity sha512-dipLspDmEwDj3jRoe0aAyZ+L4w6YepA22bgHTrUN61SI5UwE1yZCWQDMibcGIfVBHAFedj6Oc+1kY0BRYBuaOQ==
   dependencies:
     "@types/react" "^16.4.18"
     hoist-non-react-statics "^3.1.0"
     prop-types "^15.5.8"
     react-display-name "^0.2.4"
-    warning "^4.0.2"
+    tiny-warning "^1.0.2"
 
 through2@^2.0.0, through2@^2.0.2:
   version "2.0.3"
@@ -9770,13 +9757,6 @@ void-elements@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/void-elements/-/void-elements-2.0.1.tgz#c066afb582bb1cb4128d60ea92392e94d5e9dbec"
   integrity sha1-wGavtYK7HLQSjWDqkjkulNXp2+w=
-
-warning@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/warning/-/warning-4.0.2.tgz#aa6876480872116fa3e11d434b0d0d8d91e44607"
-  integrity sha512-wbTp09q/9C+jJn4KKJfJfoS6VleK/Dti0yqWSm6KMvJ4MRCXFQNapHuJXutJIrWV0Cf4AhTdeIe4qdKHR1+Hug==
-  dependencies:
-    loose-envify "^1.0.0"
 
 watchpack@^1.5.0:
   version "1.6.0"
