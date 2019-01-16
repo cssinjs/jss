@@ -18,7 +18,7 @@ script:
   - yarn lint
   - yarn ts-check
   - yarn typecheck
-  - travis_wait yarn test
+  - yarn test
 env:
   global:
     secure: IaLnA8heZU8OMLiA8REbZeF1F5uXJE5XmX7L0cmtNYtHNDs+p4ufVOOGbrfZW2fDEbDpXryT3lTNsFLPPmHT0sdwH/eNeO+VNvqcJW4kHe6UReVU6fObsdEvGbX4V8V08x7V4rbJjHgERq9e8O0DDp32ykxuu1XbUlb01NEu1Qg=
