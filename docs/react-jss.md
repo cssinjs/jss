@@ -237,9 +237,13 @@ To inject the theme into the wrapped component, pass the `injectTheme` option to
 import React from 'react'
 import withStyles from 'react-jss'
 
-const Button = ({classes, children}) => (
+const DeleteIcon = () => null
+
+const Button = ({classes, children, theme}) => (
   <button className={classes.button}>
     <span className={classes.label}>{children}</span>
+
+    {theme.useIconButtons && <DeleteIcon />}
   </button>
 )
 
