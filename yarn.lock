@@ -9223,10 +9223,10 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-theming@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/theming/-/theming-3.0.1.tgz#c1bd098256be87dec6d0fbd7016409da3667896b"
-  integrity sha512-dipLspDmEwDj3jRoe0aAyZ+L4w6YepA22bgHTrUN61SI5UwE1yZCWQDMibcGIfVBHAFedj6Oc+1kY0BRYBuaOQ==
+theming@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/theming/-/theming-3.0.2.tgz#a7d26186c980c3e74a67b5610737c434a3787f6d"
+  integrity sha512-2uljQ8Dy1zXA4WOrmJS5Em4LrNbAY+CNkmSHv99VLccepKVLAnJejZlCXMAbXOlIhl1lWlQxg8NGiN3v07W/6Q==
   dependencies:
     "@types/react" "^16.4.18"
     hoist-non-react-statics "^3.1.0"
