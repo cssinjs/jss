@@ -35,14 +35,15 @@ Object.keys(pkg.peerDependencies || {}).forEach(key => {
 const external = id => !id.startsWith('.') && !id.startsWith('/')
 
 const getBabelOptions = ({useESModules}) => ({
-  exclude: '**/node_modules/**',
+  exclude: /node_modules/,
   babelrc: false,
   runtimeHelpers: true,
   presets: [['@babel/env', {loose: true}], '@babel/flow', '@babel/react'],
   plugins: [
     ['@babel/proposal-class-properties', {loose: true}],
     ['@babel/transform-runtime', {useESModules}],
-    ['@babel/plugin-proposal-export-namespace-from']
+    ['@babel/plugin-proposal-export-namespace-from'],
+    ['dev-expression']
   ]
 })
 
