@@ -1,18 +1,12 @@
 // @flow
-import {Component, type Node} from 'react'
+import React, {Component, type Node} from 'react'
 import PropTypes from 'prop-types'
-import {
-  createGenerateId as createGenerateIdDefault,
-  type Jss,
-  type GenerateId,
-  type SheetsRegistry
-} from 'jss'
-import * as ns from './ns'
-import contextTypes from './contextTypes'
-import propTypes from './propTypes'
-import type {Context} from './types'
+import defaultJss, {createGenerateId, type Jss, type GenerateId, SheetsRegistry} from 'jss'
+import type {Context, Managers} from './types'
+import JssContext from './JssContext'
+import memoize from './memoize-one'
 
-/* eslint-disable react/require-default-props */
+/* eslint-disable react/require-default-props, react/no-unused-prop-types */
 
 type Props = {
   jss?: Jss,
@@ -20,85 +14,87 @@ type Props = {
   generateId?: GenerateId,
   classNamePrefix?: string,
   disableStylesGeneration?: boolean,
+  media?: string,
   children: Node
 }
 
 export default class JssProvider extends Component<Props> {
   static propTypes = {
-    ...propTypes,
+    registry: PropTypes.instanceOf(SheetsRegistry),
+    jss: PropTypes.instanceOf(defaultJss.constructor),
     generateId: PropTypes.func,
     classNamePrefix: PropTypes.string,
     disableStylesGeneration: PropTypes.bool,
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
+    media: PropTypes.string
   }
 
-  static childContextTypes = contextTypes
+  managers: Managers = {}
 
-  static contextTypes = contextTypes
+  createContext = memoize(
+    (outerContext: Context, props: Props): Context => {
+      const {registry, classNamePrefix, jss, generateId, disableStylesGeneration, media} = props
+      // Clone the outer context
+      const context = {...outerContext}
 
-  // JssProvider can be nested. We allow to overwrite any context prop at any level.
-  // 1. Check if there is a value passed over props.
-  // 2. If value was passed, we set it on the child context.
-  // 3. If value was not passed, we proxy parent context (default context behaviour).
-  getChildContext(): Context {
-    const {
-      registry,
-      classNamePrefix,
-      jss: localJss,
-      generateId,
-      disableStylesGeneration
-    } = this.props
-    // eslint-disable-next-line react/react/destructuring-assignment
-    const sheetOptions = this.context[ns.sheetOptions] || {}
-    const context: Context = {[ns.sheetOptions]: sheetOptions}
+      if (registry) {
+        context.registry = registry
 
-    if (registry) {
-      context[ns.sheetsRegistry] = registry
-      // This way we identify a new request on the server, because user will create
-      // a new Registry instance for each.
-      if (registry !== this.registry) {
-        // We reset managers because we have to regenerate all sheets for the new request.
-        this.managers = {}
-        this.registry = registry
-      }
-    }
-
-    // Make sure we don't loose managers when JssProvider is used inside of a stateful
-    // component which decides to rerender.
-    context[ns.managers] = this.managers
-
-    if (generateId) {
-      sheetOptions.generateId = generateId
-    } else if (!sheetOptions.generateId) {
-      if (!this.generateId) {
-        let createGenerateId = createGenerateIdDefault
-        if (localJss && localJss.options.createGenerateId) {
-          createGenerateId = localJss.options.createGenerateId
+        // This way we identify a new request on the server, because user will create
+        // a new Registry instance for each.
+        if (registry !== this.registry) {
+          // We reset managers because we have to regenerate all sheets for the new request.
+          this.managers = {}
+          this.registry = registry
         }
-        // Make sure we don't loose the generator when JssProvider is used inside of a stateful
-        // component which decides to rerender.
-        this.generateId = createGenerateId()
       }
 
-      sheetOptions.generateId = this.generateId
-    }
+      context.managers = this.managers
 
-    if (classNamePrefix) sheetOptions.classNamePrefix = classNamePrefix
-    if (localJss) context[ns.jss] = localJss
-    if (disableStylesGeneration !== undefined) {
-      sheetOptions.disableStylesGeneration = disableStylesGeneration
-    }
+      if (generateId) {
+        context.sheetOptions.generateId = generateId
+      } else if (!context.sheetOptions.generateId) {
+        if (!this.generateId) {
+          this.generateId = createGenerateId()
+        }
+        context.sheetOptions.generateId = this.generateId
+      }
 
-    return context
+      // Merge the classname prefix
+      if (classNamePrefix) {
+        context.sheetOptions.classNamePrefix =
+          (context.sheetOptions.classNamePrefix || '') + classNamePrefix
+      }
+
+      if (media !== undefined) {
+        context.sheetOptions.media = media
+      }
+
+      if (jss) {
+        context.jss = jss
+      }
+
+      if (disableStylesGeneration !== undefined) {
+        context.disableStylesGeneration = disableStylesGeneration
+      }
+
+      return context
+    }
+  )
+
+  generateId: ?GenerateId
+
+  registry: ?SheetsRegistry
+
+  renderProvider = (outerContext: Context) => {
+    const {children} = this.props
+    // $FlowFixMe
+    const context: Context = this.createContext(outerContext, this.props)
+
+    return <JssContext.Provider value={context}>{children}</JssContext.Provider>
   }
-
-  registry: SheetsRegistry
-
-  managers: {}
-
-  generateId: GenerateId
 
   render() {
-    return this.props.children
+    return <JssContext.Consumer>{this.renderProvider}</JssContext.Consumer>
   }
 }

@@ -1,6 +1,5 @@
-import * as React from 'react'
+import {ComponentType, ReactNode} from 'react'
 import {
-  StyleSheet,
   CreateGenerateId,
   GenerateId,
   Jss,
@@ -8,40 +7,50 @@ import {
   Styles,
   StyleSheetFactoryOptions
 } from 'jss'
+import {ThemeProvider, withTheme, createTheming, Theming} from 'theming'
 
-export const jss: Jss
-export {SheetsRegistry}
-export const createGenerateId: CreateGenerateId
-
-export const JssProvider: React.ComponentType<{
+declare const jss: Jss
+declare const createGenerateId: CreateGenerateId
+declare const JssProvider: ComponentType<{
   jss?: Jss
   registry?: SheetsRegistry
   generateId?: GenerateId
   classNamePrefix?: string
   disableStylesGeneration?: boolean
-  children: React.ReactNode
+  children: ReactNode
 }>
 
-type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
-type Options = {
-  index?: number
-  inject?: Array<'classes' | 'theme' | 'sheet'>
-  jss?: Jss
-} & StyleSheetFactoryOptions
+type ThemedStyles<Theme> = (theme: Theme) => Styles
 
-type InjectedProps<Styles, Theme> = {
-  classes: {[key in keyof Styles]: string}
-  theme?: Theme
-  sheet?: StyleSheet<string>
+interface WithStyles<S extends Styles | ThemedStyles<any>> {
+  classes: Record<S extends ThemedStyles<any> ? keyof ReturnType<S> : keyof S, string>
 }
 
-export default function injectSheet<
-  Style extends Styles<string>,
-  Theme extends object,
-  Props extends InjectedProps<Styles<string>, Theme>
->(
-  styles: Style,
+interface Options extends StyleSheetFactoryOptions {
+  index?: number
+  injectTheme?: boolean
+  jss?: Jss
+  theming: Theming<object>
+}
+
+type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
+
+declare function withStyles<S extends Styles | ThemedStyles<any>>(
+  styles: S,
   options?: Options
-): (
-  comp: React.ComponentType<Props>
-) => React.ComponentType<Omit<Props, InjectedProps<Styles<string>, Theme>>>
+): <Props extends WithStyles<S>>(
+  comp: ComponentType<Props>
+) => ComponentType<Omit<Props, 'classes'> & {classes?: Partial<Props['classes']>}>
+
+export {
+  SheetsRegistry,
+  jss,
+  createGenerateId,
+  JssProvider,
+  WithStyles,
+  ThemeProvider,
+  withTheme,
+  createTheming
+}
+
+export default withStyles

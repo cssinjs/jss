@@ -22,7 +22,7 @@
 
 1. User-controlled animations.
 
-   JSS handles CSS updates so efficiently that you can create complex animations with it. Using function values, Observables and combining them with CSS transitions will give you maximum performance for user-controlled animations. For predefined animations, it is still better to use @keyframes and transitions, because they will unblock JavaScript thread completely.
+   JSS handles CSS updates so efficiently that you can create complex animations with it. Using function values, Observables and combining them with CSS transitions will give you maximum performance for user-controlled animations. For predefined animations, it is still better to use @keyframes and transitions, because they will unblock the JavaScript thread completely.
 
 1. Critical CSS.
 
@@ -30,7 +30,7 @@
 
 1. Plugins.
 
-   JSS core implements a plugin-based architecture. It allows you to create custom plugins which can implement custom syntax or other powerful abilities. JSS has many official plugins, which can be installed individually or using a default preset. A good example for community plugin is [jss-rtl](https://yarnpkg.com/en/package/jss-rtl).
+   JSS core implements a plugin-based architecture. It allows you to create custom plugins which can implement custom syntax or other powerful abilities. JSS has many official plugins, which can be installed individually or using a default preset. A good example of a community plugin is [jss-rtl](https://yarnpkg.com/en/package/jss-rtl).
 
 1. Expressive syntax.
 
@@ -42,7 +42,7 @@
 
 1. React integration.
 
-   Package React-JSS provides some additional features:
+   The React-JSS package provides some additional features:
 
    - Dynamic Theming - allows context based theme propagation and runtime updates.
    - Critical CSS extraction - only CSS from rendered components gets extracted.
@@ -52,4 +52,4 @@
 
 1. JavaScript build pipeline.
 
-   There is no need in additional build pipeline configuration for CSS. Whatever tool you choose to build your JavaScript, it will just work with JSS.
+   There is no need for additional build pipeline configuration for CSS. Whatever tool you choose to build your JavaScript, it will just work with JSS.

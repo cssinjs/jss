@@ -26,7 +26,7 @@
 
 1. Can JSS generate global selectors?
 
-   Yes, you can use `jss-plugin-global` and `jss-plugin-nested` to generate global selectors. The later will allow you to cascade your global selector inside of a parent selector, reducing its power to a subtree.
+   Yes, you can use `jss-plugin-global` and `jss-plugin-nested` to generate global selectors. The latter will allow you to cascade your global selector inside of a parent selector, reducing its power to a subtree.
 
 1. Is JSS used in production?
 
