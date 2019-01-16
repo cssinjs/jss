@@ -1,316 +1,322 @@
-/* eslint-disable global-require, react/prop-types, react/no-find-dom-node */
+/* eslint-disable global-require, react/prop-types, react/no-find-dom-node, react/no-multi-comp, react/prefer-stateless-function */
 
 import expect from 'expect.js'
 import React, {PureComponent} from 'react'
-import {findDOMNode, render, unmountComponentAtNode} from 'react-dom'
+import TestRenderer from 'react-test-renderer'
+import {stripIndent} from 'common-tags'
 
-import injectSheet from '../src'
+import injectSheet, {JssProvider, SheetsRegistry} from '../src'
+
+const removeWhitespaces = str => str.replace(/\s/g, '')
+const createGenerateId = () => {
+  let counter = 0
+  return rule => `${rule.key}-${counter++}`
+}
 
 describe('React-JSS: dynamic styles', () => {
-  let node
+  const color = 'rgb(255, 255, 255)'
+  const NoRenderer = () => null
+  NoRenderer.displayName = 'NoRenderer'
+  let registry
 
   beforeEach(() => {
-    node = document.body.appendChild(document.createElement('div'))
-  })
-
-  afterEach(() => {
-    unmountComponentAtNode(node)
-    node.parentNode.removeChild(node)
+    registry = new SheetsRegistry()
   })
 
   describe('function values', () => {
-    const color = 'rgb(255, 255, 255)'
     let MyComponent
 
     beforeEach(() => {
-      const InnerComponent = ({classes}) => <div className={`${classes.button} ${classes.left}`} />
-
       MyComponent = injectSheet({
-        left: {
-          width: '1px'
-        },
         button: {
           color,
           height: ({height = 1}) => `${height}px`
         }
-      })(InnerComponent)
+      })(NoRenderer)
     })
 
     it('should attach and detach a sheet', () => {
-      render(<MyComponent />, node)
-      expect(document.querySelectorAll('style').length).to.be(2)
-      unmountComponentAtNode(node)
-      expect(document.querySelectorAll('style').length).to.be(0)
+      const renderer = TestRenderer.create(
+        <JssProvider registry={registry}>
+          <MyComponent />
+        </JssProvider>
+      )
+
+      expect(registry.registry.length).to.equal(2)
+      expect(registry.registry[0].attached).to.equal(true)
+      expect(registry.registry[1].attached).to.equal(true)
+
+      renderer.unmount()
+
+      expect(registry.registry[0].attached).to.equal(false)
+      expect(registry.registry[1].attached).to.equal(false)
     })
 
     it('should have correct meta attribute', () => {
-      render(<MyComponent />, node)
-      const styles = document.querySelectorAll('style')
-      const meta0 = styles[0].getAttribute('data-meta')
-      const meta1 = styles[1].getAttribute('data-meta')
-      expect(meta0).to.be('InnerComponent, Unthemed, Static')
-      expect(meta1).to.be('InnerComponent, Unthemed, Dynamic')
+      TestRenderer.create(
+        <JssProvider registry={registry}>
+          <MyComponent />
+        </JssProvider>
+      )
+
+      expect(registry.registry[0].options.meta).to.equal('NoRenderer, Unthemed, Static')
+      expect(registry.registry[1].options.meta).to.equal('NoRenderer, Unthemed, Dynamic')
     })
 
     it('should reuse static sheet, but generate separate dynamic once', () => {
-      render(
-        <div>
+      TestRenderer.create(
+        <JssProvider registry={registry}>
           <MyComponent height={2} />
           <MyComponent height={3} />
-        </div>,
-        node
+        </JssProvider>
       )
-      expect(document.querySelectorAll('style').length).to.be(3)
-      unmountComponentAtNode(node)
-      expect(document.querySelectorAll('style').length).to.be(0)
-    })
 
-    it('should use the default value', () => {
-      const node0 = render(
-        <div>
-          <MyComponent />
-        </div>,
-        node
-      )
-      const style0 = getComputedStyle(findDOMNode(node0).querySelector('div'))
-      expect(style0.color).to.be(color)
-      expect(style0.height).to.be('1px')
+      expect(registry.registry.length).to.equal(3)
     })
 
     it('should have dynamic and static styles', () => {
-      const node0 = render(
-        <div>
+      const renderer = TestRenderer.create(
+        <JssProvider generateId={createGenerateId()}>
           <MyComponent />
-        </div>,
-        node
+        </JssProvider>
       )
-      const style0 = getComputedStyle(findDOMNode(node0).querySelector('div'))
-      expect(style0.color).to.be(color)
-      expect(style0.width).to.be('1px')
-      expect(style0.height).to.be('1px')
+      const props = renderer.root.findByType(NoRenderer).props
+
+      expect(props.classes.button).to.equal('button-0 button-1')
     })
 
     it('should generate different dynamic values', () => {
-      const componentNode = render(
-        <div>
+      TestRenderer.create(
+        <JssProvider registry={registry} generateId={createGenerateId()}>
           <MyComponent height={10} />
           <MyComponent height={20} />
-        </div>,
-        node
+        </JssProvider>
       )
-      const [node0, node1] = componentNode.children
-      const style0 = getComputedStyle(node0)
-      const style1 = getComputedStyle(node1)
 
-      expect(style0.color).to.be(color)
-      expect(style0.height).to.be('10px')
-      expect(style1.color).to.be(color)
-      expect(style1.height).to.be('20px')
+      expect(registry.toString()).to.equal(stripIndent`
+      .button-0 {
+        color: ${color};
+      }
+      .button-1 {
+        height: 10px;
+      }
+      .button-2 {
+        height: 20px;
+      }`)
     })
 
     it('should update dynamic values', () => {
       /* eslint-disable-next-line react/no-multi-comp, react/prefer-stateless-function */
+      const generateId = createGenerateId()
       class Container extends PureComponent {
         render() {
           const {height} = this.props
           return (
-            <div>
+            <JssProvider registry={registry} generateId={generateId}>
               <MyComponent height={height} />
               <MyComponent height={height * 2} />
-            </div>
+            </JssProvider>
           )
         }
       }
 
-      const component = render(<Container height={10} />, node)
-      const componentNode = findDOMNode(component)
-      const [node0, node1] = componentNode.children
-      const style0 = getComputedStyle(node0)
-      const style1 = getComputedStyle(node1)
+      const renderer = TestRenderer.create(<Container height={10} />)
 
-      expect(style0.color).to.be(color)
-      expect(style0.height).to.be('10px')
-      expect(style1.color).to.be(color)
-      expect(style1.height).to.be('20px')
+      expect(registry.toString()).to.equal(stripIndent`
+      .button-0 {
+        color: ${color};
+      }
+      .button-1 {
+        height: 10px;
+      }
+      .button-2 {
+        height: 20px;
+      }`)
 
-      render(<Container height={20} />, node)
+      renderer.update(<Container height={20} />)
 
-      expect(style0.color).to.be(color)
-      expect(style0.height).to.be('20px')
-      expect(style1.color).to.be(color)
-      expect(style1.height).to.be('40px')
-
-      expect(document.querySelectorAll('style').length).to.be(3)
+      expect(registry.toString()).to.equal(stripIndent`
+      .button-0 {
+        color: ${color};
+      }
+      .button-1 {
+        height: 20px;
+      }
+      .button-2 {
+        height: 40px;
+      }`)
     })
 
-    it('should use the default props', () => {
+    it('should pass the props of the component', () => {
+      let passedProps
+
       const styles = {
         a: {
-          color: props => props.color
+          color(props) {
+            passedProps = props
+            return color
+          }
         }
       }
-      const InnerComponent = ({classes}) => <span className={classes.a} />
+      const InnerComponent = () => null
       InnerComponent.defaultProps = {
         color: 'rgb(255, 0, 0)'
       }
       const StyledComponent = injectSheet(styles)(InnerComponent)
 
-      const node0 = render(
-        <div>
-          <StyledComponent />
-        </div>,
-        node
-      )
-      const style0 = getComputedStyle(findDOMNode(node0).querySelector('span'))
-      expect(style0.color).to.be('rgb(255, 0, 0)')
+      TestRenderer.create(<StyledComponent height={20} />)
+
+      expect(passedProps.color).to.equal('rgb(255, 0, 0)')
+      expect(passedProps.height).to.equal(20)
     })
   })
 
   describe('function rules', () => {
-    const color = 'rgb(255, 255, 255)'
     let MyComponent
 
     beforeEach(() => {
-      const InnerComponent = ({classes}) => <div className={`${classes.button} ${classes.left}`} />
-
       MyComponent = injectSheet({
-        left: {
-          width: '1px'
-        },
         button: ({height = 1}) => ({
           color,
           height: `${height}px`
         })
-      })(InnerComponent)
+      })(NoRenderer)
     })
 
     it('should attach and detach a sheet', () => {
-      render(<MyComponent />, node)
-      expect(document.querySelectorAll('style').length).to.be(2)
-      unmountComponentAtNode(node)
-      expect(document.querySelectorAll('style').length).to.be(0)
+      const renderer = TestRenderer.create(
+        <JssProvider registry={registry}>
+          <MyComponent />
+        </JssProvider>
+      )
+
+      expect(registry.registry.length).to.equal(2)
+      expect(registry.registry[0].attached).to.equal(true)
+      expect(registry.registry[1].attached).to.equal(true)
+
+      renderer.unmount()
+
+      expect(registry.registry[0].attached).to.equal(false)
+      expect(registry.registry[1].attached).to.equal(false)
     })
 
     it('should have correct meta attribute', () => {
-      render(<MyComponent />, node)
-      const styles = document.querySelectorAll('style')
-      const meta0 = styles[0].getAttribute('data-meta')
-      const meta1 = styles[1].getAttribute('data-meta')
-      expect(meta0).to.be('InnerComponent, Unthemed, Static')
-      expect(meta1).to.be('InnerComponent, Unthemed, Dynamic')
+      TestRenderer.create(
+        <JssProvider registry={registry}>
+          <MyComponent />
+        </JssProvider>
+      )
+
+      expect(registry.registry[0].options.meta).to.equal('NoRenderer, Unthemed, Static')
+      expect(registry.registry[1].options.meta).to.equal('NoRenderer, Unthemed, Dynamic')
     })
 
     it('should reuse static sheet, but generate separate dynamic once', () => {
-      render(
-        <div>
+      TestRenderer.create(
+        <JssProvider registry={registry}>
           <MyComponent height={2} />
           <MyComponent height={3} />
-        </div>,
-        node
+        </JssProvider>
       )
-      expect(document.querySelectorAll('style').length).to.be(3)
-      unmountComponentAtNode(node)
-      expect(document.querySelectorAll('style').length).to.be(0)
-    })
 
-    it('should use the default value', () => {
-      const node0 = render(
-        <div>
-          <MyComponent />
-        </div>,
-        node
-      )
-      const style0 = getComputedStyle(findDOMNode(node0).querySelector('div'))
-      expect(style0.color).to.be(color)
-      expect(style0.height).to.be('1px')
+      expect(registry.registry.length).to.equal(3)
     })
 
     it('should have dynamic and static styles', () => {
-      const node0 = render(
-        <div>
+      const renderer = TestRenderer.create(
+        <JssProvider generateId={createGenerateId()}>
           <MyComponent />
-        </div>,
-        node
+        </JssProvider>
       )
-      const style0 = getComputedStyle(findDOMNode(node0).querySelector('div'))
-      expect(style0.color).to.be(color)
-      expect(style0.width).to.be('1px')
-      expect(style0.height).to.be('1px')
+      const props = renderer.root.findByType(NoRenderer).props
+
+      expect(props.classes.button).to.equal('button-0 button-1')
     })
 
     it('should generate different dynamic values', () => {
-      const componentNode = render(
-        <div>
+      TestRenderer.create(
+        <JssProvider registry={registry} generateId={createGenerateId()}>
           <MyComponent height={10} />
           <MyComponent height={20} />
-        </div>,
-        node
+        </JssProvider>
       )
-      const [node0, node1] = componentNode.children
-      const style0 = getComputedStyle(node0)
-      const style1 = getComputedStyle(node1)
 
-      expect(style0.color).to.be(color)
-      expect(style0.height).to.be('10px')
-      expect(style1.color).to.be(color)
-      expect(style1.height).to.be('20px')
+      expect(removeWhitespaces(registry.toString())).to.equal(
+        removeWhitespaces(`
+      .button-1 {
+        color: ${color};
+        height: 10px;
+      }
+      .button-2 {
+        color: ${color};
+        height: 20px;
+      }
+      `)
+      )
     })
 
     it('should update dynamic values', () => {
-      /* eslint-disable-next-line react/no-multi-comp, react/prefer-stateless-function */
+      const generateId = createGenerateId()
       class Container extends PureComponent {
         render() {
           const {height} = this.props
           return (
-            <div>
+            <JssProvider registry={registry} generateId={generateId}>
               <MyComponent height={height} />
               <MyComponent height={height * 2} />
-            </div>
+            </JssProvider>
           )
         }
       }
 
-      const component = render(<Container height={10} />, node)
-      const componentNode = findDOMNode(component)
-      const [node0, node1] = componentNode.children
-      const style0 = getComputedStyle(node0)
-      const style1 = getComputedStyle(node1)
+      const renderer = TestRenderer.create(<Container height={10} />)
 
-      expect(style0.color).to.be(color)
-      expect(style0.height).to.be('10px')
-      expect(style1.color).to.be(color)
-      expect(style1.height).to.be('20px')
+      expect(removeWhitespaces(registry.toString())).to.equal(
+        removeWhitespaces(`
+      .button-1 {
+        color: ${color};
+        height: 10px;
+      }
+      .button-2 {
+        color: ${color};
+        height: 20px;
+      }`)
+      )
 
-      render(<Container height={20} />, node)
+      renderer.update(<Container height={20} />)
 
-      expect(style0.color).to.be(color)
-      expect(style0.height).to.be('20px')
-      expect(style1.color).to.be(color)
-      expect(style1.height).to.be('40px')
-
-      expect(document.querySelectorAll('style').length).to.be(3)
+      expect(removeWhitespaces(registry.toString())).to.equal(
+        removeWhitespaces(`
+      .button-1 {
+        color: ${color};
+        height: 20px;
+      }
+      .button-2 {
+        color: ${color};
+        height: 40px;
+      }`)
+      )
     })
 
     it('should use the default props', () => {
+      let passedProps
+
       const styles = {
-        a: {
-          color: props => props.color
+        button(props) {
+          passedProps = props
+          return {color}
         }
       }
-      const InnerComponent = ({classes}) => <span className={classes.a} />
+      const InnerComponent = () => null
       InnerComponent.defaultProps = {
         color: 'rgb(255, 0, 0)'
       }
       const StyledComponent = injectSheet(styles)(InnerComponent)
 
-      const node0 = render(
-        <div>
-          <StyledComponent />
-        </div>,
-        node
-      )
-      const style0 = getComputedStyle(findDOMNode(node0).querySelector('span'))
-      expect(style0.color).to.be('rgb(255, 0, 0)')
+      TestRenderer.create(<StyledComponent height={20} />)
+
+      expect(passedProps.color).to.equal('rgb(255, 0, 0)')
+      expect(passedProps.height).to.equal(20)
     })
   })
 })

@@ -6,8 +6,8 @@ Benefits compared to the lower level core:
 
 - Dynamic Theming - allows context based theme propagation and runtime updates.
 - Critical CSS extraction - only CSS from rendered components gets extracted.
-- Lazy evaluation - Style Sheets are only created when a component gets mounted.
-- Static part of a Style Sheet is shared between all elements.
+- Lazy evaluation - Style Sheets are created when a component mounts and removed when it's unmounted.
+- The static part of a Style Sheet will be shared between all elements.
 - Function values and rules are updated automatically with props as an argument.
 
 ### Table of Contents
@@ -36,7 +36,7 @@ yarn add react-jss
 ### Usage
 
 React-JSS wraps your component with a [higher-order component](https://medium.com/@dan_abramov/mixins-are-dead-long-live-higher-order-components-94a0d2f9e750).
-It injects a `classes` prop, which is a simple map of rule names and generated class names. It can act both as a simple wrapping function and as an [ES7 decorator](https://github.com/wycats/javascript-decorators).
+It injects a `classes` prop, which is a simple map of rule names and generated class names.
 
 Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
 
@@ -45,8 +45,7 @@ Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
 ```javascript
 import React from 'react'
 import {render} from 'react-dom'
-// Import React-JSS
-import injectSheet from 'react-jss'
+import withStyles from 'react-jss'
 
 // Create your Styles. Remember, since React-JSS uses the default preset,
 // most plugins are available without further configuration needed.
@@ -79,9 +78,9 @@ const Button = ({classes, children}) => (
 )
 
 // Finally, inject the stylesheet into the component.
-const StyledButton = injectSheet(styles)(Button)
+const StyledButton = withStyles(styles)(Button)
 // You can also export the component with
-// export default injectSheet(styles)(Button)
+// export default withStyles(styles)(Button)
 
 const App = () => <StyledButton>Submit</StyledButton>
 
@@ -117,7 +116,7 @@ and
 
 #### Dynamic values
 
-You can use [function values](jss-syntax.md#function-values), function rules and observables out of the box. Function values and function rules will receive a props object once the component receives new props or mounts for the first time.
+You can use [function values](jss-syntax.md#function-values), Function rules and observables out of the box. Function values and function rules will receive a props object once the component receives new props or mounts for the first time.
 
 Caveats:
 
@@ -125,7 +124,7 @@ Static properties being rendered first so that function values will have higher 
 
 ```javascript
 import React from 'react'
-import injectSheet from 'react-jss'
+import withStyles from 'react-jss'
 
 const styles = {
   myButton: {
@@ -151,7 +150,7 @@ Button.defaultProps = {
   labelColor: 'red'
 }
 
-const StyledButton = injectSheet(styles)(Button)
+const StyledButton = withStyles(styles)(Button)
 
 const App = () => <StyledButton fontStyle="italic">Submit</StyledButton>
 ```
@@ -195,11 +194,11 @@ Usage of `ThemeProvider`:
   - If it is `Object` and used in a nested `ThemeProvider`, then it gets merged with the theme from a parent `ThemeProvider` and passed down the react tree.
   - If it is `Function` and used in a nested `ThemeProvider`, then it's being applied to the theme from a parent `ThemeProvider`. If the result is an `Object` it will be passed down the react tree, throws otherwise.
 - `ThemeProvider` as every other component can render only a single child because it uses `React.Children.only` in render and throws otherwise.
-- [Read more about `ThemeProvider` in `theming`'s documentation.](https://github.com/iamstarkov/theming#themeprovider)
+- [Read more about `ThemeProvider` in `theming`'s documentation.](https://github.com/cssinjs/theming#themeprovider)
 
 ```javascript
 import React from 'react'
-import injectSheet, {ThemeProvider} from 'react-jss'
+import withStyles, {ThemeProvider} from 'react-jss'
 
 const Button = ({classes, children}) => (
   <button className={classes.button}>
@@ -216,7 +215,7 @@ const styles = theme => ({
   }
 })
 
-const StyledButton = injectSheet(styles)(Button)
+const StyledButton = withStyles(styles)(Button)
 
 const theme = {
   colorPrimary: 'green'
@@ -229,25 +228,62 @@ const App = () => (
 )
 ```
 
-In case you need to access the theme but not render any CSS, you can also use `withTheme`. It is a Higher-order Component factory which takes a `React.Component` and maps the theme object from context to props. [Read more about `withTheme` in `theming`'s documentation.](https://github.com/iamstarkov/theming#withthemecomponent)
+#### Accessing the theme inside the styled component
+
+The theme will not be injecting into the wrapped component.
+To inject the theme into the wrapped component, pass the `injectTheme` option to `withStyles`.
 
 ```javascript
 import React from 'react'
-import injectSheet, {withTheme} from 'react-jss'
+import withStyles from 'react-jss'
+
+const DeleteIcon = () => null
+
+const Button = ({classes, children, theme}) => (
+  <button className={classes.button}>
+    <span className={classes.label}>{children}</span>
+
+    {theme.useIconButtons && <DeleteIcon />}
+  </button>
+)
+
+const styles = theme => ({
+  button: {
+    background: theme.colorPrimary
+  },
+  label: {
+    fontWeight: 'bold'
+  }
+})
+
+const StyledButton = withStyles(styles, {injectTheme: true})(Button)
+```
+
+#### Accessing the theme without a styled component
+
+In case you need to access the theme but not render any CSS, you can also use `withTheme`. It is a Higher-order Component factory which takes a `React.Component` and maps the theme object from context to props. [Read more about `withTheme` in `theming`'s documentation.](https://github.com/cssinjs/theming#withthemecomponent)
+
+```javascript
+import React from 'react'
+import {withTheme} from 'react-jss'
 
 const Button = withTheme(({theme}) => <button>I can access {theme.colorPrimary}</button>)
 ```
+
+#### Using custom Theming Context
 
 Use _namespaced_ themes so that a set of UI components gets no conflicts with another set of UI components from a different library also using `react-jss`.
 
 ```javascript
 import React from 'react'
-import injectSheet, {createTheming} from 'react-jss'
+import withStyles, {createTheming} from 'react-jss'
+
+const ThemeContext = React.createContext({})
 
 // Creating a namespaced theming object.
-const theming = createTheming('__MY_NAMESPACED_THEME__')
+const theming = createTheming(ThemeContext)
 
-const {ThemeProvider: MyThemeProvider} = theming
+const {ThemeProvider} = theming
 
 const styles = theme => ({
   button: {
@@ -261,8 +297,8 @@ const theme = {
 
 const Button = ({classes, children}) => <button className={classes.button}>{children}</button>
 
-// Passing namespaced theming object inside injectSheet options.
-const StyledButton = injectSheet(styles, {theming})(Button)
+// Passing namespaced theming object inside withStyles options.
+const StyledButton = withStyles(styles, {theming})(Button)
 const OtherLibraryThemeProvider = () => null
 const OtherLibraryComponent = () => null
 const otherLibraryTheme = {}
@@ -271,9 +307,9 @@ const otherLibraryTheme = {}
 const App = () => (
   <OtherLibraryThemeProvider theme={otherLibraryTheme}>
     <OtherLibraryComponent />
-    <MyThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <StyledButton>Green Button</StyledButton>
-    </MyThemeProvider>
+    </ThemeProvider>
   </OtherLibraryThemeProvider>
 )
 ```
@@ -297,7 +333,7 @@ export default function render(req, res) {
     </JssProvider>
   )
 
-  // Any instances of `injectSheet` within `<MyApp />` will have gotten sheets
+  // Any instances of `withStyles` within `<MyApp />` will have gotten sheets
   // from `context` and added their Style Sheets to it by now.
 
   return res.send(
@@ -318,8 +354,8 @@ export default function render(req, res) {
 For traversing the React tree outside of the HTML rendering, you should add `disableStylesGeneration` property.
 
 ```javascript
-import * as React from 'react'
-import * as ReactDOM from 'react-dom'
+import React from 'react'
+import ReactDOM from 'react-dom'
 import bootstrapper from 'react-async-bootstrapper'
 
 import {JssProvider} from 'react-jss'
@@ -345,14 +381,14 @@ To reuse the same styles **and** the same generated style sheet between 2 entire
 
 ```javascript
 import React from 'react'
-import injectSheet from 'react-jss'
+import withStyles from 'react-jss'
 
 const styles = {
   button: {
     color: 'red'
   }
 }
-const RedButton = injectSheet(styles)(({classes, children}) => (
+const RedButton = withStyles(styles)(({classes, children}) => (
   <button className={classes.button}>{children}</button>
 ))
 
@@ -373,21 +409,33 @@ Alternatively, you can create own Style Sheet and use the `composes` feature. Al
 
 #### The inner component
 
-```es6
+```javascript
+import withStyles from 'react-jss'
+
 const InnerComponent = () => null
-const StyledComponent = injectSheet(styles, InnerComponent)
+const StyledComponent = withStyles({})(InnerComponent)
 console.log(StyledComponent.InnerComponent) // Prints out the inner component.
 ```
 
 #### The inner ref
 
-To get a `ref` to the inner element, use the `innerRef` prop.
+To get a `ref` to the inner element, use the `ref` prop.
+We will forward the ref to the inner component.
 
-```es6
+```javascript
+import React from 'react'
+import withStyles from 'react-jss'
+
 const InnerComponent = () => null
-const StyledComponent = injectSheet({})(InnerComponent)
+const StyledComponent = withStyles({})(InnerComponent)
 
-<StyledComponent innerRef={(ref) => {console.log(ref)}} />
+const App = (
+  <StyledComponent
+    ref={ref => {
+      console.log(ref)
+    }}
+  />
+)
 ```
 
 #### Custom setup
@@ -473,7 +521,7 @@ You will need [babel-plugin-transform-decorators-legacy](https://github.com/loga
 
 ```javascript
 import React, {Component} from 'react'
-import injectSheet from 'react-jss'
+import withStyles from 'react-jss'
 
 const styles = {
   button: {
@@ -484,7 +532,7 @@ const styles = {
   }
 }
 
-@injectSheet(styles)
+@withStyles(styles)
 class Button extends Component {
   render() {
     const {classes, children} = this.props
@@ -501,42 +549,23 @@ export default Button
 
 ### Injection order
 
-Injection of style tags happens in the same order as the `injectSheet()` invocation.
-Source order specificity is higher the lower style tag is in the tree. Therefore you should call `injectSheet` of components you want to override first.
+Injection of style tags happens in the same order as the `withStyles()` invocation.
+Source order specificity is higher the lower style tag is in the tree. Therefore you should call `withStyles` of components you want to override first.
 
 Example
 
-```js
+```javascript
 import React from 'react'
-import injectSheet from 'react-jss'
+import withStyles from 'react-jss'
 
 const labelStyles = {}
 const buttonStyles = {}
 
 // Will render labelStyles first.
-const Label = injectSheet(labelStyles)(({children}) => <label>{children}</label>)
-const Button = injectSheet(buttonStyles)(() => (
+const Label = withStyles(labelStyles)(({children}) => <label>{children}</label>)
+const Button = withStyles(buttonStyles)(() => (
   <button>
     <Label>my button</Label>
   </button>
-))
-```
-
-### Whitelist injected props
-
-By default "classes" and "theme" are going to be injected into the child component over props. Property `theme` is only passed when you use a function instead of styles object.
-If you want to whitelist some of them, you can now use option `inject`. E.g., if you want to access the StyleSheet instance, you need to pass `{inject: ['sheet']}` and it will be available as `props.sheet`.
-
-All user props passed to the HOC will still be forwarded as usual.
-
-```js
-import React from 'react'
-import injectSheet from 'react-jss'
-
-const styles = {}
-
-// Only `classes` prop will be passed by the ReactJSS HOC now. No `sheet` or `theme`.
-const Button = injectSheet(styles, {inject: ['classes', 'sheet']})(({classes}) => (
-  <button>My button</button>
 ))
 ```
