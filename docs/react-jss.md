@@ -230,7 +230,8 @@ const App = () => (
 
 #### Accessing the theme inside the styled component
 
-Pass the `injectTheme` option to `withStyles` so your theme will be injected into your wrapped component.
+The theme will not be injecting into the wrapped component.
+To inject the theme into the wrapped component, pass the `injectTheme` option to `withStyles`.
 
 ```javascript
 import React from 'react'
