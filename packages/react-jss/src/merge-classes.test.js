@@ -1,8 +1,8 @@
 import expect from 'expect.js'
-import compose from './compose'
+import compose from './merge-classes'
 
-describe('compose', () => {
-  it('should compose two class objects', () => {
+describe('react-jss: merge-classes', () => {
+  it('should merge two class objects', () => {
     const staticClasses = {
       a: 'a',
       b: 'b'

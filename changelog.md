@@ -15,8 +15,12 @@
 - [jss] Add scoped keyframes support ([#346](https://github.com/cssinjs/jss/pull/346))
 - [jss] Function values and function rules support now fallbacks, media queries, nesting, global styles ([#682](https://github.com/cssinjs/jss/pull/682))
 - [react-jss] Remove old lifecycle hooks ([#834](https://github.com/cssinjs/jss/pull/834))
+- [react-jss] Move JssContext to new React Context, deprecate the `sheetOptions` prop on the JssProvider and support a `media` prop ([#924](https://github.com/cssinjs/jss/pull/924))
+- [react-jss] Upgrade to theming version 3 ([#942](https://github.com/cssinjs/jss/pull/942))
+- [react-jss] Add forwardRef support ([#943](https://github.com/cssinjs/jss/pull/943))
+- [react-jss] Extend classes instead of overwriting theme ([#946](https://github.com/cssinjs/jss/pull/946))
 - [react-jss] Add flow types ([#818](https://github.com/cssinjs/jss/pull/818))
-- [jss] Migrate to a monorepo using yarn workspaces and lerna ([#729](https://github.com/cssinjs/jss/pull/729))
+- [all] Migrate to a monorepo using yarn workspaces and lerna ([#729](https://github.com/cssinjs/jss/pull/729))
 - [all] Add TypeScript definitions to all packages ([#889](https://github.com/cssinjs/jss/pull/889))
 - [all] Use smaller version of the warning package ([#953](https://github.com/cssinjs/jss/pull/953))
 
@@ -27,6 +31,7 @@
 - [jss] Rule @keyframes has now scoped name by default, which means that you can access it using `$ref` from the same sheet and generate global one as before using `@global` rule ([#346](https://github.com/cssinjs/jss/pull/346)).
 - [jss][react-jss] Options `createGenerateClassName` and `generateClassName` are renamed to `createGenerateId` and `generateId` because the same function is now used to scope @keyframes rules.
 - [react-jss] Drop support for older React versions, require v16.3 or higher ([#868](https://github.com/cssinjs/jss/pull/868), [#851](https://github.com/cssinjs/jss/pull/851))
+- [react-jss] Remove inject option ([#934](https://github.com/cssinjs/jss/pull/934))
 
 ## Pre v10 changelogs
 
