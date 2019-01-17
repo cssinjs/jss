@@ -5,7 +5,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "lerna run prepare",
+    "build": "yarn workspaces run prepare",
     "prepublish-packages": "yarn check-snapshots && yarn build && yarn typecheck && yarn lint && yarn format:ci && yarn test",
     "publish-packages": "lerna publish",
     "typecheck": "flow check --max-warnings=0",
@@ -15,7 +15,7 @@
     "format:ci": "yarn format -- --list-different",
     "test": "karma start --single-run",
     "test:watch": "karma start",
-    "check-snapshots": "lerna run check-snapshot",
+    "check-snapshots": "yarn workspaces run check-snapshot",
     "posttest": "[ -z \"$TRAVIS\" ] || codecov",
     "codecov": "codecov",
     "bench": "cross-env BENCHMARK=true karma start --single-run",
