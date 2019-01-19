@@ -44,6 +44,6 @@
     "jss-plugin-rule-value-function": "^10.0.0-alpha.8"
   },
   "peerDependencies": {
-    "jss": "10.0.0-alpha.3"
+    "jss": "^10.0.0-alpha.8"
   }
 }
