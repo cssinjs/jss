@@ -5,13 +5,13 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "yarn workspaces run prepare",
+    "build": "lerna run prepare",
     "check:all": "yarn check:flow && yarn check:ts && yarn check:snapshots yarn check:lint",
     "check:flow": "flow check --max-warnings=0",
     "check:ts": "tsc",
-    "check:snapshots": "yarn workspaces run check-snapshot",
+    "check:snapshots": "lerna run check-snapshot",
     "check:lint": "eslint scripts/ packages/ docs/ --ext js,md",
-    "prepublish-packages": "yarn build && yarn check:all && yarn format:ci && yarn test",
+    "prepublish-packages": "yarn check:all && yarn format:ci && yarn test",
     "publish-packages": "lerna publish",
     "format": "prettier \"*.{js,md,json}\" \"{docs,packages,scripts}/**/*.{js,md,json}\" --write",
     "format:ci": "yarn format -- --list-different",
