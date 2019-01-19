@@ -32,7 +32,8 @@
     "prefixer"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/build.js",
+    "build": "node ../../scripts/build.js",
+    "postversion": "yarn prepare",
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "dependencies": {
