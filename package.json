@@ -6,7 +6,7 @@
   ],
   "scripts": {
     "build": "lerna run prepare",
-    "check:all": "yarn check:flow && yarn check:ts && yarn check:snapshots yarn check:lint",
+    "check:all": "yarn check:flow && yarn check:ts && yarn check:snapshots && yarn check:lint",
     "check:flow": "flow check --max-warnings=0",
     "check:ts": "tsc",
     "check:snapshots": "lerna run check-snapshot",
