@@ -34,25 +34,20 @@
     "postversion": "yarn build",
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
-  "devDependencies": {
-    "jss": "^10.0.0-alpha.8"
-  },
-  "peerDependencies": {
-    "jss": "^10.0.0-alpha.8"
-  },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "jss-plugin-camel-case": "^10.0.0-alpha.8",
-    "jss-plugin-compose": "^10.0.0-alpha.8",
-    "jss-plugin-default-unit": "^10.0.0-alpha.8",
-    "jss-plugin-expand": "^10.0.0-alpha.8",
-    "jss-plugin-extend": "^10.0.0-alpha.8",
-    "jss-plugin-global": "^10.0.0-alpha.8",
-    "jss-plugin-nested": "^10.0.0-alpha.8",
-    "jss-plugin-props-sort": "^10.0.0-alpha.8",
-    "jss-plugin-rule-value-function": "^10.0.0-alpha.8",
-    "jss-plugin-rule-value-observable": "^10.0.0-alpha.8",
-    "jss-plugin-template": "^10.0.0-alpha.8",
-    "jss-plugin-vendor-prefixer": "^10.0.0-alpha.8"
+    "jss": "10.0.0-alpha.8",
+    "jss-plugin-camel-case": "10.0.0-alpha.8",
+    "jss-plugin-compose": "10.0.0-alpha.8",
+    "jss-plugin-default-unit": "10.0.0-alpha.8",
+    "jss-plugin-expand": "10.0.0-alpha.8",
+    "jss-plugin-extend": "10.0.0-alpha.8",
+    "jss-plugin-global": "10.0.0-alpha.8",
+    "jss-plugin-nested": "10.0.0-alpha.8",
+    "jss-plugin-props-sort": "10.0.0-alpha.8",
+    "jss-plugin-rule-value-function": "10.0.0-alpha.8",
+    "jss-plugin-rule-value-observable": "10.0.0-alpha.8",
+    "jss-plugin-template": "10.0.0-alpha.8",
+    "jss-plugin-vendor-prefixer": "10.0.0-alpha.8"
   }
 }

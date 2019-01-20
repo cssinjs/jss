@@ -38,13 +38,10 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
-    "jss": "^10.0.0-alpha.8",
-    "jss-plugin-rule-value-observable": "^10.0.0-alpha.8"
-  },
-  "peerDependencies": {
-    "jss": "^10.0.0-alpha.8"
+    "jss-plugin-rule-value-observable": "10.0.0-alpha.8"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0"
+    "@babel/runtime": "^7.0.0",
+    "jss": "10.0.0-alpha.8"
   }
 }

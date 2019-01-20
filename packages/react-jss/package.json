@@ -44,8 +44,8 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "hoist-non-react-statics": "^3.2.0",
-    "jss": "^10.0.0-alpha.8",
-    "jss-preset-default": "^10.0.0-alpha.8",
+    "jss": "10.0.0-alpha.8",
+    "jss-preset-default": "10.0.0-alpha.8",
     "prop-types": "^15.6.0",
     "theming": "^3.0.2"
   },

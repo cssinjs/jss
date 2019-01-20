@@ -38,13 +38,10 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "css-vendor": "^1.1.0"
+    "css-vendor": "^1.1.0",
+    "jss": "10.0.0-alpha.8"
   },
   "devDependencies": {
-    "jss": "^10.0.0-alpha.8",
-    "jss-plugin-rule-value-function": "^10.0.0-alpha.8"
-  },
-  "peerDependencies": {
-    "jss": "^10.0.0-alpha.8"
+    "jss-plugin-rule-value-function": "10.0.0-alpha.8"
   }
 }
