@@ -1,7 +1,7 @@
 {
   "name": "jss-plugin-default-unit",
   "description": "JSS plugin that adds default custom unit to numeric values where needed",
-  "version": "10.0.0-alpha.7",
+  "version": "10.0.0-alpha.8",
   "license": "MIT",
   "homepage": "https://cssinjs.org/jss-default-unit",
   "main": "dist/jss-plugin-default-unit.cjs.js",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:cssinjs/jss.git"
+    "url": "https://github.com/cssinjs/jss"
   },
   "bugs": {
     "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-default-unit]"
@@ -39,10 +39,10 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
-    "jss": "^10.0.0-alpha.7",
-    "jss-plugin-expand": "^10.0.0-alpha.7",
-    "jss-plugin-rule-value-function": "^10.0.0-alpha.7",
-    "jss-plugin-rule-value-observable": "^10.0.0-alpha.7"
+    "jss": "^10.0.0-alpha.8",
+    "jss-plugin-expand": "^10.0.0-alpha.8",
+    "jss-plugin-rule-value-function": "^10.0.0-alpha.8",
+    "jss-plugin-rule-value-observable": "^10.0.0-alpha.8"
   },
   "peerDependencies": {
     "jss": "^10.0.0-alpha.3"

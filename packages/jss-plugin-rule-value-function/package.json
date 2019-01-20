@@ -1,7 +1,7 @@
 {
   "name": "jss-plugin-rule-value-function",
   "description": "JSS plugin for function value and rule syntax",
-  "version": "10.0.0-alpha.7",
+  "version": "10.0.0-alpha.8",
   "license": "MIT",
   "homepage": "https://cssinjs.org/",
   "main": "dist/jss-plugin-rule-value-function.cjs.js",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:cssinjs/jss.git"
+    "url": "https://github.com/cssinjs/jss"
   },
   "bugs": {
     "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-rule-value-function]"
@@ -47,7 +47,7 @@
     "jss": "^10.0.0-alpha.3"
   },
   "devDependencies": {
-    "jss": "^10.0.0-alpha.7"
+    "jss": "^10.0.0-alpha.8"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0"

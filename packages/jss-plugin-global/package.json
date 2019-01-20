@@ -1,7 +1,7 @@
 {
   "name": "jss-plugin-global",
   "description": "Global styles for JSS",
-  "version": "10.0.0-alpha.7",
+  "version": "10.0.0-alpha.8",
   "license": "MIT",
   "homepage": "https://cssinjs.org/jss-global",
   "main": "dist/jss-plugin-global.cjs.js",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:cssinjs/jss.git"
+    "url": "https://github.com/cssinjs/jss"
   },
   "bugs": {
     "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-global]"
@@ -41,8 +41,8 @@
     "jss": "^10.0.0-alpha.3"
   },
   "devDependencies": {
-    "jss": "^10.0.0-alpha.7",
-    "jss-plugin-nested": "^10.0.0-alpha.7"
+    "jss": "^10.0.0-alpha.8",
+    "jss-plugin-nested": "^10.0.0-alpha.8"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0"

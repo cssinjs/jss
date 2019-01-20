@@ -12,12 +12,9 @@ cache:
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 script:
-  - yarn check-snapshots
   - yarn format:ci
   - yarn build
-  - yarn lint
-  - yarn ts-check
-  - yarn typecheck
+  - yarn check:all
   - yarn test
 env:
   global:

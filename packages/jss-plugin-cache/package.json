@@ -1,7 +1,7 @@
 {
   "name": "jss-plugin-cache",
   "description": "JSS plugin that caches the rules and delivers insane performance.",
-  "version": "10.0.0-alpha.7",
+  "version": "10.0.0-alpha.8",
   "license": "MIT",
   "homepage": "https://cssinjs.org/jss-plugin-cache",
   "main": "dist/jss-plugin-cache.cjs.js",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:cssinjs/jss.git"
+    "url": "https://github.com/cssinjs/jss"
   },
   "bugs": {
     "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-cache]"
@@ -38,7 +38,7 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
-    "jss": "^10.0.0-alpha.7"
+    "jss": "^10.0.0-alpha.8"
   },
   "peerDependencies": {
     "jss": "^10.0.0-alpha.3"

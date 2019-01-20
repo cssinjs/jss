@@ -5,21 +5,22 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "lerna run prepare",
-    "prepublish-packages": "yarn check-snapshots && yarn build && yarn typecheck && yarn lint && yarn format:ci && yarn test",
+    "build": "yarn workspaces run prepare",
+    "check:all": "yarn check:flow && yarn check:ts && yarn check:snapshots yarn check:lint",
+    "check:flow": "flow check --max-warnings=0",
+    "check:ts": "tsc",
+    "check:snapshots": "yarn workspaces run check-snapshot",
+    "check:lint": "eslint scripts/ packages/ docs/ --ext js,md",
+    "prepublish-packages": "yarn build && yarn check:all && yarn format:ci && yarn test",
     "publish-packages": "lerna publish",
-    "typecheck": "flow check --max-warnings=0",
-    "ts-check": "tsc",
-    "lint": "eslint scripts/ packages/ docs/ --ext js,md",
-    "format": "prettier \"*.{js,md,json}\" \"{docs,packages,scripts}/**/*.{ts,js,md,json}\" --write",
+    "format": "prettier \"*.{js,md,json}\" \"{docs,packages,scripts}/**/*.{js,md,json}\" --write",
     "format:ci": "yarn format -- --list-different",
     "test": "karma start --single-run",
     "test:watch": "karma start",
-    "check-snapshots": "lerna run check-snapshot",
     "posttest": "[ -z \"$TRAVIS\" ] || codecov",
     "codecov": "codecov",
     "bench": "cross-env BENCHMARK=true karma start --single-run",
-    "pre-commit": "lint-staged && yarn typecheck && yarn ts-check && yarn check-snapshots"
+    "pre-commit": "lint-staged && yarn check:all"
   },
   "lint-staged": {
     "**/*.{js,md,json,ts}": [
