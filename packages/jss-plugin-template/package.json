@@ -33,7 +33,8 @@
     "template"
   ],
   "scripts": {
-    "prepare": "node ../../scripts/build.js",
+    "build": "node ../../scripts/build.js",
+    "postversion": "yarn build",
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
