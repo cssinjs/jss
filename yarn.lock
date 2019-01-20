@@ -1380,14 +1380,6 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.5.6.tgz#9c03d3fed70a8d517c191b7734da2879b50ca26c"
   integrity sha512-ZBFR7TROLVzCkswA3Fmqq+IIJt62/T7aY/Dmz+QkU7CaW2QFqAitCE8Ups7IzmGhcN1YWMBT4Qcoc07jU9hOJQ==
 
-"@types/react@^16.4.18":
-  version "16.4.18"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.4.18.tgz#2e28a2e7f92d3fa7d6a65f2b73275c3e3138a13d"
-  integrity sha512-eFzJKEg6pdeaukVLVZ8Xb79CTl/ysX+ExmOfAAqcFlCCK5TgFDD9kWR0S18sglQ3EmM8U+80enjUqbfnUyqpdA==
-  dependencies:
-    "@types/prop-types" "*"
-    csstype "^2.2.0"
-
 "@types/react@^16.7.20":
   version "16.7.20"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.7.20.tgz#13ae752c012710d0fa800985ca809814b51d3b58"
@@ -9277,12 +9269,11 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-theming@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/theming/-/theming-3.0.2.tgz#a7d26186c980c3e74a67b5610737c434a3787f6d"
-  integrity sha512-2uljQ8Dy1zXA4WOrmJS5Em4LrNbAY+CNkmSHv99VLccepKVLAnJejZlCXMAbXOlIhl1lWlQxg8NGiN3v07W/6Q==
+theming@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/theming/-/theming-3.0.3.tgz#688e26f1a629d75b10fee6c0c5b884a7adaefcc0"
+  integrity sha512-5cE88hlvTNGgxX2j1mktAeByTOJzeVFf4sd8xHD+1GwIy2VTBb/8sMGgESS8Q+rMtjEy24y4fyoqCc8SnjEaBQ==
   dependencies:
-    "@types/react" "^16.4.18"
     hoist-non-react-statics "^3.1.0"
     prop-types "^15.5.8"
     react-display-name "^0.2.4"

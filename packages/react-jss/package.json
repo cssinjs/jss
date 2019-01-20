@@ -47,7 +47,7 @@
     "jss": "10.0.0-alpha.8",
     "jss-preset-default": "10.0.0-alpha.8",
     "prop-types": "^15.6.0",
-    "theming": "^3.0.2"
+    "theming": "^3.0.3"
   },
   "devDependencies": {
     "@types/react": "^16.7.20"
