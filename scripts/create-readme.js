@@ -13,13 +13,13 @@ function getDocsPath() {
   }
 }
 
+const docs = `[${pkg.name}](https://cssinjs.org/${getDocsPath()}?v=v${pkg.version})`
+
 const readmeContent = `# ${pkg.name}
 
 > ${pkg.description}
 
-See our website [${pkg.name}](https://cssinjs.org/${getDocsPath()}?v=v${
-  pkg.version
-}) for more information.
+See our website ${docs} for more information.
 
 ## Install
 
