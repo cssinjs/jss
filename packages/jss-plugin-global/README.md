@@ -9,11 +9,11 @@ See our website [jss-plugin-global](https://cssinjs.org/jss-plugin-global?v=v10.
 Using npm:
 
 ```sh
-npm install --save-dev jss-plugin-global
+npm install jss-plugin-global
 ```
 
 or using yarn:
 
 ```sh
-yarn add jss-plugin-global --dev
+yarn add jss-plugin-global
 ```

@@ -9,11 +9,11 @@ See our website [jss-plugin-rule-value-function](https://cssinjs.org/jss-plugin-
 Using npm:
 
 ```sh
-npm install --save-dev jss-plugin-rule-value-function
+npm install jss-plugin-rule-value-function
 ```
 
 or using yarn:
 
 ```sh
-yarn add jss-plugin-rule-value-function --dev
+yarn add jss-plugin-rule-value-function
 ```

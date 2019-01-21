@@ -9,11 +9,11 @@ See our website [jss-starter-kit](https://cssinjs.org/jss-starter-kit?v=v10.0.0-
 Using npm:
 
 ```sh
-npm install --save-dev jss-starter-kit
+npm install jss-starter-kit
 ```
 
 or using yarn:
 
 ```sh
-yarn add jss-starter-kit --dev
+yarn add jss-starter-kit
 ```

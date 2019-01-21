@@ -9,11 +9,11 @@ See our website [jss-plugin-expand](https://cssinjs.org/jss-plugin-expand?v=v10.
 Using npm:
 
 ```sh
-npm install --save-dev jss-plugin-expand
+npm install jss-plugin-expand
 ```
 
 or using yarn:
 
 ```sh
-yarn add jss-plugin-expand --dev
+yarn add jss-plugin-expand
 ```

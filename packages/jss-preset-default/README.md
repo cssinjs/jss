@@ -9,11 +9,11 @@ See our website [jss-preset-default](https://cssinjs.org/jss-preset-default?v=v1
 Using npm:
 
 ```sh
-npm install --save-dev jss-preset-default
+npm install jss-preset-default
 ```
 
 or using yarn:
 
 ```sh
-yarn add jss-preset-default --dev
+yarn add jss-preset-default
 ```

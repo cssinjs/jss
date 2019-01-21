@@ -9,11 +9,11 @@ See our website [jss-plugin-props-sort](https://cssinjs.org/jss-plugin-props-sor
 Using npm:
 
 ```sh
-npm install --save-dev jss-plugin-props-sort
+npm install jss-plugin-props-sort
 ```
 
 or using yarn:
 
 ```sh
-yarn add jss-plugin-props-sort --dev
+yarn add jss-plugin-props-sort
 ```

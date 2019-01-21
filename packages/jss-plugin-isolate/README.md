@@ -9,11 +9,11 @@ See our website [jss-plugin-isolate](https://cssinjs.org/jss-plugin-isolate?v=v1
 Using npm:
 
 ```sh
-npm install --save-dev jss-plugin-isolate
+npm install jss-plugin-isolate
 ```
 
 or using yarn:
 
 ```sh
-yarn add jss-plugin-isolate --dev
+yarn add jss-plugin-isolate
 ```

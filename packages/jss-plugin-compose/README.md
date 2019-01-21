@@ -9,11 +9,11 @@ See our website [jss-plugin-compose](https://cssinjs.org/jss-plugin-compose?v=v1
 Using npm:
 
 ```sh
-npm install --save-dev jss-plugin-compose
+npm install jss-plugin-compose
 ```
 
 or using yarn:
 
 ```sh
-yarn add jss-plugin-compose --dev
+yarn add jss-plugin-compose
 ```

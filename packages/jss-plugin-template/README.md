@@ -9,11 +9,11 @@ See our website [jss-plugin-template](https://cssinjs.org/jss-plugin-template?v=
 Using npm:
 
 ```sh
-npm install --save-dev jss-plugin-template
+npm install jss-plugin-template
 ```
 
 or using yarn:
 
 ```sh
-yarn add jss-plugin-template --dev
+yarn add jss-plugin-template
 ```

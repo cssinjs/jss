@@ -9,11 +9,11 @@ See our website [react-jss](https://cssinjs.org/react-jss?v=v10.0.0-alpha.8) for
 Using npm:
 
 ```sh
-npm install --save-dev react-jss
+npm install react-jss
 ```
 
 or using yarn:
 
 ```sh
-yarn add react-jss --dev
+yarn add react-jss
 ```

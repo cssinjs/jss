@@ -9,11 +9,11 @@ See our website [jss-plugin-vendor-prefixer](https://cssinjs.org/jss-plugin-vend
 Using npm:
 
 ```sh
-npm install --save-dev jss-plugin-vendor-prefixer
+npm install jss-plugin-vendor-prefixer
 ```
 
 or using yarn:
 
 ```sh
-yarn add jss-plugin-vendor-prefixer --dev
+yarn add jss-plugin-vendor-prefixer
 ```

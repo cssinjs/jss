@@ -9,11 +9,11 @@ See our website [jss-plugin-default-unit](https://cssinjs.org/jss-plugin-default
 Using npm:
 
 ```sh
-npm install --save-dev jss-plugin-default-unit
+npm install jss-plugin-default-unit
 ```
 
 or using yarn:
 
 ```sh
-yarn add jss-plugin-default-unit --dev
+yarn add jss-plugin-default-unit
 ```

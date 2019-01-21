@@ -9,11 +9,11 @@ See our website [jss-plugin-camel-case](https://cssinjs.org/jss-plugin-camel-cas
 Using npm:
 
 ```sh
-npm install --save-dev jss-plugin-camel-case
+npm install jss-plugin-camel-case
 ```
 
 or using yarn:
 
 ```sh
-yarn add jss-plugin-camel-case --dev
+yarn add jss-plugin-camel-case
 ```

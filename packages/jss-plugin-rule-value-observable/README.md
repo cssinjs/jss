@@ -9,11 +9,11 @@ See our website [jss-plugin-rule-value-observable](https://cssinjs.org/jss-plugi
 Using npm:
 
 ```sh
-npm install --save-dev jss-plugin-rule-value-observable
+npm install jss-plugin-rule-value-observable
 ```
 
 or using yarn:
 
 ```sh
-yarn add jss-plugin-rule-value-observable --dev
+yarn add jss-plugin-rule-value-observable
 ```

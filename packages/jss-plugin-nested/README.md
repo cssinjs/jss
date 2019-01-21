@@ -9,11 +9,11 @@ See our website [jss-plugin-nested](https://cssinjs.org/jss-plugin-nested?v=v10.
 Using npm:
 
 ```sh
-npm install --save-dev jss-plugin-nested
+npm install jss-plugin-nested
 ```
 
 or using yarn:
 
 ```sh
-yarn add jss-plugin-nested --dev
+yarn add jss-plugin-nested
 ```

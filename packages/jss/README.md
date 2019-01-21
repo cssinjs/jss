@@ -9,11 +9,11 @@ See our website [jss](https://cssinjs.org/setup?v=v10.0.0-alpha.8) for more info
 Using npm:
 
 ```sh
-npm install --save-dev jss
+npm install jss
 ```
 
 or using yarn:
 
 ```sh
-yarn add jss --dev
+yarn add jss
 ```

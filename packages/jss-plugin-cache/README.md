@@ -9,11 +9,11 @@ See our website [jss-plugin-cache](https://cssinjs.org/jss-plugin-cache?v=v10.0.
 Using npm:
 
 ```sh
-npm install --save-dev jss-plugin-cache
+npm install jss-plugin-cache
 ```
 
 or using yarn:
 
 ```sh
-yarn add jss-plugin-cache --dev
+yarn add jss-plugin-cache
 ```
