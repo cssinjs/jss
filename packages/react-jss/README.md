@@ -1,0 +1,19 @@
+# react-jss
+
+> JSS integration with React
+
+See our website [react-jss](https://cssinjs.org/react-jss?v=v10.0.0-alpha.8) for more information.
+
+## Install
+
+Using npm:
+
+```sh
+npm install --save-dev react-jss
+```
+
+or using yarn:
+
+```sh
+yarn add react-jss --dev
+```
