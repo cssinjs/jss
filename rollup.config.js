@@ -71,6 +71,45 @@ const createFlowBundlePlugin = {
   }
 }
 
+function getDocsPath() {
+  switch (pkg.name) {
+    case 'jss':
+      return 'setup'
+    default:
+      return pkg.name
+  }
+}
+
+const readmeContent = `
+# ${pkg.name}
+
+> ${pkg.description}
+
+See our website [${pkg.name}](https://cssinjs.org/${getDocsPath()}?v=v${
+  pkg.version
+}) for more information.
+
+## Install
+
+Using npm:
+
+\`\`\`sh
+npm install ${pkg.name}
+\`\`\`
+
+or using yarn:
+
+\`\`\`sh
+yarn add ${pkg.name}
+\`\`\`
+`
+
+const createReadmePlugin = {
+  transformBundle() {
+    fs.writeFileSync('./README.md', readmeContent)
+  }
+}
+
 export default [
   {
     input,
@@ -138,6 +177,7 @@ export default [
     output: {file: pkg.module, format: 'esm'},
     external,
     plugins: [
+      createReadmePlugin,
       babel(getBabelOptions({useESModules: true})),
       nodeGlobals({process: false}),
       replace({'process.env.VERSION': JSON.stringify(pkg.version)}),
