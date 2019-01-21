@@ -1,6 +1,6 @@
 {
   "name": "jss-starter-kit",
-  "description": "A bundle to get you started playing with JSS.  Not optimized for production deployment.",
+  "description": "A bundle to get you started playing with JSS. Not optimized for production deployment.",
   "version": "10.0.0-alpha.8",
   "license": "MIT",
   "homepage": "https://cssinjs.org/",

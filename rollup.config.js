@@ -80,8 +80,7 @@ function getDocsPath() {
   }
 }
 
-const readmeContent = `
-# ${pkg.name}
+const readmeContent = `# ${pkg.name}
 
 > ${pkg.description}
 
