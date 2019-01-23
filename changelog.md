@@ -33,6 +33,20 @@
 - [react-jss] Drop support for older React versions, require v16.3 or higher ([#868](https://github.com/cssinjs/jss/pull/868), [#851](https://github.com/cssinjs/jss/pull/851))
 - [react-jss] Remove inject option ([#934](https://github.com/cssinjs/jss/pull/934))
 
+## 10.0.0-alpha.7
+
+## 10.0.0-alpha.6
+
+## 10.0.0-alpha.5
+
+## 10.0.0-alpha.4
+
+## 10.0.0-alpha.3
+
+## 10.0.0-alpha.2
+
+## 10.0.0-alpha.1
+
 ## Pre v10 changelogs
 
 - [jss](https://github.com/cssinjs/jss/blob/55af128963eaa50de906a0d3781e7c1ce04336a2/changelog.md)
