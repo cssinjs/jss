@@ -41,7 +41,7 @@
   ],
   "scripts": {
     "build": "node ../../scripts/build.js",
-    "postversion": "yarn build",
+
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "dependencies": {
