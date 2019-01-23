@@ -26,5 +26,7 @@ fs.readFile(path.resolve(__dirname, '../changelog.md'), 'utf-8', (err, content) 
     })
     .join('\n')
 
-  console.log(changes)
+  const command = `git tag -m ${changes} v${lerna.version}`
+
+  console.log(command)
 })

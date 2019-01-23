@@ -27,6 +27,7 @@
     "---Release Scripts---": "",
     "prerelease": "yarn check:all && yarn format:ci && yarn test",
     "release": "lerna publish",
+    "postrelease": "node ./scripts/create-git-tag && git push --tags",
     "release:patch": "yarn release patch --exact --dist-tag latest",
     "release:minor": "yarn release minor --exact --dist-tag latest",
     "release:major": "yarn release major --exact --dist-tag latest",
