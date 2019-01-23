@@ -1,14 +1,16 @@
 const fs = require('fs')
-const path = require('path')
+const shell = require('shelljs')
 
 const lerna = require('../lerna')
 
-fs.readFile(path.resolve(__dirname, '../changelog.md'), 'utf-8', (err, content) => {
+function getChangelog() {
+  const content = fs.readFileSync('../changelog.md', 'utf-8')
+
   const lines = content.split('\n')
   let hasStarted = false
   let hasFinished = false
 
-  const changes = lines
+  return lines
     .filter(line => {
       if (hasFinished) {
         return false
@@ -25,8 +27,11 @@ fs.readFile(path.resolve(__dirname, '../changelog.md'), 'utf-8', (err, content) 
       return false
     })
     .join('\n')
+}
 
-  const command = `git tag -m ${changes} v${lerna.version}`
+const changelog = getChangelog()
+const {code} = shell.exec(`git tag v${lerna.version} -f -a -m "${changelog}"`)
 
-  console.log(command)
-})
+if (code !== 0) {
+  shell.exit(code)
+}
