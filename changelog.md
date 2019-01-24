@@ -16,8 +16,12 @@
 
 ### Bug fixes
 
-- [all] Fix npm repo urls ()
-- [jss] Declare ES classes as TypeScript classes instead of interfaces
+- [all] Fix npm repo urls ([#983](https://github.com/cssinjs/jss/pull/983))
+- [jss] Declare ES classes as TypeScript classes instead of interfaces ([#971](https://github.com/cssinjs/jss/pull/971))
+
+### Improvements
+
+- [all] Remove warning from production ([#980](https://github.com/cssinjs/jss/pull/980))
 
 ### Breaking changes
 
@@ -47,17 +51,25 @@ Republish of alpha 5 with properly building the code.
 
 ### Bug fixes
 
-- [all] Fix peer dependencies warnings
+- [all] Fix peer dependencies warnings ([#957](https://github.com/cssinjs/jss/pull/957))
 
 ### Improvements
 
 - [all] Use smaller version of the warning package ([#953](https://github.com/cssinjs/jss/pull/953))
-- [all] Improve documentation
-- [internal] Upgrade lerna
+- [all] Improve documentation ([#958](https://github.com/cssinjs/jss/pull/958))
+- [internal] Upgrade lerna ([#962](https://github.com/cssinjs/jss/pull/962))
 
 ## 10.0.0-alpha.3 (2018-12-26)
 
+## Bug fixes
+
+- [all] Fix building packages
+
 ## 10.0.0-alpha.2 (2018-12-26)
+
+## Bug fixes
+
+- [internal] Fix changelog.md
 
 ## 10.0.0-alpha.1 (2018-12-26)
 
