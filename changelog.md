@@ -1,4 +1,62 @@
-## 10.0.0-alpha.8 (2018-12-26)
+## 10.0.0-alpha.9 (unreleased)
+
+### Bug fixes
+
+- [all] Move jss dependencies to normal dependencies instead of peer and dev dependencies ()
+- [internal] Upgrade lerna
+- [react-jss] Move @types/react to dev dependencies
+- [react-jss] Upgrade theming package to v3.0.3
+
+### Improvements
+
+- [internal] Add script for building readme for packages
+
+## 10.0.0-alpha.8 (2018-1-17)
+
+### Bug fixes
+
+- [all] Fix npm repo urls ()
+- [jss] Declare ES classes as TypeScript classes instead of interfaces
+
+### Breaking changes
+
+- [react-jss] Move JssContext to new React Context, deprecate the `sheetOptions` prop on the JssProvider and support a `media` prop ([#924](https://github.com/cssinjs/jss/pull/924))
+- [react-jss] Remove inject option ([#934](https://github.com/cssinjs/jss/pull/934))
+- [react-jss] Extend classes instead of overwriting theme ([#946](https://github.com/cssinjs/jss/pull/946))
+- [react-jss] Add forwardRef support ([#943](https://github.com/cssinjs/jss/pull/943))
+- [react-jss] Upgrade to theming version 3 ([#942](https://github.com/cssinjs/jss/pull/942))
+
+## 10.0.0-alpha.7 (2019-1-3)
+
+### Bug fixes
+
+- [jss] Fix IE 11 injection order
+
+## 10.0.0-alpha.6 (2019-1-1)
+
+## 10.0.0-alpha.5 (2018-12-31)
+
+### Bug fixes
+
+- [jss] Fix warning dependency
+
+## 10.0.0-alpha.4 (2018-12-31)
+
+### Bug fixes
+
+- [all] Fix peer dependencies warnings
+
+### Improvements
+
+- [all] Use smaller version of the warning package ([#953](https://github.com/cssinjs/jss/pull/953))
+- [all] Improve documentation
+- [internal] Upgrade lerna
+
+## 10.0.0-alpha.3 (2018-12-26)
+
+## 10.0.0-alpha.2 (2018-12-26)
+
+## 10.0.0-alpha.1 (2018-12-26)
 
 ### Bug fixes
 
@@ -8,44 +66,24 @@
 - [jss-plugin-syntax-nested] Fix referencing rules inside media queries ([#900](https://github.com/cssinjs/jss/pull/900))
 - [jss-plugin-syntax-global] Fix TypeError: Cannot read property '@global' of undefined ([#905](https://github.com/cssinjs/jss/pull/905))
 
-### New features and improvements
+### Improvements
 
 - [jss-starter-kit] Introduce `jss-starter-kit.bundle.js`, which packages all the other libraries into one import for playgrounds like Codepen. ([#936](https://github.com/cssinjs/jss/pull/936))
 - [jss] Add support for Typed CSSOM values ([#882](https://github.com/cssinjs/jss/pull/882))
-- [jss] Add scoped keyframes support ([#346](https://github.com/cssinjs/jss/pull/346))
 - [jss] Function values and function rules support now fallbacks, media queries, nesting, global styles ([#682](https://github.com/cssinjs/jss/pull/682))
 - [react-jss] Remove old lifecycle hooks ([#834](https://github.com/cssinjs/jss/pull/834))
-- [react-jss] Move JssContext to new React Context, deprecate the `sheetOptions` prop on the JssProvider and support a `media` prop ([#924](https://github.com/cssinjs/jss/pull/924))
-- [react-jss] Upgrade to theming version 3 ([#942](https://github.com/cssinjs/jss/pull/942))
-- [react-jss] Add forwardRef support ([#943](https://github.com/cssinjs/jss/pull/943))
-- [react-jss] Extend classes instead of overwriting theme ([#946](https://github.com/cssinjs/jss/pull/946))
 - [react-jss] Add flow types ([#818](https://github.com/cssinjs/jss/pull/818))
 - [all] Migrate to a monorepo using yarn workspaces and lerna ([#729](https://github.com/cssinjs/jss/pull/729))
 - [all] Add TypeScript definitions to all packages ([#889](https://github.com/cssinjs/jss/pull/889))
-- [all] Use smaller version of the warning package ([#953](https://github.com/cssinjs/jss/pull/953))
 
 ### Breaking changes
 
 - [jss] Observables, function values and rules are now standalone packages, not part of the core. They are still part of the default preset though.
 - [jss] Function values, rules and observables apply plugins by default now, which means they can support all plugin defined syntaxes, but they are also slower by default. To speed them up use `sheet.update(data, {process: false})` for fn values/rules and `jss.use(pluginObservable({process: false}))` when setting up observables plugin. ([#682](https://github.com/cssinjs/jss/pull/682))
 - [jss] Rule @keyframes has now scoped name by default, which means that you can access it using `$ref` from the same sheet and generate global one as before using `@global` rule ([#346](https://github.com/cssinjs/jss/pull/346)).
-- [jss][react-jss] Options `createGenerateClassName` and `generateClassName` are renamed to `createGenerateId` and `generateId` because the same function is now used to scope @keyframes rules.
+- [jss] Add scoped keyframes support ([#346](https://github.com/cssinjs/jss/pull/346))
+- [jss|react-jss] Options `createGenerateClassName` and `generateClassName` are renamed to `createGenerateId` and `generateId` because the same function is now used to scope @keyframes rules.
 - [react-jss] Drop support for older React versions, require v16.3 or higher ([#868](https://github.com/cssinjs/jss/pull/868), [#851](https://github.com/cssinjs/jss/pull/851))
-- [react-jss] Remove inject option ([#934](https://github.com/cssinjs/jss/pull/934))
-
-## 10.0.0-alpha.7
-
-## 10.0.0-alpha.6
-
-## 10.0.0-alpha.5
-
-## 10.0.0-alpha.4
-
-## 10.0.0-alpha.3
-
-## 10.0.0-alpha.2
-
-## 10.0.0-alpha.1
 
 ## Pre v10 changelogs
 
