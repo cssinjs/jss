@@ -25,7 +25,7 @@
     "pre-commit": "lint-staged && yarn check:all",
 
     "---Release Scripts---": "",
-    "version": "yarn build && yarn test",
+    "version": "yarn build && yarn test && node ./scripts/update-changelog && node ./scripts/add-git-files",
     "prerelease": "yarn check:all && yarn format:ci",
     "release": "lerna publish --no-push --exact",
     "postrelease": "node ./scripts/create-git-tag && git push --tags",

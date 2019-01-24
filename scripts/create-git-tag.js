@@ -2,9 +2,10 @@ const fs = require('fs')
 const shell = require('shelljs')
 
 const lerna = require('../lerna')
+const {CHANGELOG_FILENAME} = require('./constants')
 
 function getChangelog() {
-  const content = fs.readFileSync('../changelog.md', 'utf-8')
+  const content = fs.readFileSync(`../${CHANGELOG_FILENAME}`, 'utf-8')
 
   const lines = content.split('\n')
   let hasStarted = false

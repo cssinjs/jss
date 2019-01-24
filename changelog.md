@@ -2,14 +2,15 @@
 
 ### Bug fixes
 
-- [all] Move jss dependencies to normal dependencies instead of peer and dev dependencies ()
-- [internal] Upgrade lerna
-- [react-jss] Move @types/react to dev dependencies
-- [react-jss] Upgrade theming package to v3.0.3
+- [all] Move jss dependencies to normal dependencies instead of peer and dev dependencies ([#993](https://github.com/cssinjs/jss/pull/993))
+- [internal] Upgrade lerna ([#992](https://github.com/cssinjs/jss/pull/992))
+- [react-jss] Move @types/react to dev dependencies ([#990](https://github.com/cssinjs/jss/pull/990))
+- [react-jss] Upgrade theming package to v3.0.3 ([#994](https://github.com/cssinjs/jss/pull/994))
+- [docs] Fix demo links for jss-plugin-extend ([#992](https://github.com/cssinjs/jss/pull/992))
 
 ### Improvements
 
-- [internal] Add script for building readme for packages
+- [internal] Add script for building readme for packages ([#996](https://github.com/cssinjs/jss/pull/996))
 
 ## 10.0.0-alpha.8 (2018-1-17)
 
@@ -33,6 +34,8 @@
 - [jss] Fix IE 11 injection order
 
 ## 10.0.0-alpha.6 (2019-1-1)
+
+Republish of alpha 5 with properly building the code.
 
 ## 10.0.0-alpha.5 (2018-12-31)
 

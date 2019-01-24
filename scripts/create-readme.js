@@ -1,6 +1,7 @@
 const fs = require('fs')
 
 const getPkg = require('./get-package-json')
+const {README_FILENAME} = require('./constants')
 
 const pkg = getPkg()
 
@@ -37,7 +38,7 @@ yarn add ${pkg.name}
 `
 
 function createReadme() {
-  fs.writeFileSync('./README.md', readmeContent)
+  fs.writeFileSync(README_FILENAME, readmeContent)
 }
 
 module.exports = createReadme
