@@ -1,7 +1,7 @@
 {
   "name": "jss-plugin-expand",
   "description": "JSS plugin that gives you a better syntax than CSS.",
-  "version": "10.0.0-alpha.8",
+  "version": "10.0.0-alpha.9",
   "license": "MIT",
   "homepage": "https://cssinjs.org/jss-expand",
   "main": "dist/jss-plugin-expand.cjs.js",
@@ -37,10 +37,10 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
-    "jss-plugin-rule-value-observable": "10.0.0-alpha.8"
+    "jss-plugin-rule-value-observable": "10.0.0-alpha.9"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "jss": "10.0.0-alpha.8"
+    "jss": "10.0.0-alpha.9"
   }
 }
