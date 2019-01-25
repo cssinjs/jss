@@ -20,4 +20,4 @@ const lines = content
   })
   .join('\n')
 
-fs.writeFile(changelogPath, lines, 'utf-8')
+fs.writeFileSync(changelogPath, lines, 'utf-8')
