@@ -1,9 +1,10 @@
 const fs = require('fs')
-
+const Path = require('path')
 const lerna = require('../lerna')
 const {CHANGELOG_FILENAME} = require('./constants')
 
-const content = fs.readFileSync(`../${CHANGELOG_FILENAME}`, 'utf-8')
+const changelogPath = Path.join(process.cwd(), CHANGELOG_FILENAME)
+const content = fs.readFileSync(changelogPath, 'utf-8')
 
 const lines = content
   .split('\n')
@@ -20,4 +21,4 @@ const lines = content
   })
   .join('\n')
 
-fs.writeFile(`../${CHANGELOG_FILENAME}`, lines, 'utf-8')
+fs.writeFile(changelogPath, lines, 'utf-8')
