@@ -1,7 +1,7 @@
 {
   "name": "jss-plugin-global",
   "description": "Global styles for JSS",
-  "version": "10.0.0-alpha.9",
+  "version": "10.0.0",
   "license": "MIT",
   "homepage": "https://cssinjs.org/jss-global",
   "main": "dist/jss-plugin-global.cjs.js",
@@ -38,10 +38,10 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
-    "jss-plugin-nested": "10.0.0-alpha.9"
+    "jss-plugin-nested": "10.0.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "jss": "10.0.0-alpha.9"
+    "jss": "10.0.0"
   }
 }
