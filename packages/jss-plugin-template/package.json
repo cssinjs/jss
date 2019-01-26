@@ -1,7 +1,7 @@
 {
   "name": "jss-plugin-template",
   "description": "JSS plugin enables string templates",
-  "version": "10.0.0-alpha.8",
+  "version": "10.0.0-alpha.9",
   "license": "MIT",
   "homepage": "https://cssinjs.org/jss-template",
   "main": "dist/jss-plugin-template.cjs.js",
@@ -34,12 +34,11 @@
   ],
   "scripts": {
     "build": "node ../../scripts/build.js",
-    "postversion": "yarn build",
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "jss": "10.0.0-alpha.8",
+    "jss": "10.0.0-alpha.9",
     "tiny-warning": "^1.0.2"
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "jss",
   "description": "A lib for generating Style Sheets with JavaScript.",
-  "version": "10.0.0-alpha.8",
+  "version": "10.0.0-alpha.9",
   "license": "MIT",
   "homepage": "https://cssinjs.org/",
   "main": "dist/jss.cjs.js",
@@ -37,7 +37,6 @@
   ],
   "scripts": {
     "build": "node ../../scripts/build.js",
-    "postversion": "yarn build",
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "dependencies": {
