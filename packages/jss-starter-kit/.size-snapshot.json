@@ -1,23 +1,23 @@
 {
   "dist/jss-starter-kit.js": {
-    "bundled": 81048,
-    "minified": 32915,
-    "gzipped": 9378
+    "bundled": 81472,
+    "minified": 33168,
+    "gzipped": 9474
   },
   "dist/jss-starter-kit.min.js": {
-    "bundled": 80294,
-    "minified": 32437,
-    "gzipped": 9166
+    "bundled": 80718,
+    "minified": 32710,
+    "gzipped": 9262
   },
   "dist/jss-starter-kit.cjs.js": {
-    "bundled": 2341,
-    "minified": 2127,
-    "gzipped": 689
+    "bundled": 2762,
+    "minified": 2513,
+    "gzipped": 795
   },
   "dist/jss-starter-kit.esm.js": {
-    "bundled": 1385,
-    "minified": 1273,
-    "gzipped": 462,
+    "bundled": 1479,
+    "minified": 1362,
+    "gzipped": 517,
     "treeshaked": {
       "rollup": {
         "code": 792,
