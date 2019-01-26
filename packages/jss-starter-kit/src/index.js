@@ -8,9 +8,25 @@ If you'd like to use JSS in production, try including the "jss" and "jss-preset-
 
 jss.setup(preset())
 
-export {jss, preset}
+export {
+  jss,
+  preset,
+}
 
-export * as reactJss from 'react-jss'
+export {
+  SheetsRegistry,
+  SheetsManager,
+  createGenerateId,
+} from 'jss'
+
+export {
+  withTheme,
+  createTheming,
+  default as withStyles,
+  ThemeProvider,
+  JssProvider,
+} from 'react-jss'
+
 export {default as functions} from 'jss-plugin-rule-value-function'
 export {default as observable} from 'jss-plugin-rule-value-observable'
 export {default as template} from 'jss-plugin-template'
