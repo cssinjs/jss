@@ -1,7 +1,7 @@
 {
   "name": "jss-starter-kit",
   "description": "A bundle to get you started playing with JSS. Not optimized for production deployment.",
-  "version": "10.0.0",
+  "version": "10.0.0-alpha.9",
   "license": "MIT",
   "homepage": "https://cssinjs.org/",
   "main": "dist/jss-starter-kit.cjs.js",
@@ -40,9 +40,9 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "dependencies": {
-    "jss": "10.0.0",
-    "jss-plugin-cache": "10.0.0",
-    "jss-plugin-isolate": "10.0.0",
-    "jss-preset-default": "10.0.0"
+    "jss": "10.0.0-alpha.9",
+    "jss-plugin-cache": "10.0.0-alpha.9",
+    "jss-plugin-isolate": "10.0.0-alpha.9",
+    "jss-preset-default": "10.0.0-alpha.9"
   }
 }
