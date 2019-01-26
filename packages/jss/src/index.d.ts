@@ -213,7 +213,6 @@ export function create(options?: Partial<JssOptions>): Jss
 export function createGenerateId(): GenerateId
 export function createRule(name: string, decl: JssStyle, options: RuleOptions): Rule
 export function toCssValue(value: JssValue, ignoreImportant: boolean): string
-export function getDynamicStyles(styles: Styles): Styles | null
 declare const jss: Jss
 
 export default jss

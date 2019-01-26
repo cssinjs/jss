@@ -1,7 +1,8 @@
 // @flow
 import React, {Component, type ComponentType, type Node} from 'react'
 import hoistNonReactStatics from 'hoist-non-react-statics'
-import {getDynamicStyles, SheetsManager, type StyleSheet} from 'jss'
+import {SheetsManager, type StyleSheet} from 'jss'
+import {getFunctionStyles} from 'jss-plugin-rule-value-function'
 import {ThemeContext} from 'theming'
 
 import type {HOCProps, Options, Styles, InnerProps} from './types'
@@ -145,7 +146,7 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
         })
         this.manager.add(theme, staticSheet)
         // $FlowFixMe Cannot add random fields to instance of class StyleSheet
-        staticSheet[dynamicStylesNS] = getDynamicStyles(themedStyles)
+        staticSheet[dynamicStylesNS] = getFunctionStyles(themedStyles)
 
         return staticSheet
       }

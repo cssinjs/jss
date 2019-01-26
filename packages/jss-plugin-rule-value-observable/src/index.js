@@ -10,9 +10,33 @@ import {
 } from 'jss'
 import type {Observable} from './types'
 
-const isObservable = value => value && value[$$observable] && value === value[$$observable]()
+const isObservable = (value: any) => value && value[$$observable] && value === value[$$observable]()
 
 export type Options = UpdateOptions
+
+function getObservableStyles(styles: Object): Object | null {
+  let to = null
+
+  for (const key in styles) {
+    const value = styles[key]
+    const type = typeof value
+
+    if (isObservable(value)) {
+      if (!to) to = {}
+      to[key] = value
+    } else if (type === 'object' && value !== null && !Array.isArray(value)) {
+      const extracted = getObservableStyles(value)
+      if (extracted) {
+        if (!to) to = {}
+        to[key] = extracted
+      }
+    }
+  }
+
+  return to
+}
+
+export {isObservable, getObservableStyles}
 
 export default function observablePlugin(updateOptions?: Options) {
   return {

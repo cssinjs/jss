@@ -56,11 +56,6 @@ export type {
 export const hasCSSTOMSupport = typeof CSS !== 'undefined' && CSS && 'number' in CSS
 
 /**
- * Extracts a styles object with only rules that contain function values.
- */
-export {default as getDynamicStyles} from './utils/getDynamicStyles'
-
-/**
  * Converts JSS array value to a CSS string.
  */
 export {default as toCssValue} from './utils/toCssValue'
