@@ -42,7 +42,7 @@ input('Github Username:')
   .then(auth =>
     axios.request({
       method: 'POST',
-      url: `/repos/HenriBeck/jss/releases`,
+      url: `/repos/cssinjs/jss/releases`,
       baseURL: `https://api.github.com`,
       data: {
         tag_name: `v${lerna.version}`,
