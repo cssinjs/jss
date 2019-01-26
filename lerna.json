@@ -4,8 +4,7 @@
   "version": "10.0.0-alpha.9",
   "command": {
     "publish": {
-      "allowBranch": ["master"],
-      "forcePublish": "*"
+      "allowBranch": ["master"]
     }
   }
 }
