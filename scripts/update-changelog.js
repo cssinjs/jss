@@ -1,5 +1,7 @@
 const fs = require('fs')
 const path = require('path')
+const log = require('npmlog/log')
+
 const lerna = require('../lerna')
 const {CHANGELOG_FILENAME} = require('./constants')
 
@@ -20,4 +22,11 @@ const lines = content
   })
   .join('\n')
 
-fs.writeFileSync(changelogPath, lines, 'utf-8')
+fs.writeFile(changelogPath, lines, 'utf-8', err => {
+  if (err) {
+    log.error('jss', 'Error while updating changelog')
+    process.exit(1)
+  } else {
+    log.info('jss', 'Successfully updated changelog')
+  }
+})
