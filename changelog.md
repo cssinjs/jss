@@ -1,3 +1,9 @@
+## Next
+
+### Improvements
+
+- [jss|jss-plugin-rule-value-function|jss-plugin-rule-value-observable] Split `getDynamicStyles` and move it out of `jss` ([#1000](https://github.com/cssinjs/jss/pull/1000))
+
 ## 10.0.0-alpha.9 (2019-1-25)
 
 ### Bug fixes
