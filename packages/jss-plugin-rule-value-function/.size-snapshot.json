@@ -1,30 +1,30 @@
 {
   "dist/jss-plugin-rule-value-function.js": {
-    "bundled": 4674,
-    "minified": 1379,
-    "gzipped": 651
+    "bundled": 2852,
+    "minified": 987,
+    "gzipped": 545
   },
   "dist/jss-plugin-rule-value-function.min.js": {
-    "bundled": 4674,
-    "minified": 1379,
-    "gzipped": 651
+    "bundled": 2852,
+    "minified": 987,
+    "gzipped": 545
   },
   "dist/jss-plugin-rule-value-function.cjs.js": {
-    "bundled": 2317,
-    "minified": 1021,
-    "gzipped": 510
+    "bundled": 2407,
+    "minified": 988,
+    "gzipped": 508
   },
   "dist/jss-plugin-rule-value-function.esm.js": {
-    "bundled": 2178,
-    "minified": 896,
-    "gzipped": 455,
+    "bundled": 2312,
+    "minified": 906,
+    "gzipped": 462,
     "treeshaked": {
       "rollup": {
-        "code": 53,
-        "import_statements": 53
+        "code": 12,
+        "import_statements": 12
       },
       "webpack": {
-        "code": 1091
+        "code": 1017
       }
     }
   }

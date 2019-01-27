@@ -8,7 +8,6 @@ import {
   type StyleRule,
   type StyleSheet
 } from 'jss'
-import {isObservable} from 'jss-plugin-rule-value-observable'
 
 // A symbol replacement.
 let now = Date.now()
@@ -17,26 +16,37 @@ const fnRuleNs = `fnStyle${++now}`
 
 type StyleRuleWithRuleFunction = StyleRule & {[key: string]: Function}
 
+const plainObjectConstrurctor = {}.constructor
+
 function getFunctionStyles(styles: Object): Object | null {
   let to = null
 
   for (const key in styles) {
     const value = styles[key]
-    const type = typeof value
 
-    if (isObservable(value)) {
-      continue
-    }
-
-    if (type === 'function') {
-      if (!to) to = {}
-      to[key] = value
-    } else if (type === 'object' && value !== null && !Array.isArray(value)) {
-      const extracted = getFunctionStyles(value)
-      if (extracted) {
+    switch (typeof value) {
+      case 'function': {
         if (!to) to = {}
-        to[key] = extracted
+        to[key] = value
+        break
       }
+      case 'object': {
+        if (
+          value == null ||
+          Array.isArray(value) ||
+          value.constructor !== plainObjectConstrurctor
+        ) {
+          continue
+        }
+        const extracted = getFunctionStyles(value)
+        if (extracted) {
+          if (!to) to = {}
+          to[key] = extracted
+        }
+        break
+      }
+      default:
+        break
     }
   }
 

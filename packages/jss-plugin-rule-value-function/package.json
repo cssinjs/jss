@@ -45,7 +45,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "jss": "10.0.0-alpha.9",
-    "jss-plugin-rule-value-observable": "10.0.0-alpha.9"
+    "jss": "10.0.0-alpha.9"
   }
 }
