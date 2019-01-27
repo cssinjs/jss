@@ -21,13 +21,13 @@
     "version": "yarn build && yarn test && node ./scripts/update-changelog && node ./scripts/add-git-files",
     "prerelease": "yarn check:all && yarn format:ci",
     "release": "lerna publish --exact --force-publish * --allow-branch master",
+    "postrelease": "node ./scripts/create-github-release",
     "release:patch": "yarn release patch --dist-tag latest",
     "release:minor": "yarn release minor --dist-tag latest",
     "release:major": "yarn release major --dist-tag latest",
     "release:alpha:patch": "yarn release --dist-tag next",
     "release:alpha:minor": "yarn release --dist-tag next",
     "release:alpha:major": "yarn release --dist-tag next",
-    "create-github-release": "node ./scripts/create-github-release"
   },
   "lint-staged": {
     "**/*.{js,md,json,ts}": [
