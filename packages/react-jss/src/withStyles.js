@@ -3,6 +3,7 @@ import React, {Component, type ComponentType, type Node} from 'react'
 import hoistNonReactStatics from 'hoist-non-react-statics'
 import {SheetsManager, type StyleSheet} from 'jss'
 import {getFunctionStyles} from 'jss-plugin-rule-value-function'
+import {getObservableStyles} from 'jss-plugin-rule-value-observable'
 import {ThemeContext} from 'theming'
 
 import type {HOCProps, Options, Styles, InnerProps} from './types'
@@ -142,7 +143,8 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
           ...contextSheetOptions,
           index,
           meta: `${displayName}, ${isThemingEnabled ? 'Themed' : 'Unthemed'}, Static`,
-          classNamePrefix: this.classNamePrefix
+          classNamePrefix: this.classNamePrefix,
+          link: getObservableStyles(themedStyles) !== null
         })
         this.manager.add(theme, staticSheet)
         // $FlowFixMe Cannot add random fields to instance of class StyleSheet
