@@ -27,7 +27,7 @@
     "release:major": "yarn release major --dist-tag latest",
     "release:alpha:patch": "yarn release --dist-tag next",
     "release:alpha:minor": "yarn release --dist-tag next",
-    "release:alpha:major": "yarn release --dist-tag next",
+    "release:alpha:major": "yarn release --dist-tag next"
   },
   "lint-staged": {
     "**/*.{js,md,json,ts}": [
