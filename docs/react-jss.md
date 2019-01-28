@@ -569,3 +569,36 @@ const Button = withStyles(buttonStyles)(() => (
   </button>
 ))
 ```
+
+### Usage with TypeScript
+
+React JSS includes first class support for TypeScript. React JSS provides
+ a `WithStyles` type which adds types for all of the injected props.
+  To use it, simply extend your existing props interface with
+   `WithStyles<typeof styles>`, where `styles` is your styles object.
+
+ Example
+
+ ```typescript
+ import * as React from 'react'
+ import withStyles, { WithStyles } from 'react-jss'
+
+ const styles = {
+   button: {
+       backgroundColor: 'yellow'
+     },
+   label: {
+     fontWeight: 'bold'
+   }
+ };
+
+ interface IProps extends WithStyles<typeof styles> {
+   children: React.ReactNode
+ }
+
+ const Button: React.FunctionComponent = ({classes, children}) => (
+   <button className={classes.button}>
+     <span className={classes.label}>{children}</span>
+   </button>
+ )
+ ```
