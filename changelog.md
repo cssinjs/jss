@@ -1,3 +1,9 @@
+## Next
+
+### Improvements
+
+- [jss] Simplify cloneStyle function ([#1003](https://github.com/cssinjs/jss/pull/1003))
+
 ## 10.0.0-alpha.9 (2019-1-25)
 
 ### Bug fixes
