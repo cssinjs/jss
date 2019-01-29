@@ -1,5 +1,9 @@
 ## Next
 
+### Improvements
+
+- [internal] Improve publish script for creating github release ([#999](https://github.com/cssinjs/jss/pull/999))
+
 ### Bug fixes
 
 - [jss-starter-kit] Fix react-jss exports and add missing jss exports ([#1001](https://github.com/cssinjs/jss/pull/1001))
