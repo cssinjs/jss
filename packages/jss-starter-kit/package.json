@@ -43,6 +43,7 @@
     "jss": "10.0.0-alpha.9",
     "jss-plugin-cache": "10.0.0-alpha.9",
     "jss-plugin-isolate": "10.0.0-alpha.9",
-    "jss-preset-default": "10.0.0-alpha.9"
+    "jss-preset-default": "10.0.0-alpha.9",
+    "react-jss": "10.0.0-alpha.9"
   }
 }

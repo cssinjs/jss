@@ -3,6 +3,11 @@
 ### Improvements
 
 - [jss] Simplify cloneStyle function ([#1003](https://github.com/cssinjs/jss/pull/1003))
+- [internal] Improve publish script for creating github release ([#999](https://github.com/cssinjs/jss/pull/999))
+
+### Bug fixes
+
+- [jss-starter-kit] Fix react-jss exports and add missing jss exports ([#1001](https://github.com/cssinjs/jss/pull/1001))
 
 ## 10.0.0-alpha.9 (2019-1-25)
 
