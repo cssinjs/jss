@@ -13,8 +13,8 @@ after_success:
   - bash <(curl -s https://codecov.io/bash)
 script:
   - yarn format:ci
-  - yarn build
   - yarn check:all
+  - yarn build
   - yarn test
 env:
   global:
