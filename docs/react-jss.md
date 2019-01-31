@@ -24,6 +24,7 @@ Benefits compared to the lower level core:
   - [The inner ref](#the-inner-ref)
   - [Custom setup](#custom-setup)
   - [Decorators](#decorators)
+  - [Usage with TypeScript](#usage-with-typescript)
 - [Contributing](#contributing)
 - [License](#license)
 
