@@ -596,9 +596,11 @@ React JSS includes first class support for TypeScript. React JSS provides
    children: React.ReactNode
  }
 
- const Button: React.FunctionComponent = ({classes, children}) => (
+ const Button: React.FunctionComponent<IProps> = ({classes, children}) => (
    <button className={classes.button}>
      <span className={classes.label}>{children}</span>
    </button>
  )
+
+ export default withStyles(styles)(Button);
  ```
