@@ -3,6 +3,7 @@ import React, {Component, type ComponentType, type Node} from 'react'
 import hoistNonReactStatics from 'hoist-non-react-statics'
 import {getDynamicStyles, SheetsManager, type StyleSheet} from 'jss'
 import {ThemeContext} from 'theming'
+import warning from 'tiny-warning'
 
 import type {HOCProps, Options, Styles, InnerProps} from './types'
 import getDisplayName from './getDisplayName'
@@ -35,10 +36,15 @@ let managersCounter = 0
 
 const NoRenderer = (props: {children?: Node}) => props.children || null
 
-const getStyles = <Theme: {}>(styles: Styles<Theme>, theme: Theme) => {
+const getStyles = <Theme: {}>(styles: Styles<Theme>, theme: Theme, displayName: string) => {
   if (typeof styles !== 'function') {
     return styles
   }
+  warning(
+    styles.length !== 0,
+    `[JSS] <${displayName} />'s styles function doesn't rely on a theme. We recommend to rewrite it to plain object. Read more: https://github.com/cssinjs/jss/blob/master/docs/react-jss.md#basic`
+  )
+
   return styles(theme)
 }
 
@@ -134,7 +140,7 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
           return staticSheet
         }
 
-        const themedStyles = getStyles(styles, theme)
+        const themedStyles = getStyles(styles, theme, displayName)
         const contextSheetOptions = this.props.jssContext.sheetOptions
         staticSheet = this.jss.createStyleSheet(themedStyles, {
           ...sheetOptions,
