@@ -280,7 +280,7 @@ describe('React-JSS: withStyles', () => {
       expect(console.warn.called).to.be(false)
     })
 
-    it('doesnt warn if themed styles dont use theme in _prod_', () => {
+    it('doesnt warn if themed styles dont use theme in production', () => {
       process.env.NODE_ENV = 'production'
       function DisplayNameTest() {
         return null
