@@ -1,23 +1,23 @@
 {
   "dist/jss-plugin-camel-case.js": {
-    "bundled": 2277,
-    "minified": 747,
-    "gzipped": 433
+    "bundled": 2403,
+    "minified": 800,
+    "gzipped": 458
   },
   "dist/jss-plugin-camel-case.min.js": {
-    "bundled": 2277,
-    "minified": 747,
-    "gzipped": 433
+    "bundled": 2403,
+    "minified": 800,
+    "gzipped": 458
   },
   "dist/jss-plugin-camel-case.cjs.js": {
-    "bundled": 1593,
-    "minified": 682,
-    "gzipped": 371
+    "bundled": 1703,
+    "minified": 735,
+    "gzipped": 393
   },
   "dist/jss-plugin-camel-case.esm.js": {
-    "bundled": 1375,
-    "minified": 510,
-    "gzipped": 283,
+    "bundled": 1485,
+    "minified": 563,
+    "gzipped": 307,
     "treeshaked": {
       "rollup": {
         "code": 29,

@@ -12,7 +12,9 @@ function convertCase(style) {
   const converted = {}
 
   for (const prop in style) {
-    converted[hyphenate(prop)] = style[prop]
+    const key = prop.startsWith('--') ? prop : hyphenate(prop);
+
+    converted[key] = style[prop]
   }
 
   if (style.fallbacks) {
@@ -42,6 +44,10 @@ export default function camelCase(): Plugin {
   }
 
   function onChangeValue(value, prop, rule) {
+    if (prop.startsWith('--')) {
+      return value;
+    }
+
     const hyphenatedProp = hyphenate(prop)
 
     // There was no camel case in place
