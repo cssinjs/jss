@@ -279,18 +279,5 @@ describe('React-JSS: withStyles', () => {
 
       expect(console.warn.called).to.be(false)
     })
-
-    it('doesnt warn if themed styles dont use theme in production', () => {
-      process.env.NODE_ENV = 'production'
-      function DisplayNameTest() {
-        return null
-      }
-      const MyComponent = withStyles(() => ({}))(DisplayNameTest) // eslint-disable-line no-unused-vars
-
-      TestRenderer.create(<MyComponent />)
-
-      expect(console.warn.called).to.be(false)
-      process.env.NODE_ENV = 'development'
-    })
   })
 })

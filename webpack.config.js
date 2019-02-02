@@ -30,11 +30,7 @@ module.exports = {
         exclude: /node_modules/,
         options: {
           presets: ['@babel/react', '@babel/flow', '@babel/env'],
-          plugins: [
-            '@babel/proposal-class-properties',
-            '@babel/proposal-object-rest-spread',
-            'dev-expression'
-          ]
+          plugins: ['@babel/proposal-class-properties', '@babel/proposal-object-rest-spread']
         }
       }
     ]
