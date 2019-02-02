@@ -9,6 +9,7 @@
 ### Bug fixes
 
 - [jss-starter-kit] Fix react-jss exports and add missing jss exports ([#1001](https://github.com/cssinjs/jss/pull/1001))
+- [jss-plugin-camel-case] Fix hyphenating css variables ([#1017](https://github.com/cssinjs/jss/pull/1017))
 
 ## 10.0.0-alpha.9 (2019-1-25)
 
