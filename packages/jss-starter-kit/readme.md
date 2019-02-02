@@ -1,5 +1,12 @@
 # jss-starter-kit
 
+[![Version](https://img.shields.io/npm/v/jss-starter-kit.svg?style=flat)](https://npmjs.org/package/jss-starter-kit)
+[![License](https://img.shields.io/npm/l/jss-starter-kit.svg?style=flat)](https://github.com/cssinjs/jss/blob/master/LICENSE)
+[![Downlodas](https://img.shields.io/npm/dm/jss-starter-kit.svg?style=flat)](https://npmjs.org/package/jss-starter-kit)
+[![Size](https://img.shields.io/bundlephobia/minzip/jss-starter-kit.svg?style=flat)](https://npmjs.org/package/jss-starter-kit)
+[![Dependencies](https://img.shields.io/david/cssinjs/jss.svg?path=packages%2Fjss-starter-kit&style=flat)](https://npmjs.org/package/jss-starter-kit)
+[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
+
 > A bundle to get you started playing with JSS. Not optimized for production deployment.
 
 See our website [jss-starter-kit](https://cssinjs.org/jss-starter-kit?v=v10.0.0-alpha.9) for more information.

@@ -1,7 +1,18 @@
+# JSS
+
+[![Version](https://img.shields.io/npm/v/jss.svg?style=flat)](https://npmjs.org/packages/jss)
+[![License](https://img.shields.io/npm/l/jss.svg?style=flat)](https://github.com/cssinjs/jss/blob/master/LICENSE)
+[![Downlodas](https://img.shields.io/npm/dm/jss.svg?style=flat)](https://npmjs.org/packages/jss)
+[![Size](https://img.shields.io/bundlephobia/minzip/jss.svg?style=flat)](https://npmjs.org/packages/jss)
+[![Contributors](https://img.shields.io/github/contributors/cssinjs/jss.svg?style=flat)](https://github.com/cssinjs/jss/graphs/contributors)
 [![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 [![Build Status](https://travis-ci.org/cssinjs/jss.svg?branch=master)](https://travis-ci.org/cssinjs/jss)
 [![OpenCollective](https://opencollective.com/jss/backers/badge.svg)](#backers)
 [![OpenCollective](https://opencollective.com/jss/sponsors/badge.svg)](#sponsors)
+
+A lib for generating Style Sheets with JavaScript.
+
+For documentation see our [docs](https://cssinjs.org).
 
 ## Backers
 
