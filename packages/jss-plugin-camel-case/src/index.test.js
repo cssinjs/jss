@@ -161,48 +161,4 @@ describe('jss-plugin-camel-case', () => {
       `)
     })
   })
-
-  describe('css variables', () => {
-    let localJss
-    beforeEach(() => {
-      localJss = create(settings).use(functionPlugin(), camelCase())
-    })
-
-    it('with static css variable', () => {
-      const sheet = localJss.createStyleSheet({
-        a: {
-          '--fontSize': 12,
-        }
-      })
-      expect(sheet.toString()).to.be(stripIndent`
-        .a-id {
-          --fontSize: 12;
-        }
-      `)
-    })
-
-    it('with dynamic css variable', () => {
-      const sheet = localJss.createStyleSheet({
-        a: {
-          '--fontSize': size => size,
-        }
-      })
-
-      sheet.update(12);
-
-      expect(sheet.toString()).to.be(stripIndent`
-        .a-id {
-          --fontSize: 12;
-        }
-      `)
-
-      sheet.update(16);
-
-      expect(sheet.toString()).to.be(stripIndent`
-        .a-id {
-          --fontSize: 16;
-        }
-      `)
-    })
-  })
 })
