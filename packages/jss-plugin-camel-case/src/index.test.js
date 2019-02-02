@@ -171,7 +171,7 @@ describe('jss-plugin-camel-case', () => {
     it('with static css variable', () => {
       const sheet = localJss.createStyleSheet({
         a: {
-          '--fontSize': 12,
+          '--fontSize': 12
         }
       })
       expect(sheet.toString()).to.be(stripIndent`
@@ -184,11 +184,11 @@ describe('jss-plugin-camel-case', () => {
     it('with dynamic css variable', () => {
       const sheet = localJss.createStyleSheet({
         a: {
-          '--fontSize': size => size,
+          '--fontSize': size => size
         }
       })
 
-      sheet.update(12);
+      sheet.update(12)
 
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
@@ -196,7 +196,7 @@ describe('jss-plugin-camel-case', () => {
         }
       `)
 
-      sheet.update(16);
+      sheet.update(16)
 
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
