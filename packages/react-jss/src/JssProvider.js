@@ -46,6 +46,7 @@ export default class JssProvider extends Component<Props> {
           // We reset managers because we have to regenerate all sheets for the new request.
           this.managers = {}
           this.registry = registry
+          this.generateId = undefined
         }
       }
 
