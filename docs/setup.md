@@ -10,7 +10,9 @@ Alternatively, you can use [unpkg CDN](./cdn.md).
 
 ## Polyfills
 
-- WeakMap - for `jss-plugin-cache` (not part of the default preset).
+If you support browsers which do not have support for the following features, make sure you provide polyfills for them.
+
+- WeakMap
 
 ## Setup with the default preset
 
