@@ -7,53 +7,65 @@ import type StyleSheet from './StyleSheet'
  * instances and attach/detach automatically.
  */
 export default class SheetsManager {
-  sheets: Array<StyleSheet> = []
+  size = 0
 
-  refs: Array<number> = []
-
-  keys: Array<Object> = []
+  sheets = new WeakMap<
+    Object,
+    {
+      refs: number,
+      sheet: StyleSheet
+    }
+  >()
 
   get size(): number {
-    return this.keys.length
+    return this.size
   }
 
-  get(key: Object): StyleSheet {
-    const index = this.keys.indexOf(key)
-    return this.sheets[index]
+  get(key: Object): ?StyleSheet {
+    const entry = this.sheets.get(key)
+    return entry && entry.sheet
   }
 
-  add(key: Object, sheet: StyleSheet): number {
-    const {sheets, refs, keys} = this
-    const index = sheets.indexOf(sheet)
+  add(key: Object, sheet: StyleSheet) {
+    if (this.sheets.has(key)) return
 
-    if (index !== -1) return index
+    this.size++
 
-    sheets.push(sheet)
-    refs.push(0)
-    keys.push(key)
-
-    return sheets.length - 1
+    this.sheets.set(key, {
+      sheet,
+      refs: 0
+    })
   }
 
-  manage(key: Object): StyleSheet {
-    const index = this.keys.indexOf(key)
-    const sheet = this.sheets[index]
-    if (this.refs[index] === 0) sheet.attach()
-    this.refs[index]++
-    if (!this.keys[index]) this.keys.splice(index, 0, key)
-    return sheet
-  }
+  manage(key: Object): ?StyleSheet {
+    const entry = this.sheets.get(key)
 
-  unmanage(key: Object): void {
-    const index = this.keys.indexOf(key)
-    if (index === -1) {
-      // eslint-ignore-next-line no-console
-      warn(false, "SheetsManager: can't find sheet to unmanage")
-      return
+    if (entry) {
+      if (entry.refs === 0) {
+        entry.sheet.attach()
+      }
+
+      entry.refs++
+
+      return entry.sheet
     }
-    if (this.refs[index] > 0) {
-      this.refs[index]--
-      if (this.refs[index] === 0) this.sheets[index].detach()
+
+    warn(false, "[JSS] SheetsManager: can't find sheet to manage")
+
+    return undefined
+  }
+
+  unmanage(key: Object) {
+    const entry = this.sheets.get(key)
+
+    if (entry) {
+      if (entry.refs > 0) {
+        entry.refs--
+
+        if (entry.refs === 0) entry.sheet.detach()
+      }
+    } else {
+      warn(false, "SheetsManager: can't find sheet to unmanage")
     }
   }
 }
