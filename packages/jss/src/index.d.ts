@@ -133,9 +133,9 @@ declare class SheetsRegistry {
 
 declare class SheetsManager {
   readonly size: number
-  get(key: object): StyleSheet
-  add(key: object, sheet: StyleSheet): number
-  manage(key: object): StyleSheet
+  get(key: object): StyleSheet | null
+  add(key: object, sheet: StyleSheet): void
+  manage(key: object): StyleSheet | null
   unmanage(key: object): void
 }
 
