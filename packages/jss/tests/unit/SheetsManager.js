@@ -13,22 +13,21 @@ describe('Unit: SheetsManager', () => {
     })
 
     it('should return valid index (1 item)', () => {
-      const index = manager.add({}, {})
-      expect(index).to.be(0)
+      manager.add({}, {})
+      expect(manager.size).to.be(1)
     })
 
     it('should return valid index (2 items)', () => {
       manager.add({}, {})
-      const index = manager.add({}, {})
-      expect(index).to.be(1)
+      manager.add({}, {})
+      expect(manager.size).to.be(2)
     })
 
     it('should not add a duplcate', () => {
       const key = {}
-      const sheet = {}
-      manager.add(key, sheet)
-      const index = manager.add(key, sheet)
-      expect(index).to.be(0)
+      manager.add(key, {})
+      manager.add(key, {})
+      expect(manager.size).to.be(1)
     })
   })
 

@@ -3,6 +3,7 @@
 ### Improvements
 
 - [jss] Simplify cloneStyle function ([#1003](https://github.com/cssinjs/jss/pull/1003))
+- [jss] Use WeakMap inside SheetsManager ([#1019](https://github.com/cssinjs/jss/pull/1019))
 - [internal] Improve publish script for creating github release ([#999](https://github.com/cssinjs/jss/pull/999))
 - [react-jss] Warn about themed styles misuse ([#1006](https://github.com/cssinjs/jss/pull/1006))
 
