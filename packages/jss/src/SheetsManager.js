@@ -7,7 +7,7 @@ import type StyleSheet from './StyleSheet'
  * instances and attach/detach automatically.
  */
 export default class SheetsManager {
-  size = 0
+  length = 0
 
   sheets = new WeakMap<
     Object,
@@ -18,7 +18,7 @@ export default class SheetsManager {
   >()
 
   get size(): number {
-    return this.size
+    return this.length
   }
 
   get(key: Object): ?StyleSheet {
@@ -29,7 +29,7 @@ export default class SheetsManager {
   add(key: Object, sheet: StyleSheet) {
     if (this.sheets.has(key)) return
 
-    this.size++
+    this.length++
 
     this.sheets.set(key, {
       sheet,
