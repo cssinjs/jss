@@ -42,7 +42,7 @@ const getStyles = <Theme: {}>(styles: Styles<Theme>, theme: Theme, displayName: 
   }
   warning(
     styles.length !== 0,
-    `[JSS] <${displayName} />'s styles function doesn't rely on a theme. We recommend to rewrite it to plain object. Read more: https://github.com/cssinjs/jss/blob/master/docs/react-jss.md#basic`
+    `[JSS] <${displayName} />'s styles function doesn't rely on the "theme" argument. We recommend declaring styles as an object instead.`
   )
 
   return styles(theme)

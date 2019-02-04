@@ -264,7 +264,7 @@ describe('React-JSS: withStyles', () => {
 
       expect(
         console.warn.calledWithExactly(
-          `Warning: [JSS] <DisplayNameTest />'s styles function doesn't rely on a theme. We recommend to rewrite it to plain object. Read more: https://github.com/cssinjs/jss/blob/master/docs/react-jss.md#basic`
+          `Warning: [JSS] <DisplayNameTest />'s styles function doesn't rely on the "theme" argument. We recommend declaring styles as an object instead.`
         )
       ).to.be(true)
     })
