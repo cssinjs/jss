@@ -322,14 +322,15 @@ After the application is mounted, you should remove the style tag used by critic
 ```javascript
 import React from 'react'
 import {renderToString} from 'react-dom/server'
-import {JssProvider, SheetsRegistry} from 'react-jss'
+import {JssProvider, SheetsRegistry, createGenerateId} from 'react-jss'
 import MyApp from './MyApp'
 
 export default function render(req, res) {
   const sheets = new SheetsRegistry()
+  const generateId = createGenerateId()
 
   const body = renderToString(
-    <JssProvider registry={sheets}>
+    <JssProvider registry={sheets} generateId={generateId}>
       <MyApp />
     </JssProvider>
   )
