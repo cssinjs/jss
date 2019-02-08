@@ -1,4 +1,4 @@
-import {ComponentType, ReactNode} from 'react'
+import {ComponentType, ReactNode, CSSProperties} from 'react'
 import {
   CreateGenerateId,
   GenerateId,
@@ -19,6 +19,14 @@ declare const JssProvider: ComponentType<{
   disableStylesGeneration?: boolean
   children: ReactNode
 }>
+
+type StyleSheetLiteralValue = string | number | CSSProperties
+type StyleSheetComputedValue<Props> = (props: Props) => StyleSheetLiteralValue
+type StyleSheetValue<Props> = StyleSheetLiteralValue | StyleSheetComputedValue<Props>
+
+type StyleSheet<Props = {}> = {
+  [key: string]: StyleSheet<Props> | StyleSheetValue<Props>
+}
 
 type ThemedStyles<Theme> = (theme: Theme) => Styles
 
@@ -50,7 +58,8 @@ export {
   WithStyles,
   ThemeProvider,
   withTheme,
-  createTheming
+  createTheming,
+  StyleSheet
 }
 
 export default withStyles

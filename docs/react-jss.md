@@ -46,11 +46,11 @@ Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
 ```javascript
 import React from 'react'
 import {render} from 'react-dom'
-import withStyles from 'react-jss'
+import withStyles, {StyleSheet} from 'react-jss'
 
 // Create your Styles. Remember, since React-JSS uses the default preset,
 // most plugins are available without further configuration needed.
-const styles = {
+const styles: StyleSheet = {
   myButton: {
     color: 'green',
     margin: {
