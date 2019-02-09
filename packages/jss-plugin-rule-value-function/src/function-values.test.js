@@ -284,6 +284,7 @@ describe('jss-plugin-rule-value-function: Function values', () => {
       })
 
       it('should remove declarations when value is null', () => {
+        sheet.update({color: 'green'})
         sheet.update({color: null})
 
         expect(sheet.toString()).to.be(stripIndent`
@@ -298,6 +299,7 @@ describe('jss-plugin-rule-value-function: Function values', () => {
       })
 
       it('should remove declarations when value is undefined', () => {
+        sheet.update({color: 'green'})
         sheet.update({color: undefined})
 
         expect(sheet.toString()).to.be(stripIndent`
@@ -312,6 +314,7 @@ describe('jss-plugin-rule-value-function: Function values', () => {
       })
 
       it('should remove declarations when value is false', () => {
+        sheet.update({color: 'green'})
         sheet.update({color: false})
 
         expect(sheet.toString()).to.be(stripIndent`
