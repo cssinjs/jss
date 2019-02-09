@@ -20,7 +20,7 @@
     "---Release Scripts---": "",
     "version": "yarn build && yarn test && node ./scripts/update-changelog && node ./scripts/add-git-files",
     "prerelease": "yarn check:all && yarn format:ci",
-    "release": "lerna publish --exact --force-publish *",
+    "release": "lerna publish prerelease --exact --force-publish *",
     "postrelease": "node ./scripts/create-github-release",
     "release:patch": "lerna publish patch --dist-tag latest --exact --force-publish *",
     "release:minor": "lerna publish minor --dist-tag latest --exact --force-publish *",
