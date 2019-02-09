@@ -1,7 +1,7 @@
 {
   "name": "jss-plugin-vendor-prefixer",
   "description": "JSS plugin that handles vendor prefixes in the browser",
-  "version": "10.0.0-alpha.9",
+  "version": "10.0.0-alpha.10",
   "license": "MIT",
   "homepage": "https://cssinjs.org/jss-plugin-vendor-prefixer",
   "main": "dist/jss-plugin-vendor-prefixer.cjs.js",
@@ -38,9 +38,9 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "css-vendor": "^1.1.0",
-    "jss": "10.0.0-alpha.9"
+    "jss": "10.0.0-alpha.10"
   },
   "devDependencies": {
-    "jss-plugin-rule-value-function": "10.0.0-alpha.9"
+    "jss-plugin-rule-value-function": "10.0.0-alpha.10"
   }
 }

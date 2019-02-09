@@ -1,7 +1,7 @@
 {
   "name": "jss-plugin-isolate",
   "description": "True rules isolation through automatic properties reset.",
-  "version": "10.0.0-alpha.9",
+  "version": "10.0.0-alpha.10",
   "license": "MIT",
   "homepage": "https://cssinjs.org/jss-plugin-isolate",
   "main": "dist/jss-plugin-isolate.cjs.js",
@@ -40,6 +40,6 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "css-initials": "^0.2.0",
-    "jss": "10.0.0-alpha.9"
+    "jss": "10.0.0-alpha.10"
   }
 }
