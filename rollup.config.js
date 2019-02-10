@@ -20,6 +20,8 @@ const input = path.join(rootPath, './src/index.js')
 
 const name = camelCase(pkg.name)
 
+const reactPkg = pkg.name === 'react-jss' || pkg.name === 'jss-starter-kit'
+
 const globals = {
   jss: 'jss',
   'react-jss': 'reactJss',
@@ -86,7 +88,7 @@ export default [
     plugins: [
       nodeResolve(),
       babel(getBabelOptions({useESModules: true})),
-      commonjs(commonjsOptions),
+      reactPkg && commonjs(commonjsOptions),
       nodeGlobals({process: false}),
       replace({
         'process.env.NODE_ENV': JSON.stringify('development'),
@@ -109,7 +111,7 @@ export default [
     plugins: [
       nodeResolve(),
       babel(getBabelOptions({useESModules: true})),
-      commonjs(commonjsOptions),
+      reactPkg && commonjs(commonjsOptions),
       nodeGlobals({process: false}),
       replace({
         'process.env.NODE_ENV': JSON.stringify('production'),
@@ -151,7 +153,7 @@ export default [
     plugins: [
       nodeResolve(),
       babel(getBabelOptions({useESModules: true})),
-      commonjs(commonjsOptions),
+      reactPkg && commonjs(commonjsOptions),
       nodeGlobals({process: false}),
       replace({
         'process.env.NODE_ENV': JSON.stringify('development'),
