@@ -20,8 +20,6 @@ const input = path.join(rootPath, './src/index.js')
 
 const name = camelCase(pkg.name)
 
-const reactPkg = pkg.name === 'react-jss' || pkg.name === 'jss-starter-kit'
-
 const globals = {
   jss: 'jss',
   'react-jss': 'reactJss',
@@ -50,6 +48,11 @@ const getBabelOptions = ({useESModules}) => ({
 })
 
 const commonjsOptions = {
+  include: [
+    /\/node_modules\/react\//,
+    /\/node_modules\/prop-types\//,
+    /\/node_modules\/hoist-non-react-statics\//
+  ],
   ignoreGlobal: true,
   // The CommonJS plugin can't resolve the exports in `react` automatically.
   // https://github.com/rollup/rollup-plugin-commonjs#custom-named-exports
@@ -88,7 +91,7 @@ export default [
     plugins: [
       nodeResolve(),
       babel(getBabelOptions({useESModules: true})),
-      reactPkg && commonjs(commonjsOptions),
+      commonjs(commonjsOptions),
       nodeGlobals({process: false}),
       replace({
         'process.env.NODE_ENV': JSON.stringify('development'),
@@ -111,7 +114,7 @@ export default [
     plugins: [
       nodeResolve(),
       babel(getBabelOptions({useESModules: true})),
-      reactPkg && commonjs(commonjsOptions),
+      commonjs(commonjsOptions),
       nodeGlobals({process: false}),
       replace({
         'process.env.NODE_ENV': JSON.stringify('production'),
@@ -153,7 +156,7 @@ export default [
     plugins: [
       nodeResolve(),
       babel(getBabelOptions({useESModules: true})),
-      reactPkg && commonjs(commonjsOptions),
+      commonjs(commonjsOptions),
       nodeGlobals({process: false}),
       replace({
         'process.env.NODE_ENV': JSON.stringify('development'),
