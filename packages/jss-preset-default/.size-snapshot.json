@@ -1,6 +1,5 @@
 {
   "dist/jss-preset-default.js": {
-<<<<<<< HEAD
     "bundled": 55099,
     "minified": 19114,
     "gzipped": 6354
@@ -9,16 +8,6 @@
     "bundled": 54345,
     "minified": 18655,
     "gzipped": 6143
-=======
-    "bundled": 54973,
-    "minified": 19002,
-    "gzipped": 6331
-  },
-  "dist/jss-preset-default.min.js": {
-    "bundled": 54219,
-    "minified": 18507,
-    "gzipped": 6120
->>>>>>> Revert "upgrade css-vendor"
   },
   "dist/jss-preset-default.cjs.js": {
     "bundled": 1329,
