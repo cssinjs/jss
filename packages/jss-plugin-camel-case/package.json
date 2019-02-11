@@ -40,7 +40,7 @@
     "jss-plugin-rule-value-function": "10.0.0-alpha.10"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0",
+    "@babel/runtime": "^7.3.1",
     "hyphenate-style-name": "^1.0.2",
     "jss": "10.0.0-alpha.10"
   }

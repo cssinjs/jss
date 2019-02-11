@@ -1,13 +1,13 @@
 {
   "dist/jss-plugin-rule-value-function.js": {
-    "bundled": 2025,
-    "minified": 729,
-    "gzipped": 424
+    "bundled": 2048,
+    "minified": 739,
+    "gzipped": 432
   },
   "dist/jss-plugin-rule-value-function.min.js": {
-    "bundled": 2025,
-    "minified": 729,
-    "gzipped": 424
+    "bundled": 2048,
+    "minified": 739,
+    "gzipped": 432
   },
   "dist/jss-plugin-rule-value-function.cjs.js": {
     "bundled": 1642,

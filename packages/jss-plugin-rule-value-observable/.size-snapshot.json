@@ -1,13 +1,13 @@
 {
   "dist/jss-plugin-rule-value-observable.js": {
-    "bundled": 3531,
-    "minified": 1101,
-    "gzipped": 533
+    "bundled": 3554,
+    "minified": 1111,
+    "gzipped": 538
   },
   "dist/jss-plugin-rule-value-observable.min.js": {
-    "bundled": 3531,
-    "minified": 1101,
-    "gzipped": 533
+    "bundled": 3554,
+    "minified": 1111,
+    "gzipped": 538
   },
   "dist/jss-plugin-rule-value-observable.cjs.js": {
     "bundled": 1709,
