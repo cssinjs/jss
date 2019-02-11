@@ -1,5 +1,6 @@
 {
   "dist/jss-starter-kit.js": {
+<<<<<<< HEAD
     "bundled": 70641,
     "minified": 29127,
     "gzipped": 8981
@@ -8,6 +9,16 @@
     "bundled": 69887,
     "minified": 28669,
     "gzipped": 8770
+=======
+    "bundled": 70513,
+    "minified": 29114,
+    "gzipped": 8968
+  },
+  "dist/jss-starter-kit.min.js": {
+    "bundled": 69759,
+    "minified": 28656,
+    "gzipped": 8759
+>>>>>>> Revert "upgrade css-vendor"
   },
   "dist/jss-starter-kit.cjs.js": {
     "bundled": 2592,

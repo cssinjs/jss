@@ -1,5 +1,6 @@
 {
   "dist/jss-plugin-vendor-prefixer.js": {
+<<<<<<< HEAD
     "bundled": 17314,
     "minified": 5593,
     "gzipped": 2167
@@ -8,6 +9,16 @@
     "bundled": 17314,
     "minified": 5593,
     "gzipped": 2167
+=======
+    "bundled": 17200,
+    "minified": 5579,
+    "gzipped": 2153
+  },
+  "dist/jss-plugin-vendor-prefixer.min.js": {
+    "bundled": 17200,
+    "minified": 5579,
+    "gzipped": 2153
+>>>>>>> Revert "upgrade css-vendor"
   },
   "dist/jss-plugin-vendor-prefixer.cjs.js": {
     "bundled": 1375,
