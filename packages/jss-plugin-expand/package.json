@@ -40,7 +40,7 @@
     "jss-plugin-rule-value-observable": "10.0.0-alpha.10"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0",
+    "@babel/runtime": "^7.3.1",
     "jss": "10.0.0-alpha.10"
   }
 }
