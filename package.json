@@ -11,7 +11,7 @@
     "check:ts": "tsc",
     "check:snapshots": "lerna run check-snapshot",
     "check:lint": "eslint scripts/ packages/ docs/ --ext js,md",
-    "format": "prettier \"*.{js,md,json}\" \"{docs,packages,scripts}/**/*.{js,md,json}\" --write",
+    "format": "prettier \"*.{js,md,json,ts}\" \"{docs,packages,scripts}/**/*.{js,md,json,ts}\" --write",
     "format:ci": "yarn format --list-different",
     "test": "karma start --single-run",
     "test:watch": "karma start",

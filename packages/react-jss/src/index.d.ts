@@ -20,13 +20,13 @@ declare const JssProvider: ComponentType<{
   children: ReactNode
 }>
 interface Managers {
-  [key: number]: StyleSheet,
+  [key: number]: StyleSheet
 }
 declare const JssContext: Context<{
-  jss?: Jss,
-  registry?: SheetsRegistry,
-  managers?: Managers,
-  sheetOptions: StyleSheetFactoryOptions,
+  jss?: Jss
+  registry?: SheetsRegistry
+  managers?: Managers
+  sheetOptions: StyleSheetFactoryOptions
   disableStylesGeneration: boolean
 }>
 

@@ -1,7 +1,7 @@
-export type Style = object;
-export type Styles<Name extends string = string> = Record<Name, Style>;
-export type Classes<Name extends string = string> = Record<Name, string>;
-export type Keyframes<Name extends string = string> = Record<Name, string>;
+export type Style = object
+export type Styles<Name extends string = string> = Record<Name, Style>
+export type Classes<Name extends string = string> = Record<Name, string>
+export type Keyframes<Name extends string = string> = Record<Name, string>
 
 export type GenerateId = (rule: Rule, sheet?: StyleSheet<string>) => string
 
@@ -22,7 +22,7 @@ export interface UpdateOptions {
 }
 
 export interface ToCssOptions {
-  indent?: number;
+  indent?: number
   allowEmpty?: boolean
 }
 
@@ -148,46 +148,46 @@ declare class SheetsManager {
 export class StyleSheet<RuleName extends string = string> {
   // Gives auto-completion on the rules declared in `createStyleSheet` without
   // causing errors for rules added dynamically after creation.
-  classes: Classes<RuleName>;
-  keyframes: Keyframes<string>;
-  options: StyleSheetOptions;
-  linked: boolean;
-  attached: boolean;
+  classes: Classes<RuleName>
+  keyframes: Keyframes<string>
+  options: StyleSheetOptions
+  linked: boolean
+  attached: boolean
   /**
    * Attach renderable to the render tree.
    */
-  attach(): this;
+  attach(): this
   /**
    * Remove renderable from render tree.
    */
-  detach(): this;
+  detach(): this
   deploy(): this
   /**
    * Add a rule to the current stylesheet.
    * Will insert a rule also after the stylesheet has been rendered first time.
    */
-  addRule(style: Style, options?: Partial<RuleOptions>): Rule;
-  addRule(name: RuleName, style: Style, options?: Partial<RuleOptions>): Rule;
+  addRule(style: Style, options?: Partial<RuleOptions>): Rule
+  addRule(name: RuleName, style: Style, options?: Partial<RuleOptions>): Rule
 
   insertRule(rule: Rule): void
   /**
    * Create and add rules.
    * Will render also after Style Sheet was rendered the first time.
    */
-  addRules(styles: Partial<Styles<RuleName>>, options?: Partial<RuleOptions>): Rule[];
+  addRules(styles: Partial<Styles<RuleName>>, options?: Partial<RuleOptions>): Rule[]
   /**
    * Get a rule by name.
    */
-  getRule(name: RuleName): Rule;
+  getRule(name: RuleName): Rule
   /**
    * Delete a rule by name.
    * Returns `true`: if rule has been deleted from the DOM.
    */
-  deleteRule(name: RuleName): boolean;
+  deleteRule(name: RuleName): boolean
   /**
    * Get index of a rule.
    */
-  indexOf(rule: Rule): number;
+  indexOf(rule: Rule): number
   /**
    * Update the function values with a new data.
    */
@@ -196,28 +196,28 @@ export class StyleSheet<RuleName extends string = string> {
   /**
    * Convert rules to a CSS string.
    */
-  toString(options?: ToCssOptions): string;
+  toString(options?: ToCssOptions): string
 }
 
 export interface JssOptions {
-  createGenerateId: CreateGenerateId;
-  plugins: ReadonlyArray<Plugin>;
-  virtual: boolean;
+  createGenerateId: CreateGenerateId
+  plugins: ReadonlyArray<Plugin>
+  virtual: boolean
   Renderer?: Renderer
-  insertionPoint: InsertionPoint;
+  insertionPoint: InsertionPoint
 }
 
 export declare class Jss {
-  constructor(options?: Partial<JssOptions>);
+  constructor(options?: Partial<JssOptions>)
   createStyleSheet<Name extends string>(
     styles: Partial<Styles<Name>>,
-    options?: StyleSheetFactoryOptions,
-  ): StyleSheet<Name>;
-  removeStyleSheet(sheet: StyleSheet): this;
-  setup(options?: Partial<JssOptions>): this;
-  use(...plugins: Plugin[]): this;
-  createRule(style: Style, options?: RuleFactoryOptions): Rule;
-  createRule<Name extends string>(name: Name, style: Style, options?: RuleFactoryOptions): Rule;
+    options?: StyleSheetFactoryOptions
+  ): StyleSheet<Name>
+  removeStyleSheet(sheet: StyleSheet): this
+  setup(options?: Partial<JssOptions>): this
+  use(...plugins: Plugin[]): this
+  createRule(style: Style, options?: RuleFactoryOptions): Rule
+  createRule<Name extends string>(name: Name, style: Style, options?: RuleFactoryOptions): Rule
 }
 /**
  * Creates a new instance of JSS.
