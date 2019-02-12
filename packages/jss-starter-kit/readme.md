@@ -1,67 +1,26 @@
-# jss-starter-kit:🚰 the whole kitchen sink
+# jss-starter-kit
 
+[![Version](https://img.shields.io/npm/v/jss-starter-kit.svg?style=flat)](https://npmjs.org/package/jss-starter-kit)
+[![License](https://img.shields.io/npm/l/jss-starter-kit.svg?style=flat)](https://github.com/cssinjs/jss/blob/master/LICENSE)
+[![Downlodas](https://img.shields.io/npm/dm/jss-starter-kit.svg?style=flat)](https://npmjs.org/package/jss-starter-kit)
+[![Size](https://img.shields.io/bundlephobia/minzip/jss-starter-kit.svg?style=flat)](https://npmjs.org/package/jss-starter-kit)
+[![Dependencies](https://img.shields.io/david/cssinjs/jss.svg?path=packages%2Fjss-starter-kit&style=flat)](https://npmjs.org/package/jss-starter-kit)
 [![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 
-The `jss-starter-kit` combines all of the other [packages](https://github.com/cssinjs/jss/tree/master/packages) into a single bundle, to make it easy to import directly into a playground like Codepen, or a local HTML file.
+> A bundle to get you started playing with JSS. Not optimized for production deployment.
 
-:warning: This bundle includes every JSS package, unminified. It's great for experimenting, but not suitable for production deployment.
+See our website [jss-starter-kit](https://cssinjs.org/jss-starter-kit?v=v10.0.0-alpha.10) for more information.
 
-## Quick start
+## Install
 
-There's an instance of JSS already set up with all of the default plugins, exported as `jss`.
+Using npm:
 
-```javascript
-import {jss} from 'https://unpkg.com/jss-starter-kit'
-
-// Notice that you can use camel-cased style keys here, because
-// the default preset include jss-plugin-camel-case.  If you want to use
-// jss in your production application, you'll need to manually install the
-// plugins you need.
-const {classes} = jss
-  .createStyleSheet({
-    wrapper: {
-      padding: 40,
-      background: '#f7df1e',
-      textAlign: 'center'
-    },
-    title: {
-      font: {
-        size: 40,
-        weight: 900
-      },
-      color: '#24292e'
-    },
-    link: {
-      color: '#24292e',
-      '&:hover': {
-        opacity: 0.5
-      }
-    }
-  })
-  .attach()
-
-document.body.innerHTML = `
-  <div class="${classes.wrapper}">
-    <h1 class="${classes.title}">Hello JSS!</h1>
-    <a
-      class=${classes.link}
-      href="http://cssinjs.org/"
-      traget="_blank"
-    >
-      See docs
-    </a>
-  </div>
-`
+```sh
+npm install jss-starter-kit
 ```
 
-## Plugins
+or using yarn:
 
-[Every plugin shipped by JSS](https://github.com/cssinjs/jss/tree/master/packages) is included here. See [`index.js`](https://github.com/cssinjs/jss/blob/master/packages/jss-starter-kit/src/index.js) to see the names they are exported as.
-
-## Issues
-
-File a bug against [cssinjs/jss prefixed with \[jss-starter-kit\]](https://github.com/cssinjs/jss/issues/new?title=[jss-starter-kit]%20).
-
-## License
-
-MIT
+```sh
+yarn add jss-starter-kit
+```

@@ -13,6 +13,7 @@ after_success:
   - bash <(curl -s https://codecov.io/bash)
 script:
   - yarn format:ci
+  - yarn check:snapshots
   - yarn build
   - yarn check:all
   - yarn test

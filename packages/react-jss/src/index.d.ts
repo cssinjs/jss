@@ -1,4 +1,4 @@
-import {ComponentType, ReactNode} from 'react'
+import {ComponentType, ReactNode, Context} from 'react'
 import {
   CreateGenerateId,
   GenerateId,
@@ -18,6 +18,16 @@ declare const JssProvider: ComponentType<{
   classNamePrefix?: string
   disableStylesGeneration?: boolean
   children: ReactNode
+}>
+interface Managers {
+  [key: number]: StyleSheet
+}
+declare const JssContext: Context<{
+  jss?: Jss
+  registry?: SheetsRegistry
+  managers?: Managers
+  sheetOptions: StyleSheetFactoryOptions
+  disableStylesGeneration: boolean
 }>
 
 type ThemedStyles<Theme> = (theme: Theme) => Styles<string>
@@ -50,7 +60,8 @@ export {
   WithStyles,
   ThemeProvider,
   withTheme,
-  createTheming
+  createTheming,
+  JssContext
 }
 
 export default withStyles

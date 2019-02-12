@@ -244,4 +244,40 @@ describe('React-JSS: withStyles', () => {
       process.env.NODE_ENV = 'development'
     })
   })
+
+  describe('.withStyles() properly warns about themed styles misuse', () => {
+    beforeEach(() => {
+      spy(console, 'warn')
+    })
+
+    afterEach(() => {
+      console.warn.restore()
+    })
+
+    it('warn if themed styles dont use theme', () => {
+      function DisplayNameTest() {
+        return null
+      }
+      const MyComponent = withStyles(() => ({}))(DisplayNameTest)
+
+      TestRenderer.create(<MyComponent />)
+
+      expect(
+        console.warn.calledWithExactly(
+          `Warning: [JSS] <DisplayNameTest />'s styles function doesn't rely on the "theme" argument. We recommend declaring styles as an object instead.`
+        )
+      ).to.be(true)
+    })
+
+    it('doesnt warn if themed styles _do use_ theme', () => {
+      function DisplayNameTest() {
+        return null
+      }
+      const MyComponent = withStyles(theme => ({}))(DisplayNameTest) // eslint-disable-line no-unused-vars
+
+      TestRenderer.create(<MyComponent />)
+
+      expect(console.warn.called).to.be(false)
+    })
+  })
 })

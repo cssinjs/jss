@@ -24,6 +24,7 @@ Benefits compared to the lower level core:
   - [The inner ref](#the-inner-ref)
   - [Custom setup](#custom-setup)
   - [Decorators](#decorators)
+  - [Usage with TypeScript](#usage-with-typescript)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -321,14 +322,15 @@ After the application is mounted, you should remove the style tag used by critic
 ```javascript
 import React from 'react'
 import {renderToString} from 'react-dom/server'
-import {JssProvider, SheetsRegistry} from 'react-jss'
+import {JssProvider, SheetsRegistry, createGenerateId} from 'react-jss'
 import MyApp from './MyApp'
 
 export default function render(req, res) {
   const sheets = new SheetsRegistry()
+  const generateId = createGenerateId()
 
   const body = renderToString(
-    <JssProvider registry={sheets}>
+    <JssProvider registry={sheets} generateId={generateId}>
       <MyApp />
     </JssProvider>
   )
@@ -568,4 +570,39 @@ const Button = withStyles(buttonStyles)(() => (
     <Label>my button</Label>
   </button>
 ))
+```
+
+### Usage with TypeScript
+
+React JSS includes first class support for TypeScript. React JSS provides
+a `WithStyles` type which adds types for all of the injected props.
+To use it, simply extend your existing props interface with
+`WithStyles<typeof styles>`, where `styles` is your styles object.
+
+Example
+
+```typescript
+import * as React from 'react'
+import withStyles, {WithStyles} from 'react-jss'
+
+const styles = {
+  button: {
+    backgroundColor: 'yellow'
+  },
+  label: {
+    fontWeight: 'bold'
+  }
+}
+
+interface IProps extends WithStyles<typeof styles> {
+  children: React.ReactNode
+}
+
+const Button: React.FunctionComponent<IProps> = ({classes, children}) => (
+  <button className={classes.button}>
+    <span className={classes.label}>{children}</span>
+  </button>
+)
+
+export default withStyles(styles)(Button)
 ```
