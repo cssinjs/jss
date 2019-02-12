@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.3.1",
-    "css-initials": "^0.2.0",
+    "css-initials": "^0.3.1",
     "jss": "10.0.0-alpha.10"
   }
 }

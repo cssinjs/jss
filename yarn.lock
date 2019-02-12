@@ -1604,13 +1604,6 @@ accepts@1.3.3:
     mime-types "~2.1.11"
     negotiator "0.6.1"
 
-acorn-dynamic-import@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/acorn-dynamic-import/-/acorn-dynamic-import-3.0.0.tgz#901ceee4c7faaef7e07ad2a47e890675da50a278"
-  integrity sha512-zVWV8Z8lislJoOKKqdNMOB+s6+XV5WERty8MnKBeFgwA+19XJjJHs2RP5dzM57FftIs+jQnRToLiWazKr6sSWg==
-  dependencies:
-    acorn "^5.0.0"
-
 acorn-dynamic-import@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/acorn-dynamic-import/-/acorn-dynamic-import-4.0.0.tgz#482210140582a36b83c3e342e1cfebcaa9240948"
@@ -1622,11 +1615,6 @@ acorn-jsx@^4.1.1:
   integrity sha512-JY+iV6r+cO21KtntVvFkD+iqjtdpRUpGqKWgfkCdZq1R+kbreEl8EcdcJR4SmiIgsIQT33s6QzheQ9a275Q8xw==
   dependencies:
     acorn "^5.0.3"
-
-acorn@^5.0.0, acorn@^5.6.2:
-  version "5.7.1"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.1.tgz#f095829297706a7c9776958c0afc8930a9b9d9d8"
-  integrity sha512-d+nbxBUGKg7Arpsvbnlq61mc12ek3EY8EQldM3GPAhWJ1UVxC6TDGbIvUMNU6obBX3i1+ptCIzV4vq0gFPEGVQ==
 
 acorn@^5.0.3, acorn@^5.6.0, acorn@^5.7.3:
   version "5.7.3"
@@ -3141,16 +3129,17 @@ crypto-browserify@^3.11.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
-css-initials@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/css-initials/-/css-initials-0.2.0.tgz#14c225bd8656255a6baee07231ef82fa55aacaa3"
-  integrity sha512-t80yjg0pi4VAIc5itIqLh6M+ZlA+cB+gUXEQkDR09+ExTDwLMGfJ8YviBsGW+DklIrb2k9fwB75Io8ooWXDxxw==
+css-initials@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/css-initials/-/css-initials-0.3.1.tgz#0406d78e586fd12b9984a3f7d8a87fcbb2073208"
+  integrity sha512-fkshKv9vV8AmcxkAWVQ9DmEAKiqe09GHdnFaXecp0NIfsGnXIHVJAHfsxdRy9KXV0/KiWdjBqrCYto2fYIO4xQ==
 
-css-vendor@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/css-vendor/-/css-vendor-1.1.0.tgz#39bc1bb46b633528a9041ad5e107ddd353240388"
-  integrity sha512-pePyROdjdMRjHhGN+xZjBomaR9GXueNQ2ZLkEi0i2A/eVx0m4oCLglltdRsaYCSOpun0GRJWuqmWLIYj6Y/RVQ==
+css-vendor@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/css-vendor/-/css-vendor-2.0.0.tgz#c7f4a49efbdd660c04e239af4626e2684d1ba60e"
+  integrity sha512-YOsuXi6bO0+q2QqIvWKuPpq/eMEeN4bm40zWFPQRl6UaBV1UZliARLgvEoxmtFm/KB5MpL8ySxpoGc//L2Li8Q==
   dependencies:
+    "@babel/runtime" "^7.3.1"
     is-in-browser "^1.0.2"
 
 css.escape@^1.5.1:
@@ -4893,10 +4882,10 @@ humanize-ms@^1.2.1:
   dependencies:
     ms "^2.0.0"
 
-hyphenate-style-name@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/hyphenate-style-name/-/hyphenate-style-name-1.0.2.tgz#31160a36930adaf1fc04c6074f7eb41465d4ec4b"
-  integrity sha1-MRYKNpMK2vH8BMYHT360FGXU7Es=
+hyphenate-style-name@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/hyphenate-style-name/-/hyphenate-style-name-1.0.3.tgz#097bb7fa0b8f1a9cf0bd5c734cf95899981a9b48"
+  integrity sha512-EcuixamT82oplpoJ2XU4pDtKGWQ7b00CD9f1ug9IaQ3p1bkHMiKCZ9ut9QDI6qsa6cpUuB+A/I+zLtdNK4n2DQ==
 
 iconv-lite@0.4.23:
   version "0.4.23"
@@ -8409,14 +8398,6 @@ scheduler@^0.12.0:
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
-
-schema-utils@^0.4.4:
-  version "0.4.7"
-  resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-0.4.7.tgz#ba74f597d2be2ea880131746ee17d0a093c68187"
-  integrity sha512-v/iwU6wvwGK8HbU9yi3/nhGzP0yGSuhQMzL6ySiec1FSrZZDkhm4noOSWzrNFo/jEc+SJY6jRTwuwbSXJPDUnQ==
-  dependencies:
-    ajv "^6.1.0"
-    ajv-keywords "^3.1.0"
 
 schema-utils@^1.0.0:
   version "1.0.0"

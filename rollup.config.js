@@ -48,6 +48,12 @@ const getBabelOptions = ({useESModules}) => ({
 })
 
 const commonjsOptions = {
+  include: [
+    /\/node_modules\/react\//,
+    /\/node_modules\/prop-types\//,
+    /\/node_modules\/react-display-name\//,
+    /\/node_modules\/hoist-non-react-statics\//
+  ],
   ignoreGlobal: true,
   // The CommonJS plugin can't resolve the exports in `react` automatically.
   // https://github.com/rollup/rollup-plugin-commonjs#custom-named-exports
