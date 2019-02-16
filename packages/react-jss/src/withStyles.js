@@ -1,7 +1,7 @@
 // @flow
 import React, {Component, type ComponentType, type Node} from 'react'
 import hoistNonReactStatics from 'hoist-non-react-statics'
-import {getDynamicStyles, SheetsManager, type StyleSheet} from 'jss'
+import {getDynamicStyles, SheetsManager, type StyleSheet, type Classes} from 'jss'
 import {ThemeContext} from 'theming'
 import warning from 'tiny-warning'
 
@@ -79,9 +79,9 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
       // $FlowFixMe
       static defaultProps = {...InnerComponent.defaultProps}
 
-      mergeClassesProp = memoize(
+      mergeClassesProp = memoize<Classes[], Classes>(
         (sheetClasses, classesProp) =>
-          classesProp ? mergeClasses(sheetClasses, classesProp) : sheetClasses
+          mergeClasses(sheetClasses, classesProp)
       )
 
       constructor(props: HOCProps<Theme, Props>) {
@@ -228,7 +228,8 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
         const {classes: sheetClasses} = this.state
         const props = {
           ...rest,
-          classes: this.mergeClassesProp(sheetClasses, classes)
+          // $FlowFixMe
+          classes: classes ? this.mergeClassesProp(sheetClasses, classes) : sheetClasses,
         }
 
         if (innerRef) props.ref = innerRef
@@ -238,7 +239,6 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
       }
     }
 
-    // $FlowFixMe: Sadly there is no support for forwardRef yet
     const JssContextSubscriber = React.forwardRef((props, ref) => (
       <JssContext.Consumer>
         {context => {
@@ -258,6 +258,7 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
     ))
 
     JssContextSubscriber.displayName = 'JssContextSubscriber'
+    // $FlowFixMe
     JssContextSubscriber.InnerComponent = InnerComponent
 
     return hoistNonReactStatics(JssContextSubscriber, InnerComponent)

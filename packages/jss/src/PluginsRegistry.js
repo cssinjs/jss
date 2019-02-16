@@ -59,7 +59,6 @@ export default class PluginsRegistry {
       this.registry.onProcessRule[i](rule, sheet)
     }
 
-    // $FlowFixMe
     if (rule.style) this.onProcessStyle(rule.style, rule, sheet)
 
     rule.isProcessed = true
