@@ -80,6 +80,7 @@ export default function defaultUnit(options: Options = {}): Plugin {
   }
 
   function onChangeValue(value, prop) {
+    // $FlowFixMe
     return iterate(prop, value, camelCasedOptions)
   }
 

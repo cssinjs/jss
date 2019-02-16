@@ -1,6 +1,3 @@
-[declarations]
-.*/node_modules/.*
-
 [ignore]
 
 [include]
