@@ -79,8 +79,9 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
       // $FlowFixMe
       static defaultProps = {...InnerComponent.defaultProps}
 
-      mergeClassesProp = memoize<Classes[], Classes>((sheetClasses, classesProp) =>
-        mergeClasses(sheetClasses, classesProp)
+      mergeClassesProp = memoize<Classes[], Classes>(
+        (sheetClasses, classesProp) =>
+          mergeClasses(sheetClasses, classesProp)
       )
 
       constructor(props: HOCProps<Theme, Props>) {
@@ -228,7 +229,7 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
         const props = {
           ...rest,
           // $FlowFixMe
-          classes: classes ? this.mergeClassesProp(sheetClasses, classes) : sheetClasses
+          classes: classes ? this.mergeClassesProp(sheetClasses, classes) : sheetClasses,
         }
 
         if (innerRef) props.ref = innerRef
