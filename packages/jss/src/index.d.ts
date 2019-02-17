@@ -131,9 +131,9 @@ interface StyleSheetOptions extends StyleSheetFactoryOptions {
 
 declare class SheetsRegistry {
   readonly index: number
-  add(sheet: StyleSheet): void
+  add(sheet: StyleSheet<any>): void
   reset(): void
-  remove(sheet: StyleSheet): void
+  remove(sheet: StyleSheet<any>): void
   toString(options?: ToCssOptions): string
 }
 
