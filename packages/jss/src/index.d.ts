@@ -1,4 +1,4 @@
-export type Style = object
+export type Style = {[key: string]: Style | any}
 export type Styles<Name extends string = string> = Record<Name, Style>
 export type Classes<Name extends string = string> = Record<Name, string>
 export type Keyframes<Name extends string = string> = Record<Name, string>
