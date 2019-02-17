@@ -60,13 +60,12 @@ interface RuleOptions {
   Renderer: Renderer
 }
 
-declare class BaseRule {
+interface BaseRule {
   type: string
   key: string
   isProcessed: boolean
   // eslint-disable-next-line no-use-before-define
   options: RuleOptions
-  constructor(key: string, style: Style, options: RuleOptions)
   toString(options?: ToCssOptions): string
 }
 
@@ -85,8 +84,7 @@ export interface Plugin {
 
 export type Rule = BaseRule | ContainerRule
 
-export declare class Renderer {
-  constructor(sheet?: StyleSheet)
+export interface Renderer {
   setProperty(cssRule: HTMLElement | CSSStyleRule, prop: string, value: JssValue): boolean
   getPropertyValue(cssRule: HTMLElement | CSSStyleRule, prop: string): string
   removeProperty(cssRule: HTMLElement | CSSStyleRule, prop: string): void
@@ -145,7 +143,7 @@ declare class SheetsManager {
   unmanage(key: object): void
 }
 
-export class StyleSheet<RuleName extends string = string> {
+export interface StyleSheet<RuleName extends string = string> {
   // Gives auto-completion on the rules declared in `createStyleSheet` without
   // causing errors for rules added dynamically after creation.
   classes: Classes<RuleName>
@@ -207,8 +205,7 @@ export interface JssOptions {
   insertionPoint: InsertionPoint
 }
 
-export declare class Jss {
-  constructor(options?: Partial<JssOptions>)
+export interface Jss {
   createStyleSheet<Name extends string>(
     styles: Partial<Styles<Name>>,
     options?: StyleSheetFactoryOptions
@@ -223,7 +220,7 @@ export declare class Jss {
  * Creates a new instance of JSS.
  */
 declare const sheets: SheetsRegistry
-export {SheetsRegistry, sheets, RuleList, SheetsManager}
+export {sheets, SheetsManager, SheetsRegistry, RuleList}
 export function create(options?: Partial<JssOptions>): Jss
 export function createGenerateId(): GenerateId
 export function createRule(name: string, decl: Style, options: RuleOptions): Rule
