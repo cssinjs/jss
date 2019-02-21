@@ -8,5 +8,5 @@
     "module": "es6",
     "moduleResolution": "node"
   },
-  "include": ["packages/**/src/index.d.ts"]
+  "include": ["packages/**/*.ts"]
 }
