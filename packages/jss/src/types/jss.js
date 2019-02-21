@@ -1,14 +1,16 @@
 /* @flow */
-import Jss from '../Jss'
-import StyleSheet from '../StyleSheet'
-import {ConditionalRule} from '../plugins/conditionalRule'
-import {KeyframesRule} from '../plugins/keyframesRule'
-import {StyleRule} from '../plugins/styleRule'
-import {ViewportRule} from '../plugins/viewportRule'
-import {SimpleRule} from '../plugins/simpleRule'
-import {FontFaceRule} from '../plugins/fontFaceRule'
-import type {CSSStyleRule} from './cssom'
+import type Jss from '../Jss'
+import type StyleSheet from '../StyleSheet'
+import type {ConditionalRule} from '../plugins/conditionalRule'
+import type {KeyframesRule} from '../plugins/keyframesRule'
+import type {StyleRule} from '../plugins/styleRule'
+import type {ViewportRule} from '../plugins/viewportRule'
+import type {SimpleRule} from '../plugins/simpleRule'
+import type {FontFaceRule} from '../plugins/fontFaceRule'
+import type {CSSStyleRule, CSSMediaRule, CSSKeyframesRule} from './cssom'
 import type RuleList from '../RuleList'
+
+export type {RuleList, StyleSheet}
 
 export type Classes = {[string]: string}
 
@@ -75,9 +77,12 @@ export interface Renderer {
   attach(): void;
   detach(): void;
   deploy(sheet: StyleSheet): void;
-  insertRule(rule: Rule): false | CSSRule;
+  insertRule(rule: Rule): false | CSSStyleSheet | CSSMediaRule | CSSKeyframesRule | CSSRule;
   deleteRule(cssRule: CSSRule): boolean;
-  replaceRule(cssRule: CSSRule, rule: Rule): false | CSSRule;
+  replaceRule(
+    cssRule: CSSRule,
+    rule: Rule
+  ): false | CSSStyleSheet | CSSMediaRule | CSSKeyframesRule | CSSRule;
   indexOf(cssRule: CSSRule): number;
   getRules(): CSSRuleList | void;
 }

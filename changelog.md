@@ -1,3 +1,7 @@
+## Next
+
+- [jss] Fix dynamic values inside of @global plugin ([#664](https://github.com/cssinjs/jss/pull/664))
+
 ## 10.0.0-alpha.10 (2019-2-9)
 
 ### Improvements
