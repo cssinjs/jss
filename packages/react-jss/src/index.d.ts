@@ -20,19 +20,19 @@ declare const JssProvider: ComponentType<{
   children: ReactNode
 }>
 interface Managers {
-  [key: number]: StyleSheet,
+  [key: number]: StyleSheet
 }
 declare const JssContext: Context<{
-  jss?: Jss,
-  registry?: SheetsRegistry,
-  managers?: Managers,
-  sheetOptions: StyleSheetFactoryOptions,
+  jss?: Jss
+  registry?: SheetsRegistry
+  managers?: Managers
+  sheetOptions: StyleSheetFactoryOptions
   disableStylesGeneration: boolean
 }>
 
-type ThemedStyles<Theme> = (theme: Theme) => Styles
+type ThemedStyles<Theme> = (theme: Theme) => Styles<string>
 
-interface WithStyles<S extends Styles | ThemedStyles<any>> {
+interface WithStyles<S extends Styles<string> | ThemedStyles<any>> {
   classes: Record<S extends ThemedStyles<any> ? keyof ReturnType<S> : keyof S, string>
 }
 
@@ -45,7 +45,7 @@ interface Options extends StyleSheetFactoryOptions {
 
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 
-declare function withStyles<S extends Styles | ThemedStyles<any>>(
+declare function withStyles<S extends Styles<string> | ThemedStyles<any>>(
   styles: S,
   options?: Options
 ): <Props extends WithStyles<S>>(
