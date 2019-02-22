@@ -1,18 +1,19 @@
 /* @flow */
 import warning from 'tiny-warning'
 import sheets from '../sheets'
-import type StyleSheet from '../StyleSheet'
+import toCssValue from '../utils/toCssValue'
 import type {
   CSSStyleRule,
   CSSMediaRule,
   CSSKeyframesRule,
   CSSKeyframeRule,
   Rule,
+  RuleList,
   ContainerRule,
   JssValue,
-  InsertionPoint
+  InsertionPoint,
+  StyleSheet
 } from '../types'
-import toCssValue from '../utils/toCssValue'
 
 type PriorityOptions = {
   index: number,
@@ -255,10 +256,10 @@ const getNonce = memoize(
 )
 
 const insertRule = (
-  container: CSSStyleSheet | CSSKeyframesRule | CSSMediaRule,
+  container: CSSStyleSheet | CSSMediaRule | CSSKeyframesRule,
   rule: string,
   index?: number = container.cssRules.length
-): false | Object => {
+): false | any => {
   try {
     if ('insertRule' in container) {
       const c = ((container: any): CSSStyleSheet)
@@ -348,44 +349,56 @@ export default class DomRenderer {
     const {sheet} = this
     if (!sheet) return
     if (sheet.options.link) {
-      sheet.rules.index.forEach(this.insertRule, this)
+      this.insertRules(sheet.rules)
       return
     }
     this.element.textContent = `\n${sheet.toString()}\n`
   }
 
   /**
+   * Insert RuleList into an element.
+   */
+
+  insertRules(rules: RuleList, nativeParent?: CSSStyleSheet | CSSMediaRule | CSSKeyframesRule) {
+    for (let i = 0; i < rules.index.length; i++) {
+      this.insertRule(rules.index[i], i, nativeParent)
+    }
+  }
+
+  /**
    * Insert a rule into element.
    */
-  insertRule(rule: Rule, index?: number): false | CSSRule {
-    const {sheet} = this.element
-
-    if (rule.type === 'conditional' || rule.type === 'keyframes') {
-      const containerRule: ContainerRule = (rule: any)
-      // We need to render the container without children first.
-      const cssRule = insertRule(sheet, containerRule.toString({children: false}), index)
-      if (cssRule === false) {
-        return false
+  insertRule(
+    rule: Rule,
+    index?: number,
+    nativeParent?: CSSStyleSheet | CSSMediaRule | CSSKeyframesRule = this.element.sheet
+  ): false | CSSStyleSheet | CSSMediaRule | CSSKeyframesRule | CSSRule {
+    if (rule.rules) {
+      const parent: ContainerRule = (rule: any)
+      let latestNativeParent = nativeParent
+      if (rule.type === 'conditional' || rule.type === 'keyframes') {
+        // We need to render the container without children first.
+        latestNativeParent = insertRule(nativeParent, parent.toString({children: false}), index)
+        if (latestNativeParent === false) {
+          return false
+        }
       }
-      containerRule.rules.index.forEach((childRule, childIndex) => {
-        const cssChildRule = insertRule(cssRule, childRule.toString(), childIndex)
-        if (cssChildRule !== false) childRule.renderable = cssChildRule
-      })
-      return cssRule
+      this.insertRules(parent.rules, latestNativeParent)
+      return latestNativeParent
     }
 
     const ruleStr = rule.toString()
 
     if (!ruleStr) return false
 
-    const cssRule = insertRule(sheet, ruleStr, index)
-    if (cssRule === false) {
+    const nativeRule = insertRule(nativeParent, ruleStr, index)
+    if (nativeRule === false) {
       return false
     }
 
     this.hasInsertedRules = true
-    rule.renderable = cssRule
-    return cssRule
+    rule.renderable = nativeRule
+    return nativeRule
   }
 
   /**
@@ -415,7 +428,10 @@ export default class DomRenderer {
    *
    * Only used for some old browsers because they can't set a selector.
    */
-  replaceRule(cssRule: CSSRule, rule: Rule): false | CSSRule {
+  replaceRule(
+    cssRule: CSSRule,
+    rule: Rule
+  ): false | CSSStyleSheet | CSSMediaRule | CSSKeyframesRule | CSSRule {
     const index = this.indexOf(cssRule)
     if (index === -1) return false
     this.element.sheet.deleteRule(index)

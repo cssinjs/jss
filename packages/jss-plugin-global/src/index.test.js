@@ -39,6 +39,40 @@ describe('jss-plugin-global', () => {
     })
   })
 
+  describe('@global linked', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss
+        .createStyleSheet(
+          {
+            '@global': {
+              a: {
+                color: 'red'
+              }
+            },
+            '@global b': {
+              color: 'red'
+            }
+          },
+          {link: true}
+        )
+        .attach()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should link inside container', () => {
+      expect(sheet.getRule('@global').getRule('a').renderable).to.not.be(undefined)
+    })
+
+    it('should link with prefix', () => {
+      expect(sheet.getRule('@global b').renderable).to.not.be(undefined)
+    })
+  })
+
   describe('@global root container with @keyframes', () => {
     let sheet
 

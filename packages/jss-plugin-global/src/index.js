@@ -75,8 +75,6 @@ class GlobalPrefixedRule implements BaseRule {
 
   at: string = at
 
-  name: string
-
   options: RuleOptions
 
   rule: BaseRule | null
@@ -85,10 +83,10 @@ class GlobalPrefixedRule implements BaseRule {
 
   key: string
 
-  constructor(name, style, options) {
-    this.name = name
+  constructor(key, style, options) {
+    this.key = key
     this.options = options
-    const selector = name.substr(atPrefix.length)
+    const selector = key.substr(atPrefix.length)
     this.rule = options.jss.createRule(selector, style, {
       ...options,
       parent: this
