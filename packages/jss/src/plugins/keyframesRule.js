@@ -138,7 +138,7 @@ const plugin: Plugin = {
       case 'animation-name':
         return findReferencedKeyframe(val, sheet.keyframes)
       default:
-        return val;
+        return val
     }
   }
 }
