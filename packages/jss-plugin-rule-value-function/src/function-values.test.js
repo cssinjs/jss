@@ -360,6 +360,28 @@ describe('jss-plugin-rule-value-function: Function values', () => {
     })
   })
 
+  describe('keyframe names', () => {
+    it('should replace keyframes for function values', () => {
+      const sheet = jss.createStyleSheet({
+        '@keyframes animateIn': {},
+
+        '@keyframes animateOut': {},
+
+        a: { animation: (name) => name },
+      });
+
+      sheet.update('$animateIn');
+
+      expect(sheet.toString()).to.be(stripIndent`
+          @keyframes animateIn-id {}
+          @keyframes animateOut-id {}
+          .a-id {
+            color: green;
+          }
+        `)
+    })
+  })
+
   describe('rule.toJSON()', () => {
     it('should handle function values', () => {
       const sheet = jss.createStyleSheet({
