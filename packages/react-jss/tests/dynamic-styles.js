@@ -107,19 +107,13 @@ describe('React-JSS: dynamic styles', () => {
     })
 
     it('should update dynamic values', () => {
-      /* eslint-disable-next-line react/no-multi-comp, react/prefer-stateless-function */
       const generateId = createGenerateId()
-      class Container extends PureComponent {
-        render() {
-          const {height} = this.props
-          return (
-            <JssProvider registry={registry} generateId={generateId}>
-              <MyComponent height={height} />
-              <MyComponent height={height * 2} />
-            </JssProvider>
-          )
-        }
-      }
+      const Container = ({height}) => (
+        <JssProvider registry={registry} generateId={generateId}>
+          <MyComponent height={height} />
+          <MyComponent height={height * 2} />
+        </JssProvider>
+      )
 
       const renderer = TestRenderer.create(<Container height={10} />)
 
@@ -147,6 +141,41 @@ describe('React-JSS: dynamic styles', () => {
         .button-2 {
           height: 40px;
         }
+      `)
+    })
+
+    it('should unset values when null is returned', () => {
+      const generateId = createGenerateId()
+      MyComponent = injectSheet({
+        button: {
+          width: 10,
+          height: ({height}) => height
+        }
+      })(NoRenderer)
+      const Container = ({height}) => (
+        <JssProvider registry={registry} generateId={generateId}>
+          <MyComponent height={height} />
+        </JssProvider>
+      )
+
+      const renderer = TestRenderer.create(<Container height={10} />)
+
+      expect(registry.toString()).to.equal(stripIndent`
+        .button-0 {
+          width: 10px;
+        }
+        .button-1 {
+          height: 10px;
+        }
+      `)
+
+      renderer.update(<Container height={null} />)
+
+      expect(registry.toString()).to.equal(stripIndent`
+        .button-0 {
+          width: 10px;
+        }
+        .button-1 {}
       `)
     })
 
