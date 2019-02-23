@@ -94,15 +94,16 @@ describe('React-JSS: dynamic styles', () => {
       )
 
       expect(registry.toString()).to.equal(stripIndent`
-      .button-0 {
-        color: ${color};
-      }
-      .button-1 {
-        height: 10px;
-      }
-      .button-2 {
-        height: 20px;
-      }`)
+        .button-0 {
+          color: ${color};
+        }
+        .button-1 {
+          height: 10px;
+        }
+        .button-2 {
+          height: 20px;
+        }
+      `)
     })
 
     it('should update dynamic values', () => {
@@ -123,28 +124,30 @@ describe('React-JSS: dynamic styles', () => {
       const renderer = TestRenderer.create(<Container height={10} />)
 
       expect(registry.toString()).to.equal(stripIndent`
-      .button-0 {
-        color: ${color};
-      }
-      .button-1 {
-        height: 10px;
-      }
-      .button-2 {
-        height: 20px;
-      }`)
+        .button-0 {
+          color: ${color};
+        }
+        .button-1 {
+          height: 10px;
+        }
+        .button-2 {
+          height: 20px;
+        }
+      `)
 
       renderer.update(<Container height={20} />)
 
       expect(registry.toString()).to.equal(stripIndent`
-      .button-0 {
-        color: ${color};
-      }
-      .button-1 {
-        height: 20px;
-      }
-      .button-2 {
-        height: 40px;
-      }`)
+        .button-0 {
+          color: ${color};
+        }
+        .button-1 {
+          height: 20px;
+        }
+        .button-2 {
+          height: 40px;
+        }
+      `)
     })
 
     it('should pass the props of the component', () => {
@@ -243,15 +246,15 @@ describe('React-JSS: dynamic styles', () => {
 
       expect(removeWhitespaces(registry.toString())).to.equal(
         removeWhitespaces(`
-      .button-1 {
-        color: ${color};
-        height: 10px;
-      }
-      .button-2 {
-        color: ${color};
-        height: 20px;
-      }
-      `)
+          .button-1 {
+            color: ${color};
+            height: 10px;
+          }
+          .button-2 {
+            color: ${color};
+            height: 20px;
+          }
+        `)
       )
     })
 
@@ -273,28 +276,30 @@ describe('React-JSS: dynamic styles', () => {
 
       expect(removeWhitespaces(registry.toString())).to.equal(
         removeWhitespaces(`
-      .button-1 {
-        color: ${color};
-        height: 10px;
-      }
-      .button-2 {
-        color: ${color};
-        height: 20px;
-      }`)
+          .button-1 {
+            color: ${color};
+            height: 10px;
+          }
+          .button-2 {
+            color: ${color};
+            height: 20px;
+          }
+       `)
       )
 
       renderer.update(<Container height={20} />)
 
       expect(removeWhitespaces(registry.toString())).to.equal(
         removeWhitespaces(`
-      .button-1 {
-        color: ${color};
-        height: 20px;
-      }
-      .button-2 {
-        color: ${color};
-        height: 40px;
-      }`)
+          .button-1 {
+            color: ${color};
+            height: 20px;
+          }
+          .button-2 {
+            color: ${color};
+            height: 40px;
+          }
+        `)
       )
     })
 
