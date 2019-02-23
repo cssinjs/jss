@@ -1,6 +1,9 @@
 ## Next
 
+### Bug fixes
+
 - [jss] Fix dynamic values inside of @global plugin ([#664](https://github.com/cssinjs/jss/pull/664))
+- [jss] Fix using function values with scoped keyframes ([#1043](https://github.com/cssinjs/jss/pull/1043))
 
 ## 10.0.0-alpha.10 (2019-2-9)
 
