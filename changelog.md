@@ -5,6 +5,10 @@
 - [jss] Fix dynamic values inside of @global plugin ([#664](https://github.com/cssinjs/jss/pull/664))
 - [jss] Fix using function values with scoped keyframes ([#1043](https://github.com/cssinjs/jss/pull/1043))
 
+### Improvements
+
+- [jss] Improve TS typings ([#973](https://github.com/cssinjs/jss/pull/973))
+
 ## 10.0.0-alpha.10 (2019-2-9)
 
 ### Improvements
