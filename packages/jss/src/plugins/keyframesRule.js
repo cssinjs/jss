@@ -85,16 +85,16 @@ const findReferencedKeyframe = (val, keyframes) => {
   if (typeof val === 'string') {
     const ref = refRegExp.exec(val)
 
-    if (!ref) return null
+    if (!ref) return val
 
     if (ref[1] in keyframes) {
-      return val.replace(val, keyframes[ref[1]])
+      return val.replace(ref[0], keyframes[ref[1]])
     }
 
     warning(false, `[JSS] Referenced keyframes rule "${ref[1]}" is not defined.`)
   }
 
-  return null
+  return val
 }
 
 /**
@@ -104,7 +104,7 @@ const replaceRef = (style: JssStyle, prop: string, keyframes: KeyframesMap) => {
   const value = style[prop]
   const refKeyframe = findReferencedKeyframe(value, keyframes)
 
-  if (refKeyframe !== null) {
+  if (refKeyframe !== value) {
     style[prop] = refKeyframe
   }
 }
@@ -129,7 +129,7 @@ const plugin: Plugin = {
     const {sheet} = rule.options
 
     if (rule.type !== 'style' || !sheet) {
-      return null
+      return val
     }
 
     switch (prop) {
@@ -138,7 +138,7 @@ const plugin: Plugin = {
       case 'animation-name':
         return findReferencedKeyframe(val, sheet.keyframes)
       default:
-        return null
+        return val;
     }
   }
 }
