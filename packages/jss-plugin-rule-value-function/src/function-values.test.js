@@ -367,18 +367,28 @@ describe('jss-plugin-rule-value-function: Function values', () => {
 
         '@keyframes animateOut': {},
 
-        a: { animation: (name) => name },
+        a: { animation: ({ name }) => name },
       });
 
-      sheet.update('$animateIn');
+      sheet.update({ name: '$animateIn' });
 
       expect(sheet.toString()).to.be(stripIndent`
-          @keyframes animateIn-id {}
-          @keyframes animateOut-id {}
-          .a-id {
-            color: green;
-          }
-        `)
+        @keyframes keyframes-animateIn-id {}
+        @keyframes keyframes-animateOut-id {}
+        .a-id {
+          animation: keyframes-animateIn-id;
+        }
+      `)
+
+      sheet.update({ name: '$animateOut' });
+
+      expect(sheet.toString()).to.be(stripIndent`
+        @keyframes keyframes-animateIn-id {}
+        @keyframes keyframes-animateOut-id {}
+        .a-id {
+          animation: keyframes-animateOut-id;
+        }
+      `)
     })
   })
 
