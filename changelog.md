@@ -2,7 +2,7 @@
 
 ### Bug fixes
 
-- [jss] Fix dynamic values inside of @global plugin ([#664](https://github.com/cssinjs/jss/pull/664))
+- [jss] Fix dynamic values inside of @global plugin ([#1040](https://github.com/cssinjs/jss/pull/1040))
 
 ### Improvements
 
