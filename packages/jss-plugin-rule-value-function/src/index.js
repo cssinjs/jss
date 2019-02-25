@@ -26,10 +26,11 @@ export default function functionPlugin() {
     },
 
     onProcessStyle(style: JssStyle, rule: Rule): JssStyle {
-      // We don't ned to extract functions on each style update, since this can
-      // happen only one.
+      // We need to extract function values from the declaration, so that we can keep core unaware of them.
+      // We need to do that only once.
+      // We don't need to extract functions on each style update, since this can happen only once.
       // We don't support function values inside of function rules.
-      if (fnValuesNs in rule) return style
+      if (fnValuesNs in rule || fnRuleNs in rule) return style
 
       const fnValues = {}
       for (const prop in style) {
