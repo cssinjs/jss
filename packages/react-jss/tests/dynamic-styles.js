@@ -144,7 +144,7 @@ describe('React-JSS: dynamic styles', () => {
       `)
     })
 
-    it('should unset values when null is returned', () => {
+    it('should unset values when null is returned from fn value', () => {
       const generateId = createGenerateId()
       MyComponent = injectSheet({
         button: {
@@ -176,6 +176,43 @@ describe('React-JSS: dynamic styles', () => {
           width: 10px;
         }
         .button-1 {}
+      `)
+    })
+
+    it('should unset values when null is returned from fn rule', () => {
+      const generateId = createGenerateId()
+      MyComponent = injectSheet({
+        button0: {
+          width: 10
+        },
+        button1: ({height}) => ({
+          height
+        })
+      })(NoRenderer)
+      const Container = ({height}) => (
+        <JssProvider registry={registry} generateId={generateId}>
+          <MyComponent height={height} />
+        </JssProvider>
+      )
+
+      const renderer = TestRenderer.create(<Container height={10} />)
+
+      expect(registry.toString()).to.equal(stripIndent`
+        .button0-0 {
+          width: 10px;
+        }
+        .button1-2 {
+          height: 10px;
+        }
+      `)
+
+      renderer.update(<Container height={null} />)
+
+      expect(registry.toString()).to.equal(stripIndent`
+        .button0-0 {
+          width: 10px;
+        }
+        .button1-2 {}
       `)
     })
 
