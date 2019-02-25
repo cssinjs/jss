@@ -6,6 +6,7 @@
 
 ### Improvements
 
+- [all] All packages except of react-jss can now be used as ESM modules directly from unpkg.com ([1029](https://github.com/cssinjs/jss/pull/1029))
 - [jss] Improve TS typings ([#973](https://github.com/cssinjs/jss/pull/973))
 
 ## 10.0.0-alpha.10 (2019-2-9)
