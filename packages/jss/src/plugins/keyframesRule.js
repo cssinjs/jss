@@ -128,7 +128,7 @@ const plugin: Plugin = {
   onChangeValue(val, prop, rule) {
     const {sheet} = rule.options
 
-    if (rule.type !== 'style' || !sheet) {
+    if (!sheet) {
       return val
     }
 
