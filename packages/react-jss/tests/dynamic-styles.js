@@ -94,57 +94,126 @@ describe('React-JSS: dynamic styles', () => {
       )
 
       expect(registry.toString()).to.equal(stripIndent`
-      .button-0 {
-        color: ${color};
-      }
-      .button-1 {
-        height: 10px;
-      }
-      .button-2 {
-        height: 20px;
-      }`)
+        .button-0 {
+          color: ${color};
+        }
+        .button-1 {
+          height: 10px;
+        }
+        .button-2 {
+          height: 20px;
+        }
+      `)
     })
 
     it('should update dynamic values', () => {
-      /* eslint-disable-next-line react/no-multi-comp, react/prefer-stateless-function */
       const generateId = createGenerateId()
-      class Container extends PureComponent {
-        render() {
-          const {height} = this.props
-          return (
-            <JssProvider registry={registry} generateId={generateId}>
-              <MyComponent height={height} />
-              <MyComponent height={height * 2} />
-            </JssProvider>
-          )
-        }
-      }
+      const Container = ({height}) => (
+        <JssProvider registry={registry} generateId={generateId}>
+          <MyComponent height={height} />
+          <MyComponent height={height * 2} />
+        </JssProvider>
+      )
 
       const renderer = TestRenderer.create(<Container height={10} />)
 
       expect(registry.toString()).to.equal(stripIndent`
-      .button-0 {
-        color: ${color};
-      }
-      .button-1 {
-        height: 10px;
-      }
-      .button-2 {
-        height: 20px;
-      }`)
+        .button-0 {
+          color: ${color};
+        }
+        .button-1 {
+          height: 10px;
+        }
+        .button-2 {
+          height: 20px;
+        }
+      `)
 
       renderer.update(<Container height={20} />)
 
       expect(registry.toString()).to.equal(stripIndent`
-      .button-0 {
-        color: ${color};
-      }
-      .button-1 {
-        height: 20px;
-      }
-      .button-2 {
-        height: 40px;
-      }`)
+        .button-0 {
+          color: ${color};
+        }
+        .button-1 {
+          height: 20px;
+        }
+        .button-2 {
+          height: 40px;
+        }
+      `)
+    })
+
+    it('should unset values when null is returned from fn value', () => {
+      const generateId = createGenerateId()
+      MyComponent = injectSheet({
+        button: {
+          width: 10,
+          height: ({height}) => height
+        }
+      })(NoRenderer)
+      const Container = ({height}) => (
+        <JssProvider registry={registry} generateId={generateId}>
+          <MyComponent height={height} />
+        </JssProvider>
+      )
+
+      const renderer = TestRenderer.create(<Container height={10} />)
+
+      expect(registry.toString()).to.equal(stripIndent`
+        .button-0 {
+          width: 10px;
+        }
+        .button-1 {
+          height: 10px;
+        }
+      `)
+
+      renderer.update(<Container height={null} />)
+
+      expect(registry.toString()).to.equal(stripIndent`
+        .button-0 {
+          width: 10px;
+        }
+        .button-1 {}
+      `)
+    })
+
+    it('should unset values when null is returned from fn rule', () => {
+      const generateId = createGenerateId()
+      MyComponent = injectSheet({
+        button0: {
+          width: 10
+        },
+        button1: ({height}) => ({
+          height
+        })
+      })(NoRenderer)
+      const Container = ({height}) => (
+        <JssProvider registry={registry} generateId={generateId}>
+          <MyComponent height={height} />
+        </JssProvider>
+      )
+
+      const renderer = TestRenderer.create(<Container height={10} />)
+
+      expect(registry.toString()).to.equal(stripIndent`
+        .button0-0 {
+          width: 10px;
+        }
+        .button1-2 {
+          height: 10px;
+        }
+      `)
+
+      renderer.update(<Container height={null} />)
+
+      expect(registry.toString()).to.equal(stripIndent`
+        .button0-0 {
+          width: 10px;
+        }
+        .button1-2 {}
+      `)
     })
 
     it('should pass the props of the component', () => {
@@ -243,15 +312,15 @@ describe('React-JSS: dynamic styles', () => {
 
       expect(removeWhitespaces(registry.toString())).to.equal(
         removeWhitespaces(`
-      .button-1 {
-        color: ${color};
-        height: 10px;
-      }
-      .button-2 {
-        color: ${color};
-        height: 20px;
-      }
-      `)
+          .button-1 {
+            color: ${color};
+            height: 10px;
+          }
+          .button-2 {
+            color: ${color};
+            height: 20px;
+          }
+        `)
       )
     })
 
@@ -273,28 +342,30 @@ describe('React-JSS: dynamic styles', () => {
 
       expect(removeWhitespaces(registry.toString())).to.equal(
         removeWhitespaces(`
-      .button-1 {
-        color: ${color};
-        height: 10px;
-      }
-      .button-2 {
-        color: ${color};
-        height: 20px;
-      }`)
+          .button-1 {
+            color: ${color};
+            height: 10px;
+          }
+          .button-2 {
+            color: ${color};
+            height: 20px;
+          }
+       `)
       )
 
       renderer.update(<Container height={20} />)
 
       expect(removeWhitespaces(registry.toString())).to.equal(
         removeWhitespaces(`
-      .button-1 {
-        color: ${color};
-        height: 20px;
-      }
-      .button-2 {
-        color: ${color};
-        height: 40px;
-      }`)
+          .button-1 {
+            color: ${color};
+            height: 20px;
+          }
+          .button-2 {
+            color: ${color};
+            height: 40px;
+          }
+        `)
       )
     })
 

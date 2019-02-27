@@ -57,7 +57,7 @@ export class BaseStyleRule implements BaseRule {
     const isDefined = name in this.style
 
     // Value is empty and wasn't defined before.
-    if (isEmpty && !isDefined) return this
+    if (isEmpty && !isDefined && !force) return this
 
     // We are going to remove this value.
     const remove = isEmpty && isDefined
