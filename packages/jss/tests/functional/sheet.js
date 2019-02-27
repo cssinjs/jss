@@ -515,18 +515,32 @@ describe('Functional: sheet', () => {
     })
   })
 
-  describe('sheet.update()', () => {
+  describe.only('sheet.update()', () => {
     let sheet
     beforeEach(() => {
       const onUpdate = (data, rule) => {
-        rule.style = {}
+        rule.style = data
       }
-      const localJss = create().use({onUpdate})
-      sheet = localJss.createStyleSheet({a: {display: 'inline'}}, {link: true}).attach()
-    })
-    it('should remove a prop when it is missing in a new rule.style', () => {
+      sheet = create()
+        .use({onUpdate})
+        .createStyleSheet({a: {display: 'inline'}}, {link: true})
+        .attach()
+
       expect(computeStyle(sheet.classes.a).display).to.be('inline')
-      sheet.update()
+    })
+
+    it('should remove a prop when it is missing in a new rule.style', () => {
+      sheet.update({})
+      expect(computeStyle(sheet.classes.a).display).to.be('block')
+    })
+
+    it('should remove a prop when value is null in a new rule.style', () => {
+      sheet.update({display: null})
+      expect(computeStyle(sheet.classes.a).display).to.be('block')
+    })
+
+    it('should remove a prop when value is false in a new rule.style', () => {
+      sheet.update({display: false})
       expect(computeStyle(sheet.classes.a).display).to.be('block')
     })
   })
