@@ -515,7 +515,7 @@ describe('Functional: sheet', () => {
     })
   })
 
-  describe.only('sheet.update()', () => {
+  describe('sheet.update()', () => {
     let sheet
     beforeEach(() => {
       const onUpdate = (data, rule) => {
