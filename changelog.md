@@ -1,3 +1,9 @@
+## Next
+
+### Bug fixes
+
+- [jss] Fix removing styles from function rules ([#1046](https://github.com/cssinjs/jss/pull/1046))
+
 ## 10.0.0-alpha.11 (2019-2-24)
 
 ### Bug fixes
