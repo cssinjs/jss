@@ -1,15 +1,14 @@
 /* @flow */
 import warning from 'tiny-warning'
 import RuleList from '../RuleList'
-import type StyleSheet from '../StyleSheet'
 import type {
   CSSKeyframesRule,
   JssStyle,
-  Rule,
   RuleOptions,
   ToCssOptions,
   ContainerRule,
-  KeyframesMap
+  KeyframesMap,
+  Plugin
 } from '../types'
 
 const defaultToStringOptions = {
@@ -82,36 +81,66 @@ const keyRegExp = /@keyframes\s+/
 
 const refRegExp = /\$([\w-]+)/
 
+const findReferencedKeyframe = (val, keyframes) => {
+  if (typeof val === 'string') {
+    const ref = refRegExp.exec(val)
+
+    if (!ref) return val
+
+    if (ref[1] in keyframes) {
+      return val.replace(ref[0], keyframes[ref[1]])
+    }
+
+    warning(false, `[JSS] Referenced keyframes rule "${ref[1]}" is not defined.`)
+  }
+
+  return val
+}
+
 /**
  * Replace the reference for a animation name.
  */
 const replaceRef = (style: JssStyle, prop: string, keyframes: KeyframesMap) => {
   const value = style[prop]
+  const refKeyframe = findReferencedKeyframe(value, keyframes)
 
-  if (typeof value === 'string') {
-    const ref = refRegExp.exec(value)
-
-    if (!ref) return
-
-    if (ref[1] in keyframes) {
-      style[prop] = value.replace(ref[0], keyframes[ref[1]])
-    } else {
-      warning(false, `[JSS] Referenced keyframes rule "${ref[1]}" is not defined.`)
-    }
+  if (refKeyframe !== value) {
+    style[prop] = refKeyframe
   }
 }
 
-export default {
-  onCreateRule(key: string, frames: JssStyle, options: RuleOptions): KeyframesRule | null {
-    return keyRegExp.test(key) ? new KeyframesRule(key, frames, options) : null
+const plugin: Plugin = {
+  onCreateRule(key, frames, options) {
+    return typeof key === 'string' && keyRegExp.test(key)
+      ? new KeyframesRule(key, frames, options)
+      : null
   },
 
   // Animation name ref replacer.
-  onProcessStyle: (style: JssStyle, rule: Rule, sheet?: StyleSheet): JssStyle => {
+  onProcessStyle: (style, rule, sheet) => {
     if (rule.type !== 'style' || !sheet) return style
 
     if ('animation-name' in style) replaceRef(style, 'animation-name', sheet.keyframes)
     if ('animation' in style) replaceRef(style, 'animation', sheet.keyframes)
     return style
+  },
+
+  onChangeValue(val, prop, rule) {
+    const {sheet} = rule.options
+
+    if (!sheet) {
+      return val
+    }
+
+    switch (prop) {
+      case 'animation':
+        return findReferencedKeyframe(val, sheet.keyframes)
+      case 'animation-name':
+        return findReferencedKeyframe(val, sheet.keyframes)
+      default:
+        return val
+    }
   }
 }
+
+export default plugin

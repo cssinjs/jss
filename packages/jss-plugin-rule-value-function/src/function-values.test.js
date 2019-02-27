@@ -360,6 +360,68 @@ describe('jss-plugin-rule-value-function: Function values', () => {
     })
   })
 
+  describe('keyframe names', () => {
+    it('should work with animation-name', () => {
+      const sheet = jss.createStyleSheet({
+        '@keyframes animateIn': {},
+
+        '@keyframes animateOut': {},
+
+        a: {'animation-name': ({name}) => name}
+      })
+
+      sheet.update({name: '$animateIn'})
+
+      expect(sheet.toString()).to.be(stripIndent`
+        @keyframes keyframes-animateIn-id {}
+        @keyframes keyframes-animateOut-id {}
+        .a-id {
+          animation-name: keyframes-animateIn-id;
+        }
+      `)
+
+      sheet.update({name: '$animateOut'})
+
+      expect(sheet.toString()).to.be(stripIndent`
+        @keyframes keyframes-animateIn-id {}
+        @keyframes keyframes-animateOut-id {}
+        .a-id {
+          animation-name: keyframes-animateOut-id;
+        }
+      `)
+    })
+
+    it('should work with animation prop', () => {
+      const sheet = jss.createStyleSheet({
+        '@keyframes animateIn': {},
+
+        '@keyframes animateOut': {},
+
+        a: {animation: ({name}) => `${name} 5s`}
+      })
+
+      sheet.update({name: '$animateIn'})
+
+      expect(sheet.toString()).to.be(stripIndent`
+        @keyframes keyframes-animateIn-id {}
+        @keyframes keyframes-animateOut-id {}
+        .a-id {
+          animation: keyframes-animateIn-id 5s;
+        }
+      `)
+
+      sheet.update({name: '$animateOut'})
+
+      expect(sheet.toString()).to.be(stripIndent`
+        @keyframes keyframes-animateIn-id {}
+        @keyframes keyframes-animateOut-id {}
+        .a-id {
+          animation: keyframes-animateOut-id 5s;
+        }
+      `)
+    })
+  })
+
   describe('rule.toJSON()', () => {
     it('should handle function values', () => {
       const sheet = jss.createStyleSheet({

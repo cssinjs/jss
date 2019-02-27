@@ -2,13 +2,14 @@
 
 ### Bug fixes
 
+- [jss] Fix using function values with scoped keyframes ([#1043](https://github.com/cssinjs/jss/pull/1043))
 - [jss] Fix removing styles from function rules ([#1046](https://github.com/cssinjs/jss/pull/1046))
 
 ## 10.0.0-alpha.11 (2019-2-24)
 
 ### Bug fixes
 
-- [jss] Fix dynamic values inside of @global plugin ([#1040](https://github.com/cssinjs/jss/pull/1040))
+- [jss] Fix dynamic values inside of @global plugin ([#664](https://github.com/cssinjs/jss/pull/664))
 
 ### Improvements
 
