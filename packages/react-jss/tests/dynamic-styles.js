@@ -42,14 +42,12 @@ describe('React-JSS: dynamic styles', () => {
         </JssProvider>
       )
 
-      expect(registry.registry.length).to.equal(2)
+      expect(registry.registry.length).to.equal(1)
       expect(registry.registry[0].attached).to.equal(true)
-      expect(registry.registry[1].attached).to.equal(true)
 
       renderer.unmount()
 
       expect(registry.registry[0].attached).to.equal(false)
-      expect(registry.registry[1].attached).to.equal(false)
     })
 
     it('should have correct meta attribute', () => {
@@ -59,11 +57,10 @@ describe('React-JSS: dynamic styles', () => {
         </JssProvider>
       )
 
-      expect(registry.registry[0].options.meta).to.equal('NoRenderer, Unthemed, Static')
-      expect(registry.registry[1].options.meta).to.equal('NoRenderer, Unthemed, Dynamic')
+      expect(registry.registry[0].options.meta).to.equal('NoRenderer, Unthemed')
     })
 
-    it('should reuse static sheet, but generate separate dynamic once', () => {
+    it('should reuse sheet between component instances', () => {
       TestRenderer.create(
         <JssProvider registry={registry}>
           <MyComponent height={2} />
@@ -71,7 +68,7 @@ describe('React-JSS: dynamic styles', () => {
         </JssProvider>
       )
 
-      expect(registry.registry.length).to.equal(3)
+      expect(registry.registry.length).to.equal(1)
     })
 
     it('should have dynamic and static styles', () => {
@@ -82,7 +79,7 @@ describe('React-JSS: dynamic styles', () => {
       )
       const props = renderer.root.findByType(NoRenderer).props
 
-      expect(props.classes.button).to.equal('button-0 button-1')
+      expect(props.classes.button).to.equal('button-0 button-0-1')
     })
 
     it('should generate different dynamic values', () => {

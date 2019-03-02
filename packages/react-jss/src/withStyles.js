@@ -232,7 +232,7 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
         const rules = {};
 
         for (const key in sheet.dynamicStyles) {
-          rules[key] = sheet.addRule(`${key}-${this.instanceId}`, rules[key])
+          rules[key] = sheet.addRule(`${key}-${this.instanceId}`, sheet.dynamicStyles[key])
         }
 
         return rules;
