@@ -260,7 +260,7 @@ describe('React-JSS: JssProvider', () => {
         .button-0 {
           color: red;
         }
-        .button-1 {
+        .button-0-1 {
           border: green;
         }
       `)
@@ -278,7 +278,7 @@ describe('React-JSS: JssProvider', () => {
         .button-0 {
           color: red;
         }
-        .button-1 {
+        .button-0-1 {
           border: blue;
         }
       `)

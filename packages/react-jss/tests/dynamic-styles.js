@@ -94,10 +94,10 @@ describe('React-JSS: dynamic styles', () => {
         .button-0 {
           color: ${color};
         }
-        .button-1 {
+        .button-0-1 {
           height: 10px;
         }
-        .button-2 {
+        .button-1-2 {
           height: 20px;
         }
       `)
@@ -118,10 +118,10 @@ describe('React-JSS: dynamic styles', () => {
         .button-0 {
           color: ${color};
         }
-        .button-1 {
+        .button-0-1 {
           height: 10px;
         }
-        .button-2 {
+        .button-1-2 {
           height: 20px;
         }
       `)
@@ -132,10 +132,10 @@ describe('React-JSS: dynamic styles', () => {
         .button-0 {
           color: ${color};
         }
-        .button-1 {
+        .button-0-1 {
           height: 20px;
         }
-        .button-2 {
+        .button-1-2 {
           height: 40px;
         }
       `)
@@ -161,7 +161,7 @@ describe('React-JSS: dynamic styles', () => {
         .button-0 {
           width: 10px;
         }
-        .button-1 {
+        .button-0-1 {
           height: 10px;
         }
       `)
@@ -172,7 +172,7 @@ describe('React-JSS: dynamic styles', () => {
         .button-0 {
           width: 10px;
         }
-        .button-1 {}
+        .button-0-1 {}
       `)
     })
 
@@ -198,7 +198,8 @@ describe('React-JSS: dynamic styles', () => {
         .button0-0 {
           width: 10px;
         }
-        .button1-2 {
+        .button1-1 {}
+        .button1-0-2 {
           height: 10px;
         }
       `)
@@ -209,7 +210,8 @@ describe('React-JSS: dynamic styles', () => {
         .button0-0 {
           width: 10px;
         }
-        .button1-2 {}
+        .button1-1 {}
+        .button1-0-2 {}
       `)
     })
 
@@ -256,14 +258,12 @@ describe('React-JSS: dynamic styles', () => {
         </JssProvider>
       )
 
-      expect(registry.registry.length).to.equal(2)
+      expect(registry.registry.length).to.equal(1)
       expect(registry.registry[0].attached).to.equal(true)
-      expect(registry.registry[1].attached).to.equal(true)
 
       renderer.unmount()
 
       expect(registry.registry[0].attached).to.equal(false)
-      expect(registry.registry[1].attached).to.equal(false)
     })
 
     it('should have correct meta attribute', () => {
@@ -273,8 +273,7 @@ describe('React-JSS: dynamic styles', () => {
         </JssProvider>
       )
 
-      expect(registry.registry[0].options.meta).to.equal('NoRenderer, Unthemed, Static')
-      expect(registry.registry[1].options.meta).to.equal('NoRenderer, Unthemed, Dynamic')
+      expect(registry.registry[0].options.meta).to.equal('NoRenderer, Unthemed')
     })
 
     it('should reuse static sheet, but generate separate dynamic once', () => {
@@ -285,7 +284,7 @@ describe('React-JSS: dynamic styles', () => {
         </JssProvider>
       )
 
-      expect(registry.registry.length).to.equal(3)
+      expect(registry.registry.length).to.equal(1)
     })
 
     it('should have dynamic and static styles', () => {
@@ -296,7 +295,7 @@ describe('React-JSS: dynamic styles', () => {
       )
       const props = renderer.root.findByType(NoRenderer).props
 
-      expect(props.classes.button).to.equal('button-0 button-1')
+      expect(props.classes.button).to.equal('button-0 button-0-1')
     })
 
     it('should generate different dynamic values', () => {
@@ -307,18 +306,17 @@ describe('React-JSS: dynamic styles', () => {
         </JssProvider>
       )
 
-      expect(removeWhitespaces(registry.toString())).to.equal(
-        removeWhitespaces(`
-          .button-1 {
-            color: ${color};
-            height: 10px;
-          }
-          .button-2 {
-            color: ${color};
-            height: 20px;
-          }
-        `)
-      )
+      expect(registry.toString()).to.equal(stripIndent`
+        .button-0 {
+          color: rgb(255,255,255);
+        }
+        .button-0-1 {
+          height: 10px;
+        }
+        .button-1-2 {
+          height: 20px;
+        }
+      `)
     })
 
     it('should update dynamic values', () => {
