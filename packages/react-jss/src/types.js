@@ -33,8 +33,8 @@ export type InnerProps = {
 }
 
 export type DynamicRules = {
-  [key: string]: BaseRule,
-};
+  [key: string]: BaseRule
+}
 
 export type ThemedStyles<Theme> = (theme: Theme) => StaticStyles
 export type Styles<Theme> = StaticStyles | ThemedStyles<Theme>

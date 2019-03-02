@@ -13,9 +13,9 @@ import defaultJss from './jss'
 import JssContext from './JssContext'
 
 interface State {
-  dynamicRules?: ?DynamicRules,
-  sheet?: StyleSheet,
-  classes: {}
+  dynamicRules?: ?DynamicRules;
+  sheet?: StyleSheet;
+  classes: {};
 }
 
 /**
@@ -78,38 +78,38 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
       static defaultProps = {...InnerComponent.defaultProps}
 
       static getSheetClasses(sheet, dynamicRules: ?DynamicRules) {
-        const classes = {};
+        const classes = {}
 
         // $FlowFixMe
         for (const key in sheet.styles) {
-          classes[key] = sheet.classes[key];
+          classes[key] = sheet.classes[key]
 
           if (dynamicRules && key in dynamicRules) {
             classes[key] += ` ${sheet.classes[dynamicRules[key].key]}`
           }
         }
 
-        return classes;
+        return classes
       }
 
-      static updateDynamicRules(props: HOCProps<Theme, Props>, { dynamicRules, sheet }: State) {
+      static updateDynamicRules(props: HOCProps<Theme, Props>, {dynamicRules, sheet}: State) {
         if (!sheet) {
-          return;
+          return
         }
 
         for (const key in dynamicRules) {
           // $FlowFixMe: Not sure why it throws an error here
-          sheet.update(dynamicRules[key].key, props, {});
+          sheet.update(dynamicRules[key].key, props, {})
         }
       }
 
-      static removeDynamicRules(props: Props, { dynamicRules, sheet }: State) {
+      static removeDynamicRules(props: Props, {dynamicRules, sheet}: State) {
         if (!sheet) {
-          return;
+          return
         }
 
         for (const key in dynamicRules) {
-          sheet.deleteRule(dynamicRules[key].key);
+          sheet.deleteRule(dynamicRules[key].key)
         }
       }
 
@@ -117,19 +117,19 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
         // $FlowFixMe Cannot access random fields on instance of class StyleSheet
         if (!sheet.dynamicStyles) return undefined
 
-        const rules: DynamicRules = {};
+        const rules: DynamicRules = {}
 
         for (const key in sheet.dynamicStyles) {
           // $FlowFixMe
-          const ruleKey = `${key}-${sheet.dynamicRuleCounter++}`;
-          const rule = sheet.addRule(ruleKey, sheet.dynamicStyles[key]);
+          const ruleKey = `${key}-${sheet.dynamicRuleCounter++}`
+          const rule = sheet.addRule(ruleKey, sheet.dynamicStyles[key])
 
           if (rule) {
-            rules[key] = rule;
+            rules[key] = rule
           }
         }
 
-        return rules;
+        return rules
       }
 
       mergeClassesProp = memoize(
@@ -208,10 +208,10 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
         sheet.dynamicStyles = dynamicStyles
 
         // $FlowFixMe Cannot add random fields to instance of class StyleSheet
-        sheet.styles = themedStyles;
+        sheet.styles = themedStyles
 
         // $FlowFixMe
-        sheet.dynamicRuleCounter = 0;
+        sheet.dynamicRuleCounter = 0
 
         this.manager.add(theme, sheet)
 
@@ -253,7 +253,7 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
         return {
           sheet,
           dynamicRules,
-          classes: WithStyles.getSheetClasses(sheet, dynamicRules),
+          classes: WithStyles.getSheetClasses(sheet, dynamicRules)
         }
       }
 
