@@ -1,5 +1,5 @@
 // @flow
-import type {StyleSheetFactoryOptions, Jss, SheetsRegistry, SheetsManager} from 'jss'
+import type {StyleSheetFactoryOptions, Jss, SheetsRegistry, SheetsManager, BaseRule} from 'jss'
 import type {Node} from 'react'
 import type {Theming} from 'theming'
 
@@ -31,6 +31,10 @@ export type InnerProps = {
   children?: Node,
   classes: {}
 }
+
+export type DynamicRules = {
+  [key: string]: BaseRule,
+};
 
 export type ThemedStyles<Theme> = (theme: Theme) => StaticStyles
 export type Styles<Theme> = StaticStyles | ThemedStyles<Theme>
