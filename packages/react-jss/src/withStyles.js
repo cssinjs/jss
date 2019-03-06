@@ -97,9 +97,11 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
           return
         }
 
+        // Loop over each dynamic rule and update it
+        // We can't just update the whole sheet as this has all of the rules for every component instance
         for (const key in dynamicRules) {
           // $FlowFixMe: Not sure why it throws an error here
-          sheet.update(dynamicRules[key].key, props, {})
+          sheet.update(dynamicRules[key].key, props)
         }
       }
 
@@ -108,6 +110,8 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
           return
         }
 
+        // Loop over each dynamic rule and remove the dynamic rule
+        // We can't just remove the whole sheet as this has all of the rules for every component instance
         for (const key in dynamicRules) {
           sheet.deleteRule(dynamicRules[key].key)
         }
@@ -119,6 +123,7 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
 
         const rules: DynamicRules = {}
 
+        // Loop over each dynamic rule and add it to the stylesheet
         for (const key in sheet.dynamicStyles) {
           // $FlowFixMe
           const ruleKey = `${key}-${sheet.dynamicRuleCounter++}`
