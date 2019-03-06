@@ -66,7 +66,7 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
   ): ComponentType<Props> => {
     const displayName = getDisplayName(InnerComponent)
     const defaultClassNamePrefix =
-      process.env.NODE_ENV === 'production' ? '' : `${displayName.replace(/\s/, '-')}-`
+      process.env.NODE_ENV === 'production' ? '' : `${displayName.replace(/\s/g, '-')}-`
     const managerId = managersCounter++
     const manager = new SheetsManager()
     const noTheme = {}
