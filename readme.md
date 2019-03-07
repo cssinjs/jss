@@ -1,9 +1,9 @@
 # JSS
 
-[![Version](https://img.shields.io/npm/v/jss.svg?style=flat)](https://npmjs.org/packages/jss)
+[![Version](https://img.shields.io/npm/v/jss.svg?style=flat)](https://npmjs.org/package/jss)
 [![License](https://img.shields.io/npm/l/jss.svg?style=flat)](https://github.com/cssinjs/jss/blob/master/LICENSE)
-[![Downlodas](https://img.shields.io/npm/dm/jss.svg?style=flat)](https://npmjs.org/packages/jss)
-[![Size](https://img.shields.io/bundlephobia/minzip/jss.svg?style=flat)](https://npmjs.org/packages/jss)
+[![Downlodas](https://img.shields.io/npm/dm/jss.svg?style=flat)](https://npmjs.org/package/jss)
+[![Size](https://img.shields.io/bundlephobia/minzip/jss.svg?style=flat)](https://npmjs.org/package/jss)
 [![Contributors](https://img.shields.io/github/contributors/cssinjs/jss.svg?style=flat)](https://github.com/cssinjs/jss/graphs/contributors)
 [![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 [![Build Status](https://travis-ci.org/cssinjs/jss.svg?branch=master)](https://travis-ci.org/cssinjs/jss)
