@@ -1,16 +1,16 @@
 // @flow
 import React, {Component, type ComponentType, type Node} from 'react'
 import hoistNonReactStatics from 'hoist-non-react-statics'
-import {getDynamicStyles, SheetsManager, type StyleSheet} from 'jss'
+import {type StyleSheet} from 'jss'
 import {ThemeContext} from 'theming'
-import warning from 'tiny-warning'
 
-import type {HOCProps, Options, Styles, InnerProps, DynamicRules} from './types'
+import type {HOCProps, HOCOptions, Styles, InnerProps, DynamicRules} from '../types'
 import getDisplayName from './getDisplayName'
-import memoize from './memoize-one'
-import mergeClasses from './merge-classes'
-import defaultJss from './jss'
-import JssContext from './JssContext'
+import memoize from '../memoize-one'
+import mergeClasses from '../merge-classes'
+import JssContext from '../JssContext'
+import {getIndex} from '../utils/index-counter'
+import {createSheet} from '../utils/create-sheet'
 
 interface State {
   dynamicRules?: ?DynamicRules;
@@ -18,44 +18,20 @@ interface State {
   classes: {};
 }
 
-/**
- * Global index counter to preserve source order.
- * As we create the style sheet during componentWillMount lifecycle,
- * children are handled after the parents, so the order of style elements would
- * be parent->child. It is a problem though when a parent passes a className
- * which needs to override any childs styles. StyleSheet of the child has a higher
- * specificity, because of the source order.
- * So our solution is to render sheets them in the reverse order child->sheet, so
- * that parent has a higher specificity.
- */
-let indexCounter = -100000
-
-let managersCounter = 0
-
 const NoRenderer = (props: {children?: Node}) => props.children || null
 
-const getStyles = <Theme: {}>(styles: Styles<Theme>, theme: Theme, displayName: string) => {
-  if (typeof styles !== 'function') {
-    return styles
-  }
-  warning(
-    styles.length !== 0,
-    `[JSS] <${displayName} />'s styles function doesn't rely on the "theme" argument. We recommend declaring styles as an object instead.`
-  )
-
-  return styles(theme)
-}
+const noTheme = {}
 
 /**
  * HOC creator function that wrapps the user component.
  *
  * `withStyles(styles, [options])(Component)`
  */
-export default function withStyles<Theme: {}, S: Styles<Theme>>(
-  styles: S,
-  options?: Options<Theme> = {}
+export default function withStyles<Theme: {}>(
+  styles: Styles<Theme>,
+  options?: HOCOptions<Theme> = {}
 ) {
-  const {index = indexCounter++, theming, injectTheme, jss: optionsJss, ...sheetOptions} = options
+  const {index = getIndex(), theming, injectTheme} = options
   const isThemingEnabled = typeof styles === 'function'
   const ThemeConsumer = (theming && theming.context.Consumer) || ThemeContext.Consumer
 
@@ -63,14 +39,6 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
     InnerComponent: ComponentType<Props> = NoRenderer
   ): ComponentType<Props> => {
     const displayName = getDisplayName(InnerComponent)
-    const defaultClassNamePrefix =
-      process.env.NODE_ENV === 'production' ? '' : `${displayName.replace(/\s/g, '-')}-`
-    const managerId = managersCounter++
-    const manager = new SheetsManager()
-    const noTheme = {}
-    // $FlowFixMe
-    const getTheme = (props: HOCProps<Theme, Props>): Theme =>
-      isThemingEnabled && props.theme ? props.theme : noTheme
 
     class WithStyles extends Component<HOCProps<Theme, Props>, State> {
       static displayName = `WithStyles(${displayName})`
@@ -146,10 +114,6 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
       constructor(props: HOCProps<Theme, Props>) {
         super(props)
 
-        const {sheetOptions: contextSheetOptions} = props.jssContext
-
-        this.classNamePrefix = (contextSheetOptions.classNamePrefix || '') + defaultClassNamePrefix
-
         this.state = this.createState()
         this.manage(props, this.state)
       }
@@ -169,59 +133,6 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
 
       componentWillUnmount() {
         this.unmanage(this.props, this.state)
-      }
-
-      get jss() {
-        return this.props.jssContext.jss || optionsJss || defaultJss
-      }
-
-      get manager(): SheetsManager {
-        const {managers} = this.props.jssContext
-
-        // If `managers` map is present in the context, we use it in order to
-        // let JssProvider reset them when new response has to render server-side.
-        if (managers) {
-          if (!managers[managerId]) {
-            managers[managerId] = new SheetsManager()
-          }
-          return managers[managerId]
-        }
-
-        return manager
-      }
-
-      getSheet(): StyleSheet {
-        const theme = getTheme(this.props)
-        let sheet = this.manager.get(theme)
-
-        if (sheet) {
-          return sheet
-        }
-
-        const themedStyles = getStyles(styles, theme, displayName)
-        const dynamicStyles = getDynamicStyles(themedStyles)
-        const contextSheetOptions = this.props.jssContext.sheetOptions
-        sheet = this.jss.createStyleSheet(themedStyles, {
-          ...sheetOptions,
-          ...contextSheetOptions,
-          index,
-          meta: `${displayName}, ${isThemingEnabled ? 'Themed' : 'Unthemed'}`,
-          classNamePrefix: this.classNamePrefix,
-          link: dynamicStyles !== null
-        })
-
-        // $FlowFixMe Cannot add random fields to instance of class StyleSheet
-        sheet.dynamicStyles = dynamicStyles
-
-        // $FlowFixMe Cannot add random fields to instance of class StyleSheet
-        sheet.styles = themedStyles
-
-        // $FlowFixMe
-        sheet.dynamicRuleCounter = 0
-
-        this.manager.add(theme, sheet)
-
-        return sheet
       }
 
       classNamePrefix: string
@@ -249,11 +160,18 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
       }
 
       createState(): State {
-        if (this.props.jssContext.disableStylesGeneration) {
+        const sheet = createSheet({
+          styles,
+          theme: this.props.theme,
+          index,
+          name: displayName,
+          jssContext: this.props.jssContext,
+        });
+
+        if (!sheet) {
           return {classes: {}}
         }
 
-        const sheet = this.getSheet()
         const dynamicRules = WithStyles.addDynamicStyles(sheet)
 
         return {
@@ -292,7 +210,12 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
             )
           }
 
-          return <WithStyles innerRef={ref} {...props} jssContext={context} />
+          return <WithStyles
+            innerRef={ref}
+            {...props}
+            jssContext={context}
+            theme={noTheme}
+          />
         }}
       </JssContext.Consumer>
     ))
