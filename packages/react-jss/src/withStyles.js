@@ -28,7 +28,7 @@ interface State {
  * So our solution is to render sheets them in the reverse order child->sheet, so
  * that parent has a higher specificity.
  */
-let indexCounter = -100000
+let indexCounter = -Number.MAX_SAFE_INTEGER
 
 let managersCounter = 0
 
@@ -49,14 +49,21 @@ const getStyles = <Theme: {}>(styles: Styles<Theme>, theme: Theme, displayName: 
 }
 
 const getSheetClasses = (sheet, dynamicRules: ?DynamicRules) => {
+  if (!dynamicRules) {
+    return sheet.classes
+  }
+
   const classes = {}
   const meta = sheetsMeta.get(sheet)
-  if (meta === undefined) return sheet.classes
+
+  if (!meta) {
+    return sheet.classes
+  }
 
   for (const key in meta.themedStyles) {
     classes[key] = sheet.classes[key]
 
-    if (dynamicRules && key in dynamicRules) {
+    if (key in dynamicRules) {
       classes[key] += ` ${sheet.classes[dynamicRules[key].key]}`
     }
   }
@@ -80,7 +87,7 @@ const updateDynamicRules = <Theme, Props>(
   }
 }
 
-const removeDynamicRules = <Props>(props: Props, {dynamicRules, sheet}: State) => {
+const removeDynamicRules = ({dynamicRules, sheet}: State) => {
   if (!sheet) {
     return
   }
@@ -95,7 +102,9 @@ const removeDynamicRules = <Props>(props: Props, {dynamicRules, sheet}: State) =
 const addDynamicStyles = (sheet: StyleSheet): ?DynamicRules => {
   const meta = sheetsMeta.get(sheet)
 
-  if (!meta) return undefined
+  if (!meta) {
+    return undefined
+  }
 
   const rules: DynamicRules = {}
 
@@ -117,8 +126,8 @@ const addDynamicStyles = (sheet: StyleSheet): ?DynamicRules => {
  *
  * `withStyles(styles, [options])(Component)`
  */
-export default function withStyles<Theme: {}, S: Styles<Theme>>(
-  styles: S,
+export default function withStyles<Theme: {}, StylesOrFn: Styles<Theme>>(
+  styles: StylesOrFn,
   options?: Options<Theme> = {}
 ) {
   const {index = indexCounter++, theming, injectTheme, jss: optionsJss, ...sheetOptions} = options
@@ -246,7 +255,7 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
       }
 
       unmanage(props, state: State) {
-        removeDynamicRules(props, state)
+        removeDynamicRules(state)
 
         this.manager.unmanage(getTheme(props))
       }
@@ -261,6 +270,7 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
 
         return {
           sheet,
+          // Those are dynamic rules which are used in this specific element only.
           dynamicRules,
           classes: getSheetClasses(sheet, dynamicRules)
         }
