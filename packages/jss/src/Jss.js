@@ -50,10 +50,10 @@ export default class Jss {
    * deduplication logic.
    */
   setup(options?: JssOptions = {}): this {
-    if (options.createGenerateId) {
-      this.options.createGenerateId = options.createGenerateId
-      // $FlowFixMe
-      this.generateId = options.createGenerateId()
+    const {createGenerateId} = options
+    if (createGenerateId) {
+      this.options.createGenerateId = createGenerateId
+      this.generateId = createGenerateId()
     }
 
     if (options.insertionPoint != null) this.options.insertionPoint = options.insertionPoint

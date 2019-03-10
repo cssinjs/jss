@@ -1,4 +1,5 @@
 // @flow
 
-export * from './cssom.js'
-export * from './jss.js'
+export * from './cssom'
+export * from './dom'
+export * from './jss'

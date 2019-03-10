@@ -8,6 +8,7 @@ import type {ViewportRule} from '../plugins/viewportRule'
 import type {SimpleRule} from '../plugins/simpleRule'
 import type {FontFaceRule} from '../plugins/fontFaceRule'
 import type {CSSStyleRule, CSSMediaRule, CSSKeyframesRule} from './cssom'
+import type {HTMLElementWithStyleMap} from './dom'
 import type RuleList from '../RuleList'
 
 export type {RuleList, StyleSheet}
@@ -70,9 +71,13 @@ export type JssValue =
 
 export interface Renderer {
   constructor(sheet?: StyleSheet): void;
-  setProperty(cssRule: HTMLElement | CSSStyleRule, prop: string, value: JssValue): boolean;
-  getPropertyValue(cssRule: HTMLElement | CSSStyleRule, prop: string): string;
-  removeProperty(cssRule: HTMLElement | CSSStyleRule, prop: string): void;
+  setProperty(
+    cssRule: HTMLElementWithStyleMap | CSSStyleRule,
+    prop: string,
+    value: JssValue
+  ): boolean;
+  getPropertyValue(cssRule: HTMLElementWithStyleMap | CSSStyleRule, prop: string): string;
+  removeProperty(cssRule: HTMLElementWithStyleMap | CSSStyleRule, prop: string): void;
   setSelector(cssRule: CSSStyleRule, selectorText: string): boolean;
   attach(): void;
   detach(): void;
@@ -143,7 +148,7 @@ export type Plugin = {|
   onUpdate?: OnUpdate
 |}
 
-export type InsertionPoint = string | HTMLElement
+export type InsertionPoint = string | HTMLElementWithStyleMap
 
 type CreateGenerateId = () => GenerateId
 
