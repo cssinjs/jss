@@ -134,14 +134,14 @@ export type OnProcessSheet = (sheet?: StyleSheet) => void
 export type OnChangeValue = (value: JssValue, prop: string, rule: StyleRule) => JssValue
 export type OnUpdate = (data: Object, rule: Rule, sheet: StyleSheet, options: UpdateOptions) => void
 
-export type Plugin = {
+export type Plugin = {|
   onCreateRule?: OnCreateRule,
   onProcessRule?: OnProcessRule,
   onProcessStyle?: OnProcessStyle,
   onProcessSheet?: OnProcessSheet,
   onChangeValue?: OnChangeValue,
   onUpdate?: OnUpdate
-}
+|}
 
 export type InsertionPoint = string | HTMLElement
 
@@ -155,12 +155,12 @@ export type JssOptions = {
   virtual?: Boolean
 }
 
-export type InternalJssOptions = {
+export type InternalJssOptions = {|
   createGenerateId: CreateGenerateId,
   plugins: Array<Plugin>,
   insertionPoint?: InsertionPoint,
   Renderer: Class<Renderer>
-}
+|}
 
 export type StyleSheetFactoryOptions = {
   media?: string,
@@ -172,7 +172,7 @@ export type StyleSheetFactoryOptions = {
   classNamePrefix?: string
 }
 
-export type StyleSheetOptions = {
+export type StyleSheetOptions = {|
   media?: string,
   meta?: string,
   link?: boolean,
@@ -183,9 +183,9 @@ export type StyleSheetOptions = {
   Renderer: Class<Renderer>,
   insertionPoint?: InsertionPoint,
   jss: Jss
-}
+|}
 
-export type InternalStyleSheetOptions = {
+export type InternalStyleSheetOptions = {|
   media?: string,
   meta?: string,
   link?: boolean,
@@ -198,5 +198,6 @@ export type InternalStyleSheetOptions = {
   jss: Jss,
   sheet: StyleSheet,
   parent: ConditionalRule | KeyframesRule | StyleSheet,
-  classes: Classes
-}
+  classes: Classes,
+  keyframes: KeyframesMap
+|}

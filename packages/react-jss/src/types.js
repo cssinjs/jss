@@ -7,25 +7,26 @@ type StaticStyles = {[key: string]: {}}
 
 export type Managers = {[key: number]: SheetsManager}
 
-export type Options<Theme> = {
+export type Options<Theme> = {|
   theming?: Theming<Theme>,
   injectTheme?: boolean,
-  jss?: Jss
-} & StyleSheetFactoryOptions
+  jss?: Jss,
+  ...$Exact<StyleSheetFactoryOptions>
+|}
 
-export type Context = {
+export type Context = {|
   jss?: Jss,
   registry?: SheetsRegistry,
   managers?: Managers,
   sheetOptions: StyleSheetFactoryOptions,
   disableStylesGeneration: boolean
-}
+|}
 
-export type HOCProps<Theme, Props> = Props & {
+export type HOCProps<Theme, Props> = Props & {|
   theme?: Theme,
   jssContext: Context,
   innerRef: any
-}
+|}
 
 export type InnerProps = {
   children?: Node,

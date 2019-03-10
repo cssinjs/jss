@@ -13,7 +13,7 @@ import defaultJss from './jss'
 import JssContext from './JssContext'
 
 interface State {
-  dynamicRules?: ?DynamicRules;
+  dynamicRules?: DynamicRules;
   sheet?: StyleSheet;
   classes: {};
 }
@@ -48,7 +48,7 @@ const getStyles = <Theme: {}>(styles: Styles<Theme>, theme: Theme, displayName: 
   return styles(theme)
 }
 
-const getSheetClasses = (sheet, dynamicRules: ?DynamicRules) => {
+const getSheetClasses = (sheet, dynamicRules?: DynamicRules) => {
   if (!dynamicRules) {
     return sheet.classes
   }
@@ -82,8 +82,7 @@ const updateDynamicRules = <Theme, Props>(
   // Loop over each dynamic rule and update it
   // We can't just update the whole sheet as this has all of the rules for every component instance
   for (const key in dynamicRules) {
-    // $FlowFixMe: Not sure why it throws an error here
-    sheet.update(dynamicRules[key].key, props)
+    sheet.update((dynamicRules[key].key: string), (props: Object))
   }
 }
 
@@ -99,7 +98,7 @@ const removeDynamicRules = ({dynamicRules, sheet}: State) => {
   }
 }
 
-const addDynamicStyles = (sheet: StyleSheet): ?DynamicRules => {
+const addDynamicStyles = (sheet: StyleSheet): DynamicRules | void => {
   const meta = sheetsMeta.get(sheet)
 
   if (!meta) {
@@ -128,9 +127,10 @@ const addDynamicStyles = (sheet: StyleSheet): ?DynamicRules => {
  */
 export default function withStyles<Theme: {}, StylesOrFn: Styles<Theme>>(
   styles: StylesOrFn,
-  options?: Options<Theme> = {}
+  options?: Options<Theme>
 ) {
-  const {index = indexCounter++, theming, injectTheme, jss: optionsJss, ...sheetOptions} = options
+  const {index = indexCounter++, theming, injectTheme, jss: optionsJss, ...sheetOptions} =
+    options || {}
   const isThemingEnabled = typeof styles === 'function'
   const ThemeConsumer = (theming && theming.context.Consumer) || ThemeContext.Consumer
 
@@ -142,10 +142,10 @@ export default function withStyles<Theme: {}, StylesOrFn: Styles<Theme>>(
       process.env.NODE_ENV === 'production' ? '' : `${displayName.replace(/\s/g, '-')}-`
     const managerId = managersCounter++
     const manager = new SheetsManager()
-    const noTheme = {}
-    // $FlowFixMe
+    const emptyTheme: Theme = ({}: any)
+
     const getTheme = (props: HOCProps<Theme, Props>): Theme =>
-      isThemingEnabled && props.theme ? props.theme : noTheme
+      isThemingEnabled && props.theme ? props.theme : emptyTheme
 
     class WithStyles extends Component<HOCProps<Theme, Props>, State> {
       static displayName = `WithStyles(${displayName})`
@@ -266,14 +266,12 @@ export default function withStyles<Theme: {}, StylesOrFn: Styles<Theme>>(
         }
 
         const sheet = this.getSheet()
+        // Those are dynamic rules which are used in this specific element only.
         const dynamicRules = addDynamicStyles(sheet)
-
-        return {
-          sheet,
-          // Those are dynamic rules which are used in this specific element only.
-          dynamicRules,
-          classes: getSheetClasses(sheet, dynamicRules)
-        }
+        const classes = getSheetClasses(sheet, dynamicRules)
+        const state: State = {sheet, classes}
+        if (dynamicRules) state.dynamicRules = dynamicRules
+        return state
       }
 
       render() {
