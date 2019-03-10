@@ -1,3 +1,9 @@
+## Next
+
+### Bug fixes
+
+- [react-jss] Replace spaces inside the display name with hyphens ([#1049](https://github.com/cssinjs/jss/pull/1049))
+
 ## 10.0.0-alpha.12 (2019-2-27)
 
 ### Bug fixes
