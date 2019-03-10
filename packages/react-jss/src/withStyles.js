@@ -79,6 +79,10 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
       static defaultProps = {...InnerComponent.defaultProps}
 
       static getSheetClasses(sheet, dynamicRules: ?DynamicRules) {
+        if (!dynamicRules) {
+          return sheet.classes
+        }
+
         const classes = {}
 
         // $FlowFixMe
