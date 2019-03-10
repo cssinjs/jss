@@ -218,10 +218,11 @@ describe('React-JSS: withStyles', () => {
       return `${rule.key}-id`
     }
 
-    const renderTest = () => {
+    const renderTest = (displayName = 'DisplayNameTest') => {
       function DisplayNameTest() {
         return null
       }
+      DisplayNameTest.displayName = displayName
       const MyComponent = withStyles({
         a: {color: 'red'}
       })(DisplayNameTest)
@@ -235,6 +236,11 @@ describe('React-JSS: withStyles', () => {
     it('should pass displayName as prefix', () => {
       renderTest()
       expect(classNamePrefix).to.be('DisplayNameTest-')
+    })
+
+    it('should handle spaces correctly', () => {
+      renderTest('Display Name Test')
+      expect(classNamePrefix).to.be('Display-Name-Test-')
     })
 
     it('should pass no prefix in production', () => {
