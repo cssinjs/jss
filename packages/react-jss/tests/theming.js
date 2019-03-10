@@ -127,7 +127,7 @@ describe('React-JSS: theming', () => {
       </JssProvider>
     )
 
-    expect(registry.registry.length).to.equal(2)
+    expect(registry.registry.length).to.equal(1)
   })
 
   it('one themed instance wo/ = 1 style, theme update = 1 style', () => {
@@ -164,7 +164,7 @@ describe('React-JSS: theming', () => {
       </ThemeProvider>
     )
 
-    expect(registry.registry.length).to.equal(2)
+    expect(registry.registry.length).to.equal(1)
 
     renderer.update(
       <ThemeProvider theme={ThemeB}>
@@ -175,8 +175,7 @@ describe('React-JSS: theming', () => {
     )
 
     expect(registry.registry[0].attached).to.be(false)
-    expect(registry.registry[1].attached).to.be(false)
-    expect(registry.registry.length).to.equal(4)
+    expect(registry.registry.length).to.equal(2)
   })
 
   it('two themed instances wo/ dynamic props w/ same theme = 1 style', () => {
@@ -204,7 +203,7 @@ describe('React-JSS: theming', () => {
       </JssProvider>
     )
 
-    expect(registry.registry.length).to.equal(3)
+    expect(registry.registry.length).to.equal(1)
   })
 
   it('two themed instances w/ dynamic props w/ same theme = 3 styles, theme update = 3 styles', () => {
@@ -218,7 +217,7 @@ describe('React-JSS: theming', () => {
       </ThemeProvider>
     )
 
-    expect(registry.registry.length).to.equal(3)
+    expect(registry.registry.length).to.equal(1)
 
     renderer.update(
       <ThemeProvider theme={ThemeB}>
@@ -230,9 +229,7 @@ describe('React-JSS: theming', () => {
     )
 
     expect(registry.registry[0].attached).to.equal(false)
-    expect(registry.registry[1].attached).to.equal(false)
-    expect(registry.registry[2].attached).to.equal(false)
-    expect(registry.registry.length).to.equal(6)
+    expect(registry.registry.length).to.equal(2)
   })
 
   it('two themed instances wo/ dynamic props w/ same theme = 1 styles, different theme update = 2 styles', () => {
@@ -277,7 +274,7 @@ describe('React-JSS: theming', () => {
       </JssProvider>
     )
 
-    expect(registry.registry.length).to.equal(3)
+    expect(registry.registry.length).to.equal(1)
 
     renderer.update(
       <JssProvider registry={registry}>
@@ -290,8 +287,7 @@ describe('React-JSS: theming', () => {
       </JssProvider>
     )
 
-    expect(registry.registry[2].attached).to.equal(false)
-    expect(registry.registry.length).to.equal(5)
+    expect(registry.registry.length).to.equal(2)
   })
 
   it('two themed instances wo/ dynamic props w/ different themes = 2 styles, same theme update = 1 style', () => {
@@ -337,7 +333,7 @@ describe('React-JSS: theming', () => {
       </JssProvider>
     )
 
-    expect(registry.registry.length).to.equal(4)
+    expect(registry.registry.length).to.equal(2)
 
     renderer.update(
       <JssProvider registry={registry}>
@@ -350,9 +346,8 @@ describe('React-JSS: theming', () => {
       </JssProvider>
     )
 
-    expect(registry.registry[2].attached).to.equal(false)
-    expect(registry.registry[3].attached).to.equal(false)
-    expect(registry.registry.length).to.equal(5)
+    expect(registry.registry[1].attached).to.equal(false)
+    expect(registry.registry.length).to.equal(2)
   })
 
   describe('when theming object returned from createTheming is provided to injectSheet options', () => {

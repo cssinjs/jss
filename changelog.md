@@ -4,6 +4,10 @@
 
 - [react-jss] Replace spaces inside the display name with hyphens ([#1049](https://github.com/cssinjs/jss/pull/1049))
 
+### Improvements
+
+- [react-jss] Add dynamic rules to the static sheet ([#1048](https://github.com/cssinjs/jss/pull/1048))
+
 ## 10.0.0-alpha.12 (2019-2-27)
 
 ### Bug fixes

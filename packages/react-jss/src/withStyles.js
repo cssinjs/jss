@@ -5,19 +5,17 @@ import {getDynamicStyles, SheetsManager, type StyleSheet} from 'jss'
 import {ThemeContext} from 'theming'
 import warning from 'tiny-warning'
 
-import type {HOCProps, Options, Styles, InnerProps} from './types'
+import type {HOCProps, Options, Styles, InnerProps, DynamicRules} from './types'
 import getDisplayName from './getDisplayName'
 import memoize from './memoize-one'
 import mergeClasses from './merge-classes'
 import defaultJss from './jss'
 import JssContext from './JssContext'
 
-const dynamicStylesNS = Symbol.for('dynamicStyles')
-
-type State = {
-  dynamicSheet?: StyleSheet,
-  staticSheet?: StyleSheet,
-  classes: {}
+interface State {
+  dynamicRules?: ?DynamicRules;
+  sheet?: StyleSheet;
+  classes: {};
 }
 
 /**
@@ -30,11 +28,13 @@ type State = {
  * So our solution is to render sheets them in the reverse order child->sheet, so
  * that parent has a higher specificity.
  */
-let indexCounter = -100000
+let indexCounter = -Number.MAX_SAFE_INTEGER
 
 let managersCounter = 0
 
 const NoRenderer = (props: {children?: Node}) => props.children || null
+
+const sheetsMeta = new WeakMap()
 
 const getStyles = <Theme: {}>(styles: Styles<Theme>, theme: Theme, displayName: string) => {
   if (typeof styles !== 'function') {
@@ -48,13 +48,86 @@ const getStyles = <Theme: {}>(styles: Styles<Theme>, theme: Theme, displayName: 
   return styles(theme)
 }
 
+const getSheetClasses = (sheet, dynamicRules: ?DynamicRules) => {
+  if (!dynamicRules) {
+    return sheet.classes
+  }
+
+  const classes = {}
+  const meta = sheetsMeta.get(sheet)
+
+  if (!meta) {
+    return sheet.classes
+  }
+
+  for (const key in meta.themedStyles) {
+    classes[key] = sheet.classes[key]
+
+    if (key in dynamicRules) {
+      classes[key] += ` ${sheet.classes[dynamicRules[key].key]}`
+    }
+  }
+
+  return classes
+}
+
+const updateDynamicRules = <Theme, Props>(
+  props: HOCProps<Theme, Props>,
+  {dynamicRules, sheet}: State
+) => {
+  if (!sheet) {
+    return
+  }
+
+  // Loop over each dynamic rule and update it
+  // We can't just update the whole sheet as this has all of the rules for every component instance
+  for (const key in dynamicRules) {
+    // $FlowFixMe: Not sure why it throws an error here
+    sheet.update(dynamicRules[key].key, props)
+  }
+}
+
+const removeDynamicRules = ({dynamicRules, sheet}: State) => {
+  if (!sheet) {
+    return
+  }
+
+  // Loop over each dynamic rule and remove the dynamic rule
+  // We can't just remove the whole sheet as this has all of the rules for every component instance
+  for (const key in dynamicRules) {
+    sheet.deleteRule(dynamicRules[key].key)
+  }
+}
+
+const addDynamicStyles = (sheet: StyleSheet): ?DynamicRules => {
+  const meta = sheetsMeta.get(sheet)
+
+  if (!meta) {
+    return undefined
+  }
+
+  const rules: DynamicRules = {}
+
+  // Loop over each dynamic rule and add it to the stylesheet
+  for (const key in meta.dynamicStyles) {
+    const name = `${key}-${meta.dynamicRuleCounter++}`
+    const rule = sheet.addRule(name, meta.dynamicStyles[key])
+
+    if (rule) {
+      rules[key] = rule
+    }
+  }
+
+  return rules
+}
+
 /**
  * HOC creator function that wrapps the user component.
  *
  * `withStyles(styles, [options])(Component)`
  */
-export default function withStyles<Theme: {}, S: Styles<Theme>>(
-  styles: S,
+export default function withStyles<Theme: {}, StylesOrFn: Styles<Theme>>(
+  styles: StylesOrFn,
   options?: Options<Theme> = {}
 ) {
   const {index = indexCounter++, theming, injectTheme, jss: optionsJss, ...sheetOptions} = options
@@ -97,8 +170,7 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
       }
 
       componentDidUpdate(prevProps: HOCProps<Theme, Props>, prevState: State) {
-        const {dynamicSheet} = this.state
-        if (dynamicSheet) dynamicSheet.update(this.props)
+        updateDynamicRules(this.props, this.state)
 
         if (isThemingEnabled && this.props.theme !== prevProps.theme) {
           const newState = this.createState()
@@ -133,78 +205,59 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
         return manager
       }
 
-      getStaticSheet(): StyleSheet {
+      getSheet(): StyleSheet {
         const theme = getTheme(this.props)
-        let staticSheet = this.manager.get(theme)
+        let sheet = this.manager.get(theme)
 
-        if (staticSheet) {
-          return staticSheet
+        if (sheet) {
+          return sheet
         }
 
         const themedStyles = getStyles(styles, theme, displayName)
+        const dynamicStyles = getDynamicStyles(themedStyles)
         const contextSheetOptions = this.props.jssContext.sheetOptions
-        staticSheet = this.jss.createStyleSheet(themedStyles, {
+        sheet = this.jss.createStyleSheet(themedStyles, {
           ...sheetOptions,
           ...contextSheetOptions,
           index,
-          meta: `${displayName}, ${isThemingEnabled ? 'Themed' : 'Unthemed'}, Static`,
-          classNamePrefix: this.classNamePrefix
-        })
-        this.manager.add(theme, staticSheet)
-        // $FlowFixMe Cannot add random fields to instance of class StyleSheet
-        staticSheet[dynamicStylesNS] = getDynamicStyles(themedStyles)
-
-        return staticSheet
-      }
-
-      getDynamicSheet(staticSheet: StyleSheet): StyleSheet | void {
-        // $FlowFixMe Cannot access random fields on instance of class StyleSheet
-        const dynamicStyles = staticSheet[dynamicStylesNS]
-
-        if (!dynamicStyles) return undefined
-
-        const contextSheetOptions = this.props.jssContext.sheetOptions
-
-        return this.jss.createStyleSheet(dynamicStyles, {
-          ...sheetOptions,
-          ...contextSheetOptions,
-          index,
-          meta: `${displayName}, ${isThemingEnabled ? 'Themed' : 'Unthemed'}, Dynamic`,
+          meta: `${displayName}, ${isThemingEnabled ? 'Themed' : 'Unthemed'}`,
           classNamePrefix: this.classNamePrefix,
-          link: true
+          link: dynamicStyles !== null
         })
+
+        sheetsMeta.set(sheet, {
+          dynamicStyles,
+          themedStyles,
+          dynamicRuleCounter: 0
+        })
+
+        this.manager.add(theme, sheet)
+
+        return sheet
       }
 
       classNamePrefix: string
 
       manage(props, state) {
-        const {dynamicSheet, staticSheet} = state
+        const {sheet} = state
         const {registry} = props.jssContext
 
-        if (!staticSheet) {
+        if (!sheet) {
           return
         }
 
+        updateDynamicRules(props, state)
+
         this.manager.manage(getTheme(props))
         if (registry) {
-          registry.add(staticSheet)
-        }
-
-        if (dynamicSheet) {
-          dynamicSheet.update(props).attach()
-
-          if (registry) {
-            registry.add(dynamicSheet)
-          }
+          registry.add(sheet)
         }
       }
 
-      unmanage(props, state) {
-        this.manager.unmanage(getTheme(props))
+      unmanage(props, state: State) {
+        removeDynamicRules(state)
 
-        if (state.dynamicSheet) {
-          this.jss.removeStyleSheet(state.dynamicSheet)
-        }
+        this.manager.unmanage(getTheme(props))
       }
 
       createState(): State {
@@ -212,15 +265,14 @@ export default function withStyles<Theme: {}, S: Styles<Theme>>(
           return {classes: {}}
         }
 
-        const staticSheet = this.getStaticSheet()
-        const dynamicSheet = this.getDynamicSheet(staticSheet)
+        const sheet = this.getSheet()
+        const dynamicRules = addDynamicStyles(sheet)
 
         return {
-          staticSheet,
-          dynamicSheet,
-          classes: dynamicSheet
-            ? mergeClasses(staticSheet.classes, dynamicSheet.classes)
-            : staticSheet.classes
+          sheet,
+          // Those are dynamic rules which are used in this specific element only.
+          dynamicRules,
+          classes: getSheetClasses(sheet, dynamicRules)
         }
       }
 

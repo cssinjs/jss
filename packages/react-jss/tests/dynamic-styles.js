@@ -1,13 +1,12 @@
 /* eslint-disable global-require, react/prop-types, react/no-find-dom-node, react/no-multi-comp, react/prefer-stateless-function */
 
 import expect from 'expect.js'
-import React, {PureComponent} from 'react'
+import React from 'react'
 import TestRenderer from 'react-test-renderer'
 import {stripIndent} from 'common-tags'
 
 import injectSheet, {JssProvider, SheetsRegistry} from '../src'
 
-const removeWhitespaces = str => str.replace(/\s/g, '')
 const createGenerateId = () => {
   let counter = 0
   return rule => `${rule.key}-${counter++}`
@@ -42,14 +41,12 @@ describe('React-JSS: dynamic styles', () => {
         </JssProvider>
       )
 
-      expect(registry.registry.length).to.equal(2)
+      expect(registry.registry.length).to.equal(1)
       expect(registry.registry[0].attached).to.equal(true)
-      expect(registry.registry[1].attached).to.equal(true)
 
       renderer.unmount()
 
       expect(registry.registry[0].attached).to.equal(false)
-      expect(registry.registry[1].attached).to.equal(false)
     })
 
     it('should have correct meta attribute', () => {
@@ -59,11 +56,10 @@ describe('React-JSS: dynamic styles', () => {
         </JssProvider>
       )
 
-      expect(registry.registry[0].options.meta).to.equal('NoRenderer, Unthemed, Static')
-      expect(registry.registry[1].options.meta).to.equal('NoRenderer, Unthemed, Dynamic')
+      expect(registry.registry[0].options.meta).to.equal('NoRenderer, Unthemed')
     })
 
-    it('should reuse static sheet, but generate separate dynamic once', () => {
+    it('should reuse sheet between component instances', () => {
       TestRenderer.create(
         <JssProvider registry={registry}>
           <MyComponent height={2} />
@@ -71,7 +67,7 @@ describe('React-JSS: dynamic styles', () => {
         </JssProvider>
       )
 
-      expect(registry.registry.length).to.equal(3)
+      expect(registry.registry.length).to.equal(1)
     })
 
     it('should have dynamic and static styles', () => {
@@ -82,7 +78,7 @@ describe('React-JSS: dynamic styles', () => {
       )
       const props = renderer.root.findByType(NoRenderer).props
 
-      expect(props.classes.button).to.equal('button-0 button-1')
+      expect(props.classes.button).to.equal('button-0 button-0-1')
     })
 
     it('should generate different dynamic values', () => {
@@ -97,10 +93,10 @@ describe('React-JSS: dynamic styles', () => {
         .button-0 {
           color: ${color};
         }
-        .button-1 {
+        .button-0-1 {
           height: 10px;
         }
-        .button-2 {
+        .button-1-2 {
           height: 20px;
         }
       `)
@@ -121,10 +117,10 @@ describe('React-JSS: dynamic styles', () => {
         .button-0 {
           color: ${color};
         }
-        .button-1 {
+        .button-0-1 {
           height: 10px;
         }
-        .button-2 {
+        .button-1-2 {
           height: 20px;
         }
       `)
@@ -135,10 +131,10 @@ describe('React-JSS: dynamic styles', () => {
         .button-0 {
           color: ${color};
         }
-        .button-1 {
+        .button-0-1 {
           height: 20px;
         }
-        .button-2 {
+        .button-1-2 {
           height: 40px;
         }
       `)
@@ -164,7 +160,7 @@ describe('React-JSS: dynamic styles', () => {
         .button-0 {
           width: 10px;
         }
-        .button-1 {
+        .button-0-1 {
           height: 10px;
         }
       `)
@@ -175,7 +171,7 @@ describe('React-JSS: dynamic styles', () => {
         .button-0 {
           width: 10px;
         }
-        .button-1 {}
+        .button-0-1 {}
       `)
     })
 
@@ -201,7 +197,8 @@ describe('React-JSS: dynamic styles', () => {
         .button0-0 {
           width: 10px;
         }
-        .button1-2 {
+        .button1-1 {}
+        .button1-0-2 {
           height: 10px;
         }
       `)
@@ -212,7 +209,8 @@ describe('React-JSS: dynamic styles', () => {
         .button0-0 {
           width: 10px;
         }
-        .button1-2 {}
+        .button1-1 {}
+        .button1-0-2 {}
       `)
     })
 
@@ -259,14 +257,12 @@ describe('React-JSS: dynamic styles', () => {
         </JssProvider>
       )
 
-      expect(registry.registry.length).to.equal(2)
+      expect(registry.registry.length).to.equal(1)
       expect(registry.registry[0].attached).to.equal(true)
-      expect(registry.registry[1].attached).to.equal(true)
 
       renderer.unmount()
 
       expect(registry.registry[0].attached).to.equal(false)
-      expect(registry.registry[1].attached).to.equal(false)
     })
 
     it('should have correct meta attribute', () => {
@@ -276,8 +272,7 @@ describe('React-JSS: dynamic styles', () => {
         </JssProvider>
       )
 
-      expect(registry.registry[0].options.meta).to.equal('NoRenderer, Unthemed, Static')
-      expect(registry.registry[1].options.meta).to.equal('NoRenderer, Unthemed, Dynamic')
+      expect(registry.registry[0].options.meta).to.equal('NoRenderer, Unthemed')
     })
 
     it('should reuse static sheet, but generate separate dynamic once', () => {
@@ -288,7 +283,7 @@ describe('React-JSS: dynamic styles', () => {
         </JssProvider>
       )
 
-      expect(registry.registry.length).to.equal(3)
+      expect(registry.registry.length).to.equal(1)
     })
 
     it('should have dynamic and static styles', () => {
@@ -299,7 +294,7 @@ describe('React-JSS: dynamic styles', () => {
       )
       const props = renderer.root.findByType(NoRenderer).props
 
-      expect(props.classes.button).to.equal('button-0 button-1')
+      expect(props.classes.button).to.equal('button-0 button-0-1')
     })
 
     it('should generate different dynamic values', () => {
@@ -310,63 +305,56 @@ describe('React-JSS: dynamic styles', () => {
         </JssProvider>
       )
 
-      expect(removeWhitespaces(registry.toString())).to.equal(
-        removeWhitespaces(`
-          .button-1 {
-            color: ${color};
-            height: 10px;
-          }
-          .button-2 {
-            color: ${color};
-            height: 20px;
-          }
-        `)
-      )
+      expect(registry.toString()).to.equal(stripIndent`
+        .button-0 {}
+        .button-0-1 {
+          color: rgb(255, 255, 255);
+          height: 10px;
+        }
+        .button-1-2 {
+          color: rgb(255, 255, 255);
+          height: 20px;
+        }
+      `)
     })
 
     it('should update dynamic values', () => {
       const generateId = createGenerateId()
-      class Container extends PureComponent {
-        render() {
-          const {height} = this.props
-          return (
-            <JssProvider registry={registry} generateId={generateId}>
-              <MyComponent height={height} />
-              <MyComponent height={height * 2} />
-            </JssProvider>
-          )
-        }
+      function Container({height}) {
+        return (
+          <JssProvider registry={registry} generateId={generateId}>
+            <MyComponent height={height} />
+            <MyComponent height={height * 2} />
+          </JssProvider>
+        )
       }
 
       const renderer = TestRenderer.create(<Container height={10} />)
 
-      expect(removeWhitespaces(registry.toString())).to.equal(
-        removeWhitespaces(`
-          .button-1 {
-            color: ${color};
-            height: 10px;
-          }
-          .button-2 {
-            color: ${color};
-            height: 20px;
-          }
-       `)
-      )
-
+      expect(registry.toString()).to.equal(stripIndent`
+        .button-0 {}
+        .button-0-1 {
+          color: ${color};
+          height: 10px;
+        }
+        .button-1-2 {
+          color: ${color};
+          height: 20px;
+        }
+      `)
       renderer.update(<Container height={20} />)
 
-      expect(removeWhitespaces(registry.toString())).to.equal(
-        removeWhitespaces(`
-          .button-1 {
-            color: ${color};
-            height: 20px;
-          }
-          .button-2 {
-            color: ${color};
-            height: 40px;
-          }
-        `)
-      )
+      expect(registry.toString()).to.equal(stripIndent`
+        .button-0 {}
+        .button-0-1 {
+          color: ${color};
+          height: 20px;
+        }
+        .button-1-2 {
+          color: ${color};
+          height: 40px;
+        }
+      `)
     })
 
     it('should use the default props', () => {
