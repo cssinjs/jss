@@ -9,7 +9,8 @@ import type {
   UpdateArguments,
   JssStyle,
   Classes,
-  KeyframesMap
+  KeyframesMap,
+  Renderer
 } from './types'
 
 export default class StyleSheet {
@@ -21,7 +22,7 @@ export default class StyleSheet {
 
   rules: RuleList
 
-  renderer: Object
+  renderer: Renderer | null
 
   classes: Classes
 
@@ -41,7 +42,9 @@ export default class StyleSheet {
       classes: this.classes,
       keyframes: this.keyframes
     }
-    this.renderer = new options.Renderer(this)
+    if (options.Renderer) {
+      this.renderer = new options.Renderer(this)
+    }
     this.rules = new RuleList(this.options)
 
     for (const name in styles) {
@@ -55,7 +58,7 @@ export default class StyleSheet {
    * Attach renderable to the render tree.
    */
   attach(): this {
-    if (this.attached) return this
+    if (this.attached || !this.renderer) return this
     this.renderer.attach()
     this.attached = true
     // Order is important, because we can't use insertRule API if style element is not attached.
@@ -67,7 +70,7 @@ export default class StyleSheet {
    * Remove renderable from render tree.
    */
   detach(): this {
-    if (!this.attached) return this
+    if (!this.attached || !this.renderer) return this
     this.renderer.detach()
     this.attached = false
     return this
@@ -117,7 +120,9 @@ export default class StyleSheet {
    * Insert rule into the StyleSheet
    */
   insertRule(rule: Rule) {
-    this.renderer.insertRule(rule)
+    if (this.renderer) {
+      this.renderer.insertRule(rule)
+    }
   }
 
   /**
@@ -151,7 +156,7 @@ export default class StyleSheet {
 
     this.rules.remove(rule)
 
-    if (this.attached && rule.renderable) {
+    if (this.attached && rule.renderable && this.renderer) {
       return this.renderer.deleteRule(rule.renderable)
     }
 
@@ -169,8 +174,10 @@ export default class StyleSheet {
    * Deploy pure CSS string to a renderable.
    */
   deploy(): this {
-    this.renderer.deploy()
-    this.deployed = true
+    if (this.renderer) {
+      this.renderer.deploy()
+      this.deployed = true
+    }
     return this
   }
 

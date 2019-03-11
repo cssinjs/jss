@@ -3,8 +3,7 @@ import Jss from '../../src/Jss'
 import StyleSheet from '../../src/StyleSheet'
 import PluginsRegistry from '../../src/PluginsRegistry'
 import sheets from '../../src/sheets'
-import DomRenderer from '../../src/renderers/DomRenderer'
-import VirtualRenderer from '../../src/renderers/VirtualRenderer'
+import DomRenderer from '../../src/DomRenderer'
 import {resetSheets} from '../../../../tests/utils'
 
 describe('Unit: jss', () => {
@@ -65,9 +64,9 @@ describe('Unit: jss', () => {
       expect(jss.options.Renderer).to.be(Renderer)
     })
 
-    it('should setup virtual Renderer', () => {
-      jss.setup({virtual: true})
-      expect(jss.options.Renderer).to.be(VirtualRenderer)
+    it('should setup without Renderer', () => {
+      jss.setup({Renderer: null})
+      expect(jss.options.Renderer).to.be(null)
     })
 
     it('should setup plugins', () => {

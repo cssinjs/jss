@@ -47,7 +47,7 @@ Options:
 
 - `createGenerateId` - a function which returns a function which generates unique class names.
 - `plugins` - an array of functions, will be passed to `jss.use`.
-- `virtual` - if true, JSS will use VirtualRenderer.
+- `Renderer` - if null, JSS will not render to DOM, or pass a custom Renderer.
 - `insertionPoint` - string value of a DOM comment node which marks the start of sheets or a rendered DOM node. Sheets rendered by this Jss instance are inserted after this point sequentially.
 
 **Note**: Each `jss.setup()` call will perform a shallow merge with the old options except for `plugins`. Passed `plugins` will get added to the existing plugins.
