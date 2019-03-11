@@ -61,6 +61,8 @@ export type GenerateId = (rule: Rule, sheet?: StyleSheet) => string
 // Find a way to declare all types: Object|string|Array<Object>
 export type JssStyle = Object
 
+export type JssStyles = {[string]: JssStyle}
+
 export type JssValue =
   | string
   | number

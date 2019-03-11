@@ -41,7 +41,7 @@ function getPropertyValue(
 ): string {
   try {
     // Support CSSTOM.
-    if ('attributeStyleMap' in cssRule) {
+    if (cssRule.attributeStyleMap) {
       return cssRule.attributeStyleMap.get(prop)
     }
     return cssRule.style.getPropertyValue(prop)
@@ -72,7 +72,7 @@ function setProperty(
     }
 
     // Support CSSTOM.
-    if ('attributeStyleMap' in cssRule) {
+    if (cssRule.attributeStyleMap) {
       cssRule.attributeStyleMap.set(prop, cssValue)
     } else {
       cssRule.style.setProperty(prop, cssValue)
@@ -93,7 +93,7 @@ function removeProperty(
 ) {
   try {
     // Support CSSTOM.
-    if ('attributeStyleMap' in cssRule) {
+    if (cssRule.attributeStyleMap) {
       cssRule.attributeStyleMap.delete(prop)
     } else {
       cssRule.style.removeProperty(prop)
