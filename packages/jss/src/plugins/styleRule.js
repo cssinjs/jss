@@ -11,8 +11,7 @@ import type {
   Renderer as RendererInterface,
   JssStyle,
   JssValue,
-  BaseRule,
-  AnyCSSRule
+  BaseRule
 } from '../types'
 
 export class BaseStyleRule implements BaseRule {
@@ -118,7 +117,7 @@ export class StyleRule extends BaseStyleRule {
 
     // If selector setter is not implemented, rerender the rule.
     if (!hasChanged) {
-      renderer.replaceRule(((renderable: any): AnyCSSRule), this)
+      renderer.replaceRule(renderable, this)
     }
   }
 
