@@ -81,8 +81,8 @@ describe('Integration: sheetsRegistry', () => {
 
   describe('.toString()', () => {
     it('should convert to CSS string', () => {
-      const sheet1 = jss.createStyleSheet({a: {color: 'red'}}, {virtual: true}).attach()
-      const sheet2 = jss.createStyleSheet({a: {color: 'blue'}}, {virtual: true}).attach()
+      const sheet1 = jss.createStyleSheet({a: {color: 'red'}}).attach()
+      const sheet2 = jss.createStyleSheet({a: {color: 'blue'}}).attach()
       sheets.add(sheet1)
       sheets.add(sheet2)
       expect(sheets.toString()).to.be(stripIndent`
@@ -96,8 +96,8 @@ describe('Integration: sheetsRegistry', () => {
     })
 
     it('should not stringify detached sheets', () => {
-      const sheet1 = jss.createStyleSheet({a: {color: 'red'}}, {virtual: true}).attach()
-      const sheet2 = jss.createStyleSheet({a: {color: 'blue'}}, {virtual: true})
+      const sheet1 = jss.createStyleSheet({a: {color: 'red'}}).attach()
+      const sheet2 = jss.createStyleSheet({a: {color: 'blue'}})
       sheets.add(sheet1)
       sheets.add(sheet2)
       expect(sheets.toString()).to.be(stripIndent`

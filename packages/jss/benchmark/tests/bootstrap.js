@@ -4,7 +4,7 @@ import global from 'jss-plugin-global'
 import styles from '../fixtures/bootstrap.json'
 
 // Avoid memory leak with registry.
-const options = {virtual: true}
+const options = {Renderer: null}
 const jssWithoutGlobal = create(options)
 const jssWithGlobal = create(options).use(global())
 

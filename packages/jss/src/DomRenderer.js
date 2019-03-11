@@ -1,20 +1,21 @@
 /* @flow */
 import warning from 'tiny-warning'
-import sheets from '../sheets'
-import toCssValue from '../utils/toCssValue'
+import sheets from './sheets'
+import toCssValue from './utils/toCssValue'
 import type {
   CSSStyleRule,
   CSSMediaRule,
   CSSKeyframesRule,
   CSSKeyframeRule,
   HTMLElementWithStyleMap,
+  AnyCSSRule,
   Rule,
   RuleList,
   ContainerRule,
   JssValue,
   InsertionPoint,
   StyleSheet
-} from '../types'
+} from './types'
 
 type PriorityOptions = {
   index: number,
@@ -184,7 +185,7 @@ function findPrevNode(options: PriorityOptions): PrevNode | false {
   if (registry.length > 0) {
     // Try to insert before the next higher sheet.
     let sheet = findHigherSheet(registry, options)
-    if (sheet) {
+    if (sheet && sheet.renderer) {
       return {
         parent: sheet.renderer.element.parentNode,
         node: sheet.renderer.element
@@ -193,7 +194,7 @@ function findPrevNode(options: PriorityOptions): PrevNode | false {
 
     // Otherwise insert after the last attached.
     sheet = findHighestSheet(registry, options)
-    if (sheet) {
+    if (sheet && sheet.renderer) {
       return {
         parent: sheet.renderer.element.parentNode,
         node: sheet.renderer.element.nextSibling
@@ -299,7 +300,7 @@ export default class DomRenderer {
   // HTMLStyleElement needs fixing https://github.com/facebook/flow/issues/2696
   element: any
 
-  sheet: ?StyleSheet
+  sheet: StyleSheet | void
 
   hasInsertedRules: boolean = false
 
@@ -373,7 +374,7 @@ export default class DomRenderer {
     rule: Rule,
     index?: number,
     nativeParent?: CSSStyleSheet | CSSMediaRule | CSSKeyframesRule = this.element.sheet
-  ): false | CSSStyleSheet | CSSMediaRule | CSSKeyframesRule | CSSRule {
+  ): false | CSSStyleSheet | AnyCSSRule {
     if (rule.rules) {
       const parent: ContainerRule = (rule: any)
       let latestNativeParent = nativeParent
@@ -405,7 +406,7 @@ export default class DomRenderer {
   /**
    * Delete a rule.
    */
-  deleteRule(cssRule: CSSRule): boolean {
+  deleteRule(cssRule: AnyCSSRule): boolean {
     const {sheet} = this.element
     const index = this.indexOf(cssRule)
     if (index === -1) return false
@@ -416,7 +417,7 @@ export default class DomRenderer {
   /**
    * Get index of a CSS Rule.
    */
-  indexOf(cssRule: CSSRule): number {
+  indexOf(cssRule: AnyCSSRule): number {
     const {cssRules} = this.element.sheet
     for (let index = 0; index < cssRules.length; index++) {
       if (cssRule === cssRules[index]) return index
@@ -429,10 +430,7 @@ export default class DomRenderer {
    *
    * Only used for some old browsers because they can't set a selector.
    */
-  replaceRule(
-    cssRule: CSSRule,
-    rule: Rule
-  ): false | CSSStyleSheet | CSSMediaRule | CSSKeyframesRule | CSSRule {
+  replaceRule(cssRule: AnyCSSRule, rule: Rule): false | CSSStyleSheet | AnyCSSRule {
     const index = this.indexOf(cssRule)
     if (index === -1) return false
     this.element.sheet.deleteRule(index)

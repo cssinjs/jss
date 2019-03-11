@@ -7,7 +7,7 @@ import type {StyleRule} from '../plugins/styleRule'
 import type {ViewportRule} from '../plugins/viewportRule'
 import type {SimpleRule} from '../plugins/simpleRule'
 import type {FontFaceRule} from '../plugins/fontFaceRule'
-import type {CSSStyleRule, CSSMediaRule, CSSKeyframesRule} from './cssom'
+import type {CSSStyleRule, AnyCSSRule} from './cssom'
 import type {HTMLElementWithStyleMap} from './dom'
 import type RuleList from '../RuleList'
 
@@ -73,6 +73,8 @@ export type JssValue =
 
 export interface Renderer {
   constructor(sheet?: StyleSheet): void;
+  // HTMLStyleElement needs fixing https://github.com/facebook/flow/issues/2696
+  element: any;
   setProperty(
     cssRule: HTMLElementWithStyleMap | CSSStyleRule,
     prop: string,
@@ -83,14 +85,11 @@ export interface Renderer {
   setSelector(cssRule: CSSStyleRule, selectorText: string): boolean;
   attach(): void;
   detach(): void;
-  deploy(sheet: StyleSheet): void;
-  insertRule(rule: Rule): false | CSSStyleSheet | CSSMediaRule | CSSKeyframesRule | CSSRule;
-  deleteRule(cssRule: CSSRule): boolean;
-  replaceRule(
-    cssRule: CSSRule,
-    rule: Rule
-  ): false | CSSStyleSheet | CSSMediaRule | CSSKeyframesRule | CSSRule;
-  indexOf(cssRule: CSSRule): number;
+  deploy(): void;
+  insertRule(rule: Rule): false | CSSStyleSheet | AnyCSSRule;
+  deleteRule(cssRule: AnyCSSRule): boolean;
+  replaceRule(cssRule: AnyCSSRule, rule: Rule): false | CSSStyleSheet | AnyCSSRule;
+  indexOf(cssRule: AnyCSSRule): number;
   getRules(): CSSRuleList | void;
 }
 
@@ -102,7 +101,7 @@ export type RuleFactoryOptions = {
   index?: number,
   jss?: Jss,
   generateId?: GenerateId,
-  Renderer?: Class<Renderer>
+  Renderer?: Class<Renderer> | null
 }
 
 export interface ContainerRule extends BaseRule {
@@ -120,7 +119,7 @@ export type RuleOptions = {
   keyframes: KeyframesMap,
   jss: Jss,
   generateId: GenerateId,
-  Renderer: Class<Renderer>
+  Renderer?: Class<Renderer> | null
 }
 
 export type RuleListOptions = {
@@ -128,7 +127,7 @@ export type RuleListOptions = {
   scoped?: boolean,
   keyframes: KeyframesMap,
   generateId: GenerateId,
-  Renderer: Class<Renderer>,
+  Renderer?: Class<Renderer> | null,
   jss: Jss,
   sheet: StyleSheet,
   parent: ContainerRule | StyleSheet
@@ -158,15 +157,14 @@ export type JssOptions = {
   createGenerateId?: CreateGenerateId,
   plugins?: Array<Plugin>,
   insertionPoint?: InsertionPoint,
-  Renderer?: Class<Renderer>,
-  virtual?: Boolean
+  Renderer?: Class<Renderer> | null
 }
 
 export type InternalJssOptions = {|
   createGenerateId: CreateGenerateId,
   plugins: Array<Plugin>,
   insertionPoint?: InsertionPoint,
-  Renderer: Class<Renderer>
+  Renderer?: Class<Renderer> | null
 |}
 
 export type StyleSheetFactoryOptions = {
@@ -187,7 +185,7 @@ export type StyleSheetOptions = {|
   index: number,
   generateId: GenerateId,
   classNamePrefix?: string,
-  Renderer: Class<Renderer>,
+  Renderer?: Class<Renderer> | null,
   insertionPoint?: InsertionPoint,
   jss: Jss
 |}
@@ -199,7 +197,7 @@ export type InternalStyleSheetOptions = {|
   element?: HTMLStyleElement,
   index: number,
   insertionPoint?: InsertionPoint,
-  Renderer: Class<Renderer>,
+  Renderer?: Class<Renderer> | null,
   generateId: GenerateId,
   classNamePrefix?: string,
   jss: Jss,

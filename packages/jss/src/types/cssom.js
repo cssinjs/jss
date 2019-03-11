@@ -87,4 +87,12 @@ export interface CSSViewportRule extends CSSRuleBase<{type: 15 | 15}> {
   +style: CSSStyleDeclaration;
 }
 
-export type CSSSimpleRule = CSSCharsetRule | CSSImportRule | CSSNamespaceRule
+export type AnyCSSRule =
+  | CSSMediaRule
+  | CSSFontFaceRule
+  | CSSKeyframesRule
+  | CSSCharsetRule
+  | CSSImportRule
+  | CSSNamespaceRule
+  | CSSStyleRule
+  | CSSViewportRule

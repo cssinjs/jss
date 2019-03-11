@@ -1,5 +1,13 @@
 /* @flow */
-import type {CSSSimpleRule, RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
+import type {
+  CSSCharsetRule,
+  CSSImportRule,
+  CSSNamespaceRule,
+  RuleOptions,
+  JssStyle,
+  ToCssOptions,
+  BaseRule
+} from '../types'
 
 export class SimpleRule implements BaseRule {
   type = 'simple'
@@ -12,7 +20,7 @@ export class SimpleRule implements BaseRule {
 
   isProcessed: boolean = false
 
-  renderable: ?CSSSimpleRule
+  renderable: ?CSSCharsetRule | CSSImportRule | CSSNamespaceRule
 
   constructor(key: string, value: string, options: RuleOptions) {
     this.key = key

@@ -24,7 +24,7 @@ export class BaseStyleRule implements BaseRule {
 
   style: JssStyle
 
-  renderer: RendererInterface
+  renderer: RendererInterface | null
 
   renderable: ?Object
 
@@ -35,7 +35,8 @@ export class BaseStyleRule implements BaseRule {
     this.key = key
     this.options = options
     this.style = style
-    this.renderer = sheet ? sheet.renderer : new Renderer()
+    if (sheet) this.renderer = sheet.renderer
+    else if (Renderer) this.renderer = new Renderer()
   }
 
   /**
@@ -67,7 +68,7 @@ export class BaseStyleRule implements BaseRule {
     else this.style[name] = newValue
 
     // Renderable is defined if StyleSheet option `link` is true.
-    if (this.renderable) {
+    if (this.renderable && this.renderer) {
       if (remove) this.renderer.removeProperty(this.renderable, name)
       else this.renderer.setProperty(this.renderable, name, newValue)
       return this
@@ -109,13 +110,15 @@ export class StyleRule extends BaseStyleRule {
 
     this.selectorText = selector
 
-    if (!this.renderable) return
+    const {renderer, renderable} = this
 
-    const hasChanged = this.renderer.setSelector(this.renderable, selector)
+    if (!renderable || !renderer) return
+
+    const hasChanged = renderer.setSelector(renderable, selector)
 
     // If selector setter is not implemented, rerender the rule.
     if (!hasChanged) {
-      this.renderer.replaceRule(((this.renderable: any): CSSRule), this)
+      renderer.replaceRule(renderable, this)
     }
   }
 
@@ -130,8 +133,13 @@ export class StyleRule extends BaseStyleRule {
    * Apply rule to an element inline.
    */
   applyTo(renderable: HTMLElementWithStyleMap): this {
-    const json = this.toJSON()
-    for (const prop in json) this.renderer.setProperty(renderable, prop, json[prop])
+    const {renderer} = this
+    if (renderer) {
+      const json = this.toJSON()
+      for (const prop in json) {
+        renderer.setProperty(renderable, prop, json[prop])
+      }
+    }
     return this
   }
 

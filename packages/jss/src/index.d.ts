@@ -200,8 +200,7 @@ export interface StyleSheet<RuleName extends string = string> {
 export interface JssOptions {
   createGenerateId: CreateGenerateId
   plugins: ReadonlyArray<Plugin>
-  virtual: boolean
-  Renderer?: Renderer
+  Renderer?: Renderer | null
   insertionPoint: InsertionPoint
 }
 
