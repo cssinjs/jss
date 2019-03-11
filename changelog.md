@@ -6,6 +6,7 @@
 
 ### Improvements
 
+- [jss] Remove VirtualRenderer and the option `virtual: true`. Now to simulate a non-browser environment, pass `create({Renderer: null})` when creating a Jss instance.
 - [react-jss] Add dynamic rules to the static sheet ([#1048](https://github.com/cssinjs/jss/pull/1048))
 
 ## 10.0.0-alpha.12 (2019-2-27)
