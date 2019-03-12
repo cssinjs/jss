@@ -10,6 +10,7 @@ import type {
   JssStyle,
   Classes,
   KeyframesMap,
+  JssStyles,
   Renderer
 } from './types'
 
@@ -30,7 +31,7 @@ export default class StyleSheet {
 
   queue: ?Array<Rule>
 
-  constructor(styles: Object, options: StyleSheetOptions) {
+  constructor(styles: JssStyles, options: StyleSheetOptions) {
     this.attached = false
     this.deployed = false
     this.classes = {}
@@ -129,7 +130,7 @@ export default class StyleSheet {
    * Create and add rules.
    * Will render also after Style Sheet was rendered the first time.
    */
-  addRules(styles: Object, options?: RuleOptions): Array<Rule> {
+  addRules(styles: JssStyles, options?: RuleOptions): Array<Rule> {
     const added = []
     for (const name in styles) {
       const rule = this.addRule(name, styles[name], options)

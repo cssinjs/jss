@@ -8,6 +8,7 @@ import type {ViewportRule} from '../plugins/viewportRule'
 import type {SimpleRule} from '../plugins/simpleRule'
 import type {FontFaceRule} from '../plugins/fontFaceRule'
 import type {CSSStyleRule, AnyCSSRule} from './cssom'
+import type {HTMLElementWithStyleMap} from './dom'
 import type RuleList from '../RuleList'
 
 export type {RuleList, StyleSheet}
@@ -60,6 +61,8 @@ export type GenerateId = (rule: Rule, sheet?: StyleSheet) => string
 // Find a way to declare all types: Object|string|Array<Object>
 export type JssStyle = Object
 
+export type JssStyles = {[string]: JssStyle}
+
 export type JssValue =
   | string
   | number
@@ -72,9 +75,13 @@ export interface Renderer {
   constructor(sheet?: StyleSheet): void;
   // HTMLStyleElement needs fixing https://github.com/facebook/flow/issues/2696
   element: any;
-  setProperty(cssRule: HTMLElement | CSSStyleRule, prop: string, value: JssValue): boolean;
-  getPropertyValue(cssRule: HTMLElement | CSSStyleRule, prop: string): string;
-  removeProperty(cssRule: HTMLElement | CSSStyleRule, prop: string): void;
+  setProperty(
+    cssRule: HTMLElementWithStyleMap | CSSStyleRule,
+    prop: string,
+    value: JssValue
+  ): boolean;
+  getPropertyValue(cssRule: HTMLElementWithStyleMap | CSSStyleRule, prop: string): string;
+  removeProperty(cssRule: HTMLElementWithStyleMap | CSSStyleRule, prop: string): void;
   setSelector(cssRule: CSSStyleRule, selectorText: string): boolean;
   attach(): void;
   detach(): void;
@@ -133,16 +140,16 @@ export type OnProcessSheet = (sheet?: StyleSheet) => void
 export type OnChangeValue = (value: JssValue, prop: string, rule: StyleRule) => JssValue
 export type OnUpdate = (data: Object, rule: Rule, sheet: StyleSheet, options: UpdateOptions) => void
 
-export type Plugin = {
+export type Plugin = {|
   onCreateRule?: OnCreateRule,
   onProcessRule?: OnProcessRule,
   onProcessStyle?: OnProcessStyle,
   onProcessSheet?: OnProcessSheet,
   onChangeValue?: OnChangeValue,
   onUpdate?: OnUpdate
-}
+|}
 
-export type InsertionPoint = string | HTMLElement
+export type InsertionPoint = string | HTMLElementWithStyleMap
 
 type CreateGenerateId = () => GenerateId
 
@@ -153,12 +160,12 @@ export type JssOptions = {
   Renderer?: Class<Renderer> | null
 }
 
-export type InternalJssOptions = {
+export type InternalJssOptions = {|
   createGenerateId: CreateGenerateId,
   plugins: Array<Plugin>,
   insertionPoint?: InsertionPoint,
   Renderer?: Class<Renderer> | null
-}
+|}
 
 export type StyleSheetFactoryOptions = {
   media?: string,
@@ -170,7 +177,7 @@ export type StyleSheetFactoryOptions = {
   classNamePrefix?: string
 }
 
-export type StyleSheetOptions = {
+export type StyleSheetOptions = {|
   media?: string,
   meta?: string,
   link?: boolean,
@@ -181,9 +188,9 @@ export type StyleSheetOptions = {
   Renderer?: Class<Renderer> | null,
   insertionPoint?: InsertionPoint,
   jss: Jss
-}
+|}
 
-export type InternalStyleSheetOptions = {
+export type InternalStyleSheetOptions = {|
   media?: string,
   meta?: string,
   link?: boolean,
@@ -196,5 +203,6 @@ export type InternalStyleSheetOptions = {
   jss: Jss,
   sheet: StyleSheet,
   parent: ConditionalRule | KeyframesRule | StyleSheet,
-  classes: Classes
-}
+  classes: Classes,
+  keyframes: KeyframesMap
+|}

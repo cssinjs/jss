@@ -1,7 +1,10 @@
 // @flow
 /* eslint-disable no-use-before-define */
-import type {Plugin, StyleRule} from 'jss'
+import type {Plugin, StyleRule, JssStyle} from 'jss'
 import {propArray, propArrayInObj, propObj, customPropObj} from './props'
+
+// TODO needs proper types for all supported formats
+type JssValue = Object
 
 /**
  * Map values by given prop.
@@ -11,20 +14,14 @@ import {propArray, propArrayInObj, propObj, customPropObj} from './props'
  * @param {String} original rule
  * @return {String} mapped values
  */
-function mapValuesByProp(value, prop, rule: StyleRule) {
+function mapValuesByProp(value: JssValue, prop: string, rule: StyleRule) {
   return value.map(item => objectToArray(item, prop, rule, false, true))
 }
 
 /**
  * Convert array to nested array, if needed
- *
- * @param {Array} array of values
- * @param {String} original property
- * @param {Object} sheme, for converting arrays in strings
- * @param {Object} original rule
- * @return {String} converted string
  */
-function processArray(value, prop, scheme, rule: StyleRule) {
+function processArray(value: JssValue, prop: string, scheme: typeof propArray, rule: StyleRule) {
   if (scheme[prop] == null) return value
   if (value.length === 0) return []
   if (Array.isArray(value[0])) return processArray(value[0], prop, scheme, rule)
@@ -37,15 +34,14 @@ function processArray(value, prop, scheme, rule: StyleRule) {
 
 /**
  * Convert object to array.
- *
- * @param {Object} object of values
- * @param {String} original property
- * @param {Object} original rule
- * @param {Boolean} is fallback prop
- * @param {Boolean} object is inside array
- * @return {String} converted string
  */
-function objectToArray(value, prop, rule: StyleRule, isFallback, isInArray) {
+function objectToArray(
+  value: JssValue,
+  prop: string,
+  rule: StyleRule,
+  isFallback?: boolean,
+  isInArray?: boolean
+) {
   if (!(propObj[prop] || customPropObj[prop])) return []
 
   const result = []
@@ -81,14 +77,13 @@ function objectToArray(value, prop, rule: StyleRule, isFallback, isInArray) {
 
 /**
  * Convert custom properties values to styles adding them to rule directly
- *
- * @param {Object} object of values
- * @param {Object} original rule
- * @param {String} property, that contain partial custom properties
- * @param {Boolean} is fallback prop
- * @return {Object} value without custom properties, that was already added to rule
  */
-function customPropsToStyle(value, rule: StyleRule, customProps, isFallback) {
+function customPropsToStyle(
+  value: JssValue,
+  rule: StyleRule,
+  customProps: {[string]: string},
+  isFallback?: boolean
+) {
   for (const prop in customProps) {
     const propName = customProps[prop]
 
@@ -114,13 +109,8 @@ function customPropsToStyle(value, rule: StyleRule, customProps, isFallback) {
 
 /**
  * Detect if a style needs to be converted.
- *
- * @param {Object} style
- * @param {Object} rule
- * @param {Boolean} is fallback prop
- * @return {Object} convertedStyle
  */
-function styleDetector(style, rule: StyleRule, isFallback) {
+function styleDetector(style: JssStyle, rule: StyleRule, isFallback?: boolean): JssStyle {
   for (const prop in style) {
     const value = style[prop]
 
@@ -128,9 +118,7 @@ function styleDetector(style, rule: StyleRule, isFallback) {
       // Check double arrays to avoid recursion.
       if (!Array.isArray(value[0])) {
         if (prop === 'fallbacks') {
-          // $FlowFixMe: Flow has problems with knowing that the fallback prop actually exists
           for (let index = 0; index < style.fallbacks.length; index++) {
-            // $FlowFixMe: Flow has problems with knowing that the fallback prop actually exists
             style.fallbacks[index] = styleDetector(style.fallbacks[index], rule, true)
           }
           continue
@@ -142,7 +130,6 @@ function styleDetector(style, rule: StyleRule, isFallback) {
       }
     } else if (typeof value === 'object') {
       if (prop === 'fallbacks') {
-        // $FlowFixMe: Flow has problems with knowing that the fallback prop actually exists
         style.fallbacks = styleDetector(style.fallbacks, rule, true)
         continue
       }
@@ -161,9 +148,6 @@ function styleDetector(style, rule: StyleRule, isFallback) {
 
 /**
  * Adds possibility to write expanded styles.
- *
- * @param {Rule} rule
- * @api public
  */
 export default function jssExpand(): Plugin {
   function onProcessStyle(style, rule) {

@@ -2,6 +2,8 @@
 import type {Plugin} from 'jss'
 import defaultUnits from './defaultUnits'
 
+export type Options = {[key: string]: string}
+
 /**
  * Clones the object and adds a camel cased property version.
  */
@@ -20,18 +22,12 @@ const units = addCamelCasedVersion(defaultUnits)
 
 /**
  * Recursive deep style passing function
- *
- * @param {String} current property
- * @param {(Object|Array|Number|String)} property value
- * @param {Object} options
- * @return {(Object|Array|Number|String)} resulting value
  */
-function iterate(prop, value, options) {
+function iterate(prop: string, value: any, options: Options) {
   if (!value) return value
 
   if (Array.isArray(value)) {
     for (let i = 0; i < value.length; i++) {
-      // $FlowFixMe
       value[i] = iterate(prop, value[i], options)
     }
   } else if (typeof value === 'object') {
@@ -61,8 +57,6 @@ function iterate(prop, value, options) {
   return value
 }
 
-export type Options = {[key: string]: string}
-
 /**
  * Add unit to numeric values.
  */
@@ -80,7 +74,6 @@ export default function defaultUnit(options: Options = {}): Plugin {
   }
 
   function onChangeValue(value, prop) {
-    // $FlowFixMe
     return iterate(prop, value, camelCasedOptions)
   }
 

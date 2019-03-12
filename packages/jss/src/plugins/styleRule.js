@@ -5,6 +5,7 @@ import toCssValue from '../utils/toCssValue'
 import escape from '../utils/escape'
 import type {
   CSSStyleRule,
+  HTMLElementWithStyleMap,
   ToCssOptions,
   RuleOptions,
   UpdateOptions,
@@ -131,7 +132,7 @@ export class StyleRule extends BaseStyleRule {
   /**
    * Apply rule to an element inline.
    */
-  applyTo(renderable: HTMLElement): this {
+  applyTo(renderable: HTMLElementWithStyleMap): this {
     const {renderer} = this
     if (renderer) {
       const json = this.toJSON()

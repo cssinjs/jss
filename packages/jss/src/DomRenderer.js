@@ -7,6 +7,7 @@ import type {
   CSSMediaRule,
   CSSKeyframesRule,
   CSSKeyframeRule,
+  HTMLElementWithStyleMap,
   AnyCSSRule,
   Rule,
   RuleList,
@@ -36,13 +37,12 @@ const memoize = <Value>(fn: () => Value): (() => Value) => {
  * Get a style property value.
  */
 function getPropertyValue(
-  cssRule: HTMLElement | CSSStyleRule | CSSKeyframeRule,
+  cssRule: HTMLElementWithStyleMap | CSSStyleRule | CSSKeyframeRule,
   prop: string
 ): string {
   try {
     // Support CSSTOM.
-    if ('attributeStyleMap' in cssRule) {
-      // $FlowFixMe
+    if (cssRule.attributeStyleMap) {
       return cssRule.attributeStyleMap.get(prop)
     }
     return cssRule.style.getPropertyValue(prop)
@@ -56,7 +56,7 @@ function getPropertyValue(
  * Set a style property.
  */
 function setProperty(
-  cssRule: HTMLElement | CSSStyleRule | CSSKeyframeRule,
+  cssRule: HTMLElementWithStyleMap | CSSStyleRule | CSSKeyframeRule,
   prop: string,
   value: JssValue
 ): boolean {
@@ -73,8 +73,7 @@ function setProperty(
     }
 
     // Support CSSTOM.
-    if ('attributeStyleMap' in cssRule) {
-      // $FlowFixMe
+    if (cssRule.attributeStyleMap) {
       cssRule.attributeStyleMap.set(prop, cssValue)
     } else {
       cssRule.style.setProperty(prop, cssValue)
@@ -89,11 +88,13 @@ function setProperty(
 /**
  * Remove a style property.
  */
-function removeProperty(cssRule: HTMLElement | CSSStyleRule | CSSKeyframeRule, prop: string) {
+function removeProperty(
+  cssRule: HTMLElementWithStyleMap | CSSStyleRule | CSSKeyframeRule,
+  prop: string
+) {
   try {
     // Support CSSTOM.
-    if ('attributeStyleMap' in cssRule) {
-      // $FlowFixMe
+    if (cssRule.attributeStyleMap) {
       cssRule.attributeStyleMap.delete(prop)
     } else {
       cssRule.style.removeProperty(prop)
