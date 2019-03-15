@@ -199,7 +199,7 @@ describe('React-JSS: dynamic styles', () => {
         }
         .button1-1 {}
         .button1-0-2 {
-          height: 10;
+          height: 10px;
         }
       `)
 

@@ -13,7 +13,7 @@
 let index = 0
 
 function getIndex() {
-  return index++;
+  return index++
 }
 
-export { getIndex };
+export {getIndex}

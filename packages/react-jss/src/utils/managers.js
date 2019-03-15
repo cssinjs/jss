@@ -3,7 +3,7 @@
 import {SheetsManager} from 'jss'
 import type {Context} from '../types'
 
-const defaultManagers = new Map();
+const defaultManagers = new Map()
 
 function getManager(context: Context, managerId: number) {
   // If `managers` map is present in the context, we use it in order to
@@ -15,16 +15,14 @@ function getManager(context: Context, managerId: number) {
     return context.managers[managerId]
   }
 
-  let manager = defaultManagers.get(managerId);
+  let manager = defaultManagers.get(managerId)
 
   if (!manager) {
-    manager = new SheetsManager();
-    defaultManagers.set(managerId, manager);
+    manager = new SheetsManager()
+    defaultManagers.set(managerId, manager)
   }
 
-  return manager;
+  return manager
 }
 
-export {
-  getManager,
-}
+export {getManager}

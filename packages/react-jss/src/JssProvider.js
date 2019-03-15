@@ -3,8 +3,8 @@ import React, {Component, type Node} from 'react'
 import PropTypes from 'prop-types'
 import defaultJss, {createGenerateId, type Jss, type GenerateId, SheetsRegistry} from 'jss'
 import type {Context, Managers} from './types'
-import JssContext from './JssContext'
-import memoize from './memoize-one'
+import {JssContext} from './JssContext'
+import memoize from './utils/memoize-one'
 
 /* eslint-disable react/require-default-props, react/no-unused-prop-types */
 
@@ -18,7 +18,7 @@ type Props = {
   children: Node
 }
 
-export default class JssProvider extends Component<Props> {
+export class JssProvider extends Component<Props> {
   static propTypes = {
     registry: PropTypes.instanceOf(SheetsRegistry),
     jss: PropTypes.instanceOf(defaultJss.constructor),
@@ -62,8 +62,7 @@ export default class JssProvider extends Component<Props> {
 
       // Merge the classname prefix
       if (classNamePrefix) {
-        context.sheetOptions.classNamePrefix =
-          (context.sheetOptions.classNamePrefix || '') + classNamePrefix
+        context.sheetOptions.classNamePrefix += classNamePrefix
       }
 
       if (media !== undefined) {

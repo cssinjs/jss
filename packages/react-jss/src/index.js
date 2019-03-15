@@ -1,7 +1,14 @@
 // @flow
+import {withStyles} from './hoc'
+import {createUseStyles} from './hook'
+
 export {ThemeProvider, withTheme, createTheming} from 'theming'
-export {default as JssProvider} from './JssProvider'
-export {default as jss} from './jss'
+export {JssProvider} from './JssProvider'
+export {jss} from './jss'
 export {SheetsRegistry, createGenerateId} from 'jss'
-export {default as JssContext} from './JssContext'
-export {default} from './withStyles'
+export {JssContext} from './JssContext'
+
+export {withStyles, createUseStyles}
+
+// Kept for backwards compatibility
+export default withStyles

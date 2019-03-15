@@ -3,24 +3,25 @@ import type {StyleSheetFactoryOptions, Jss, SheetsRegistry, SheetsManager, BaseR
 import type {Node} from 'react'
 import type {Theming} from 'theming'
 
-type StaticStyles = {[key: string]: {}}
+export type StaticStyles = {[key: string]: {}}
 
 export type Managers = {[key: number]: SheetsManager}
 
-type StyleSheetOptions = StyleSheetFactoryOptions & {
-  classNamePrefix: '',
+type StyleSheetOptions = {
+  ...StyleSheetFactoryOptions,
+  classNamePrefix: string
 }
 
 export type HookOptions<Theme> = StyleSheetFactoryOptions & {
   index?: number,
   name?: string,
-  theming?: Theming<Theme>,
+  theming?: Theming<Theme>
 }
 
 export type HOCOptions<Theme> = StyleSheetFactoryOptions & {
   index?: number,
   theming?: Theming<Theme>,
-  injectTheme?: boolean,
+  injectTheme?: boolean
 }
 
 export type Context = {
