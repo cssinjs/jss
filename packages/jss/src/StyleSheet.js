@@ -59,9 +59,15 @@ export default class StyleSheet {
    * Attach renderable to the render tree.
    */
   attach(): this {
-    if (this.attached || !this.renderer) return this
-    this.renderer.attach()
+    if (this.attached) {
+      return this
+    }
+
     this.attached = true
+
+    if (this.renderer) {
+      this.renderer.attach()
+    }
     // Order is important, because we can't use insertRule API if style element is not attached.
     if (!this.deployed) this.deploy()
     return this
