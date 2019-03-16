@@ -20,9 +20,8 @@
     "url": "https://github.com/cssinjs/jss/issues/new?title=[react-jss]"
   },
   "files": [
-    "dist",
-    "src",
-    "LICENSE"
+    "dist/*.{js,map,flow}",
+    "src/**/*.js"
   ],
   "keywords": [
     "react",
