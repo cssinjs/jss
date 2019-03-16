@@ -65,9 +65,12 @@ export default class StyleSheet {
 
     this.attached = true
 
-    if (this.renderer) {
-      this.renderer.attach()
+    if (!this.renderer) {
+      return this
     }
+
+    this.renderer.attach()
+
     // Order is important, because we can't use insertRule API if style element is not attached.
     if (!this.deployed) this.deploy()
     return this
