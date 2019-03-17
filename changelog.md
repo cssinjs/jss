@@ -1,3 +1,9 @@
+## Next
+
+## Bug fixes
+
+- [jss] Fix SSR aggregation regression ([#1064](https://github.com/cssinjs/jss/pull/1064))
+
 ## 10.0.0-alpha.13 (2019-3-12)
 
 ### Bug fixes

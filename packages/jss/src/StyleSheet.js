@@ -59,8 +59,8 @@ export default class StyleSheet {
    * Attach renderable to the render tree.
    */
   attach(): this {
-    if (this.attached || !this.renderer) return this
-    this.renderer.attach()
+    if (this.attached) return this
+    if (this.renderer) this.renderer.attach()
     this.attached = true
     // Order is important, because we can't use insertRule API if style element is not attached.
     if (!this.deployed) this.deploy()
@@ -71,8 +71,8 @@ export default class StyleSheet {
    * Remove renderable from render tree.
    */
   detach(): this {
-    if (!this.attached || !this.renderer) return this
-    this.renderer.detach()
+    if (!this.attached) return this
+    if (this.renderer) this.renderer.detach()
     this.attached = false
     return this
   }
@@ -175,10 +175,8 @@ export default class StyleSheet {
    * Deploy pure CSS string to a renderable.
    */
   deploy(): this {
-    if (this.renderer) {
-      this.renderer.deploy()
-      this.deployed = true
-    }
+    if (this.renderer) this.renderer.deploy()
+    this.deployed = true
     return this
   }
 
