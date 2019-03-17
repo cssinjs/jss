@@ -497,6 +497,38 @@ describe('Integration: sheet', () => {
       `)
     })
 
+    it('should work with tso referenced keyframes', () => {
+      const sheet = jss.createStyleSheet({
+        '@keyframes a': {
+          to: {height: '100%'}
+        },
+        '@keyframes b': {
+          to: {height: '100%'}
+        },
+        b: {
+          'animation-name': '$a $b'
+        }
+      })
+
+      expect(spy.callCount).to.be(0)
+
+      expect(sheet.toString()).to.be(stripIndent`
+        @keyframes keyframes-a-id {
+          to {
+            height: 100%;
+          }
+        }
+        @keyframes keyframes-b-id {
+          to {
+            height: 100%;
+          }
+        }
+        .b-id {
+          animation-name: keyframes-a-id keyframes-b-id;
+        }
+      `)
+    })
+
     it('should unregister', () => {
       const sheet = jss.createStyleSheet({
         '@keyframes a': {

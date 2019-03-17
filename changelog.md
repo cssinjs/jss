@@ -1,5 +1,9 @@
 ## Next
 
+### Improvements
+
+- [jss] Add support for multiple referenced keyframes ([#1063](https://github.com/cssinjs/jss/pull/1063))
+
 ## Bug fixes
 
 - [jss] Fix SSR aggregation regression ([#1064](https://github.com/cssinjs/jss/pull/1064))

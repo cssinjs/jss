@@ -79,19 +79,19 @@ export class KeyframesRule implements ContainerRule {
 
 const keyRegExp = /@keyframes\s+/
 
-const refRegExp = /\$([\w-]+)/
+const refRegExp = /\$([\w-]+)/g
 
 const findReferencedKeyframe = (val, keyframes) => {
   if (typeof val === 'string') {
-    const ref = refRegExp.exec(val)
+    return val.replace(refRegExp, (match, name) => {
+      if (name in keyframes) {
+        return keyframes[name]
+      }
 
-    if (!ref) return val
+      warning(false, `[JSS] Referenced keyframes rule "${name}" is not defined.`)
 
-    if (ref[1] in keyframes) {
-      return val.replace(ref[0], keyframes[ref[1]])
-    }
-
-    warning(false, `[JSS] Referenced keyframes rule "${ref[1]}" is not defined.`)
+      return match
+    })
   }
 
   return val
