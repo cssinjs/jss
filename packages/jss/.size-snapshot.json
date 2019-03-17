@@ -7,7 +7,7 @@
   "dist/jss.min.js": {
     "bundled": 57740,
     "minified": 20925,
-    "gzipped": 6129
+    "gzipped": 6130
   },
   "dist/jss.cjs.js": {
     "bundled": 54364,
@@ -17,7 +17,7 @@
   "dist/jss.esm.js": {
     "bundled": 53868,
     "minified": 23349,
-    "gzipped": 6538,
+    "gzipped": 6537,
     "treeshaked": {
       "rollup": {
         "code": 18985,
