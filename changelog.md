@@ -1,5 +1,11 @@
 ## Next
 
+## Bug fixes
+
+- [jss] Fix SSR aggregation regression ([#1064](https://github.com/cssinjs/jss/pull/1064))
+
+## 10.0.0-alpha.13 (2019-3-12)
+
 ### Bug fixes
 
 - [react-jss] Replace spaces inside the display name with hyphens ([#1049](https://github.com/cssinjs/jss/pull/1049))

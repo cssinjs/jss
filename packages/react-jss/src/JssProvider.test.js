@@ -250,10 +250,8 @@ describe('React-JSS: JssProvider', () => {
       }
       const MyComponent = withStyles(styles)()
       let generateId = createGenerateId()
-      const jss = create(preset())
-
-      // Because we currently run the tests in the browser, we will need to reset the renderer here again
-      jss.options.Renderer = null
+      // Remove renderer to simulate a non-browser env.
+      const jss = create({...preset(), Renderer: null})
 
       TestRenderer.create(
         <JssProvider registry={registry} generateId={generateId} jss={jss}>
@@ -300,10 +298,8 @@ describe('React-JSS: JssProvider', () => {
       const customSheets2 = new SheetsRegistry()
       const generateId1 = createGenerateId()
       const generateId2 = createGenerateId()
-      const jss = create(preset())
-
-      // Because we currently run the tests in the browser, we will need to reset the renderer here again
-      jss.options.Renderer = null
+      // Remove renderer to simulate a non-browser env.
+      const jss = create({...preset(), Renderer: null})
 
       TestRenderer.create(
         <JssProvider registry={customSheets1} generateId={generateId1} jss={jss}>
