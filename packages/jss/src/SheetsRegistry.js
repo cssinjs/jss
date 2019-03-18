@@ -1,4 +1,5 @@
 /* @flow */
+import csso from 'csso'
 import type {ToCssOptions} from './types'
 import type StyleSheet from './StyleSheet'
 
@@ -57,9 +58,13 @@ export default class SheetsRegistry {
    * Convert all attached sheets to a CSS string.
    */
   toString(options?: ToCssOptions): string {
-    return this.registry
-      .filter(sheet => sheet.attached)
-      .map(sheet => sheet.toString(options))
-      .join('\n')
+    const {css} = csso.minify(
+      this.registry
+        .filter(sheet => sheet.attached)
+        .map(sheet => sheet.toString(options))
+        .join('\n')
+    )
+
+    return css
   }
 }

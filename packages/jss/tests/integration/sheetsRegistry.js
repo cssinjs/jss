@@ -1,4 +1,4 @@
-import {stripIndent} from 'common-tags'
+import csso from 'csso'
 import expect from 'expect.js'
 import {create, SheetsRegistry} from '../../src'
 import {resetSheets, createGenerateId} from '../../../../tests/utils'
@@ -85,14 +85,16 @@ describe('Integration: sheetsRegistry', () => {
       const sheet2 = jss.createStyleSheet({a: {color: 'blue'}}).attach()
       sheets.add(sheet1)
       sheets.add(sheet2)
-      expect(sheets.toString()).to.be(stripIndent`
+      expect(sheets.toString()).to.be(
+        csso.minify`
         .a-id {
           color: red;
         }
         .a-id {
           color: blue;
         }
-      `)
+      `.css
+      )
     })
 
     it('should not stringify detached sheets', () => {
@@ -100,11 +102,13 @@ describe('Integration: sheetsRegistry', () => {
       const sheet2 = jss.createStyleSheet({a: {color: 'blue'}})
       sheets.add(sheet1)
       sheets.add(sheet2)
-      expect(sheets.toString()).to.be(stripIndent`
+      expect(sheets.toString()).to.be(
+        csso.minify`
         .a-id {
           color: red;
         }
-      `)
+      `.css
+      )
     })
   })
 })

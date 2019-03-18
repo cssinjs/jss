@@ -1,4 +1,4 @@
-import {create} from 'jss'
+import {create, SheetsRegistry} from 'jss'
 import global from 'jss-plugin-global'
 
 import styles from '../fixtures/bootstrap.json'
@@ -10,10 +10,18 @@ const jssWithGlobal = create(options).use(global())
 
 suite('Bootstrap JSS to CSS', () => {
   benchmark('unnamed .toString()', () => {
-    jssWithGlobal.createStyleSheet({'@global': styles}, options).toString()
+    const styleSheet = jssWithGlobal.createStyleSheet({'@global': styles}, options)
+    const sheetsRegistry = new SheetsRegistry()
+    sheetsRegistry.add(styleSheet)
+
+    sheetsRegistry.toString()
   })
 
   benchmark('named .toString()', () => {
-    jssWithoutGlobal.createStyleSheet(styles, options).toString()
+    const styleSheet = jssWithoutGlobal.createStyleSheet(styles, options)
+    const sheetsRegistry = new SheetsRegistry()
+    sheetsRegistry.add(styleSheet)
+
+    sheetsRegistry.toString()
   })
 })
