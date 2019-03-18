@@ -1,3 +1,9 @@
+## Next
+
+### Bug fixes
+
+- [jss-plugin-camel-case] Fix some IE 11 regression ([#1065](https://github.com/cssinjs/jss/pull/1065))
+
 ## 10.0.0-alpha.14 (2019-3-17)
 
 ### Improvements
