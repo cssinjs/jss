@@ -40,9 +40,9 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "dependencies": {
-    "jss": "10.0.0-alpha.14",
-    "jss-plugin-cache": "10.0.0-alpha.14",
-    "jss-plugin-isolate": "10.0.0-alpha.14",
+    "jss": "10.0.0-alpha.15",
+    "jss-plugin-cache": "10.0.0-alpha.15",
+    "jss-plugin-isolate": "10.0.0-alpha.15",
     "jss-preset-default": "10.0.0-alpha.15",
     "react-jss": "10.0.0-alpha.15"
   }

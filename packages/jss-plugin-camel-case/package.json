@@ -37,11 +37,11 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
-    "jss-plugin-rule-value-function": "10.0.0-alpha.14"
+    "jss-plugin-rule-value-function": "10.0.0-alpha.15"
   },
   "dependencies": {
     "@babel/runtime": "^7.3.1",
     "hyphenate-style-name": "^1.0.3",
-    "jss": "10.0.0-alpha.14"
+    "jss": "10.0.0-alpha.15"
   }
 }
