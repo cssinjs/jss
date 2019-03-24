@@ -1,7 +1,7 @@
 {
   "name": "jss-starter-kit",
   "description": "A bundle to get you started playing with JSS. Not optimized for production deployment.",
-  "version": "10.0.0-alpha.14",
+  "version": "10.0.0-alpha.15",
   "license": "MIT",
   "homepage": "https://cssinjs.org/",
   "main": "dist/jss-starter-kit.cjs.js",
@@ -43,7 +43,7 @@
     "jss": "10.0.0-alpha.14",
     "jss-plugin-cache": "10.0.0-alpha.14",
     "jss-plugin-isolate": "10.0.0-alpha.14",
-    "jss-preset-default": "10.0.0-alpha.14",
-    "react-jss": "10.0.0-alpha.14"
+    "jss-preset-default": "10.0.0-alpha.15",
+    "react-jss": "10.0.0-alpha.15"
   }
 }

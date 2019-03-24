@@ -1,7 +1,7 @@
 {
   "name": "jss-plugin-camel-case",
   "description": "JSS plugin that allows to write camel cased rule properties",
-  "version": "10.0.0-alpha.14",
+  "version": "10.0.0-alpha.15",
   "license": "MIT",
   "homepage": "https://cssinjs.org/jss-camel-case",
   "main": "dist/jss-plugin-camel-case.cjs.js",
