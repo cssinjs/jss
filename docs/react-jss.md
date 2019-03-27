@@ -574,35 +574,64 @@ const Button = withStyles(buttonStyles)(() => (
 
 ### Usage with TypeScript
 
-React JSS includes first class support for TypeScript. React JSS provides
-a `WithStyles` type which adds types for all of the injected props.
-To use it, simply extend your existing props interface with
-`WithStyles<typeof styles>`, where `styles` is your styles object.
+For getting React JSS typings first install `@types/react-jss`: 
 
-Example
+```
+npm install -D @types/react-jss
+```
+
+React JSS provides a `WithSheet` type which adds types for injected props `classes` and optionally `theme` it you work with a `ThemeProvider` as explained before. 
+
+To use it, simply extend your existing props interface with `WithSheet<typeof styles>`, where `styles` is your styles object.
+And if working with themes, then extend your Props interface it with `WithSheet<typeof styles, Theme>` where `Theme` is the interface that describe the theme.
+
+The following example shows the later case, both a `Component` consuming the theme and an entry point declaring a `theme` and its type, and rendering the component with a `ThemeProvideer`:
+
+`button.tsx`
 
 ```typescript
 import * as React from 'react'
-import withStyles, {WithStyles} from 'react-jss'
+import withStyles, { WithSheet } from 'react-jss'
+import { Theme } from './main'
 
-const styles = {
+interface Props extends WithSheet<typeof styles, Theme> {
+  label: string
+  clicked(): void
+}
+const styles = (theme: Theme) => ({
   button: {
-    backgroundColor: 'yellow'
-  },
-  label: {
-    fontWeight: 'bold'
+    color: theme.colorPrimary
+  }
+})
+class Button extends React.Component<Props, {}> {
+  render() {
+    const { classes, clicked, label } = this.props
+    return <button className={classes.button} onClick={e => clicked()}>
+      {label}
+    </button>
   }
 }
+export default withStyles(styles)(Button)
+```
 
-interface IProps extends WithStyles<typeof styles> {
-  children: React.ReactNode
+`main.tsx`
+
+```tsx
+import * as React from 'react'
+import * as ReactDom from 'react-dom'
+import  { ThemeProvider } from 'react-jss'
+import Button from './button'
+
+export interface Theme {
+  colorPrimary:string
 }
-
-const Button: React.FunctionComponent<IProps> = ({classes, children}) => (
-  <button className={classes.button}>
-    <span className={classes.label}>{children}</span>
-  </button>
+const theme:Theme = {
+  colorPrimary: 'green'
+}
+ReactDom.render(
+  <ThemeProvider theme={theme}>
+    <Button />
+  </ThemeProvider>, el
 )
 
-export default withStyles(styles)(Button)
 ```
