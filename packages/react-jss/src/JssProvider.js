@@ -14,16 +14,16 @@ import memoize from './memoize-one'
 
 /* eslint-disable react/require-default-props, react/no-unused-prop-types */
 
-interface Props {
-  jss?: Jss;
-  registry?: SheetsRegistry;
-  generateId?: GenerateId;
-  classNamePrefix?: string;
-  disableStylesGeneration?: boolean;
-  media?: string;
-  children: Node;
-  idOptions: CreateGenerateIdOptions;
-}
+type Props = {|
+  jss?: Jss,
+  registry?: SheetsRegistry,
+  generateId?: GenerateId,
+  classNamePrefix?: string,
+  disableStylesGeneration?: boolean,
+  media?: string,
+  children: Node,
+  id: CreateGenerateIdOptions
+|}
 
 export default class JssProvider extends Component<Props> {
   static propTypes = {
@@ -34,10 +34,10 @@ export default class JssProvider extends Component<Props> {
     disableStylesGeneration: PropTypes.bool,
     children: PropTypes.node.isRequired,
     media: PropTypes.string,
-    idOptions: PropTypes.shape({minify: PropTypes.bool})
+    id: PropTypes.shape({minify: PropTypes.bool})
   }
 
-  static defaultProps = {idOptions: {minify: false}}
+  static defaultProps = {id: {minify: false}}
 
   managers: Managers = {}
 
@@ -65,7 +65,7 @@ export default class JssProvider extends Component<Props> {
         context.sheetOptions.generateId = generateId
       } else if (!context.sheetOptions.generateId) {
         if (!this.generateId) {
-          this.generateId = createGenerateId(this.props.idOptions)
+          this.generateId = createGenerateId(this.props.id)
         }
         context.sheetOptions.generateId = this.generateId
       }

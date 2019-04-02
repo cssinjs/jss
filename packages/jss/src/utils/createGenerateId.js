@@ -6,9 +6,9 @@ import moduleId from './moduleId'
 
 const maxRules = 1e10
 
-export interface CreateGenerateIdOptions {
-  minify: boolean;
-}
+export type CreateGenerateIdOptions = {|
+  minify: boolean
+|}
 export type GenerateId = (rule: Rule, sheet?: StyleSheet) => string
 
 export type CreateGenerateId = (options: CreateGenerateIdOptions) => GenerateId

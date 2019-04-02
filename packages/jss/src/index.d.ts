@@ -3,6 +3,12 @@ export type Styles<Name extends string = string> = Record<Name, Style>
 export type Classes<Name extends string = string> = Record<Name, string>
 export type Keyframes<Name extends string = string> = Record<Name, string>
 
+export interface CreateGenerateIdOptions {
+  minify?: boolean
+}
+
+export type CreateGenerateId = (options?: CreateGenerateIdOptions) => GenerateId
+
 export type GenerateId = (rule: Rule, sheet?: StyleSheet<string>) => string
 
 export type JssValue =
@@ -11,8 +17,6 @@ export type JssValue =
   | Array<string | number | Array<string | number> | '!important'>
   | null
   | false
-
-export type CreateGenerateId = () => GenerateId
 
 export type InsertionPoint = string | HTMLElement
 
@@ -215,13 +219,14 @@ export interface Jss {
   createRule(style: Style, options?: RuleFactoryOptions): Rule
   createRule<Name extends string>(name: Name, style: Style, options?: RuleFactoryOptions): Rule
 }
+
 /**
  * Creates a new instance of JSS.
  */
 declare const sheets: SheetsRegistry
 export {sheets, SheetsManager, SheetsRegistry, RuleList}
 export function create(options?: Partial<JssOptions>): Jss
-export function createGenerateId(): GenerateId
+export const createGenerateId: CreateGenerateId
 export function createRule(name: string, decl: Style, options: RuleOptions): Rule
 export function toCssValue(value: JssValue, ignoreImportant: boolean): string
 export function getDynamicStyles(styles: Styles): Styles | null
