@@ -579,6 +579,8 @@ a `WithStyles` type which adds types for all of the injected props.
 To use it, simply extend your existing props interface with
 `WithStyles<typeof styles>`, where `styles` is your styles object.
 
+> Note: To use WithStyles you must use react-jss version 10 or higher.
+
 Example
 
 ```typescript
