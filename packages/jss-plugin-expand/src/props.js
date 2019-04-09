@@ -141,6 +141,26 @@ export const customPropObj = {
     style: 'border-style',
     color: 'border-color'
   },
+  'border-bottom': {
+    width: 'border-bottom-width',
+    style: 'border-bottom-style',
+    color: 'border-bottom-color'
+  },
+  'border-top': {
+    width: 'border-bottom-width',
+    style: 'border-bottom-style',
+    color: 'border-bottom-color'
+  },
+  'border-left': {
+    width: 'border-bottom-width',
+    style: 'border-bottom-style',
+    color: 'border-bottom-color'
+  },
+  'border-right': {
+    width: 'border-bottom-width',
+    style: 'border-bottom-style',
+    color: 'border-bottom-color'
+  },
   background: {
     size: 'background-size',
     image: 'background-image'
