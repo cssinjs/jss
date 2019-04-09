@@ -2,7 +2,7 @@
 
 ### Bug fixes
 
-- [jss-plugin-expand] Fix attributes spread for `border-bottom`, `border-top`, `border-left` and `border-right`([#1083](https://github.com/cssinjs/jss/pull/1083))
+- [jss-plugin-expand] Fix attributes spread for `border-bottom`, `border-top`, `border-left` and `border-right` ([#1083](https://github.com/cssinjs/jss/pull/1083))
 
 ## 10.0.0-alpha.16 (2019-3-24)
 
