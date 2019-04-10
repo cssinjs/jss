@@ -7,7 +7,7 @@ import type {Plugin} from 'jss'
 export default function jssPropsSort(): Plugin {
   const sort = (prop0, prop1) => {
     if (prop0.length === prop1.length) {
-      return prop0 > prop1 ? 1 : 0
+      return prop0 > prop1 ? 1 : -1
     }
     return prop0.length - prop1.length
   }

@@ -1,23 +1,23 @@
 {
   "dist/jss-plugin-props-sort.js": {
-    "bundled": 1018,
-    "minified": 503,
-    "gzipped": 319
+    "bundled": 1019,
+    "minified": 504,
+    "gzipped": 320
   },
   "dist/jss-plugin-props-sort.min.js": {
-    "bundled": 1018,
-    "minified": 503,
-    "gzipped": 319
+    "bundled": 1019,
+    "minified": 504,
+    "gzipped": 320
   },
   "dist/jss-plugin-props-sort.cjs.js": {
-    "bundled": 673,
-    "minified": 344,
-    "gzipped": 242
+    "bundled": 674,
+    "minified": 345,
+    "gzipped": 243
   },
   "dist/jss-plugin-props-sort.esm.js": {
-    "bundled": 591,
-    "minified": 275,
-    "gzipped": 201,
+    "bundled": 592,
+    "minified": 276,
+    "gzipped": 202,
     "treeshaked": {
       "rollup": {
         "code": 0,
