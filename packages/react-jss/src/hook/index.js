@@ -87,7 +87,10 @@ function createUseStyles<Theme: {}>(styles: Styles<Theme>, options?: HookOptions
 
     // Only compute the sheet classes when there is a sheet, otherwise return an empty object
     // Because there are no deep properties, accessing any style will result in undefined
-    return React.useMemo(() => sheet ? getSheetClasses(sheet, dynamicRules) : {}, [sheet])
+    return React.useMemo(() => (sheet ? getSheetClasses(sheet, dynamicRules) : {}), [
+      sheet,
+      dynamicRules
+    ])
   }
 }
 
