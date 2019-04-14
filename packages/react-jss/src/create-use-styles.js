@@ -3,14 +3,14 @@
 import React from 'react'
 import {ThemeContext as DefaultThemeContext} from 'theming'
 
-import {JssContext} from '../JssContext'
-import {createSheet} from '../utils/create-sheet'
-import {getIndex} from '../utils/index-counter'
-import type {HookOptions, Styles} from '../types'
-import {addDynamicRules, removeDynamicRules, updateDynamicRules} from '../utils/dynamic-rules'
-import {manageSheet} from '../utils/manage-sheet'
-import {unmanageSheet} from '../utils/unmanage-sheet'
-import {getSheetClasses} from '../utils/get-sheet-classes'
+import {JssContext} from './JssContext'
+import {createSheet} from './utils/create-sheet'
+import {getIndex} from './utils/index-counter'
+import type {HookOptions, Styles} from './types'
+import {addDynamicRules, removeDynamicRules, updateDynamicRules} from './utils/dynamic-rules'
+import {manageSheet} from './utils/manage-sheet'
+import {unmanageSheet} from './utils/unmanage-sheet'
+import {getSheetClasses} from './utils/get-sheet-classes'
 
 const noTheme = {}
 

@@ -10,6 +10,9 @@ module.exports = {
     __VERSION__: true,
     CSS: true
   },
+  rules: {
+    'import/prefer-default-export': 'off'
+  },
   overrides: [
     {
       files: ['docs/*.md', 'docs/**/*.md'],
