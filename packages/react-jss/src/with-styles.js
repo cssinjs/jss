@@ -1,7 +1,7 @@
 // @flow
 import React, {Component, type ComponentType, type Node} from 'react'
 import hoistNonReactStatics from 'hoist-non-react-statics'
-import {type StyleSheet} from 'jss'
+import {type StyleSheet, type Classes} from 'jss'
 import {ThemeContext} from 'theming'
 
 import type {HOCProps, HOCOptions, Styles, InnerProps, DynamicRules} from './types'
@@ -10,7 +10,12 @@ import memoize from './utils/memoize-one'
 import mergeClasses from './utils/merge-classes'
 import {JssContext} from './JssContext'
 import {getIndex} from './utils/index-counter'
-import {createStaticSheet, updateDynamicRules, addDynamicRules, removeDynamicRules} from './utils/sheets'
+import {
+  createStaticSheet,
+  updateDynamicRules,
+  addDynamicRules,
+  removeDynamicRules
+} from './utils/sheets'
 import {manageSheet, unmanageSheet} from './utils/managers'
 import {getSheetClasses} from './utils/get-sheet-classes'
 
@@ -39,7 +44,7 @@ export function withStyles<Theme>(styles: Styles<Theme>, options?: HOCOptions<Th
   ): ComponentType<Props> => {
     const displayName = getDisplayName(InnerComponent)
 
-    const getTheme = (props): Theme => isThemingEnabled ? props.theme : noTheme
+    const getTheme = (props): Theme => (isThemingEnabled ? props.theme : ((noTheme: any): Theme))
 
     class WithStyles extends Component<HOCProps<Theme, Props>, State> {
       static displayName = `WithStyles(${displayName})`
@@ -90,7 +95,7 @@ export function withStyles<Theme>(styles: Styles<Theme>, options?: HOCOptions<Th
         })
       }
 
-      mergeClassesProp = memoize(
+      mergeClassesProp = memoize<Classes[], Classes>(
         (sheetClasses, classesProp) =>
           classesProp ? mergeClasses(sheetClasses, classesProp) : sheetClasses
       )
@@ -125,6 +130,7 @@ export function withStyles<Theme>(styles: Styles<Theme>, options?: HOCOptions<Th
         const {classes: sheetClasses} = this.state
         const props = {
           ...rest,
+          // $FlowFixMe
           classes: this.mergeClassesProp(sheetClasses, classes)
         }
 
@@ -154,6 +160,7 @@ export function withStyles<Theme>(styles: Styles<Theme>, options?: HOCOptions<Th
     ))
 
     JssContextSubscriber.displayName = 'JssContextSubscriber'
+    // $FlowFixMe
     JssContextSubscriber.InnerComponent = InnerComponent
 
     return hoistNonReactStatics(JssContextSubscriber, InnerComponent)

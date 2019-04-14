@@ -4,7 +4,12 @@ import React from 'react'
 import {ThemeContext as DefaultThemeContext} from 'theming'
 
 import {JssContext} from './JssContext'
-import {createStaticSheet, addDynamicRules, removeDynamicRules, updateDynamicRules} from './utils/sheets'
+import {
+  createStaticSheet,
+  addDynamicRules,
+  removeDynamicRules,
+  updateDynamicRules
+} from './utils/sheets'
 import {getIndex} from './utils/index-counter'
 import type {HookOptions, Styles} from './types'
 import {unmanageSheet, manageSheet} from './utils/managers'
@@ -18,7 +23,8 @@ function createUseStyles<Theme: {}>(styles: Styles<Theme>, options?: HookOptions
 
   return (data: any) => {
     const jssContext = React.useContext(JssContext)
-    const theme = typeof styles === 'function' ? React.useContext(ThemeContext) : noTheme
+    // $FlowFixMe
+    const theme: Theme = typeof styles === 'function' ? React.useContext(ThemeContext) : noTheme
 
     // When the theme or the context changes we create a new sheet
     const sheet = React.useMemo(

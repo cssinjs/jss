@@ -13,7 +13,7 @@ interface Options<Theme> {
   name: string;
   index: number;
   styles: Styles<Theme>;
-  sheetOptions: $Diff<StyleSheetFactoryOptions, {index?: number}>;
+  sheetOptions: $Diff<StyleSheetFactoryOptions, {index: number | void}>;
 }
 
 const getStyles = <Theme>(options: Options<Theme>) => {
