@@ -6,8 +6,7 @@ import sheets from './sheets'
 import {plugins as internalPlugins} from './plugins/index'
 import createGenerateIdDefault from './utils/createGenerateId'
 import createRule from './utils/createRule'
-import DomRenderer from './renderers/DomRenderer'
-import VirtualRenderer from './renderers/VirtualRenderer'
+import DomRenderer from './DomRenderer'
 import type {
   Rule,
   RuleFactoryOptions,
@@ -31,7 +30,7 @@ export default class Jss {
 
   options: InternalJssOptions = {
     createGenerateId: createGenerateIdDefault,
-    Renderer: isInBrowser ? DomRenderer : VirtualRenderer,
+    Renderer: isInBrowser ? DomRenderer : null,
     plugins: []
   }
 
@@ -50,15 +49,15 @@ export default class Jss {
    * deduplication logic.
    */
   setup(options?: JssOptions = {}): this {
-    if (options.createGenerateId) {
-      this.options.createGenerateId = options.createGenerateId
-      // $FlowFixMe
-      this.generateId = options.createGenerateId()
+    const {createGenerateId} = options
+    if (createGenerateId) {
+      this.options.createGenerateId = createGenerateId
+      this.generateId = createGenerateId()
     }
 
     if (options.insertionPoint != null) this.options.insertionPoint = options.insertionPoint
-    if (options.virtual || options.Renderer) {
-      this.options.Renderer = options.Renderer || (options.virtual ? VirtualRenderer : DomRenderer)
+    if ('Renderer' in options) {
+      this.options.Renderer = options.Renderer
     }
 
     // eslint-disable-next-line prefer-spread

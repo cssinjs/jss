@@ -1,12 +1,19 @@
 // @flow
 
-export type DOMString = string
+import type {DOMString} from './dom'
+
+export interface StylePropertyMap {
+  get(property: DOMString): DOMString;
+  set(property: DOMString, value: DOMString): DOMString;
+  delete(property: DOMString): void;
+}
 
 export interface CSSRuleBase<T> {
   +type: $PropertyType<T, 'type'>;
   +CSSRule: ?CSSRule;
   +CSSStyleSheet: ?CSSStyleSheet;
   cssText: DOMString;
+  attributeStyleMap: StylePropertyMap;
 }
 
 export interface CSSGroupingRule<T> extends CSSRuleBase<T> {
@@ -80,4 +87,12 @@ export interface CSSViewportRule extends CSSRuleBase<{type: 15 | 15}> {
   +style: CSSStyleDeclaration;
 }
 
-export type CSSSimpleRule = CSSCharsetRule | CSSImportRule | CSSNamespaceRule
+export type AnyCSSRule =
+  | CSSMediaRule
+  | CSSFontFaceRule
+  | CSSKeyframesRule
+  | CSSCharsetRule
+  | CSSImportRule
+  | CSSNamespaceRule
+  | CSSStyleRule
+  | CSSViewportRule

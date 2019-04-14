@@ -3,7 +3,7 @@ import conditional from '../fixtures/conditional.json'
 import regular from '../fixtures/regular.json'
 
 // Avoid memory leak with registry.
-const options = {virtual: true}
+const options = {Renderer: null}
 
 suite('Conditional vs. regular rules to CSS', () => {
   benchmark('conditionals .toString()', () => {

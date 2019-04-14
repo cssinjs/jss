@@ -5,6 +5,7 @@ import React from 'react'
 import {stripIndent} from 'common-tags'
 import {create} from 'jss'
 import TestRenderer from 'react-test-renderer'
+import preset from 'jss-preset-default'
 
 import {SheetsRegistry, JssProvider, withStyles} from '.'
 
@@ -249,9 +250,11 @@ describe('React-JSS: JssProvider', () => {
       }
       const MyComponent = withStyles(styles)()
       let generateId = createGenerateId()
+      // Remove renderer to simulate a non-browser env.
+      const jss = create({...preset(), Renderer: null})
 
       TestRenderer.create(
-        <JssProvider registry={registry} generateId={generateId}>
+        <JssProvider registry={registry} generateId={generateId} jss={jss}>
           <MyComponent border="green" />
         </JssProvider>
       )
@@ -269,7 +272,7 @@ describe('React-JSS: JssProvider', () => {
       generateId = createGenerateId()
 
       TestRenderer.create(
-        <JssProvider registry={registry} generateId={generateId}>
+        <JssProvider registry={registry} generateId={generateId} jss={jss}>
           <MyComponent border="blue" />
         </JssProvider>
       )
@@ -295,15 +298,17 @@ describe('React-JSS: JssProvider', () => {
       const customSheets2 = new SheetsRegistry()
       const generateId1 = createGenerateId()
       const generateId2 = createGenerateId()
+      // Remove renderer to simulate a non-browser env.
+      const jss = create({...preset(), Renderer: null})
 
       TestRenderer.create(
-        <JssProvider registry={customSheets1} generateId={generateId1}>
+        <JssProvider registry={customSheets1} generateId={generateId1} jss={jss}>
           <MyComponent color="#000" />
         </JssProvider>
       )
 
       TestRenderer.create(
-        <JssProvider registry={customSheets2} generateId={generateId2}>
+        <JssProvider registry={customSheets2} generateId={generateId2} jss={jss}>
           <MyComponent color="#000" />
         </JssProvider>
       )
@@ -312,6 +317,7 @@ describe('React-JSS: JssProvider', () => {
       const result2 = customSheets2.toString()
 
       expect(result1).to.equal(result2)
+      expect(result1.length > 0).to.be(true)
     })
   })
 })

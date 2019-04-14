@@ -9,7 +9,9 @@ import type {
   UpdateArguments,
   JssStyle,
   Classes,
-  KeyframesMap
+  KeyframesMap,
+  JssStyles,
+  Renderer
 } from './types'
 
 export default class StyleSheet {
@@ -21,7 +23,7 @@ export default class StyleSheet {
 
   rules: RuleList
 
-  renderer: Object
+  renderer: Renderer | null
 
   classes: Classes
 
@@ -29,7 +31,7 @@ export default class StyleSheet {
 
   queue: ?Array<Rule>
 
-  constructor(styles: Object, options: StyleSheetOptions) {
+  constructor(styles: JssStyles, options: StyleSheetOptions) {
     this.attached = false
     this.deployed = false
     this.classes = {}
@@ -41,7 +43,9 @@ export default class StyleSheet {
       classes: this.classes,
       keyframes: this.keyframes
     }
-    this.renderer = new options.Renderer(this)
+    if (options.Renderer) {
+      this.renderer = new options.Renderer(this)
+    }
     this.rules = new RuleList(this.options)
 
     for (const name in styles) {
@@ -56,7 +60,7 @@ export default class StyleSheet {
    */
   attach(): this {
     if (this.attached) return this
-    this.renderer.attach()
+    if (this.renderer) this.renderer.attach()
     this.attached = true
     // Order is important, because we can't use insertRule API if style element is not attached.
     if (!this.deployed) this.deploy()
@@ -68,7 +72,7 @@ export default class StyleSheet {
    */
   detach(): this {
     if (!this.attached) return this
-    this.renderer.detach()
+    if (this.renderer) this.renderer.detach()
     this.attached = false
     return this
   }
@@ -117,14 +121,16 @@ export default class StyleSheet {
    * Insert rule into the StyleSheet
    */
   insertRule(rule: Rule) {
-    this.renderer.insertRule(rule)
+    if (this.renderer) {
+      this.renderer.insertRule(rule)
+    }
   }
 
   /**
    * Create and add rules.
    * Will render also after Style Sheet was rendered the first time.
    */
-  addRules(styles: Object, options?: RuleOptions): Array<Rule> {
+  addRules(styles: JssStyles, options?: RuleOptions): Array<Rule> {
     const added = []
     for (const name in styles) {
       const rule = this.addRule(name, styles[name], options)
@@ -151,7 +157,7 @@ export default class StyleSheet {
 
     this.rules.remove(rule)
 
-    if (this.attached && rule.renderable) {
+    if (this.attached && rule.renderable && this.renderer) {
       return this.renderer.deleteRule(rule.renderable)
     }
 
@@ -169,7 +175,7 @@ export default class StyleSheet {
    * Deploy pure CSS string to a renderable.
    */
   deploy(): this {
-    this.renderer.deploy()
+    if (this.renderer) this.renderer.deploy()
     this.deployed = true
     return this
   }

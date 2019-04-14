@@ -2,10 +2,35 @@
 
 ### Bug fixes
 
+- [jss-plugin-expand] Fix attributes spread for `border-bottom`, `border-top`, `border-left` and `border-right` ([#1083](https://github.com/cssinjs/jss/pull/1083))
+- [jss-plugin-props-sort] Fix sorting in Node 11 ([#1084](https://github.com/cssinjs/jss/pull/1083))
+
+## 10.0.0-alpha.16 (2019-3-24)
+
+### Bug fixes
+
+- [jss-plugin-camel-case] Fix some IE 11 regression ([#1065](https://github.com/cssinjs/jss/pull/1065))
+- [jss-vendor-prefixer] Fix value prefixing, in particular `position: sticky` ([#1068](https://github.com/cssinjs/jss/pull/1068))
+
+## 10.0.0-alpha.14 (2019-3-17)
+
+### Improvements
+
+- [jss] Add support for multiple referenced keyframes ([#1063](https://github.com/cssinjs/jss/pull/1063))
+
+### Bug fixes
+
+- [jss] Fix SSR aggregation regression ([#1064](https://github.com/cssinjs/jss/pull/1064))
+
+## 10.0.0-alpha.13 (2019-3-12)
+
+### Bug fixes
+
 - [react-jss] Replace spaces inside the display name with hyphens ([#1049](https://github.com/cssinjs/jss/pull/1049))
 
 ### Improvements
 
+- [jss] Remove VirtualRenderer and the option `virtual: true`. Now to simulate a non-browser environment, pass `create({Renderer: null})` when creating a Jss instance.
 - [react-jss] Add dynamic rules to the static sheet ([#1048](https://github.com/cssinjs/jss/pull/1048))
 
 ## 10.0.0-alpha.12 (2019-2-27)

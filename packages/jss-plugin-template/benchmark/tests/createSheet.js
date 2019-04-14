@@ -3,7 +3,7 @@ import {create} from 'jss'
 import template from '../../src/index'
 import parse from '../../src/parse'
 
-const options = {virtual: true}
+const options = {Renderer: null}
 const jss = create(options).use(template())
 
 const css = `
