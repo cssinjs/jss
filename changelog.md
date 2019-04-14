@@ -1,6 +1,6 @@
 ## Next
 
-### Improvements
+### Breaking Changes
 
 - [jss] Add option for opt-in minification of class names. ([#1075](https://github.com/cssinjs/jss/pull/1075))
 
