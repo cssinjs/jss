@@ -137,7 +137,6 @@ export function withStyles<Theme>(styles: Styles<Theme>, options?: HOCOptions<Th
       }
     }
 
-    // $FlowFixMe: Sadly there is no support for forwardRef yet
     const JssContextSubscriber = React.forwardRef((props, ref) => (
       <JssContext.Consumer>
         {context => {

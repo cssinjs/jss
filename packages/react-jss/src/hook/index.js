@@ -1,6 +1,6 @@
 // @flow
 
-import React, {useEffect, useLayoutEffect} from 'react'
+import React from 'react'
 import {ThemeContext as DefaultThemeContext} from 'theming'
 
 import {JssContext} from '../JssContext'
@@ -63,7 +63,7 @@ function createUseStyles<Theme: {}>(styles: Styles<Theme>, options?: HookOptions
     )
 
     // Update the dynamic rules before the actual render if the data has changed
-    useLayoutEffect(
+    React.useLayoutEffect(
       () => {
         updateDynamicRules(data, sheet, dynamicRules)
       },
@@ -71,7 +71,7 @@ function createUseStyles<Theme: {}>(styles: Styles<Theme>, options?: HookOptions
     )
 
     // Remove the old sheet when the sheet has changed after the render
-    useEffect(
+    React.useEffect(
       () => () => {
         removeDynamicRules(sheet, dynamicRules)
 
