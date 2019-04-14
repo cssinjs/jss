@@ -1,6 +1,6 @@
 // @flow
-import {withStyles} from './hoc/index'
-import {createUseStyles} from './hook/index'
+import {withStyles} from './with-styles'
+import {createUseStyles} from './create-use-styles'
 
 export {ThemeProvider, withTheme, createTheming} from 'theming'
 export {JssProvider} from './JssProvider'
