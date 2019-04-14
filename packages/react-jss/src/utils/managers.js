@@ -1,6 +1,6 @@
 // @flow
 
-import {SheetsManager} from 'jss'
+import {SheetsManager, type StyleSheet} from 'jss'
 import type {Context} from '../types'
 
 const defaultManagers = new Map()
@@ -25,4 +25,36 @@ function getManager(context: Context, managerId: number) {
   return manager
 }
 
-export {getManager}
+interface Options<Theme> {
+  sheet: ?StyleSheet;
+  context: Context;
+  index: number;
+  theme: Theme;
+}
+
+const manageSheet = <Theme>(options: Options<Theme>) => {
+  const {sheet} = options
+  if (!sheet) {
+    return
+  }
+
+  const manager = getManager(options.context, options.index)
+
+  manager.manage(options.theme)
+
+  if (options.context.registry) {
+    options.context.registry.add(sheet)
+  }
+}
+
+const unmanageSheet = <Theme>(options: Options<Theme>) => {
+  if (!options.sheet) {
+    return
+  }
+
+  const manager = getManager(options.context, options.index)
+
+  manager.unmanage(options.theme)
+}
+
+export {getManager, manageSheet, unmanageSheet}

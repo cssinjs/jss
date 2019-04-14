@@ -10,10 +10,8 @@ import memoize from './utils/memoize-one'
 import mergeClasses from './utils/merge-classes'
 import {JssContext} from './JssContext'
 import {getIndex} from './utils/index-counter'
-import {createSheet} from './utils/create-sheet'
-import {addDynamicRules, removeDynamicRules, updateDynamicRules} from './utils/dynamic-rules'
-import {unmanageSheet} from './utils/unmanage-sheet'
-import {manageSheet} from './utils/manage-sheet'
+import {createStaticSheet, updateDynamicRules, addDynamicRules, removeDynamicRules} from './utils/sheets'
+import {manageSheet, unmanageSheet} from './utils/managers'
 import {getSheetClasses} from './utils/get-sheet-classes'
 
 interface State {
@@ -50,7 +48,7 @@ export function withStyles<Theme>(styles: Styles<Theme>, options?: HOCOptions<Th
       static defaultProps = {...InnerComponent.defaultProps}
 
       static createState(props) {
-        const sheet = createSheet({
+        const sheet = createStaticSheet({
           styles,
           theme: getTheme(props),
           index,

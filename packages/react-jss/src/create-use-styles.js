@@ -4,12 +4,10 @@ import React from 'react'
 import {ThemeContext as DefaultThemeContext} from 'theming'
 
 import {JssContext} from './JssContext'
-import {createSheet} from './utils/create-sheet'
+import {createStaticSheet, addDynamicRules, removeDynamicRules, updateDynamicRules} from './utils/sheets'
 import {getIndex} from './utils/index-counter'
 import type {HookOptions, Styles} from './types'
-import {addDynamicRules, removeDynamicRules, updateDynamicRules} from './utils/dynamic-rules'
-import {manageSheet} from './utils/manage-sheet'
-import {unmanageSheet} from './utils/unmanage-sheet'
+import {unmanageSheet, manageSheet} from './utils/managers'
 import {getSheetClasses} from './utils/get-sheet-classes'
 
 const noTheme = {}
@@ -29,7 +27,7 @@ function createUseStyles<Theme: {}>(styles: Styles<Theme>, options?: HookOptions
           return undefined
         }
 
-        const stylesheet = createSheet({
+        const stylesheet = createStaticSheet({
           context: jssContext,
           styles,
           name,
