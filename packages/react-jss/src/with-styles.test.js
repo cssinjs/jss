@@ -5,7 +5,7 @@ import React from 'react'
 import {spy} from 'sinon'
 import TestRenderer from 'react-test-renderer'
 
-import withStyles, {JssProvider, SheetsRegistry} from '.'
+import {withStyles, JssProvider, SheetsRegistry} from '.'
 
 const createGenerateId = () => {
   let counter = 0

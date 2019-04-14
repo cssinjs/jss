@@ -11,7 +11,8 @@ module.exports = {
     CSS: true
   },
   rules: {
-    'import/prefer-default-export': 'off'
+    'import/prefer-default-export': 'off',
+    'import/no-named-as-default': 'off'
   },
   overrides: [
     {

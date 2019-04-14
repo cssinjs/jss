@@ -1,11 +1,11 @@
 // @flow
 import warning from 'tiny-warning'
 import {getDynamicStyles, type StyleSheetFactoryOptions} from 'jss'
+import type {StyleSheet} from 'jss'
 import type {Context, DynamicRules, Styles} from '../types'
 import {getManager} from './managers'
 import {jss as defaultJss} from '../jss'
 import {addMetaForSheet, getMetaForSheet} from './sheets-meta'
-import type {StyleSheet} from 'jss'
 
 interface Options<Theme> {
   context: Context;
