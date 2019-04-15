@@ -20,21 +20,26 @@ const noTheme = {}
 const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions<Theme> = {}) => {
   const {index = getIndex(), theming, name = 'Hook', ...sheetOptions} = options
   const ThemeContext = (theming && theming.context) || DefaultThemeContext
+  const useTheme =
+    typeof styles === 'function'
+      ? // $FlowFixMe
+        (): Theme => React.useContext(ThemeContext)
+      : // $FlowFixMe
+        (): Theme => noTheme
 
   return (data: any) => {
-    const jssContext = React.useContext(JssContext)
-    // $FlowFixMe
-    const theme: Theme = typeof styles === 'function' ? React.useContext(ThemeContext) : noTheme
+    const context = React.useContext(JssContext)
+    const theme = useTheme()
 
     // When the theme or the context changes we create a new sheet
     const sheet = React.useMemo(
       () => {
-        if (jssContext.disableStylesGeneration) {
+        if (context.disableStylesGeneration) {
           return undefined
         }
 
         const staticSheet = createStaticSheet({
-          context: jssContext,
+          context,
           styles,
           name,
           theme,
@@ -44,14 +49,14 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
 
         manageSheet({
           index,
-          context: jssContext,
+          context,
           sheet: staticSheet,
           theme
         })
 
         return staticSheet
       },
-      [theme, jssContext]
+      [theme, context]
     )
 
     // When the sheet changes, we readd the dynamic rules and update them
@@ -80,7 +85,7 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
         removeDynamicRules(sheet, dynamicRules)
 
         unmanageSheet({
-          context: jssContext,
+          context,
           index,
           theme,
           sheet
