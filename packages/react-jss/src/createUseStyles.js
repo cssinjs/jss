@@ -3,7 +3,7 @@
 import React from 'react'
 import {ThemeContext as DefaultThemeContext} from 'theming'
 
-import {JssContext} from './JssContext'
+import JssContext from './JssContext'
 import {
   createStaticSheet,
   addDynamicRules,
@@ -17,7 +17,7 @@ import {getSheetClasses} from './utils/get-sheet-classes'
 
 const noTheme = {}
 
-function createUseStyles<Theme: {}>(styles: Styles<Theme>, options?: HookOptions<Theme> = {}) {
+const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions<Theme> = {}) => {
   const {index = getIndex(), theming, name = 'Hook', ...sheetOptions} = options
   const ThemeContext = (theming && theming.context) || DefaultThemeContext
 
@@ -45,11 +45,11 @@ function createUseStyles<Theme: {}>(styles: Styles<Theme>, options?: HookOptions
         manageSheet({
           index,
           context: jssContext,
-          sheet: stylesheet,
+          sheet: staticSheet,
           theme
         })
 
-        return sheet
+        return staticSheet
       },
       [theme, jssContext]
     )
@@ -98,4 +98,4 @@ function createUseStyles<Theme: {}>(styles: Styles<Theme>, options?: HookOptions
   }
 }
 
-export {createUseStyles}
+export default createUseStyles

@@ -1,21 +1,21 @@
 {
   "dist/jss-plugin-default-unit.js": {
-    "bundled": 5913,
+    "bundled": 5701,
     "minified": 2742,
     "gzipped": 1055
   },
   "dist/jss-plugin-default-unit.min.js": {
-    "bundled": 5913,
+    "bundled": 5701,
     "minified": 2742,
     "gzipped": 1055
   },
   "dist/jss-plugin-default-unit.cjs.js": {
-    "bundled": 5203,
+    "bundled": 5003,
     "minified": 2843,
     "gzipped": 1020
   },
   "dist/jss-plugin-default-unit.esm.js": {
-    "bundled": 5123,
+    "bundled": 4923,
     "minified": 2777,
     "gzipped": 965,
     "treeshaked": {

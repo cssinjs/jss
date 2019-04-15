@@ -11,12 +11,12 @@ interface SheetMeta {
 
 const sheetsMeta = new WeakMap<StyleSheet, SheetMeta>()
 
-function getMetaForSheet(sheet: StyleSheet) {
+const getMeta = (sheet: StyleSheet) => {
   return sheetsMeta.get(sheet)
 }
 
-function addMetaForSheet(sheet: StyleSheet, meta: SheetMeta) {
+const addMeta = (sheet: StyleSheet, meta: SheetMeta) => {
   sheetsMeta.set(sheet, meta)
 }
 
-export {getMetaForSheet, addMetaForSheet}
+export {getMeta, addMeta}

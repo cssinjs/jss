@@ -2,7 +2,7 @@
 
 import type {StyleSheet} from 'jss'
 import type {DynamicRules} from '../types'
-import {getMetaForSheet} from './sheets-meta'
+import {getMeta} from './sheets-meta'
 
 const getSheetClasses = (sheet: StyleSheet, dynamicRules: ?DynamicRules) => {
   if (!dynamicRules) {
@@ -10,7 +10,7 @@ const getSheetClasses = (sheet: StyleSheet, dynamicRules: ?DynamicRules) => {
   }
 
   const classes = {}
-  const meta = getMetaForSheet(sheet)
+  const meta = getMeta(sheet)
 
   if (!meta) {
     return sheet.classes

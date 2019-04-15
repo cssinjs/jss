@@ -4,8 +4,8 @@ import {getDynamicStyles, type StyleSheetFactoryOptions} from 'jss'
 import type {StyleSheet} from 'jss'
 import type {Context, DynamicRules, Styles} from '../types'
 import {getManager} from './managers'
-import {jss as defaultJss} from '../jss'
-import {addMetaForSheet, getMetaForSheet} from './sheets-meta'
+import defaultJss from '../jss'
+import {addMeta, getMeta} from './sheets-meta'
 
 interface Options<Theme> {
   context: Context;
@@ -59,7 +59,7 @@ function createStaticSheet<Theme>(options: Options<Theme>) {
   const dynamicStyles = getDynamicStyles(styles)
   const sheet = jss.createStyleSheet(styles, getSheetOptions(options, dynamicStyles !== null))
 
-  addMetaForSheet(sheet, {
+  addMeta(sheet, {
     dynamicStyles,
     styles,
     dynamicRuleCounter: 0
@@ -100,7 +100,7 @@ const addDynamicRules = (sheet: ?StyleSheet): ?DynamicRules => {
     return undefined
   }
 
-  const meta = getMetaForSheet(sheet)
+  const meta = getMeta(sheet)
 
   if (!meta) {
     return undefined

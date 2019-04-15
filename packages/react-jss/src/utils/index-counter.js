@@ -12,7 +12,7 @@
  */
 let index = 0
 
-function getIndex() {
+const getIndex = () => {
   return index++
 }
 
