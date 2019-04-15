@@ -33,7 +33,7 @@ function createUseStyles<Theme: {}>(styles: Styles<Theme>, options?: HookOptions
           return undefined
         }
 
-        const stylesheet = createStaticSheet({
+        const staticSheet = createStaticSheet({
           context: jssContext,
           styles,
           name,
