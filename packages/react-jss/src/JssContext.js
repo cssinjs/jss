@@ -7,4 +7,4 @@ const JssContext: Context<JssContextValue> = React.createContext({
   disableStylesGeneration: false
 })
 
-export default JssContext;
+export default JssContext

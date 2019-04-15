@@ -167,4 +167,4 @@ const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = 
   }
 }
 
-export default withStyles;
+export default withStyles
