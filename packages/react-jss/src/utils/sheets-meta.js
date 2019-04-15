@@ -11,9 +11,7 @@ type SheetMeta = {|
 
 const sheetsMeta = new WeakMap<StyleSheet, SheetMeta>()
 
-const getMeta = (sheet: StyleSheet) => {
-  return sheetsMeta.get(sheet)
-}
+const getMeta = (sheet: StyleSheet) => sheetsMeta.get(sheet)
 
 const addMeta = (sheet: StyleSheet, meta: SheetMeta) => {
   sheetsMeta.set(sheet, meta)
