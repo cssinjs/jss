@@ -120,14 +120,12 @@ export default class PluginsRegistry {
     this.registry = [...this.plugins.external, ...this.plugins.internal].reduce(
       (registry: Registry, plugin: Plugin) => {
         for (const name in plugin) {
-          if (!plugin.hasOwnProperty(name)) {
-            return
-          }
-
-          if (name in registry) {
-            registry[name].push(plugin[name])
-          } else {
-            warning(false, `[JSS] Unknown hook "${name}".`)
+          if (plugin.hasOwnProperty(name)) {
+            if (name in registry) {
+              registry[name].push(plugin[name])
+            } else {
+              warning(false, `[JSS] Unknown hook "${name}".`)
+            }
           }
         }
         return registry
