@@ -120,7 +120,7 @@ export default class PluginsRegistry {
     this.registry = [...this.plugins.external, ...this.plugins.internal].reduce(
       (registry: Registry, plugin: Plugin) => {
         for (const name in plugin) {
-          if (plugin.hasOwnProperty(name)) {
+          if (Object.prototype.hasOwnProperty.call(plugin, 'name')) {
             if (name in registry) {
               registry[name].push(plugin[name])
             } else {
