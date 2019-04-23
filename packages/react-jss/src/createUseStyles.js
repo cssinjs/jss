@@ -10,10 +10,10 @@ import {
   removeDynamicRules,
   updateDynamicRules
 } from './utils/sheets'
-import {getIndex} from './utils/index-counter'
+import {getIndex} from './utils/indexCounter'
 import type {HookOptions, Styles} from './types'
 import {unmanageSheet, manageSheet} from './utils/managers'
-import {getSheetClasses} from './utils/get-sheet-classes'
+import {getSheetClasses} from './utils/getSheetClasses'
 
 const noTheme = {}
 

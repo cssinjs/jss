@@ -9,7 +9,7 @@ import getDisplayName from './getDisplayName'
 import memoize from './utils/memoizeOne'
 import mergeClasses from './utils/mergeClasses'
 import JssContext from './JssContext'
-import {getIndex} from './utils/index-counter'
+import {getIndex} from './utils/indexCounter'
 import {
   createStaticSheet,
   updateDynamicRules,
@@ -17,7 +17,7 @@ import {
   removeDynamicRules
 } from './utils/sheets'
 import {manageSheet, unmanageSheet} from './utils/managers'
-import {getSheetClasses} from './utils/get-sheet-classes'
+import {getSheetClasses} from './utils/getSheetClasses'
 
 interface State {
   dynamicRules: ?DynamicRules;

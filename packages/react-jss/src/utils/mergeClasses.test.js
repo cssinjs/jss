@@ -1,5 +1,5 @@
 import expect from 'expect.js'
-import compose from './merge-classes'
+import compose from './mergeClasses'
 
 describe('react-jss: merge-classes', () => {
   it('should merge two class objects', () => {
