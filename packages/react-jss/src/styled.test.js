@@ -1,10 +1,10 @@
+/* eslint-disable react/prop-types */
 import expect from 'expect.js'
 import React from 'react'
-import {spy} from 'sinon'
 import TestRenderer from 'react-test-renderer'
 import {stripIndent} from 'common-tags'
 
-import {styled, SheetsRegistry, JssProvider, ThemeProvider} from './'
+import {styled, SheetsRegistry, JssProvider, ThemeProvider} from '.'
 
 const createGenerateId = () => {
   let counter = 0
@@ -23,7 +23,7 @@ describe('React-JSS: styled', () => {
     expect(registry.toString()).to.be(stripIndent`
       .css-0 {
         color: red;
-      }      
+      }
     `)
     const {className, classes} = renderer.root.findByType('div').props
     expect(className).to.be('css-0')
@@ -125,7 +125,7 @@ describe('React-JSS: styled', () => {
         width: 10px;
       }
     `)
-    const {className, classes} = renderer.root.findByType('div').props
+    const {className} = renderer.root.findByType('div').props
     expect(className).to.be('css-0 css-1')
   })
 
@@ -147,10 +147,10 @@ describe('React-JSS: styled', () => {
     expect(className).to.be('css-0')
   })
 
-  it.skip('should target another styled component', () => {
+  it.skip('should target another styled component (not sure if we really need this)', () => {
     const registry = new SheetsRegistry()
     const Span = styled('span')({color: 'red'})
-    const Div = styled(BaseDiv)({
+    const Div = styled('div')({
       [Span]: {
         color: 'green'
       }
@@ -170,7 +170,26 @@ describe('React-JSS: styled', () => {
     expect(renderer.root.findByType('span').props.className).to.be('XXX')
   })
 
-  it.skip('should render theme', () => {})
-
-  it.skip('should render SSR', () => {})
+  it('should render theme', () => {
+    const registry = new SheetsRegistry()
+    const Div = styled('div')({
+      color: 'red',
+      margin: props => props.theme.spacing
+    })
+    TestRenderer.create(
+      <JssProvider registry={registry} generateId={createGenerateId()}>
+        <ThemeProvider theme={{spacing: 10}}>
+          <Div />
+        </ThemeProvider>
+      </JssProvider>
+    )
+    expect(registry.toString()).to.be(stripIndent`
+      .css-0 {
+        color: red;
+      }
+      .css-0-1 {
+        margin: 10px;
+      }
+    `)
+  })
 })
