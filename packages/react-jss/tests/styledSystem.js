@@ -8,7 +8,7 @@ import TestRenderer from 'react-test-renderer'
 import {stripIndent} from 'common-tags'
 import {space, width, color, fontSize, fontWeight, lineHeight, compose} from 'styled-system'
 
-import withStyles, {styled, SheetsRegistry, JssProvider, ThemeProvider, jss} from '../src'
+import withStyles, {styled, SheetsRegistry, JssProvider, ThemeProvider} from '../src'
 
 const createGenerateId = () => {
   let counter = 0
@@ -33,27 +33,6 @@ const theme = {
     red: '#e10'
   }
 }
-
-const transform = stylesArr => {
-  const transformed = {}
-  for (let i = 0; i < stylesArr.length; i++) {
-    const objOrArr = stylesArr[i]
-    const block = Array.isArray(objOrArr) ? transform(objOrArr) : objOrArr
-    for (const key in block) {
-      if (key in transformed) Object.assign(transformed[key], block[key])
-      else transformed[key] = block[key]
-    }
-  }
-  return transformed
-}
-
-// Should this be part of the core???
-// - It needs to run before any other plugins run
-// - If this ensures interoperability with SC/emotion to some extent, it's a great thing
-jss.plugins.registry.onProcessStyle.unshift(style => {
-  if (!Array.isArray(style)) return style
-  return transform(style)
-})
 
 describe.only('React-JSS: styled-system', () => {
   it('should reder basic spacing', () => {
@@ -201,4 +180,7 @@ describe.only('React-JSS: styled-system', () => {
     expect(className).to.be('css-0 css-0-1')
     expect(classes).to.be(undefined)
   })
+
+  it.skip('should handle the propTypes/meta for validation from function rules', () => {})
+  it.skip('should do compose() automatically', () => {})
 })
