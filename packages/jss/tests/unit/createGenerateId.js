@@ -2,7 +2,7 @@
 
 import expect from 'expect.js'
 import {createGenerateId} from '../../src'
-import {resetSheets} from '../../../../tests/utils'
+import * as moduleId from '../../src/utils/moduleId'
 
 const sheetMock = {
   options: {
@@ -12,7 +12,9 @@ const sheetMock = {
 }
 
 describe('Unit: jss - createGenerateId', () => {
-  beforeEach(resetSheets())
+  beforeEach(() => {
+    moduleId.default = 0
+  })
 
   it('should return a function', () => {
     expect(createGenerateId()).to.be.a(Function)
@@ -20,12 +22,12 @@ describe('Unit: jss - createGenerateId', () => {
 
   it('should generate a non-production class name', () => {
     const generate = createGenerateId()
-    expect(generate({key: 'a'})).to.be('a-14-1')
+    expect(generate({key: 'a'})).to.be('a-0-1')
   })
 
   it('should add prefix a non-production class name', () => {
     const generate = createGenerateId()
-    expect(generate({key: 'a'}, sheetMock)).to.be('pa-14-0-1')
+    expect(generate({key: 'a'}, sheetMock)).to.be('pa-0-0-1')
   })
 
   it.skip('should increment jss lib version', () => {
@@ -36,14 +38,14 @@ describe('Unit: jss - createGenerateId', () => {
   it('should generate a production class name', () => {
     process.env.NODE_ENV = 'production'
     const generate = createGenerateId()
-    expect(generate()).to.be('c141')
+    expect(generate()).to.be('c01')
     process.env.NODE_ENV = 'development'
   })
 
   it('should add prefix a production class name', () => {
     process.env.NODE_ENV = 'production'
     const generate = createGenerateId()
-    expect(generate({key: 'a'}, sheetMock)).to.be('p1401')
+    expect(generate({key: 'a'}, sheetMock)).to.be('p001')
     process.env.NODE_ENV = 'development'
   })
 })

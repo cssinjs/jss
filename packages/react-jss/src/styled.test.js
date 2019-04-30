@@ -1,9 +1,9 @@
+// @flow
 /* eslint-disable react/prop-types */
 import expect from 'expect.js'
 import React from 'react'
 import TestRenderer from 'react-test-renderer'
 import {stripIndent} from 'common-tags'
-
 import {styled, SheetsRegistry, JssProvider, ThemeProvider} from '.'
 
 const createGenerateId = () => {
@@ -151,6 +151,7 @@ describe('React-JSS: styled', () => {
     const registry = new SheetsRegistry()
     const Span = styled('span')({color: 'red'})
     const Div = styled('div')({
+      // $FlowFixMe
       [Span]: {
         color: 'green'
       }

@@ -3,8 +3,6 @@ import type {StyleSheetFactoryOptions, Jss, SheetsRegistry, SheetsManager, BaseR
 import type {Node} from 'react'
 import type {Theming} from 'theming'
 
-type StaticStyles = {[key: string]: {}}
-
 export type Managers = {[key: number]: SheetsManager}
 
 export type Options<Theme> = {|
@@ -22,20 +20,31 @@ export type Context = {|
   disableStylesGeneration: boolean
 |}
 
-export type HOCProps<Theme, Props> = Props & {|
+export type HOCProps<Theme, Props> = Props & {
   theme?: Theme,
   jssContext: Context,
   innerRef: any
-|}
+}
+
+export type Classes = {[string]: string}
 
 export type InnerProps = {
   children?: Node,
-  classes: {}
+  classes: Classes
 }
 
 export type DynamicRules = {
   [key: string]: BaseRule
 }
 
-export type ThemedStyles<Theme> = (theme: Theme) => StaticStyles
+type StaticStyle = {}
+
+type PropsWithTheme<Theme> = {theme: Theme}
+
+export type Style<Theme> = StaticStyle | ((PropsWithTheme<Theme>) => StaticStyle)
+
+type StaticStyles = {[key: string]: StaticStyle}
+
+export type ThemedStyles<Theme> = (theme: Theme) => Style<Theme>
+
 export type Styles<Theme> = StaticStyles | ThemedStyles<Theme>

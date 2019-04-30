@@ -1,6 +1,5 @@
+// @flow
 /* eslint-disable react/prop-types */
-
-// TODO add flow
 
 import expect from 'expect.js'
 import React from 'react'
@@ -34,7 +33,7 @@ const theme = {
   }
 }
 
-describe.only('React-JSS: styled-system', () => {
+describe('React-JSS: styled-system', () => {
   it('should reder basic spacing', () => {
     const registry = new SheetsRegistry()
     const Div = styled('div')(space)
@@ -132,7 +131,8 @@ describe.only('React-JSS: styled-system', () => {
 
     const MyComponent = ({classes}) => <div className={classes.css} />
 
-    const MyStyledComponent = withStyles(styles, {injectTheme: true})(MyComponent)
+    // TODO fix the types.
+    const MyStyledComponent: any = withStyles(styles, {injectTheme: true})(MyComponent)
 
     const renderer = TestRenderer.create(
       <JssProvider registry={registry} generateId={createGenerateId()}>

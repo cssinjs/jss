@@ -1,8 +1,11 @@
-/* eslint-disable react/prop-types */
-// TODO add flow
+// @flow
+/* eslint-disable react/prop-types, react/require-default-props */
+
 import React from 'react'
 import isPropValid from '@emotion/is-prop-valid'
+import type {StatelessFunctionalComponent, ComponentType} from 'react'
 import withStyles from './withStyles'
+import type {Options, Style, Classes} from './types'
 
 // Props we don't want to forward.
 const reservedProps = {
@@ -11,13 +14,21 @@ const reservedProps = {
   theme: true
 }
 
-export default type => {
+type StyledProps = {
+  className?: string,
+  as?: string,
+  classes?: Classes
+}
+
+export default <Props: {}>(
+  type: string | StatelessFunctionalComponent<Props> | ComponentType<Props>
+) => {
   const isTag = typeof type === 'string'
 
-  return (style, options) => {
-    const Styled = props => {
-      const {classes, as} = props
-      const childProps = {}
+  return <Theme: {}>(style: Style<Theme>, options?: Options<Theme>) => {
+    const Styled = (props: StyledProps) => {
+      const {classes, as, className} = props
+      const childProps: Props = ({}: any)
       for (const prop in props) {
         if (prop in reservedProps) continue
         // We don't want to pass non-dom props to the DOM,
@@ -25,10 +36,12 @@ export default type => {
         if (isTag && !isPropValid(prop)) continue
         childProps[prop] = props[prop]
       }
-      childProps.className = props.className ? `${props.className} ${classes.css}` : classes.css
+      // $FlowFixMe flow seems to not know that `classes` will be provided by the HOC, not by element creator.
+      childProps.className = className ? `${className} ${classes.css}` : classes.css
       return React.createElement(as || type, childProps)
     }
 
+    // $FlowFixMe flow seems to not know that `classes` will be provided by the HOC, not by element creator.
     return withStyles({css: style}, {...options, injectTheme: true})(Styled)
   }
 }
