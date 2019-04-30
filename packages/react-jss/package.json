@@ -52,6 +52,6 @@
   },
   "devDependencies": {
     "@types/react": "^16.7.20",
-    "styled-system": "^4.1.0"
+    "styled-system": "3"
   }
 }
