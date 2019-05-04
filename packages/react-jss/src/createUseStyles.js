@@ -4,15 +4,11 @@ import React from 'react'
 import {ThemeContext as DefaultThemeContext} from 'theming'
 
 import JssContext from './JssContext'
-import {
-  createStaticSheet,
-  addDynamicRules,
-  updateDynamicRules
-} from './utils/sheets'
-import {getIndex} from './utils/index-counter'
+import {createStaticSheet, addDynamicRules, updateDynamicRules} from './utils/sheets'
+import {getIndex} from './utils/indexCounter'
 import type {HookOptions, Styles} from './types'
 import {manageSheet} from './utils/managers'
-import {getSheetClasses} from './utils/get-sheet-classes'
+import {getSheetClasses} from './utils/getSheetClasses'
 
 const noTheme = {}
 
@@ -76,10 +72,10 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
       [data]
     )
 
-    React.useDebugValue(classes);
-    React.useDebugValue(theme === noTheme ? 'No theme' : theme);
+    React.useDebugValue(classes)
+    React.useDebugValue(theme === noTheme ? 'No theme' : theme)
 
-    return classes;
+    return classes
   }
 }
 

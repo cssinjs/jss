@@ -12,8 +12,4 @@
  */
 let index = 0
 
-const getIndex = () => {
-  return index++
-}
-
-export {getIndex}
+export const getIndex = () => index++

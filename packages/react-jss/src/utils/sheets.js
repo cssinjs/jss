@@ -5,7 +5,7 @@ import type {StyleSheet} from 'jss'
 import type {Context, DynamicRules, Styles} from '../types'
 import {getManager} from './managers'
 import defaultJss from '../jss'
-import {addMeta, getMeta} from './sheets-meta'
+import {addMeta, getMeta} from './sheetsMeta'
 
 interface Options<Theme> {
   context: Context;
@@ -101,7 +101,7 @@ const addDynamicRules = (sheet: StyleSheet, data: any): DynamicRules => {
     const name = `${key}-${meta.dynamicRuleCounter++}`
     const rule = sheet.addRule(name, meta.dynamicStyles[key])
 
-    sheet.update(name, data);
+    sheet.update(name, data)
 
     if (rule) {
       rules[key] = rule

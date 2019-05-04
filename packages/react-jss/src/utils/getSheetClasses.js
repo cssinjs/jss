@@ -2,7 +2,7 @@
 
 import type {StyleSheet} from 'jss'
 import type {DynamicRules} from '../types'
-import {getMeta} from './sheets-meta'
+import {getMeta} from './sheetsMeta'
 
 const getSheetClasses = (sheet: StyleSheet, dynamicRules: ?DynamicRules) => {
   if (!dynamicRules) {
