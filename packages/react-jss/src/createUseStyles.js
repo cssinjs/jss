@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import isInBrowser from 'is-in-browser'
 import {ThemeContext as DefaultThemeContext} from 'theming'
 
 import JssContext from './JssContext'
@@ -22,7 +23,7 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
       : // $FlowFixMe
         (): Theme => noTheme
 
-  const useLayoutEffect = typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
+  const useLayoutEffect = isInBrowser ? React.useLayoutEffect : React.useEffect
 
   return (data: any) => {
     const context = React.useContext(JssContext)
