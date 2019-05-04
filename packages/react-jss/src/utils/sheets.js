@@ -70,11 +70,7 @@ function createStaticSheet<Theme>(options: Options<Theme>) {
   return sheet
 }
 
-const removeDynamicRules = (sheet: ?StyleSheet, rules: ?DynamicRules) => {
-  if (!sheet || !rules) {
-    return
-  }
-
+const removeDynamicRules = (sheet: StyleSheet, rules: DynamicRules) => {
   // Loop over each dynamic rule and remove the dynamic rule
   // We can't just remove the whole sheet as this has all of the rules for every component instance
   for (const key in rules) {
@@ -82,11 +78,7 @@ const removeDynamicRules = (sheet: ?StyleSheet, rules: ?DynamicRules) => {
   }
 }
 
-const updateDynamicRules = (data: any, sheet: ?StyleSheet, rules: ?DynamicRules) => {
-  if (!sheet || !rules) {
-    return
-  }
-
+const updateDynamicRules = (data: any, sheet: StyleSheet, rules: DynamicRules) => {
   // Loop over each dynamic rule and update it
   // We can't just update the whole sheet as this has all of the rules for every component instance
   for (const key in rules) {
@@ -95,11 +87,7 @@ const updateDynamicRules = (data: any, sheet: ?StyleSheet, rules: ?DynamicRules)
   }
 }
 
-const addDynamicRules = (sheet: ?StyleSheet): ?DynamicRules => {
-  if (!sheet) {
-    return undefined
-  }
-
+const addDynamicRules = (sheet: StyleSheet, data: any): DynamicRules => {
   const meta = getMeta(sheet)
 
   if (!meta) {
@@ -112,6 +100,8 @@ const addDynamicRules = (sheet: ?StyleSheet): ?DynamicRules => {
   for (const key in meta.dynamicStyles) {
     const name = `${key}-${meta.dynamicRuleCounter++}`
     const rule = sheet.addRule(name, meta.dynamicStyles[key])
+
+    sheet.update(name, data);
 
     if (rule) {
       rules[key] = rule

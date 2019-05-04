@@ -26,7 +26,7 @@ const getManager = (context: Context, managerId: number) => {
 }
 
 interface Options<Theme> {
-  sheet: ?StyleSheet;
+  sheet: StyleSheet;
   context: Context;
   index: number;
   theme: Theme;
@@ -41,10 +41,6 @@ const manageSheet = <Theme>(options: Options<Theme>) => {
   const manager = getManager(options.context, options.index)
 
   manager.manage(options.theme)
-
-  if (options.context.registry) {
-    options.context.registry.add(sheet)
-  }
 }
 
 const unmanageSheet = <Theme>(options: Options<Theme>) => {

@@ -7,12 +7,11 @@ import JssContext from './JssContext'
 import {
   createStaticSheet,
   addDynamicRules,
-  removeDynamicRules,
   updateDynamicRules
 } from './utils/sheets'
 import {getIndex} from './utils/index-counter'
 import type {HookOptions, Styles} from './types'
-import {unmanageSheet, manageSheet} from './utils/managers'
+import {manageSheet} from './utils/managers'
 import {getSheetClasses} from './utils/get-sheet-classes'
 
 const noTheme = {}
@@ -27,79 +26,60 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
       : // $FlowFixMe
         (): Theme => noTheme
 
+  const useLayoutEffect = typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
+
   return (data: any) => {
     const context = React.useContext(JssContext)
     const theme = useTheme()
 
-    // When the theme or the context changes we create a new sheet
-    const sheet = React.useMemo(
+    if (context.disableStylesGeneration) {
+      return {}
+    }
+
+    const [staticSheet, setStaticSheet] = React.useState(() => {
+      const sheet = createStaticSheet({
+        context,
+        styles,
+        name,
+        theme,
+        index,
+        sheetOptions
+      })
+
+      if (context.registry) {
+        context.registry.add(sheet)
+      }
+
+      return sheet
+    })
+
+    const [dynamicRules, setDynamicRules] = React.useState(() => addDynamicRules(staticSheet, data))
+
+    const [classes, setClasses] = React.useState(() => getSheetClasses(staticSheet, dynamicRules))
+
+    useLayoutEffect(
       () => {
-        if (context.disableStylesGeneration) {
-          return undefined
-        }
-
-        const staticSheet = createStaticSheet({
-          context,
-          styles,
-          name,
-          theme,
-          index,
-          sheetOptions
-        })
-
         manageSheet({
           index,
           context,
           sheet: staticSheet,
           theme
         })
-
-        return staticSheet
       },
-      [theme, context]
+      [staticSheet]
     )
 
-    // When the sheet changes, we readd the dynamic rules and update them
-    const dynamicRules = React.useMemo(
+    useLayoutEffect(
       () => {
-        const rules = addDynamicRules(sheet)
-
-        updateDynamicRules(data, sheet, rules)
-
-        return rules
-      },
-      [sheet]
-    )
-
-    // Update the dynamic rules before the actual render if the data has changed
-    React.useLayoutEffect(
-      () => {
-        updateDynamicRules(data, sheet, dynamicRules)
+        updateDynamicRules(data, staticSheet, dynamicRules)
       },
       [data]
     )
 
-    // Remove the old sheet when the sheet has changed after the render
-    React.useEffect(
-      () => () => {
-        removeDynamicRules(sheet, dynamicRules)
+    React.useDebugValue(classes);
+    React.useDebugValue(theme === noTheme ? 'No theme' : theme);
 
-        unmanageSheet({
-          context,
-          index,
-          theme,
-          sheet
-        })
-      },
-      [sheet]
-    )
-
-    // Only compute the sheet classes when there is a sheet, otherwise return an empty object
-    // Because there are no deep properties, accessing any style will result in undefined
-    return React.useMemo(() => (sheet ? getSheetClasses(sheet, dynamicRules) : {}), [
-      sheet,
-      dynamicRules
-    ])
+    return classes;
   }
 }
 
