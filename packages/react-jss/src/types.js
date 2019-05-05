@@ -7,22 +7,22 @@ export type StaticStyles = {[key: string]: {}}
 
 export type Managers = {[key: number]: SheetsManager}
 
-type StyleSheetOptions = {|
+type StyleSheetOptions = {
   ...StyleSheetFactoryOptions,
   classNamePrefix: string
-|}
+}
 
-export type HookOptions<Theme> = StyleSheetFactoryOptions & {|
+export type HookOptions<Theme> = StyleSheetFactoryOptions & {
   index?: number,
   name?: string,
   theming?: Theming<Theme>
-|}
+}
 
-export type HOCOptions<Theme> = StyleSheetFactoryOptions & {|
+export type HOCOptions<Theme> = StyleSheetFactoryOptions & {
   index?: number,
   theming?: Theming<Theme>,
   injectTheme?: boolean
-|}
+}
 
 export type Context = {|
   jss?: Jss,

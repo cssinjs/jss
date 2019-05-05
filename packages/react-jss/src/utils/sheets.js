@@ -87,7 +87,7 @@ const updateDynamicRules = (data: any, sheet: StyleSheet, rules: DynamicRules) =
   }
 }
 
-const addDynamicRules = (sheet: StyleSheet, data: any): DynamicRules => {
+const addDynamicRules = (sheet: StyleSheet, data: any): ?DynamicRules => {
   const meta = getMeta(sheet)
 
   if (!meta) {

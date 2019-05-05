@@ -76,23 +76,31 @@ const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = 
       }
 
       static manage(props, state) {
-        manageSheet({
-          sheet: state.sheet,
-          index,
-          context: props.jssContext,
-          theme: getTheme(props)
-        })
+        if (state.sheet) {
+          manageSheet({
+            sheet: state.sheet,
+            index,
+            context: props.jssContext,
+            theme: getTheme(props)
+          })
+        }
       }
 
       static unmanage(props, state) {
-        removeDynamicRules(state.sheet, state.dynamicRules)
+        const sheet = state.sheet
 
-        unmanageSheet({
-          context: props.jssContext,
-          index,
-          sheet: state.sheet,
-          theme: getTheme(props)
-        })
+        if (sheet) {
+          unmanageSheet({
+            context: props.jssContext,
+            index,
+            sheet,
+            theme: getTheme(props)
+          })
+
+          if (state.dynamicRules) {
+            removeDynamicRules(sheet, state.dynamicRules)
+          }
+        }
       }
 
       mergeClassesProp = memoize<Classes[], Classes>(
@@ -115,7 +123,7 @@ const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = 
 
           // eslint-disable-next-line react/no-did-update-set-state
           this.setState(newState)
-        } else {
+        } else if (this.state.sheet && this.state.dynamicRules) {
           // Only update the rules when we don't generate a new sheet
           updateDynamicRules(this.props, this.state.sheet, this.state.dynamicRules)
         }
