@@ -289,7 +289,6 @@ export default function withStyles<Theme: {}, StylesOrFn: Styles<Theme>>(
       }
     }
 
-    // $FlowFixMe: Sadly there is no support for forwardRef yet
     const JssContextSubscriber = React.forwardRef((props, ref) => (
       <JssContext.Consumer>
         {context => {
@@ -309,6 +308,7 @@ export default function withStyles<Theme: {}, StylesOrFn: Styles<Theme>>(
     ))
 
     JssContextSubscriber.displayName = 'JssContextSubscriber'
+    // $FlowFixMe - React's types should allow custom static properties on component.
     JssContextSubscriber.InnerComponent = InnerComponent
 
     return hoistNonReactStatics(JssContextSubscriber, InnerComponent)

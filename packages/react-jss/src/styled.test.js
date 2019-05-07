@@ -1,7 +1,7 @@
 // @flow
 /* eslint-disable react/prop-types */
 import expect from 'expect.js'
-import React from 'react'
+import React, {type StatelessFunctionalComponent} from 'react'
 import TestRenderer from 'react-test-renderer'
 import {stripIndent} from 'common-tags'
 import {styled, SheetsRegistry, JssProvider, ThemeProvider} from '.'
@@ -131,7 +131,10 @@ describe('React-JSS: styled', () => {
 
   it('should style any component', () => {
     const registry = new SheetsRegistry()
-    const BaseDiv = ({className}) => <div className={className} />
+    type Props = Object
+    const BaseDiv: StatelessFunctionalComponent<Props> = ({className}: Props) => (
+      <div className={className} />
+    )
     const Div = styled(BaseDiv)({width: 10})
     const renderer = TestRenderer.create(
       <JssProvider registry={registry} generateId={createGenerateId()}>
@@ -179,7 +182,7 @@ describe('React-JSS: styled', () => {
     })
     TestRenderer.create(
       <JssProvider registry={registry} generateId={createGenerateId()}>
-        <ThemeProvider theme={{spacing: 10}}>
+        <ThemeProvider theme={({spacing: 10}: Object)}>
           <Div />
         </ThemeProvider>
       </JssProvider>

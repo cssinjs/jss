@@ -88,7 +88,6 @@ export default class JssProvider extends Component<Props> {
 
   renderProvider = (outerContext: Context) => {
     const {children} = this.props
-    // $FlowFixMe
     const context: Context = this.createContext(outerContext, this.props)
 
     return <JssContext.Provider value={context}>{children}</JssContext.Provider>
