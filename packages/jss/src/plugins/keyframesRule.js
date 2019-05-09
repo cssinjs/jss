@@ -10,6 +10,7 @@ import type {
   KeyframesMap,
   Plugin
 } from '../types'
+import escape from '../utils/escape'
 
 const defaultToStringOptions = {
   indent: 1,
@@ -51,7 +52,7 @@ export class KeyframesRule implements ContainerRule {
     this.key = `${this.type}-${this.name}`
     this.options = options
     const {scoped, sheet, generateId} = options
-    this.id = scoped === false ? this.name : generateId(this, sheet)
+    this.id = scoped === false ? this.name : escape(generateId(this, sheet))
     this.rules = new RuleList({...options, parent: this})
 
     for (const name in frames) {

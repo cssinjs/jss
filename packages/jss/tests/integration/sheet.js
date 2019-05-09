@@ -497,7 +497,7 @@ describe('Integration: sheet', () => {
       `)
     })
 
-    it('should work with tso referenced keyframes', () => {
+    it('should work with multiple referenced keyframes', () => {
       const sheet = jss.createStyleSheet({
         '@keyframes a': {
           to: {height: '100%'}
