@@ -59,7 +59,7 @@ describe.only('jss-plugin-template', () => {
     })
 
     expect(spy.callCount).to.be(1)
-    expect(spy.args[0][0]).to.be('Warning: [JSS] Missing colon in "color red".')
+    expect(spy.args[0][0]).to.be('Warning: [JSS] Missing colon in "color red;".')
   })
 
   it('should strip spaces', () => {
@@ -77,25 +77,20 @@ describe.only('jss-plugin-template', () => {
       `)
   })
 
-  it('should allow skiping last semicolon', () => {
-    const sheet = jss.createStyleSheet({
+  it.skip('should warn when semicolon not found', () => {
+    jss.createStyleSheet({
       a: `
           color: red;
           float: left
         `
     })
-    expect(sheet.toString()).to.be(stripIndent`
-        .a-id {
-          color: red;
-          float: left;
-        }
-      `)
+    expect(spy.args[0][0]).to.be('Warning: [JSS] Missing semicolon in "float: left".')
   })
 
   it('should support @media', () => {
     const sheet = jss.createStyleSheet({
       '@media print': {
-        button: 'color: black'
+        button: 'color: black;'
       }
     })
     expect(sheet.toString()).to.be(stripIndent`
@@ -110,8 +105,8 @@ describe.only('jss-plugin-template', () => {
   it('should support @keyframes', () => {
     const sheet = jss.createStyleSheet({
       '@keyframes a': {
-        from: 'opacity: 0',
-        to: 'opacity: 1'
+        from: 'opacity: 0;',
+        to: 'opacity: 1;'
       }
     })
     expect(sheet.toString()).to.be(stripIndent`

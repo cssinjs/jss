@@ -1,7 +1,7 @@
 // @flow
 import warning from 'tiny-warning'
 
-const semiWithNl = /[;\n]|[}\n]/
+const semiWithNl = /\n/
 
 /**
  * Naive CSS parser.
@@ -28,7 +28,7 @@ export default (cssText: string): Object => {
           warning(false, `[JSS] Missing opening curly brace in "${decl}".`)
           continue
         }
-        nestedRuleProp = decl.substr(0, openCurlyIndex).trim()
+        nestedRuleProp = decl.substr(0, openCurlyIndex - 1)
         style[nestedRuleProp] = {}
         continue
       }
@@ -47,7 +47,7 @@ export default (cssText: string): Object => {
     }
 
     const prop = decl.substr(0, colonIndex).trim()
-    const value = decl.substr(colonIndex + 1).trim()
+    const value = decl.substring(colonIndex + 1, decl.length - 1).trim()
 
     if (nestedRuleProp) {
       style[nestedRuleProp][prop] = value
