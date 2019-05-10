@@ -28,7 +28,7 @@ export default (cssText: string): Object => {
           warning(false, `[JSS] Missing opening curly brace in "${decl}".`)
           continue
         }
-        nestedRuleProp = decl.substr(0, openCurlyIndex - 1)
+        nestedRuleProp = decl.substring(0, openCurlyIndex - 1)
         style[nestedRuleProp] = {}
         continue
       }
@@ -46,7 +46,7 @@ export default (cssText: string): Object => {
       continue
     }
 
-    const prop = decl.substr(0, colonIndex).trim()
+    const prop = decl.substring(0, colonIndex).trim()
     const value = decl.substring(colonIndex + 1, decl.length - 1).trim()
 
     if (nestedRuleProp) {
