@@ -76,9 +76,10 @@ const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = 
       }
 
       static manage(props, state) {
-        if (state.sheet) {
+        const {sheet} = state
+        if (sheet) {
           manageSheet({
-            sheet: state.sheet,
+            sheet,
             index,
             context: props.jssContext,
             theme: getTheme(props)
@@ -87,7 +88,7 @@ const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = 
       }
 
       static unmanage(props, state) {
-        const sheet = state.sheet
+        const {sheet, dynamicRules} = state
 
         if (sheet) {
           unmanageSheet({
@@ -97,8 +98,8 @@ const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = 
             theme: getTheme(props)
           })
 
-          if (state.dynamicRules) {
-            removeDynamicRules(sheet, state.dynamicRules)
+          if (dynamicRules) {
+            removeDynamicRules(sheet, dynamicRules)
           }
         }
       }

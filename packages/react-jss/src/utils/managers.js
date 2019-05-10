@@ -33,14 +33,16 @@ interface Options<Theme> {
 }
 
 const manageSheet = <Theme>(options: Options<Theme>) => {
-  const {sheet} = options
+  const {sheet, context, index, theme} = options
   if (!sheet) {
     return
   }
 
-  const manager = getManager(options.context, options.index)
-
-  manager.manage(options.theme)
+  const manager = getManager(context, index)
+  manager.manage(theme)
+  if (context.registry) {
+    context.registry.add(sheet)
+  }
 }
 
 const unmanageSheet = <Theme>(options: Options<Theme>) => {

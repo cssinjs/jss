@@ -266,7 +266,7 @@ describe('React-JSS: withStyles', () => {
       }
       const MyComponent = withStyles(() => ({}))(DisplayNameTest)
 
-      TestRenderer.create(<MyComponent />)
+      TestRenderer.create(<MyComponent theme={{}} />)
 
       expect(
         console.warn.calledWithExactly(
@@ -275,13 +275,13 @@ describe('React-JSS: withStyles', () => {
       ).to.be(true)
     })
 
-    it('doesnt warn if themed styles _do use_ theme', () => {
+    it('should not warn if themed styles _do use_ theme', () => {
       function DisplayNameTest() {
         return null
       }
       const MyComponent = withStyles(theme => ({}))(DisplayNameTest) // eslint-disable-line no-unused-vars
 
-      TestRenderer.create(<MyComponent />)
+      TestRenderer.create(<MyComponent theme={{}} />)
 
       expect(console.warn.called).to.be(false)
     })
