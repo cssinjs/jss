@@ -17,7 +17,7 @@ describe.only('jss-plugin-template', () => {
 
   beforeEach(() => {
     spy = sinon.spy(console, 'warn')
-    jss = create(settings).use(template())
+    jss = create(settings).use(template(), nested())
   })
 
   afterEach(() => {
@@ -122,8 +122,6 @@ describe.only('jss-plugin-template', () => {
   })
 
   it('should support nesting', () => {
-    jss = create(settings).use(template(), nested())
-
     const sheet = jss.createStyleSheet({
       a: `
         color: green;
@@ -142,11 +140,100 @@ describe.only('jss-plugin-template', () => {
       `)
   })
 
-  it('should warn when opening curly brace is missing', () => {})
-  it('should warn when closing curly brace is missing', () => {})
-  it('should warn when closing curly brace is not on an own line', () => {})
-  it('should warn when closing curly brace is not provided', () => {})
-  it('should support multiple first level nested rules ', () => {})
-  it('should support multiple deeply nested rules', () => {})
-  it('should regular props after a nested rule', () => {})
+  it('should warn when opening curly brace is missing', () => {
+    jss.createStyleSheet({
+      a: `
+        color: green;
+        & .b
+          color: red;
+        }
+      `
+    })
+    expect(spy.args[0][0]).to.be('Warning: [JSS] Missing opening curly brace in "& .b".')
+  })
+
+  it('should warn when closing curly brace is not on an own line', () => {
+    jss.createStyleSheet({
+      a: `
+        color: green;
+        & .b {
+          color: red;
+        } .a { color: blue; }
+      `
+    })
+    expect(spy.args[0][0]).to.be(
+      'Warning: [JSS] Missing opening curly brace in "} .a { color: blue; }".'
+    )
+  })
+
+  it('should support multiple first level nested rules', () => {
+    const sheet = jss.createStyleSheet({
+      a: `
+        color: green;
+        & .b {
+          color: red;
+        }
+        & .c {
+          color: blue;
+        }
+      `
+    })
+    expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: green;
+        }
+        .a-id .b {
+          color: red;
+        }
+        .a-id .c {
+          color: blue;
+        }
+      `)
+  })
+
+  it.skip('should support multiple deeply nested rules', () => {
+    const sheet = jss.createStyleSheet({
+      a: `
+        color: green;
+        & .b {
+          color: red;
+          & .c {
+            color: blue;
+          }
+        }
+      `
+    })
+    expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: green;
+        }
+        .a-id .b {
+          color: red;
+        }
+        .a-id .b .c {
+          color: blue;
+        }
+      `)
+  })
+
+  it('should regular props after a nested rule', () => {
+    const sheet = jss.createStyleSheet({
+      a: `
+        color: green;
+        & .b {
+          color: red;
+        }
+        float: left;
+      `
+    })
+    expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: green;
+          float: left;
+        }
+        .a-id .b {
+          color: red;
+        }
+      `)
+  })
 })

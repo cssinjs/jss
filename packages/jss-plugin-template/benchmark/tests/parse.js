@@ -1,3 +1,4 @@
+import stylis from 'stylis'
 import parse from '../../src/parse'
 
 const css = `
@@ -37,8 +38,21 @@ const css = `
   font-variant: normal normal;
   border-spacing: 0px;
 `
+
+stylis.set({
+  global: false,
+  keyframe: false,
+  prefix: false,
+  compress: false,
+  semicolon: true
+})
+
 suite('Parse', () => {
   benchmark('parse()', () => {
     parse(css)
+  })
+
+  benchmark('stylis()', () => {
+    stylis('#id', css)
   })
 })

@@ -9,7 +9,7 @@ const semiWithNl = /\n/
  * - Requires semicolon and new line after the value (except of last line)
  * - No nested rules support
  */
-export default (cssText: string): Object => {
+const parse = (cssText: string): Object => {
   const style = {}
   const split = cssText.split(semiWithNl)
   let nestedRuleProp
@@ -19,8 +19,9 @@ export default (cssText: string): Object => {
 
     if (!decl) continue
 
+    const ampIndex = decl.indexOf('&')
+
     if (nestedRuleProp === undefined) {
-      const ampIndex = decl.indexOf('&')
       // We have a nested rule.
       if (ampIndex !== -1) {
         const openCurlyIndex = decl.indexOf('{')
@@ -34,8 +35,14 @@ export default (cssText: string): Object => {
       }
     } else {
       const closeCurlyIndex = decl.indexOf('}')
+
       if (closeCurlyIndex !== -1) {
         nestedRuleProp = undefined
+        // Closing brace should be on it's own line, otherwise the rest on that line
+        // will be ignored, so we should warn the user.
+        if (decl.length !== 1) {
+          warning(false, `[JSS] Missing opening curly brace in "${decl}".`)
+        }
         continue
       }
     }
@@ -57,3 +64,5 @@ export default (cssText: string): Object => {
   }
   return style
 }
+
+export default parse
