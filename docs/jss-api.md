@@ -428,6 +428,7 @@ When you want to minify your selectors in production for example, you can config
 > Note: This is disabled by default.
 
 ```js
+import jss from 'jss'
 // Pass the id option to jss.setup and set minify to true.
 jss.setup({id: {minify: true}})
 ```
