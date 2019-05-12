@@ -77,14 +77,19 @@ describe.only('jss-plugin-template', () => {
       `)
   })
 
-  it.skip('should warn when semicolon not found', () => {
-    jss.createStyleSheet({
+  it('should not require semicolon', () => {
+    const sheet = jss.createStyleSheet({
       a: `
-          color: red;
+          color: red
           float: left
         `
     })
-    expect(spy.args[0][0]).to.be('Warning: [JSS] Missing semicolon in "float: left".')
+    expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+          float: left;
+        }
+      `)
   })
 
   it('should support @media', () => {
@@ -191,7 +196,7 @@ describe.only('jss-plugin-template', () => {
       `)
   })
 
-  it.skip('should support multiple deeply nested rules', () => {
+  it('should support multiple deeply nested rules', () => {
     const sheet = jss.createStyleSheet({
       a: `
         color: green;
