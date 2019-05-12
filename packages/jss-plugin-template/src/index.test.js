@@ -11,7 +11,7 @@ const settings = {
   createGenerateId: () => rule => `${rule.key}-id`
 }
 
-describe.only('jss-plugin-template', () => {
+describe('jss-plugin-template', () => {
   let spy
   let jss
 
