@@ -32,7 +32,7 @@ const parse = (cssText: string): Object => {
   const rules = [style]
 
   for (let i = 0; i < lines.length; i++) {
-    const decl = (lines[i] || '').trim()
+    const decl = lines[i].trim()
 
     if (!decl) continue
 
@@ -42,7 +42,6 @@ const parse = (cssText: string): Object => {
       const openCurlyIndex = decl.indexOf('{')
       if (openCurlyIndex === -1) {
         warning(false, `[JSS] Missing opening curly brace in "${decl}".`)
-        continue
       }
       const key = decl.substring(0, openCurlyIndex - 1)
       const nestedStyle = {}
@@ -52,13 +51,14 @@ const parse = (cssText: string): Object => {
     }
 
     // We are closing a nested rule.
-    if (decl.indexOf('}') !== -1) {
+    if (decl === '}') {
       rules.pop()
-      // Closing brace should be on it's own line, otherwise the rest on that line
-      // will be ignored, so we should warn the user.
-      if (decl.length !== 1) {
-        warning(false, `[JSS] Missing closing curly brace in "${decl}".`)
-      }
+      continue
+    }
+
+    // We are closing a nested rule, but the curly brace is not on a separate line.
+    if (process.env.NODE_ENV !== 'production' && decl.indexOf('}') !== -1) {
+      warning(false, `[JSS] Missing closing curly brace in "${decl}".`)
       continue
     }
 
@@ -66,7 +66,6 @@ const parse = (cssText: string): Object => {
 
     if (colonIndex === -1) {
       warning(false, `[JSS] Missing colon in "${decl}".`)
-      continue
     }
 
     const prop = decl.substring(0, colonIndex).trim()
