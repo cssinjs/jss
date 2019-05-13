@@ -1,21 +1,21 @@
 {
   "dist/jss-plugin-template.js": {
-    "bundled": 3019,
+    "bundled": 3764,
     "minified": 1136,
     "gzipped": 607
   },
   "dist/jss-plugin-template.min.js": {
-    "bundled": 2485,
+    "bundled": 3230,
     "minified": 859,
     "gzipped": 487
   },
   "dist/jss-plugin-template.cjs.js": {
-    "bundled": 2611,
+    "bundled": 3316,
     "minified": 1165,
     "gzipped": 578
   },
   "dist/jss-plugin-template.esm.js": {
-    "bundled": 2388,
+    "bundled": 3093,
     "minified": 991,
     "gzipped": 498,
     "treeshaked": {
