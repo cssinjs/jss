@@ -37,7 +37,7 @@ const parse = (cssText: string): Object => {
       // Closing brace should be on it's own line, otherwise the rest on that line
       // will be ignored, so we should warn the user.
       if (decl.length !== 1) {
-        warning(false, `[JSS] Missing opening curly brace in "${decl}".`)
+        warning(false, `[JSS] Missing closing curly brace in "${decl}".`)
       }
       continue
     }

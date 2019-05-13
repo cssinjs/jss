@@ -173,7 +173,7 @@ describe('jss-plugin-template', () => {
       `
     })
     expect(spy.args[0][0]).to.be(
-      'Warning: [JSS] Missing opening curly brace in "} .a { color: blue; }".'
+      'Warning: [JSS] Missing closing curly brace in "} .a { color: blue; }".'
     )
   })
 
