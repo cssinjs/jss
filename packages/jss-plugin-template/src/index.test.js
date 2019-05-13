@@ -5,7 +5,7 @@ import {stripIndent} from 'common-tags'
 import {create} from 'jss'
 import sinon from 'sinon'
 import nested from 'jss-plugin-nested'
-import template from '.'
+import template, {cache} from '.'
 
 const settings = {
   createGenerateId: () => rule => `${rule.key}-id`
@@ -35,6 +35,12 @@ describe('jss-plugin-template', () => {
           color: red;
         }
       `)
+  })
+
+  it('should cache parsed template', () => {
+    const a = `color: red`
+    jss.createStyleSheet({a})
+    expect(cache[a]).to.eql({color: 'red'})
   })
 
   it('should parse multiple props/values', () => {
