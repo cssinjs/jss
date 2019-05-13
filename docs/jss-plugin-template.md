@@ -34,3 +34,12 @@ const styles = {
   }
 }
 ```
+
+### Benchmark
+
+```
+Chrome 74.0.3729 (Mac OS X 10.14.3)  Parse: parse() at 117245 ops/sec
+Chrome 74.0.3729 (Mac OS X 10.14.3)  Parse: stylis() at 46939 ops/sec
+Chrome 74.0.3729 (Mac OS X 10.14.3)
+  Parse: parse() at 117245 ops/sec (2.50x faster than stylis())
+```
