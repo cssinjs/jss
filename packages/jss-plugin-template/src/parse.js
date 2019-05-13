@@ -21,7 +21,7 @@ import warning from 'tiny-warning'
  *
  * `
  * color: red;
- * &: hover {
+ * &:hover {
  *   color: green;
  * }
  * `
