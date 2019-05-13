@@ -26,6 +26,7 @@ export type {
   JssValue,
   JssOptions,
   JssStyle,
+  JssStyles,
   Plugin,
   GenerateId,
   RuleListOptions,

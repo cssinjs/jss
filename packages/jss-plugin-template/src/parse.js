@@ -1,5 +1,6 @@
 // @flow
 import warning from 'tiny-warning'
+import type {JssStyles} from 'jss'
 
 /**
  * A simplified CSS parser.
@@ -26,7 +27,7 @@ import warning from 'tiny-warning'
  * }
  * `
  */
-const parse = (cssText: string): Object => {
+const parse = (cssText: string): JssStyles => {
   const style = {}
   const lines = cssText.split('\n')
   const rules = [style]
