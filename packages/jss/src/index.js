@@ -7,7 +7,7 @@
  * @license MIT
  */
 import Jss from './Jss'
-import type StyleSheet from './StyleSheet'
+
 import type {
   ConditionalRule,
   KeyframesRule,
@@ -38,16 +38,7 @@ export type {
   ContainerRule
 } from './types'
 
-export type {
-  Jss,
-  StyleSheet,
-  ConditionalRule,
-  KeyframesRule,
-  StyleRule,
-  ViewportRule,
-  SimpleRule,
-  FontFaceRule
-}
+export type {Jss, ConditionalRule, KeyframesRule, StyleRule, ViewportRule, SimpleRule, FontFaceRule}
 
 /**
  * Export a constant indicating if this browser has CSSTOM support.
@@ -95,6 +86,7 @@ export {default as sheets} from './sheets'
  */
 export {default as createGenerateId} from './utils/createGenerateId'
 
+export {default as StyleSheet} from './StyleSheet'
 /**
  * Creates a new instance of Jss.
  */
