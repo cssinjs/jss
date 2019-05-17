@@ -1,10 +1,17 @@
 ## Enables string templates
 
-Allows you to use string templates to declare CSS rules. It implements a **very naive** but **very fast (~42000 ops/sec)** runtime CSS parser, with certain limitations:
+This parser is not meant to be a complete one but to enable authoring styles using a template string with nesting syntax support, fastest parse performance and small footprint.
 
-- Supports only rule body (no selectors)
-- Requires semicolon and a new line after the value (except the last line)
-- No nested rules support
+Design of this parser has two main principles:
+
+1. It does not parse entire CSS. It uses only specific markers to separate selectors from props and values.
+1. It uses warnings to make sure expected syntax is used instead of supporting the full syntax.
+
+To do that it requires some constraints:
+
+- Parser expects a new line after each declaration (`color: red;\n`).
+- Parser expects an ampersand, selector and opening curly brace for nesting syntax on a single line (`& selector {`).
+- Parser expects a closing curly brace on a separate line.
 
 ```js
 const styles = {
@@ -14,6 +21,9 @@ const styles = {
     color: red;
     margin: 20px 40px;
     padding: 10px;
+    &:hover span {
+      color: green;
+    }
   `,
   '@media print': {
     button: `color: black`
@@ -23,4 +33,13 @@ const styles = {
     to: `opacity: 1`
   }
 }
+```
+
+### Benchmark
+
+```
+Chrome 74.0.3729 (Mac OS X 10.14.3)  Parse: parse() at 122983 ops/sec
+Chrome 74.0.3729 (Mac OS X 10.14.3)  Parse: stylis() at 47582 ops/sec
+Chrome 74.0.3729 (Mac OS X 10.14.3)
+  Parse: parse() at 122983 ops/sec (2.58x faster than stylis())
 ```

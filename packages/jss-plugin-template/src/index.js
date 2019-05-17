@@ -2,13 +2,27 @@
 import {type Plugin} from 'jss'
 import parse from './parse'
 
-const onProcessRule = rule => {
-  if (typeof rule.style === 'string') {
-    // $FlowFixMe: We can safely assume that rule has the style property
-    rule.style = parse(rule.style)
-  }
-}
+export const cache = {}
 
-export default function templatePlugin(): Plugin {
-  return {onProcessRule}
+type Options = {|cache: boolean|}
+
+export default function templatePlugin(options: Options = {cache: true}): Plugin {
+  const onProcessStyle = style => {
+    if (typeof style !== 'string') {
+      return style
+    }
+
+    if (style in cache) {
+      return cache[style]
+    }
+
+    if (options.cache) {
+      cache[style] = parse(style)
+      return cache[style]
+    }
+
+    return parse(style)
+  }
+
+  return {onProcessStyle}
 }

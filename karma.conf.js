@@ -44,7 +44,7 @@ module.exports = config => {
       frameworks: ['benchmark'],
       // Using a fixed position for a file name, m.b. should use an args parser later.
       files: [process.argv[4] || 'packages/jss/benchmark/**/*.js'],
-      preprocessors: {'packages/jss/benchmark/**/*.js': ['webpack']},
+      preprocessors: {'packages/**/benchmark/**/*.js': ['webpack']},
       reporters: ['benchmark'],
       // Some tests are slow.
       browserNoActivityTimeout: 20000

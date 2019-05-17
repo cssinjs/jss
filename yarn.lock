@@ -8979,6 +8979,11 @@ strong-log-transformer@^2.0.0:
     minimist "^1.2.0"
     through "^2.3.4"
 
+stylis@^3.5.4:
+  version "3.5.4"
+  resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.5.4.tgz#f665f25f5e299cf3d64654ab949a57c768b73fbe"
+  integrity sha512-8/3pSmthWM7lsPBKv7NXkzn2Uc9W7NotcwGNpJaa3k7WMM1XDCA4MgT5k/8BIexd5ydZdboXtU90XH9Ec4Bv/Q==
+
 supports-color@3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.1.2.tgz#72a262894d9d408b956ca05ff37b2ed8a6e2a2d5"

@@ -4,7 +4,7 @@ import template from '../../src/index'
 import parse from '../../src/parse'
 
 const options = {Renderer: null}
-const jss = create(options).use(template())
+const jss = create(options).use(template({cache: false}))
 
 const css = `
   color: rgb(77, 77, 77);

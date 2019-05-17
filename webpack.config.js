@@ -11,15 +11,21 @@ const plugins = [
   })
 ]
 
+const babelPlugins = ['@babel/proposal-class-properties', '@babel/proposal-object-rest-spread']
+
+if (process.env.BENCHMARK) {
+  babelPlugins.push('dev-expression')
+}
+
 module.exports = {
-  mode: 'none',
+  mode: process.env.BENCHMARK ? 'production' : 'none',
   entry: './packages/jss/src/index',
   output: {
     library: 'jss',
     libraryTarget: 'umd'
   },
   optimization: {
-    nodeEnv: false
+    nodeEnv: process.env.BENCHMARK ? 'production' : false
   },
   plugins,
   module: {
@@ -30,7 +36,7 @@ module.exports = {
         exclude: /node_modules/,
         options: {
           presets: ['@babel/react', '@babel/flow', '@babel/env'],
-          plugins: ['@babel/proposal-class-properties', '@babel/proposal-object-rest-spread']
+          plugins: babelPlugins
         }
       }
     ]

@@ -3,8 +3,12 @@
 ### Bug fixes
 
 - [jss-plugin-expand] Fix attributes spread for `border-bottom`, `border-top`, `border-left` and `border-right` ([#1083](https://github.com/cssinjs/jss/pull/1083))
-- [jss-plugin-props-sort] Fix sorting in Node 11 ([#1084](https://github.com/cssinjs/jss/pull/1083))
+- [jss-plugin-props-sort] Fix sorting in Node 11 ([#1085](https://github.com/cssinjs/jss/pull/1085))
 - [jss] Fix escaping keyframes names ([#1100](https://github.com/cssinjs/jss/pull/1100))
+
+### Improvements
+
+- [jss-plugin-template] Add nesting support ([#1103](https://github.com/cssinjs/jss/pull/1103))
 
 ## 10.0.0-alpha.16 (2019-3-24)
 
