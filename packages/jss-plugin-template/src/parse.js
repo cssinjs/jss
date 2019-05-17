@@ -43,8 +43,9 @@ const parse = (cssText: string): JssStyles => {
       const openCurlyIndex = decl.indexOf('{')
       if (openCurlyIndex === -1) {
         warning(false, `[JSS] Missing opening curly brace in "${decl}".`)
+        break
       }
-      const key = decl.substring(0, openCurlyIndex - 1)
+      const key = decl.substring(0, openCurlyIndex - 1).trim()
       const nestedStyle = {}
       rules[rules.length - 1][key] = nestedStyle
       rules.push(nestedStyle)
