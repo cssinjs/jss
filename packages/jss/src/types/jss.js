@@ -10,6 +10,7 @@ import type {FontFaceRule} from '../plugins/fontFaceRule'
 import type {CSSStyleRule, AnyCSSRule} from './cssom'
 import type {HTMLElementWithStyleMap} from './dom'
 import type RuleList from '../RuleList'
+import type {CreateGenerateId, CreateGenerateIdOptions, GenerateId} from '../utils/createGenerateId'
 
 export type {RuleList, StyleSheet}
 
@@ -54,8 +55,6 @@ export type Rule =
   | SimpleRule
   | ViewportRule
   | BaseRule
-
-export type GenerateId = (rule: Rule, sheet?: StyleSheet) => string
 
 // TODO
 // Find a way to declare all types: Object|string|Array<Object>
@@ -151,10 +150,9 @@ export type Plugin = {|
 
 export type InsertionPoint = string | HTMLElementWithStyleMap
 
-type CreateGenerateId = () => GenerateId
-
 export type JssOptions = {
   createGenerateId?: CreateGenerateId,
+  id?: CreateGenerateIdOptions,
   plugins?: Array<Plugin>,
   insertionPoint?: InsertionPoint,
   Renderer?: Class<Renderer> | null
@@ -163,6 +161,7 @@ export type JssOptions = {
 export type InternalJssOptions = {|
   createGenerateId: CreateGenerateId,
   plugins: Array<Plugin>,
+  id: CreateGenerateIdOptions,
   insertionPoint?: InsertionPoint,
   Renderer?: Class<Renderer> | null
 |}

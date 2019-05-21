@@ -33,17 +33,13 @@ describe('Unit: jss - createGenerateId', () => {
     expect(generate({key: 'a'})).to.be('a-6-1')
   })
 
-  it('should generate a production class name', () => {
-    process.env.NODE_ENV = 'production'
-    const generate = createGenerateId()
+  it('should generate a minified class name', () => {
+    const generate = createGenerateId({minify: true})
     expect(generate()).to.be('c141')
-    process.env.NODE_ENV = 'development'
   })
 
-  it('should add prefix a production class name', () => {
-    process.env.NODE_ENV = 'production'
-    const generate = createGenerateId()
+  it('should add prefix a minified class name', () => {
+    const generate = createGenerateId({minify: true})
     expect(generate({key: 'a'}, sheetMock)).to.be('p1401')
-    process.env.NODE_ENV = 'development'
   })
 })

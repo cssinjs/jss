@@ -1,5 +1,9 @@
 ## Next
 
+### Breaking Changes
+
+- [jss] Add option for opt-in minification of class names. ([#1075](https://github.com/cssinjs/jss/pull/1075))
+
 ### Bug fixes
 
 - [jss-plugin-expand] Fix attributes spread for `border-bottom`, `border-top`, `border-left` and `border-right` ([#1083](https://github.com/cssinjs/jss/pull/1083))

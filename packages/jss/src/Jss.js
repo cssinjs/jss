@@ -15,9 +15,9 @@ import type {
   Plugin,
   JssOptions,
   InternalJssOptions,
-  JssStyle,
-  GenerateId
+  JssStyle
 } from './types'
+import type {GenerateId} from './utils/createGenerateId'
 
 let instanceCounter = 0
 
@@ -29,12 +29,13 @@ export default class Jss {
   plugins = new PluginsRegistry()
 
   options: InternalJssOptions = {
+    id: {minify: false},
     createGenerateId: createGenerateIdDefault,
     Renderer: isInBrowser ? DomRenderer : null,
     plugins: []
   }
 
-  generateId: GenerateId = createGenerateIdDefault()
+  generateId: GenerateId = createGenerateIdDefault({minify: false})
 
   constructor(options?: JssOptions) {
     for (let i = 0; i < internalPlugins.length; i++) {
@@ -49,10 +50,19 @@ export default class Jss {
    * deduplication logic.
    */
   setup(options?: JssOptions = {}): this {
-    const {createGenerateId} = options
-    if (createGenerateId) {
-      this.options.createGenerateId = createGenerateId
-      this.generateId = createGenerateId()
+    if (options.createGenerateId) {
+      this.options.createGenerateId = options.createGenerateId
+    }
+
+    if (options.id) {
+      this.options.id = {
+        ...this.options.id,
+        ...options.id
+      }
+    }
+
+    if (options.createGenerateId || options.id) {
+      this.generateId = this.options.createGenerateId(this.options.id)
     }
 
     if (options.insertionPoint != null) this.options.insertionPoint = options.insertionPoint
