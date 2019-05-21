@@ -242,13 +242,6 @@ describe('React-JSS: withStyles', () => {
       renderTest('Display Name Test')
       expect(classNamePrefix).to.be('Display-Name-Test-')
     })
-
-    it('should pass no prefix in production', () => {
-      process.env.NODE_ENV = 'production'
-      renderTest()
-      expect(classNamePrefix).to.be('')
-      process.env.NODE_ENV = 'development'
-    })
   })
 
   describe('.withStyles() properly warns about themed styles misuse', () => {

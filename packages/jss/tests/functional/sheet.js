@@ -346,28 +346,6 @@ describe('Functional: sheet', () => {
     })
   })
 
-  describe('.addRule() with invalid decl to attached sheet', () => {
-    before(() => {
-      process.env.NODE_ENV = 'production'
-    })
-
-    after(() => {
-      process.env.NODE_ENV = 'development'
-    })
-
-    it('should warn', () => {
-      const sheet = jss.createStyleSheet().attach()
-      sheet.addRule('%%%%', {color: 'red'})
-      expect(spy.callCount).to.be(1)
-      expect(
-        spy.calledWithExactly(
-          'Warning: [JSS] Can not insert an unsupported rule \n.%%%%-id {\n  color: red;\n}'
-        )
-      ).to.be(true)
-      sheet.detach()
-    })
-  })
-
   describe('.addRules() with an attached sheet', () => {
     let sheet
     beforeEach(() => {

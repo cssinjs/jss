@@ -18,7 +18,7 @@ export type CreateGenerateId = (options: CreateGenerateIdOptions) => GenerateId
  * When new generator function is created, rule counter is reseted.
  * We need to reset the rule counter for SSR for each request.
  */
-const createGenerateId: CreateGenerateId = options => {
+const createGenerateId: CreateGenerateId = (options = {}) => {
   let ruleCounter = 0
   const defaultPrefix = options.minify ? 'c' : ''
 
