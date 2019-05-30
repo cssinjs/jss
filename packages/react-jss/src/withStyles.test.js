@@ -82,8 +82,6 @@ describe('React-JSS: withStyles', () => {
       const indexA = registry.registry[0].options.index
       const indexB = registry.registry[1].options.index
 
-      expect(indexA).to.be.lessThan(0)
-      expect(indexB).to.be.lessThan(0)
       expect(indexA).to.be.lessThan(indexB)
     })
 
@@ -99,8 +97,6 @@ describe('React-JSS: withStyles', () => {
       const indexA = registry.registry[0].options.index
       const indexB = registry.registry[1].options.index
 
-      expect(indexA).to.be.lessThan(0)
-      expect(indexB).to.be.lessThan(0)
       expect(indexA).to.be.lessThan(indexB)
     })
 

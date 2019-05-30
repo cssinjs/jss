@@ -66,7 +66,7 @@ const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = 
           return {classes: {}, dynamicRules: undefined, sheet: undefined}
         }
 
-        const dynamicRules = addDynamicRules(sheet)
+        const dynamicRules = addDynamicRules(sheet, props)
 
         return {
           sheet,

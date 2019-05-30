@@ -47,6 +47,10 @@ function getSheetOptions<Theme>(options: Options<Theme>, link: boolean) {
 }
 
 function createStaticSheet<Theme>(options: Options<Theme>) {
+  if (options.context.disableStylesGeneration) {
+    return undefined
+  }
+
   const manager = getManager(options.context, options.index)
   const existingSheet = manager.get(options.theme)
 
