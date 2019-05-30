@@ -9,7 +9,10 @@
  * specificity, because of the source order.
  * So our solution is to render sheets them in the reverse order child->sheet, so
  * that parent has a higher specificity.
+ *
+ * We start at [Number.MIN_SAFE_INTEGER] to always insert sheets from react-jss first before any
+ * sheet which might be inserted manually by the user.
  */
-let index = 0
+let index = Number.MIN_SAFE_INTEGER
 
 export const getIndex = () => index++
