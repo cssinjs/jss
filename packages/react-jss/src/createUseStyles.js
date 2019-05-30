@@ -49,36 +49,52 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
         sheetOptions
       })
 
-      if (context.registry) {
+      if (context.registry && sheet) {
         context.registry.add(sheet)
       }
 
       return sheet
     })
 
-    const [dynamicRules, setDynamicRules] = React.useState(() => addDynamicRules(staticSheet, data))
+    const [dynamicRules, setDynamicRules] = React.useState(() => {
+      if (staticSheet) {
+        return addDynamicRules(staticSheet, data)
+      }
 
-    const [classes, setClasses] = React.useState(() => getSheetClasses(staticSheet, dynamicRules))
+      return undefined
+    })
+
+    const [classes, setClasses] = React.useState(() => {
+      if (staticSheet) {
+        return getSheetClasses(staticSheet, dynamicRules)
+      }
+
+      return {}
+    })
 
     useLayoutEffect(
       () => {
-        manageSheet({
-          index,
-          context,
-          sheet: staticSheet,
-          theme
-        })
-
-        return () => {
-          unmanageSheet({
+        if (staticSheet) {
+          manageSheet({
             index,
             context,
             sheet: staticSheet,
             theme
           })
+        }
 
-          if (dynamicRules) {
-            removeDynamicRules(staticSheet, dynamicRules)
+        return () => {
+          if (staticSheet) {
+            unmanageSheet({
+              index,
+              context,
+              sheet: staticSheet,
+              theme
+            })
+
+            if (dynamicRules) {
+              removeDynamicRules(staticSheet, dynamicRules)
+            }
           }
         }
       },
@@ -87,7 +103,7 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
 
     useLayoutEffect(
       () => {
-        if (dynamicRules) {
+        if (dynamicRules && staticSheet) {
           updateDynamicRules(data, staticSheet, dynamicRules)
         }
       },
@@ -105,8 +121,8 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
             index,
             sheetOptions
           })
-          const newDynamicRules = addDynamicRules(staticSheet, data)
-          const newClasses = getSheetClasses(staticSheet, dynamicRules)
+          const newDynamicRules = staticSheet ? addDynamicRules(staticSheet, data) : undefined
+          const newClasses = staticSheet ? getSheetClasses(staticSheet, dynamicRules) : undefined
 
           setStaticSheet(newStaticSheet)
           setDynamicRules(newDynamicRules)
