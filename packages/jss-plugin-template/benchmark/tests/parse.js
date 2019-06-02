@@ -1,5 +1,5 @@
 import stylis from 'stylis'
-import parse from '../../src/parse'
+import parse, {parse2} from '../../src/parse'
 
 const css = `
   color: rgb(77, 77, 77);
@@ -50,6 +50,10 @@ stylis.set({
 suite('Parse', () => {
   benchmark('parse()', () => {
     parse(css)
+  })
+
+  benchmark('parse2()', () => {
+    parse2(css)
   })
 
   benchmark('stylis()', () => {

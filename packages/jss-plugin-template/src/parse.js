@@ -27,7 +27,75 @@ import type {JssStyles} from 'jss'
  * }
  * `
  */
+
+// Test implementation without using .split()
 const parse = (cssText: string): JssStyles => {
+  const style = {}
+  const rules = [style]
+  let line
+  let done
+  let prevNlIndex = 0
+
+  while (!done) {
+    const nextNlIndex = cssText.indexOf('\n', prevNlIndex)
+
+    if (nextNlIndex === -1) {
+      done = true
+      line = cssText.substring(prevNlIndex).trim()
+    } else {
+      line = cssText.substring(prevNlIndex, nextNlIndex).trim()
+      prevNlIndex = nextNlIndex + 1
+    }
+
+    if (!line) continue
+
+    const ampIndex = line.indexOf('&')
+
+    if (ampIndex !== -1) {
+      const openCurlyIndex = line.indexOf('{')
+      if (openCurlyIndex === -1) {
+        warning(false, `[JSS] Missing opening curly brace in "${line}".`)
+        break
+      }
+      const key = line.substring(0, openCurlyIndex - 1).trim()
+      const nestedStyle = {}
+      rules[rules.length - 1][key] = nestedStyle
+      rules.push(nestedStyle)
+      continue
+    }
+
+    // We are closing a nested rule.
+    if (line === '}') {
+      rules.pop()
+      continue
+    }
+
+    // We are closing a nested rule, but the curly brace is not on a separate line.
+    if (process.env.NODE_ENV !== 'production' && line.indexOf('}') !== -1) {
+      warning(false, `[JSS] Missing closing curly brace in "${line}".`)
+      continue
+    }
+
+    const colonIndex = line.indexOf(':')
+
+    if (colonIndex === -1) {
+      warning(false, `[JSS] Missing colon in "${line}".`)
+    }
+
+    const prop = line.substring(0, colonIndex).trim()
+    // We need to remove semicolon from value if there is one.
+    const semi = line[line.length - 1] === ';' ? 1 : 0
+    const value = line.substring(colonIndex + 1, line.length - semi).trim()
+    rules[rules.length - 1][prop] = value
+  }
+
+  return style
+}
+
+export default parse
+
+// Temporarily here for comparison.
+export const parse2 = (cssText: string): JssStyles => {
   const style = {}
   const lines = cssText.split('\n')
   const rules = [style]
@@ -79,5 +147,3 @@ const parse = (cssText: string): JssStyles => {
 
   return style
 }
-
-export default parse
