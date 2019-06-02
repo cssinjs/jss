@@ -20,18 +20,18 @@ const noTheme = {}
 
 const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions<Theme> = {}) => {
   const {index = getSheetIndex(), theming, name = 'Hook', ...sheetOptions} = options
-  const isFirstMount = React.useRef(true)
   const ThemeContext = (theming && theming.context) || DefaultThemeContext
   const useTheme =
     typeof styles === 'function'
       ? // $FlowFixMe
-        (): Theme => React.useContext(ThemeContext)
+        (): Theme => React.useContext(ThemeContext) || noTheme
       : // $FlowFixMe
         (): Theme => noTheme
 
   const useLayoutEffect = isInBrowser ? React.useLayoutEffect : React.useEffect
 
   return (data: any) => {
+    const isFirstMount = React.useRef(true)
     const context = React.useContext(JssContext)
     const theme = useTheme()
 
