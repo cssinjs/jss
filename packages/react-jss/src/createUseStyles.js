@@ -35,10 +35,6 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
     const context = React.useContext(JssContext)
     const theme = useTheme()
 
-    if (context.disableStylesGeneration) {
-      return {}
-    }
-
     const [staticSheet, setStaticSheet] = React.useState(() => {
       const sheet = createStaticSheet({
         context,
