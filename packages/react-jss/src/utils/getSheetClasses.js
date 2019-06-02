@@ -27,4 +27,4 @@ const getSheetClasses = (sheet: StyleSheet, dynamicRules: ?DynamicRules) => {
   return classes
 }
 
-export {getSheetClasses}
+export default getSheetClasses

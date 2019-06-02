@@ -9,7 +9,7 @@ import getDisplayName from './getDisplayName'
 import memoize from './utils/memoizeOne'
 import mergeClasses from './utils/mergeClasses'
 import JssContext from './JssContext'
-import {getIndex} from './utils/indexCounter'
+import getSheetIndex from './utils/getSheetIndex'
 import {
   createStaticSheet,
   updateDynamicRules,
@@ -17,7 +17,7 @@ import {
   removeDynamicRules
 } from './utils/sheets'
 import {manageSheet, unmanageSheet} from './utils/managers'
-import {getSheetClasses} from './utils/getSheetClasses'
+import getSheetClasses from './utils/getSheetClasses'
 
 interface State {
   dynamicRules: ?DynamicRules;
@@ -35,7 +35,7 @@ const noTheme = {}
  * `withStyles(styles, [options])(Component)`
  */
 const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = {}) => {
-  const {index = getIndex(), theming, injectTheme, ...sheetOptions} = options
+  const {index = getSheetIndex(), theming, injectTheme, ...sheetOptions} = options
   const isThemingEnabled = typeof styles === 'function'
   const ThemeConsumer = (theming && theming.context.Consumer) || ThemeContext.Consumer
 

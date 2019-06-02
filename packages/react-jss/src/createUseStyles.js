@@ -11,15 +11,15 @@ import {
   updateDynamicRules,
   removeDynamicRules
 } from './utils/sheets'
-import {getIndex} from './utils/indexCounter'
+import getSheetIndex from './utils/getSheetIndex'
 import type {HookOptions, Styles} from './types'
 import {manageSheet, unmanageSheet} from './utils/managers'
-import {getSheetClasses} from './utils/getSheetClasses'
+import getSheetClasses from './utils/getSheetClasses'
 
 const noTheme = {}
 
 const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions<Theme> = {}) => {
-  const {index = getIndex(), theming, name = 'Hook', ...sheetOptions} = options
+  const {index = getSheetIndex(), theming, name = 'Hook', ...sheetOptions} = options
   const isFirstMount = React.useRef(true)
   const ThemeContext = (theming && theming.context) || DefaultThemeContext
   const useTheme =

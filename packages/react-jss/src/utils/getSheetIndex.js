@@ -15,4 +15,6 @@
  */
 let index = Number.MIN_SAFE_INTEGER
 
-export const getIndex = () => index++
+const getSheetIndex = () => index++
+
+export default getSheetIndex

@@ -1,5 +1,6 @@
 import expect from 'expect.js'
-import withStyles, {
+import {
+  withStyles,
   jss,
   createGenerateId,
   ThemeProvider,
