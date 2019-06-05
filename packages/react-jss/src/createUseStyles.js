@@ -16,6 +16,8 @@ import type {HookOptions, Styles} from './types'
 import {manageSheet, unmanageSheet} from './utils/managers'
 import getSheetClasses from './utils/getSheetClasses'
 
+const useEffectOrLayoutEffect = isInBrowser ? React.useLayoutEffect : React.useEffect
+
 const noTheme = {}
 
 const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions<Theme> = {}) => {
@@ -27,8 +29,6 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
         (): Theme => React.useContext(ThemeContext) || noTheme
       : // $FlowFixMe
         (): Theme => noTheme
-
-  const useLayoutEffect = isInBrowser ? React.useLayoutEffect : React.useEffect
 
   return (data: any) => {
     const isFirstMount = React.useRef(true)
@@ -68,7 +68,7 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
       return {}
     })
 
-    useLayoutEffect(
+    useEffectOrLayoutEffect(
       () => {
         if (staticSheet) {
           manageSheet({
@@ -97,7 +97,7 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
       [staticSheet]
     )
 
-    useLayoutEffect(
+    useEffectOrLayoutEffect(
       () => {
         if (dynamicRules && staticSheet) {
           updateDynamicRules(data, staticSheet, dynamicRules)
@@ -106,7 +106,7 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
       [data]
     )
 
-    useLayoutEffect(
+    useEffectOrLayoutEffect(
       () => {
         if (!isFirstMount.current) {
           const newStaticSheet = createStaticSheet({
