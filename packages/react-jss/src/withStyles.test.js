@@ -6,7 +6,7 @@ import {spy} from 'sinon'
 import TestRenderer from 'react-test-renderer'
 
 import {withStyles, JssProvider} from '.'
-import createHocAndHooksTests from '../test-utils/createHocAndHooksTests'
+import createBasicTests from '../test-utils/createBasicTests'
 
 const createGenerateId = () => {
   let counter = 0
@@ -20,7 +20,7 @@ const createStyledComponent = (styles, options = {}) => {
 }
 
 describe('React-JSS: withStyles', () => {
-  createHocAndHooksTests({createStyledComponent})
+  createBasicTests({createStyledComponent})
 
   describe('should merge the classes', () => {
     const styles = {

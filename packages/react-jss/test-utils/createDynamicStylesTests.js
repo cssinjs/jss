@@ -5,7 +5,7 @@ import React from 'react'
 import TestRenderer from 'react-test-renderer'
 import {stripIndent} from 'common-tags'
 
-import injectSheet, {JssProvider, SheetsRegistry} from '../src'
+import {JssProvider, SheetsRegistry} from '../src'
 
 const createGenerateId = () => {
   let counter = 0
@@ -13,8 +13,6 @@ const createGenerateId = () => {
 }
 
 export default ({createStyledComponent}) => {
-  const NoRenderer = () => null
-  NoRenderer.displayName = 'NoRenderer'
   let registry
 
   beforeEach(() => {
@@ -151,12 +149,14 @@ export default ({createStyledComponent}) => {
 
     it('should unset values when null is returned from fn value', () => {
       const generateId = createGenerateId()
-      MyComponent = injectSheet({
+
+      MyComponent = createStyledComponent({
         button: {
           width: 10,
           height: ({height}) => height
         }
-      })(NoRenderer)
+      })
+
       const Container = ({height}) => (
         <JssProvider registry={registry} generateId={generateId}>
           <MyComponent height={height} />
@@ -186,14 +186,15 @@ export default ({createStyledComponent}) => {
 
     it('should unset values when null is returned from fn rule', () => {
       const generateId = createGenerateId()
-      MyComponent = injectSheet({
+      MyComponent = createStyledComponent({
         button0: {
           width: 10
         },
         button1: ({height}) => ({
           height
         })
-      })(NoRenderer)
+      })
+
       const Container = ({height}) => (
         <JssProvider registry={registry} generateId={generateId}>
           <MyComponent height={height} />
@@ -234,13 +235,13 @@ export default ({createStyledComponent}) => {
           }
         }
       }
-      const InnerComponent = () => null
-      InnerComponent.defaultProps = {
+
+      MyComponent = createStyledComponent(styles)
+      MyComponent.defaultProps = {
         color: 'rgb(255, 0, 0)'
       }
-      const StyledComponent = injectSheet(styles)(InnerComponent)
 
-      TestRenderer.create(<StyledComponent height={20} />)
+      TestRenderer.create(<MyComponent height={20} />)
 
       expect(passedProps.color).to.equal('rgb(255, 0, 0)')
       expect(passedProps.height).to.equal(20)
@@ -249,14 +250,23 @@ export default ({createStyledComponent}) => {
 
   describe('function rules', () => {
     let MyComponent
+    let classes
 
     beforeEach(() => {
-      MyComponent = injectSheet({
-        button: ({height = 1}) => ({
-          color: 'rgb(255, 255, 255)',
-          height: `${height}px`
-        })
-      })(NoRenderer)
+      MyComponent = createStyledComponent(
+        {
+          button: ({height = 1}) => ({
+            color: 'rgb(255, 255, 255)',
+            height: `${height}px`
+          })
+        },
+        {name: 'NoRenderer'}
+      )
+      MyComponent.defaultProps = {
+        getClasses: cls => {
+          classes = cls
+        }
+      }
     })
 
     it('should attach and detach a sheet', () => {
@@ -296,14 +306,12 @@ export default ({createStyledComponent}) => {
     })
 
     it('should have dynamic and static styles', () => {
-      const renderer = TestRenderer.create(
+      TestRenderer.create(
         <JssProvider generateId={createGenerateId()}>
           <MyComponent />
         </JssProvider>
       )
-      const props = renderer.root.findByType(NoRenderer).props
-
-      expect(props.classes.button).to.equal('button-0 button-0-1')
+      expect(classes.button).to.equal('button-0 button-0-1')
     })
 
     it('should generate different dynamic values', () => {
@@ -375,13 +383,12 @@ export default ({createStyledComponent}) => {
           return {color: 'rgb(255, 255, 255)'}
         }
       }
-      const InnerComponent = () => null
-      InnerComponent.defaultProps = {
+
+      MyComponent = createStyledComponent(styles)
+      MyComponent.defaultProps = {
         color: 'rgb(255, 0, 0)'
       }
-      const StyledComponent = injectSheet(styles)(InnerComponent)
-
-      TestRenderer.create(<StyledComponent height={20} />)
+      TestRenderer.create(<MyComponent height={20} />)
 
       expect(passedProps.color).to.equal('rgb(255, 0, 0)')
       expect(passedProps.height).to.equal(20)

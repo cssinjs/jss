@@ -9,7 +9,7 @@ describe('React-JSS: dynamic styles', () => {
       const useStyles = createUseStyles(styles, options)
       const Comp = props => {
         const classes = useStyles(props)
-        props.getClasses(classes)
+        if (props.getClasses) props.getClasses(classes)
         return null
       }
       Comp.displayName = options.name
@@ -21,8 +21,8 @@ describe('React-JSS: dynamic styles', () => {
 
   describe('using withStyles', () => {
     const createStyledComponent = (styles, options = {}) => {
-      const Comp = props => {
-        props.getClasses(props.classes)
+      const Comp = ({getClasses, classes}) => {
+        if (getClasses) getClasses(classes)
         return null
       }
       Comp.displayName = options.name

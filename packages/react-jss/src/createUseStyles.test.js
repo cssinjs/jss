@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import createUseStyles from './createUseStyles'
-import createHocAndHooksTests from '../test-utils/createHocAndHooksTests'
+import createBasicTests from '../test-utils/createBasicTests'
 
 const createStyledComponent = (styles, options) => {
   const useStyles = createUseStyles(styles, options)
@@ -13,5 +13,5 @@ const createStyledComponent = (styles, options) => {
 }
 
 describe('React-JSS: createUseStyles', () => {
-  createHocAndHooksTests({createStyledComponent})
+  createBasicTests({createStyledComponent})
 })
