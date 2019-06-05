@@ -1,4 +1,4 @@
-/* eslint-disable global-require, react/prop-types, no-underscore-dangle */
+/* eslint-disable  react/prop-types */
 
 import expect from 'expect.js'
 import React from 'react'
