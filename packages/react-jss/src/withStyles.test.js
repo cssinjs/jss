@@ -5,14 +5,23 @@ import React from 'react'
 import {spy} from 'sinon'
 import TestRenderer from 'react-test-renderer'
 
-import {withStyles, JssProvider, SheetsRegistry} from '.'
+import {withStyles, JssProvider} from '.'
+import createHocAndHooksTests from '../test-utils/createHocAndHooksTests'
 
 const createGenerateId = () => {
   let counter = 0
   return rule => `${rule.key}-${counter++}`
 }
 
+const createStyledComponent = (styles, options = {}) => {
+  const Comp = () => null
+  Comp.displayName = options.name
+  return withStyles(styles, options)(Comp)
+}
+
 describe('React-JSS: withStyles', () => {
+  createHocAndHooksTests({createStyledComponent})
+
   describe('should merge the classes', () => {
     const styles = {
       button: {color: 'red'}
