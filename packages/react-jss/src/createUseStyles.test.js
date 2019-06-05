@@ -164,4 +164,38 @@ describe('React-JSS: createUseStyles', () => {
       expect(console.warn.called).to.be(false)
     })
   })
+
+  describe('classNamePrefix', () => {
+    let classNamePrefix
+    const generateId = (rule, sheet) => {
+      classNamePrefix = sheet.options.classNamePrefix
+      return `${rule.key}-id`
+    }
+
+    const renderTest = (name = 'DisplayNameTest') => {
+      const MyComponent = createHookComp(
+        {
+          a: {color: 'red'}
+        },
+        {name}
+      )
+      TestRenderer.act(() => {
+        TestRenderer.create(
+          <JssProvider generateId={generateId}>
+            <MyComponent />
+          </JssProvider>
+        )
+      })
+    }
+
+    it('should pass displayName as prefix', () => {
+      renderTest()
+      expect(classNamePrefix).to.be('DisplayNameTest-')
+    })
+
+    it('should handle spaces correctly', () => {
+      renderTest('Display Name Test')
+      expect(classNamePrefix).to.be('Display-Name-Test-')
+    })
+  })
 })
