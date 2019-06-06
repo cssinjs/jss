@@ -20,6 +20,13 @@ const useEffectOrLayoutEffect = isInBrowser ? React.useLayoutEffect : React.useE
 
 const noTheme = {}
 
+const reducer = (prevState, action) => {
+  if (action.type === 'updateSheet') {
+    return action.payload
+  }
+  return prevState
+}
+
 const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions<Theme> = {}) => {
   const {index = getSheetIndex(), theming, name = 'Hook', ...sheetOptions} = options
   const ThemeContext = (theming && theming.context) || DefaultThemeContext
@@ -35,38 +42,28 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
     const context = React.useContext(JssContext)
     const theme = useTheme()
 
-    const [state, dispatch] = React.useReducer(
-      (prevState, action) => {
-        if (action.type === 'updateSheet') {
-          return action.payload
-        }
+    const [state, dispatch] = React.useReducer(reducer, null, () => {
+      const sheet = createStaticSheet({
+        context,
+        styles,
+        name,
+        theme,
+        index,
+        sheetOptions
+      })
 
-        return prevState
-      },
-      null,
-      () => {
-        const sheet = createStaticSheet({
-          context,
-          styles,
-          name,
-          theme,
-          index,
-          sheetOptions
-        })
-
-        if (context.registry && sheet) {
-          context.registry.add(sheet)
-        }
-
-        const dynamicRules = sheet && addDynamicRules(sheet, data)
-
-        return {
-          sheet,
-          dynamicRules,
-          classes: sheet ? getSheetClasses(sheet, dynamicRules) : {}
-        }
+      if (context.registry && sheet) {
+        context.registry.add(sheet)
       }
-    )
+
+      const dynamicRules = sheet && addDynamicRules(sheet, data)
+
+      return {
+        sheet,
+        dynamicRules,
+        classes: sheet ? getSheetClasses(sheet, dynamicRules) : {}
+      }
+    })
 
     useEffectOrLayoutEffect(
       () => {
