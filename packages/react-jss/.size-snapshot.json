@@ -1,30 +1,30 @@
 {
   "dist/react-jss.js": {
-    "bundled": 127727,
-    "minified": 44060,
-    "gzipped": 13778
+    "bundled": 128456,
+    "minified": 44338,
+    "gzipped": 13862
   },
   "dist/react-jss.min.js": {
-    "bundled": 95340,
-    "minified": 34168,
-    "gzipped": 10984
+    "bundled": 96069,
+    "minified": 34446,
+    "gzipped": 11069
   },
   "dist/react-jss.cjs.js": {
-    "bundled": 20270,
-    "minified": 9497,
-    "gzipped": 3066
+    "bundled": 20945,
+    "minified": 9804,
+    "gzipped": 3177
   },
   "dist/react-jss.esm.js": {
-    "bundled": 19446,
-    "minified": 8781,
-    "gzipped": 2951,
+    "bundled": 20121,
+    "minified": 9088,
+    "gzipped": 3060,
     "treeshaked": {
       "rollup": {
-        "code": 2016,
+        "code": 2040,
         "import_statements": 439
       },
       "webpack": {
-        "code": 3446
+        "code": 3470
       }
     }
   }
