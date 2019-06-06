@@ -8,7 +8,8 @@ import {
   SheetsRegistry,
   withTheme,
   createTheming,
-  createUseStyles
+  createUseStyles,
+  useTheme
 } from '.'
 
 describe('React-JSS: exports', () => {
@@ -46,5 +47,9 @@ describe('React-JSS: exports', () => {
 
   it('should export createUseStyles', () => {
     expect(createUseStyles).to.be.a(Function)
+  })
+
+  it('should export useTheme', () => {
+    expect(useTheme).to.be.a(Function)
   })
 })
