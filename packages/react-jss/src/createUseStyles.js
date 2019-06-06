@@ -35,72 +35,72 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
     const context = React.useContext(JssContext)
     const theme = useTheme()
 
-    const [staticSheet, setStaticSheet] = React.useState(() => {
-      const sheet = createStaticSheet({
-        context,
-        styles,
-        name,
-        theme,
-        index,
-        sheetOptions
-      })
+    const [state, dispatch] = React.useReducer(
+      (prevState, action) => {
+        if (action.type === 'updateSheet') {
+          return action.payload
+        }
 
-      if (context.registry && sheet) {
-        context.registry.add(sheet)
+        return prevState
+      },
+      null,
+      () => {
+        const sheet = createStaticSheet({
+          context,
+          styles,
+          name,
+          theme,
+          index,
+          sheetOptions
+        })
+
+        if (context.registry && sheet) {
+          context.registry.add(sheet)
+        }
+
+        const dynamicRules = sheet && addDynamicRules(sheet, data)
+
+        return {
+          sheet,
+          dynamicRules,
+          classes: sheet ? getSheetClasses(sheet, dynamicRules) : {}
+        }
       }
-
-      return sheet
-    })
-
-    const [dynamicRules, setDynamicRules] = React.useState(() => {
-      if (staticSheet) {
-        return addDynamicRules(staticSheet, data)
-      }
-
-      return undefined
-    })
-
-    const [classes, setClasses] = React.useState(() => {
-      if (staticSheet) {
-        return getSheetClasses(staticSheet, dynamicRules)
-      }
-
-      return {}
-    })
+    )
 
     useEffectOrLayoutEffect(
       () => {
-        if (staticSheet) {
+        if (state.sheet) {
           manageSheet({
             index,
             context,
-            sheet: staticSheet,
+            sheet: state.sheet,
             theme
           })
         }
 
         return () => {
-          if (staticSheet) {
+          if (state.sheet) {
             unmanageSheet({
               index,
               context,
-              sheet: staticSheet,
+              sheet: state.sheet,
               theme
             })
 
-            if (dynamicRules) {
-              removeDynamicRules(staticSheet, dynamicRules)
+            if (state.dynamicRules && state.sheet) {
+              removeDynamicRules(state.sheet, state.dynamicRules)
             }
           }
         }
       },
-      [staticSheet]
+      [state.sheet]
     )
 
     useEffectOrLayoutEffect(
       () => {
-        if (dynamicRules && staticSheet) {
-          updateDynamicRules(data, staticSheet, dynamicRules)
+        if (state.sheet && state.dynamicRules) {
+          updateDynamicRules(data, state.sheet, state.dynamicRules)
         }
       },
       [data]
@@ -109,7 +109,7 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
     useEffectOrLayoutEffect(
       () => {
         if (!isFirstMount.current) {
-          const newStaticSheet = createStaticSheet({
+          const newSheet = createStaticSheet({
             context,
             styles,
             name,
@@ -117,19 +117,24 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
             index,
             sheetOptions
           })
-          const newDynamicRules = staticSheet ? addDynamicRules(staticSheet, data) : undefined
-          const newClasses = staticSheet ? getSheetClasses(staticSheet, dynamicRules) : undefined
+          const newDynamicRules = newSheet && addDynamicRules(newSheet, data)
+          const newClasses = newSheet ? getSheetClasses(newSheet, newDynamicRules) : {}
 
-          setStaticSheet(newStaticSheet)
-          setDynamicRules(newDynamicRules)
-          setClasses(newClasses)
+          dispatch({
+            type: 'updateSheet',
+            payload: {
+              sheet: newSheet,
+              dynamicRules: newDynamicRules,
+              classes: newClasses
+            }
+          })
         }
       },
       [theme, context]
     )
 
     // $FlowFixMe
-    React.useDebugValue(classes)
+    React.useDebugValue(state.classes)
     // $FlowFixMe
     React.useDebugValue(theme === noTheme ? 'No theme' : theme)
 
@@ -137,7 +142,7 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
       isFirstMount.current = false
     })
 
-    return classes
+    return state.classes
   }
 }
 
