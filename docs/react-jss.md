@@ -1,6 +1,6 @@
 ## JSS integration with React
 
-React-JSS integrates [JSS](https://github.com/cssinjs/jss) with React using the new Hooks API as well as a Styled Component API. JSS and the [default preset](https://github.com/cssinjs/jss-preset-default) are already built in.
+React-JSS integrates [JSS](https://github.com/cssinjs/jss) with React using the new Hooks API as well as a Styled Component API. JSS and the [default preset](https://github.com/cssinjs/jss/tree/master/packages/jss-preset-default) are already built in.
 
 Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
 
