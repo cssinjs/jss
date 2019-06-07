@@ -10,7 +10,7 @@ import defaultJss, {
 } from 'jss'
 import type {Context, Managers} from './types'
 import JssContext from './JssContext'
-import shallowEqualObjects from './utils/shallow-equal'
+import shallowEqualObjects from './utils/shallowEqualObjects'
 
 /* eslint-disable react/require-default-props, react/no-unused-prop-types */
 

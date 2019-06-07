@@ -1,3 +1,7 @@
+// Original code is https://github.com/moroshko/shallow-equal/blob/master/src/objects.js
+// Created issue https://github.com/moroshko/shallow-equal/issues/7
+// We had to copy that because we need an ESM module.
+
 const shallowEqualObjects = (objA, objB) => {
   if (objA === objB) {
     return true
