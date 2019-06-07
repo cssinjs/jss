@@ -1,5 +1,9 @@
 ## Next
 
+### Features
+
+- [react-jss] New hooks based API is out. HOC based API is deprecated. It will stay in v10 but will be removed in v11. ([#1089](https://github.com/cssinjs/jss/pull/1089))
+
 ### Breaking Changes
 
 - [jss] Add option for opt-in minification of class names. ([#1075](https://github.com/cssinjs/jss/pull/1075))
