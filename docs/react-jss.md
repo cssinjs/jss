@@ -6,7 +6,7 @@ Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
 
 **HOC based API is deprecated as of v10 and will be removed in v11. Old docs are available [here](./react-jss-hoc.md).**
 
-Benefits compared to the lower level core:
+Benefits compared to using the core JSS package directly:
 
 - Dynamic Theming - allows context based theme propagation and runtime updates.
 - Critical CSS extraction - only CSS from rendered components gets extracted.
