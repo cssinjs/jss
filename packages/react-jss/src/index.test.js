@@ -1,12 +1,15 @@
 import expect from 'expect.js'
-import withStyles, {
+import {
+  withStyles,
   jss,
   createGenerateId,
   ThemeProvider,
   JssProvider,
   SheetsRegistry,
   withTheme,
-  createTheming
+  createTheming,
+  createUseStyles,
+  useTheme
 } from '.'
 
 describe('React-JSS: exports', () => {
@@ -40,5 +43,13 @@ describe('React-JSS: exports', () => {
 
   it('should export createTheming', () => {
     expect(createTheming).to.be.a(Function)
+  })
+
+  it('should export createUseStyles', () => {
+    expect(createUseStyles).to.be.a(Function)
+  })
+
+  it('should export useTheme', () => {
+    expect(useTheme).to.be.a(Function)
   })
 })

@@ -1,12 +1,8 @@
 ## JSS integration with React
 
-React-JSS integrates [JSS](https://github.com/cssinjs/jss) with React using the new Hooks API as well as a Styled Component API. JSS and the [default preset](https://github.com/cssinjs/jss/tree/master/packages/jss-preset-default) are already built in.
+React-JSS provides components for [JSS](https://github.com/cssinjs/jss) as a layer of abstraction. JSS and the [default preset](https://github.com/cssinjs/jss-preset-default) are already built in! Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
 
-Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
-
-**HOC based API is deprecated as of v10 and will be removed in v11. Old docs are available [here](./react-jss-hoc.md).**
-
-Benefits compared to using the core JSS package directly:
+Benefits compared to the lower level core:
 
 - Dynamic Theming - allows context based theme propagation and runtime updates.
 - Critical CSS extraction - only CSS from rendered components gets extracted.
@@ -23,8 +19,12 @@ Benefits compared to using the core JSS package directly:
   - [Theming](#theming)
   - [Server-side rendering](#server-side-rendering)
   - [React tree traversing](#react-tree-traversing)
+  - [Reuse styles in different components](#reuse-styles-in-different-components)
+  - [The inner component](#the-inner-component)
+  - [The inner ref](#the-inner-ref)
   - [Custom setup](#custom-setup)
-  - [TypeScript](#typescript)
+  - [Decorators](#decorators)
+  - [Usage with TypeScript](#usage-with-typescript)
 
 ### Install
 
@@ -34,16 +34,21 @@ yarn add react-jss
 
 ### Usage
 
+React-JSS wraps your component with a [higher-order component](https://medium.com/@dan_abramov/mixins-are-dead-long-live-higher-order-components-94a0d2f9e750).
+It injects a `classes` prop, which is a simple map of rule names and generated class names.
+
+Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
+
 #### Basic
 
 ```javascript
 import React from 'react'
 import {render} from 'react-dom'
-import {createUseStyles} from 'react-jss'
+import withStyles from 'react-jss'
 
 // Create your Styles. Remember, since React-JSS uses the default preset,
 // most plugins are available without further configuration needed.
-const useStyles = createUseStyles({
+const styles = {
   myButton: {
     color: 'green',
     margin: {
@@ -61,20 +66,22 @@ const useStyles = createUseStyles({
   myLabel: {
     fontStyle: 'italic'
   }
-})
+}
 
 // Define the component using these styles and pass it the 'classes' prop.
 // Use this to assign scoped class names.
-const Button = ({children}) => {
-  const classes = useStyles()
-  return (
-    <button className={classes.myButton}>
-      <span className={classes.myLabel}>{children}</span>
-    </button>
-  )
-}
+const Button = ({classes, children}) => (
+  <button className={classes.myButton}>
+    <span className={classes.myLabel}>{children}</span>
+  </button>
+)
 
-const App = () => <Button>Submit</Button>
+// Finally, inject the stylesheet into the component.
+const StyledButton = withStyles(styles)(Button)
+// You can also export the component with
+// export default withStyles(styles)(Button)
+
+const App = () => <StyledButton>Submit</StyledButton>
 
 render(<App />, document.getElementById('root'))
 ```
@@ -116,9 +123,9 @@ Static properties being rendered first so that function values will have higher 
 
 ```javascript
 import React from 'react'
-import {createUseStyles} from 'react-jss'
+import withStyles from 'react-jss'
 
-const useStyles = createUseStyles({
+const styles = {
   myButton: {
     padding: props => props.spacing
   },
@@ -128,16 +135,13 @@ const useStyles = createUseStyles({
     fontWeight: props.fontWeight,
     fontStyle: props.fontStyle
   })
-})
-
-const Button = ({children, ...props}) => {
-  const classes = useStyles(props)
-  return (
-    <button className={classes.myButton}>
-      <span className={classes.myLabel}>{children}</span>
-    </button>
-  )
 }
+
+const Button = ({classes, children}) => (
+  <button className={classes.myButton}>
+    <span className={classes.myLabel}>{children}</span>
+  </button>
+)
 
 Button.defaultProps = {
   spacing: 10,
@@ -145,7 +149,9 @@ Button.defaultProps = {
   labelColor: 'red'
 }
 
-const App = () => <Button fontStyle="italic">Submit</Button>
+const StyledButton = withStyles(styles)(Button)
+
+const App = () => <StyledButton fontStyle="italic">Submit</StyledButton>
 ```
 
 The above code will compile to
@@ -176,9 +182,9 @@ and
 
 #### Theming
 
-The idea is that you define a theme, wrap your application with `ThemeProvider` and pass the `theme` object to `ThemeProvider`. Later you can access theme in your styles creator function and using a `useTheme()` hook. After that, you may change your theme, and all your components will get the new theme automatically.
+The idea is that you define a theme, wrap your application with `ThemeProvider` and pass the `theme` to `ThemeProvider`. ThemeProvider will pass it over `context` to your styles creator function and your props. After that, you may change your theme, and all your components will get the new theme automatically.
 
-Under the hood `react-jss` uses a standalone `theming` solution for React. You can find [full docs in its repo](https://github.com/cssinjs/theming).
+Under the hood `react-jss` uses the unified CSSinJS `theming` solution for React. You can find [full docs in its repo](https://github.com/iamstarkov/theming).
 
 Usage of `ThemeProvider`:
 
@@ -191,25 +197,24 @@ Usage of `ThemeProvider`:
 
 ```javascript
 import React from 'react'
-import {createUseStyles, useTheme, ThemeProvider} from 'react-jss'
+import withStyles, {ThemeProvider} from 'react-jss'
 
-const useStyles = createUseStyles(theme => ({
+const Button = ({classes, children}) => (
+  <button className={classes.button}>
+    <span className={classes.label}>{children}</span>
+  </button>
+)
+
+const styles = theme => ({
   button: {
     background: theme.colorPrimary
   },
   label: {
     fontWeight: 'bold'
   }
-}))
+})
 
-const Button = ({children, ...props}) => {
-  const classes = useStyles(props)
-  return (
-    <button className={classes.button}>
-      <span className={classes.label}>{children}</span>
-    </button>
-  )
-}
+const StyledButton = withStyles(styles)(Button)
 
 const theme = {
   colorPrimary: 'green'
@@ -217,92 +222,82 @@ const theme = {
 
 const App = () => (
   <ThemeProvider theme={theme}>
-    <Button>I am a button with green background</Button>
+    <StyledButton>I am a button with green background</StyledButton>
   </ThemeProvider>
 )
 ```
 
 #### Accessing the theme inside the styled component
 
-Use `useTheme()` hook to access the theme inside of the function component.
+The theme will not be injecting into the wrapped component.
+To inject the theme into the wrapped component, pass the `injectTheme` option to `withStyles`.
 
 ```javascript
 import React from 'react'
-import {createUseStyles, useTheme, ThemeProvider} from 'react-jss'
+import withStyles from 'react-jss'
 
-const useStyles = createUseStyles(theme => ({
+const DeleteIcon = () => null
+
+const Button = ({classes, children, theme}) => (
+  <button className={classes.button}>
+    <span className={classes.label}>{children}</span>
+
+    {theme.useIconButtons && <DeleteIcon />}
+  </button>
+)
+
+const styles = theme => ({
   button: {
     background: theme.colorPrimary
   },
   label: {
     fontWeight: 'bold'
   }
-}))
+})
 
-const DeleteIcon = () => null
-
-const Button = ({children, ...props}) => {
-  const classes = useStyles(props)
-  const theme = useTheme()
-  return (
-    <button className={classes.button}>
-      <span className={classes.label}>{children}</span>
-      {theme.useIconButtons && <DeleteIcon />}
-    </button>
-  )
-}
+const StyledButton = withStyles(styles, {injectTheme: true})(Button)
 ```
 
-#### Accessing the theme without styles
+#### Accessing the theme without a styled component
 
-In case you need to access the theme without rendering any CSS, you can also use `useTheme()` standalone.
+In case you need to access the theme but not render any CSS, you can also use `withTheme`. It is a Higher-order Component factory which takes a `React.Component` and maps the theme object from context to props. [Read more about `withTheme` in `theming`'s documentation.](https://github.com/cssinjs/theming#withthemecomponent)
 
 ```javascript
 import React from 'react'
-import {useTheme} from 'react-jss'
+import {withTheme} from 'react-jss'
 
-const Button = () => {
-  const theme = useTheme()
-  return <button>I can access {theme.colorPrimary}</button>
-}
+const Button = withTheme(({theme}) => <button>I can access {theme.colorPrimary}</button>)
 ```
 
 #### Using custom Theming Context
 
-Use _namespaced_ themes so that a set of UI components gets no conflicts with another set of UI components from a different library also using `react-jss` or in case you want to use the same theme from another context that is already used in your app.
+Use _namespaced_ themes so that a set of UI components gets no conflicts with another set of UI components from a different library also using `react-jss`.
 
 ```javascript
 import React from 'react'
-import {createUseStyles, createTheming} from 'react-jss'
+import withStyles, {createTheming} from 'react-jss'
 
 const ThemeContext = React.createContext({})
 
 // Creating a namespaced theming object.
 const theming = createTheming(ThemeContext)
 
-// Note that `useTheme` here comes from the `theming` object, NOT from `react-jss` import.
-const {ThemeProvider, useTheme} = theming
+const {ThemeProvider} = theming
 
-const useStyles = createUseStyles(
-  theme => ({
-    button: {
-      background: theme.colorPrimary
-    }
-    // Passing theming object to `createUseStyles()`
-  }),
-  {theming}
-)
+const styles = theme => ({
+  button: {
+    background: theme.colorPrimary
+  }
+})
 
 const theme = {
   colorPrimary: 'green'
 }
 
-const Button = ({children, ...props}) => {
-  const classes = useStyles(props)
-  const themeOverContext = useTheme() // In case you need to access the theme here.
-  return <button className={classes.button}>{children}</button>
-}
+const Button = ({classes, children}) => <button className={classes.button}>{children}</button>
 
+// Passing namespaced theming object inside withStyles options.
+const StyledButton = withStyles(styles, {theming})(Button)
 const OtherLibraryThemeProvider = () => null
 const OtherLibraryComponent = () => null
 const otherLibraryTheme = {}
@@ -312,7 +307,7 @@ const App = () => (
   <OtherLibraryThemeProvider theme={otherLibraryTheme}>
     <OtherLibraryComponent />
     <ThemeProvider theme={theme}>
-      <Button>Green Button</Button>
+      <StyledButton>Green Button</StyledButton>
     </ThemeProvider>
   </OtherLibraryThemeProvider>
 )
@@ -338,7 +333,7 @@ export default function render(req, res) {
     </JssProvider>
   )
 
-  // Any instances using `useStyles` within `<MyApp />` will have gotten sheets
+  // Any instances of `withStyles` within `<MyApp />` will have gotten sheets
   // from `context` and added their Style Sheets to it by now.
 
   return res.send(
@@ -378,6 +373,69 @@ async function main() {
 }
 
 main()
+```
+
+#### Reuse styles in different components
+
+To reuse the same styles **and** the same generated style sheet between 2 entirely different and unrelated components, we suggest extracting a renderer component and reusing that.
+
+```javascript
+import React from 'react'
+import withStyles from 'react-jss'
+
+const styles = {
+  button: {
+    color: 'red'
+  }
+}
+const RedButton = withStyles(styles)(({classes, children}) => (
+  <button className={classes.button}>{children}</button>
+))
+
+const SomeComponent1 = () => (
+  <div>
+    <RedButton>My red button 1</RedButton>
+  </div>
+)
+
+const SomeComponent2 = () => (
+  <div>
+    <RedButton>My red button 2</RedButton>
+  </div>
+)
+```
+
+Alternatively, you can create own Style Sheet and use the `composes` feature. Also, you can mix in a common styles object but take into account that it can increase the overall CSS size.
+
+#### The inner component
+
+```javascript
+import withStyles from 'react-jss'
+
+const InnerComponent = () => null
+const StyledComponent = withStyles({})(InnerComponent)
+console.log(StyledComponent.InnerComponent) // Prints out the inner component.
+```
+
+#### The inner ref
+
+To get a `ref` to the inner element, use the `ref` prop.
+We will forward the ref to the inner component.
+
+```javascript
+import React from 'react'
+import withStyles from 'react-jss'
+
+const InnerComponent = () => null
+const StyledComponent = withStyles({})(InnerComponent)
+
+const App = (
+  <StyledComponent
+    ref={ref => {
+      console.log(ref)
+    }}
+  />
+)
 ```
 
 #### Custom setup
@@ -455,49 +513,96 @@ const Component = () => (
 )
 ```
 
+#### Decorators
+
+_Beware that [decorators are stage-2 proposal](https://tc39.github.io/proposal-decorators/), so there are [no guarantees that decorators will make its way into language specification](https://tc39.github.io/process-document/). Do not use it in production. Use it at your own risk and only if you know what you are doing._
+
+You will need [babel-plugin-transform-decorators-legacy](https://github.com/loganfsmyth/babel-plugin-transform-decorators-legacy).
+
+```javascript
+import React, {Component} from 'react'
+import withStyles from 'react-jss'
+
+const styles = {
+  button: {
+    backgroundColor: 'yellow'
+  },
+  label: {
+    fontWeight: 'bold'
+  }
+}
+
+@withStyles(styles)
+class Button extends Component {
+  render() {
+    const {classes, children} = this.props
+    return (
+      <button className={classes.button}>
+        <span className={classes.label}>{children}</span>
+      </button>
+    )
+  }
+}
+
+export default Button
+```
+
 ### Injection order
 
-Injection of style tags happens in the same order as the `createUseStyles()` invocation.
-Source order specificity is higher the lower style tag is in the tree. Therefore you should call `createUseStyles` of components you want to override first.
+Injection of style tags happens in the same order as the `withStyles()` invocation.
+Source order specificity is higher the lower style tag is in the tree. Therefore you should call `withStyles` of components you want to override first.
 
 Example
 
 ```javascript
 import React from 'react'
-import {createUseStyles} from 'react-jss'
+import withStyles from 'react-jss'
 
-// Will render first once component mounts, because `createUseStyles()` call order matters.
-const useLabelStyles = createUseStyles({
-  label: {
-    color: 'red'
-  }
-})
+const labelStyles = {}
+const buttonStyles = {}
 
-const useButtonStyles = createUseStyles({
-  button: {
-    color: 'red'
-  }
-})
-
-// Will render styles first.
-const Label = ({children}) => {
-  const classes = useLabelStyles()
-  return <label className={classes.button}>{children}</label>
-}
-
-const Button = () => {
-  const classes = useButtonStyles()
-  // The order in which we render those components doesn't matter.
-  // What matters is the order of `createUseStyles()` calls.
-  return (
-    <>
-      <button className={classes.button} />
-      <Label>my button</Label>
-    </>
-  )
-}
+// Will render labelStyles first.
+const Label = withStyles(labelStyles)(({children}) => <label>{children}</label>)
+const Button = withStyles(buttonStyles)(() => (
+  <button>
+    <Label>my button</Label>
+  </button>
+))
 ```
 
-### TypeScript
+### Usage with TypeScript
 
-TODO hooks support
+React JSS includes first class support for TypeScript. React JSS provides
+a `WithStyles` type which adds types for all of the injected props.
+To use it, simply extend your existing props interface with
+`WithStyles<typeof styles>`, where `styles` is your styles object.
+
+> Note: To use WithStyles you must use react-jss version 10 or higher.
+
+Example
+
+```typescript
+import * as React from 'react'
+import withStyles, {WithStyles} from 'react-jss'
+
+const styles = {
+  button: {
+    backgroundColor: 'yellow'
+  },
+  label: {
+    fontWeight: 'bold'
+  }
+}
+
+interface IProps extends WithStyles<typeof styles> {
+  children: React.ReactNode
+}
+
+const Button: React.FunctionComponent<IProps> = ({classes, children}) => (
+  <button className={classes.button}>
+    <span className={classes.label}>{children}</span>
+  </button>
+)
+
+export default withStyles(styles)(Button)
+```

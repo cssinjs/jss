@@ -7,7 +7,7 @@ import {create} from 'jss'
 import TestRenderer from 'react-test-renderer'
 import preset from 'jss-preset-default'
 
-import withStyles, {SheetsRegistry, JssProvider} from '.'
+import {SheetsRegistry, JssProvider, withStyles} from '.'
 
 const createGenerateId = () => {
   let counter = 0

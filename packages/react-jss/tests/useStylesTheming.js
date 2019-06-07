@@ -1,12 +1,32 @@
-/* eslint-disable global-require, react/prop-types */
+/* eslint-disable react/prop-types */
 
 import expect from 'expect.js'
 import React from 'react'
 import TestRenderer from 'react-test-renderer'
 
-import injectSheet, {createTheming, ThemeProvider, JssProvider, SheetsRegistry} from '../src'
+import {
+  createUseStyles,
+  useTheme,
+  createTheming,
+  ThemeProvider,
+  JssProvider,
+  SheetsRegistry
+} from '../src'
 
-describe('React-JSS: theming', () => {
+const createStyledComponent = (styles, options = {}) => {
+  const useStyles = createUseStyles(styles, options)
+  const Comp = props => {
+    useStyles(props)
+
+    const theme = props.theme || (options.theming ? options.theming.useTheme() : useTheme())
+    if (props.getTheme) props.getTheme(theme)
+    return null
+  }
+  Comp.displayName = options.name
+  return Comp
+}
+
+describe('React-JSS: theming useStyles()', () => {
   const themedStaticStyles = theme => ({
     rule: {
       color: theme.color
@@ -18,73 +38,65 @@ describe('React-JSS: theming', () => {
       backgroundColor: props => props.backgroundColor
     }
   })
-  const ThemeA = {color: '#aaa'}
-  const ThemeB = {color: '#bbb'}
+  const themeA = {color: '#aaa'}
+  const themeB = {color: '#bbb'}
 
-  const ThemedStaticComponent = injectSheet(themedStaticStyles)()
-  const ThemedDynamicComponent = injectSheet(themedDynamicStyles)()
+  const ThemedStaticComponent = createStyledComponent(themedStaticStyles)
+  const ThemedDynamicComponent = createStyledComponent(themedDynamicStyles)
 
   describe('injecting the theme', () => {
-    const Comp = () => null
+    let themeFromUseTheme
+    let themeFromStylesFn
 
-    it('should not inject theme with static classes', () => {
-      const StyledComponent = injectSheet({})(Comp)
-      const renderer = TestRenderer.create(
-        <ThemeProvider theme={ThemeA}>
+    const defaultProps = {
+      getTheme: theme => {
+        themeFromUseTheme = theme
+      }
+    }
+
+    beforeEach(() => {
+      themeFromUseTheme = {}
+      themeFromStylesFn = {}
+    })
+
+    it('should subscribe theme with useTheme, but not with useStyles', () => {
+      const StyledComponent = createStyledComponent({})
+      StyledComponent.defaultProps = defaultProps
+      TestRenderer.create(
+        <ThemeProvider theme={themeA}>
           <StyledComponent />
         </ThemeProvider>
       )
-      const injectedTheme = renderer.root.findByType(Comp).props.theme
-
-      expect(injectedTheme).to.be(undefined)
+      expect(themeFromUseTheme).to.be(themeA)
+      expect(themeFromStylesFn).to.eql({})
     })
 
-    it('should not inject theme with themed classes', () => {
-      const StyledComponent = injectSheet(() => ({}))(Comp)
-      const renderer = TestRenderer.create(
-        <ThemeProvider theme={ThemeA}>
+    it('should warn when styles function has no arguments', () => {})
+
+    it('should subscribe theme with useTheme and with useStyles', () => {
+      const StyledComponent = createStyledComponent(theme => {
+        themeFromStylesFn = theme
+        return {}
+      })
+      StyledComponent.defaultProps = defaultProps
+      TestRenderer.create(
+        <ThemeProvider theme={themeA}>
           <StyledComponent />
         </ThemeProvider>
       )
-      const injectedTheme = renderer.root.findByType(Comp).props.theme
-
-      expect(injectedTheme).to.be(undefined)
+      expect(themeFromUseTheme).to.be(themeA)
+      expect(themeFromStylesFn).to.eql(themeA)
     })
 
-    it('should inject theme with static classes and injectTheme option', () => {
-      const StyledComponent = injectSheet({}, {injectTheme: true})(Comp)
-      const renderer = TestRenderer.create(
-        <ThemeProvider theme={ThemeA}>
-          <StyledComponent />
+    it('should use the theme from props instead of the one from provider', () => {
+      const StyledComponent = createStyledComponent({})
+      StyledComponent.defaultProps = defaultProps
+      TestRenderer.create(
+        <ThemeProvider theme={themeA}>
+          <StyledComponent theme={themeB} />
         </ThemeProvider>
       )
-      const injectedTheme = renderer.root.findByType(Comp).props.theme
-
-      expect(injectedTheme).to.equal(ThemeA)
-    })
-
-    it('should inject theme with themed classes and injectTheme option', () => {
-      const StyledComponent = injectSheet(() => ({}), {injectTheme: true})(Comp)
-      const renderer = TestRenderer.create(
-        <ThemeProvider theme={ThemeA}>
-          <StyledComponent />
-        </ThemeProvider>
-      )
-      const injectedTheme = renderer.root.findByType(Comp).props.theme
-
-      expect(injectedTheme).to.equal(ThemeA)
-    })
-
-    it('should use the passed theme instead of the actual theme', () => {
-      const StyledComponent = injectSheet(() => ({}), {injectTheme: true})(Comp)
-      const renderer = TestRenderer.create(
-        <ThemeProvider theme={ThemeA}>
-          <StyledComponent theme={ThemeB} />
-        </ThemeProvider>
-      )
-      const injectedTheme = renderer.root.findByType(Comp).props.theme
-
-      expect(injectedTheme).to.equal(ThemeB)
+      expect(themeFromUseTheme).to.equal(themeB)
     })
   })
 
@@ -96,7 +108,7 @@ describe('React-JSS: theming', () => {
     }
     TestRenderer.create(
       <JssProvider generateId={generateId}>
-        <ThemeProvider theme={ThemeA}>
+        <ThemeProvider theme={themeA}>
           <ThemedStaticComponent />
         </ThemeProvider>
       </JssProvider>
@@ -109,7 +121,7 @@ describe('React-JSS: theming', () => {
     const registry = new SheetsRegistry()
     TestRenderer.create(
       <JssProvider registry={registry}>
-        <ThemeProvider theme={ThemeA}>
+        <ThemeProvider theme={themeA}>
           <ThemedStaticComponent />
         </ThemeProvider>
       </JssProvider>
@@ -121,7 +133,7 @@ describe('React-JSS: theming', () => {
     const registry = new SheetsRegistry()
     TestRenderer.create(
       <JssProvider registry={registry}>
-        <ThemeProvider theme={ThemeA}>
+        <ThemeProvider theme={themeA}>
           <ThemedDynamicComponent backgroundColor="#fff" />
         </ThemeProvider>
       </JssProvider>
@@ -133,7 +145,7 @@ describe('React-JSS: theming', () => {
   it('one themed instance wo/ = 1 style, theme update = 1 style', () => {
     const registry = new SheetsRegistry()
     const renderer = TestRenderer.create(
-      <ThemeProvider theme={ThemeA}>
+      <ThemeProvider theme={themeA}>
         <JssProvider registry={registry}>
           <ThemedStaticComponent />
         </JssProvider>
@@ -143,7 +155,7 @@ describe('React-JSS: theming', () => {
     expect(registry.registry.length).to.equal(1)
 
     renderer.update(
-      <ThemeProvider theme={ThemeB}>
+      <ThemeProvider theme={themeB}>
         <JssProvider registry={registry}>
           <ThemedStaticComponent />
         </JssProvider>
@@ -157,7 +169,7 @@ describe('React-JSS: theming', () => {
   it('one themed instance w/ dynamic props = 2 styles, theme update = 2 styles', () => {
     const registry = new SheetsRegistry()
     const renderer = TestRenderer.create(
-      <ThemeProvider theme={ThemeA}>
+      <ThemeProvider theme={themeA}>
         <JssProvider registry={registry}>
           <ThemedDynamicComponent backgroundColor="#fff" />
         </JssProvider>
@@ -167,7 +179,7 @@ describe('React-JSS: theming', () => {
     expect(registry.registry.length).to.equal(1)
 
     renderer.update(
-      <ThemeProvider theme={ThemeB}>
+      <ThemeProvider theme={themeB}>
         <JssProvider registry={registry}>
           <ThemedDynamicComponent backgroundColor="#fff" />
         </JssProvider>
@@ -182,7 +194,7 @@ describe('React-JSS: theming', () => {
     const registry = new SheetsRegistry()
     TestRenderer.create(
       <JssProvider registry={registry}>
-        <ThemeProvider theme={ThemeA}>
+        <ThemeProvider theme={themeA}>
           <ThemedStaticComponent />
           <ThemedStaticComponent />
         </ThemeProvider>
@@ -196,7 +208,7 @@ describe('React-JSS: theming', () => {
     const registry = new SheetsRegistry()
     TestRenderer.create(
       <JssProvider registry={registry}>
-        <ThemeProvider theme={ThemeA}>
+        <ThemeProvider theme={themeA}>
           <ThemedDynamicComponent backgroundColor="#fff" />
           <ThemedDynamicComponent backgroundColor="#fff" />
         </ThemeProvider>
@@ -209,7 +221,7 @@ describe('React-JSS: theming', () => {
   it('two themed instances w/ dynamic props w/ same theme = 3 styles, theme update = 3 styles', () => {
     const registry = new SheetsRegistry()
     const renderer = TestRenderer.create(
-      <ThemeProvider theme={ThemeA}>
+      <ThemeProvider theme={themeA}>
         <JssProvider registry={registry}>
           <ThemedDynamicComponent backgroundColor="#fff" />
           <ThemedDynamicComponent backgroundColor="#fff" />
@@ -220,7 +232,7 @@ describe('React-JSS: theming', () => {
     expect(registry.registry.length).to.equal(1)
 
     renderer.update(
-      <ThemeProvider theme={ThemeB}>
+      <ThemeProvider theme={themeB}>
         <JssProvider registry={registry}>
           <ThemedDynamicComponent backgroundColor="#fff" />
           <ThemedDynamicComponent backgroundColor="#fff" />
@@ -236,10 +248,10 @@ describe('React-JSS: theming', () => {
     const registry = new SheetsRegistry()
     const renderer = TestRenderer.create(
       <JssProvider registry={registry}>
-        <ThemeProvider theme={ThemeA}>
+        <ThemeProvider theme={themeA}>
           <ThemedStaticComponent />
         </ThemeProvider>
-        <ThemeProvider theme={ThemeA}>
+        <ThemeProvider theme={themeA}>
           <ThemedStaticComponent />
         </ThemeProvider>
       </JssProvider>
@@ -249,10 +261,10 @@ describe('React-JSS: theming', () => {
 
     renderer.update(
       <JssProvider registry={registry}>
-        <ThemeProvider theme={ThemeA}>
+        <ThemeProvider theme={themeA}>
           <ThemedStaticComponent />
         </ThemeProvider>
-        <ThemeProvider theme={ThemeB}>
+        <ThemeProvider theme={themeB}>
           <ThemedStaticComponent />
         </ThemeProvider>
       </JssProvider>
@@ -265,10 +277,10 @@ describe('React-JSS: theming', () => {
     const registry = new SheetsRegistry()
     const renderer = TestRenderer.create(
       <JssProvider registry={registry}>
-        <ThemeProvider theme={ThemeA}>
+        <ThemeProvider theme={themeA}>
           <ThemedDynamicComponent backgroundColor="#fff" />
         </ThemeProvider>
-        <ThemeProvider theme={ThemeA}>
+        <ThemeProvider theme={themeA}>
           <ThemedDynamicComponent backgroundColor="#fff" />
         </ThemeProvider>
       </JssProvider>
@@ -278,10 +290,10 @@ describe('React-JSS: theming', () => {
 
     renderer.update(
       <JssProvider registry={registry}>
-        <ThemeProvider theme={ThemeA}>
+        <ThemeProvider theme={themeA}>
           <ThemedDynamicComponent backgroundColor="#fff" />
         </ThemeProvider>
-        <ThemeProvider theme={ThemeB}>
+        <ThemeProvider theme={themeB}>
           <ThemedDynamicComponent backgroundColor="#fff" />
         </ThemeProvider>
       </JssProvider>
@@ -294,10 +306,10 @@ describe('React-JSS: theming', () => {
     const registry = new SheetsRegistry()
     const renderer = TestRenderer.create(
       <JssProvider registry={registry}>
-        <ThemeProvider theme={ThemeA}>
+        <ThemeProvider theme={themeA}>
           <ThemedStaticComponent />
         </ThemeProvider>
-        <ThemeProvider theme={ThemeB}>
+        <ThemeProvider theme={themeB}>
           <ThemedStaticComponent />
         </ThemeProvider>
       </JssProvider>
@@ -307,10 +319,10 @@ describe('React-JSS: theming', () => {
 
     renderer.update(
       <JssProvider registry={registry}>
-        <ThemeProvider theme={ThemeA}>
+        <ThemeProvider theme={themeA}>
           <ThemedStaticComponent />
         </ThemeProvider>
-        <ThemeProvider theme={ThemeA}>
+        <ThemeProvider theme={themeA}>
           <ThemedStaticComponent />
         </ThemeProvider>
       </JssProvider>
@@ -324,10 +336,10 @@ describe('React-JSS: theming', () => {
     const registry = new SheetsRegistry()
     const renderer = TestRenderer.create(
       <JssProvider registry={registry}>
-        <ThemeProvider theme={ThemeA}>
+        <ThemeProvider theme={themeA}>
           <ThemedDynamicComponent backgroundColor="#fff" />
         </ThemeProvider>
-        <ThemeProvider theme={ThemeB}>
+        <ThemeProvider theme={themeB}>
           <ThemedDynamicComponent backgroundColor="#fff" />
         </ThemeProvider>
       </JssProvider>
@@ -337,10 +349,10 @@ describe('React-JSS: theming', () => {
 
     renderer.update(
       <JssProvider registry={registry}>
-        <ThemeProvider theme={ThemeA}>
+        <ThemeProvider theme={themeA}>
           <ThemedDynamicComponent backgroundColor="#fff" />
         </ThemeProvider>
-        <ThemeProvider theme={ThemeA}>
+        <ThemeProvider theme={themeA}>
           <ThemedDynamicComponent backgroundColor="#fff" />
         </ThemeProvider>
       </JssProvider>
@@ -357,38 +369,34 @@ describe('React-JSS: theming', () => {
       const {ThemeProvider: ThemeProviderA} = themingA
       const {ThemeProvider: ThemeProviderB} = themingB
 
-      let colorReceivedInStyleA
-      let colorReceivedInStyleB
+      let colorReceivedInStylesA
+      let colorReceivedInStylesB
       let themeReceivedInComponentA
       let themeReceivedInComponentB
 
-      const styleA = theme => {
-        colorReceivedInStyleA = theme.color
+      const stylesA = theme => {
+        colorReceivedInStylesA = theme.color
       }
-      const styleB = theme => {
-        colorReceivedInStyleB = theme.color
-      }
-
-      const InnerComponentA = ({theme}) => {
-        themeReceivedInComponentA = theme
-        return null
+      const stylesB = theme => {
+        colorReceivedInStylesB = theme.color
       }
 
-      const InnerComponentB = ({theme}) => {
-        themeReceivedInComponentB = theme
-        return null
+      const ComponentA = createStyledComponent(stylesA, {theming: themingA})
+      ComponentA.defaultProps = {
+        getTheme: theme => {
+          themeReceivedInComponentA = theme
+        }
       }
-
-      const ComponentA = injectSheet(styleA, {theming: themingA, injectTheme: true})(
-        InnerComponentA
-      )
-      const ComponentB = injectSheet(styleB, {theming: themingB, injectTheme: true})(
-        InnerComponentB
-      )
+      const ComponentB = createStyledComponent(stylesB, {theming: themingB})
+      ComponentB.defaultProps = {
+        getTheme: theme => {
+          themeReceivedInComponentB = theme
+        }
+      }
 
       TestRenderer.create(
-        <ThemeProviderA theme={ThemeA}>
-          <ThemeProviderB theme={ThemeB}>
+        <ThemeProviderA theme={themeA}>
+          <ThemeProviderB theme={themeB}>
             <div>
               <ComponentA />
               <ComponentB />
@@ -397,10 +405,10 @@ describe('React-JSS: theming', () => {
         </ThemeProviderA>
       )
 
-      expect(themeReceivedInComponentA).to.eql(ThemeA)
-      expect(themeReceivedInComponentB).to.eql(ThemeB)
-      expect(colorReceivedInStyleA).to.eql(ThemeA.color)
-      expect(colorReceivedInStyleB).to.eql(ThemeB.color)
+      expect(themeReceivedInComponentA).to.eql(themeA)
+      expect(themeReceivedInComponentB).to.eql(themeB)
+      expect(colorReceivedInStylesA).to.eql(themeA.color)
+      expect(colorReceivedInStylesB).to.eql(themeB.color)
     })
   })
 })
