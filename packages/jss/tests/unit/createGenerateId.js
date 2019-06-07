@@ -2,7 +2,7 @@
 
 import expect from 'expect.js'
 import {createGenerateId} from '../../src'
-import * as moduleId from '../../src/utils/moduleId'
+import {resetSheets, resetModuleId} from '../../../../tests/utils'
 
 const sheetMock = {
   options: {
@@ -13,7 +13,8 @@ const sheetMock = {
 
 describe('Unit: jss - createGenerateId', () => {
   beforeEach(() => {
-    moduleId.default = 0
+    resetSheets()
+    resetModuleId()
   })
 
   it('should return a function', () => {
@@ -35,17 +36,13 @@ describe('Unit: jss - createGenerateId', () => {
     expect(generate({key: 'a'})).to.be('a-6-1')
   })
 
-  it('should generate a production class name', () => {
-    process.env.NODE_ENV = 'production'
-    const generate = createGenerateId()
+  it('should generate a minified class name', () => {
+    const generate = createGenerateId({minify: true})
     expect(generate()).to.be('c01')
-    process.env.NODE_ENV = 'development'
   })
 
-  it('should add prefix a production class name', () => {
-    process.env.NODE_ENV = 'production'
-    const generate = createGenerateId()
+  it('should add prefix a minified class name', () => {
+    const generate = createGenerateId({minify: true})
     expect(generate({key: 'a'}, sheetMock)).to.be('p001')
-    process.env.NODE_ENV = 'development'
   })
 })

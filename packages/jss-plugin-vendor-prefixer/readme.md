@@ -9,7 +9,7 @@
 
 > JSS plugin that handles vendor prefixes in the browser
 
-See our website [jss-plugin-vendor-prefixer](https://cssinjs.org/jss-plugin-vendor-prefixer?v=v10.0.0-alpha.16) for more information.
+See our website [jss-plugin-vendor-prefixer](https://cssinjs.org/jss-plugin-vendor-prefixer?v=v10.0.0-alpha.17) for more information.
 
 ## Install
 

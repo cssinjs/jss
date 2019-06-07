@@ -7,7 +7,7 @@ import TestRenderer from 'react-test-renderer'
 import {stripIndent} from 'common-tags'
 import {space, width, color, fontSize, fontWeight, lineHeight, compose} from 'styled-system'
 
-import withStyles, {styled, SheetsRegistry, JssProvider, ThemeProvider} from '../src'
+import {withStyles, styled, SheetsRegistry, JssProvider, ThemeProvider} from '../src'
 
 const createGenerateId = () => {
   let counter = 0

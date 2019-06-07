@@ -5,17 +5,14 @@ import React from 'react'
 import TestRenderer from 'react-test-renderer'
 import {stripIndent} from 'common-tags'
 
-import injectSheet, {JssProvider, SheetsRegistry} from '../src'
+import {JssProvider, SheetsRegistry} from '../src'
 
 const createGenerateId = () => {
   let counter = 0
   return rule => `${rule.key}-${counter++}`
 }
 
-describe('React-JSS: dynamic styles', () => {
-  const color = 'rgb(255, 255, 255)'
-  const NoRenderer = () => null
-  NoRenderer.displayName = 'NoRenderer'
+export default ({createStyledComponent}) => {
   let registry
 
   beforeEach(() => {
@@ -24,14 +21,23 @@ describe('React-JSS: dynamic styles', () => {
 
   describe('function values', () => {
     let MyComponent
+    let classes
 
     beforeEach(() => {
-      MyComponent = injectSheet({
-        button: {
-          color,
-          height: ({height = 1}) => `${height}px`
+      MyComponent = createStyledComponent(
+        {
+          button: {
+            color: 'rgb(255, 255, 255)',
+            height: ({height = 1}) => `${height}px`
+          }
+        },
+        {name: 'NoRenderer'}
+      )
+      MyComponent.defaultProps = {
+        getClasses: cls => {
+          classes = cls
         }
-      })(NoRenderer)
+      }
     })
 
     it('should attach and detach a sheet', () => {
@@ -71,14 +77,15 @@ describe('React-JSS: dynamic styles', () => {
     })
 
     it('should have dynamic and static styles', () => {
-      const renderer = TestRenderer.create(
-        <JssProvider generateId={createGenerateId()}>
-          <MyComponent />
-        </JssProvider>
-      )
-      const props = renderer.root.findByType(NoRenderer).props
+      TestRenderer.act(() => {
+        TestRenderer.create(
+          <JssProvider generateId={createGenerateId()}>
+            <MyComponent />
+          </JssProvider>
+        )
+      })
 
-      expect(props.classes.button).to.equal('button-0 button-0-1')
+      expect(classes.button).to.equal('button-0 button-0-1')
     })
 
     it('should generate different dynamic values', () => {
@@ -91,7 +98,7 @@ describe('React-JSS: dynamic styles', () => {
 
       expect(registry.toString()).to.equal(stripIndent`
         .button-0 {
-          color: ${color};
+          color: rgb(255, 255, 255);
         }
         .button-0-1 {
           height: 10px;
@@ -115,7 +122,7 @@ describe('React-JSS: dynamic styles', () => {
 
       expect(registry.toString()).to.equal(stripIndent`
         .button-0 {
-          color: ${color};
+          color: rgb(255, 255, 255);
         }
         .button-0-1 {
           height: 10px;
@@ -129,7 +136,7 @@ describe('React-JSS: dynamic styles', () => {
 
       expect(registry.toString()).to.equal(stripIndent`
         .button-0 {
-          color: ${color};
+          color: rgb(255, 255, 255);
         }
         .button-0-1 {
           height: 20px;
@@ -142,12 +149,14 @@ describe('React-JSS: dynamic styles', () => {
 
     it('should unset values when null is returned from fn value', () => {
       const generateId = createGenerateId()
-      MyComponent = injectSheet({
+
+      MyComponent = createStyledComponent({
         button: {
           width: 10,
           height: ({height}) => height
         }
-      })(NoRenderer)
+      })
+
       const Container = ({height}) => (
         <JssProvider registry={registry} generateId={generateId}>
           <MyComponent height={height} />
@@ -177,14 +186,15 @@ describe('React-JSS: dynamic styles', () => {
 
     it('should unset values when null is returned from fn rule', () => {
       const generateId = createGenerateId()
-      MyComponent = injectSheet({
+      MyComponent = createStyledComponent({
         button0: {
           width: 10
         },
         button1: ({height}) => ({
           height
         })
-      })(NoRenderer)
+      })
+
       const Container = ({height}) => (
         <JssProvider registry={registry} generateId={generateId}>
           <MyComponent height={height} />
@@ -221,17 +231,17 @@ describe('React-JSS: dynamic styles', () => {
         a: {
           color(props) {
             passedProps = props
-            return color
+            return 'rgb(255, 255, 255)'
           }
         }
       }
-      const InnerComponent = () => null
-      InnerComponent.defaultProps = {
+
+      MyComponent = createStyledComponent(styles)
+      MyComponent.defaultProps = {
         color: 'rgb(255, 0, 0)'
       }
-      const StyledComponent = injectSheet(styles)(InnerComponent)
 
-      TestRenderer.create(<StyledComponent height={20} />)
+      TestRenderer.create(<MyComponent height={20} />)
 
       expect(passedProps.color).to.equal('rgb(255, 0, 0)')
       expect(passedProps.height).to.equal(20)
@@ -240,14 +250,23 @@ describe('React-JSS: dynamic styles', () => {
 
   describe('function rules', () => {
     let MyComponent
+    let classes
 
     beforeEach(() => {
-      MyComponent = injectSheet({
-        button: ({height = 1}) => ({
-          color,
-          height: `${height}px`
-        })
-      })(NoRenderer)
+      MyComponent = createStyledComponent(
+        {
+          button: ({height = 1}) => ({
+            color: 'rgb(255, 255, 255)',
+            height: `${height}px`
+          })
+        },
+        {name: 'NoRenderer'}
+      )
+      MyComponent.defaultProps = {
+        getClasses: cls => {
+          classes = cls
+        }
+      }
     })
 
     it('should attach and detach a sheet', () => {
@@ -287,14 +306,12 @@ describe('React-JSS: dynamic styles', () => {
     })
 
     it('should have dynamic and static styles', () => {
-      const renderer = TestRenderer.create(
+      TestRenderer.create(
         <JssProvider generateId={createGenerateId()}>
           <MyComponent />
         </JssProvider>
       )
-      const props = renderer.root.findByType(NoRenderer).props
-
-      expect(props.classes.button).to.equal('button-0 button-0-1')
+      expect(classes.button).to.equal('button-0 button-0-1')
     })
 
     it('should generate different dynamic values', () => {
@@ -334,11 +351,11 @@ describe('React-JSS: dynamic styles', () => {
       expect(registry.toString()).to.equal(stripIndent`
         .button-0 {}
         .button-0-1 {
-          color: ${color};
+          color: rgb(255, 255, 255);
           height: 10px;
         }
         .button-1-2 {
-          color: ${color};
+          color: rgb(255, 255, 255);
           height: 20px;
         }
       `)
@@ -347,11 +364,11 @@ describe('React-JSS: dynamic styles', () => {
       expect(registry.toString()).to.equal(stripIndent`
         .button-0 {}
         .button-0-1 {
-          color: ${color};
+          color: rgb(255, 255, 255);
           height: 20px;
         }
         .button-1-2 {
-          color: ${color};
+          color: rgb(255, 255, 255);
           height: 40px;
         }
       `)
@@ -363,19 +380,18 @@ describe('React-JSS: dynamic styles', () => {
       const styles = {
         button(props) {
           passedProps = props
-          return {color}
+          return {color: 'rgb(255, 255, 255)'}
         }
       }
-      const InnerComponent = () => null
-      InnerComponent.defaultProps = {
+
+      MyComponent = createStyledComponent(styles)
+      MyComponent.defaultProps = {
         color: 'rgb(255, 0, 0)'
       }
-      const StyledComponent = injectSheet(styles)(InnerComponent)
-
-      TestRenderer.create(<StyledComponent height={20} />)
+      TestRenderer.create(<MyComponent height={20} />)
 
       expect(passedProps.color).to.equal('rgb(255, 0, 0)')
       expect(passedProps.height).to.equal(20)
     })
   })
-})
+}

@@ -497,7 +497,7 @@ describe('Integration: sheet', () => {
       `)
     })
 
-    it('should work with tso referenced keyframes', () => {
+    it('should work with multiple referenced keyframes', () => {
       const sheet = jss.createStyleSheet({
         '@keyframes a': {
           to: {height: '100%'}
@@ -525,6 +525,36 @@ describe('Integration: sheet', () => {
         }
         .b-id {
           animation-name: keyframes-a-id keyframes-b-id;
+        }
+      `)
+    })
+
+    it('should correctly escape the name', () => {
+      const localJss = create({
+        createGenerateId() {
+          return (rule, sheet) => `${sheet.options.classNamePrefix}-${rule.key}-id`
+        }
+      })
+      const sheet = localJss.createStyleSheet(
+        {
+          '@keyframes a': {
+            to: {height: '100%'}
+          },
+          b: {
+            'animation-name': '$a'
+          }
+        },
+        {classNamePrefix: 'connect(A)'}
+      )
+
+      expect(sheet.toString()).to.be(stripIndent`
+        @keyframes connect\\(A\\)-keyframes-a-id {
+          to {
+            height: 100%;
+          }
+        }
+        .connect\\(A\\)-b-id {
+          animation-name: connect\\(A\\)-keyframes-a-id;
         }
       `)
     })

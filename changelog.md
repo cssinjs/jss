@@ -1,9 +1,18 @@
-## Next
+## 10.0.0-alpha.17 (2019-6-7)
+
+### Features
+
+- [react-jss] New hooks based API is out. HOC based API is deprecated. It will stay in v10 but will be removed in v11. ([#1089](https://github.com/cssinjs/jss/pull/1089))
+
+### Breaking Changes
+
+- [jss] Add option for opt-in minification of class names. ([#1075](https://github.com/cssinjs/jss/pull/1075))
 
 ### Bug fixes
 
 - [jss-plugin-expand] Fix attributes spread for `border-bottom`, `border-top`, `border-left` and `border-right` ([#1083](https://github.com/cssinjs/jss/pull/1083))
 - [jss-plugin-props-sort] Fix sorting in Node 11 ([#1084](https://github.com/cssinjs/jss/pull/1083))
+- [jss] Fix escaping keyframes names ([#1100](https://github.com/cssinjs/jss/pull/1100))
 
 ## 10.0.0-alpha.16 (2019-3-24)
 

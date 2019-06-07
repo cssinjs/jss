@@ -27,7 +27,6 @@ export type {
   JssOptions,
   JssStyle,
   Plugin,
-  GenerateId,
   RuleListOptions,
   Rule,
   Renderer,
@@ -37,6 +36,7 @@ export type {
   BaseRule,
   ContainerRule
 } from './types'
+export type {GenerateId, CreateGenerateId, CreateGenerateIdOptions} from './utils/createGenerateId'
 
 export type {
   Jss,

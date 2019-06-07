@@ -5,7 +5,8 @@ import {
   Jss,
   SheetsRegistry,
   Styles,
-  StyleSheetFactoryOptions
+  StyleSheetFactoryOptions,
+  CreateGenerateIdOptions
 } from 'jss'
 import {ThemeProvider, withTheme, createTheming, Theming} from 'theming'
 
@@ -18,6 +19,7 @@ declare const JssProvider: ComponentType<{
   classNamePrefix?: string
   disableStylesGeneration?: boolean
   children: ReactNode
+  id?: CreateGenerateIdOptions
 }>
 interface Managers {
   [key: number]: StyleSheet

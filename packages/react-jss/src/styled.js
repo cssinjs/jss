@@ -5,7 +5,7 @@ import React from 'react'
 import isPropValid from '@emotion/is-prop-valid'
 import type {StatelessFunctionalComponent, ComponentType} from 'react'
 import withStyles from './withStyles'
-import type {Options, Style, Classes} from './types'
+import type {HookOptions, Style, Classes} from './types'
 
 // Props we don't want to forward.
 const reservedProps = {
@@ -25,7 +25,7 @@ export default <Props: {}>(
 ) => {
   const isTag = typeof type === 'string'
 
-  return <Theme: {}>(style: Style<Theme>, options?: Options<Theme>) => {
+  return <Theme: {}>(style: Style<Theme>, options?: HookOptions<Theme>) => {
     const Styled = (props: StyledProps) => {
       const {classes, as, className} = props
       const childProps: Props = ({}: any)
