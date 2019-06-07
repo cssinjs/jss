@@ -1,6 +1,10 @@
 ## JSS integration with React
 
-React-JSS provides components for [JSS](https://github.com/cssinjs/jss) as a layer of abstraction. JSS and the [default preset](https://github.com/cssinjs/jss-preset-default) are already built in! Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
+React-JSS integrates [JSS](https://github.com/cssinjs/jss) with React using the new Hooks API as well as a Styled Component API. JSS and the [default preset](https://github.com/cssinjs/jss-preset-default) are already built in.
+
+Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
+
+**HOC based API is deprecated as of v10 and will be removed in v11. Old docs are available [here](./react-jss-hoc.md).**
 
 Benefits compared to the lower level core:
 
@@ -29,10 +33,6 @@ yarn add react-jss
 ```
 
 ### Usage
-
-React-JSS integrates with React using the new Hooks API as well as a Styled Component API. HOC based API is deprecated as of v10 and will be removed in v11. Old docs are available [here](./react-jss-hoc.md).
-
-Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
 
 #### Basic
 
