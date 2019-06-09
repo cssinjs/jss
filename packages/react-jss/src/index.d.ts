@@ -6,12 +6,15 @@ import {
   SheetsRegistry,
   Styles,
   StyleSheetFactoryOptions,
-  CreateGenerateIdOptions
+  CreateGenerateIdOptions,
+  Classes
 } from 'jss'
 import {ThemeProvider, withTheme, createTheming, Theming} from 'theming'
 
 declare const jss: Jss
+
 declare const createGenerateId: CreateGenerateId
+
 declare const JssProvider: ComponentType<{
   jss?: Jss
   registry?: SheetsRegistry
@@ -21,9 +24,11 @@ declare const JssProvider: ComponentType<{
   children: ReactNode
   id?: CreateGenerateIdOptions
 }>
+
 interface Managers {
   [key: number]: StyleSheet
 }
+
 declare const JssContext: Context<{
   jss?: Jss
   registry?: SheetsRegistry
@@ -35,10 +40,10 @@ declare const JssContext: Context<{
 type ThemedStyles<Theme> = (theme: Theme) => Styles<string>
 
 interface WithStyles<S extends Styles<string> | ThemedStyles<any>> {
-  classes: Record<S extends ThemedStyles<any> ? keyof ReturnType<S> : keyof S, string>
+  classes: Classes<S extends ThemedStyles<any> ? keyof ReturnType<S> : keyof S>
 }
 
-interface Options extends StyleSheetFactoryOptions {
+interface WithStylesOptions extends StyleSheetFactoryOptions {
   index?: number
   injectTheme?: boolean
   jss?: Jss
@@ -47,9 +52,20 @@ interface Options extends StyleSheetFactoryOptions {
 
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 
+interface CreateUseStylesOptions<Theme> {
+  index?: number
+  name?: string
+  theming?: Theming<Theme>
+}
+
+declare function createUseStyles<T, S extends Styles<string> | ThemedStyles<T>>(
+  styles: S,
+  options?: CreateUseStylesOptions<T>
+): (data: any) => Classes<S extends ThemedStyles<T> ? keyof ReturnType<S> : keyof S>
+
 declare function withStyles<S extends Styles<string> | ThemedStyles<any>>(
   styles: S,
-  options?: Options
+  options?: WithStylesOptions
 ): <Props extends WithStyles<S>>(
   comp: ComponentType<Props>
 ) => ComponentType<Omit<Props, 'classes'> & {classes?: Partial<Props['classes']>}>
@@ -63,7 +79,8 @@ export {
   ThemeProvider,
   withTheme,
   createTheming,
-  JssContext
+  JssContext,
+  createUseStyles
 }
 
 export default withStyles
