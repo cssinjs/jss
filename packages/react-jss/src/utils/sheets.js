@@ -33,15 +33,15 @@ const getStyles = <Theme>(options: Options<Theme>) => {
 }
 
 function getSheetOptions<Theme>(options: Options<Theme>, link: boolean) {
-  const classNamePrefix =
-    process.env.NODE_ENV === 'production' ? '' : `${options.name.replace(/\s/g, '-')}-`
-
   return {
     ...options.sheetOptions,
     ...options.context.sheetOptions,
     index: options.index,
     meta: `${options.name}, ${typeof options.styles === 'function' ? 'Themed' : 'Unthemed'}`,
-    classNamePrefix: options.context.sheetOptions.classNamePrefix + classNamePrefix,
+    classNamePrefix: `${options.context.sheetOptions.classNamePrefix}${options.name.replace(
+      /\s/g,
+      '-'
+    )}-`,
     link
   }
 }
