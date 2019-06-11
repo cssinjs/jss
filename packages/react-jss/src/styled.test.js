@@ -30,15 +30,15 @@ describe('React-JSS: styled', () => {
     expect(classes).to.be(undefined)
   })
 
-  it('should render dynamic styles', () => {
+  it('should render dynamic values', () => {
     const registry = new SheetsRegistry()
     const Div = styled('div')({
       color: 'red',
-      width: () => 10
+      width: props => props.width
     })
     const renderer = TestRenderer.create(
       <JssProvider registry={registry} generateId={createGenerateId()}>
-        <Div />
+        <Div width={10} />
       </JssProvider>
     )
     expect(registry.toString()).to.be(stripIndent`
@@ -51,6 +51,100 @@ describe('React-JSS: styled', () => {
     `)
     expect(renderer.root.findByType('div').props.className).to.be('css-0 css-0-1')
   })
+
+  it('should render dynamic rules', () => {
+    const registry = new SheetsRegistry()
+    const Div = styled('div')(props => ({
+      color: 'red',
+      width: props.width
+    }))
+    const renderer = TestRenderer.create(
+      <JssProvider registry={registry} generateId={createGenerateId()}>
+        <Div width={10} />
+      </JssProvider>
+    )
+    expect(registry.toString()).to.be(stripIndent`
+      .css-0 {}
+      .css-0-1 {
+        color: red;
+        width: 10px;
+      }
+    `)
+    expect(renderer.root.findByType('div').props.className).to.be('css-0 css-0-1')
+  })
+
+  it('should accept multiple static style rules', () => {
+    const registry = new SheetsRegistry()
+    // TODO add a template string case
+    const Div = styled('div')({color: 'red'}, {border: '1px solid red'})
+    const renderer = TestRenderer.create(
+      <JssProvider registry={registry} generateId={createGenerateId()}>
+        <Div />
+      </JssProvider>
+    )
+    expect(registry.toString()).to.be(stripIndent`
+      .css-0 {
+        color: red;
+        border: 1px solid red;
+      }
+    `)
+    expect(renderer.root.findByType('div').props.className).to.be('css-0')
+  })
+
+  it('should accept multiple dynamic style rules', () => {
+    const registry = new SheetsRegistry()
+    const Div = styled('div')(props => ({width: props.width}), props => ({height: props.height}))
+    const renderer = TestRenderer.create(
+      <JssProvider registry={registry} generateId={createGenerateId()}>
+        <Div width={10} height={10} />
+      </JssProvider>
+    )
+    expect(registry.toString()).to.be(stripIndent`
+      .css-0 {}
+      .css1-1 {}
+      .css-0-2 {
+        width: 10px;
+      }
+      .css1-1-3 {
+        height: 10px;
+      }
+    `)
+    expect(renderer.root.findByType('div').props.className).to.be('css-0 css-0-2 css1-1 css1-1-3')
+  })
+
+  it('should accept multiple dynamic and static style rules', () => {
+    const registry = new SheetsRegistry()
+    const Div = styled('div')(
+      {color: 'red'},
+      props => ({width: props.width}),
+      {border: '1px solid red'},
+      props => ({height: props.height})
+    )
+    const renderer = TestRenderer.create(
+      <JssProvider registry={registry} generateId={createGenerateId()}>
+        <Div width={10} height={10} />
+      </JssProvider>
+    )
+    expect(registry.toString()).to.be(stripIndent`
+      .css-0 {
+        color: red;
+        border: 1px solid red;
+      }
+      .css1-1 {}
+      .css2-2 {}
+      .css1-0-3 {
+        width: 10px;
+      }
+      .css2-1-4 {
+        height: 10px;
+      }
+    `)
+    expect(renderer.root.findByType('div').props.className).to.be(
+      'css-0 css1-1 css1-0-3 css2-2 css2-1-4'
+    )
+  })
+
+  it('should accept template string', () => {})
 
   it('should merge with user class name', () => {
     const registry = new SheetsRegistry()

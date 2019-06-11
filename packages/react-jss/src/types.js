@@ -47,14 +47,11 @@ export type DynamicRules = {
   [key: string]: BaseRule
 }
 
-type StaticStyle = {}
-
-type PropsWithTheme<Theme> = {theme: Theme}
-
-export type Style<Theme> = StaticStyle | ((PropsWithTheme<Theme>) => StaticStyle)
+export type StaticStyle = {}
+export type DynamicStyle<Theme> = ({theme: Theme}) => StaticStyle
 
 export type StaticStyles = {[key: string]: StaticStyle}
 
-export type ThemedStyles<Theme> = (theme: Theme) => Style<Theme>
+export type ThemedStyles<Theme> = (theme: Theme) => StaticStyle | DynamicStyle<Theme>
 
 export type Styles<Theme> = StaticStyles | ThemedStyles<Theme>
