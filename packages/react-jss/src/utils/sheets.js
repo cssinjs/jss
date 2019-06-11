@@ -33,15 +33,19 @@ const getStyles = <Theme>(options: Options<Theme>) => {
 }
 
 function getSheetOptions<Theme>(options: Options<Theme>, link: boolean) {
+  let classNamePrefix
+
+  if (options.context.sheetOptions.classNamePrefix !== false) {
+    const prefix = `${options.name.replace(/\s/g, '-')}-`
+    classNamePrefix = options.context.sheetOptions.classNamePrefix + prefix
+  }
+
   return {
     ...options.sheetOptions,
     ...options.context.sheetOptions,
     index: options.index,
     meta: `${options.name}, ${typeof options.styles === 'function' ? 'Themed' : 'Unthemed'}`,
-    classNamePrefix: `${options.context.sheetOptions.classNamePrefix}${options.name.replace(
-      /\s/g,
-      '-'
-    )}-`,
+    classNamePrefix,
     link
   }
 }

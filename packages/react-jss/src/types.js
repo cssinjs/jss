@@ -9,7 +9,7 @@ export type Managers = {[key: number]: SheetsManager}
 
 type StyleSheetOptions = {
   ...StyleSheetFactoryOptions,
-  classNamePrefix: string
+  classNamePrefix: string | false
 }
 
 export type HookOptions<Theme> = StyleSheetFactoryOptions & {

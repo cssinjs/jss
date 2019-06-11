@@ -16,7 +16,7 @@ declare const JssProvider: ComponentType<{
   jss?: Jss
   registry?: SheetsRegistry
   generateId?: GenerateId
-  classNamePrefix?: string
+  classNamePrefix?: string | false
   disableStylesGeneration?: boolean
   children: ReactNode
   id?: CreateGenerateIdOptions

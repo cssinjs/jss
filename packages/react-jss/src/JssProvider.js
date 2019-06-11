@@ -18,7 +18,7 @@ type Props = {|
   jss?: Jss,
   registry?: SheetsRegistry,
   generateId?: GenerateId,
-  classNamePrefix?: string,
+  classNamePrefix?: string | false,
   disableStylesGeneration?: boolean,
   media?: string,
   children: Node,
@@ -30,7 +30,7 @@ export default class JssProvider extends Component<Props> {
     registry: PropTypes.instanceOf(SheetsRegistry),
     jss: PropTypes.instanceOf(defaultJss.constructor),
     generateId: PropTypes.func,
-    classNamePrefix: PropTypes.string,
+    classNamePrefix: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disableStylesGeneration: PropTypes.bool,
     children: PropTypes.node.isRequired,
     media: PropTypes.string,
@@ -73,6 +73,9 @@ export default class JssProvider extends Component<Props> {
     // Merge the classname prefix
     if (classNamePrefix) {
       context.sheetOptions.classNamePrefix += classNamePrefix
+    }
+    if (classNamePrefix === false) {
+      context.sheetOptions.classNamePrefix = classNamePrefix
     }
 
     if (media !== undefined) {
