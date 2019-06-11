@@ -349,6 +349,57 @@ export default function render(req, res) {
 }
 ```
 
+You also can use`classNamePrefix={false}` in `JssProvider` to disable additional prefix that is compiled.
+
+```javascript
+import React from 'react'
+import {renderToString} from 'react-dom/server'
+import {JssProvider, SheetsRegistry, createGenerateId} from 'react-jss'
+import MyApp from './MyApp'
+
+export default function render(req, res) {
+  const sheets = new SheetsRegistry()
+  const generateId = createGenerateId()
+
+  const body = renderToString(
+    <JssProvider classNamePrefix={false} registry={sheets} generateId={generateId}>
+      <MyApp />
+    </JssProvider>
+  )
+
+  // Any instances using `useStyles` within `<MyApp />` will have gotten sheets
+  // from `context` and added their Style Sheets to it by now.
+
+  return res.send(
+    renderToString(
+      <html lang="en">
+        <head>
+          <style type="text/css">{sheets.toString()}</style>
+        </head>
+        <body>{body}</body>
+      </html>
+    )
+  )
+}
+```
+
+```javascript
+import React from 'react'
+import withStyles from 'react-jss'
+
+const styles = {
+  container: {
+    background: 'white'
+  }
+}
+
+const MyApp = ({classes}) => <div className={classes.container}>MyApp</div>
+
+export default withStyles(styles)(MyApp)
+```
+
+Class names will compile to `container-0-1-1` instead of `MyApp-container-0-1-1`
+
 #### React tree traversing
 
 For traversing the React tree outside of the HTML rendering, you should add `disableStylesGeneration` property.
