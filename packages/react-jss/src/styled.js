@@ -9,11 +9,6 @@ import {useTheme as useThemeDefault} from 'theming'
 import createUseStyles from './createUseStyles'
 import type {HookOptions, Style} from './types'
 
-// Props we don't want to forward.
-const reservedProps = {
-  as: true
-}
-
 type StyledProps = {
   className?: string,
   as?: string
@@ -22,7 +17,7 @@ type StyledProps = {
 export default <Props: {}>(
   type: string | StatelessFunctionalComponent<Props> | ComponentType<Props>
 ) => {
-  const isTag = typeof type === 'string'
+  const isTagName = typeof type === 'string'
 
   return <Theme: {}>(style: Style<Theme>, options?: HookOptions<Theme>) => {
     const useStyles = createUseStyles({css: style}, options)
@@ -34,10 +29,9 @@ export default <Props: {}>(
       const classes = useStyles({...props, theme})
       const childProps: Props = ({}: any)
       for (const prop in props) {
-        if (prop in reservedProps) continue
         // We don't want to pass non-dom props to the DOM,
         // but we still want to forward them to a users component?
-        if (isTag && !isPropValid(prop)) continue
+        if (isTagName && !isPropValid(prop)) continue
         childProps[prop] = props[prop]
       }
       // $FlowFixMe flow seems to not know that `classes` will be provided by the HOC, not by element creator.

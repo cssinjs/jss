@@ -73,7 +73,9 @@ describe('React-JSS: styled', () => {
     const Div = styled('div')({color: 'red'})
     const renderer = TestRenderer.create(
       <JssProvider registry={registry} generateId={createGenerateId()}>
-        <Div as="button" />
+        <Div as="button">
+          <span />
+        </Div>
       </JssProvider>
     )
     expect(registry.toString()).to.be(stripIndent`
@@ -81,7 +83,9 @@ describe('React-JSS: styled', () => {
         color: red;
       }
     `)
-    expect(renderer.root.findByType('button').props.className).to.be('css-0')
+    const {className, as} = renderer.root.findByType('button').props
+    expect(className).to.be('css-0')
+    expect(as).to.be(undefined)
   })
 
   it('should not leak non-dom attrs', () => {
@@ -132,13 +136,15 @@ describe('React-JSS: styled', () => {
   it('should style any component', () => {
     const registry = new SheetsRegistry()
     type Props = Object
-    const BaseDiv: StatelessFunctionalComponent<Props> = ({className}: Props) => (
-      <div className={className} />
-    )
+    let receivedCustomProp
+    const BaseDiv: StatelessFunctionalComponent<Props> = ({className, customProp}: Props) => {
+      receivedCustomProp = customProp
+      return <div className={className} />
+    }
     const Div = styled(BaseDiv)({width: 10})
     const renderer = TestRenderer.create(
       <JssProvider registry={registry} generateId={createGenerateId()}>
-        <Div />
+        <Div customProp />
       </JssProvider>
     )
     expect(registry.toString()).to.be(stripIndent`
@@ -148,6 +154,7 @@ describe('React-JSS: styled', () => {
     `)
     const {className} = renderer.root.findByType('div').props
     expect(className).to.be('css-0')
+    expect(receivedCustomProp).to.be(true)
   })
 
   it.skip('should target another styled component (not sure if we really need this)', () => {
