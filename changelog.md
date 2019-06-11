@@ -1,3 +1,9 @@
+## Next
+
+### Bug fixes
+
+- [jss] After attempting to insert an invalid rule, JSS is now able to insert a valid one ([#1123](https://github.com/cssinjs/jss/pull/1123))
+
 ## 10.0.0-alpha.17 (2019-6-7)
 
 ### Features

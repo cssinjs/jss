@@ -164,6 +164,23 @@ describe('Functional: sheet', () => {
       sheet.attach()
       expect(rule.renderable).to.not.be(undefined)
     })
+
+    it('should warn if added rule is invalid', () => {
+      sheet = jss.createStyleSheet(null, {link: true})
+      const rule = sheet.addRule('a', {color: 'red'}, {selector: ':wrong'})
+      sheet.attach()
+      expect(spy.callCount).to.be(1)
+      expect(rule.renderable).to.be(undefined)
+    })
+
+    it('should insert a valid rule after an invalid one', () => {
+      sheet = jss.createStyleSheet(null, {link: true})
+      sheet.addRule('a', {color: 'red'}, {selector: ':wrong'})
+      const rule = sheet.addRule('b', {color: 'red'})
+      sheet.attach()
+      expect(spy.callCount).to.be(1)
+      expect(rule.renderable).to.not.be(undefined)
+    })
   })
 
   describe('Option {Renderer: null}', () => {
