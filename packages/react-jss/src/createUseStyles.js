@@ -96,7 +96,8 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
 
     useEffectOrLayoutEffect(
       () => {
-        if (state.sheet && state.dynamicRules) {
+        // We only need to update the rules on a subsequent update and not in the first mount
+        if (state.sheet && state.dynamicRules && !isFirstMount.current) {
           updateDynamicRules(data, state.sheet, state.dynamicRules)
         }
       },
