@@ -64,19 +64,36 @@ describe('React-JSS: styled', () => {
       </JssProvider>
     )
     expect(registry.toString()).to.be(stripIndent`
-      .css-0 {}
-      .css-0-1 {
+      .cssd-0 {}
+      .cssd-0-1 {
         color: red;
         width: 10px;
       }
     `)
-    expect(renderer.root.findByType('div').props.className).to.be('css-0 css-0-1')
+    expect(renderer.root.findByType('div').props.className).to.be('cssd-0 cssd-0-1')
   })
 
   it('should accept multiple static style rules', () => {
     const registry = new SheetsRegistry()
     // TODO add a template string case
     const Div = styled('div')({color: 'red'}, {border: '1px solid red'})
+    const renderer = TestRenderer.create(
+      <JssProvider registry={registry} generateId={createGenerateId()}>
+        <Div />
+      </JssProvider>
+    )
+    expect(registry.toString()).to.be(stripIndent`
+      .css-0 {
+        color: red;
+        border: 1px solid red;
+      }
+    `)
+    expect(renderer.root.findByType('div').props.className).to.be('css-0')
+  })
+
+  it('should filter empty values instead of rules', () => {
+    const registry = new SheetsRegistry()
+    const Div = styled('div')('', {color: 'red'}, null, {border: '1px solid red'}, undefined)
     const renderer = TestRenderer.create(
       <JssProvider registry={registry} generateId={createGenerateId()}>
         <Div />
@@ -100,17 +117,16 @@ describe('React-JSS: styled', () => {
       </JssProvider>
     )
     expect(registry.toString()).to.be(stripIndent`
-      .css-0 {}
-      .css1-1 {}
-      .css-0-2 {
+      .cssd-0 {}
+      .cssd-0-1 {
         width: 10px;
-      }
-      .css1-1-3 {
         height: 10px;
       }
     `)
-    expect(renderer.root.findByType('div').props.className).to.be('css-0 css-0-2 css1-1 css1-1-3')
+    expect(renderer.root.findByType('div').props.className).to.be('cssd-0 cssd-0-1')
   })
+
+  it('should filter empty values returned from dynamic rules', () => {})
 
   it('should accept multiple dynamic and static style rules', () => {
     const registry = new SheetsRegistry()
@@ -130,18 +146,13 @@ describe('React-JSS: styled', () => {
         color: red;
         border: 1px solid red;
       }
-      .css1-1 {}
-      .css2-2 {}
-      .css1-0-3 {
+      .cssd-1 {}
+      .cssd-0-2 {
         width: 10px;
-      }
-      .css2-1-4 {
         height: 10px;
       }
     `)
-    expect(renderer.root.findByType('div').props.className).to.be(
-      'css-0 css1-1 css1-0-3 css2-2 css2-1-4'
-    )
+    expect(renderer.root.findByType('div').props.className).to.be('css-0 cssd-1 cssd-0-2')
   })
 
   it('should accept template string', () => {})

@@ -15,28 +15,29 @@ type StyledProps = {
 }
 
 const getStyles = args => {
-  let staticStyle
+  const styles = {}
   const dynamicStyles = []
+
   args.forEach(style => {
+    if (!style) return
     if (typeof style === 'function') {
       dynamicStyles.push(style)
     } else {
-      staticStyle = Object.assign(staticStyle || {}, style)
+      styles.css = Object.assign(styles.css || {}, style)
     }
   })
-  const styles = {}
-  let ruleNr = 0
-  if (staticStyle) {
-    // Making sure static style comes first.
-    styles.css = staticStyle
-    ruleNr++
-  }
+
   if (dynamicStyles.length !== 0) {
-    dynamicStyles.forEach(style => {
-      styles[`css${ruleNr === 0 ? '' : ruleNr}`] = style
-      ruleNr++
-    })
+    styles.cssd = props => {
+      const mergedDynamicStyle = {}
+      for (let i = 0; i < dynamicStyles.length; i++) {
+        const dynamicStyle = dynamicStyles[i](props)
+        if (dynamicStyle) Object.assign(mergedDynamicStyle, dynamicStyle)
+      }
+      return mergedDynamicStyle
+    }
   }
+
   return styles
 }
 
@@ -52,7 +53,7 @@ export default <Props: StyledProps, Theme: {}>(
   const isTagName = typeof type === 'string'
   const ThemeContext = theming ? theming.context : DefaultThemeContext
 
-  return (...args: Array<StaticStyle | DynamicStyle<Theme>>) => {
+  return (...args: Array<StaticStyle | DynamicStyle<Theme> | null | void | ''>) => {
     const useStyles = createUseStyles(getStyles(args), options)
 
     const Styled = (props: StyledProps) => {
