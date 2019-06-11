@@ -42,7 +42,7 @@ interface Options extends StyleSheetFactoryOptions {
   index?: number
   injectTheme?: boolean
   jss?: Jss
-  theming: Theming<object>
+  theming?: Theming<object>
 }
 
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
