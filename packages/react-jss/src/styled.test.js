@@ -227,18 +227,16 @@ describe('React-JSS: styled', () => {
     expect(className).to.be('css-0 css-1')
   })
 
-  it('should style any component', () => {
+  it('should pass className to a user component', () => {
     const registry = new SheetsRegistry()
     type Props = Object
-    let receivedCustomProp
-    const BaseDiv: StatelessFunctionalComponent<Props> = ({className, customProp}: Props) => {
-      receivedCustomProp = customProp
-      return <div className={className} />
-    }
+    const BaseDiv: StatelessFunctionalComponent<Props> = ({className}: Props) => (
+      <div className={className} />
+    )
     const Div = styled(BaseDiv)({width: 10})
     const renderer = TestRenderer.create(
       <JssProvider registry={registry} generateId={createGenerateId()}>
-        <Div customProp />
+        <Div />
       </JssProvider>
     )
     expect(registry.toString()).to.be(stripIndent`
@@ -248,7 +246,20 @@ describe('React-JSS: styled', () => {
     `)
     const {className} = renderer.root.findByType('div').props
     expect(className).to.be('css-0')
-    expect(receivedCustomProp).to.be(true)
+  })
+
+  it("should pass custom props to a user component if shouldForwardProp doesn't return false", () => {
+    type Props = Object
+    let receivedProps = {}
+    const UserComponent: StatelessFunctionalComponent<Props> = (props: Props) => {
+      receivedProps = props
+      return <div />
+    }
+    const shouldForwardProp = prop => prop !== 'disalowed'
+    const Div = styled(UserComponent, {shouldForwardProp})({width: 10})
+    TestRenderer.create(<Div allowed disalowed />)
+    expect(receivedProps.allowed).to.be(true)
+    expect(receivedProps.disalowed).to.be(undefined)
   })
 
   it.skip('should target another styled component (not sure if we really need this)', () => {

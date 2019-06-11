@@ -40,12 +40,17 @@ const getStyles = args => {
   return styles
 }
 
+type StyledOptions<Theme> = HookOptions<Theme> & {
+  shouldForwardProp?: string => boolean
+}
+
 export default <Props: StyledProps, Theme: {}>(
   type: string | StatelessFunctionalComponent<Props> | ComponentType<Props>,
-  options?: HookOptions<Theme> = {}
+  options?: StyledOptions<Theme> = {}
 ) => {
+  const {theming, shouldForwardProp} = options
   const isTagName = typeof type === 'string'
-  const ThemeContext = options.theming ? options.theming.context : DefaultThemeContext
+  const ThemeContext = theming ? theming.context : DefaultThemeContext
 
   return (...args: Array<StaticStyle | DynamicStyle<Theme>>) => {
     const useStyles = createUseStyles(getStyles(args), options)
@@ -58,11 +63,11 @@ export default <Props: StyledProps, Theme: {}>(
       const childProps: Props = ({}: any)
       for (const prop in props) {
         // We don't want to pass non-dom props to the DOM,
-        // but we still want to forward them to a users component?
+        // but we still want to forward them to a users component.
         if (isTagName && !isPropValid(prop)) continue
+        if (shouldForwardProp && shouldForwardProp(prop) === false) continue
         childProps[prop] = props[prop]
       }
-
       const classNames = Object.values(classes).join(' ')
       childProps.className = className ? `${className} ${classNames}` : classNames
 
