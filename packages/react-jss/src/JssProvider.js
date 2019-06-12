@@ -1,6 +1,7 @@
 // @flow
 import React, {Component, type Node} from 'react'
 import PropTypes from 'prop-types'
+import {shallowEqualObjects} from 'shallow-equal'
 import defaultJss, {
   createGenerateId,
   type Jss,
@@ -10,7 +11,6 @@ import defaultJss, {
 } from 'jss'
 import type {Context, Managers} from './types'
 import JssContext from './JssContext'
-import shallowEqualObjects from './utils/shallowEqualObjects'
 
 /* eslint-disable react/require-default-props, react/no-unused-prop-types */
 
