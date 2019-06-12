@@ -57,50 +57,30 @@ describe('css-jss', () => {
     `)
   })
 
-  describe('cache', () => {
-    it('should cache a single style by ref', () => {
-      const style = {color: 'red'}
-      const result1 = css(style)
-      const result2 = css(style)
-      expect(result1).to.be('css0-id')
-      expect(result2).to.be('css0-id')
-      expect(sheet.toString()).to.be(stripIndent`
+  it('should cache a single style', () => {
+    const style = {color: 'red'}
+    const result1 = css(style)
+    const result2 = css(style)
+    expect(result1).to.be('css0-id')
+    expect(result2).to.be('css0-id')
+    expect(sheet.toString()).to.be(stripIndent`
         .css0-id {
           color: red;
         }
       `)
-    })
-    it('should cache multiple styles by ref', () => {
-      const style1 = {color: 'red'}
-      const style2 = {background: 'green'}
-      const result1 = css(style1, style2)
-      const result2 = css(style1, style2)
-      expect(result1).to.be('css0-id')
-      expect(result2).to.be('css0-id')
-      expect(sheet.toString()).to.be(stripIndent`
-        .css0-id {
-          color: red;
-          background: green;
-        }
-      `)
-    })
-
-    it('should not cache by ref if any of the styles refs changes', () => {
-      const style1 = {color: 'red'}
-      const result1 = css(style1, {background: 'green'})
-      const result2 = css(style1, {background: 'purpule'})
-      expect(result1).to.be('css0-id')
-      expect(result2).to.be('css1-id')
-      expect(sheet.toString()).to.be(stripIndent`
+  })
+  it('should cache multiple styles', () => {
+    const style1 = {color: 'red'}
+    const style2 = {background: 'green'}
+    const result1 = css(style1, style2)
+    const result2 = css(style1, style2)
+    expect(result1).to.be('css0-id')
+    expect(result2).to.be('css0-id')
+    expect(sheet.toString()).to.be(stripIndent`
         .css0-id {
           color: red;
           background: green;
         }
-        .css1-id {
-          color: red;
-          background: purpule;
-        }
       `)
-    })
   })
 })

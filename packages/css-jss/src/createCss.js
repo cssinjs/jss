@@ -1,11 +1,15 @@
 // @flow
-const createCss = (sheet, cache) => {
+const createCss = sheet => {
+  const cache = new Map()
   let ruleIndex = 0
 
   function css() {
     // eslint-disable-next-line prefer-rest-params
     const args = arguments
-    const className = cache.get(args)
+    // We can avoid the need for stringification with a babel plugin,
+    // which could generate a has at build time and add it to the object.
+    const cacheKey = JSON.stringify(args)
+    const className = cache.get(cacheKey)
 
     if (className) return className
 
@@ -22,7 +26,7 @@ const createCss = (sheet, cache) => {
     }
     const key = `${label}${ruleIndex++}`
     sheet.addRule(key, style)
-    return cache.set(args, sheet.classes[key])
+    return cache.set(cacheKey, sheet.classes[key])
   }
 
   return css
