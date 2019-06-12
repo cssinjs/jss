@@ -120,7 +120,7 @@ export interface StyleSheetFactoryOptions {
   link?: boolean
   element?: HTMLStyleElement
   generateId?: GenerateId
-  classNamePrefix?: string
+  classNamePrefix?: string | false
 }
 
 interface StyleSheetOptions extends StyleSheetFactoryOptions {

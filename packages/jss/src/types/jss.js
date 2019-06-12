@@ -173,7 +173,7 @@ export type StyleSheetFactoryOptions = {
   link?: boolean,
   element?: HTMLStyleElement,
   generateId?: GenerateId,
-  classNamePrefix?: string
+  classNamePrefix?: string | false,
 }
 
 export type StyleSheetOptions = {|
@@ -183,7 +183,7 @@ export type StyleSheetOptions = {|
   element?: HTMLStyleElement,
   index: number,
   generateId: GenerateId,
-  classNamePrefix?: string,
+  classNamePrefix?: string | false,
   Renderer?: Class<Renderer> | null,
   insertionPoint?: InsertionPoint,
   jss: Jss
@@ -198,7 +198,7 @@ export type InternalStyleSheetOptions = {|
   insertionPoint?: InsertionPoint,
   Renderer?: Class<Renderer> | null,
   generateId: GenerateId,
-  classNamePrefix?: string,
+  classNamePrefix?: string | false,
   jss: Jss,
   sheet: StyleSheet,
   parent: ConditionalRule | KeyframesRule | StyleSheet,
