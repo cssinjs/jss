@@ -8,10 +8,7 @@
   "module": "dist/jss-plugin-isolate.esm.js",
   "unpkg": "dist/jss-plugin-isolate.bundle.js",
   "typings": "./src/index.d.ts",
-  "author": {
-    "name": "Maksim Koretskiy",
-    "email": "mr.green.tv@gmail.com"
-  },
+  "author": "JSS Team",
   "repository": {
     "type": "git",
     "url": "https://github.com/cssinjs/jss"

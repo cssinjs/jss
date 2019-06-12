@@ -8,10 +8,7 @@
   "unpkg": "dist/react-jss.bundle.js",
   "homepage": "https://cssinjs.org/react-jss",
   "typings": "./src/index.d.ts",
-  "author": {
-    "name": "Dan Abramov",
-    "email": "dan.abramov@me.com"
-  },
+  "author": "JSS Team",
   "repository": {
     "type": "git",
     "url": "https://github.com/cssinjs/jss"
