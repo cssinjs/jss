@@ -335,4 +335,21 @@ describe('React-JSS: styled', () => {
       }
     `)
   })
+
+  it.only('should render label', () => {
+    const registry = new SheetsRegistry()
+    const Div = styled('div')({label: 'my-div', color: 'red'})
+    const renderer = TestRenderer.create(
+      <JssProvider registry={registry} generateId={createGenerateId()}>
+        <Div />
+      </JssProvider>
+    )
+    expect(registry.toString()).to.be(stripIndent`
+        .my-div-0 {
+          color: red;
+        }
+      `)
+    const {className} = renderer.root.findByType('div').props
+    expect(className).to.be('my-div-0')
+  })
 })

@@ -14,27 +14,38 @@ type StyledProps = {
   as?: string
 }
 
-const getStyles = args => {
+type StyleArg<Theme> = StaticStyle | DynamicStyle<Theme> | null | void | ''
+
+const mergeStyles = <Theme>(args: {[string]: StyleArg<Theme>}) => {
   const styles = {}
   const dynamicStyles = []
 
-  args.forEach(style => {
-    if (!style) return
+  // Not using ...rest to optimize perf.
+  for (const key in args) {
+    const style = args[key]
+    if (!style) continue
     if (typeof style === 'function') {
       dynamicStyles.push(style)
     } else {
       styles.css = Object.assign(styles.css || {}, style)
     }
-  })
+  }
 
-  if (dynamicStyles.length !== 0) {
+  // When there is only one function rule, we don't need to wrap it.
+  if (dynamicStyles.length === 1) {
+    styles.cssd = dynamicStyles[0]
+  }
+
+  // We create a new function rule which will call all other function rules
+  // and merge the styles they return.
+  if (dynamicStyles.length > 1) {
     styles.cssd = props => {
-      const mergedDynamicStyle = {}
+      const merged = {}
       for (let i = 0; i < dynamicStyles.length; i++) {
         const dynamicStyle = dynamicStyles[i](props)
-        if (dynamicStyle) Object.assign(mergedDynamicStyle, dynamicStyle)
+        if (dynamicStyle) Object.assign(merged, dynamicStyle)
       }
-      return mergedDynamicStyle
+      return merged
     }
   }
 
@@ -45,23 +56,26 @@ type StyledOptions<Theme> = HookOptions<Theme> & {
   shouldForwardProp?: string => boolean
 }
 
-export default <Props: StyledProps, Theme: {}>(
-  type: string | StatelessFunctionalComponent<Props> | ComponentType<Props>,
+export default <Theme: {}>(
+  type: string | StatelessFunctionalComponent<StyledProps> | ComponentType<StyledProps>,
   options?: StyledOptions<Theme> = {}
 ) => {
   const {theming, shouldForwardProp} = options
   const isTagName = typeof type === 'string'
   const ThemeContext = theming ? theming.context : DefaultThemeContext
 
-  return (...args: Array<StaticStyle | DynamicStyle<Theme> | null | void | ''>) => {
-    const useStyles = createUseStyles(getStyles(args), options)
+  return function StyledFactory(/*:: ...args: StyleArg<Theme>[] */): StatelessFunctionalComponent<
+    StyledProps
+  > {
+    // eslint-disable-next-line prefer-rest-params
+    const useStyles = createUseStyles(mergeStyles(arguments), options)
 
     const Styled = (props: StyledProps) => {
       const {as, className} = props
       // $FlowFixMe theming ThemeContext types need to be fixed.
       const theme = React.useContext(ThemeContext)
       const classes = useStyles({...props, theme})
-      const childProps: Props = ({}: any)
+      const childProps: StyledProps = ({}: any)
       for (const prop in props) {
         // We don't want to pass non-dom props to the DOM,
         // but we still want to forward them to a users component.
@@ -69,7 +83,7 @@ export default <Props: StyledProps, Theme: {}>(
         if (shouldForwardProp && shouldForwardProp(prop) === false) continue
         childProps[prop] = props[prop]
       }
-      const classNames = Object.values(classes).join(' ')
+      const classNames = `${classes.css || ''} ${classes.cssd || ''}`.trim()
       childProps.className = className ? `${className} ${classNames}` : classNames
 
       return React.createElement(as || type, childProps)
