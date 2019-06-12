@@ -6,9 +6,15 @@ import {
   SheetsRegistry,
   Styles,
   StyleSheetFactoryOptions,
-  CreateGenerateIdOptions
+  CreateGenerateIdOptions,
 } from 'jss'
-import {ThemeProvider, withTheme, createTheming, Theming} from 'theming'
+import {
+  createTheming,
+  useTheme,
+  withTheme,
+  ThemeProvider,
+  Theming,
+} from 'theming'
 
 declare const jss: Jss
 declare const createGenerateId: CreateGenerateId
@@ -63,7 +69,8 @@ export {
   ThemeProvider,
   withTheme,
   createTheming,
-  JssContext
+  useTheme,
+  JssContext,
 }
 
 export default withStyles
