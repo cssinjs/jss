@@ -11,7 +11,7 @@ const createGenerateId = () => {
   return rule => `${rule.key}-${counter++}`
 }
 
-describe('React-JSS: styled', () => {
+describe.skip('React-JSS: styled', () => {
   it('should render static styles', () => {
     const registry = new SheetsRegistry()
     const Div = styled('div')({color: 'red'})

@@ -33,7 +33,7 @@ const theme: Object = {
   }
 }
 
-describe('React-JSS: styled-system', () => {
+describe.skip('React-JSS: styled-system', () => {
   it('should reder basic spacing', () => {
     const registry = new SheetsRegistry()
     const Div = styled('div')(space)
