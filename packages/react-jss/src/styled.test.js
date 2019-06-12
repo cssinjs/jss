@@ -336,7 +336,7 @@ describe('React-JSS: styled', () => {
     `)
   })
 
-  it.only('should render label', () => {
+  it('should render label', () => {
     const registry = new SheetsRegistry()
     const Div = styled('div')({label: 'my-div', color: 'red'})
     const renderer = TestRenderer.create(

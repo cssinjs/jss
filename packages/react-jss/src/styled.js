@@ -16,9 +16,10 @@ type StyledProps = {
 
 type StyleArg<Theme> = StaticStyle | DynamicStyle<Theme> | null | void | ''
 
-const mergeStyles = <Theme>(args: {[string]: StyleArg<Theme>}) => {
-  const styles = {}
+const parseStyles = <Theme>(args: {[string]: StyleArg<Theme>}) => {
   const dynamicStyles = []
+  let staticStyle
+  let label = 'css'
 
   // Not using ...rest to optimize perf.
   for (const key in args) {
@@ -27,9 +28,21 @@ const mergeStyles = <Theme>(args: {[string]: StyleArg<Theme>}) => {
     if (typeof style === 'function') {
       dynamicStyles.push(style)
     } else {
-      styles.css = Object.assign(styles.css || {}, style)
+      if (!staticStyle) staticStyle = {}
+      Object.assign(staticStyle, style)
+      if ('label' in staticStyle) {
+        // Label could potentially be defined in each style object,
+        // so we take the first one and ignore every subsequent one.
+        if (label === 'css') label = staticStyle.label
+        // Label should not leak to the core.
+        delete staticStyle.label
+      }
     }
   }
+
+  const styles = {}
+
+  if (staticStyle) styles[label] = staticStyle
 
   // When there is only one function rule, we don't need to wrap it.
   if (dynamicStyles.length === 1) {
@@ -49,7 +62,7 @@ const mergeStyles = <Theme>(args: {[string]: StyleArg<Theme>}) => {
     }
   }
 
-  return styles
+  return {styles, label}
 }
 
 type StyledOptions<Theme> = HookOptions<Theme> & {
@@ -64,11 +77,13 @@ export default <Theme: {}>(
   const isTagName = typeof type === 'string'
   const ThemeContext = theming ? theming.context : DefaultThemeContext
 
-  return function StyledFactory(/*:: ...args: StyleArg<Theme>[] */): StatelessFunctionalComponent<
+  return function StyledFactory(/* :: ...args: StyleArg<Theme>[] */): StatelessFunctionalComponent<
     StyledProps
   > {
     // eslint-disable-next-line prefer-rest-params
-    const useStyles = createUseStyles(mergeStyles(arguments), options)
+    const {styles, label} = parseStyles(arguments)
+
+    const useStyles = createUseStyles(styles, label ? {...options, name: label} : options)
 
     const Styled = (props: StyledProps) => {
       const {as, className} = props
@@ -76,6 +91,7 @@ export default <Theme: {}>(
       const theme = React.useContext(ThemeContext)
       const classes = useStyles({...props, theme})
       const childProps: StyledProps = ({}: any)
+
       for (const prop in props) {
         // We don't want to pass non-dom props to the DOM,
         // but we still want to forward them to a users component.
@@ -83,7 +99,8 @@ export default <Theme: {}>(
         if (shouldForwardProp && shouldForwardProp(prop) === false) continue
         childProps[prop] = props[prop]
       }
-      const classNames = `${classes.css || ''} ${classes.cssd || ''}`.trim()
+      // $FlowIgnore we don't care label might not exist in classes.
+      const classNames = `${classes[label] || classes.css || ''} ${classes.cssd || ''}`.trim()
       childProps.className = className ? `${className} ${classNames}` : classNames
 
       return React.createElement(as || type, childProps)

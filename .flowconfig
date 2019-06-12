@@ -7,3 +7,5 @@
 [options]
 include_warnings=true
 esproposal.export_star_as=enable
+suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
+suppress_comment= \\(.\\|\n\\)*\\$FlowIgnore
