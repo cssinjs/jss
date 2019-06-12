@@ -1,8 +1,14 @@
 ## Next
 
+### Features
+
+- [react-jss] New experimental styled API (undocumented intentionally)([#1094](https://github.com/cssinjs/jss/pull/1094))
+
 ### Bug fixes
 
 - [jss] After attempting to insert an invalid rule, JSS is now able to insert a valid one ([#1123](https://github.com/cssinjs/jss/pull/1123))
+- [react-jss] Fix TS type optional `theming` property ([#1121](https://github.com/cssinjs/jss/pull/1121))
+- [react-jss] Export useTheme in TypeScript declaration ([#1124](https://github.com/cssinjs/jss/pull/1124))
 
 ## 10.0.0-alpha.17 (2019-6-7)
 
