@@ -8,10 +8,7 @@
   "module": "dist/jss-preset-default.esm.js",
   "unpkg": "dist/jss-preset-default.bundle.js",
   "typings": "./src/index.d.ts",
-  "author": {
-    "name": "Oleg Isonen (Slobodskoi)",
-    "email": "oleg008@gmail.com"
-  },
+  "author": "JSS Team",
   "repository": {
     "type": "git",
     "url": "https://github.com/cssinjs/jss"
