@@ -17,7 +17,9 @@ import {
 } from 'theming'
 
 declare const jss: Jss
+
 declare const createGenerateId: CreateGenerateId
+
 declare const JssProvider: ComponentType<{
   jss?: Jss
   registry?: SheetsRegistry
@@ -27,9 +29,11 @@ declare const JssProvider: ComponentType<{
   children: ReactNode
   id?: CreateGenerateIdOptions
 }>
+
 interface Managers {
   [key: number]: StyleSheet
 }
+
 declare const JssContext: Context<{
   jss?: Jss
   registry?: SheetsRegistry
