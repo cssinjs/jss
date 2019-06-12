@@ -104,8 +104,8 @@ const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = 
         }
       }
 
-      mergeClassesProp = memoize<Classes[], Classes>(
-        (sheetClasses, classesProp) =>
+      mergeClassesProp = memoize(
+        (sheetClasses, classesProp): Classes =>
           classesProp ? mergeClasses(sheetClasses, classesProp) : sheetClasses
       )
 
@@ -139,7 +139,6 @@ const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = 
         const {classes: sheetClasses} = this.state
         const props = {
           ...rest,
-          // $FlowFixMe
           classes: this.mergeClassesProp(sheetClasses, classes)
         }
 
@@ -169,7 +168,7 @@ const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = 
     ))
 
     JssContextSubscriber.displayName = 'JssContextSubscriber'
-    // $FlowFixMe
+    // $FlowFixMe - React's types should allow custom static properties on component.
     JssContextSubscriber.InnerComponent = InnerComponent
 
     return hoistNonReactStatics(JssContextSubscriber, InnerComponent)

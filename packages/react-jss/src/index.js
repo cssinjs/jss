@@ -7,6 +7,7 @@ export {default as JssProvider} from './JssProvider'
 export {default as jss} from './jss'
 export {SheetsRegistry, createGenerateId} from 'jss'
 export {default as JssContext} from './JssContext'
+export {default as styled} from './styled'
 export {withStyles}
 
 // Kept for backwards compatibility.

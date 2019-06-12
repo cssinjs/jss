@@ -6,15 +6,9 @@ import {
   SheetsRegistry,
   Styles,
   StyleSheetFactoryOptions,
-  CreateGenerateIdOptions,
+  CreateGenerateIdOptions
 } from 'jss'
-import {
-  createTheming,
-  useTheme,
-  withTheme,
-  ThemeProvider,
-  Theming,
-} from 'theming'
+import {createTheming, useTheme, withTheme, ThemeProvider, Theming} from 'theming'
 
 declare const jss: Jss
 
@@ -74,7 +68,7 @@ export {
   withTheme,
   createTheming,
   useTheme,
-  JssContext,
+  JssContext
 }
 
 export default withStyles
