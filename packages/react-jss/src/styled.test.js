@@ -126,7 +126,23 @@ describe('React-JSS: styled', () => {
     expect(renderer.root.findByType('div').props.className).to.be('cssd-0 cssd-0-1')
   })
 
-  it('should filter empty values returned from dynamic rules', () => {})
+  it('should filter empty values returned from dynamic rules', () => {
+    const registry = new SheetsRegistry()
+    const Div = styled('div')(() => null, () => '', () => undefined, {color: 'red'})
+    const renderer = TestRenderer.create(
+      <JssProvider registry={registry} generateId={createGenerateId()}>
+        <Div />
+      </JssProvider>
+    )
+    expect(registry.toString()).to.be(stripIndent`
+      .css-0 {
+        color: red;
+      }
+      .cssd-1 {}
+      .cssd-0-2 {}
+    `)
+    expect(renderer.root.findByType('div').props.className).to.be('css-0 cssd-1 cssd-0-2')
+  })
 
   it('should accept multiple dynamic and static style rules', () => {
     const registry = new SheetsRegistry()
