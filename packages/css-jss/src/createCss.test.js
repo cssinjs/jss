@@ -16,9 +16,9 @@ describe('css-jss', () => {
 
   it('should accept style object argument', () => {
     const result = css({color: 'red'})
-    expect(result).to.be('css0-id')
+    expect(result).to.be('css-0-id')
     expect(sheet.toString()).to.be(stripIndent`
-      .css0-id {
+      .css-0-id {
         color: red;
       }
     `)
@@ -26,9 +26,9 @@ describe('css-jss', () => {
 
   it('should accept multiple style object arguments', () => {
     const result = css({color: 'red'}, {background: 'green'})
-    expect(result).to.be('css0-id')
+    expect(result).to.be('css-0-id')
     expect(sheet.toString()).to.be(stripIndent`
-      .css0-id {
+      .css-0-id {
         color: red;
         background: green;
       }
@@ -37,9 +37,9 @@ describe('css-jss', () => {
 
   it('should ignore empty values', () => {
     const result = css(null, {color: 'red'}, '', {background: 'green'}, undefined)
-    expect(result).to.be('css0-id')
+    expect(result).to.be('css-0-id')
     expect(sheet.toString()).to.be(stripIndent`
-      .css0-id {
+      .css-0-id {
         color: red;
         background: green;
       }
@@ -48,9 +48,20 @@ describe('css-jss', () => {
 
   it('should accept label', () => {
     const result = css({color: 'red', label: 'xxx'}, {background: 'green'})
-    expect(result).to.be('xxx0-id')
+    expect(result).to.be('xxx-0-id')
     expect(sheet.toString()).to.be(stripIndent`
       .xxx0-id {
+        color: red;
+        background: green;
+      }
+    `)
+  })
+
+  it('should merge label', () => {
+    const result = css({color: 'red', label: 'xxx'}, {background: 'green', label: 'yyy'})
+    expect(result).to.be('xxx-yyy-0-id')
+    expect(sheet.toString()).to.be(stripIndent`
+      .xxx-yyy-0-id {
         color: red;
         background: green;
       }
@@ -61,26 +72,27 @@ describe('css-jss', () => {
     const style = {color: 'red'}
     const result1 = css(style)
     const result2 = css(style)
-    expect(result1).to.be('css0-id')
-    expect(result2).to.be('css0-id')
+    expect(result1).to.be('css-0-id')
+    expect(result2).to.be('css-0-id')
     expect(sheet.toString()).to.be(stripIndent`
-        .css0-id {
-          color: red;
-        }
-      `)
+      .css-0-id {
+        color: red;
+      }
+    `)
   })
+
   it('should cache multiple styles', () => {
     const style1 = {color: 'red'}
     const style2 = {background: 'green'}
     const result1 = css(style1, style2)
     const result2 = css(style1, style2)
-    expect(result1).to.be('css0-id')
-    expect(result2).to.be('css0-id')
+    expect(result1).to.be('css-0-id')
+    expect(result2).to.be('css-0-id')
     expect(sheet.toString()).to.be(stripIndent`
-        .css0-id {
-          color: red;
-          background: green;
-        }
-      `)
+      .css-0-id {
+        color: red;
+        background: green;
+      }
+    `)
   })
 })
