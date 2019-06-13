@@ -1,11 +1,7 @@
 // @flow
 import type {StyleSheet} from 'jss'
-
-type ClassName = string
-type Style = {} | null | void | '' | ClassName
-type StyleArg = Style | Array<Style>
-
-export type Css = (...args: StyleArg[]) => string
+// eslint-disable-next-line no-unused-vars
+import type {Css, StyleArg, ClassName} from './types'
 
 const createCss = (sheet: StyleSheet): Css => {
   const cache = new Map()

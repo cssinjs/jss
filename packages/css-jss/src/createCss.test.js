@@ -140,7 +140,7 @@ describe('css-jss', () => {
     const className = css({color: 'red', label: 'xxx'}, {background: 'green'})
     expect(className).to.be('xxx-0-id')
     expect(sheet.toString()).to.be(stripIndent`
-      .xxx0-id {
+      .xxx-0-id {
         color: red;
         background: green;
       }
