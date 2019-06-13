@@ -6,6 +6,13 @@ const createCss = sheet => {
   return function css() {
     // eslint-disable-next-line prefer-rest-params
     const args = arguments
+
+    // We can avoid the need for stringification with a babel plugin,
+    // which could generate a hash at build time and add it to the object.
+    const cacheKey = JSON.stringify(args)
+    let className = cache.get(cacheKey)
+    if (className) return className
+
     const flatArgs = []
 
     // Flatten arguments which can be
@@ -22,13 +29,6 @@ const createCss = sheet => {
         flatArgs.push(arg[innerArgIndex])
       }
     }
-
-    // We can avoid the need for stringification with a babel plugin,
-    // which could generate a hash at build time and add it to the object.
-    const cacheKey = JSON.stringify(args)
-    let className = cache.get(cacheKey)
-
-    if (className) return className
 
     const style = {}
     let label = 'css'
