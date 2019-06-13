@@ -15,4 +15,4 @@ export const create = (sheet?: StyleSheet): Css => {
   return createCss(sheet || defaultSheet)
 }
 
-export default create()
+export default createCss(defaultSheet)
