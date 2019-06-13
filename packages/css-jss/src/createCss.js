@@ -9,8 +9,8 @@ const createCss = sheet => {
 
     // We can avoid the need for stringification with a babel plugin,
     // which could generate a hash at build time and add it to the object.
-    const cacheKey = JSON.stringify(args)
-    let className = cache.get(cacheKey)
+    const argsStr = JSON.stringify(args)
+    let className = cache.get(argsStr)
     if (className) return className
 
     const flatArgs = []
@@ -30,22 +30,31 @@ const createCss = sheet => {
       }
     }
 
-    const style = {}
-    let label = 'css'
+    const mergedStyle = {}
+    const labels = []
 
     for (let i = 0; i < flatArgs.length; i++) {
-      const arg = flatArgs[i]
-      if (!arg) continue
-      if (arg.label) {
-        label = label === 'css' ? arg.label : `${label}-${arg.label}`
+      let style = flatArgs[i]
+      if (!style) continue
+      // It can be a class name that css() has previously generated.
+      if (typeof style === 'string') {
+        const cached = cache.get(style)
+        if (cached) {
+          // eslint-disable-next-line prefer-spread
+          if (cached.labels.length) labels.push.apply(labels, cached.labels)
+          style = cached.style
+        }
       }
-      Object.assign(style, arg)
+      if (style.label) labels.push(style.label)
+      Object.assign(mergedStyle, style)
     }
-    delete style.label
+    delete mergedStyle.label
+    const label = labels.length === 0 ? 'css' : labels.join('-')
     const key = `${label}-${ruleIndex++}`
-    sheet.addRule(key, style)
+    sheet.addRule(key, mergedStyle)
     className = sheet.classes[key]
-    cache.set(cacheKey, className)
+    cache.set(argsStr, className)
+    cache.set(className, {style: mergedStyle, labels})
     return className
   }
 }

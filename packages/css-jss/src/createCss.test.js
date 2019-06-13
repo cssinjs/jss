@@ -14,9 +14,9 @@ describe('css-jss', () => {
     css = createCss(sheet)
   })
 
-  it('should accept style object argument', () => {
-    const result = css({color: 'red'})
-    expect(result).to.be('css-0-id')
+  it('should accept a single style object argument', () => {
+    const className = css({color: 'red'})
+    expect(className).to.be('css-0-id')
     expect(sheet.toString()).to.be(stripIndent`
       .css-0-id {
         color: red;
@@ -25,8 +25,8 @@ describe('css-jss', () => {
   })
 
   it('should accept multiple style object arguments', () => {
-    const result = css({color: 'red'}, {background: 'green'})
-    expect(result).to.be('css-0-id')
+    const className = css({color: 'red'}, {background: 'green'})
+    expect(className).to.be('css-0-id')
     expect(sheet.toString()).to.be(stripIndent`
       .css-0-id {
         color: red;
@@ -36,8 +36,8 @@ describe('css-jss', () => {
   })
 
   it('should accept multiple style object array', () => {
-    const result = css([{color: 'red'}, {background: 'green'}])
-    expect(result).to.be('css-0-id')
+    const className = css([{color: 'red'}, {background: 'green'}])
+    expect(className).to.be('css-0-id')
     expect(sheet.toString()).to.be(stripIndent`
       .css-0-id {
         color: red;
@@ -47,8 +47,8 @@ describe('css-jss', () => {
   })
 
   it('should accept multiple style object array and style objects', () => {
-    const result = css([{color: 'red'}, {background: 'green'}], {float: 'left'})
-    expect(result).to.be('css-0-id')
+    const className = css([{color: 'red'}, {background: 'green'}], {float: 'left'})
+    expect(className).to.be('css-0-id')
     expect(sheet.toString()).to.be(stripIndent`
       .css-0-id {
         color: red;
@@ -59,8 +59,8 @@ describe('css-jss', () => {
   })
 
   it('should accept multiple style object arrays', () => {
-    const result = css([{color: 'red'}, {background: 'green'}], [{float: 'left'}])
-    expect(result).to.be('css-0-id')
+    const className = css([{color: 'red'}, {background: 'green'}], [{float: 'left'}])
+    expect(className).to.be('css-0-id')
     expect(sheet.toString()).to.be(stripIndent`
       .css-0-id {
         color: red;
@@ -70,9 +70,64 @@ describe('css-jss', () => {
     `)
   })
 
+  it('should compose css() calls', () => {
+    const className = css(css({color: 'red'}), css({background: 'green'}))
+    expect(className).to.be('css-2-id')
+    expect(sheet.toString()).to.be(stripIndent`
+      .css-0-id {
+        color: red;
+      }
+      .css-1-id {
+        background: green;
+      }
+      .css-2-id {
+        color: red;
+        background: green;
+      }
+    `)
+  })
+
+  it('should compose css() calls inside of array arg', () => {
+    const className = css([css({color: 'red'}), css({background: 'green'})])
+    expect(className).to.be('css-2-id')
+    expect(sheet.toString()).to.be(stripIndent`
+      .css-0-id {
+        color: red;
+      }
+      .css-1-id {
+        background: green;
+      }
+      .css-2-id {
+        color: red;
+        background: green;
+      }
+    `)
+  })
+
+  it('should compose css() calls from mixed array and strings', () => {
+    const className = css([css({color: 'red'}), css({background: 'green'})], css({float: 'left'}))
+    expect(className).to.be('css-3-id')
+    expect(sheet.toString()).to.be(stripIndent`
+      .css-0-id {
+        color: red;
+      }
+      .css-1-id {
+        background: green;
+      }
+      .css-2-id {
+        float: left;
+      }
+      .css-3-id {
+        color: red;
+        background: green;
+        float: left;
+      }
+    `)
+  })
+
   it('should ignore empty values', () => {
-    const result = css(null, {color: 'red'}, '', {background: 'green'}, undefined)
-    expect(result).to.be('css-0-id')
+    const className = css(null, {color: 'red'}, '', {background: 'green'}, undefined)
+    expect(className).to.be('css-0-id')
     expect(sheet.toString()).to.be(stripIndent`
       .css-0-id {
         color: red;
@@ -82,8 +137,8 @@ describe('css-jss', () => {
   })
 
   it('should accept label', () => {
-    const result = css({color: 'red', label: 'xxx'}, {background: 'green'})
-    expect(result).to.be('xxx-0-id')
+    const className = css({color: 'red', label: 'xxx'}, {background: 'green'})
+    expect(className).to.be('xxx-0-id')
     expect(sheet.toString()).to.be(stripIndent`
       .xxx0-id {
         color: red;
@@ -93,8 +148,8 @@ describe('css-jss', () => {
   })
 
   it('should merge label', () => {
-    const result = css({color: 'red', label: 'xxx'}, {background: 'green', label: 'yyy'})
-    expect(result).to.be('xxx-yyy-0-id')
+    const className = css({color: 'red', label: 'xxx'}, {background: 'green', label: 'yyy'})
+    expect(className).to.be('xxx-yyy-0-id')
     expect(sheet.toString()).to.be(stripIndent`
       .xxx-yyy-0-id {
         color: red;
@@ -105,10 +160,10 @@ describe('css-jss', () => {
 
   it('should cache a single style', () => {
     const style = {color: 'red'}
-    const result1 = css(style)
-    const result2 = css(style)
-    expect(result1).to.be('css-0-id')
-    expect(result2).to.be('css-0-id')
+    const className1 = css(style)
+    const className2 = css(style)
+    expect(className1).to.be('css-0-id')
+    expect(className2).to.be('css-0-id')
     expect(sheet.toString()).to.be(stripIndent`
       .css-0-id {
         color: red;
@@ -119,10 +174,10 @@ describe('css-jss', () => {
   it('should cache multiple styles', () => {
     const style1 = {color: 'red'}
     const style2 = {background: 'green'}
-    const result1 = css(style1, style2)
-    const result2 = css(style1, style2)
-    expect(result1).to.be('css-0-id')
-    expect(result2).to.be('css-0-id')
+    const className1 = css(style1, style2)
+    const className2 = css(style1, style2)
+    expect(className1).to.be('css-0-id')
+    expect(className2).to.be('css-0-id')
     expect(sheet.toString()).to.be(stripIndent`
       .css-0-id {
         color: red;
@@ -130,4 +185,6 @@ describe('css-jss', () => {
       }
     `)
   })
+
+  it('should try get the cached rule by using a ref first before trying to stringify', () => {})
 })
