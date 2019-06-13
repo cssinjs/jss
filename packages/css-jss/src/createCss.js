@@ -1,17 +1,25 @@
 // @flow
-const createCss = sheet => {
+import type {StyleSheet} from 'jss'
+
+type ClassName = string
+type Style = {} | null | void | '' | ClassName
+type StyleArg = Style | Array<Style>
+
+export type Css = (...args: StyleArg[]) => string
+
+const createCss = (sheet: StyleSheet): Css => {
   const cache = new Map()
   let ruleIndex = 0
 
-  return function css() {
+  return function css(/* :: ..._: StyleArg[] */): ClassName {
     // eslint-disable-next-line prefer-rest-params
     const args = arguments
 
     // We can avoid the need for stringification with a babel plugin,
     // which could generate a hash at build time and add it to the object.
     const argsStr = JSON.stringify(args)
-    let className = cache.get(argsStr)
-    if (className) return className
+    const cached = cache.get(argsStr)
+    if (cached) return cached.className
 
     const flatArgs = []
 
@@ -38,6 +46,7 @@ const createCss = sheet => {
       if (!style) continue
       // It can be a class name that css() has previously generated.
       if (typeof style === 'string') {
+        // eslint-disable-next-line no-shadow
         const cached = cache.get(style)
         if (cached) {
           // eslint-disable-next-line prefer-spread
@@ -52,9 +61,10 @@ const createCss = sheet => {
     const label = labels.length === 0 ? 'css' : labels.join('-')
     const key = `${label}-${ruleIndex++}`
     sheet.addRule(key, mergedStyle)
-    className = sheet.classes[key]
-    cache.set(argsStr, className)
-    cache.set(className, {style: mergedStyle, labels})
+    const className = sheet.classes[key]
+    const cacheValue = {style: mergedStyle, labels, className}
+    cache.set(argsStr, cacheValue)
+    cache.set(className, cacheValue)
     return className
   }
 }
