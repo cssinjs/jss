@@ -3,9 +3,26 @@ const createCss = sheet => {
   const cache = new Map()
   let ruleIndex = 0
 
-  function css() {
+  return function css() {
     // eslint-disable-next-line prefer-rest-params
     const args = arguments
+    const flatArgs = []
+
+    // Flatten arguments which can be
+    // - style objects
+    // - array of style objects
+    // - arrays of style objects
+    for (const argIndex in args) {
+      const arg = args[argIndex]
+      if (!Array.isArray(arg)) {
+        flatArgs.push(arg)
+        continue
+      }
+      for (let innerArgIndex = 0; innerArgIndex < arg.length; innerArgIndex++) {
+        flatArgs.push(arg[innerArgIndex])
+      }
+    }
+
     // We can avoid the need for stringification with a babel plugin,
     // which could generate a hash at build time and add it to the object.
     const cacheKey = JSON.stringify(args)
@@ -16,14 +33,13 @@ const createCss = sheet => {
     const style = {}
     let label = 'css'
 
-    for (const i in args) {
-      const arg = args[i]
-      if (arg) {
-        if (arg.label) {
-          label = label === 'css' ? arg.label : `${label}-${arg.label}`
-        }
-        Object.assign(style, arg)
+    for (let i = 0; i < flatArgs.length; i++) {
+      const arg = flatArgs[i]
+      if (!arg) continue
+      if (arg.label) {
+        label = label === 'css' ? arg.label : `${label}-${arg.label}`
       }
+      Object.assign(style, arg)
     }
     delete style.label
     const key = `${label}-${ruleIndex++}`
@@ -32,8 +48,6 @@ const createCss = sheet => {
     cache.set(cacheKey, className)
     return className
   }
-
-  return css
 }
 
 export default createCss

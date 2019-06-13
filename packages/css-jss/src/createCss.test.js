@@ -35,6 +35,41 @@ describe('css-jss', () => {
     `)
   })
 
+  it('should accept multiple style object array', () => {
+    const result = css([{color: 'red'}, {background: 'green'}])
+    expect(result).to.be('css-0-id')
+    expect(sheet.toString()).to.be(stripIndent`
+      .css-0-id {
+        color: red;
+        background: green;
+      }
+    `)
+  })
+
+  it('should accept multiple style object array and style objects', () => {
+    const result = css([{color: 'red'}, {background: 'green'}], {float: 'left'})
+    expect(result).to.be('css-0-id')
+    expect(sheet.toString()).to.be(stripIndent`
+      .css-0-id {
+        color: red;
+        background: green;
+        float: left;
+      }
+    `)
+  })
+
+  it('should accept multiple style object arrays', () => {
+    const result = css([{color: 'red'}, {background: 'green'}], [{float: 'left'}])
+    expect(result).to.be('css-0-id')
+    expect(sheet.toString()).to.be(stripIndent`
+      .css-0-id {
+        color: red;
+        background: green;
+        float: left;
+      }
+    `)
+  })
+
   it('should ignore empty values', () => {
     const result = css(null, {color: 'red'}, '', {background: 'green'}, undefined)
     expect(result).to.be('css-0-id')
