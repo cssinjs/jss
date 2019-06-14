@@ -3,6 +3,7 @@
 ### Features
 
 - [react-jss] New experimental styled API (undocumented intentionally)([#1094](https://github.com/cssinjs/jss/pull/1094))
+- [react-jss] JSX pragma for css prop (undocumented intentionally)([#1130](https://github.com/cssinjs/jss/pull/1130))
 - [css-jss] New experimental css() API (undocumented intentionally)([#1129](https://github.com/cssinjs/jss/pull/1129))
 
 ### Bug fixes
