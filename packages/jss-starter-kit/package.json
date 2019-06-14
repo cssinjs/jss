@@ -8,10 +8,7 @@
   "module": "dist/jss-starter-kit.esm.js",
   "unpkg": "dist/jss-starter-kit.bundle.js",
   "typings": "./src/index.d.ts",
-  "author": {
-    "name": "Oleg Slobodskoi",
-    "email": "oleg008@gmail.com"
-  },
+  "author": "JSS Team",
   "repository": {
     "type": "git",
     "url": "https://github.com/cssinjs/jss"

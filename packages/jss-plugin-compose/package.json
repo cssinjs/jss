@@ -8,10 +8,7 @@
   "module": "dist/jss-plugin-compose.esm.js",
   "unpkg": "dist/jss-plugin-compose.bundle.js",
   "typings": "./src/index.d.ts",
-  "author": {
-    "name": "Pavel Davydov",
-    "email": "typical000@gmail.com"
-  },
+  "author": "JSS Team",
   "repository": {
     "type": "git",
     "url": "https://github.com/cssinjs/jss"
