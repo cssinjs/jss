@@ -348,7 +348,8 @@ export default class DomRenderer {
    * Remove style element from render tree.
    */
   detach(): void {
-    this.element.parentNode.removeChild(this.element)
+    const {parentNode} = this.element
+    if (parentNode) parentNode.removeChild(this.element)
   }
 
   /**
