@@ -148,12 +148,17 @@ describe('css-jss', () => {
   })
 
   it('should merge label', () => {
-    const className = css({color: 'red', label: 'xxx'}, {background: 'green', label: 'yyy'})
+    const className = css(
+      {color: 'red', label: 'xxx'},
+      {background: 'green', label: 'yyy'},
+      {float: 'left', label: 'yyy'}
+    )
     expect(className).to.be('xxx-yyy-0-id')
     expect(sheet.toString()).to.be(stripIndent`
       .xxx-yyy-0-id {
         color: red;
         background: green;
+        float: left;
       }
     `)
   })

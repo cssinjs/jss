@@ -50,7 +50,7 @@ const createCss = (sheet: StyleSheet): Css => {
           style = cached.style
         }
       }
-      if (style.label) labels.push(style.label)
+      if (style.label && labels.indexOf(style.label) === -1) labels.push(style.label)
       Object.assign(mergedStyle, style)
     }
     delete mergedStyle.label
