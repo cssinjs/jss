@@ -1,8 +1,6 @@
 // @flow
 
-export type ClassName = string
-
-export type Style = {} | null | void | '' | ClassName
+export type Style = {} | null | void | string
 
 export type StyleArg = Style | Array<Style>
 

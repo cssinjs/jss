@@ -1,13 +1,13 @@
 // @flow
 import type {StyleSheet} from 'jss'
 // eslint-disable-next-line no-unused-vars
-import type {Css, StyleArg, ClassName} from './types'
+import type {Css, StyleArg} from './types'
 
 const createCss = (sheet: StyleSheet): Css => {
   const cache = new Map()
   let ruleIndex = 0
 
-  return function css(/* :: ..._: StyleArg[] */): ClassName {
+  return function css(/* :: ..._: StyleArg[] */): string {
     // eslint-disable-next-line prefer-rest-params
     const args = arguments
 
@@ -50,7 +50,7 @@ const createCss = (sheet: StyleSheet): Css => {
           style = cached.style
         }
       }
-      if (style.label) labels.push(style.label)
+      if (style.label && labels.indexOf(style.label) === -1) labels.push(style.label)
       Object.assign(mergedStyle, style)
     }
     delete mergedStyle.label
