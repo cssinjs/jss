@@ -19,7 +19,7 @@ type StyleArg<Theme> = StaticStyle | DynamicStyle<Theme> | null | void | ''
 const parseStyles = <Theme>(args: {[string]: StyleArg<Theme>}) => {
   const dynamicStyles = []
   let staticStyle
-  let label = 'css'
+  const labels = []
 
   // Not using ...rest to optimize perf.
   for (const key in args) {
@@ -30,19 +30,20 @@ const parseStyles = <Theme>(args: {[string]: StyleArg<Theme>}) => {
     } else {
       if (!staticStyle) staticStyle = {}
       Object.assign(staticStyle, style)
-      if ('label' in staticStyle) {
-        // Label could potentially be defined in each style object,
-        // so we take the first one and ignore every subsequent one.
-        if (label === 'css') label = staticStyle.label
-        // Label should not leak to the core.
-        delete staticStyle.label
+      if (staticStyle.label) {
+        if (labels.indexOf(staticStyle.label) === -1) labels.push(staticStyle.label)
       }
     }
   }
 
   const styles = {}
+  const label = labels.length === 0 ? 'css' : labels.join('-')
 
-  if (staticStyle) styles[label] = staticStyle
+  if (staticStyle) {
+    // Label should not leak to the core.
+    if ('label' in staticStyle) delete staticStyle.label
+    styles[label] = staticStyle
+  }
 
   // When there is only one function rule, we don't need to wrap it.
   if (dynamicStyles.length === 1) {

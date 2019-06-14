@@ -11,7 +11,7 @@ const createGenerateId = () => {
   return rule => `${rule.key}-${counter++}`
 }
 
-describe.skip('React-JSS: styled', () => {
+describe('React-JSS: styled', () => {
   it('should render static styles', () => {
     const registry = new SheetsRegistry()
     const Div = styled('div')({color: 'red'})
@@ -351,5 +351,28 @@ describe.skip('React-JSS: styled', () => {
       `)
     const {className} = renderer.root.findByType('div').props
     expect(className).to.be('my-div-0')
+  })
+
+  it('should merge labels', () => {
+    const registry = new SheetsRegistry()
+    const Div = styled('div')(
+      {label: 'labela', color: 'red'},
+      {label: 'labelb', background: 'red'},
+      {label: 'labela', float: 'left'}
+    )
+    const renderer = TestRenderer.create(
+      <JssProvider registry={registry} generateId={createGenerateId()}>
+        <Div />
+      </JssProvider>
+    )
+    expect(registry.toString()).to.be(stripIndent`
+        .labela-labelb-0 {
+          color: red;
+          float: left;
+          background: red;
+        }
+      `)
+    const {className} = renderer.root.findByType('div').props
+    expect(className).to.be('labela-labelb-0')
   })
 })
