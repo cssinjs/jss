@@ -8,6 +8,7 @@ export {default as jss} from './jss'
 export {SheetsRegistry, createGenerateId} from 'jss'
 export {default as JssContext} from './JssContext'
 export {default as styled} from './styled'
+export {default as jsx, create as createJsx} from './jsx'
 export {withStyles}
 
 // Kept for backwards compatibility.
