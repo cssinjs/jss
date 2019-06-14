@@ -1,13 +1,13 @@
 // @flow
 import type {StyleSheet} from 'jss'
 // eslint-disable-next-line no-unused-vars
-import type {Css, StyleArg, ClassName} from './types'
+import type {Css, StyleArg} from './types'
 
 const createCss = (sheet: StyleSheet): Css => {
   const cache = new Map()
   let ruleIndex = 0
 
-  return function css(/* :: ..._: StyleArg[] */): ClassName {
+  return function css(/* :: ..._: StyleArg[] */): string {
     // eslint-disable-next-line prefer-rest-params
     const args = arguments
 
