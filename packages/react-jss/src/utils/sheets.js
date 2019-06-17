@@ -7,13 +7,13 @@ import {getManager} from './managers'
 import defaultJss from '../jss'
 import {addMeta, getMeta} from './sheetsMeta'
 
-interface Options<Theme> {
-  context: Context;
-  theme: Theme;
-  name: string;
-  index: number;
-  styles: Styles<Theme>;
-  sheetOptions: $Diff<StyleSheetFactoryOptions, {index: number | void}>;
+type Options<Theme> = {
+  context: Context,
+  theme: Theme,
+  name?: string,
+  index: number,
+  styles: Styles<Theme>,
+  sheetOptions: $Diff<StyleSheetFactoryOptions, {index: number | void}>
 }
 
 const getStyles = <Theme>(options: Options<Theme>) => {
@@ -24,9 +24,8 @@ const getStyles = <Theme>(options: Options<Theme>) => {
 
   warning(
     styles.length !== 0,
-    `[JSS] <${
-      options.name
-    } />'s styles function doesn't rely on the "theme" argument. We recommend declaring styles as an object instead.`
+    `[JSS] <${options.name ||
+      'Hook'} />'s styles function doesn't rely on the "theme" argument. We recommend declaring styles as an object instead.`
   )
 
   return styles(options.theme)
@@ -34,13 +33,19 @@ const getStyles = <Theme>(options: Options<Theme>) => {
 
 function getSheetOptions<Theme>(options: Options<Theme>, link: boolean) {
   const classNamePrefix =
-    process.env.NODE_ENV === 'production' ? '' : `${options.name.replace(/\s/g, '-')}-`
+    process.env.NODE_ENV === 'production' || !options.name
+      ? ''
+      : `${options.name.replace(/\s/g, '-')}-`
+
+  let meta = ''
+  if (options.name) meta = `${options.name}, `
+  meta += typeof options.styles === 'function' ? 'Themed' : 'Unthemed'
 
   return {
     ...options.sheetOptions,
     ...options.context.sheetOptions,
     index: options.index,
-    meta: `${options.name}, ${typeof options.styles === 'function' ? 'Themed' : 'Unthemed'}`,
+    meta,
     classNamePrefix: options.context.sheetOptions.classNamePrefix + classNamePrefix,
     link
   }
