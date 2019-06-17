@@ -28,7 +28,7 @@ const reducer = (prevState, action) => {
 }
 
 const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions<Theme> = {}) => {
-  const {index = getSheetIndex(), theming, name = 'Hook', ...sheetOptions} = options
+  const {index = getSheetIndex(), theming, name, ...sheetOptions} = options
   const ThemeContext = (theming && theming.context) || DefaultThemeContext
   const useTheme =
     typeof styles === 'function'

@@ -1,3 +1,9 @@
+## Next
+
+### Bug Fixes
+
+- [react-jss] Experimental styled API got some fixes and many more tests ([#1118](https://github.com/cssinjs/jss/pull/1118))
+
 ## 10.0.0-alpha.18 (2019-6-14)
 
 ### Features

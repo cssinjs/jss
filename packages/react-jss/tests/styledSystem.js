@@ -46,14 +46,14 @@ describe('React-JSS: styled-system', () => {
     )
     // TODO we should not need a static rule in such cases.
     expect(registry.toString()).to.be(stripIndent`
-      .cssd-0 {}
-      .cssd-0-1 {
+      .scd-0 {}
+      .scd-0-1 {
         padding-left: 4px;
         padding-right: 4px;
       }
     `)
     const {className, classes} = renderer.root.findByType('div').props
-    expect(className).to.be('cssd-0 cssd-0-1')
+    expect(className).to.be('scd-0 scd-0-1')
     expect(classes).to.be(undefined)
   })
 
@@ -85,8 +85,8 @@ describe('React-JSS: styled-system', () => {
     )
     // TODO we should not need a static rule in such cases.
     expect(registry.toString()).to.be(stripIndent`
-      .cssd-0 {}
-      .cssd-0-1 {
+      .scd-0 {}
+      .scd-0-1 {
         color: white;
         font-size: 32px;
         font-weight: bold;
@@ -97,7 +97,7 @@ describe('React-JSS: styled-system', () => {
         background-color: #07c;
       }
       @media screen and (min-width: 40em) {
-        .cssd-0-1 {
+        .scd-0-1 {
           font-size: 48px;
           padding-top: 8px;
           padding-left: 32px;
@@ -106,13 +106,13 @@ describe('React-JSS: styled-system', () => {
         }
       }
       @media screen and (min-width: 52em) {
-        .cssd-0-1 {
+        .scd-0-1 {
           font-size: 64px;
         }
       }
     `)
     const {className, classes} = renderer.root.findByType('div').props
-    expect(className).to.be('cssd-0 cssd-0-1')
+    expect(className).to.be('scd-0 scd-0-1')
     expect(classes).to.be(undefined)
   })
 

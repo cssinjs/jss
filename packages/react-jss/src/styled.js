@@ -37,7 +37,7 @@ const parseStyles = <Theme>(args: {[string]: StyleArg<Theme>}) => {
   }
 
   const styles = {}
-  const label = labels.length === 0 ? 'css' : labels.join('-')
+  const label = labels.length === 0 ? 'sc' : labels.join('-')
 
   if (staticStyle) {
     // Label should not leak to the core.
@@ -47,13 +47,13 @@ const parseStyles = <Theme>(args: {[string]: StyleArg<Theme>}) => {
 
   // When there is only one function rule, we don't need to wrap it.
   if (dynamicStyles.length === 1) {
-    styles.cssd = dynamicStyles[0]
+    styles.scd = dynamicStyles[0]
   }
 
   // We create a new function rule which will call all other function rules
   // and merge the styles they return.
   if (dynamicStyles.length > 1) {
-    styles.cssd = props => {
+    styles.scd = props => {
       const merged = {}
       for (let i = 0; i < dynamicStyles.length; i++) {
         const dynamicStyle = dynamicStyles[i](props)
@@ -66,45 +66,75 @@ const parseStyles = <Theme>(args: {[string]: StyleArg<Theme>}) => {
   return {styles, label}
 }
 
+const shouldForwardPropSymbol = Symbol('react-jss-styled')
+
+type ShouldForwardProp = string => boolean
 type StyledOptions<Theme> = HookOptions<Theme> & {
-  shouldForwardProp?: string => boolean
+  shouldForwardProp?: ShouldForwardProp
 }
 
 export default <Theme: {}>(
-  type: string | StatelessFunctionalComponent<StyledProps> | ComponentType<StyledProps>,
+  tagOrComponent: string | StatelessFunctionalComponent<StyledProps> | ComponentType<StyledProps>,
   options?: StyledOptions<Theme> = {}
 ) => {
   const {theming, shouldForwardProp} = options
-  const isTagName = typeof type === 'string'
+  const isTag = typeof tagOrComponent === 'string'
   const ThemeContext = theming ? theming.context : DefaultThemeContext
+
+  // $FlowIgnore that prop shouldn't be there.
+  const childShouldForwardProp: ShouldForwardProp = tagOrComponent[shouldForwardPropSymbol]
+  let finalShouldForwardProp = shouldForwardProp || childShouldForwardProp
+  if (shouldForwardProp && childShouldForwardProp) {
+    finalShouldForwardProp = prop => childShouldForwardProp(prop) && shouldForwardProp(prop)
+  }
 
   return function StyledFactory(/* :: ...args: StyleArg<Theme>[] */): StatelessFunctionalComponent<
     StyledProps
   > {
     // eslint-disable-next-line prefer-rest-params
     const {styles, label} = parseStyles(arguments)
-
-    const useStyles = createUseStyles(styles, label ? {...options, name: label} : options)
+    const useStyles = createUseStyles(styles, options)
 
     const Styled = (props: StyledProps) => {
       const {as, className} = props
       // $FlowFixMe theming ThemeContext types need to be fixed.
       const theme = React.useContext(ThemeContext)
-      const classes = useStyles({...props, theme})
+      const propsWithTheme: StyledProps = Object.assign(({theme}: any), props)
+      const classes = useStyles(propsWithTheme)
       const childProps: StyledProps = ({}: any)
 
       for (const prop in props) {
-        // We don't want to pass non-dom props to the DOM,
-        // but we still want to forward them to a users component.
-        if (isTagName && !isPropValid(prop)) continue
-        if (shouldForwardProp && shouldForwardProp(prop) === false) continue
+        if (finalShouldForwardProp) {
+          if (finalShouldForwardProp(prop) === true) {
+            childProps[prop] = props[prop]
+          }
+          continue
+        }
+
+        // We don't want to pass non-dom props to the DOM.
+        if (isTag) {
+          if (isPropValid(prop)) {
+            childProps[prop] = props[prop]
+          }
+          continue
+        }
+
         childProps[prop] = props[prop]
       }
-      // $FlowIgnore we don't care label might not exist in classes.
-      const classNames = `${classes[label] || classes.css || ''} ${classes.cssd || ''}`.trim()
-      childProps.className = className ? `${className} ${classNames}` : classNames
 
-      return React.createElement(as || type, childProps)
+      // $FlowIgnore we don't care label might not exist in classes.
+      const classNames = `${classes[label] || classes.sc || ''} ${classes.scd || ''}`.trim()
+      childProps.className = className ? `${className} ${classNames}` : classNames
+      if (!isTag && finalShouldForwardProp) {
+        // $FlowIgnore we are not supposed to attach random properties to component functions.
+        tagOrComponent[shouldForwardPropSymbol] = finalShouldForwardProp
+      }
+
+      if (isTag && as) {
+        return React.createElement(as, childProps)
+      }
+
+      return React.createElement(tagOrComponent, childProps)
     }
 
     return Styled
