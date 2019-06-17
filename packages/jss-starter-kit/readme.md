@@ -9,7 +9,7 @@
 
 > A bundle to get you started playing with JSS. Not optimized for production deployment.
 
-See our website [jss-starter-kit](https://cssinjs.org/jss-starter-kit?v=v10.0.0-alpha.18) for more information.
+See our website [jss-starter-kit](https://cssinjs.org/jss-starter-kit?v=v10.0.0-alpha.19) for more information.
 
 ## Install
 
