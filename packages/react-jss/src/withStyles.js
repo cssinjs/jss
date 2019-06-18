@@ -11,7 +11,7 @@ import mergeClasses from './utils/mergeClasses'
 import JssContext from './JssContext'
 import getSheetIndex from './utils/getSheetIndex'
 import {
-  createStaticSheet,
+  createStyleSheet,
   updateDynamicRules,
   addDynamicRules,
   removeDynamicRules
@@ -53,7 +53,7 @@ const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = 
       static defaultProps = {...InnerComponent.defaultProps}
 
       static createState(props) {
-        const sheet = createStaticSheet({
+        const sheet = createStyleSheet({
           styles,
           theme: getTheme(props),
           index,

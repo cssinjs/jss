@@ -6,7 +6,7 @@ import {ThemeContext as DefaultThemeContext} from 'theming'
 
 import JssContext from './JssContext'
 import {
-  createStaticSheet,
+  createStyleSheet,
   addDynamicRules,
   updateDynamicRules,
   removeDynamicRules
@@ -43,7 +43,7 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
     const theme = useTheme()
 
     const [state, dispatch] = React.useReducer(reducer, null, () => {
-      const sheet = createStaticSheet({
+      const sheet = createStyleSheet({
         context,
         styles,
         name,
@@ -113,7 +113,7 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
     useEffectOrLayoutEffect(
       () => {
         if (!isFirstMount.current) {
-          const newSheet = createStaticSheet({
+          const newSheet = createStyleSheet({
             context,
             styles,
             name,

@@ -51,7 +51,7 @@ function getSheetOptions<Theme>(options: Options<Theme>, link: boolean) {
   }
 }
 
-export const createStaticSheet = <Theme>(options: Options<Theme>) => {
+export const createStyleSheet = <Theme>(options: Options<Theme>) => {
   if (options.context.disableStylesGeneration) {
     return undefined
   }
