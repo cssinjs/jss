@@ -1,13 +1,29 @@
 // @flow
-import type {StyleSheet} from 'jss'
+import {create as createJss} from 'jss'
+import preset from 'jss-preset-default'
+import type {Jss} from 'jss'
 // eslint-disable-next-line no-unused-vars
 import type {Css, StyleArg} from './types'
 
-const createCss = (sheet: StyleSheet): Css => {
+// I have been trying to benchmark and I have seen a slow down after about 10k rules.
+// Since we are in a single sheet mode, user shouldn't care about this.
+const MAX_RULES_PER_SHEET = 10000
+
+const defaultJss = createJss(preset())
+
+const createCss = (jss: Jss = defaultJss): Css => {
   const cache = new Map()
   let ruleIndex = 0
+  let sheet
 
-  return function css(/* :: ..._: StyleArg[] */): string {
+  const getSheet = () => {
+    if (!sheet || sheet.rules.index.length > MAX_RULES_PER_SHEET) {
+      sheet = jss.createStyleSheet().attach()
+    }
+    return sheet
+  }
+
+  function css(/* :: ..._: StyleArg[] */): string {
     // eslint-disable-next-line prefer-rest-params
     const args = arguments
 
@@ -56,13 +72,18 @@ const createCss = (sheet: StyleSheet): Css => {
     delete mergedStyle.label
     const label = labels.length === 0 ? 'css' : labels.join('-')
     const key = `${label}-${ruleIndex++}`
-    sheet.addRule(key, mergedStyle)
-    const className = sheet.classes[key]
+    getSheet().addRule(key, mergedStyle)
+    const className = getSheet().classes[key]
     const cacheValue = {style: mergedStyle, labels, className}
     cache.set(argsStr, cacheValue)
     cache.set(className, cacheValue)
     return className
   }
+
+  // For testing only.
+  css.getSheet = getSheet
+
+  return css
 }
 
 export default createCss
