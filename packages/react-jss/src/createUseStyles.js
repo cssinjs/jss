@@ -37,7 +37,7 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
       : // $FlowFixMe
         (): Theme => noTheme
 
-  return (data: any) => {
+  return function useStyles(data: any) {
     const isFirstMount = React.useRef(true)
     const context = React.useContext(JssContext)
     const theme = useTheme()
@@ -52,16 +52,20 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
         sheetOptions
       })
 
-      if (context.registry && sheet) {
-        context.registry.add(sheet)
+      let dynamicRules
+      let classes
+      if (sheet) {
+        if (context.registry) {
+          context.registry.add(sheet)
+        }
+        dynamicRules = addDynamicRules(sheet, data)
+        classes = getSheetClasses(sheet, dynamicRules)
       }
-
-      const dynamicRules = sheet && addDynamicRules(sheet, data)
 
       return {
         sheet,
         dynamicRules,
-        classes: sheet ? getSheetClasses(sheet, dynamicRules) : {}
+        classes: classes || {}
       }
     })
 
@@ -77,17 +81,19 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
         }
 
         return () => {
-          if (state.sheet) {
-            unmanageSheet({
-              index,
-              context,
-              sheet: state.sheet,
-              theme
-            })
+          const {sheet, dynamicRules} = state
 
-            if (state.dynamicRules && state.sheet) {
-              removeDynamicRules(state.sheet, state.dynamicRules)
-            }
+          if (!sheet) return
+
+          unmanageSheet({
+            index,
+            context,
+            sheet,
+            theme
+          })
+
+          if (dynamicRules) {
+            removeDynamicRules(sheet, dynamicRules)
           }
         }
       },
