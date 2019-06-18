@@ -1,5 +1,11 @@
 ## Next
 
+### Bug fixes
+
+- [jss-plugin-vendor-prefixer] Upgrade css-vendor package to v2.0.4 ([#1136](https://github.com/cssinjs/jss/pull/1136))
+
+## 10.0.0-alpha.20 (2019-6-17)
+
 ### Bug Fixes
 
 - [react-jss] Experimental styled API got some fixes and many more tests ([#1118](https://github.com/cssinjs/jss/pull/1118))
