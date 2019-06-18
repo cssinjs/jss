@@ -6,291 +6,301 @@ import TestRenderer from 'react-test-renderer'
 import {stripIndent} from 'common-tags'
 import {styled, SheetsRegistry, JssProvider, ThemeProvider} from '.'
 
+type Props = Object
+
 const createGenerateId = () => {
   let counter = 0
   return rule => `${rule.key}-${counter++}`
 }
 
-describe.skip('React-JSS: styled', () => {
-  it('should render static styles', () => {
-    const registry = new SheetsRegistry()
-    const Div = styled('div')({color: 'red'})
-    const renderer = TestRenderer.create(
+const renderToJSON = children => {
+  const registry = new SheetsRegistry()
+  return {
+    tree: TestRenderer.create(
       <JssProvider registry={registry} generateId={createGenerateId()}>
-        <Div />
+        {children}
       </JssProvider>
-    )
-    expect(registry.toString()).to.be(stripIndent`
-      .css-0 {
+    ).toJSON(),
+    css: registry.toString()
+  }
+}
+
+describe('React-JSS: styled', () => {
+  it('should render static styles', () => {
+    const Div = styled('div')({color: 'red'})
+    const {css, tree} = renderToJSON(<Div />)
+    expect(css).to.be(stripIndent`
+      .sc-0 {
         color: red;
       }
     `)
-    const {className, classes} = renderer.root.findByType('div').props
-    expect(className).to.be('css-0')
-    expect(classes).to.be(undefined)
+    expect(tree).to.eql({
+      type: 'div',
+      props: {className: 'sc-0'},
+      children: null
+    })
   })
 
   it('should render dynamic values', () => {
-    const registry = new SheetsRegistry()
     const Div = styled('div')({
       color: 'red',
       width: props => props.width
     })
-    const renderer = TestRenderer.create(
-      <JssProvider registry={registry} generateId={createGenerateId()}>
-        <Div width={10} />
-      </JssProvider>
-    )
-    expect(registry.toString()).to.be(stripIndent`
-      .css-0 {
+    const {css, tree} = renderToJSON(<Div width={10} />)
+
+    expect(css).to.be(stripIndent`
+      .sc-0 {
         color: red;
       }
-      .css-0-1 {
+      .sc-0-1 {
         width: 10px;
       }
     `)
-    expect(renderer.root.findByType('div').props.className).to.be('css-0 css-0-1')
+
+    expect(tree).to.eql({
+      type: 'div',
+      props: {
+        width: 10,
+        className: 'sc-0 sc-0-1'
+      },
+      children: null
+    })
   })
 
   it('should render dynamic rules', () => {
-    const registry = new SheetsRegistry()
     const Div = styled('div')(props => ({
       color: 'red',
       width: props.width
     }))
-    const renderer = TestRenderer.create(
-      <JssProvider registry={registry} generateId={createGenerateId()}>
-        <Div width={10} />
-      </JssProvider>
-    )
-    expect(registry.toString()).to.be(stripIndent`
-      .cssd-0 {}
-      .cssd-0-1 {
+    const {css, tree} = renderToJSON(<Div width={10} />)
+    expect(css).to.be(stripIndent`
+      .scd-0 {}
+      .scd-0-1 {
         color: red;
         width: 10px;
       }
     `)
-    expect(renderer.root.findByType('div').props.className).to.be('cssd-0 cssd-0-1')
+    expect(tree).to.eql({
+      type: 'div',
+      props: {
+        width: 10,
+        className: 'scd-0 scd-0-1'
+      },
+      children: null
+    })
   })
 
   it('should accept multiple static style rules', () => {
-    const registry = new SheetsRegistry()
     // TODO add a template string case
     const Div = styled('div')({color: 'red'}, {border: '1px solid red'})
-    const renderer = TestRenderer.create(
-      <JssProvider registry={registry} generateId={createGenerateId()}>
-        <Div />
-      </JssProvider>
-    )
-    expect(registry.toString()).to.be(stripIndent`
-      .css-0 {
+    const {css, tree} = renderToJSON(<Div />)
+    expect(css).to.be(stripIndent`
+      .sc-0 {
         color: red;
         border: 1px solid red;
       }
     `)
-    expect(renderer.root.findByType('div').props.className).to.be('css-0')
+    expect(tree).to.eql({
+      type: 'div',
+      props: {
+        className: 'sc-0'
+      },
+      children: null
+    })
   })
 
   it('should filter empty values instead of rules', () => {
-    const registry = new SheetsRegistry()
     const Div = styled('div')('', {color: 'red'}, null, {border: '1px solid red'}, undefined)
-    const renderer = TestRenderer.create(
-      <JssProvider registry={registry} generateId={createGenerateId()}>
-        <Div />
-      </JssProvider>
-    )
-    expect(registry.toString()).to.be(stripIndent`
-      .css-0 {
+    const {css, tree} = renderToJSON(<Div />)
+    expect(css).to.be(stripIndent`
+      .sc-0 {
         color: red;
         border: 1px solid red;
       }
     `)
-    expect(renderer.root.findByType('div').props.className).to.be('css-0')
+    expect(tree).to.eql({
+      type: 'div',
+      props: {
+        className: 'sc-0'
+      },
+      children: null
+    })
   })
 
   it('should accept multiple dynamic style rules', () => {
-    const registry = new SheetsRegistry()
     const Div = styled('div')(props => ({width: props.width}), props => ({height: props.height}))
-    const renderer = TestRenderer.create(
-      <JssProvider registry={registry} generateId={createGenerateId()}>
-        <Div width={10} height={10} />
-      </JssProvider>
-    )
-    expect(registry.toString()).to.be(stripIndent`
-      .cssd-0 {}
-      .cssd-0-1 {
+    const {css, tree} = renderToJSON(<Div width={10} height={10} />)
+    expect(css).to.be(stripIndent`
+      .scd-0 {}
+      .scd-0-1 {
         width: 10px;
         height: 10px;
       }
     `)
-    expect(renderer.root.findByType('div').props.className).to.be('cssd-0 cssd-0-1')
+    expect(tree).to.eql({
+      type: 'div',
+      props: {
+        width: 10,
+        height: 10,
+        className: 'scd-0 scd-0-1'
+      },
+      children: null
+    })
   })
 
   it('should filter empty values returned from dynamic rules', () => {
-    const registry = new SheetsRegistry()
     const Div = styled('div')(() => null, () => '', () => undefined, {color: 'red'})
-    const renderer = TestRenderer.create(
-      <JssProvider registry={registry} generateId={createGenerateId()}>
-        <Div />
-      </JssProvider>
-    )
-    expect(registry.toString()).to.be(stripIndent`
-      .css-0 {
+    const {css, tree} = renderToJSON(<Div />)
+    expect(css).to.be(stripIndent`
+      .sc-0 {
         color: red;
       }
-      .cssd-1 {}
-      .cssd-0-2 {}
+      .scd-1 {}
+      .scd-0-2 {}
     `)
-    expect(renderer.root.findByType('div').props.className).to.be('css-0 cssd-1 cssd-0-2')
+    expect(tree).to.eql({
+      type: 'div',
+      props: {
+        className: 'sc-0 scd-1 scd-0-2'
+      },
+      children: null
+    })
   })
 
   it('should accept multiple dynamic and static style rules', () => {
-    const registry = new SheetsRegistry()
     const Div = styled('div')(
       {color: 'red'},
       props => ({width: props.width}),
       {border: '1px solid red'},
       props => ({height: props.height})
     )
-    const renderer = TestRenderer.create(
-      <JssProvider registry={registry} generateId={createGenerateId()}>
-        <Div width={10} height={10} />
-      </JssProvider>
-    )
-    expect(registry.toString()).to.be(stripIndent`
-      .css-0 {
+    const {css, tree} = renderToJSON(<Div width={10} height={10} />)
+    expect(css).to.be(stripIndent`
+      .sc-0 {
         color: red;
         border: 1px solid red;
       }
-      .cssd-1 {}
-      .cssd-0-2 {
+      .scd-1 {}
+      .scd-0-2 {
         width: 10px;
         height: 10px;
       }
     `)
-    expect(renderer.root.findByType('div').props.className).to.be('css-0 cssd-1 cssd-0-2')
+    expect(tree).to.eql({
+      type: 'div',
+      props: {
+        width: 10,
+        height: 10,
+        className: 'sc-0 scd-1 scd-0-2'
+      },
+      children: null
+    })
   })
 
   it('should accept template string', () => {})
 
   it('should merge with user class name', () => {
-    const registry = new SheetsRegistry()
     const Div = styled('div')({color: 'red'})
-    const renderer = TestRenderer.create(
-      <JssProvider registry={registry} generateId={createGenerateId()}>
-        <Div className="my-class" />
-      </JssProvider>
-    )
-    expect(registry.toString()).to.be(stripIndent`
-      .css-0 {
+    const {css, tree} = renderToJSON(<Div className="my-class" />)
+    expect(css).to.be(stripIndent`
+      .sc-0 {
         color: red;
       }
     `)
-    expect(renderer.root.findByType('div').props.className).to.be('my-class css-0')
+    expect(tree).to.eql({
+      type: 'div',
+      props: {
+        className: 'my-class sc-0'
+      },
+      children: null
+    })
   })
 
   it('should use "as" prop', () => {
-    const registry = new SheetsRegistry()
     const Div = styled('div')({color: 'red'})
-    const renderer = TestRenderer.create(
-      <JssProvider registry={registry} generateId={createGenerateId()}>
-        <Div as="button">
-          <span />
-        </Div>
-      </JssProvider>
+    const {css, tree} = renderToJSON(
+      <Div as="button">
+        <span />
+      </Div>
     )
-    expect(registry.toString()).to.be(stripIndent`
-      .css-0 {
+    expect(css).to.be(stripIndent`
+      .sc-0 {
         color: red;
       }
     `)
-    const {className, as} = renderer.root.findByType('button').props
-    expect(className).to.be('css-0')
-    expect(as).to.be(undefined)
+    expect(tree).to.eql({
+      type: 'button',
+      props: {
+        className: 'sc-0'
+      },
+      children: [
+        {
+          type: 'span',
+          props: {},
+          children: null
+        }
+      ]
+    })
   })
 
-  it('should not leak non-dom attrs', () => {
-    const registry = new SheetsRegistry()
-    const Div = styled('div')({
-      color: 'red',
-      width: props => props.s
-    })
-    const renderer = TestRenderer.create(
-      <JssProvider registry={registry} generateId={createGenerateId()}>
-        <Div s={10} />
-      </JssProvider>
+  it('should not use "as" prop for tag name when component was passed', () => {
+    const Comp: StatelessFunctionalComponent<Props> = () => <div />
+    const Div = styled(Comp)({color: 'red'})
+    const {css, tree} = renderToJSON(
+      <Div as="button">
+        <span />
+      </Div>
     )
-    expect(registry.toString()).to.be(stripIndent`
-      .css-0 {
+    expect(css).to.be(stripIndent`
+      .sc-0 {
         color: red;
       }
-      .css-0-1 {
-        width: 10px;
-      }
     `)
-    const {className, s} = renderer.root.findByType('div').props
-    expect(className).to.be('css-0 css-0-1')
-    expect(s).to.be(undefined)
+    expect(tree).to.eql({type: 'div', props: {}, children: null})
   })
 
   it('should compose with styled component', () => {
-    const registry = new SheetsRegistry()
     const BaseDiv = styled('div')({color: 'red'})
     const Div = styled(BaseDiv)({width: 10})
-    const renderer = TestRenderer.create(
-      <JssProvider registry={registry} generateId={createGenerateId()}>
-        <Div />
-      </JssProvider>
-    )
-    expect(registry.toString()).to.be(stripIndent`
-      .css-1 {
+    const {css, tree} = renderToJSON(<Div />)
+    expect(css).to.be(stripIndent`
+      .sc-1 {
         color: red;
       }
-      .css-0 {
+      .sc-0 {
         width: 10px;
       }
     `)
-    const {className} = renderer.root.findByType('div').props
-    expect(className).to.be('css-0 css-1')
+    expect(tree).to.eql({
+      type: 'div',
+      props: {
+        className: 'sc-0 sc-1'
+      },
+      children: null
+    })
   })
 
   it('should pass className to a user component', () => {
-    const registry = new SheetsRegistry()
-    type Props = Object
     const BaseDiv: StatelessFunctionalComponent<Props> = ({className}: Props) => (
       <div className={className} />
     )
     const Div = styled(BaseDiv)({width: 10})
-    const renderer = TestRenderer.create(
-      <JssProvider registry={registry} generateId={createGenerateId()}>
-        <Div />
-      </JssProvider>
-    )
-    expect(registry.toString()).to.be(stripIndent`
-      .css-0 {
+    const {css, tree} = renderToJSON(<Div />)
+    expect(css).to.be(stripIndent`
+      .sc-0 {
         width: 10px;
       }
     `)
-    const {className} = renderer.root.findByType('div').props
-    expect(className).to.be('css-0')
-  })
-
-  it("should pass custom props to a user component if shouldForwardProp doesn't return false", () => {
-    type Props = Object
-    let receivedProps = {}
-    const UserComponent: StatelessFunctionalComponent<Props> = (props: Props) => {
-      receivedProps = props
-      return <div />
-    }
-    const shouldForwardProp = prop => prop !== 'disalowed'
-    const Div = styled(UserComponent, {shouldForwardProp})({width: 10})
-    TestRenderer.create(<Div allowed disalowed />)
-    expect(receivedProps.allowed).to.be(true)
-    expect(receivedProps.disalowed).to.be(undefined)
+    expect(tree).to.eql({
+      type: 'div',
+      props: {
+        className: 'sc-0'
+      },
+      children: null
+    })
   })
 
   it.skip('should target another styled component (not sure if we really need this)', () => {
-    const registry = new SheetsRegistry()
     const Span = styled('span')({color: 'red'})
     const Div = styled('div')({
       // $FlowFixMe
@@ -299,57 +309,76 @@ describe.skip('React-JSS: styled', () => {
       }
     })
 
-    const renderer = TestRenderer.create(
-      <JssProvider registry={registry} generateId={createGenerateId()}>
-        <Div />
-      </JssProvider>
-    )
-    expect(registry.toString()).to.be(stripIndent`
-      .css-0 {
+    const {css, tree} = renderToJSON(<Div />)
+    expect(css).to.be(stripIndent`
+      .sc-0 {
         width: 10px;
       }
     `)
-    expect(renderer.root.findByType('div').props.className).to.be('XXX')
-    expect(renderer.root.findByType('span').props.className).to.be('XXX')
+    expect(tree).to.eql({})
+    // expect(renderer.root.findByType('div').props.className).to.be('XXX')
+    // expect(renderer.root.findByType('span').props.className).to.be('XXX')
   })
 
   it('should render theme', () => {
-    const registry = new SheetsRegistry()
     const Div = styled('div')({
       color: 'red',
       margin: props => props.theme.spacing
     })
-    TestRenderer.create(
-      <JssProvider registry={registry} generateId={createGenerateId()}>
-        <ThemeProvider theme={({spacing: 10}: Object)}>
-          <Div />
-        </ThemeProvider>
-      </JssProvider>
+    const {css} = renderToJSON(
+      <ThemeProvider theme={({spacing: 10}: Object)}>
+        <Div />
+      </ThemeProvider>
     )
-    expect(registry.toString()).to.be(stripIndent`
-      .css-0 {
+    expect(css).to.be(stripIndent`
+      .sc-0 {
         color: red;
       }
-      .css-0-1 {
+      .sc-0-1 {
         margin: 10px;
       }
     `)
   })
 
+  it.skip('should override theme over props', () => {})
+
   it('should render label', () => {
-    const registry = new SheetsRegistry()
     const Div = styled('div')({label: 'my-div', color: 'red'})
-    const renderer = TestRenderer.create(
-      <JssProvider registry={registry} generateId={createGenerateId()}>
-        <Div />
-      </JssProvider>
+    const {css, tree} = renderToJSON(<Div />)
+    expect(css).to.be(stripIndent`
+      .my-div-0 {
+        color: red;
+      }
+    `)
+    expect(tree).to.eql({
+      type: 'div',
+      props: {
+        className: 'my-div-0'
+      },
+      children: null
+    })
+  })
+
+  it('should merge labels', () => {
+    const Div = styled('div')(
+      {label: 'labela', color: 'red'},
+      {label: 'labelb', background: 'red'},
+      {label: 'labela', float: 'left'}
     )
-    expect(registry.toString()).to.be(stripIndent`
-        .my-div-0 {
-          color: red;
-        }
-      `)
-    const {className} = renderer.root.findByType('div').props
-    expect(className).to.be('my-div-0')
+    const {css, tree} = renderToJSON(<Div />)
+    expect(css).to.be(stripIndent`
+      .labela-labelb-0 {
+        color: red;
+        float: left;
+        background: red;
+      }
+    `)
+    expect(tree).to.eql({
+      type: 'div',
+      props: {
+        className: 'labela-labelb-0'
+      },
+      children: null
+    })
   })
 })

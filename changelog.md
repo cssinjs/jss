@@ -1,8 +1,21 @@
 ## Next
 
+### Bug fixes
+
+- [jss-plugin-vendor-prefixer] Upgrade css-vendor package to v2.0.4 ([#1136](https://github.com/cssinjs/jss/pull/1136))
+
+## 10.0.0-alpha.20 (2019-6-17)
+
+### Bug Fixes
+
+- [react-jss] Experimental styled API got some fixes and many more tests ([#1118](https://github.com/cssinjs/jss/pull/1118))
+
+## 10.0.0-alpha.18 (2019-6-14)
+
 ### Features
 
 - [react-jss] New experimental styled API (undocumented intentionally)([#1094](https://github.com/cssinjs/jss/pull/1094))
+- [react-jss] JSX pragma for css prop (undocumented intentionally)([#1130](https://github.com/cssinjs/jss/pull/1130))
 - [css-jss] New experimental css() API (undocumented intentionally)([#1129](https://github.com/cssinjs/jss/pull/1129))
 
 ### Bug fixes

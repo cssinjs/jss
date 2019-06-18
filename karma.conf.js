@@ -55,15 +55,15 @@ module.exports = config => {
     Object.assign(config, {
       browsers: Object.keys(browsers),
       browserDisconnectTolerance: 3,
-      // My current OS plan allows max 5 parallel connections.
-      concurrency: 5,
-      retryLimit: 3
+      // My current OS plan allows max 10 parallel connections.
+      concurrency: 10,
+      retryLimit: 5
     })
 
     config.browserStack = {
       username: browserStackUserName,
       accessKey: browserStackAccessKey,
-      captureTimeout: 10000
+      captureTimeout: 30000
     }
 
     if (isTravis) {
