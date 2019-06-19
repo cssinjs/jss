@@ -16,6 +16,8 @@ type StyledProps = {
 
 type StyleArg<Theme> = StaticStyle | DynamicStyle<Theme> | null | void | ''
 
+type ShouldForwardProp = string => boolean
+
 const parseStyles = <Theme>(args: {[string]: StyleArg<Theme>}) => {
   const dynamicStyles = []
   let staticStyle
@@ -68,27 +70,56 @@ const parseStyles = <Theme>(args: {[string]: StyleArg<Theme>}) => {
 
 const shouldForwardPropSymbol = Symbol('react-jss-styled')
 
-type ShouldForwardProp = string => boolean
-type StyledOptions<Theme> = HookOptions<Theme> & {
-  shouldForwardProp?: ShouldForwardProp
-}
-
-export default <Theme: {}>(
-  tagOrComponent: string | StatelessFunctionalComponent<StyledProps> | ComponentType<StyledProps>,
-  options?: StyledOptions<Theme> = {}
-) => {
-  const {theming, shouldForwardProp} = options
-  const isTag = typeof tagOrComponent === 'string'
-  const ThemeContext = theming ? theming.context : DefaultThemeContext
-
+const getShouldForwardProp = (tagOrComponent, options): ShouldForwardProp => {
+  const {shouldForwardProp} = options
   // $FlowIgnore that prop shouldn't be there.
   const childShouldForwardProp: ShouldForwardProp = tagOrComponent[shouldForwardPropSymbol]
   let finalShouldForwardProp = shouldForwardProp || childShouldForwardProp
   if (shouldForwardProp && childShouldForwardProp) {
     finalShouldForwardProp = prop => childShouldForwardProp(prop) && shouldForwardProp(prop)
   }
+  return finalShouldForwardProp
+}
 
-  return function StyledFactory(/* :: ...args: StyleArg<Theme>[] */): StatelessFunctionalComponent<
+const getChildProps = (props, shouldForwardProp, isTag) => {
+  const childProps: StyledProps = ({}: any)
+
+  for (const prop in props) {
+    if (shouldForwardProp) {
+      if (shouldForwardProp(prop) === true) {
+        childProps[prop] = props[prop]
+      }
+      continue
+    }
+
+    // We don't want to pass non-dom props to the DOM.
+    if (isTag) {
+      if (isPropValid(prop)) {
+        childProps[prop] = props[prop]
+      }
+      continue
+    }
+
+    childProps[prop] = props[prop]
+  }
+
+  return childProps
+}
+
+type StyledOptions<Theme> = HookOptions<Theme> & {
+  shouldForwardProp?: ShouldForwardProp
+}
+
+const configureStyled = <Theme: {}>(
+  tagOrComponent: string | StatelessFunctionalComponent<StyledProps> | ComponentType<StyledProps>,
+  options?: StyledOptions<Theme> = {}
+) => {
+  const {theming} = options
+  const isTag = typeof tagOrComponent === 'string'
+  const ThemeContext = theming ? theming.context : DefaultThemeContext
+  const shouldForwardProp = getShouldForwardProp(tagOrComponent, options)
+
+  return function createStyledComponent(/* :: ...args: StyleArg<Theme>[] */): StatelessFunctionalComponent<
     StyledProps
   > {
     // eslint-disable-next-line prefer-rest-params
@@ -101,33 +132,15 @@ export default <Theme: {}>(
       const theme = React.useContext(ThemeContext)
       const propsWithTheme: StyledProps = Object.assign(({theme}: any), props)
       const classes = useStyles(propsWithTheme)
-      const childProps: StyledProps = ({}: any)
-
-      for (const prop in props) {
-        if (finalShouldForwardProp) {
-          if (finalShouldForwardProp(prop) === true) {
-            childProps[prop] = props[prop]
-          }
-          continue
-        }
-
-        // We don't want to pass non-dom props to the DOM.
-        if (isTag) {
-          if (isPropValid(prop)) {
-            childProps[prop] = props[prop]
-          }
-          continue
-        }
-
-        childProps[prop] = props[prop]
-      }
+      const childProps = getChildProps(props, shouldForwardProp, isTag)
 
       // $FlowIgnore we don't care label might not exist in classes.
       const classNames = `${classes[label] || classes.sc || ''} ${classes.scd || ''}`.trim()
       childProps.className = className ? `${className} ${classNames}` : classNames
-      if (!isTag && finalShouldForwardProp) {
+
+      if (!isTag && shouldForwardProp) {
         // $FlowIgnore we are not supposed to attach random properties to component functions.
-        tagOrComponent[shouldForwardPropSymbol] = finalShouldForwardProp
+        tagOrComponent[shouldForwardPropSymbol] = shouldForwardProp
       }
 
       if (isTag && as) {
@@ -140,3 +153,5 @@ export default <Theme: {}>(
     return Styled
   }
 }
+
+export default configureStyled

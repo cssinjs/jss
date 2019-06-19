@@ -47,7 +47,7 @@ export default ({createStyledComponent}) => {
     })
   })
 
-  describe('.withStyles() preserving source order', () => {
+  describe('preserving source order', () => {
     let ComponentA
     let ComponentB
     let ComponentC
@@ -118,7 +118,7 @@ export default ({createStyledComponent}) => {
     })
   })
 
-  describe('.withStyles() properly warns about themed styles misuse', () => {
+  describe('properly warn about themed styles misuse', () => {
     beforeEach(() => {
       spy(console, 'warn')
     })

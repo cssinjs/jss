@@ -51,7 +51,7 @@ function getSheetOptions<Theme>(options: Options<Theme>, link: boolean) {
   }
 }
 
-function createStaticSheet<Theme>(options: Options<Theme>) {
+export const createStyleSheet = <Theme>(options: Options<Theme>) => {
   if (options.context.disableStylesGeneration) {
     return undefined
   }
@@ -79,7 +79,7 @@ function createStaticSheet<Theme>(options: Options<Theme>) {
   return sheet
 }
 
-const removeDynamicRules = (sheet: StyleSheet, rules: DynamicRules) => {
+export const removeDynamicRules = (sheet: StyleSheet, rules: DynamicRules) => {
   // Loop over each dynamic rule and remove the dynamic rule
   // We can't just remove the whole sheet as this has all of the rules for every component instance
   for (const key in rules) {
@@ -87,7 +87,7 @@ const removeDynamicRules = (sheet: StyleSheet, rules: DynamicRules) => {
   }
 }
 
-const updateDynamicRules = (data: any, sheet: StyleSheet, rules: DynamicRules) => {
+export const updateDynamicRules = (data: any, sheet: StyleSheet, rules: DynamicRules) => {
   // Loop over each dynamic rule and update it
   // We can't just update the whole sheet as this has all of the rules for every component instance
   for (const key in rules) {
@@ -96,7 +96,7 @@ const updateDynamicRules = (data: any, sheet: StyleSheet, rules: DynamicRules) =
   }
 }
 
-const addDynamicRules = (sheet: StyleSheet, data: any): ?DynamicRules => {
+export const addDynamicRules = (sheet: StyleSheet, data: any): ?DynamicRules => {
   const meta = getMeta(sheet)
 
   if (!meta) {
@@ -119,5 +119,3 @@ const addDynamicRules = (sheet: StyleSheet, data: any): ?DynamicRules => {
 
   return rules
 }
-
-export {addDynamicRules, updateDynamicRules, removeDynamicRules, createStaticSheet}
