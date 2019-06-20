@@ -55,11 +55,14 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
       let dynamicRules
       let classes
       if (sheet) {
-        if (context.registry) {
-          context.registry.add(sheet)
-        }
         dynamicRules = addDynamicRules(sheet, data)
         classes = getSheetClasses(sheet, dynamicRules)
+        manageSheet({
+          index,
+          context,
+          sheet,
+          theme
+        })
       }
 
       return {
@@ -70,31 +73,20 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
     })
 
     useEffectOrLayoutEffect(
-      () => {
-        if (state.sheet) {
-          manageSheet({
-            index,
-            context,
-            sheet: state.sheet,
-            theme
-          })
-        }
+      () => () => {
+        const {sheet, dynamicRules} = state
 
-        return () => {
-          const {sheet, dynamicRules} = state
+        if (!sheet) return
 
-          if (!sheet) return
+        unmanageSheet({
+          index,
+          context,
+          sheet,
+          theme
+        })
 
-          unmanageSheet({
-            index,
-            context,
-            sheet,
-            theme
-          })
-
-          if (dynamicRules) {
-            removeDynamicRules(sheet, dynamicRules)
-          }
+        if (dynamicRules) {
+          removeDynamicRules(sheet, dynamicRules)
         }
       },
       [state.sheet]
