@@ -2,7 +2,7 @@
 
 ### Bug fixes
 
-- [jss-plugin-vendor-prefixer] Upgrade css-vendor package to v2.0.4 ([#1136](https://github.com/cssinjs/jss/pull/1136))
+- [jss-plugin-vendor-prefixer] Upgrade css-vendor package to v2.0.5 ([#1141](https://github.com/cssinjs/jss/pull/1141))
 
 ## 10.0.0-alpha.20 (2019-6-17)
 
