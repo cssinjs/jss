@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.3.1",
-    "css-vendor": "^2.0.4",
+    "css-vendor": "^2.0.5",
     "jss": "10.0.0-alpha.20"
   },
   "devDependencies": {
