@@ -13,8 +13,8 @@ const jsx = (...args) => currJsx(...args)
 
 describe('React-JSS: jsx', () => {
   beforeEach(() => {
-    const sheet = createJss({createGenerateId}).createStyleSheet()
-    const css = createCss(sheet)
+    const jss = createJss({createGenerateId})
+    const css = createCss(jss)
     currJsx = createJsx(css)
   })
 
