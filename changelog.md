@@ -4,8 +4,6 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
-## 10.0.0-alpha.20 (2019-6-21)
-
 ### Bug fixes
 
 - [jss-plugin-vendor-prefixer] Upgrade css-vendor package to v2.0.5 ([#1142](https://github.com/cssinjs/jss/pull/1142))
