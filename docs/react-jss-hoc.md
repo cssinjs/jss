@@ -1,20 +1,22 @@
-## JSS HOC for React
+# JSS HOC for React
 
 - [Basic](#basic)
-- [Server-side rendering](#server-side-rendering)
+- [Accessing the theme inside the styled component](#accessing-the-theme-inside-the-styled-component)
+- [Accessing the theme without a styled component](#accessing-the-theme-without-a-styled-component)
 - [The inner component](#the-inner-component)
 - [The inner ref](#the-inner-ref)
 - [Decorators](#decorators)
+- [Injection order](#injection-order)
 - [Usage with TypeScript](#usage-with-typescript)
 
-### Usage
+## Usage
 
 React-JSS wraps your component with a [higher-order component](https://medium.com/@dan_abramov/mixins-are-dead-long-live-higher-order-components-94a0d2f9e750).
 It injects a `classes` prop, which is a simple map of rule names and generated class names.
 
 Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
 
-#### Basic
+## Basic
 
 ```javascript
 import React from 'react'
@@ -88,7 +90,7 @@ and
 }
 ```
 
-#### Accessing the theme inside the styled component
+## Accessing the theme inside the styled component
 
 The theme will not be injecting into the wrapped component.
 To inject the theme into the wrapped component, pass the `injectTheme` option to `withStyles`.
@@ -119,7 +121,7 @@ const styles = theme => ({
 const StyledButton = withStyles(styles, {injectTheme: true})(Button)
 ```
 
-#### Accessing the theme without a styled component
+## Accessing the theme without a styled component
 
 In case you need to access the theme but not render any CSS, you can also use `withTheme`. It is a Higher-order Component factory which takes a `React.Component` and maps the theme object from context to props. [Read more about `withTheme` in `theming`'s documentation.](https://github.com/cssinjs/theming#withthemecomponent)
 
@@ -130,7 +132,7 @@ import {withTheme} from 'react-jss'
 const Button = withTheme(({theme}) => <button>I can access {theme.colorPrimary}</button>)
 ```
 
-#### The inner component
+## The inner component
 
 ```javascript
 import withStyles from 'react-jss'
@@ -140,7 +142,7 @@ const StyledComponent = withStyles({})(InnerComponent)
 console.log(StyledComponent.InnerComponent) // Prints out the inner component.
 ```
 
-#### The inner ref
+## The inner ref
 
 To get a `ref` to the inner element, use the `ref` prop.
 We will forward the ref to the inner component.
@@ -161,7 +163,7 @@ const App = (
 )
 ```
 
-#### Decorators
+## Decorators
 
 _Beware that [decorators are stage-2 proposal](https://tc39.github.io/proposal-decorators/), so there are [no guarantees that decorators will make its way into language specification](https://tc39.github.io/process-document/). Do not use it in production. Use it at your own risk and only if you know what you are doing._
 
@@ -195,7 +197,7 @@ class Button extends Component {
 export default Button
 ```
 
-### Injection order
+## Injection order
 
 Injection of style tags happens in the same order as the `withStyles()` invocation.
 Source order specificity is higher the lower style tag is in the tree. Therefore you should call `withStyles` of components you want to override first.
@@ -218,7 +220,7 @@ const Button = withStyles(buttonStyles)(() => (
 ))
 ```
 
-### Usage with TypeScript
+## Usage with TypeScript
 
 React JSS includes first class support for TypeScript. React JSS provides
 a `WithStyles` type which adds types for all of the injected props.
