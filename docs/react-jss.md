@@ -23,6 +23,7 @@ Benefits compared to using the core JSS package directly:
 - [Accessing the theme inside the styled component](#accessing-the-theme-inside-the-styled-component)
 - [Accessing the theme without styles](#accessing-the-theme-without-styles)
 - [Using custom Theming Context](#using-custom-theming-context)
+- [Class name generator options](#class-name-generator-options)
 - [Server-side rendering](#server-side-rendering)
 - [React tree traversing](#react-tree-traversing)
 - [Custom setup](#custom-setup)
@@ -319,6 +320,29 @@ const App = () => (
   </OtherLibraryThemeProvider>
 )
 ```
+
+## Class name generator options
+
+Make sure using the same setup on the server and on the client. Id generator is used for class names and for keyframes.
+
+1. You can change the class name generation algorithm by passing your custom [generator function](./jss-api.md#generate-your-class-names) prop.
+
+   ```javascript
+     const generateId = (rule, sheet) => 'some-id'
+     <JssProvider generateId={generateId}>
+       <MyApp />
+     </JssProvider>
+   ```
+
+1. You can add an additional prefix to each class, [see here](#multi-tree-setup).
+
+1. You can minify class names by passing id options, so that prefixes will not be used even if defined, [see also](./jss-api.md#minify-selectors).
+
+   ```javascript
+   <JssProvider id={{minify: true}}>
+     <MyApp />
+   </JssProvider>
+   ```
 
 ## Server-side rendering
 
