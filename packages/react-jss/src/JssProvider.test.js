@@ -191,6 +191,48 @@ describe('React-JSS: JssProvider', () => {
         `)
       })
     })
+
+    describe('id prop', () => {
+      it('should forward from context', () => {
+        const MyComponent = withStyles({a: {color: 'red'}})()
+
+        TestRenderer.create(
+          <JssProvider registry={registry} id={{minify: true}}>
+            <JssProvider>
+              <MyComponent />
+            </JssProvider>
+          </JssProvider>
+        )
+        expect(registry.toString().substr(0, 2)).to.be('.c')
+      })
+
+      it('should overwrite over child props to `true`', () => {
+        const MyComponent = withStyles({a: {color: 'red'}})()
+
+        TestRenderer.create(
+          <JssProvider registry={registry} id={{minify: false}}>
+            <JssProvider id={{minify: true}}>
+              <MyComponent />
+            </JssProvider>
+          </JssProvider>
+        )
+        expect(registry.toString().substr(0, 2)).to.be('.c')
+      })
+
+      it('should overwrite over child props to `false`', () => {
+        const MyComponent = withStyles({a: {color: 'red'}})()
+
+        TestRenderer.create(
+          <JssProvider registry={registry} id={{minify: true}}>
+            <JssProvider id={{minify: false}}>
+              <MyComponent />
+            </JssProvider>
+          </JssProvider>
+        )
+
+        expect(registry.toString().substr(0, 2)).to.be('.N')
+      })
+    })
   })
 
   describe('JssProvider in a stateful component', () => {

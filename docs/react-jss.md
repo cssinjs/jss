@@ -328,20 +328,36 @@ Make sure using the same setup on the server and on the client. Id generator is 
 1. You can change the class name generation algorithm by passing your custom [generator function](./jss-api.md#generate-your-class-names) prop.
 
    ```javascript
-     const generateId = (rule, sheet) => 'some-id'
+   import React from 'react'
+   import ReactDOM from 'react-dom'
+   import {JssProvider} from 'react-jss'
+   import MyApp from './MyApp'
+
+   const generateId = (rule, sheet) => 'some-id'
+   ReactDOM.render(
      <JssProvider generateId={generateId}>
        <MyApp />
-     </JssProvider>
+     </JssProvider>,
+     document.getElementById('root')
+   )
    ```
 
 1. You can add an additional prefix to each class, [see here](#multi-tree-setup).
 
-1. You can minify class names by passing id options, so that prefixes will not be used even if defined, [see also](./jss-api.md#minify-selectors).
+1. You can minify class names by passing `id` prop, so that prefixes a not used, [see also](./jss-api.md#minify-selectors).
 
    ```javascript
-   <JssProvider id={{minify: true}}>
-     <MyApp />
-   </JssProvider>
+   import React from 'react'
+   import ReactDOM from 'react-dom'
+   import {JssProvider} from 'react-jss'
+   import MyApp from './MyApp'
+
+   ReactDOM.render(
+     <JssProvider id={{minify: true}}>
+       <MyApp />
+     </JssProvider>,
+     document.getElementById('root')
+   )
    ```
 
 ## Server-side rendering

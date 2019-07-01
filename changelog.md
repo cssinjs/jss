@@ -4,6 +4,15 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+### Bug fixes
+
+- [react-jss] When id options passed to JssProvider, we need to create a new `generateId` function ([#1147](https://github.com/cssinjs/jss/pull/1147))
+
+### Improvements
+
+- [react-jss] Document `id` prop for JssProvider, add "Class name generator options" to the docs. ([#1147](https://github.com/cssinjs/jss/pull/1147))
+- [react-jss] Use component name or displayName as a class name prefix also in production by default ([#1147](https://github.com/cssinjs/jss/pull/1147))
+
 ## 10.0.0-alpha.21 (2019-6-22)
 
 ### Bug fixes

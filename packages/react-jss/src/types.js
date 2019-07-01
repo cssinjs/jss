@@ -1,14 +1,17 @@
 // @flow
-import type {StyleSheetFactoryOptions, Jss, SheetsRegistry, SheetsManager, BaseRule} from 'jss'
+import type {
+  StyleSheetFactoryOptions,
+  Jss,
+  SheetsRegistry,
+  SheetsManager,
+  BaseRule,
+  CreateGenerateIdOptions,
+  GenerateId
+} from 'jss'
 import type {Node} from 'react'
 import type {Theming} from 'theming'
 
 export type Managers = {[key: number]: SheetsManager}
-
-type StyleSheetOptions = {
-  ...StyleSheetFactoryOptions,
-  classNamePrefix: string
-}
 
 export type HookOptions<Theme> = StyleSheetFactoryOptions & {
   index?: number,
@@ -26,8 +29,11 @@ export type Context = {|
   jss?: Jss,
   registry?: SheetsRegistry,
   managers?: Managers,
-  sheetOptions: StyleSheetOptions,
-  disableStylesGeneration: boolean
+  id?: CreateGenerateIdOptions,
+  classNamePrefix?: string,
+  disableStylesGeneration?: boolean,
+  media?: string,
+  generateId?: GenerateId
 |}
 
 export type HOCProps<Theme, Props> = Props & {
