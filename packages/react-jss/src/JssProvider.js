@@ -1,4 +1,6 @@
 // @flow
+/* eslint-disable react/require-default-props, react/no-unused-prop-types */
+
 import React, {Component, type Node} from 'react'
 import PropTypes from 'prop-types'
 import {shallowEqualObjects} from 'shallow-equal'
@@ -12,8 +14,6 @@ import defaultJss, {
 import type {Context, Managers} from './types'
 import JssContext from './JssContext'
 
-/* eslint-disable react/require-default-props, react/no-unused-prop-types */
-
 type Props = {|
   jss?: Jss,
   registry?: SheetsRegistry,
@@ -21,9 +21,11 @@ type Props = {|
   classNamePrefix?: string,
   disableStylesGeneration?: boolean,
   media?: string,
-  children: Node,
-  id: CreateGenerateIdOptions
+  id?: CreateGenerateIdOptions,
+  children: Node
 |}
+
+const initialContext: Object = {}
 
 export default class JssProvider extends Component<Props> {
   static propTypes = {
@@ -37,15 +39,20 @@ export default class JssProvider extends Component<Props> {
     id: PropTypes.shape({minify: PropTypes.bool})
   }
 
-  static defaultProps = {id: {minify: false}}
-
   managers: Managers = {}
 
-  createContext = (outerContext: Context) => {
-    const {registry, classNamePrefix, jss, generateId, disableStylesGeneration, media} = this.props
+  createContext = (parentContext: Context, prevContext?: Context = initialContext) => {
+    const {
+      registry,
+      classNamePrefix,
+      jss,
+      generateId,
+      disableStylesGeneration,
+      media,
+      id
+    } = this.props
 
-    // Clone the outer context
-    const context = {...outerContext}
+    const context = {...parentContext}
 
     if (registry) {
       context.registry = registry
@@ -61,22 +68,24 @@ export default class JssProvider extends Component<Props> {
 
     context.managers = this.managers
 
-    if (generateId) {
-      context.sheetOptions.generateId = generateId
-    } else if (!context.sheetOptions.generateId) {
-      if (!this.generateId) {
-        this.generateId = createGenerateId(this.props.id)
-      }
-      context.sheetOptions.generateId = this.generateId
+    if (id !== undefined) {
+      context.id = id
     }
 
-    // Merge the classname prefix
+    if (generateId !== undefined) {
+      context.generateId = generateId
+    }
+
+    if (!context.generateId || !prevContext || context.id !== prevContext.id) {
+      context.generateId = createGenerateId(context.id)
+    }
+
     if (classNamePrefix) {
-      context.sheetOptions.classNamePrefix += classNamePrefix
+      context.classNamePrefix += classNamePrefix
     }
 
     if (media !== undefined) {
-      context.sheetOptions.media = media
+      context.media = media
     }
 
     if (jss) {
@@ -87,11 +96,9 @@ export default class JssProvider extends Component<Props> {
       context.disableStylesGeneration = disableStylesGeneration
     }
 
-    if (this.prevContext && shallowEqualObjects(this.prevContext, context)) {
-      return this.prevContext
+    if (prevContext && shallowEqualObjects(prevContext, context)) {
+      return prevContext
     }
-
-    this.prevContext = context
 
     return context
   }
@@ -102,10 +109,10 @@ export default class JssProvider extends Component<Props> {
 
   registry: ?SheetsRegistry
 
-  renderProvider = (outerContext: Context) => {
+  renderProvider = (parentContext: Context) => {
     const {children} = this.props
-    const context: Context = this.createContext(outerContext)
-
+    const context: Context = this.createContext(parentContext, this.prevContext)
+    this.prevContext = context
     return <JssContext.Provider value={context}>{children}</JssContext.Provider>
   }
 
