@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "@types/react": "^16.8.16",
+    "react-dom": "^16.8.6",
     "styled-system": "4.2.0-0"
   }
 }
