@@ -4,6 +4,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+## 10.0.0-alpha.22 (2019-7-2)
+
 ### Breaking Changes
 
 - [jss] SheetsRegistry.toString(options) will now return all sheets by default, no matter detached or attached. You can specify which one you want by using the option `registry.toString({attached: true})` ([1140](https://github.com/cssinjs/jss/pull/1140))
