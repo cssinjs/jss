@@ -4,8 +4,13 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+### Breaking Changes
+
+- [jss] SheetsRegistry.toString(options) will now return all sheets by default, no matter detached or attached. You can specify which one you want by using the option `registry.toString({attached: true})` ([1140](https://github.com/cssinjs/jss/pull/1140))
+
 ### Bug fixes
 
+- [react-jss] SSR for the hooks based API will now work with the registry as expected ([1140](https://github.com/cssinjs/jss/pull/1140))
 - [react-jss] When id options passed to JssProvider, we need to create a new `generateId` function ([#1147](https://github.com/cssinjs/jss/pull/1147))
 
 ### Improvements
