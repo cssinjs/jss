@@ -80,8 +80,8 @@ describe('Integration: sheetsRegistry', () => {
   })
 
   describe('.toString()', () => {
-    it('should convert to CSS string', () => {
-      const sheet1 = jss.createStyleSheet({a: {color: 'red'}}).attach()
+    it('should stringify all', () => {
+      const sheet1 = jss.createStyleSheet({a: {color: 'red'}})
       const sheet2 = jss.createStyleSheet({a: {color: 'blue'}}).attach()
       sheets.add(sheet1)
       sheets.add(sheet2)
@@ -94,13 +94,24 @@ describe('Integration: sheetsRegistry', () => {
         }
       `)
     })
+    it('should stringify detached sheets', () => {
+      const sheet1 = jss.createStyleSheet({a: {color: 'red'}})
+      const sheet2 = jss.createStyleSheet({a: {color: 'blue'}}).attach()
+      sheets.add(sheet1)
+      sheets.add(sheet2)
+      expect(sheets.toString({attached: false})).to.be(stripIndent`
+        .a-id {
+          color: red;
+        }
+      `)
+    })
 
-    it('should not stringify detached sheets', () => {
+    it('should stringify attached sheets', () => {
       const sheet1 = jss.createStyleSheet({a: {color: 'red'}}).attach()
       const sheet2 = jss.createStyleSheet({a: {color: 'blue'}})
       sheets.add(sheet1)
       sheets.add(sheet2)
-      expect(sheets.toString()).to.be(stripIndent`
+      expect(sheets.toString({attached: true})).to.be(stripIndent`
         .a-id {
           color: red;
         }

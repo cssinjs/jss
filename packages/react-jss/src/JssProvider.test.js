@@ -252,29 +252,30 @@ describe('React-JSS: JssProvider', () => {
       }
 
       const renderer = TestRenderer.create(<MyComponent value={false} />)
-      // TODO: Does this make sense?
-      expect(registry.toString()).to.be(stripIndent`
+      // Filter detached sheets because there is no conditional rendering
+      // on the server.
+      expect(registry.toString({attached: true})).to.be(stripIndent`
         .a-0 {
           color: green;
         }
       `)
 
       renderer.update(<MyComponent value />)
-      expect(registry.toString()).to.be(stripIndent`
+      expect(registry.toString({attached: true})).to.be(stripIndent`
         .a-1 {
           color: red;
         }
       `)
 
       renderer.update(<MyComponent value={false} />)
-      expect(registry.toString()).to.be(stripIndent`
+      expect(registry.toString({attached: true})).to.be(stripIndent`
         .a-0 {
           color: green;
         }
       `)
 
       renderer.update(<MyComponent value />)
-      expect(registry.toString()).to.be(stripIndent`
+      expect(registry.toString({attached: true})).to.be(stripIndent`
         .a-1 {
           color: red;
         }
