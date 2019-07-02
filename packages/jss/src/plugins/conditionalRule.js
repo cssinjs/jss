@@ -69,6 +69,8 @@ export class ConditionalRule implements ContainerRule {
    * Generates a CSS string.
    */
   toString(options?: ToCssOptions = defaultToStringOptions): string {
+    if (options.indent == null) options.indent = defaultToStringOptions.indent
+    if (options.children == null) options.children = defaultToStringOptions.children
     if (options.children === false) {
       return `${this.key} {}`
     }
