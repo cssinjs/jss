@@ -114,14 +114,13 @@ const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = 
         super(props)
 
         this.state = WithStyles.createState(props)
+        const {registry} = props.jssContext
+        const {sheet} = this.state
+        if (sheet && registry) {
+          registry.add(sheet)
+        }
         if (isInBrowser) {
           WithStyles.manage(props, this.state)
-        } else {
-          const {registry} = props.jssContext
-          const {sheet} = this.state
-          if (sheet && registry) {
-            registry.add(sheet)
-          }
         }
       }
 
