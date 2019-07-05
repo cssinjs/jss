@@ -56,10 +56,16 @@ export default class SheetsRegistry {
   /**
    * Convert all attached sheets to a CSS string.
    */
-  toString(options?: ToCssOptions): string {
-    return this.registry
-      .filter(sheet => sheet.attached)
-      .map(sheet => sheet.toString(options))
-      .join('\n')
+  toString({attached, ...options}: {attached?: boolean, ...ToCssOptions} = {}): string {
+    let css = ''
+    for (let i = 0; i < this.registry.length; i++) {
+      const sheet = this.registry[i]
+      if (attached != null && sheet.attached !== attached) {
+        continue
+      }
+      if (css) css += '\n'
+      css += sheet.toString(options)
+    }
+    return css
   }
 }

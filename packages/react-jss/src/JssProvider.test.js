@@ -191,6 +191,48 @@ describe('React-JSS: JssProvider', () => {
         `)
       })
     })
+
+    describe('id prop', () => {
+      it('should forward from context', () => {
+        const MyComponent = withStyles({a: {color: 'red'}})()
+
+        TestRenderer.create(
+          <JssProvider registry={registry} id={{minify: true}}>
+            <JssProvider>
+              <MyComponent />
+            </JssProvider>
+          </JssProvider>
+        )
+        expect(registry.toString().substr(0, 2)).to.be('.c')
+      })
+
+      it('should overwrite over child props to `true`', () => {
+        const MyComponent = withStyles({a: {color: 'red'}})()
+
+        TestRenderer.create(
+          <JssProvider registry={registry} id={{minify: false}}>
+            <JssProvider id={{minify: true}}>
+              <MyComponent />
+            </JssProvider>
+          </JssProvider>
+        )
+        expect(registry.toString().substr(0, 2)).to.be('.c')
+      })
+
+      it('should overwrite over child props to `false`', () => {
+        const MyComponent = withStyles({a: {color: 'red'}})()
+
+        TestRenderer.create(
+          <JssProvider registry={registry} id={{minify: true}}>
+            <JssProvider id={{minify: false}}>
+              <MyComponent />
+            </JssProvider>
+          </JssProvider>
+        )
+
+        expect(registry.toString().substr(0, 2)).to.be('.N')
+      })
+    })
   })
 
   describe('JssProvider in a stateful component', () => {
@@ -210,29 +252,30 @@ describe('React-JSS: JssProvider', () => {
       }
 
       const renderer = TestRenderer.create(<MyComponent value={false} />)
-      // TODO: Does this make sense?
-      expect(registry.toString()).to.be(stripIndent`
+      // Filter detached sheets because there is no conditional rendering
+      // on the server.
+      expect(registry.toString({attached: true})).to.be(stripIndent`
         .a-0 {
           color: green;
         }
       `)
 
       renderer.update(<MyComponent value />)
-      expect(registry.toString()).to.be(stripIndent`
+      expect(registry.toString({attached: true})).to.be(stripIndent`
         .a-1 {
           color: red;
         }
       `)
 
       renderer.update(<MyComponent value={false} />)
-      expect(registry.toString()).to.be(stripIndent`
+      expect(registry.toString({attached: true})).to.be(stripIndent`
         .a-0 {
           color: green;
         }
       `)
 
       renderer.update(<MyComponent value />)
-      expect(registry.toString()).to.be(stripIndent`
+      expect(registry.toString({attached: true})).to.be(stripIndent`
         .a-1 {
           color: red;
         }
