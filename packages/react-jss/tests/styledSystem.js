@@ -34,7 +34,7 @@ const theme: Object = {
 }
 
 describe('React-JSS: styled-system', () => {
-  it('should reder basic spacing', () => {
+  it.only('should reder basic spacing', () => {
     const registry = new SheetsRegistry()
     const Div = styled('div')(space)
     const renderer = TestRenderer.create(
@@ -44,6 +44,7 @@ describe('React-JSS: styled-system', () => {
         </ThemeProvider>
       </JssProvider>
     )
+    console.log(space({theme, px: 1}), registry.toString())
     // TODO we should not need a static rule in such cases.
     expect(registry.toString()).to.be(stripIndent`
       .scd-0 {}
