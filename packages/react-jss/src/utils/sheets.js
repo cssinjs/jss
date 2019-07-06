@@ -108,12 +108,20 @@ export const addDynamicRules = (sheet: StyleSheet, data: any): ?DynamicRules => 
   // Loop over each dynamic rule and add it to the stylesheet
   for (const key in meta.dynamicStyles) {
     const name = `${key}-${meta.dynamicRuleCounter++}`
-    const rule = sheet.addRule(name, meta.dynamicStyles[key])
+    const initialRuleCount = sheet.rules.index.length
 
-    sheet.update(name, data)
+    const originalRule = sheet.addRule(name, meta.dynamicStyles[key])
 
-    if (rule) {
-      rules[key] = rule
+    // Loop through all created rules, fixes updating dynamic rules
+    for (let i = initialRuleCount; i < sheet.rules.index.length; i++) {
+      const rule = sheet.rules.index[i]
+
+      // $FlowFixMe: Not sure why flow has an issue here
+      sheet.update(rule.key, data)
+
+      // If it's the original rule, we need to add it by the correct key so the hook and hoc
+      // can correctly concat the dynamic class with the static one
+      rules[originalRule === rule ? key : rule.key] = rule
     }
   }
 
