@@ -181,10 +181,6 @@ jss.use(
 )
 ```
 
-### Demo
-
-[Simple](http://cssinjs.github.io/examples/plugins/jss-plugin-isolate/simple/index.html)
-
 ### Reseted properties
 
 Here are all [inherited](https://github.com/iamstarkov/css-initials/blob/master/inherited.js) and all [non-inherited](https://github.com/iamstarkov/css-initials/blob/master/all.js) properties we reset.
