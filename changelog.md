@@ -1,3 +1,52 @@
+## Next
+
+Since you are interested in what happens next, in case, you work for a for-profit company that benefits from using the project, please consider supporting it on https://opencollective.com/jss.
+
+---
+
+## 10.0.0-alpha.22 (2019-7-2)
+
+### Breaking Changes
+
+- [jss] SheetsRegistry.toString(options) will now return all sheets by default, no matter detached or attached. You can specify which one you want by using the option `registry.toString({attached: true})` ([1140](https://github.com/cssinjs/jss/pull/1140))
+
+### Bug fixes
+
+- [react-jss] SSR for the hooks based API will now work with the registry as expected ([1140](https://github.com/cssinjs/jss/pull/1140))
+- [react-jss] When id options passed to JssProvider, we need to create a new `generateId` function ([#1147](https://github.com/cssinjs/jss/pull/1147))
+
+### Improvements
+
+- [react-jss] Document `id` prop for JssProvider, add "Class name generator options" to the docs. ([#1147](https://github.com/cssinjs/jss/pull/1147))
+- [react-jss] Use component name or displayName as a class name prefix also in production by default ([#1147](https://github.com/cssinjs/jss/pull/1147))
+
+## 10.0.0-alpha.21 (2019-6-22)
+
+### Bug fixes
+
+- [jss-plugin-vendor-prefixer] Upgrade css-vendor package to v2.0.5 ([#1142](https://github.com/cssinjs/jss/pull/1142))
+- [css-jss] Slows down in benchmark after 10k rules ([#1137](https://github.com/cssinjs/jss/pull/1137))
+
+## 10.0.0-alpha.20 (2019-6-17)
+
+### Bug Fixes
+
+- [react-jss] Experimental styled API got some fixes and many more tests ([#1118](https://github.com/cssinjs/jss/pull/1118))
+
+## 10.0.0-alpha.18 (2019-6-14)
+
+### Features
+
+- [react-jss] New experimental styled API (undocumented intentionally)([#1094](https://github.com/cssinjs/jss/pull/1094))
+- [react-jss] JSX pragma for css prop (undocumented intentionally)([#1130](https://github.com/cssinjs/jss/pull/1130))
+- [css-jss] New experimental css() API (undocumented intentionally)([#1129](https://github.com/cssinjs/jss/pull/1129))
+
+### Bug fixes
+
+- [jss] After attempting to insert an invalid rule, JSS is now able to insert a valid one ([#1123](https://github.com/cssinjs/jss/pull/1123))
+- [react-jss] Fix TS type optional `theming` property ([#1121](https://github.com/cssinjs/jss/pull/1121))
+- [react-jss] Export useTheme in TypeScript declaration ([#1124](https://github.com/cssinjs/jss/pull/1124))
+
 ## 10.0.0-alpha.17 (2019-6-7)
 
 ### Features

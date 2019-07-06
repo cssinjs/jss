@@ -6,7 +6,7 @@ import {ThemeContext as DefaultThemeContext} from 'theming'
 
 import JssContext from './JssContext'
 import {
-  createStaticSheet,
+  createStyleSheet,
   addDynamicRules,
   updateDynamicRules,
   removeDynamicRules
@@ -28,7 +28,7 @@ const reducer = (prevState, action) => {
 }
 
 const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions<Theme> = {}) => {
-  const {index = getSheetIndex(), theming, name = 'Hook', ...sheetOptions} = options
+  const {index = getSheetIndex(), theming, name, ...sheetOptions} = options
   const ThemeContext = (theming && theming.context) || DefaultThemeContext
   const useTheme =
     typeof styles === 'function'
@@ -37,13 +37,13 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
       : // $FlowFixMe
         (): Theme => noTheme
 
-  return (data: any) => {
+  return function useStyles(data: any) {
     const isFirstMount = React.useRef(true)
     const context = React.useContext(JssContext)
     const theme = useTheme()
 
     const [state, dispatch] = React.useReducer(reducer, null, () => {
-      const sheet = createStaticSheet({
+      const sheet = createStyleSheet({
         context,
         styles,
         name,
@@ -52,16 +52,20 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
         sheetOptions
       })
 
-      if (context.registry && sheet) {
-        context.registry.add(sheet)
+      let dynamicRules
+      let classes
+      if (sheet) {
+        if (context.registry) {
+          context.registry.add(sheet)
+        }
+        dynamicRules = addDynamicRules(sheet, data)
+        classes = getSheetClasses(sheet, dynamicRules)
       }
-
-      const dynamicRules = sheet && addDynamicRules(sheet, data)
 
       return {
         sheet,
         dynamicRules,
-        classes: sheet ? getSheetClasses(sheet, dynamicRules) : {}
+        classes: classes || {}
       }
     })
 
@@ -77,17 +81,19 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
         }
 
         return () => {
-          if (state.sheet) {
-            unmanageSheet({
-              index,
-              context,
-              sheet: state.sheet,
-              theme
-            })
+          const {sheet, dynamicRules} = state
 
-            if (state.dynamicRules && state.sheet) {
-              removeDynamicRules(state.sheet, state.dynamicRules)
-            }
+          if (!sheet) return
+
+          unmanageSheet({
+            index,
+            context,
+            sheet,
+            theme
+          })
+
+          if (dynamicRules) {
+            removeDynamicRules(sheet, dynamicRules)
           }
         }
       },
@@ -96,7 +102,8 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
 
     useEffectOrLayoutEffect(
       () => {
-        if (state.sheet && state.dynamicRules) {
+        // We only need to update the rules on a subsequent update and not in the first mount
+        if (state.sheet && state.dynamicRules && !isFirstMount.current) {
           updateDynamicRules(data, state.sheet, state.dynamicRules)
         }
       },
@@ -106,7 +113,7 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
     useEffectOrLayoutEffect(
       () => {
         if (!isFirstMount.current) {
-          const newSheet = createStaticSheet({
+          const newSheet = createStyleSheet({
             context,
             styles,
             name,

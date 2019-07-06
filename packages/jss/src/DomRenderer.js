@@ -260,8 +260,15 @@ const getNonce = memoize(
 const insertRule = (
   container: CSSStyleSheet | CSSMediaRule | CSSKeyframesRule,
   rule: string,
-  index?: number = container.cssRules.length
+  index?: number
 ): false | any => {
+  const maxIndex = container.cssRules.length
+  // In case previous insertion fails, passed index might be wrong
+  if (index === undefined || index > maxIndex) {
+    // eslint-disable-next-line no-param-reassign
+    index = maxIndex
+  }
+
   try {
     if ('insertRule' in container) {
       const c = ((container: any): CSSStyleSheet)
@@ -273,7 +280,7 @@ const insertRule = (
       c.appendRule(rule)
     }
   } catch (err) {
-    warning(false, `[JSS] Can not insert an unsupported rule \n${rule}`)
+    warning(false, `[JSS] ${err.message}`)
     return false
   }
   return container.cssRules[index]
@@ -341,7 +348,8 @@ export default class DomRenderer {
    * Remove style element from render tree.
    */
   detach(): void {
-    this.element.parentNode.removeChild(this.element)
+    const {parentNode} = this.element
+    if (parentNode) parentNode.removeChild(this.element)
   }
 
   /**

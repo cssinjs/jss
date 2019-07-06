@@ -7,9 +7,10 @@ import {
   Styles,
   StyleSheetFactoryOptions,
   CreateGenerateIdOptions,
-  Classes
+  Classes,
+  Style
 } from 'jss'
-import {ThemeProvider, withTheme, createTheming, Theming} from 'theming'
+import {createTheming, useTheme, withTheme, ThemeProvider, Theming} from 'theming'
 
 declare const jss: Jss
 
@@ -47,21 +48,29 @@ interface WithStylesOptions extends StyleSheetFactoryOptions {
   index?: number
   injectTheme?: boolean
   jss?: Jss
-  theming: Theming<object>
+  theming?: Theming<object>
 }
 
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 
-interface CreateUseStylesOptions<Theme> {
-  index?: number
-  name?: string
-  theming?: Theming<Theme>
-}
+export {Styles}
 
-declare function createUseStyles<T, S extends Styles<string> | ThemedStyles<T>>(
-  styles: S,
-  options?: CreateUseStylesOptions<T>
-): (data: any) => Classes<S extends ThemedStyles<T> ? keyof ReturnType<S> : keyof S>
+declare function createUseStyles<C extends string>(
+  styles: Record<C, Style>,
+  options?: {
+    index?: number
+    name?: string
+  } & StyleSheetFactoryOptions
+): (data?: any) => Record<C, string>
+
+declare function createUseStyles<T, C extends string>(
+  styles: (theme: T) => Record<C, Style>,
+  options?: {
+    index?: number
+    name?: string
+    theming?: Theming<T>
+  } & StyleSheetFactoryOptions
+): (data?: any) => Record<C, string>
 
 declare function withStyles<S extends Styles<string> | ThemedStyles<any>>(
   styles: S,
@@ -79,6 +88,7 @@ export {
   ThemeProvider,
   withTheme,
   createTheming,
+  useTheme,
   JssContext,
   createUseStyles
 }

@@ -5,7 +5,7 @@ export type Style = css.StandardProperties<string | number | (() => string | num
   [key: string]: Style | string | number
 }
 export type Styles<Name extends string = string> = Record<Name, Style | string>
-export type Classes<Name extends string = string> = Record<Name, string>
+export type Classes<Name extends string | number | symbol = string> = Record<Name, string>
 export type Keyframes<Name extends string = string> = Record<Name, string>
 
 export interface CreateGenerateIdOptions {

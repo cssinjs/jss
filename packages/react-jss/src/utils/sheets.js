@@ -7,13 +7,13 @@ import {getManager} from './managers'
 import defaultJss from '../jss'
 import {addMeta, getMeta} from './sheetsMeta'
 
-interface Options<Theme> {
-  context: Context;
-  theme: Theme;
-  name: string;
-  index: number;
-  styles: Styles<Theme>;
-  sheetOptions: $Diff<StyleSheetFactoryOptions, {index: number | void}>;
+type Options<Theme> = {
+  context: Context,
+  theme: Theme,
+  name?: string,
+  index: number,
+  styles: Styles<Theme>,
+  sheetOptions: $Diff<StyleSheetFactoryOptions, {index: number | void}>
 }
 
 const getStyles = <Theme>(options: Options<Theme>) => {
@@ -24,29 +24,39 @@ const getStyles = <Theme>(options: Options<Theme>) => {
 
   warning(
     styles.length !== 0,
-    `[JSS] <${
-      options.name
-    } />'s styles function doesn't rely on the "theme" argument. We recommend declaring styles as an object instead.`
+    `[JSS] <${options.name ||
+      'Hook'} />'s styles function doesn't rely on the "theme" argument. We recommend declaring styles as an object instead.`
   )
 
   return styles(options.theme)
 }
 
 function getSheetOptions<Theme>(options: Options<Theme>, link: boolean) {
-  const classNamePrefix =
-    process.env.NODE_ENV === 'production' ? '' : `${options.name.replace(/\s/g, '-')}-`
+  let minify
+  if (options.context.id && options.context.id.minify != null) {
+    minify = options.context.id.minify
+  }
+
+  let classNamePrefix = options.context.classNamePrefix || ''
+  if (options.name && !minify) {
+    classNamePrefix += `${options.name.replace(/\s/g, '-')}-`
+  }
+
+  let meta = ''
+  if (options.name) meta = `${options.name}, `
+  meta += typeof options.styles === 'function' ? 'Themed' : 'Unthemed'
 
   return {
     ...options.sheetOptions,
-    ...options.context.sheetOptions,
     index: options.index,
-    meta: `${options.name}, ${typeof options.styles === 'function' ? 'Themed' : 'Unthemed'}`,
-    classNamePrefix: options.context.sheetOptions.classNamePrefix + classNamePrefix,
-    link
+    meta,
+    classNamePrefix,
+    link,
+    generateId: options.context.generateId
   }
 }
 
-function createStaticSheet<Theme>(options: Options<Theme>) {
+export const createStyleSheet = <Theme>(options: Options<Theme>) => {
   if (options.context.disableStylesGeneration) {
     return undefined
   }
@@ -74,7 +84,7 @@ function createStaticSheet<Theme>(options: Options<Theme>) {
   return sheet
 }
 
-const removeDynamicRules = (sheet: StyleSheet, rules: DynamicRules) => {
+export const removeDynamicRules = (sheet: StyleSheet, rules: DynamicRules) => {
   // Loop over each dynamic rule and remove the dynamic rule
   // We can't just remove the whole sheet as this has all of the rules for every component instance
   for (const key in rules) {
@@ -82,7 +92,7 @@ const removeDynamicRules = (sheet: StyleSheet, rules: DynamicRules) => {
   }
 }
 
-const updateDynamicRules = (data: any, sheet: StyleSheet, rules: DynamicRules) => {
+export const updateDynamicRules = (data: any, sheet: StyleSheet, rules: DynamicRules) => {
   // Loop over each dynamic rule and update it
   // We can't just update the whole sheet as this has all of the rules for every component instance
   for (const key in rules) {
@@ -91,7 +101,7 @@ const updateDynamicRules = (data: any, sheet: StyleSheet, rules: DynamicRules) =
   }
 }
 
-const addDynamicRules = (sheet: StyleSheet, data: any): ?DynamicRules => {
+export const addDynamicRules = (sheet: StyleSheet, data: any): ?DynamicRules => {
   const meta = getMeta(sheet)
 
   if (!meta) {
@@ -114,5 +124,3 @@ const addDynamicRules = (sheet: StyleSheet, data: any): ?DynamicRules => {
 
   return rules
 }
-
-export {addDynamicRules, updateDynamicRules, removeDynamicRules, createStaticSheet}

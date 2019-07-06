@@ -1,9 +1,10 @@
 /* eslint-disable global-require, react/prop-types, no-underscore-dangle */
-
 import expect from 'expect.js'
 import React from 'react'
 import {spy} from 'sinon'
 import TestRenderer from 'react-test-renderer'
+import {renderToString} from 'react-dom/server'
+import {stripIndent} from 'common-tags'
 
 import {JssProvider, SheetsRegistry} from '../src'
 
@@ -26,28 +27,45 @@ export default ({createStyledComponent}) => {
     console.error.restore()
   })
 
-  describe('reusing style sheets', () => {
-    it('should reuse one static sheet for many elements and detach sheet', () => {
-      const registry = new SheetsRegistry()
-      const MyComponent = createStyledComponent({
-        button: {color: 'red'}
-      })
-
-      TestRenderer.act(() => {
-        TestRenderer.create(
-          <JssProvider registry={registry}>
-            <MyComponent />
-            <MyComponent />
-            <MyComponent />
-          </JssProvider>
-        )
-      })
-
-      expect(registry.registry.length, 1)
+  it('should reuse one static sheet for many elements and detach sheet', () => {
+    const registry = new SheetsRegistry()
+    const MyComponent = createStyledComponent({
+      button: {color: 'red'}
     })
+
+    TestRenderer.act(() => {
+      TestRenderer.create(
+        <JssProvider registry={registry}>
+          <MyComponent />
+          <MyComponent />
+          <MyComponent />
+        </JssProvider>
+      )
+    })
+
+    expect(registry.registry.length, 1)
   })
 
-  describe('.withStyles() preserving source order', () => {
+  it('should register style sheets when `renderToString`', () => {
+    const registry = new SheetsRegistry()
+    const MyComponent = createStyledComponent({
+      button: {color: 'red'}
+    })
+    const generateId = () => 'id'
+    renderToString(
+      <JssProvider registry={registry} generateId={generateId}>
+        <MyComponent />
+      </JssProvider>
+    )
+
+    expect(registry.toString()).to.be(stripIndent`
+      .id {
+        color: red;
+      }
+    `)
+  })
+
+  describe('preserving source order', () => {
     let ComponentA
     let ComponentB
     let ComponentC
@@ -118,7 +136,7 @@ export default ({createStyledComponent}) => {
     })
   })
 
-  describe('.withStyles() properly warns about themed styles misuse', () => {
+  describe('properly warn about themed styles misuse', () => {
     beforeEach(() => {
       spy(console, 'warn')
     })

@@ -1,16 +1,17 @@
 // @flow
-import type {StyleSheetFactoryOptions, Jss, SheetsRegistry, SheetsManager, BaseRule} from 'jss'
+import type {
+  StyleSheetFactoryOptions,
+  Jss,
+  SheetsRegistry,
+  SheetsManager,
+  BaseRule,
+  CreateGenerateIdOptions,
+  GenerateId
+} from 'jss'
 import type {Node} from 'react'
 import type {Theming} from 'theming'
 
-export type StaticStyles = {[key: string]: {}}
-
 export type Managers = {[key: number]: SheetsManager}
-
-type StyleSheetOptions = {
-  ...StyleSheetFactoryOptions,
-  classNamePrefix: string
-}
 
 export type HookOptions<Theme> = StyleSheetFactoryOptions & {
   index?: number,
@@ -28,24 +29,35 @@ export type Context = {|
   jss?: Jss,
   registry?: SheetsRegistry,
   managers?: Managers,
-  sheetOptions: StyleSheetOptions,
-  disableStylesGeneration: boolean
+  id?: CreateGenerateIdOptions,
+  classNamePrefix?: string,
+  disableStylesGeneration?: boolean,
+  media?: string,
+  generateId?: GenerateId
 |}
 
-export type HOCProps<Theme, Props> = Props & {|
+export type HOCProps<Theme, Props> = Props & {
   theme: Theme,
   jssContext: Context,
   innerRef: any
-|}
+}
+
+export type Classes = {[string]: string}
 
 export type InnerProps = {
   children?: Node,
-  classes: {}
+  classes: Classes
 }
 
 export type DynamicRules = {
   [key: string]: BaseRule
 }
 
-export type ThemedStyles<Theme> = (theme: Theme) => StaticStyles
+export type StaticStyle = {}
+export type DynamicStyle<Theme> = ({theme: Theme}) => StaticStyle
+
+export type StaticStyles = {[key: string]: StaticStyle}
+
+export type ThemedStyles<Theme> = (theme: Theme) => StaticStyle | DynamicStyle<Theme>
+
 export type Styles<Theme> = StaticStyles | ThemedStyles<Theme>

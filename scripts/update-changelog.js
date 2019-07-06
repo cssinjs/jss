@@ -11,11 +11,11 @@ const content = fs.readFileSync(changelogPath, 'utf-8')
 const lines = content
   .split('\n')
   .map(line => {
-    if (line === '## Next') {
+    if (line === '---') {
       const today = new Date()
       const date = `${today.getUTCFullYear()}-${today.getUTCMonth() + 1}-${today.getUTCDate()}`
 
-      return `## ${lerna.version} (${date})`
+      return `---\n\n## ${lerna.version} (${date})`
     }
 
     return line
