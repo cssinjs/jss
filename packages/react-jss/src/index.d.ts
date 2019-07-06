@@ -56,7 +56,7 @@ type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 export {Styles}
 
 declare function createUseStyles<C extends string>(
-  styles: Record<C, Style>,
+  styles: Record<C, Style | string>,
   options?: {
     index?: number
     name?: string
@@ -64,7 +64,7 @@ declare function createUseStyles<C extends string>(
 ): (data?: any) => Record<C, string>
 
 declare function createUseStyles<T, C extends string>(
-  styles: (theme: T) => Record<C, Style>,
+  styles: (theme: T) => Record<C, Style | string>,
   options?: {
     index?: number
     name?: string
