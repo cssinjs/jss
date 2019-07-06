@@ -1,5 +1,6 @@
 // @flow
 import React, {Component, type ComponentType, type Node} from 'react'
+import isInBrowser from 'is-in-browser'
 import hoistNonReactStatics from 'hoist-non-react-statics'
 import {type StyleSheet, type Classes} from 'jss'
 import {ThemeContext} from 'theming'
@@ -113,7 +114,14 @@ const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = 
         super(props)
 
         this.state = WithStyles.createState(props)
-        WithStyles.manage(props, this.state)
+        const {registry} = props.jssContext
+        const {sheet} = this.state
+        if (sheet && registry) {
+          registry.add(sheet)
+        }
+        if (isInBrowser) {
+          WithStyles.manage(props, this.state)
+        }
       }
 
       componentDidUpdate(prevProps: HOCProps<Theme, Props>, prevState: State) {
