@@ -1,10 +1,10 @@
-## JSS integration with React
+# JSS integration with React
 
 React-JSS integrates [JSS](https://github.com/cssinjs/jss) with React using the new Hooks API as well as a Styled Component API. JSS and the [default preset](https://github.com/cssinjs/jss/tree/master/packages/jss-preset-default) are already built in.
 
 Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
 
-**HOC based API is deprecated as of v10 and will be removed in v11. Old docs are available [here](./react-jss-hoc.md).**
+**HOC based API is deprecated as of v10 and will be removed in v11. HOC specific docs are available [here](./react-jss-hoc.md).**
 
 Benefits compared to using the core JSS package directly:
 
@@ -14,27 +14,30 @@ Benefits compared to using the core JSS package directly:
 - The static part of a Style Sheet will be shared between all elements.
 - Function values and rules are updated automatically with props as an argument.
 
-### Table of Contents
+## Table of Contents
 
 - [Install](#install)
-- [Usage](#usage)
-  - [Basic](#basic)
-  - [Dynamic Values](#dynamic-values)
-  - [Theming](#theming)
-  - [Server-side rendering](#server-side-rendering)
-  - [React tree traversing](#react-tree-traversing)
-  - [Custom setup](#custom-setup)
-  - [TypeScript](#typescript)
+- [Basic](#basic)
+- [Dynamic Values](#dynamic-values)
+- [Theming](#theming)
+- [Accessing the theme inside the styled component](#accessing-the-theme-inside-the-styled-component)
+- [Accessing the theme without styles](#accessing-the-theme-without-styles)
+- [Using custom Theming Context](#using-custom-theming-context)
+- [Class name generator options](#class-name-generator-options)
+- [Server-side rendering](#server-side-rendering)
+- [React tree traversing](#react-tree-traversing)
+- [Custom setup](#custom-setup)
+- [Multi-tree setup](#multi-tree-setup)
+- [Injection order](#injection-order)
+- [TypeScript](#typescript)
 
-### Install
+## Install
 
 ```
 yarn add react-jss
 ```
 
-### Usage
-
-#### Basic
+## Basic
 
 ```javascript
 import React from 'react'
@@ -106,7 +109,7 @@ and
 }
 ```
 
-#### Dynamic values
+## Dynamic values
 
 You can use [function values](jss-syntax.md#function-values), Function rules and observables out of the box. Function values and function rules will receive a props object once the component receives new props or mounts for the first time.
 
@@ -174,7 +177,7 @@ and
 }
 ```
 
-#### Theming
+## Theming
 
 The idea is that you define a theme, wrap your application with `ThemeProvider` and pass the `theme` object to `ThemeProvider`. Later you can access theme in your styles creator function and using a `useTheme()` hook. After that, you may change your theme, and all your components will get the new theme automatically.
 
@@ -222,7 +225,7 @@ const App = () => (
 )
 ```
 
-#### Accessing the theme inside the styled component
+## Accessing the theme inside the styled component
 
 Use `useTheme()` hook to access the theme inside of the function component.
 
@@ -253,7 +256,7 @@ const Button = ({children, ...props}) => {
 }
 ```
 
-#### Accessing the theme without styles
+## Accessing the theme without styles
 
 In case you need to access the theme without rendering any CSS, you can also use `useTheme()` standalone.
 
@@ -267,7 +270,7 @@ const Button = () => {
 }
 ```
 
-#### Using custom Theming Context
+## Using custom Theming Context
 
 Use _namespaced_ themes so that a set of UI components gets no conflicts with another set of UI components from a different library also using `react-jss` or in case you want to use the same theme from another context that is already used in your app.
 
@@ -318,7 +321,46 @@ const App = () => (
 )
 ```
 
-#### Server-side rendering
+## Class name generator options
+
+Make sure using the same setup on the server and on the client. Id generator is used for class names and for keyframes.
+
+1. You can change the class name generation algorithm by passing your custom [generator function](./jss-api.md#generate-your-class-names) prop.
+
+   ```javascript
+   import React from 'react'
+   import ReactDOM from 'react-dom'
+   import {JssProvider} from 'react-jss'
+   import MyApp from './MyApp'
+
+   const generateId = (rule, sheet) => 'some-id'
+   ReactDOM.render(
+     <JssProvider generateId={generateId}>
+       <MyApp />
+     </JssProvider>,
+     document.getElementById('root')
+   )
+   ```
+
+1. You can add an additional prefix to each class, [see here](#multi-tree-setup).
+
+1. You can minify class names by passing `id` prop, so that prefixes a not used, [see also](./jss-api.md#minify-selectors).
+
+   ```javascript
+   import React from 'react'
+   import ReactDOM from 'react-dom'
+   import {JssProvider} from 'react-jss'
+   import MyApp from './MyApp'
+
+   ReactDOM.render(
+     <JssProvider id={{minify: true}}>
+       <MyApp />
+     </JssProvider>,
+     document.getElementById('root')
+   )
+   ```
+
+## Server-side rendering
 
 After the application is mounted, you should remove the style tag used by critical CSS rendered server-side.
 
@@ -354,7 +396,7 @@ export default function render(req, res) {
 }
 ```
 
-#### React tree traversing
+## React tree traversing
 
 For traversing the React tree outside of the HTML rendering, you should add `disableStylesGeneration` property.
 
@@ -380,7 +422,7 @@ async function main() {
 main()
 ```
 
-#### Custom setup
+## Custom setup
 
 If you want to specify a JSS version and plugins to use, you should create your [own JSS instance](https://github.com/cssinjs/jss/blob/master/docs/jss-api.md#create-an-own-jss-instance), [setup plugins](https://github.com/cssinjs/jss/blob/master/docs/setup.md#setup-with-custom-plugins) and pass it to `JssProvider`.
 
@@ -407,7 +449,7 @@ You can also access the default JSS instance.
 import {jss} from 'react-jss'
 ```
 
-#### Multi-tree setup
+## Multi-tree setup
 
 In case you render multiple react rendering trees in one application, you will get class name collisions because every JssProvider rerender will reset the class names generator. If you want to avoid this, you can share the class names generator between multiple JssProvider instances.
 
@@ -455,7 +497,7 @@ const Component = () => (
 )
 ```
 
-### Injection order
+## Injection order
 
 Injection of style tags happens in the same order as the `createUseStyles()` invocation.
 Source order specificity is higher the lower style tag is in the tree. Therefore you should call `createUseStyles` of components you want to override first.
@@ -498,6 +540,6 @@ const Button = () => {
 }
 ```
 
-### TypeScript
+## TypeScript
 
 TODO hooks support

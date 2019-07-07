@@ -20,7 +20,6 @@ export type CreateGenerateId = (options: CreateGenerateIdOptions) => GenerateId
  */
 const createGenerateId: CreateGenerateId = (options = {}) => {
   let ruleCounter = 0
-  const defaultPrefix = options.minify ? 'c' : ''
 
   return (rule: Rule, sheet?: StyleSheet): string => {
     ruleCounter += 1
@@ -29,19 +28,24 @@ const createGenerateId: CreateGenerateId = (options = {}) => {
       warning(false, `[JSS] You might have a memory leak. Rule counter is at ${ruleCounter}.`)
     }
 
-    let prefix = defaultPrefix
     let jssId = ''
+    let prefix = ''
 
     if (sheet) {
-      prefix = sheet.options.classNamePrefix || defaultPrefix
-      if (sheet.options.jss.id != null) jssId += sheet.options.jss.id
+      if (sheet.options.classNamePrefix) {
+        prefix = sheet.options.classNamePrefix
+      }
+      if (sheet.options.jss.id != null) {
+        jssId = String(sheet.options.jss.id)
+      }
     }
 
     if (options.minify) {
-      return `${prefix}${moduleId}${jssId}${ruleCounter}`
+      // Using "c" because a number can't be the first char in a class name.
+      return `${prefix || 'c'}${moduleId}${jssId}${ruleCounter}`
     }
 
-    return `${prefix + rule.key}-${moduleId}${jssId && `-${jssId}`}-${ruleCounter}`
+    return `${prefix + rule.key}-${moduleId}${jssId ? `-${jssId}` : ''}-${ruleCounter}`
   }
 }
 

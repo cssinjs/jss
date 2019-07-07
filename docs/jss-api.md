@@ -119,7 +119,9 @@ You need to have the [jss-plugin-global](https://github.com/cssinjs/jss/tree/mas
 `SheetsRegistry`
 
 When rendering on the server, you will need to get all rendered styles as a CSS string.
-The `SheetsRegistry` class allows you to **manually** aggregate and stringify them. Read [more about SSR](ssr.md).
+The `SheetsRegistry` class allows you to aggregate and stringify them. Read [more about SSR](ssr.md).
+
+In case you are using the `SheetsRegistry` in the browser and you want to get Style Sheets which are `attached` or `detached` only, you can use the option `attached`.
 
 ```javascript
 import jss, {SheetsRegistry} from 'jss'
@@ -127,7 +129,9 @@ import jss, {SheetsRegistry} from 'jss'
 const sheets = new SheetsRegistry()
 const sheet = jss.createStyleSheet()
 sheets.add(sheet)
-sheets.toString() // Returns CSS of all attached Style Sheets together.
+sheets.toString() // Returns all Style Sheets as a CSS string.
+sheets.toString({attached: true}) // Returns all attached Style Sheets as a CSS string.
+sheets.toString({attached: false}) // Returns all detached Style Sheets as a CSS string.
 ```
 
 ## Style Sheets Manager

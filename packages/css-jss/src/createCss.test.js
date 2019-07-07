@@ -6,18 +6,17 @@ import {createGenerateId} from '../../../tests/utils'
 import {create as createCss} from './index'
 
 describe('css-jss', () => {
-  let sheet
   let css
 
   beforeEach(() => {
-    sheet = createJss({createGenerateId}).createStyleSheet()
-    css = createCss(sheet)
+    const jss = createJss({createGenerateId})
+    css = createCss(jss)
   })
 
   it('should accept a single style object argument', () => {
     const className = css({color: 'red'})
     expect(className).to.be('css-0-id')
-    expect(sheet.toString()).to.be(stripIndent`
+    expect(css.getSheet().toString()).to.be(stripIndent`
       .css-0-id {
         color: red;
       }
@@ -27,7 +26,7 @@ describe('css-jss', () => {
   it('should accept multiple style object arguments', () => {
     const className = css({color: 'red'}, {background: 'green'})
     expect(className).to.be('css-0-id')
-    expect(sheet.toString()).to.be(stripIndent`
+    expect(css.getSheet().toString()).to.be(stripIndent`
       .css-0-id {
         color: red;
         background: green;
@@ -38,7 +37,7 @@ describe('css-jss', () => {
   it('should accept multiple style object array', () => {
     const className = css([{color: 'red'}, {background: 'green'}])
     expect(className).to.be('css-0-id')
-    expect(sheet.toString()).to.be(stripIndent`
+    expect(css.getSheet().toString()).to.be(stripIndent`
       .css-0-id {
         color: red;
         background: green;
@@ -49,7 +48,7 @@ describe('css-jss', () => {
   it('should accept multiple style object array and style objects', () => {
     const className = css([{color: 'red'}, {background: 'green'}], {float: 'left'})
     expect(className).to.be('css-0-id')
-    expect(sheet.toString()).to.be(stripIndent`
+    expect(css.getSheet().toString()).to.be(stripIndent`
       .css-0-id {
         color: red;
         background: green;
@@ -61,7 +60,7 @@ describe('css-jss', () => {
   it('should accept multiple style object arrays', () => {
     const className = css([{color: 'red'}, {background: 'green'}], [{float: 'left'}])
     expect(className).to.be('css-0-id')
-    expect(sheet.toString()).to.be(stripIndent`
+    expect(css.getSheet().toString()).to.be(stripIndent`
       .css-0-id {
         color: red;
         background: green;
@@ -73,7 +72,7 @@ describe('css-jss', () => {
   it('should compose css() calls', () => {
     const className = css(css({color: 'red'}), css({background: 'green'}))
     expect(className).to.be('css-2-id')
-    expect(sheet.toString()).to.be(stripIndent`
+    expect(css.getSheet().toString()).to.be(stripIndent`
       .css-0-id {
         color: red;
       }
@@ -90,7 +89,7 @@ describe('css-jss', () => {
   it('should compose css() calls inside of array arg', () => {
     const className = css([css({color: 'red'}), css({background: 'green'})])
     expect(className).to.be('css-2-id')
-    expect(sheet.toString()).to.be(stripIndent`
+    expect(css.getSheet().toString()).to.be(stripIndent`
       .css-0-id {
         color: red;
       }
@@ -107,7 +106,7 @@ describe('css-jss', () => {
   it('should compose css() calls from mixed array and strings', () => {
     const className = css([css({color: 'red'}), css({background: 'green'})], css({float: 'left'}))
     expect(className).to.be('css-3-id')
-    expect(sheet.toString()).to.be(stripIndent`
+    expect(css.getSheet().toString()).to.be(stripIndent`
       .css-0-id {
         color: red;
       }
@@ -128,7 +127,7 @@ describe('css-jss', () => {
   it('should ignore empty values', () => {
     const className = css(null, {color: 'red'}, '', {background: 'green'}, undefined)
     expect(className).to.be('css-0-id')
-    expect(sheet.toString()).to.be(stripIndent`
+    expect(css.getSheet().toString()).to.be(stripIndent`
       .css-0-id {
         color: red;
         background: green;
@@ -139,7 +138,7 @@ describe('css-jss', () => {
   it('should accept label', () => {
     const className = css({color: 'red', label: 'xxx'}, {background: 'green'})
     expect(className).to.be('xxx-0-id')
-    expect(sheet.toString()).to.be(stripIndent`
+    expect(css.getSheet().toString()).to.be(stripIndent`
       .xxx-0-id {
         color: red;
         background: green;
@@ -154,7 +153,7 @@ describe('css-jss', () => {
       {float: 'left', label: 'yyy'}
     )
     expect(className).to.be('xxx-yyy-0-id')
-    expect(sheet.toString()).to.be(stripIndent`
+    expect(css.getSheet().toString()).to.be(stripIndent`
       .xxx-yyy-0-id {
         color: red;
         background: green;
@@ -169,7 +168,7 @@ describe('css-jss', () => {
     const className2 = css(style)
     expect(className1).to.be('css-0-id')
     expect(className2).to.be('css-0-id')
-    expect(sheet.toString()).to.be(stripIndent`
+    expect(css.getSheet().toString()).to.be(stripIndent`
       .css-0-id {
         color: red;
       }
@@ -183,7 +182,7 @@ describe('css-jss', () => {
     const className2 = css(style1, style2)
     expect(className1).to.be('css-0-id')
     expect(className2).to.be('css-0-id')
-    expect(sheet.toString()).to.be(stripIndent`
+    expect(css.getSheet().toString()).to.be(stripIndent`
       .css-0-id {
         color: red;
         background: green;

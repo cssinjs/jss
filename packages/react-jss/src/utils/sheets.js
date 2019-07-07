@@ -32,10 +32,15 @@ const getStyles = <Theme>(options: Options<Theme>) => {
 }
 
 function getSheetOptions<Theme>(options: Options<Theme>, link: boolean) {
-  const classNamePrefix =
-    process.env.NODE_ENV === 'production' || !options.name
-      ? ''
-      : `${options.name.replace(/\s/g, '-')}-`
+  let minify
+  if (options.context.id && options.context.id.minify != null) {
+    minify = options.context.id.minify
+  }
+
+  let classNamePrefix = options.context.classNamePrefix || ''
+  if (options.name && !minify) {
+    classNamePrefix += `${options.name.replace(/\s/g, '-')}-`
+  }
 
   let meta = ''
   if (options.name) meta = `${options.name}, `
@@ -43,11 +48,11 @@ function getSheetOptions<Theme>(options: Options<Theme>, link: boolean) {
 
   return {
     ...options.sheetOptions,
-    ...options.context.sheetOptions,
     index: options.index,
     meta,
-    classNamePrefix: options.context.sheetOptions.classNamePrefix + classNamePrefix,
-    link
+    classNamePrefix,
+    link,
+    generateId: options.context.generateId
   }
 }
 

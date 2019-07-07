@@ -1,8 +1,39 @@
 ## Next
 
+Since you are interested in what happens next, in case, you work for a for-profit company that benefits from using the project, please consider supporting it on https://opencollective.com/jss.
+
+---
+
+### Bug fixes
+
+- [react-jss] withStyles shouldn't attach() on SSR ([#1149](https://github.com/cssinjs/jss/pull/1149), [#1157](https://github.com/cssinjs/jss/pull/1157))
+
+### Improvements
+
+- [jss] Improve treeshaking for webpack by not using `global`. ([#1153](https://github.com/cssinjs/jss/pull/1153))
+
+## 10.0.0-alpha.22 (2019-7-2)
+
+### Breaking Changes
+
+- [jss] SheetsRegistry.toString(options) will now return all sheets by default, no matter detached or attached. You can specify which one you want by using the option `registry.toString({attached: true})` ([1140](https://github.com/cssinjs/jss/pull/1140))
+
+### Bug fixes
+
+- [react-jss] SSR for the hooks based API will now work with the registry as expected ([1140](https://github.com/cssinjs/jss/pull/1140))
+- [react-jss] When id options passed to JssProvider, we need to create a new `generateId` function ([#1147](https://github.com/cssinjs/jss/pull/1147))
+
+### Improvements
+
+- [react-jss] Document `id` prop for JssProvider, add "Class name generator options" to the docs. ([#1147](https://github.com/cssinjs/jss/pull/1147))
+- [react-jss] Use component name or displayName as a class name prefix also in production by default ([#1147](https://github.com/cssinjs/jss/pull/1147))
+
+## 10.0.0-alpha.21 (2019-6-22)
+
 ### Bug fixes
 
 - [jss-plugin-vendor-prefixer] Upgrade css-vendor package to v2.0.5 ([#1142](https://github.com/cssinjs/jss/pull/1142))
+- [css-jss] Slows down in benchmark after 10k rules ([#1137](https://github.com/cssinjs/jss/pull/1137))
 
 ## 10.0.0-alpha.20 (2019-6-17)
 
