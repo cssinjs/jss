@@ -7,5 +7,59 @@
     "os_version": "8.0",
     "browser": "chrome",
     "browser_version": "74"
+  },
+  "UC Browser for Android 11.8": {
+    "base": "BrowserStack",
+    "real_mobile": true,
+    "device": "Google Pixel",
+    "os": "android",
+    "os_version": "8.0",
+    "browser": "UC Browser",
+    "browser_version": "11.8"
+  },
+  "Android Browser 4.4.4": {
+    "base": "BrowserStack",
+    "real_mobile": true,
+    "device": "Google Pixel",
+    "os": "android",
+    "os_version": "8.0",
+    "browser": "Android Browser",
+    "browser_version": "4.4.4"
+  },
+  "iOS Safari 12.2": {
+    "base": "BrowserStack",
+    "real_mobile": true,
+    "device": "iPhone",
+    "os": "ios",
+    "os_version": "12",
+    "browser": "Safari",
+    "browser_version": "12.2"
+  },
+  "iOS Safari 11": {
+    "base": "BrowserStack",
+    "real_mobile": true,
+    "device": "iPhone",
+    "os": "ios",
+    "os_version": "11",
+    "browser": "Safari",
+    "browser_version": "11"
+  },
+  "iOS Safari 10": {
+    "base": "BrowserStack",
+    "real_mobile": true,
+    "device": "iPhone",
+    "os": "ios",
+    "os_version": "10",
+    "browser": "Safari",
+    "browser_version": "10"
+  },
+  "Samsung Internet 9.2": {
+    "base": "BrowserStack",
+    "real_mobile": true,
+    "device": "Galaxy S10",
+    "os": "android",
+    "os_version": "9.0",
+    "browser": "samsung",
+    "browser_version": "9.2"
   }
 }
