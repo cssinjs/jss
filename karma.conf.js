@@ -12,7 +12,6 @@ const travisJobNumber = process.env.TRAVIS_JOB_NUMBER
 
 module.exports = config => {
   config.set({
-    customLaunchers: browsers,
     browsers: ['Chrome'],
     frameworks: ['mocha'],
     files: [
@@ -53,11 +52,13 @@ module.exports = config => {
 
   if (useCloud) {
     Object.assign(config, {
+      customLaunchers: browsers,
       browsers: Object.keys(browsers),
       browserDisconnectTolerance: 3,
       // My current OS plan allows max 10 parallel connections.
       concurrency: 10,
-      retryLimit: 5
+      retryLimit: 5,
+      browserNoActivityTimeout: 20000
     })
 
     config.browserStack = {
