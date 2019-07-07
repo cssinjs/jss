@@ -1,4 +1,4 @@
-import globalThis from './ponyfillGlobal'
+import globalThis from './globalThis'
 
 const ns = '2f1acc6c3a606b082e5eef5e54414ffb'
 if (globalThis[ns] == null) globalThis[ns] = 0
