@@ -113,7 +113,18 @@ const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = 
         super(props)
 
         this.state = WithStyles.createState(props)
-        WithStyles.manage(props, this.state)
+        const {registry} = props.jssContext
+        const {sheet} = this.state
+        if (sheet && registry) {
+          registry.add(sheet)
+        }
+      }
+
+      componentDidMount() {
+        const {props, state} = this
+        if (props && state) {
+          WithStyles.manage(props, state)
+        }
       }
 
       componentDidUpdate(prevProps: HOCProps<Theme, Props>, prevState: State) {

@@ -4,6 +4,15 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+### Bug fixes
+
+- [react-jss] Update dynamic nested rules need ([#1144](https://github.com/cssinjs/jss/pull/1144))
+- [react-jss] withStyles shouldn't attach() on SSR ([#1149](https://github.com/cssinjs/jss/pull/1149), [#1157](https://github.com/cssinjs/jss/pull/1157))
+
+### Improvements
+
+- [jss] Improve treeshaking for webpack by not using `global`. ([#1153](https://github.com/cssinjs/jss/pull/1153))
+
 ## 10.0.0-alpha.22 (2019-7-2)
 
 ### Breaking Changes

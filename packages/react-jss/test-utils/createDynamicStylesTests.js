@@ -28,7 +28,11 @@ export default ({createStyledComponent}) => {
         {
           button: {
             color: 'rgb(255, 255, 255)',
-            height: ({height = 1}) => `${height}px`
+            height: ({height = 1}) => `${height}px`,
+            '&::before': {
+              content: '""',
+              height: ({height = 1}) => `${height}px`
+            }
           }
         },
         {name: 'NoRenderer'}
@@ -100,10 +104,19 @@ export default ({createStyledComponent}) => {
         .button-0 {
           color: rgb(255, 255, 255);
         }
+        .button-0::before {
+          content: "";
+        }
         .button-0-1 {
           height: 10px;
         }
+        .button-0-1::before {
+          height: 10px;
+        }
         .button-1-2 {
+          height: 20px;
+        }
+        .button-1-2::before {
           height: 20px;
         }
       `)
@@ -124,10 +137,19 @@ export default ({createStyledComponent}) => {
         .button-0 {
           color: rgb(255, 255, 255);
         }
+        .button-0::before {
+          content: "";
+        }
         .button-0-1 {
           height: 10px;
         }
+        .button-0-1::before {
+          height: 10px;
+        }
         .button-1-2 {
+          height: 20px;
+        }
+        .button-1-2::before {
           height: 20px;
         }
       `)
@@ -138,10 +160,19 @@ export default ({createStyledComponent}) => {
         .button-0 {
           color: rgb(255, 255, 255);
         }
+        .button-0::before {
+          content: "";
+        }
         .button-0-1 {
           height: 20px;
         }
+        .button-0-1::before {
+          height: 20px;
+        }
         .button-1-2 {
+          height: 40px;
+        }
+        .button-1-2::before {
           height: 40px;
         }
       `)
