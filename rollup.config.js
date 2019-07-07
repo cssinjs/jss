@@ -1,7 +1,6 @@
 import fs from 'fs'
 import path from 'path'
 import nodeResolve from 'rollup-plugin-node-resolve'
-import nodeGlobals from 'rollup-plugin-node-globals'
 import commonjs from 'rollup-plugin-commonjs'
 import babel from 'rollup-plugin-babel'
 import replace from 'rollup-plugin-replace'
@@ -93,7 +92,6 @@ export default [
       nodeResolve(),
       babel(getBabelOptions({useESModules: true})),
       commonjs(commonjsOptions),
-      nodeGlobals({process: false}),
       replace({
         'process.env.NODE_ENV': JSON.stringify('development'),
         'process.env.VERSION': JSON.stringify(pkg.version)
@@ -116,7 +114,6 @@ export default [
       nodeResolve(),
       babel(getBabelOptions({useESModules: true})),
       commonjs(commonjsOptions),
-      nodeGlobals({process: false}),
       replace({
         'process.env.NODE_ENV': JSON.stringify('production'),
         'process.env.VERSION': JSON.stringify(pkg.version)
@@ -133,7 +130,6 @@ export default [
     plugins: [
       createFlowBundlePlugin,
       babel(getBabelOptions({useESModules: false})),
-      nodeGlobals({process: false}),
       replace({'process.env.VERSION': JSON.stringify(pkg.version)}),
       sizeSnapshot(snapshotOptions)
     ]
@@ -145,7 +141,6 @@ export default [
     external,
     plugins: [
       babel(getBabelOptions({useESModules: true})),
-      nodeGlobals({process: false}),
       replace({'process.env.VERSION': JSON.stringify(pkg.version)}),
       sizeSnapshot(snapshotOptions)
     ]
@@ -158,7 +153,6 @@ export default [
       nodeResolve(),
       babel(getBabelOptions({useESModules: true})),
       commonjs(commonjsOptions),
-      nodeGlobals({process: false}),
       replace({
         'process.env.NODE_ENV': JSON.stringify('development'),
         'process.env.VERSION': JSON.stringify(pkg.version)
