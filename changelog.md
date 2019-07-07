@@ -4,6 +4,10 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+### Improvements
+
+- [jss] Improve treeshaking for webpack by not using `global`. ([#1153](https://github.com/cssinjs/jss/pull/1153))
+
 ## 10.0.0-alpha.22 (2019-7-2)
 
 ### Breaking Changes
