@@ -29,16 +29,16 @@
   "iOS Safari 12.2": {
     "base": "BrowserStack",
     "real_mobile": true,
-    "device": "iPhone",
+    "device": "iPhone X",
     "os": "ios",
-    "os_version": "12",
+    "os_version": "11",
     "browser": "Safari",
     "browser_version": "12.2"
   },
   "iOS Safari 11": {
     "base": "BrowserStack",
     "real_mobile": true,
-    "device": "iPhone",
+    "device": "iPhone X",
     "os": "ios",
     "os_version": "11",
     "browser": "Safari",
@@ -47,16 +47,16 @@
   "iOS Safari 10": {
     "base": "BrowserStack",
     "real_mobile": true,
-    "device": "iPhone",
+    "device": "iPhone 7",
     "os": "ios",
-    "os_version": "10",
+    "os_version": "10.3",
     "browser": "Safari",
-    "browser_version": "10"
+    "browser_version": "10.3"
   },
   "Samsung Internet 9.2": {
     "base": "BrowserStack",
     "real_mobile": true,
-    "device": "Galaxy S10",
+    "device": "Samsung Galaxy S10",
     "os": "android",
     "os_version": "9.0",
     "browser": "samsung",
