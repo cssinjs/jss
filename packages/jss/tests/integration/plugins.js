@@ -406,27 +406,58 @@ describe('Integration: plugins', () => {
       `)
     })
 
-    it('should not call the hook if rule has no .style', () => {
+    it('should not call the hook if rule style is null or undefined', () => {
       let localExecuted = 0
-      jss.use({
-        onProcessStyle: (style, rule, passedSheet) => {
-          receivedStyle = style
-          receivedRule = rule
-          receivedSheet = passedSheet
-          localExecuted++
-          return style
-        }
-      })
-      sheet = jss.createStyleSheet({
-        '@media all': {
-          a: {color: 'red'}
-        }
+
+      jss = create({
+        plugins: [
+          {
+            onProcessStyle: style => {
+              localExecuted++
+              return style
+            }
+          }
+        ]
       })
 
-      expect(receivedStyle).to.be(newStyle)
-      expect(receivedRule.type).to.be('style')
-      expect(receivedSheet).to.be(sheet)
-      expect(localExecuted).to.be(1)
+      jss.createStyleSheet({
+        a: null,
+        b: undefined
+      })
+
+      expect(localExecuted).to.be(0)
+    })
+
+    it('should not call the next hook if rule style resolves to null or undefined', () => {
+      let localHookExecuted = 0
+      let localNextHookExecuted = 0
+
+      jss = create({
+        plugins: [
+          {
+            onProcessStyle: style => {
+              localHookExecuted++
+              return typeof style === 'function' ? style() : style
+            }
+          },
+          {
+            onProcessStyle: style => {
+              localNextHookExecuted++
+              return style
+            }
+          }
+        ]
+      })
+
+      expect(() => {
+        jss.createStyleSheet({
+          a: () => null,
+          b: () => undefined
+        })
+      }).to.not.throwException()
+
+      expect(localHookExecuted).to.be(2)
+      expect(localNextHookExecuted).to.be(0)
     })
 
     it('should pass the style object to the next hook', () => {

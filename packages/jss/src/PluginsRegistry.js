@@ -71,6 +71,7 @@ export default class PluginsRegistry {
     for (let i = 0; i < this.registry.onProcessStyle.length; i++) {
       // $FlowFixMe
       rule.style = this.registry.onProcessStyle[i](rule.style, rule, sheet)
+      if (!rule.style) return
     }
   }
 
