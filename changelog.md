@@ -4,6 +4,10 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+## 10.0.0-alpha.22 (2019-7-10)
+
+- [jss] fix PluginRegistry passing null|undefined to onProcessStyle hooks [#1159](https://github.com/cssinjs/jss/issues/1159)
+
 ### Bug fixes
 
 - [react-jss] Update dynamic nested rules need ([#1144](https://github.com/cssinjs/jss/pull/1144))
