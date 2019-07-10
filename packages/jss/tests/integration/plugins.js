@@ -407,13 +407,13 @@ describe('Integration: plugins', () => {
     })
 
     it('should not call the hook if rule style is null or undefined', () => {
-      let localExecuted = 0
+      let hookExecuted = 0
 
       jss = create({
         plugins: [
           {
             onProcessStyle: style => {
-              localExecuted++
+              hookExecuted++
               return style
             }
           }
@@ -425,24 +425,24 @@ describe('Integration: plugins', () => {
         b: undefined
       })
 
-      expect(localExecuted).to.be(0)
+      expect(hookExecuted).to.be(0)
     })
 
     it('should not call the next hook if rule style resolves to null or undefined', () => {
-      let localHookExecuted = 0
-      let localNextHookExecuted = 0
+      let firstHookExecuted = 0
+      let secondHookExecuted = 0
 
       jss = create({
         plugins: [
           {
             onProcessStyle: style => {
-              localHookExecuted++
+              firstHookExecuted++
               return typeof style === 'function' ? style() : style
             }
           },
           {
             onProcessStyle: style => {
-              localNextHookExecuted++
+              secondHookExecuted++
               return style
             }
           }
@@ -456,8 +456,8 @@ describe('Integration: plugins', () => {
         })
       }).to.not.throwException()
 
-      expect(localHookExecuted).to.be(2)
-      expect(localNextHookExecuted).to.be(0)
+      expect(firstHookExecuted).to.be(2)
+      expect(secondHookExecuted).to.be(0)
     })
 
     it('should pass the style object to the next hook', () => {
