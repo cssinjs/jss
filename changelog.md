@@ -2,6 +2,14 @@
 
 Since you are interested in what happens next, in case, you work for a for-profit company that benefits from using the project, please consider supporting it on https://opencollective.com/jss.
 
+### Improvements
+
+- [react-jss] Improve TypeScript definitions and add missing definition for `createUseStyles` ([1155](https://github.com/cssinjs/jss/pull/1155))
+
+### Bug fixes
+
+- [react-jss] Fix nested dynamic rule updating ([1144](https://github.com/cssinjs/jss/pull/1144))
+
 ---
 
 ## 10.0.0-alpha.22 (2019-7-2)
