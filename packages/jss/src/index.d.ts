@@ -1,6 +1,11 @@
-export type Style = {[key: string]: Style | any}
-export type Styles<Name extends string = string> = Record<Name, Style>
-export type Classes<Name extends string = string> = Record<Name, string>
+import * as css from 'csstype'
+
+// @ts-ignore
+export type Style = css.StandardProperties<string | number | (() => string | number)> & {
+  [key: string]: Style | string | number
+}
+export type Styles<Name extends string = string> = Record<Name, Style | string>
+export type Classes<Name extends string | number | symbol = string> = Record<Name, string>
 export type Keyframes<Name extends string = string> = Record<Name, string>
 
 export interface CreateGenerateIdOptions {
@@ -204,7 +209,7 @@ export interface StyleSheet<RuleName extends string = string> {
 export interface JssOptions {
   createGenerateId: CreateGenerateId
   plugins: ReadonlyArray<Plugin>
-  Renderer?: Renderer | null
+  Renderer?: {new (): Renderer} | null
   insertionPoint: InsertionPoint
 }
 

@@ -6,7 +6,9 @@ import {
   SheetsRegistry,
   Styles,
   StyleSheetFactoryOptions,
-  CreateGenerateIdOptions
+  CreateGenerateIdOptions,
+  Classes,
+  Style
 } from 'jss'
 import {createTheming, useTheme, withTheme, ThemeProvider, Theming} from 'theming'
 
@@ -39,10 +41,10 @@ declare const JssContext: Context<{
 type ThemedStyles<Theme> = (theme: Theme) => Styles<string>
 
 interface WithStyles<S extends Styles<string> | ThemedStyles<any>> {
-  classes: Record<S extends ThemedStyles<any> ? keyof ReturnType<S> : keyof S, string>
+  classes: Classes<S extends ThemedStyles<any> ? keyof ReturnType<S> : keyof S>
 }
 
-interface Options extends StyleSheetFactoryOptions {
+interface WithStylesOptions extends StyleSheetFactoryOptions {
   index?: number
   injectTheme?: boolean
   jss?: Jss
@@ -51,9 +53,28 @@ interface Options extends StyleSheetFactoryOptions {
 
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 
+export {Styles}
+
+declare function createUseStyles<C extends string>(
+  styles: Record<C, Style | string>,
+  options?: {
+    index?: number
+    name?: string
+  } & StyleSheetFactoryOptions
+): (data?: any) => Record<C, string>
+
+declare function createUseStyles<T, C extends string>(
+  styles: (theme: T) => Record<C, Style | string>,
+  options?: {
+    index?: number
+    name?: string
+    theming?: Theming<T>
+  } & StyleSheetFactoryOptions
+): (data?: any) => Record<C, string>
+
 declare function withStyles<S extends Styles<string> | ThemedStyles<any>>(
   styles: S,
-  options?: Options
+  options?: WithStylesOptions
 ): <Props extends WithStyles<S>>(
   comp: ComponentType<Props>
 ) => ComponentType<Omit<Props, 'classes'> & {classes?: Partial<Props['classes']>}>
@@ -68,7 +89,8 @@ export {
   withTheme,
   createTheming,
   useTheme,
-  JssContext
+  JssContext,
+  createUseStyles
 }
 
 export default withStyles
