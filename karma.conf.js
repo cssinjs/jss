@@ -54,11 +54,12 @@ module.exports = config => {
     Object.assign(config, {
       customLaunchers: browsers,
       browsers: Object.keys(browsers),
+      browserDisconnectTimeout: 10000,
       browserDisconnectTolerance: 3,
       // My current OS plan allows max 10 parallel connections.
-      concurrency: 10,
+      concurrency: 1,
       retryLimit: 5,
-      browserNoActivityTimeout: 20000
+      browserNoActivityTimeout: 120000
     })
 
     config.browserStack = {
