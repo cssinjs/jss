@@ -52,6 +52,9 @@ describe('jss-plugin-rule-value-function: Function rules', () => {
         .createStyleSheet(
           {
             a: data => {
+              if (data.removeAll) {
+                return null
+              }
               if (data.noDisplay) {
                 return {color: data.color}
               }
@@ -88,6 +91,18 @@ describe('jss-plugin-rule-value-function: Function rules', () => {
           color: red;
         }
       `)
+    })
+
+    it('should remove all props', () => {
+      sheet.update({color: 'red'})
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+          display: block;
+        }
+      `)
+      sheet.update({removeAll: true})
+      expect(sheet.toString()).to.be('.a-id {}')
     })
   })
 
