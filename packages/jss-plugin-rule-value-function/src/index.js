@@ -52,7 +52,9 @@ export default function functionPlugin() {
       // If we have a style function, the entire rule is dynamic and style object
       // will be returned from that function.
       if (fnRule) {
-        styleRule.style = fnRule(data)
+        // Empty object will remove all currently defined props
+        // in case function rule returns a falsy value.
+        styleRule.style = fnRule(data) || {}
       }
 
       const fnValues = styleRule[fnValuesNs]
