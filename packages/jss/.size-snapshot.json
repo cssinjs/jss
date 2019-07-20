@@ -7,7 +7,7 @@
   "dist/jss.min.js": {
     "bundled": 59269,
     "minified": 21704,
-    "gzipped": 6422
+    "gzipped": 6423
   },
   "dist/jss.cjs.js": {
     "bundled": 55435,

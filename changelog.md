@@ -13,6 +13,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+## 10.0.0-alpha.23 (2019-7-20)
+
 ### Bug fixes
 
 - [react-jss] Update dynamic nested rules need ([#1144](https://github.com/cssinjs/jss/pull/1144))
