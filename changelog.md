@@ -5,6 +5,7 @@ Since you are interested in what happens next, in case, you work for a for-profi
 ### Improvements
 
 - [react-jss] Improve TypeScript definitions and add missing definition for `createUseStyles` ([1155](https://github.com/cssinjs/jss/pull/1155))
+- [jss-plugin-default-unit] Consistent usage of the CSS browser API ([1168](https://github.com/cssinjs/jss/pull/1168))
 
 ### Bug fixes
 
