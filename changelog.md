@@ -5,6 +5,7 @@ Since you are interested in what happens next, in case, you work for a for-profi
 ### Improvements
 
 - [react-jss] Improve TypeScript definitions and add missing definition for `createUseStyles` ([1155](https://github.com/cssinjs/jss/pull/1155))
+- Consistent usage of the CSS browser API ([1168](https://github.com/cssinjs/jss/pull/1168))
 
 ### Bug fixes
 
@@ -12,12 +13,6 @@ Since you are interested in what happens next, in case, you work for a for-profi
 - [jss] Support falsy value from fn rule ([1164](https://github.com/cssinjs/jss/pull/1164))
 
 ---
-
-## 10.0.0-alpha.24 (2019-8-13)
-
-### Improvements
-
-- Consistent usage of the CSS browser API ([#1168](https://github.com/cssinjs/jss/pull/1168))
 
 ## 10.0.0-alpha.23 (2019-7-20)
 
