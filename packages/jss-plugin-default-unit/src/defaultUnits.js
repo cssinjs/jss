@@ -2,9 +2,9 @@
 
 import {hasCSSTOMSupport} from 'jss'
 
-const px = hasCSSTOMSupport ? CSS.px : 'px'
-const ms = hasCSSTOMSupport ? CSS.ms : 'ms'
-const percent = hasCSSTOMSupport ? CSS.percent : '%'
+const px = hasCSSTOMSupport && CSS ? CSS.px : 'px'
+const ms = hasCSSTOMSupport && CSS ? CSS.ms : 'ms'
+const percent = hasCSSTOMSupport && CSS ? CSS.percent : '%'
 
 /**
  * Generated jss-plugin-default-unit CSS property units
