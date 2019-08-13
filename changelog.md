@@ -14,6 +14,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+## 10.0.0-alpha.24 (2019-8-13)
+
 ## 10.0.0-alpha.23 (2019-7-20)
 
 ### Bug fixes
