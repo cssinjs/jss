@@ -1,8 +1,8 @@
 {
   "dist/jss-preset-default.js": {
-    "bundled": 54845,
-    "minified": 19502,
-    "gzipped": 6476
+    "bundled": 54853,
+    "minified": 19506,
+    "gzipped": 6479
   },
   "dist/jss-preset-default.min.js": {
     "bundled": 54091,
