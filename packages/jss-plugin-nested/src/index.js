@@ -25,8 +25,8 @@ export default function jssNested(): Plugin {
 
       warning(
         false,
-        `[JSS] Could not find the referenced rule ${key} in ${container.options.meta ||
-          container.toString()}.`
+        `[JSS] Could not find the referenced rule "${key}" in "${container.options.meta ||
+          container.toString()}".`
       )
       return key
     }

@@ -405,7 +405,7 @@ describe('jss-plugin-nested', () => {
       expect(spy.callCount).to.be(1)
       expect(
         spy.calledWithExactly(
-          'Warning: [JSS] Could not find the referenced rule b in .a-id {\n  & $b: [object Object];\n}.'
+          'Warning: [JSS] Could not find the referenced rule "b" in ".a-id {\n  & $b: [object Object];\n}".'
         )
       ).to.be(true)
     })
