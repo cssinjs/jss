@@ -72,7 +72,7 @@ const styles = {
 Compiles to:
 
 ```css
-.button-0 {
+.button-1 {
   color: grey;
 }
 .container-0 .button-1 {
