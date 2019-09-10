@@ -187,7 +187,7 @@ export default class RuleList {
     } = this.options
 
     // It is a rules container like for e.g. ConditionalRule.
-    if (rule.rules instanceof RuleList) {
+    if (rule && rule.rules instanceof RuleList) {
       rule.rules.update(data, options)
       return
     }
