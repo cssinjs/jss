@@ -277,6 +277,38 @@ export default ({createStyledComponent}) => {
       expect(passedProps.color).to.equal('rgb(255, 0, 0)')
       expect(passedProps.height).to.equal(20)
     })
+
+    it('should update dynamic values after attaching and detaching a sheet', () => {
+      // Reproduces cssinjs/jss#1187
+      const generateId = createGenerateId()
+      function Container({height, mounted}) {
+        return (
+          <JssProvider registry={registry} generateId={generateId}>
+            {mounted && <MyComponent height={height} />}
+          </JssProvider>
+        )
+      }
+
+      const renderer = TestRenderer.create(<Container height={10} mounted />)
+      expect(registry.registry[0].rules.index.length).to.equal(4)
+      expect(registry.registry[0].renderer.element.sheet.cssRules.length).to.equal(4)
+
+      expect(registry.registry.length).to.equal(1)
+      expect(registry.registry[0].attached).to.equal(true)
+
+      renderer.update(<Container height={10} mounted={false} />)
+      expect(registry.registry[0].attached).to.equal(false)
+
+      renderer.update(<Container height={10} mounted />)
+      expect(registry.registry.length).to.equal(1)
+      expect(registry.registry[0].attached).to.equal(true)
+      expect(registry.registry[0].rules.index.length).to.equal(4)
+      expect(registry.registry[0].renderer.element.sheet.cssRules.length).to.equal(4)
+
+      renderer.update(<Container height={20} mounted />)
+      expect(registry.registry[0].rules.index.length).to.equal(4)
+      expect(registry.registry[0].renderer.element.sheet.cssRules.length).to.equal(4)
+    })
   })
 
   describe('function rules', () => {
