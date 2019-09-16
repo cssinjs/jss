@@ -2,21 +2,27 @@
 
 Since you are interested in what happens next, in case, you work for a for-profit company that benefits from using the project, please consider supporting it on https://opencollective.com/jss.
 
+---
+
+### Bug fixes
+
+- [jss] Fix dynamic rule updating after sheet re-attach ([1190](https://github.com/cssinjs/jss/pull/1190))
+
 ### Improvements
 
-- [react-jss] Improve TypeScript definitions and add missing definition for `createUseStyles` ([1155](https://github.com/cssinjs/jss/pull/1155))
-- [jss-plugin-default-unit] Consistent usage of the CSS browser API ([1168](https://github.com/cssinjs/jss/pull/1168))
 - [jss-plugin-nested] Better warning text ([1170](https://github.com/cssinjs/jss/pull/1170))
+
+## 10.0.0-alpha.24 (2019-8-13)
 
 ### Bug fixes
 
 - [react-jss] Fix nested dynamic rule updating ([1144](https://github.com/cssinjs/jss/pull/1144))
 - [jss] Support falsy value from fn rule ([1164](https://github.com/cssinjs/jss/pull/1164))
-- [jss] Fix dynamic rule updating after sheet re-attach ([1190](https://github.com/cssinjs/jss/pull/1190))
 
----
+### Improvements
 
-## 10.0.0-alpha.24 (2019-8-13)
+- [react-jss] Improve TypeScript definitions and add missing definition for `createUseStyles` ([1155](https://github.com/cssinjs/jss/pull/1155))
+- [jss-plugin-default-unit] Consistent usage of the CSS browser API ([1168](https://github.com/cssinjs/jss/pull/1168))
 
 ## 10.0.0-alpha.23 (2019-7-20)
 
