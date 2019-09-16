@@ -4,6 +4,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+## 10.0.0-alpha.25 (2019-9-16)
+
 ### Bug fixes
 
 - [jss] Fix dynamic rule updating after sheet re-attach ([1190](https://github.com/cssinjs/jss/pull/1190))
