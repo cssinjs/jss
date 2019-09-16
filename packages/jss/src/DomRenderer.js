@@ -338,7 +338,7 @@ export default class DomRenderer {
     // browsers remove those rules.
     // TODO figure out if its a bug and if it is known.
     // Workaround is to redeploy the sheet.
-    if (this.hasInsertedRules) {
+    if (this.hasInsertedRules && !(this.sheet && !this.sheet.deployed)) {
       this.hasInsertedRules = false
       this.deploy()
     }

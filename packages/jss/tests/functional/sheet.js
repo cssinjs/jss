@@ -255,6 +255,18 @@ describe('Functional: sheet', () => {
     it('should link sheet in rules options', () => {
       expect(sheet.getRule('a').options.sheet).to.be(sheet)
     })
+
+    it('should not duplicate cssRules when adding rules to a detached sheet with link: true', () => {
+      sheet.detach()
+      sheet = jss.createStyleSheet(null, {link: true}).attach()
+      sheet.addRule('a', {float: 'left'})
+      sheet.detach()
+      sheet.addRule('b', {float: 'right'})
+      sheet.attach()
+      style = getStyle()
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+      expect(getCss(style)).to.be('.a-id{float:left;}.b-id{float:right;}')
+    })
   })
 
   describe('.addRule() with .addRule() call within a plugin and attached sheet', () => {
