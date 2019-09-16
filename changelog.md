@@ -12,6 +12,7 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 - [react-jss] Fix nested dynamic rule updating ([1144](https://github.com/cssinjs/jss/pull/1144))
 - [jss] Support falsy value from fn rule ([1164](https://github.com/cssinjs/jss/pull/1164))
+- [jss] Fix dynamic rule updating after sheet re-attach ([1190](https://github.com/cssinjs/jss/pull/1190))
 
 ---
 
