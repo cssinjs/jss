@@ -257,18 +257,15 @@ describe('Functional: sheet', () => {
     })
 
     it('should not duplicate cssRules when adding rules to a detached sheet with link: true', () => {
+      sheet.detach()
       sheet = jss.createStyleSheet(null, {link: true}).attach()
       sheet.addRule('a', {float: 'left'})
-      expect(sheet.rules.index.length).to.equal(1)
-      expect(sheet.renderer.element.sheet.cssRules.length).to.equal(1)
       sheet.detach()
-
       sheet.addRule('b', {float: 'right'})
-      expect(sheet.rules.index.length).to.equal(2)
       sheet.attach()
-
-      expect(sheet.rules.index.length).to.equal(2)
-      expect(sheet.renderer.element.sheet.cssRules.length).to.equal(2)
+      style = getStyle()
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+      expect(getCss(style)).to.be('.a-id{float:left;}.b-id{float:right;}')
     })
   })
 
