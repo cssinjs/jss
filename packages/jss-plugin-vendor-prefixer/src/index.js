@@ -15,12 +15,13 @@ export default function jssVendorPrefixer(): Plugin {
     }
   }
 
-  function onProcessStyle(style, rule) {
-    if (rule.type !== 'style') return style
-
+  function prefixStyle(style) {
     for (const prop in style) {
       const value = style[prop]
-
+      if (prop === 'fallbacks' && Array.isArray(value)) {
+        style[prop] = value.map(prefixStyle)
+        continue
+      }
       let changeProp = false
       const supportedProp = vendor.supportedProperty(prop)
       if (supportedProp && supportedProp !== prop) changeProp = true
@@ -36,6 +37,12 @@ export default function jssVendorPrefixer(): Plugin {
     }
 
     return style
+  }
+
+  function onProcessStyle(style, rule) {
+    if (rule.type !== 'style') return style
+
+    return prefixStyle(style)
   }
 
   function onChangeValue(value, prop) {
