@@ -4,6 +4,19 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+## Summary
+
+A higher level overview of v10 release.
+
+- [react-jss] A new hooks-based API has been released and became the new default way to use JSS with React.
+- [jss] Keyframe IDs are now scoped by default.
+- [jss] Function values, function rules and observables apply plugins by default now, which means they can support all kinds of syntaxes: e.g. fallbacks, media queries, nesting, global styles.
+- [jss] Houdini Typed CSSOM Values are supported now.
+- [all] Each package supports ESM modules import, also possible directly from https://unpkg.com/.
+- [all] Added TypeScript type definitions to this repository.
+
+For more details please read the rest of the changelog.
+
 ## 10.0.0-alpha.26 (2019-9-22)
 
 ## Bug fixes
