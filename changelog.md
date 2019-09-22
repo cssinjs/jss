@@ -4,6 +4,10 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+## Bug fixes
+
+- [react-jss] Add fallback for `Number.MIN_SAFE_INTEGER`, because not supported by IE <= 11 ([1197](https://github.com/cssinjs/jss/pull/1197))
+
 ## 10.0.0-alpha.26 (2019-9-22)
 
 ## Bug fixes
