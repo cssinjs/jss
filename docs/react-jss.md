@@ -1,18 +1,18 @@
 # JSS integration with React
 
-React-JSS integrates [JSS](https://github.com/cssinjs/jss) with React using the new Hooks API as well as a Styled Component API. JSS and the [default preset](https://github.com/cssinjs/jss/tree/master/packages/jss-preset-default) are already built in.
+React-JSS integrates [JSS](https://github.com/cssinjs/jss) with React using the new Hooks API. JSS and the [default preset](https://github.com/cssinjs/jss/tree/master/packages/jss-preset-default) are already built in.
 
 Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
 
-**HOC based API is deprecated as of v10 and will be removed in v11. HOC specific docs are available [here](./react-jss-hoc.md).**
+**HOC based API is deprecated as of v10 and will be removed in v11. You can still make a lazy migration like described [here](https://reacttraining.com/blog/using-hooks-in-classes/). HOC specific docs are available [here](./react-jss-hoc.md).**
 
-Benefits compared to using the core JSS package directly:
+### Benefits compared to using the core JSS package directly:
 
 - Dynamic Theming - allows context based theme propagation and runtime updates.
 - Critical CSS extraction - only CSS from rendered components gets extracted.
 - Lazy evaluation - Style Sheets are created when a component mounts and removed when it's unmounted.
 - The static part of a Style Sheet will be shared between all elements.
-- Function values and rules are updated automatically with props as an argument.
+- Function values and rules are updated automatically with any data you pass to `useStyles(data)`. You can pass props, state or anything from context for example.
 
 ## Table of Contents
 
@@ -196,17 +196,18 @@ Usage of `ThemeProvider`:
 import React from 'react'
 import {createUseStyles, useTheme, ThemeProvider} from 'react-jss'
 
-const useStyles = createUseStyles(theme => ({
+const useStyles = createUseStyles({
   button: {
-    background: theme.colorPrimary
+    background: ({theme}) => theme.colorPrimary
   },
   label: {
     fontWeight: 'bold'
   }
-}))
+})
 
 const Button = ({children, ...props}) => {
-  const classes = useStyles(props)
+  const theme = useTheme()
+  const classes = useStyles({...props, theme})
   return (
     <button className={classes.button}>
       <span className={classes.label}>{children}</span>
@@ -223,51 +224,6 @@ const App = () => (
     <Button>I am a button with green background</Button>
   </ThemeProvider>
 )
-```
-
-## Accessing the theme inside the styled component
-
-Use `useTheme()` hook to access the theme inside of the function component.
-
-```javascript
-import React from 'react'
-import {createUseStyles, useTheme, ThemeProvider} from 'react-jss'
-
-const useStyles = createUseStyles(theme => ({
-  button: {
-    background: theme.colorPrimary
-  },
-  label: {
-    fontWeight: 'bold'
-  }
-}))
-
-const DeleteIcon = () => null
-
-const Button = ({children, ...props}) => {
-  const classes = useStyles(props)
-  const theme = useTheme()
-  return (
-    <button className={classes.button}>
-      <span className={classes.label}>{children}</span>
-      {theme.useIconButtons && <DeleteIcon />}
-    </button>
-  )
-}
-```
-
-## Accessing the theme without styles
-
-In case you need to access the theme without rendering any CSS, you can also use `useTheme()` standalone.
-
-```javascript
-import React from 'react'
-import {useTheme} from 'react-jss'
-
-const Button = () => {
-  const theme = useTheme()
-  return <button>I can access {theme.colorPrimary}</button>
-}
 ```
 
 ## Using custom Theming Context
@@ -287,22 +243,22 @@ const theming = createTheming(ThemeContext)
 const {ThemeProvider, useTheme} = theming
 
 const useStyles = createUseStyles(
-  theme => ({
+  {
     button: {
-      background: theme.colorPrimary
+      background: ({theme}) => theme.colorPrimary
     }
     // Passing theming object to `createUseStyles()`
-  }),
+  },
   {theming}
 )
 
-const theme = {
+const myTheme = {
   colorPrimary: 'green'
 }
 
 const Button = ({children, ...props}) => {
-  const classes = useStyles(props)
-  const themeOverContext = useTheme() // In case you need to access the theme here.
+  const theme = useTheme()
+  const classes = useStyles({...props, theme})
   return <button className={classes.button}>{children}</button>
 }
 
@@ -314,7 +270,7 @@ const otherLibraryTheme = {}
 const App = () => (
   <OtherLibraryThemeProvider theme={otherLibraryTheme}>
     <OtherLibraryComponent />
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={myTheme}>
       <Button>Green Button</Button>
     </ThemeProvider>
   </OtherLibraryThemeProvider>
