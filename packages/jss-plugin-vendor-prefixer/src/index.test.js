@@ -179,5 +179,20 @@ describe('jss-plugin-vendor-prefixer', () => {
         }
       `)
     })
+
+    it('should prefix an object', () => {
+      const sheet = jss.createStyleSheet({
+        a: {
+          display: 'run-in',
+          fallbacks: {display: 'inline'}
+        }
+      })
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          display: inline;
+          display: run-in;
+        }
+      `)
+    })
   })
 })
