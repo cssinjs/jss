@@ -2,6 +2,7 @@ import expect from 'expect.js'
 import {create} from 'jss'
 import * as cssVendor from 'css-vendor'
 import browser from 'detect-browser'
+import {stripIndent} from 'common-tags'
 import functionPlugin from 'jss-plugin-rule-value-function'
 
 import vendorPrefixer from './index'
@@ -160,6 +161,38 @@ describe('jss-plugin-vendor-prefixer', () => {
     it('should generate correct CSS', () => {
       const supportedValue = cssVendor.supportedValue('display', 'flex')
       expect(sheet.toString()).to.be(`.a-id {\n  display: ${supportedValue};\n}`)
+    })
+  })
+
+  describe('prefix fallbacks', () => {
+    it('should prefix array of objects', () => {
+      const sheet = jss.createStyleSheet({
+        a: {
+          display: 'run-in',
+          fallbacks: [{display: 'inline'}]
+        }
+      })
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          display: inline;
+          display: run-in;
+        }
+      `)
+    })
+
+    it('should prefix an object', () => {
+      const sheet = jss.createStyleSheet({
+        a: {
+          display: 'run-in',
+          fallbacks: {display: 'inline'}
+        }
+      })
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          display: inline;
+          display: run-in;
+        }
+      `)
     })
   })
 })

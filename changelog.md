@@ -17,6 +17,11 @@ A higher level overview of v10 release.
 
 For more details please read the rest of the changelog.
 
+## Bug fixes
+
+- [react-jss] Add fallback for `Number.MIN_SAFE_INTEGER`, because not supported by IE <= 11 ([1197](https://github.com/cssinjs/jss/pull/1197))
+- [jss-plugin-vendor-prefixer] Fix `fallbacks` syntax support regression ([1198](https://github.com/cssinjs/jss/pull/1198))
+
 ## 10.0.0-alpha.26 (2019-9-22)
 
 ## Bug fixes
