@@ -13,7 +13,7 @@
  * We start at [Number.MIN_SAFE_INTEGER] to always insert sheets from react-jss first before any
  * sheet which might be inserted manually by the user.
  */
-let index = Number.MIN_SAFE_INTEGER
+let index = Number.MIN_SAFE_INTEGER || -1e9
 
 const getSheetIndex = () => index++
 
