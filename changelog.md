@@ -17,14 +17,16 @@ A higher level overview of v10 release.
 
 For more details please read the rest of the changelog.
 
-## Bug fixes
+## 10.0.0-alpha.27 (2019-9-22)
+
+### Bug fixes
 
 - [react-jss] Add fallback for `Number.MIN_SAFE_INTEGER`, because not supported by IE <= 11 ([1197](https://github.com/cssinjs/jss/pull/1197))
 - [jss-plugin-vendor-prefixer] Fix `fallbacks` syntax support regression ([1198](https://github.com/cssinjs/jss/pull/1198))
 
 ## 10.0.0-alpha.26 (2019-9-22)
 
-## Bug fixes
+### Bug fixes
 
 - [jss] Fix dynamic rule updating after sheet re-attach in IE ([1194](https://github.com/cssinjs/jss/pull/1194))
 - [ci] Fix browsers.json, bump suported ios Safari to 10.3.
