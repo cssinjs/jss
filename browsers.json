@@ -37,7 +37,7 @@
   "BS_MobileSafari": {
     "base": "BrowserStack",
     "os": "ios",
-    "os_version": "9.0",
+    "os_version": "10",
     "browser": "iphone",
     "real_mobile": false
   },
