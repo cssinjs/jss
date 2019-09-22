@@ -4,7 +4,7 @@ React-JSS integrates [JSS](https://github.com/cssinjs/jss) with React using the 
 
 Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
 
-**HOC based API is deprecated as of v10 and will be removed in v11. You can still make a lazy migration like described [here](https://reacttraining.com/blog/using-hooks-in-classes/). HOC specific docs are available [here](./react-jss-hoc.md).**
+**HOC based API is deprecated as of v10 and will be removed in any upcomming major version. You can still make a lazy migration as described [here](https://reacttraining.com/blog/using-hooks-in-classes/). HOC specific docs are available [here](./react-jss-hoc.md).**
 
 ### Benefits compared to using the core JSS package directly:
 
@@ -196,7 +196,19 @@ Usage of `ThemeProvider`:
 import React from 'react'
 import {createUseStyles, useTheme, ThemeProvider} from 'react-jss'
 
-const useStyles = createUseStyles({
+// Using `theme` function is better when you have many theme dependant styles.
+let useStyles = createUseStyles(theme => ({
+  button: {
+    background: theme.colorPrimary
+  },
+  label: {
+    fontWeight: 'bold'
+  }
+}))
+
+// Using function values might be better if you have only few theme dependant styles
+// and also props or state is used for other values.
+useStyles = createUseStyles({
   button: {
     background: ({theme}) => theme.colorPrimary
   },
