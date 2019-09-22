@@ -9,7 +9,7 @@
 
 > JSS plugin that enables support for nested selectors
 
-See our website [jss-plugin-nested](https://cssinjs.org/jss-plugin-nested?v=v10.0.0-alpha.26) for more information.
+See our website [jss-plugin-nested](https://cssinjs.org/jss-plugin-nested?v=v10.0.0-alpha.27) for more information.
 
 ## Install
 
