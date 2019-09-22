@@ -4,16 +4,29 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+### Summary
+
+A higher level overview of v10 release.
+
+- [react-jss] A new hooks-based API has been released and became the new default way to use JSS with React.
+- [jss] Keyframe IDs are now scoped by default.
+- [jss] Function values, function rules and observables apply plugins by default now, which means they can support all kinds of syntaxes: e.g. fallbacks, media queries, nesting, global styles.
+- [jss] Houdini Typed CSSOM Values are supported now.
+- [all] Each package supports ESM modules import, also possible directly from https://unpkg.com/.
+- [all] Added TypeScript type definitions to this repository.
+
+For more details please read the rest of the changelog.
+
 ## 10.0.0-alpha.27 (2019-9-22)
 
-## Bug fixes
+### Bug fixes
 
 - [react-jss] Add fallback for `Number.MIN_SAFE_INTEGER`, because not supported by IE <= 11 ([1197](https://github.com/cssinjs/jss/pull/1197))
 - [jss-plugin-vendor-prefixer] Fix `fallbacks` syntax support regression ([1198](https://github.com/cssinjs/jss/pull/1198))
 
 ## 10.0.0-alpha.26 (2019-9-22)
 
-## Bug fixes
+### Bug fixes
 
 - [jss] Fix dynamic rule updating after sheet re-attach in IE ([1194](https://github.com/cssinjs/jss/pull/1194))
 - [ci] Fix browsers.json, bump suported ios Safari to 10.3.
