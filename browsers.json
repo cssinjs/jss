@@ -1,19 +1,19 @@
 {
-  "BS_Safari": {
+  "BS_Safari Yosemite": {
     "base": "BrowserStack",
     "os": "OS X",
     "os_version": "Yosemite",
     "browser": "safari",
     "browser_version": "8.0"
   },
-  "BS_Safari": {
+  "BS_Safari Mavericks": {
     "base": "BrowserStack",
     "os": "OS X",
     "os_version": "Mavericks",
     "browser": "safari",
     "browser_version": "7.0"
   },
-  "BS_Chrome": {
+  "BS_Chrome MacOS": {
     "base": "BrowserStack",
     "os": "OS X",
     "os_version": "Yosemite",
@@ -30,18 +30,11 @@
   "BS_MobileSafari": {
     "base": "BrowserStack",
     "os": "ios",
-    "os_version": "8.0",
+    "os_version": "10.3",
     "browser": "iphone",
     "real_mobile": false
   },
-  "BS_MobileSafari": {
-    "base": "BrowserStack",
-    "os": "ios",
-    "os_version": "9.0",
-    "browser": "iphone",
-    "real_mobile": false
-  },
-  "BS_Chrome": {
+  "BS_Chrome Windows": {
     "base": "BrowserStack",
     "os": "Windows",
     "os_version": "8.1",

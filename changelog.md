@@ -4,6 +4,11 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+## Bug fixes
+
+- [jss] Fix dynamic rule updating after sheet re-attach in IE ([1194](https://github.com/cssinjs/jss/pull/1194))
+- [ci] Fix browsers.json, bump suported ios Safari to 10.3.
+
 ## 10.0.0-alpha.25 (2019-9-16)
 
 ### Bug fixes

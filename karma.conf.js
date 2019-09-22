@@ -57,7 +57,8 @@ module.exports = config => {
       browserDisconnectTolerance: 3,
       // My current OS plan allows max 10 parallel connections.
       concurrency: 10,
-      retryLimit: 5
+      retryLimit: 5,
+      browserNoActivityTimeout: 100000
     })
 
     config.browserStack = {

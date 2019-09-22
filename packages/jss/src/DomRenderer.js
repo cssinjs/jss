@@ -335,10 +335,9 @@ export default class DomRenderer {
     insertStyle(this.element, this.sheet.options)
 
     // When rules are inserted using `insertRule` API, after `sheet.detach().attach()`
-    // browsers remove those rules.
-    // TODO figure out if its a bug and if it is known.
-    // Workaround is to redeploy the sheet.
-    if (this.hasInsertedRules && !(this.sheet && !this.sheet.deployed)) {
+    // most browsers create a new CSSStyleSheet, except of all IEs.
+    const deployed = Boolean(this.sheet && this.sheet.deployed)
+    if (this.hasInsertedRules && deployed) {
       this.hasInsertedRules = false
       this.deploy()
     }
@@ -395,6 +394,13 @@ export default class DomRenderer {
       }
       this.insertRules(parent.rules, latestNativeParent)
       return latestNativeParent
+    }
+
+    // IE keeps the CSSStyleSheet after style node has been reattached,
+    // so we need to check if the `renderable` reference the right style sheet and not
+    // rerender those rules.
+    if (rule.renderable && rule.renderable.parentStyleSheet === this.element.sheet) {
+      return rule.renderable
     }
 
     const ruleStr = rule.toString()
