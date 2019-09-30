@@ -225,7 +225,7 @@ There are some advantages to using this syntax:
 const styles = {
   button: {
     // Comma separated value with regular CSS strings inside.
-    border: ['1px solid red', '1px solid blue']
+    background: ['url(image1.png)', 'url(image2.png)']
   }
 }
 ```
@@ -234,7 +234,7 @@ Compiles to:
 
 ```css
 .button-0 {
-  border: 1px solid red, 1px solid blue;
+  background: url(image1.png), url(image2.png);
 }
 ```
 
@@ -242,10 +242,10 @@ Compiles to:
 const styles = {
   button: {
     // Comma separated value with space separated values inside.
-    border: [
+    background: [
       // Numbers can become default unit automatically.
-      [1, 'solid', 'red'],
-      [1, 'solid', 'blue']
+      ['url(image1.png)', 'no-repeat', 'top'],
+      ['url(image1.png)', 'no-repeat', 'right']
     ]
   }
 }
@@ -255,7 +255,7 @@ Compiles to:
 
 ```css
 .button-0 {
-  border: 1px solid red, 1px solid blue;
+  background: url(image1.png) no-repeat top, url(image1.png) no-repeat right;
 }
 ```
 
@@ -355,3 +355,5 @@ const styles = {
   }
 }
 ```
+
+[Here is an example](https://codesandbox.io/s/houdini-typed-value-jmec9) that makes use of typed values API to update a value and avoid CSS parsing.
