@@ -4,7 +4,7 @@ React-JSS integrates [JSS](https://github.com/cssinjs/jss) with React using the 
 
 Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
 
-**The HoC based API is deprecated as of v10 and will be removed in an upcoming major version. You can still perform a lazy migration as described [here](https://reacttraining.com/blog/using-hooks-in-classes/). HoC specific docs are available [here](./react-jss-hoc.md).**
+**The HOC based API is deprecated as of v10 and will be removed in an upcoming major version. You can still perform a lazy migration as described [here](https://reacttraining.com/blog/using-hooks-in-classes/). HOC specific docs are available [here](./react-jss-hoc.md).**
 
 ### Benefits compared to using the core JSS package directly:
 
