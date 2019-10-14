@@ -178,7 +178,7 @@ const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = 
       </JssContext.Consumer>
     ))
 
-    JssContextSubscriber.displayName = 'JssContextSubscriber'
+    JssContextSubscriber.displayName = `JssContextSubscriber${displayName}`
     // $FlowFixMe - React's types should allow custom static properties on component.
     JssContextSubscriber.InnerComponent = InnerComponent
 
