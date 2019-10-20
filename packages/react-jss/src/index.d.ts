@@ -7,8 +7,7 @@ import {
   Styles,
   StyleSheetFactoryOptions,
   CreateGenerateIdOptions,
-  Classes,
-  Style
+  Classes
 } from 'jss'
 import {createTheming, useTheme, withTheme, ThemeProvider, Theming} from 'theming'
 
@@ -38,10 +37,8 @@ declare const JssContext: Context<{
   disableStylesGeneration: boolean
 }>
 
-type ThemedStyles<Theme> = (theme: Theme) => Styles<string>
-
-interface WithStyles<S extends Styles<string> | ThemedStyles<any>> {
-  classes: Classes<S extends ThemedStyles<any> ? keyof ReturnType<S> : keyof S>
+interface WithStylesProps<S extends Styles | ((theme: unknown) => Styles)> {
+  classes: Classes<S extends ((theme: unknown) => Styles) ? keyof ReturnType<S> : keyof S>
 }
 
 interface WithStylesOptions extends StyleSheetFactoryOptions {
@@ -53,29 +50,45 @@ interface WithStylesOptions extends StyleSheetFactoryOptions {
 
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 
-export {Styles}
-
-declare function createUseStyles<C extends string>(
-  styles: Record<C, Style | string>,
+declare function createUseStyles<
+  Data = unknown,
+  ClassNames extends string | number | symbol = string
+>(
+  styles: Styles<ClassNames, Data>,
   options?: {
     index?: number
     name?: string
   } & StyleSheetFactoryOptions
-): (data?: any) => Record<C, string>
+): (data?: Data) => Classes<ClassNames>
 
-declare function createUseStyles<T, C extends string>(
-  styles: (theme: T) => Record<C, Style | string>,
+declare function createUseStyles<
+  D = unknown,
+  T = unknown,
+  ClassNames extends string | number | symbol = string
+>(
+  styles: (theme: T) => Styles<ClassNames, D>,
   options?: {
     index?: number
     name?: string
     theming?: Theming<T>
   } & StyleSheetFactoryOptions
-): (data?: any) => Record<C, string>
+): (data?: D) => Classes<ClassNames>
 
-declare function withStyles<S extends Styles<string> | ThemedStyles<any>>(
-  styles: S,
+declare function withStyles<Data = unknown, ClassNames extends string | number | symbol = string>(
+  styles: Styles<ClassNames, Data>,
   options?: WithStylesOptions
-): <Props extends WithStyles<S>>(
+): <Props extends {classes: Classes<ClassNames>}>(
+  comp: ComponentType<Props>
+) => ComponentType<Omit<Props, 'classes'> & {classes?: Partial<Props['classes']>}>
+
+declare function withStyles<
+  Data = unknown,
+  Theme = unknown,
+  ClassNames extends string | number | symbol = string
+>(
+  styles: (theme: Theme) => Styles<ClassNames, Data>,
+  options?: WithStylesOptions
+): <Props extends {classes: Classes<ClassNames>}>(
   comp: ComponentType<Props>
 ) => ComponentType<Omit<Props, 'classes'> & {classes?: Partial<Props['classes']>}>
 
@@ -84,13 +97,14 @@ export {
   jss,
   createGenerateId,
   JssProvider,
-  WithStyles,
+  WithStylesProps,
   ThemeProvider,
   withTheme,
   createTheming,
   useTheme,
   JssContext,
-  createUseStyles
+  createUseStyles,
+  Styles
 }
 
 export default withStyles

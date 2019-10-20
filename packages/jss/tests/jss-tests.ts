@@ -5,7 +5,7 @@ import {create as createJSS, createGenerateId, SheetsRegistry, default as shared
 const jss = createJSS().setup({createGenerateId})
 jss.use({}, {}) // $ExpectType JSS
 
-const styleSheet = jss.createStyleSheet<string>(
+const styleSheet = jss.createStyleSheet<string, {color: string}>(
   {
     rule: {
       color: (data: {color: string}) => data.color,
@@ -70,13 +70,6 @@ sheetsRegistry.add(styleSheet)
 
 const secondStyleSheet = jss.createStyleSheet(
   {
-    ruleWithMockObservable: {
-      subscribe() {
-        return {
-          unsubscribe() {}
-        }
-      }
-    },
     container2: {
       display: 'flex',
       width: 150,
