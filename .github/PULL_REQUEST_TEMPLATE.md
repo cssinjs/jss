@@ -1,3 +1,9 @@
-__What would you like to add/fix?__
+## Corresponding issue (if exists):
 
-__Corresponding issue (if exists):__
+## What would you like to add/fix?
+
+## Todo
+- [ ] Add tests if possible
+- [ ] Add changelog if users should know about the change
+- [ ] Add documentation
+ 
