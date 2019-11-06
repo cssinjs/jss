@@ -180,7 +180,10 @@ export default class RuleList {
   /**
    * Execute plugins, update rule props.
    */
-  onUpdate(data: Object, rule: Rule, options?: Object = defaultUpdateOptions) {
+  onUpdate(data: Object, rule?: Rule, options?: Object = defaultUpdateOptions) {
+    // Should be undefined during hot-reloading
+    if (!rule) return
+
     const {
       jss: {plugins},
       sheet
