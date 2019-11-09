@@ -20,6 +20,7 @@ import {manageSheet, unmanageSheet} from './utils/managers'
 import getSheetClasses from './utils/getSheetClasses'
 
 interface State {
+  generationIndex: number;
   dynamicRules: ?DynamicRules;
   sheet: ?StyleSheet;
   classes: {};
@@ -52,7 +53,7 @@ const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = 
       // $FlowFixMe
       static defaultProps = {...InnerComponent.defaultProps}
 
-      static createState(props) {
+      static createState(props): State {
         const sheet = createStyleSheet({
           styles,
           theme: getTheme(props),
@@ -63,12 +64,13 @@ const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = 
         })
 
         if (!sheet) {
-          return {classes: {}, dynamicRules: undefined, sheet: undefined}
+          return {generationIndex: index, classes: {}, dynamicRules: undefined, sheet: undefined}
         }
 
         const dynamicRules = addDynamicRules(sheet, props)
 
         return {
+          generationIndex: index,
           sheet,
           dynamicRules,
           classes: getSheetClasses(sheet, dynamicRules)
@@ -76,11 +78,11 @@ const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = 
       }
 
       static manage(props, state) {
-        const {sheet} = state
+        const {sheet, generationIndex} = state
         if (sheet) {
           manageSheet({
             sheet,
-            index,
+            index: generationIndex,
             context: props.jssContext,
             theme: getTheme(props)
           })
@@ -88,12 +90,12 @@ const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = 
       }
 
       static unmanage(props, state) {
-        const {sheet, dynamicRules} = state
+        const {sheet, dynamicRules, generationIndex} = state
 
         if (sheet) {
           unmanageSheet({
             context: props.jssContext,
-            index,
+            index: generationIndex,
             sheet,
             theme: getTheme(props)
           })
