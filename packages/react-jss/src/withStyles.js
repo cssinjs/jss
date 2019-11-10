@@ -130,7 +130,10 @@ const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = 
       }
 
       componentDidUpdate(prevProps: HOCProps<Theme, Props>, prevState: State) {
-        if (isThemingEnabled && this.props.theme !== prevProps.theme) {
+        if (
+          (isThemingEnabled && this.props.theme !== prevProps.theme) ||
+          this.state.generationIndex !== index
+        ) {
           const newState = WithStyles.createState(this.props)
           WithStyles.manage(this.props, newState)
           WithStyles.unmanage(prevProps, prevState)
