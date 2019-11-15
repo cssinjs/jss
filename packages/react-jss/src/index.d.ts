@@ -50,45 +50,35 @@ interface WithStylesOptions extends StyleSheetFactoryOptions {
 
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 
-declare function createUseStyles<
-  Data = unknown,
-  ClassNames extends string | number | symbol = string
->(
-  styles: Styles<ClassNames, Data>,
-  options?: {
-    index?: number
-    name?: string
-  } & StyleSheetFactoryOptions
-): (data?: Data) => Classes<ClassNames>
+interface CreateUseStylesOptions extends StyleSheetFactoryOptions {
+  name?: string
+}
 
 declare function createUseStyles<
-  D = unknown,
-  T = unknown,
-  ClassNames extends string | number | symbol = string
+  ClassNames extends string | number | symbol,
+  S extends Styles<ClassNames> | ((theme: any) => Styles<ClassNames>)
 >(
-  styles: (theme: T) => Styles<ClassNames, D>,
-  options?: {
-    index?: number
-    name?: string
-    theming?: Theming<T>
-  } & StyleSheetFactoryOptions
-): (data?: D) => Classes<ClassNames>
-
-declare function withStyles<Data = unknown, ClassNames extends string | number | symbol = string>(
-  styles: Styles<ClassNames, Data>,
-  options?: WithStylesOptions
-): <Props extends {classes: Classes<ClassNames>}>(
-  comp: ComponentType<Props>
-) => ComponentType<Omit<Props, 'classes'> & {classes?: Partial<Props['classes']>}>
+  styles: S,
+  options?: CreateUseStylesOptions
+): (
+  data?: unknown
+) => S extends (theme: any) => Styles<ClassNames>
+  ? Classes<keyof ReturnType<S>>
+  : Classes<ClassNames>
 
 declare function withStyles<
-  Data = unknown,
-  Theme = unknown,
-  ClassNames extends string | number | symbol = string
+  ClassNames extends string | number | symbol,
+  S extends Styles<ClassNames> | ((theme: any) => Styles<ClassNames>)
 >(
-  styles: (theme: Theme) => Styles<ClassNames, Data>,
+  styles: S,
   options?: WithStylesOptions
-): <Props extends {classes: Classes<ClassNames>}>(
+): <
+  Props extends {
+    classes: S extends (theme: any) => Styles<ClassNames>
+      ? Classes<keyof ReturnType<S>>
+      : Classes<ClassNames>
+  }
+>(
   comp: ComponentType<Props>
 ) => ComponentType<Omit<Props, 'classes'> & {classes?: Partial<Props['classes']>}>
 
