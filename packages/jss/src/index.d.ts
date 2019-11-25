@@ -1,3 +1,5 @@
+/// <reference path="./dom-monkeypatch.d.ts" />
+
 import * as css from 'csstype'
 
 // @ts-ignore
