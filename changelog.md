@@ -4,6 +4,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+## 10.0.0 (2019-9-22)
+
 ### Summary
 
 A higher level overview of v10 release.
