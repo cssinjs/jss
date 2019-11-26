@@ -1,13 +1,13 @@
 {
   "dist/jss-plugin-vendor-prefixer.js": {
-    "bundled": 17991,
-    "minified": 5778,
-    "gzipped": 2255
+    "bundled": 18446,
+    "minified": 6012,
+    "gzipped": 2340
   },
   "dist/jss-plugin-vendor-prefixer.min.js": {
-    "bundled": 17991,
-    "minified": 5778,
-    "gzipped": 2255
+    "bundled": 18446,
+    "minified": 6012,
+    "gzipped": 2340
   },
   "dist/jss-plugin-vendor-prefixer.cjs.js": {
     "bundled": 1574,
