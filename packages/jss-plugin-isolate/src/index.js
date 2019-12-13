@@ -92,6 +92,13 @@ export default function jssIsolate(options: Options = {}): Plugin {
 
   const setSelectorDebounced = createDebounced(setSelector)
 
+  const testFragment = document.createDocumentFragment()
+  const isSelectorValid = selector => {
+    try { testFragment.querySelector(selector) }
+    catch (e) { return false }
+    return true
+  }
+
   function onProcessRule(rule, sheet) {
     if (!sheet || sheet === resetSheet || rule.type !== 'style') return
 
@@ -109,7 +116,7 @@ export default function jssIsolate(options: Options = {}): Plugin {
 
     // Add reset rule class name to the classes map of users Style Sheet.
     const {selector} = styleRule
-    if (selectors.indexOf(selector) === -1) {
+    if (selectors.indexOf(selector) === -1 && isSelectorValid(selector)) {
       selectors.push(selector)
       setSelectorDone = setSelectorDebounced()
     }
