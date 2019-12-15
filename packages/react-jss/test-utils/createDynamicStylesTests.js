@@ -277,6 +277,73 @@ export default ({createStyledComponent}) => {
       expect(passedProps.color).to.equal('rgb(255, 0, 0)')
       expect(passedProps.height).to.equal(20)
     })
+
+    it.only('should manage dynamic nested styles in a list', () => {
+      const ListItem = createStyledComponent({
+        container: {
+          '@media (min-width: 0px)': {
+            color: ({color}) => color
+          }
+        }
+      })
+
+      MyComponent = ({colors}) => (
+        <>
+          {colors.map(color => (
+            <ListItem key={color} color={color} />
+          ))}
+        </>
+      )
+
+      let renderer
+      TestRenderer.act(() => {
+        renderer = TestRenderer.create(
+          <JssProvider generateId={createGenerateId()} registry={registry}>
+            <MyComponent colors={['red', 'green']} />
+          </JssProvider>
+        )
+      })
+
+      expect(registry.toString()).to.equal(stripIndent`
+        .container-0 {}
+        @media (min-width: 0px) {
+          .container-0 {  }
+        }
+          .container-0-1 {  }
+        @media (min-width: 0px) {
+          .container-0-1 {
+            color: red;
+          }
+        }
+          .container-1-2 {  }
+        @media (min-width: 0px) {
+          .container-1-2 {
+            color: green;
+          }
+        }
+      `)
+
+      TestRenderer.act(() => {
+        renderer.update(
+          <JssProvider generateId={createGenerateId()} registry={registry}>
+            <MyComponent colors={['red']} />
+          </JssProvider>
+        )
+      })
+
+      expect(registry.toString()).to.equal(stripIndent`
+        .container-0 {}
+        @media (min-width: 0px) {
+          .container-0 {  }
+        }
+          .container-0-1 {  }
+        @media (min-width: 0px) {
+          .container-0-1 {
+            color: red;
+          }
+        }
+      `)
+    })
   })
 
   describe('function rules', () => {
