@@ -89,7 +89,7 @@ export default ({createStyledComponent}) => {
         )
       })
 
-      expect(classes.button).to.equal('button-0 button-0-1')
+      expect(classes.button).to.equal('button-0 button-d0-1')
     })
 
     it('should generate different dynamic values', () => {
@@ -107,16 +107,16 @@ export default ({createStyledComponent}) => {
         .button-0::before {
           content: "";
         }
-        .button-0-1 {
+        .button-d0-1 {
           height: 10px;
         }
-        .button-0-1::before {
+        .button-d0-1::before {
           height: 10px;
         }
-        .button-1-2 {
+        .button-d1-2 {
           height: 20px;
         }
-        .button-1-2::before {
+        .button-d1-2::before {
           height: 20px;
         }
       `)
@@ -140,16 +140,16 @@ export default ({createStyledComponent}) => {
         .button-0::before {
           content: "";
         }
-        .button-0-1 {
+        .button-d0-1 {
           height: 10px;
         }
-        .button-0-1::before {
+        .button-d0-1::before {
           height: 10px;
         }
-        .button-1-2 {
+        .button-d1-2 {
           height: 20px;
         }
-        .button-1-2::before {
+        .button-d1-2::before {
           height: 20px;
         }
       `)
@@ -163,16 +163,16 @@ export default ({createStyledComponent}) => {
         .button-0::before {
           content: "";
         }
-        .button-0-1 {
+        .button-d0-1 {
           height: 20px;
         }
-        .button-0-1::before {
+        .button-d0-1::before {
           height: 20px;
         }
-        .button-1-2 {
+        .button-d1-2 {
           height: 40px;
         }
-        .button-1-2::before {
+        .button-d1-2::before {
           height: 40px;
         }
       `)
@@ -200,7 +200,7 @@ export default ({createStyledComponent}) => {
         .button-0 {
           width: 10px;
         }
-        .button-0-1 {
+        .button-d0-1 {
           height: 10px;
         }
       `)
@@ -211,7 +211,7 @@ export default ({createStyledComponent}) => {
         .button-0 {
           width: 10px;
         }
-        .button-0-1 {}
+        .button-d0-1 {}
       `)
     })
 
@@ -239,7 +239,7 @@ export default ({createStyledComponent}) => {
           width: 10px;
         }
         .button1-1 {}
-        .button1-0-2 {
+        .button1-d0-2 {
           height: 10px;
         }
       `)
@@ -251,7 +251,7 @@ export default ({createStyledComponent}) => {
           width: 10px;
         }
         .button1-1 {}
-        .button1-0-2 {}
+        .button1-d0-2 {}
       `)
     })
 
@@ -277,10 +277,10 @@ export default ({createStyledComponent}) => {
       expect(passedProps.color).to.equal('rgb(255, 0, 0)')
       expect(passedProps.height).to.equal(20)
     })
-
-    it.only('should manage dynamic nested styles in a list', () => {
+    it('should update rules with a nested media query in a list', () => {
       const ListItem = createStyledComponent({
         container: {
+          display: 'block',
           '@media (min-width: 0px)': {
             color: ({color}) => color
           }
@@ -294,52 +294,123 @@ export default ({createStyledComponent}) => {
           ))}
         </>
       )
+      const generateId = createGenerateId()
+
+      const Container = ({colors}) => (
+        <JssProvider generateId={generateId} registry={registry}>
+          <MyComponent colors={colors} />
+        </JssProvider>
+      )
 
       let renderer
+
       TestRenderer.act(() => {
-        renderer = TestRenderer.create(
-          <JssProvider generateId={createGenerateId()} registry={registry}>
-            <MyComponent colors={['red', 'green']} />
-          </JssProvider>
-        )
+        renderer = TestRenderer.create(<Container colors={['red', 'green']} />)
       })
 
       expect(registry.toString()).to.equal(stripIndent`
-        .container-0 {}
+        .container-0 {
+          display: block;
+        }
         @media (min-width: 0px) {
           .container-0 {  }
         }
-          .container-0-1 {  }
+          .container-d0-1 {  }
         @media (min-width: 0px) {
-          .container-0-1 {
+          .container-d0-1 {
             color: red;
           }
         }
-          .container-1-2 {  }
+          .container-d2-2 {  }
         @media (min-width: 0px) {
-          .container-1-2 {
+          .container-d2-2 {
             color: green;
           }
         }
       `)
 
       TestRenderer.act(() => {
-        renderer.update(
-          <JssProvider generateId={createGenerateId()} registry={registry}>
-            <MyComponent colors={['red']} />
-          </JssProvider>
-        )
+        renderer.update(<Container colors={['blue']} />)
       })
 
       expect(registry.toString()).to.equal(stripIndent`
-        .container-0 {}
+        .container-0 {
+          display: block;
+        }
         @media (min-width: 0px) {
           .container-0 {  }
         }
-          .container-0-1 {  }
+          .container-d4-3 {  }
         @media (min-width: 0px) {
-          .container-0-1 {
+          .container-d4-3 {
+            color: blue;
+          }
+        }
+      `)
+    })
+
+    it('should update rules inside a media query in a list', () => {
+      const ListItem = createStyledComponent({
+        '@media (min-width: 0px)': {
+          container: {
+            display: 'block',
+            color: ({color}) => color
+          }
+        }
+      })
+
+      MyComponent = ({colors}) => (
+        <>
+          {colors.map(color => (
+            <ListItem key={color} color={color} />
+          ))}
+        </>
+      )
+      const generateId = createGenerateId()
+
+      const Container = ({colors}) => (
+        <JssProvider generateId={generateId} registry={registry}>
+          <MyComponent colors={colors} />
+        </JssProvider>
+      )
+
+      let renderer
+
+      TestRenderer.act(() => {
+        renderer = TestRenderer.create(<Container colors={['red', 'green']} />)
+      })
+
+      expect(registry.toString()).to.equal(stripIndent`
+        @media (min-width: 0px) {
+          .container-0 {
+            display: block;
+          }
+        }
+        @media (min-width: 0px) {
+          .container-0 {
             color: red;
+          }
+        }
+        @media (min-width: 0px) {
+          .container-0 {
+            color: green;
+          }
+        }
+      `)
+
+      TestRenderer.act(() => {
+        renderer.update(<Container colors={['blue']} />)
+      })
+
+      expect(registry.toString()).to.equal(stripIndent`
+        @media (min-width: 0px) {
+          .container-0 {
+            display: block;
+          }
+        }
+        @media (min-width: 0px) {
+          .container-0 {
+            color: blue;
           }
         }
       `)
@@ -409,7 +480,7 @@ export default ({createStyledComponent}) => {
           <MyComponent />
         </JssProvider>
       )
-      expect(classes.button).to.equal('button-0 button-0-1')
+      expect(classes.button).to.equal('button-0 button-d0-1')
     })
 
     it('should generate different dynamic values', () => {
@@ -422,11 +493,11 @@ export default ({createStyledComponent}) => {
 
       expect(registry.toString()).to.equal(stripIndent`
         .button-0 {}
-        .button-0-1 {
+        .button-d0-1 {
           color: rgb(255, 255, 255);
           height: 10px;
         }
-        .button-1-2 {
+        .button-d1-2 {
           color: rgb(255, 255, 255);
           height: 20px;
         }
@@ -448,11 +519,11 @@ export default ({createStyledComponent}) => {
 
       expect(registry.toString()).to.equal(stripIndent`
         .button-0 {}
-        .button-0-1 {
+        .button-d0-1 {
           color: rgb(255, 255, 255);
           height: 10px;
         }
-        .button-1-2 {
+        .button-d1-2 {
           color: rgb(255, 255, 255);
           height: 20px;
         }
@@ -461,11 +532,11 @@ export default ({createStyledComponent}) => {
 
       expect(registry.toString()).to.equal(stripIndent`
         .button-0 {}
-        .button-0-1 {
+        .button-d0-1 {
           color: rgb(255, 255, 255);
           height: 20px;
         }
-        .button-1-2 {
+        .button-d1-2 {
           color: rgb(255, 255, 255);
           height: 40px;
         }

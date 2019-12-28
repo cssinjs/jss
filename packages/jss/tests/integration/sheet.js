@@ -121,6 +121,24 @@ describe('Integration: sheet', () => {
         }
       `)
     })
+
+    it('should add rules with duplicate names', () => {
+      const sheet = jss.createStyleSheet()
+      sheet.addRule('a', {color: 'red'})
+      sheet.addRule('a', {color: 'green'})
+      expect(sheet.classes).to.eql({
+        a: 'a-id',
+        'a-d0': 'a-d0-id'
+      })
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+        }
+        .a-d0-id {
+          color: green;
+        }
+      `)
+    })
   })
 
   describe('sheet.deleteRule()', () => {

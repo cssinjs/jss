@@ -118,7 +118,8 @@ export type RuleOptions = {
   keyframes: KeyframesMap,
   jss: Jss,
   generateId: GenerateId,
-  Renderer?: Class<Renderer> | null
+  Renderer?: Class<Renderer> | null,
+  name: string
 }
 
 export type RuleListOptions = {
