@@ -1,9 +1,9 @@
 import * as css from 'csstype'
 
-// @ts-ignore
-export type Style = css.StandardProperties<string | number | (() => string | number)> & {
-  [key: string]: Style | string | number
+type StyleP<T> = css.StandardProperties<string | number | (() => string | number)> & {
+  [key: string]: T | string | number;
 }
+export type Style = StyleP<StyleP<StyleP<StyleP<StyleP<StyleP<StyleP<StyleP<StyleP<void>>>>>>>>>
 export type Styles<Name extends string = string> = Record<Name, Style | string>
 export type Classes<Name extends string | number | symbol = string> = Record<Name, string>
 export type Keyframes<Name extends string = string> = Record<Name, string>
