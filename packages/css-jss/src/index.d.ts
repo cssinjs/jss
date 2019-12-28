@@ -1,4 +1,6 @@
-export type Style = {} | null | void | string
+import {Style} from 'jss'
+
+export {Style}
 
 export type StyleArg = Style | Array<Style>
 
