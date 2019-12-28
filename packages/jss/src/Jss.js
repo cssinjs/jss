@@ -108,6 +108,7 @@ export default class Jss {
 
   /**
    * Create a rule without a Style Sheet.
+   * [Deprecated] will be removed in the next major version.
    */
   createRule(name?: string, style?: JssStyle = {}, options?: RuleFactoryOptions = {}): Rule | null {
     // Enable rule without name for inline styles.
@@ -115,7 +116,7 @@ export default class Jss {
       return this.createRule(undefined, name, style)
     }
 
-    const ruleOptions: RuleOptions = {...options, jss: this, Renderer: this.options.Renderer}
+    const ruleOptions: RuleOptions = {...options, name, jss: this, Renderer: this.options.Renderer}
 
     if (!ruleOptions.generateId) ruleOptions.generateId = this.generateId
     if (!ruleOptions.classes) ruleOptions.classes = {}

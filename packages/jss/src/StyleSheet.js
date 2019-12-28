@@ -6,7 +6,6 @@ import type {
   ToCssOptions,
   RuleOptions,
   StyleSheetOptions,
-  UpdateArguments,
   JssStyle,
   Classes,
   KeyframesMap,
@@ -31,6 +30,10 @@ export default class StyleSheet {
 
   queue: ?Array<Rule>
 
+  update: typeof RuleList.prototype.update
+
+  updateOne: typeof RuleList.prototype.updateOne
+
   constructor(styles: JssStyles, options: StyleSheetOptions) {
     this.attached = false
     this.deployed = false
@@ -47,6 +50,8 @@ export default class StyleSheet {
       this.renderer = new options.Renderer(this)
     }
     this.rules = new RuleList(this.options)
+    this.update = this.rules.update.bind(this.rules)
+    this.updateOne = this.rules.updateOne.bind(this.rules)
 
     for (const name in styles) {
       this.rules.add(name, styles[name])
@@ -150,8 +155,8 @@ export default class StyleSheet {
    * Delete a rule by name.
    * Returns `true`: if rule has been deleted from the DOM.
    */
-  deleteRule(name: string): boolean {
-    const rule = this.rules.get(name)
+  deleteRule(name: string | Rule): boolean {
+    const rule = typeof name === 'object' ? name : this.rules.get(name)
 
     if (!rule) return false
 
@@ -177,14 +182,6 @@ export default class StyleSheet {
   deploy(): this {
     if (this.renderer) this.renderer.deploy()
     this.deployed = true
-    return this
-  }
-
-  /**
-   * Update the function values with a new data.
-   */
-  update(...args: UpdateArguments): this {
-    this.rules.update(...args)
     return this
   }
 

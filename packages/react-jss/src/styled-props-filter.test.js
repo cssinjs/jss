@@ -60,13 +60,13 @@ describe('React-JSS: styled props filter', () => {
 
     expect(css).to.be(stripIndent`
       .sc-0 {}
-      .sc-0-1 {
+      .sc-d0-1 {
         fill: #0000ff;
       }
     `)
     expect(tree).to.eql({
       type: 'svg',
-      props: {width: '100px', height: '100px', className: 'sc-0 sc-0-1'},
+      props: {width: '100px', height: '100px', className: 'sc-0 sc-d0-1'},
       children: [
         {
           type: 'rect',
@@ -95,16 +95,16 @@ describe('React-JSS: styled props filter', () => {
 
     expect(css.trim()).to.be(stripIndent`
       .sc-0 {}
-      .sc-0-1 {
+      .sc-d0-1 {
         color: red;
       }
-      .sc-1-2 {
+      .sc-d1-2 {
         color: green;
       }
     `)
     expect(tree).to.eql([
-      {type: 'div', props: {id: 'test-1', className: 'sc-0 sc-0-1'}, children: null},
-      {type: 'div', props: {id: 'test-2', className: 'sc-0 sc-1-2'}, children: null}
+      {type: 'div', props: {id: 'test-1', className: 'sc-0 sc-d0-1'}, children: null},
+      {type: 'div', props: {id: 'test-2', className: 'sc-0 sc-d1-2'}, children: null}
     ])
   })
 

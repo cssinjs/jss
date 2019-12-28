@@ -7,6 +7,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 ### Bug fixes
 
 - [jss-plugin-vendor-prefixer] Upgrade css-vendor package to v2.0.7 ([1208](https://github.com/cssinjs/jss/pull/1208))
+- [jss] Fix `sheet.addRule()` support for duplicate rule names ([1242](https://github.com/cssinjs/jss/pull/1242))
+  [react-jss] Fix function values support inside of nested media queries when component is a list item ([1242](https://github.com/cssinjs/jss/pull/1242))
 
 ## 10.0.0 (2019-9-22)
 

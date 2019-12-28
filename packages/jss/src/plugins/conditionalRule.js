@@ -19,6 +19,8 @@ export class ConditionalRule implements ContainerRule {
 
   key: string
 
+  query: string
+
   rules: RuleList
 
   options: RuleOptions
@@ -29,6 +31,8 @@ export class ConditionalRule implements ContainerRule {
 
   constructor(key: string, styles: Object, options: RuleOptions) {
     this.key = key
+    // Key might contain a unique suffix in case the `name` passed by user was duplicate.
+    this.query = options.name
     const atMatch = key.match(atRegExp)
     this.at = atMatch ? atMatch[1] : 'unknown'
     this.options = options
@@ -72,10 +76,10 @@ export class ConditionalRule implements ContainerRule {
     if (options.indent == null) options.indent = defaultToStringOptions.indent
     if (options.children == null) options.children = defaultToStringOptions.children
     if (options.children === false) {
-      return `${this.key} {}`
+      return `${this.query} {}`
     }
     const children = this.rules.toString(options)
-    return children ? `${this.key} {\n${children}\n}` : ''
+    return children ? `${this.query} {\n${children}\n}` : ''
   }
 }
 
