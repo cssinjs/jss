@@ -35,3 +35,5 @@
 [Real World React](https://realworldreact.com) ([source](https://github.com/realworldreact/realworldreact-website))
 
 [Onepixel](https://www.onepixel.com/)
+
+[React Admin](https://marmelab.com/react-admin/)
