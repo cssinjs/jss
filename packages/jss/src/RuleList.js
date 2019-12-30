@@ -9,7 +9,8 @@ import type {
   JssStyle,
   Classes,
   KeyframesMap,
-  UpdateArguments
+  UpdateArguments,
+  UpdateOptions
 } from './types'
 import escape from './utils/escape'
 
@@ -191,7 +192,7 @@ export default class RuleList {
   /**
    * Execute plugins, update rule props.
    */
-  updateOne(rule: Rule, data: Object, options?: Object = defaultUpdateOptions) {
+  updateOne(rule: Rule, data: Object, options?: UpdateOptions = defaultUpdateOptions) {
     const {
       jss: {plugins},
       sheet
