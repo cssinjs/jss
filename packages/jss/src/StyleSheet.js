@@ -10,7 +10,7 @@ import type {
   Classes,
   KeyframesMap,
   JssStyles,
-  Renderer
+  Renderer, UpdateArguments
 } from './types'
 
 export default class StyleSheet {
@@ -30,8 +30,6 @@ export default class StyleSheet {
 
   queue: ?Array<Rule>
 
-  update: typeof RuleList.prototype.update
-
   updateOne: typeof RuleList.prototype.updateOne
 
   constructor(styles: JssStyles, options: StyleSheetOptions) {
@@ -50,7 +48,6 @@ export default class StyleSheet {
       this.renderer = new options.Renderer(this)
     }
     this.rules = new RuleList(this.options)
-    this.update = this.rules.update.bind(this.rules)
     this.updateOne = this.rules.updateOne.bind(this.rules)
 
     for (const name in styles) {
@@ -182,6 +179,14 @@ export default class StyleSheet {
   deploy(): this {
     if (this.renderer) this.renderer.deploy()
     this.deployed = true
+    return this
+  }
+
+  /**
+   * Update the function values with a new data.
+   */
+  update(...args: UpdateArguments): this {
+    this.rules.update(...args)
     return this
   }
 
