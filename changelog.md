@@ -2,6 +2,8 @@
 
 Since you are interested in what happens next, in case, you work for a for-profit company that benefits from using the project, please consider supporting it on https://opencollective.com/jss.
 
+- [jss] Fix breaking change that was introduced in `10.0.1` ([1252](https://github.com/cssinjs/jss/pull/1252))
+
 ---
 
 ## 10.0.1 (2019-12-28)
