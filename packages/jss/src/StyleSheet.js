@@ -10,7 +10,8 @@ import type {
   Classes,
   KeyframesMap,
   JssStyles,
-  Renderer, UpdateArguments
+  Renderer,
+  UpdateArguments
 } from './types'
 
 export default class StyleSheet {
