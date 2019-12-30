@@ -31,8 +31,6 @@ export default class StyleSheet {
 
   queue: ?Array<Rule>
 
-  updateOne: typeof RuleList.prototype.updateOne
-
   constructor(styles: JssStyles, options: StyleSheetOptions) {
     this.attached = false
     this.deployed = false
@@ -49,7 +47,6 @@ export default class StyleSheet {
       this.renderer = new options.Renderer(this)
     }
     this.rules = new RuleList(this.options)
-    this.updateOne = this.rules.updateOne.bind(this.rules)
 
     for (const name in styles) {
       this.rules.add(name, styles[name])
@@ -188,6 +185,14 @@ export default class StyleSheet {
    */
   update(...args: UpdateArguments): this {
     this.rules.update(...args)
+    return this
+  }
+
+  /**
+   * Updates a single rule.
+   */
+  updateOne(rule: Rule, data: Object, options?: Object): this {
+    this.rules.updateOne(rule, data, options)
     return this
   }
 
