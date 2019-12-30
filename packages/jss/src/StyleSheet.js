@@ -11,7 +11,8 @@ import type {
   KeyframesMap,
   JssStyles,
   Renderer,
-  UpdateArguments
+  UpdateArguments,
+  UpdateOptions
 } from './types'
 
 export default class StyleSheet {
@@ -191,7 +192,7 @@ export default class StyleSheet {
   /**
    * Updates a single rule.
    */
-  updateOne(rule: Rule, data: Object, options?: Object): this {
+  updateOne(rule: Rule, data: Object, options?: UpdateOptions): this {
     this.rules.updateOne(rule, data, options)
     return this
   }
