@@ -4,6 +4,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+## 10.0.3 (2020-1-1)
+
 ### Improvements
 
 - [jss] Improve `JssStyle` definition ([1218](https://github.com/cssinjs/jss/pull/1218))
