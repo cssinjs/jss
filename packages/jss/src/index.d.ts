@@ -3,39 +3,17 @@ import * as css from 'csstype'
 // TODO: Type data better, currently typed as any for allowing to override it
 type FnValue<R> = R | ((data: any) => R)
 
-type NormalCssProperties = css.StandardProperties<string | number>
+type NormalCssProperties = css.Properties<string | number>
 type CssProperties = {[K in keyof NormalCssProperties]: FnValue<NormalCssProperties[K]>}
 
 // Jss Style definitions
-type JssStyle1 = CssProperties & {
-  [key: string]: FnValue<string | number | JssStyle2>
+type JssStyleP<S> = CssProperties & {
+  [key: string]: FnValue<JssValue | S>
 }
 
-type JssStyle2 = CssProperties & {
-  [key: string]: FnValue<string | number | JssStyle3>
-}
-
-type JssStyle3 = CssProperties & {
-  [key: string]: FnValue<string | number | JssStyle4>
-}
-
-type JssStyle4 = CssProperties & {
-  [key: string]: FnValue<string | number | JssStyle5>
-}
-
-type JssStyle5 = CssProperties & {
-  [key: string]: FnValue<string | number | JssStyle6>
-}
-
-type JssStyle6 = CssProperties & {
-  [key: string]: FnValue<string | number | JssStyle7>
-}
-type JssStyle7 = CssProperties & {
-  [key: string]: FnValue<string | number>
-}
-// End of Jss Styles definition
-
-export type JssStyle = JssStyle1
+export type JssStyle = JssStyleP<
+  JssStyleP<JssStyleP<JssStyleP<JssStyleP<JssStyleP<JssStyleP<void>>>>>>
+>
 
 export type Styles<Name extends string | number | symbol = string> = Record<Name, JssStyle | string>
 export type Classes<Name extends string | number | symbol = string> = Record<Name, string>

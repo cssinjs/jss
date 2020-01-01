@@ -5,7 +5,7 @@ import {create as createJSS, createGenerateId, SheetsRegistry, default as shared
 const jss = createJSS().setup({createGenerateId})
 jss.use({}, {}) // $ExpectType JSS
 
-const styleSheet = jss.createStyleSheet<string, {color: string}>(
+const styleSheet = jss.createStyleSheet<string>(
   {
     rule: {
       color: (data: {color: string}) => data.color,
