@@ -4,6 +4,16 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+### Improvements
+
+- [jss] Improve `JssStyle` definition ([1218](https://github.com/cssinjs/jss/pull/1218))
+- [react-jss] Improve `createUseStyles` definition ([1218](https://github.com/cssinjs/jss/pull/1218))
+
+### Bug fixes
+
+- [jss] Fix `create` definitions to allow `minify: boolean` ([1218](https://github.com/cssinjs/jss/pull/1218))
+- [jss] Fix `Name` Typescript constraint ([1218](https://github.com/cssinjs/jss/pull/1218))
+
 ## 10.0.2 (2019-12-30)
 
 ### Bug fixes
