@@ -75,8 +75,7 @@ export const createStyleSheet = <Theme>(options: Options<Theme>) => {
 
   addMeta(sheet, {
     dynamicStyles,
-    styles,
-    dynamicRuleCounter: 0
+    styles
   })
 
   manager.add(options.theme, sheet)
@@ -88,7 +87,7 @@ export const removeDynamicRules = (sheet: StyleSheet, rules: DynamicRules) => {
   // Loop over each dynamic rule and remove the dynamic rule
   // We can't just remove the whole sheet as this has all of the rules for every component instance
   for (const key in rules) {
-    sheet.deleteRule(rules[key].key)
+    sheet.deleteRule(rules[key])
   }
 }
 
@@ -96,8 +95,7 @@ export const updateDynamicRules = (data: any, sheet: StyleSheet, rules: DynamicR
   // Loop over each dynamic rule and update it
   // We can't just update the whole sheet as this has all of the rules for every component instance
   for (const key in rules) {
-    // $FlowFixMe
-    sheet.update(rules[key].key, data)
+    sheet.updateOne(rules[key], data)
   }
 }
 
@@ -112,17 +110,13 @@ export const addDynamicRules = (sheet: StyleSheet, data: any): ?DynamicRules => 
 
   // Loop over each dynamic rule and add it to the stylesheet
   for (const key in meta.dynamicStyles) {
-    const name = `${key}-${meta.dynamicRuleCounter++}`
     const initialRuleCount = sheet.rules.index.length
-
-    const originalRule = sheet.addRule(name, meta.dynamicStyles[key])
+    const originalRule = sheet.addRule(key, meta.dynamicStyles[key])
 
     // Loop through all created rules, fixes updating dynamic rules
     for (let i = initialRuleCount; i < sheet.rules.index.length; i++) {
       const rule = sheet.rules.index[i]
-
-      // $FlowFixMe: Not sure why flow has an issue here
-      sheet.update(rule.key, data)
+      sheet.updateOne(rule, data)
 
       // If it's the original rule, we need to add it by the correct key so the hook and hoc
       // can correctly concat the dynamic class with the static one

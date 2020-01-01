@@ -52,7 +52,7 @@ describe('React-JSS: styled', () => {
       .sc-0 {
         color: red;
       }
-      .sc-0-1 {
+      .sc-d0-1 {
         width: 10px;
       }
     `)
@@ -61,7 +61,7 @@ describe('React-JSS: styled', () => {
       type: 'div',
       props: {
         width: 10,
-        className: 'sc-0 sc-0-1'
+        className: 'sc-0 sc-d0-1'
       },
       children: null
     })
@@ -75,7 +75,7 @@ describe('React-JSS: styled', () => {
     const {css, tree} = renderToJSON(<Div width={10} />)
     expect(css).to.be(stripIndent`
       .scd-0 {}
-      .scd-0-1 {
+      .scd-d0-1 {
         color: red;
         width: 10px;
       }
@@ -84,7 +84,7 @@ describe('React-JSS: styled', () => {
       type: 'div',
       props: {
         width: 10,
-        className: 'scd-0 scd-0-1'
+        className: 'scd-0 scd-d0-1'
       },
       children: null
     })
@@ -132,7 +132,7 @@ describe('React-JSS: styled', () => {
     const {css, tree} = renderToJSON(<Div width={10} height={10} />)
     expect(css).to.be(stripIndent`
       .scd-0 {}
-      .scd-0-1 {
+      .scd-d0-1 {
         width: 10px;
         height: 10px;
       }
@@ -142,7 +142,7 @@ describe('React-JSS: styled', () => {
       props: {
         width: 10,
         height: 10,
-        className: 'scd-0 scd-0-1'
+        className: 'scd-0 scd-d0-1'
       },
       children: null
     })
@@ -156,12 +156,12 @@ describe('React-JSS: styled', () => {
         color: red;
       }
       .scd-1 {}
-      .scd-0-2 {}
+      .scd-d0-2 {}
     `)
     expect(tree).to.eql({
       type: 'div',
       props: {
-        className: 'sc-0 scd-1 scd-0-2'
+        className: 'sc-0 scd-1 scd-d0-2'
       },
       children: null
     })
@@ -181,7 +181,7 @@ describe('React-JSS: styled', () => {
         border: 1px solid red;
       }
       .scd-1 {}
-      .scd-0-2 {
+      .scd-d0-2 {
         width: 10px;
         height: 10px;
       }
@@ -191,7 +191,7 @@ describe('React-JSS: styled', () => {
       props: {
         width: 10,
         height: 10,
-        className: 'sc-0 scd-1 scd-0-2'
+        className: 'sc-0 scd-1 scd-d0-2'
       },
       children: null
     })
@@ -334,7 +334,7 @@ describe('React-JSS: styled', () => {
       .sc-0 {
         color: red;
       }
-      .sc-0-1 {
+      .sc-d0-1 {
         margin: 10px;
       }
     `)

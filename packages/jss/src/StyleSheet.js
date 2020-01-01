@@ -6,12 +6,13 @@ import type {
   ToCssOptions,
   RuleOptions,
   StyleSheetOptions,
-  UpdateArguments,
   JssStyle,
   Classes,
   KeyframesMap,
   JssStyles,
-  Renderer
+  Renderer,
+  UpdateArguments,
+  UpdateOptions
 } from './types'
 
 export default class StyleSheet {
@@ -150,8 +151,8 @@ export default class StyleSheet {
    * Delete a rule by name.
    * Returns `true`: if rule has been deleted from the DOM.
    */
-  deleteRule(name: string): boolean {
-    const rule = this.rules.get(name)
+  deleteRule(name: string | Rule): boolean {
+    const rule = typeof name === 'object' ? name : this.rules.get(name)
 
     if (!rule) return false
 
@@ -185,6 +186,14 @@ export default class StyleSheet {
    */
   update(...args: UpdateArguments): this {
     this.rules.update(...args)
+    return this
+  }
+
+  /**
+   * Updates a single rule.
+   */
+  updateOne(rule: Rule, data: Object, options?: UpdateOptions): this {
+    this.rules.updateOne(rule, data, options)
     return this
   }
 
