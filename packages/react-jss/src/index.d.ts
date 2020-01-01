@@ -54,17 +54,15 @@ interface CreateUseStylesOptions extends StyleSheetFactoryOptions {
   name?: string
 }
 
-declare function createUseStyles<
-  ClassNames extends string | number | symbol,
-  S extends Styles<ClassNames> | ((theme: any) => Styles<ClassNames>)
->(
-  styles: S,
+declare function createUseStyles<C extends string = string>(
+  styles: Styles<C>,
   options?: CreateUseStylesOptions
-): (
-  data?: unknown
-) => S extends (theme: any) => Styles<ClassNames>
-  ? Classes<keyof ReturnType<S>>
-  : Classes<ClassNames>
+): (data?: unknown) => Classes<C>
+
+declare function createUseStyles<C extends string = string>(
+  styles: ((theme: any) => Styles<C>),
+  options?: CreateUseStylesOptions
+): (data?: unknown) => Classes<C>
 
 declare function withStyles<
   ClassNames extends string | number | symbol,
