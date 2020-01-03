@@ -1,8 +1,8 @@
-import {Jss, Style} from 'jss'
+import {Jss, JssStyle} from 'jss'
 
-export {Style}
+export {JssStyle}
 
-export type StyleArg = Style | Array<Style>
+export type StyleArg = JssStyle | Array<JssStyle>
 
 export type Css = (...args: StyleArg[]) => string
 
