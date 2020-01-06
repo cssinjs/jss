@@ -40,6 +40,10 @@ declare const JssContext: Context<{
 interface WithStylesProps<S extends Styles | ((theme: unknown) => Styles)> {
   classes: Classes<S extends ((theme: unknown) => Styles) ? keyof ReturnType<S> : keyof S>
 }
+/**
+ * @deprecated Please use `WithStylesProps` instead
+ */
+type WithStyles<S extends Styles | ((theme: unknown) => Styles)> = WithStylesProps<S>
 
 interface WithStylesOptions extends StyleSheetFactoryOptions {
   index?: number
