@@ -4,6 +4,14 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+### Bug fixes
+
+- [react-jss] Add type alias for `WithStyles` ([1254](https://github.com/cssinjs/jss/pull/1254))
+
+### Improvements
+
+- [css-jss] Add TypeScript type definitions ([1247](https://github.com/cssinjs/jss/pull/1247))
+
 ## 10.0.3 (2020-1-1)
 
 ### Improvements
