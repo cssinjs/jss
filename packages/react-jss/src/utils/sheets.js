@@ -31,7 +31,7 @@ const getStyles = <Theme>(options: Options<Theme>) => {
   return styles(options.theme)
 }
 
-function getSheetOptions<Theme>(options: Options<Theme>, link: boolean) {
+export function getSheetOptions<Theme>(options: Options<Theme>, link: boolean) {
   let minify
   if (options.context.id && options.context.id.minify != null) {
     minify = options.context.id.minify
