@@ -233,7 +233,7 @@ Example
 
 ```typescript
 import * as React from 'react'
-import withStyles, {WithStyles} from 'react-jss'
+import withStyles, {WithStylesProps} from 'react-jss'
 
 const styles = {
   button: {
@@ -244,7 +244,7 @@ const styles = {
   }
 }
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps extends WithStylesProps<typeof styles> {
   children: React.ReactNode
 }
 
