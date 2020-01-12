@@ -9,6 +9,13 @@ const onProcessRule = rule => {
   }
 }
 
+const onProcessStyle = style => {
+    if (typeof style === 'string') {
+        return parse(style);
+    }
+    return style;
+}
+
 export default function templatePlugin(): Plugin {
-  return {onProcessRule}
+  return {onProcessRule, onProcessStyle}
 }
