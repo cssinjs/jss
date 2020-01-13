@@ -65,6 +65,29 @@ export default ({createStyledComponent}) => {
     `)
   })
 
+  it('should use passed options.generateId', () => {
+    const registry = new SheetsRegistry()
+    const options = {
+      generateId: rule => `ui-${rule.key}`
+    }
+    const MyComponent = createStyledComponent(
+      {
+        button: {color: 'red'}
+      },
+      options
+    )
+    renderToString(
+      <JssProvider registry={registry}>
+        <MyComponent />
+      </JssProvider>
+    )
+    expect(registry.toString()).to.be(stripIndent`
+      .ui-button {
+        color: red;
+      }
+    `)
+  })
+
   describe('preserving source order', () => {
     let ComponentA
     let ComponentB
