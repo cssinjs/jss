@@ -116,23 +116,4 @@ describe('React-JSS: withStyles', () => {
       expect(innerRef.callCount).to.be(1)
     })
   })
-
-  describe('options.generateId render as expect', () => {
-    it('use passed options.generateId', () => {
-      const withCustom = styles =>
-        withStyles(styles, {
-          generateId: rule => `ui-${rule.key}`
-        })
-
-      const StyledComponent = withCustom({
-        button: {
-          color: 'red'
-        }
-      })(props => <button className={props.classes.button} type="button" />)
-
-      const renderer = TestRenderer.create(<StyledComponent />)
-
-      expect(renderer.toJSON().props.className).equal('ui-button')
-    })
-  })
 })
