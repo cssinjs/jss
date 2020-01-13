@@ -11,6 +11,7 @@ Since you are interested in what happens next, in case, you work for a for-profi
 ### Improvements
 
 - [css-jss] Add TypeScript type definitions ([1247](https://github.com/cssinjs/jss/pull/1247))
+- [react-jss] Accept options.generateId in useStyles() and withStyles() as an option ([1263](https://github.com/cssinjs/jss/pull/1263))
 
 ## 10.0.3 (2020-1-1)
 
