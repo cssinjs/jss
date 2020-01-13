@@ -53,18 +53,21 @@ export default function jssNested(): Plugin {
     return result
   }
 
-  function getOptions(rule, container, options) {
+  function getOptions(rule, container, prevOptions) {
     // Options has been already created, now we only increase index.
-    if (options) return {...options, index: options.index + 1}
+    if (prevOptions) return {...prevOptions, index: prevOptions.index + 1}
 
     let {nestingLevel} = rule.options
     nestingLevel = nestingLevel === undefined ? 1 : nestingLevel + 1
 
-    return {
+    const options = {
       ...rule.options,
       nestingLevel,
       index: container.indexOf(rule) + 1
     }
+    // We don't need the parent name to be set options for chlid.
+    delete options.name
+    return options
   }
 
   function onProcessStyle(style, rule, sheet?: StyleSheet) {

@@ -9,7 +9,7 @@
 
 > JSS integration with React
 
-See our website [react-jss](https://cssinjs.org/react-jss?v=v10.0.0-alpha.27) for more information.
+See our website [react-jss](https://cssinjs.org/react-jss?v=v10.0.3) for more information.
 
 ## Install
 

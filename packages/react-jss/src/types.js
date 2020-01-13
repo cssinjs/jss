@@ -19,9 +19,7 @@ export type HookOptions<Theme> = StyleSheetFactoryOptions & {
   theming?: Theming<Theme>
 }
 
-export type HOCOptions<Theme> = StyleSheetFactoryOptions & {
-  index?: number,
-  theming?: Theming<Theme>,
+export type HOCOptions<Theme> = HookOptions<Theme> & {
   injectTheme?: boolean
 }
 

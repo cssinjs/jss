@@ -4,6 +4,43 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+### Bug fixes
+
+- [react-jss] Add type alias for `WithStyles` ([1254](https://github.com/cssinjs/jss/pull/1254))
+
+### Improvements
+
+- [css-jss] Add TypeScript type definitions ([1247](https://github.com/cssinjs/jss/pull/1247))
+- [react-jss] Accept options.generateId in useStyles() and withStyles() as an option ([1263](https://github.com/cssinjs/jss/pull/1263))
+
+## 10.0.3 (2020-1-1)
+
+### Improvements
+
+- [jss] Improve `JssStyle` definition ([1218](https://github.com/cssinjs/jss/pull/1218))
+- [react-jss] Improve `createUseStyles` definition ([1218](https://github.com/cssinjs/jss/pull/1218))
+
+### Bug fixes
+
+- [jss] Fix `create` definitions to allow `minify: boolean` ([1218](https://github.com/cssinjs/jss/pull/1218))
+- [jss] Fix `Name` Typescript constraint ([1218](https://github.com/cssinjs/jss/pull/1218))
+
+## 10.0.2 (2019-12-30)
+
+### Bug fixes
+
+- [jss] Fix breaking change that was introduced in `10.0.1` ([1252](https://github.com/cssinjs/jss/pull/1252))
+
+## 10.0.1 (2019-12-28)
+
+### Bug fixes
+
+- [jss-plugin-vendor-prefixer] Upgrade css-vendor package to v2.0.7 ([1208](https://github.com/cssinjs/jss/pull/1208))
+- [jss] Fix `sheet.addRule()` support for duplicate rule names ([1242](https://github.com/cssinjs/jss/pull/1242))
+- [react-jss] Fix function values support inside of nested media queries when component is a list item ([1242](https://github.com/cssinjs/jss/pull/1242))
+
+## 10.0.0 (2019-9-22)
+
 ### Summary
 
 A higher level overview of v10 release.

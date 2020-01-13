@@ -22,7 +22,7 @@ yarn bench
 
 ## Comparison with other CSSinJS libs
 
-[css-in-js-perf-tests](https://github.com/hellofresh/css-in-js-perf-tests)
+[css-in-js-perf-tests](https://github.com/rtsao/css-in-js-perf-tests)
 
 ## JSPerf JSS vs. CSS
 

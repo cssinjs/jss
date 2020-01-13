@@ -6,7 +6,8 @@
     "pretty": true,
     "esModuleInterop": true,
     "module": "es6",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "jsx": "react"
   },
   "include": ["packages/**/*.ts"]
 }

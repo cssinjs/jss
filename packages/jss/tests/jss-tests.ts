@@ -70,13 +70,6 @@ sheetsRegistry.add(styleSheet)
 
 const secondStyleSheet = jss.createStyleSheet(
   {
-    ruleWithMockObservable: {
-      subscribe() {
-        return {
-          unsubscribe() {}
-        }
-      }
-    },
     container2: {
       display: 'flex',
       width: 150,

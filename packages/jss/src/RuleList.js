@@ -9,7 +9,8 @@ import type {
   JssStyle,
   Classes,
   KeyframesMap,
-  UpdateArguments
+  UpdateArguments,
+  UpdateOptions
 } from './types'
 import escape from './utils/escape'
 
@@ -37,6 +38,8 @@ export default class RuleList {
   // Used to ensure correct rules order.
   index: Array<Rule> = []
 
+  counter: number = 0
+
   options: RuleListOptions
 
   classes: Classes
@@ -54,7 +57,7 @@ export default class RuleList {
    *
    * Will not render after Style Sheet was rendered the first time.
    */
-  add(key: string, decl: JssStyle, ruleOptions?: RuleOptions): Rule | null {
+  add(name: string, decl: JssStyle, ruleOptions?: RuleOptions): Rule | null {
     const {parent, sheet, jss, Renderer, generateId, scoped} = this.options
     const options = {
       classes: this.classes,
@@ -64,7 +67,16 @@ export default class RuleList {
       Renderer,
       generateId,
       scoped,
+      name,
       ...ruleOptions
+    }
+
+    // When user uses .createStyleSheet(), duplicate names are not possible, but
+    // `sheet.addRule()` opens the door for any duplicate rule name. When this happens
+    // we need to make the key unique within this RuleList instance scope.
+    let key = name
+    if (name in this.raw) {
+      key = `${name}-d${this.counter++}`
     }
 
     // We need to save the original decl before creating the rule
@@ -72,7 +84,7 @@ export default class RuleList {
     this.raw[key] = decl
 
     if (key in this.classes) {
-      // For e.g. rules inside of @media container
+      // E.g. rules inside of @media container
       options.selector = `.${escape(this.classes[key])}`
     }
 
@@ -101,7 +113,7 @@ export default class RuleList {
   remove(rule: Rule): void {
     this.unregister(rule)
     delete this.raw[rule.key]
-    this.index.splice(this.indexOf(rule), 1)
+    this.index.splice(this.index.indexOf(rule), 1)
   }
 
   /**
@@ -122,7 +134,7 @@ export default class RuleList {
   }
 
   /**
-   * Register a rule in `.map` and `.classes` maps.
+   * Register a rule in `.map`, `.classes` and `.keyframes` maps.
    */
   register(rule: Rule): void {
     this.map[rule.key] = rule
@@ -169,10 +181,10 @@ export default class RuleList {
     }
 
     if (name) {
-      this.onUpdate(data, this.get(name), options)
+      this.updateOne(this.map[name], data, options)
     } else {
       for (let index = 0; index < this.index.length; index++) {
-        this.onUpdate(data, this.index[index], options)
+        this.updateOne(this.index[index], data, options)
       }
     }
   }
@@ -180,7 +192,7 @@ export default class RuleList {
   /**
    * Execute plugins, update rule props.
    */
-  onUpdate(data: Object, rule: Rule, options?: Object = defaultUpdateOptions) {
+  updateOne(rule: Rule, data: Object, options?: UpdateOptions = defaultUpdateOptions) {
     const {
       jss: {plugins},
       sheet

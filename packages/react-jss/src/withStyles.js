@@ -1,169 +1,39 @@
 // @flow
-import React, {Component, type ComponentType, type Node} from 'react'
+import React, {type ComponentType, type Node} from 'react'
 import hoistNonReactStatics from 'hoist-non-react-statics'
-import {type StyleSheet, type Classes} from 'jss'
 import {ThemeContext} from 'theming'
 
-import type {HOCProps, HOCOptions, Styles, InnerProps, DynamicRules} from './types'
-import getDisplayName from './getDisplayName'
-import memoize from './utils/memoizeOne'
-import mergeClasses from './utils/mergeClasses'
+import type {HOCOptions, HOCProps, Styles, InnerProps} from './types'
 import JssContext from './JssContext'
-import getSheetIndex from './utils/getSheetIndex'
-import {
-  createStyleSheet,
-  updateDynamicRules,
-  addDynamicRules,
-  removeDynamicRules
-} from './utils/sheets'
-import {manageSheet, unmanageSheet} from './utils/managers'
-import getSheetClasses from './utils/getSheetClasses'
-
-interface State {
-  generationIndex: number;
-  dynamicRules: ?DynamicRules;
-  sheet: ?StyleSheet;
-  classes: {};
-}
+import getDisplayName from './getDisplayName'
+import createUseStyles from './createUseStyles'
 
 const NoRenderer = (props: {children?: Node}) => props.children || null
-
-const noTheme = {}
 
 /**
  * HOC creator function that wrapps the user component.
  *
  * `withStyles(styles, [options])(Component)`
  */
-const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = {}) => {
-  const {index = getSheetIndex(), theming, injectTheme, ...sheetOptions} = options
+const withStyles = <Theme: {}>(styles: Styles<Theme>, options?: HOCOptions<Theme> = {}) => {
+  const {injectTheme = false, theming, ...restOptions} = options
   const isThemingEnabled = typeof styles === 'function'
   const ThemeConsumer = (theming && theming.context.Consumer) || ThemeContext.Consumer
+  const useStyles = createUseStyles<Theme>(styles, {...restOptions, theming})
 
   return <Props: InnerProps>(
     InnerComponent: ComponentType<Props> = NoRenderer
   ): ComponentType<Props> => {
     const displayName = getDisplayName(InnerComponent)
 
-    const getTheme = (props): Theme => (isThemingEnabled ? props.theme : ((noTheme: any): Theme))
+    const WithStyles = ({innerRef, ...props}: HOCProps<Theme, Props>) => {
+      const classes = useStyles(props)
 
-    class WithStyles extends Component<HOCProps<Theme, Props>, State> {
-      static displayName = `WithStyles(${displayName})`
-
-      // $FlowFixMe
-      static defaultProps = {...InnerComponent.defaultProps}
-
-      static createState(props): State {
-        const sheet = createStyleSheet({
-          styles,
-          theme: getTheme(props),
-          index,
-          name: displayName,
-          context: props.jssContext,
-          sheetOptions
-        })
-
-        if (!sheet) {
-          return {generationIndex: index, classes: {}, dynamicRules: undefined, sheet: undefined}
-        }
-
-        const dynamicRules = addDynamicRules(sheet, props)
-
-        return {
-          generationIndex: index,
-          sheet,
-          dynamicRules,
-          classes: getSheetClasses(sheet, dynamicRules)
-        }
-      }
-
-      static manage(props, state) {
-        const {sheet, generationIndex} = state
-        if (sheet) {
-          manageSheet({
-            sheet,
-            index: generationIndex,
-            context: props.jssContext,
-            theme: getTheme(props)
-          })
-        }
-      }
-
-      static unmanage(props, state) {
-        const {sheet, dynamicRules, generationIndex} = state
-
-        if (sheet) {
-          unmanageSheet({
-            context: props.jssContext,
-            index: generationIndex,
-            sheet,
-            theme: getTheme(props)
-          })
-
-          if (dynamicRules) {
-            removeDynamicRules(sheet, dynamicRules)
-          }
-        }
-      }
-
-      mergeClassesProp = memoize(
-        (sheetClasses, classesProp): Classes =>
-          classesProp ? mergeClasses(sheetClasses, classesProp) : sheetClasses
-      )
-
-      constructor(props: HOCProps<Theme, Props>) {
-        super(props)
-
-        this.state = WithStyles.createState(props)
-        const {registry} = props.jssContext
-        const {sheet} = this.state
-        if (sheet && registry) {
-          registry.add(sheet)
-        }
-      }
-
-      componentDidMount() {
-        const {props, state} = this
-        if (props && state) {
-          WithStyles.manage(props, state)
-        }
-      }
-
-      componentDidUpdate(prevProps: HOCProps<Theme, Props>, prevState: State) {
-        if (
-          (isThemingEnabled && this.props.theme !== prevProps.theme) ||
-          this.state.generationIndex !== index
-        ) {
-          const newState = WithStyles.createState(this.props)
-          WithStyles.manage(this.props, newState)
-          WithStyles.unmanage(prevProps, prevState)
-
-          // eslint-disable-next-line react/no-did-update-set-state
-          this.setState(newState)
-        } else if (this.state.sheet && this.state.dynamicRules) {
-          // Only update the rules when we don't generate a new sheet
-          updateDynamicRules(this.props, this.state.sheet, this.state.dynamicRules)
-        }
-      }
-
-      componentWillUnmount() {
-        WithStyles.unmanage(this.props, this.state)
-      }
-
-      render() {
-        const {innerRef, jssContext, theme, classes, ...rest} = this.props
-        const {classes: sheetClasses} = this.state
-        const props = {
-          ...rest,
-          classes: this.mergeClassesProp(sheetClasses, classes)
-        }
-
-        if (innerRef) props.ref = innerRef
-        if (injectTheme) props.theme = theme
-
-        return <InnerComponent {...props} />
-      }
+      return <InnerComponent ref={innerRef} {...props} classes={classes} />
     }
+
+    // $FlowFixMe
+    WithStyles.defaultProps = {...InnerComponent.defaultProps}
 
     const JssContextSubscriber = React.forwardRef((props, ref) => (
       <JssContext.Consumer>
@@ -178,7 +48,7 @@ const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = 
             )
           }
 
-          return <WithStyles innerRef={ref} {...props} jssContext={context} theme={noTheme} />
+          return <WithStyles innerRef={ref} {...props} jssContext={context} theme={undefined} />
         }}
       </JssContext.Consumer>
     ))
