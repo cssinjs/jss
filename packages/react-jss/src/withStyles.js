@@ -4,6 +4,7 @@ import hoistNonReactStatics from 'hoist-non-react-statics'
 import {ThemeContext} from 'theming'
 
 import type {HOCOptions, HOCProps, Styles, InnerProps} from './types'
+import mergeClasses from './utils/mergeClasses'
 import JssContext from './JssContext'
 import getDisplayName from './getDisplayName'
 import createUseStyles from './createUseStyles'
@@ -16,18 +17,26 @@ const NoRenderer = (props: {children?: Node}) => props.children || null
  * `withStyles(styles, [options])(Component)`
  */
 const withStyles = <Theme: {}>(styles: Styles<Theme>, options?: HOCOptions<Theme> = {}) => {
-  const {injectTheme = false, theming, ...restOptions} = options
+  const {injectTheme = false, theming, name, ...restOptions} = options
   const isThemingEnabled = typeof styles === 'function'
   const ThemeConsumer = (theming && theming.context.Consumer) || ThemeContext.Consumer
-  const useStyles = createUseStyles<Theme>(styles, {...restOptions, theming})
 
   return <Props: InnerProps>(
     InnerComponent: ComponentType<Props> = NoRenderer
   ): ComponentType<Props> => {
     const displayName = getDisplayName(InnerComponent)
+    const useStyles = createUseStyles<Theme>(styles, {
+      ...restOptions,
+      name: name || displayName,
+      theming
+    })
 
-    const WithStyles = ({innerRef, ...props}: HOCProps<Theme, Props>) => {
-      const classes = useStyles(props)
+    const WithStyles = ({innerRef, classes: propClasses, ...props}: HOCProps<Theme, Props>) => {
+      const generatedClasses = useStyles(props)
+      const classes = React.useMemo(
+        () => (propClasses ? mergeClasses(generatedClasses, propClasses) : generatedClasses),
+        [propClasses, generatedClasses]
+      )
 
       return <InnerComponent ref={innerRef} {...props} classes={classes} />
     }
