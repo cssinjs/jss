@@ -35,9 +35,7 @@ export type Context = {|
 |}
 
 export type HOCProps<Theme, Props> = Props & {
-  theme: Theme,
-  jssContext: Context,
-  innerRef: any
+  theme?: Theme
 }
 
 export type Classes = {[string]: string}
