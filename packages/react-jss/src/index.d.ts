@@ -45,16 +45,17 @@ interface WithStylesProps<S extends Styles | ((theme: unknown) => Styles)> {
  */
 type WithStyles<S extends Styles | ((theme: unknown) => Styles)> = WithStylesProps<S>
 
-interface WithStylesOptions extends StyleSheetFactoryOptions {
+interface BaseOptions extends StyleSheetFactoryOptions {
   index?: number
-  injectTheme?: boolean
-  jss?: Jss
   theming?: Theming<object>
 }
 
-type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
+interface WithStylesOptions extends BaseOptions {
+  injectTheme?: boolean
+  jss?: Jss
+}
 
-interface CreateUseStylesOptions extends StyleSheetFactoryOptions {
+interface CreateUseStylesOptions extends BaseOptions {
   name?: string
 }
 
@@ -83,6 +84,8 @@ declare function withStyles<
 >(
   comp: ComponentType<Props>
 ) => ComponentType<Omit<Props, 'classes'> & {classes?: Partial<Props['classes']>}>
+
+type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 
 export {
   SheetsRegistry,
