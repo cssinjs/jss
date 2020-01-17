@@ -1,0 +1,24 @@
+{
+  "name": "webpackbin-project",
+  "version": "1.0.0",
+  "description": "Project boilerplate",
+  "scripts": {
+    "start": "webpack-dev-server --content-base build/ --port 3000"
+  },
+  "dependencies": {
+    "jss": "9.0.0",
+    "jss-preset-default": "4.0.0",
+    "rxjs": "5.4.3"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "2.22.0",
+    "webpack-dev-server": "2.3.0",
+    "webpack": "^2.2.0",
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-stage-0": "^6.5.0"
+  },
+  "author": "WebpackBin",
+  "license": "ISC"
+}
