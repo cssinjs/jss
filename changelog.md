@@ -7,6 +7,7 @@ Since you are interested in what happens next, in case, you work for a for-profi
 ### Bug fixes
 
 - [react-jss] Add type alias for `WithStyles` ([1254](https://github.com/cssinjs/jss/pull/1254))
+- [react-jss] Fix ts typings for hook, created common interface for options ([1266](https://github.com/cssinjs/jss/pull/1266))
 
 ### Improvements
 
