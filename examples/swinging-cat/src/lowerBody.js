@@ -2,6 +2,7 @@ import jss from './jss'
 import * as theme from './theme'
 import leg from './leg'
 import tail from './tail'
+import sheet from './globalStyles'
 
 const styles = {
   catLowerWrap: {
@@ -10,7 +11,7 @@ const styles = {
     top: '100%',
     width: 75,
     left: 'calc(50% - 37.5px)',
-    animation: `reverse-swing ${theme.duration} 0.2s infinite both`,
+    animation: `${sheet.keyframes['reverse-swing']} ${theme.duration} 0.2s infinite both`,
     transformOrigin: 'top center'
   },
   catLower: {
@@ -19,7 +20,7 @@ const styles = {
     left: 0,
     width: '100%',
     height: '100%',
-    animation: `swing ${theme.duration} ${theme.offset} infinite both`,
+    animation: `${sheet.keyframes.swing} ${theme.duration} ${theme.offset} infinite both`,
     transformOrigin: 'top center',
     '&:after': {
       content: '""',
@@ -29,9 +30,7 @@ const styles = {
       width: '100%',
       height: '100%',
       borderRadius: 100,
-      backgroundImage: `radial-gradient(circle at 10px 50px, #ffffff, #ffffff 40%, ${
-        theme.colorFurLight
-      } 65%, ${theme.colorFurDark})`,
+      backgroundImage: `radial-gradient(circle at 10px 50px, #ffffff, #ffffff 40%, ${theme.colorFurLight} 65%, ${theme.colorFurDark})`,
       zIndex: 1
     }
   }

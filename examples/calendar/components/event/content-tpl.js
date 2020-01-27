@@ -4,7 +4,7 @@
  * @param {Object} data
  * @return {String}
  */
-export function compile(data) {
+export default function(data) {
   const {classes} = data
   return `
     <div class="${classes.content}">

@@ -7,8 +7,8 @@ import bootstrapTheme from './bootstrap-theme'
 jss.setup(preset())
 
 // Application.
-var styles = {
-  bootstrap: bootstrap,
+const styles = {
+  bootstrap,
   theme: bootstrapTheme,
   app: {
     composes: ['$bootstrap', '$theme']
@@ -18,17 +18,12 @@ var styles = {
   }
 }
 
-var sheet = jss.createStyleSheet(styles).attach()
-var classes = sheet.classes
+const sheet = jss.createStyleSheet(styles).attach()
+const classes = sheet.classes
 
-var div = document.body.appendChild(document.createElement('div'))
-div.innerHTML =
-  '\
-  <div class="' +
-  classes.app +
-  '">\
-    <button class="' +
-  classes.button +
-  '">Button</button>\
+const div = document.body.appendChild(document.createElement('div'))
+div.innerHTML = `\
+  <div class="${classes.app}">\
+    <button class="${classes.button}">Button</button>\
   </div>\
-'
+`

@@ -1,3 +1,4 @@
+import {map} from 'rxjs/operators'
 import jss from './jss'
 import * as theme from './theme'
 import {
@@ -37,8 +38,8 @@ const styles = {
     width: '100%',
     height: 6,
     transition: '0.6s',
-    transform: doAnimation$(animationLoader$(theme.duration)).map($val =>
-      scaleY(getPercentValue(animationValues, $val))
+    transform: doAnimation$(animationLoader$(theme.duration)).pipe(
+      map($val => scaleY(getPercentValue(animationValues, $val)))
     ),
     '&:before': {
       content: '""',

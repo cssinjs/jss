@@ -58,8 +58,8 @@ export default class Event {
    *
    * @return {Event}
    */
-  setStyle(style) {
-    this.style = style
+  setStyle(newStyle) {
+    this.style = newStyle
     return this
   }
 }

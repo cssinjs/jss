@@ -1,5 +1,6 @@
 import jss from './jss'
 import * as theme from './theme'
+import sheet from './globalStyles'
 
 const styles = {
   catFace: {
@@ -8,7 +9,7 @@ const styles = {
     left: 0,
     height: '100%',
     width: '100%',
-    animation: `face ${theme.duration} ${theme.easing} infinite both`,
+    animation: `${sheet.keyframes.face} ${theme.duration} ${theme.easing} infinite both`,
     transformStyle: 'preserve-3d',
     perspective: 100
   },
@@ -17,7 +18,7 @@ const styles = {
     top: '50%',
     width: '100%',
     height: 6,
-    animation: `blink ${theme.duration} step-end infinite both`,
+    animation: `${sheet.keyframes.blink} ${theme.duration} step-end infinite both`,
     '&:before': {
       content: '""',
       left: 20,

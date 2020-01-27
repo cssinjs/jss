@@ -1,5 +1,6 @@
-import {Observable, Subject, Scheduler} from 'rxjs'
-import 'hammerjs'
+import {fromEventPattern, of, interval, animationFrame, combineLatest, Subject} from 'rxjs'
+import {switchMap, startWith, map, scan} from 'rxjs/operators'
+import Hammer from 'hammerjs'
 import dynamics from 'dynamics.js'
 
 export const swingAnimationValues = [5, -10, 15, -23, 23, -15, 10, -10, 5]
@@ -27,24 +28,25 @@ export const translateY = ($val, $mult = 1) => `translateY(${$val * $mult}rem)`
 export const translateX = ($val, $mult = 1) => `translateX(${$val * $mult}px)`
 
 export const swingAnimation$ = ($mult = 1, animation = rotate) =>
-  animationSubject.map($val => animation($val, $mult))
+  animationSubject.pipe(map($val => animation($val, $mult)))
 
 export const animationLoader$ = duration =>
-  Observable.interval(0, Scheduler.animationFrame)
-    .startWith(0)
-    .scan(x => x > duration * (10 ? 0 : x + 1), 0)
-    .map(x => (x * 10) / duration)
+  interval(0, animationFrame).pipe(
+    startWith(0),
+    scan(x => x > 0, 0),
+    map(x => (x * 10) / duration)
+  )
 
 export const doAnimation$ = loader$ =>
-  Observable.combineLatest(animationSubject, loader$, (val, percent) => (val === 0 ? val : percent))
+  combineLatest(animationSubject, loader$, (val, percent) => (val === 0 ? val : percent))
 
-export const setup = function() {
+export const setup = () => {
   const cat = document.querySelector('#cat')
   const hCat = new Hammer(cat)
   const noop = () => {}
 
   const springBack = fromX =>
-    Observable.fromEventPattern(
+    fromEventPattern(
       handler =>
         dynamics.animate(
           {deltaX: fromX},
@@ -60,14 +62,12 @@ export const setup = function() {
       noop
     )
 
-  const pan$ = Observable.fromEventPattern(
-    handler => hCat.on('panleft panright panend', handler),
-    noop
-  )
+  const pan$ = fromEventPattern(handler => hCat.on('panleft panright panend', handler), noop)
 
-  const move$ = pan$
-    .switchMap(e => (e.type === 'panend' ? springBack(e.deltaX) : Observable.of(e.deltaX)))
-    .startWith(0)
+  const move$ = pan$.pipe(
+    switchMap(e => (e.type === 'panend' ? springBack(e.deltaX) : of(e.deltaX))),
+    startWith(0)
+  )
 
   move$.subscribe(deltaX => animationSubject.next(-deltaX * 0.1))
 }

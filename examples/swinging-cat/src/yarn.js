@@ -9,9 +9,7 @@ const styles = {
     width: 80,
     height: 80,
     borderRadius: '50%',
-    backgroundImage: `radial-gradient(circle at top left, #e97c7f, ${
-      theme.colorYarn
-    } 50%, #af1d22)`,
+    backgroundImage: `radial-gradient(circle at top left, #e97c7f, ${theme.colorYarn} 50%, #af1d22)`,
     zIndex: 1,
     '&:before': {
       content: '""',

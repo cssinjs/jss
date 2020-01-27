@@ -5,6 +5,41 @@ import {rules} from './style'
 
 const sheet = jss.createStyleSheet(rules)
 
+/**
+ * Returns true if integer.
+ *
+ * @param {Number} n
+ * @return {Boolean}
+ */
+function isInt(n) {
+  return n % 1 === 0
+}
+
+/**
+ * Get PM/AM suffix.
+ *
+ * @param {Number} min
+ * @return {String}
+ */
+function getSuffix(min) {
+  const h = min / 60
+  if (!isInt(h)) return false
+  if (h < 12) return 'AM'
+  return 'PM'
+}
+
+/**
+ * Format time according the layout.
+ *
+ * @param {Number} min
+ * @return {String}
+ */
+function formatTime(min) {
+  let h = min / 60
+  if (h > 12.5) h -= 12
+  return isInt(h) ? `${h}:00` : `${Math.floor(h)}:30`
+}
+
 export default class Timeline {
   /**
    * Creates a timeline view.
@@ -32,7 +67,7 @@ export default class Timeline {
         this.createMarker({
           suffix: getSuffix(min),
           time: formatTime(min),
-          min: min
+          min
         })
       )
     }
@@ -50,7 +85,7 @@ export default class Timeline {
     const element = utils.createElement('div', {
       class: sheet.classes.timeContainer
     })
-    element.style.top = utils.minToY(options.min - this.start) + 'px'
+    element.style.top = `${utils.minToY(options.min - this.start)}px`
     element.innerHTML = markerTpl.compile({
       time: options.time,
       classes: sheet.classes,
@@ -58,39 +93,4 @@ export default class Timeline {
     })
     return element
   }
-}
-
-/**
- * Get PM/AM suffix.
- *
- * @param {Number} min
- * @return {String}
- */
-function getSuffix(min) {
-  const h = min / 60
-  if (!isInt(h)) return false
-  if (h < 12) return 'AM'
-  return 'PM'
-}
-
-/**
- * Returns true if integer.
- *
- * @param {Number} n
- * @return {Boolean}
- */
-function isInt(n) {
-  return n % 1 === 0
-}
-
-/**
- * Format time according the layout.
- *
- * @param {Number} min
- * @return {String}
- */
-function formatTime(min) {
-  let h = min / 60
-  if (h > 12.5) h -= 12
-  return isInt(h) ? h + ':00' : Math.floor(h) + ':30'
 }

@@ -1,19 +1,18 @@
 import jss from './jss'
 import * as theme from './theme'
+import sheet from './globalStyles'
 
 const styles = {
   catLowerLegPaw: {
     position: 'absolute',
     height: 20,
     width: 20,
-    animation: `swing-leg ${theme.duration} 0.3s infinite both`,
+    animation: `${sheet.keyframes['swing-leg']} ${theme.duration} 0.3s infinite both`,
     zIndex: 1,
     transformOrigin: 'top center',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    backgroundImage: `linear-gradient(to right, #fff, ${theme.colorFurLight}, ${
-      theme.colorFurDark
-    })`
+    backgroundImage: `linear-gradient(to right, #fff, ${theme.colorFurLight}, ${theme.colorFurDark})`
   },
   catLegFirstNested: {
     bottom: 20
@@ -38,9 +37,7 @@ export default isFirstLeg => {
   if (isFirstLeg) {
     leg = `<div class="${classes.catLowerLegPaw} ${classes.catLegFirstNested}">`
   } else {
-    leg = `<div class="${classes.catLowerLegPaw} ${classes.catLegFirstNested} ${
-      classes.catLegSecond
-    }">`
+    leg = `<div class="${classes.catLowerLegPaw} ${classes.catLegFirstNested} ${classes.catLegSecond}">`
   }
   for (let t = 0; t <= 15; t++) {
     leg += `<div class="${classes.catLowerLegPaw} ${classes.catLegNested}">`

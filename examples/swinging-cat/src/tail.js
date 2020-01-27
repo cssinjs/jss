@@ -1,17 +1,16 @@
 import jss from './jss'
 import * as theme from './theme'
+import sheet from './globalStyles'
 
 const styles = {
   catTail: {
     position: 'absolute',
     height: 15,
     width: 10,
-    animation: `swing-tail ${theme.duration} ${theme.easing} infinite both`,
+    animation: `${sheet.keyframes['swing-tail']} ${theme.duration} ${theme.easing} infinite both`,
     transformOrigin: 'top center',
     zIndex: 0,
-    backgroundImage: `linear-gradient(to right, #fff, ${theme.colorFurLight}, ${
-      theme.colorFurDark
-    })`,
+    backgroundImage: `linear-gradient(to right, #fff, ${theme.colorFurLight}, ${theme.colorFurDark})`,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10
   },

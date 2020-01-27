@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import injectSheet from 'react-jss'
-import {getRandomColor, getRandomTransform} from './utils'
 import times from 'lodash/times'
+import {getRandomColor, getRandomTransform} from './utils'
 
 export default amount => {
   class JssAnimatedObjects extends Component {

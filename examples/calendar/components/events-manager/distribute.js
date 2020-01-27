@@ -1,37 +1,16 @@
 import * as utils from '../utils'
 
 /**
- * Distribute events within canvas.
+ * Check if 2 events collide in time.
  *
- * - No events may visually overlap.
- * - If two events collide in time, they MUST have the same width.
- *   This is an invariant. Call this width W.
- * - W should be the maximum value possible without breaking the previous invariant.
- *
- * @param {Array} events
- * @param {Canvas} canvas
- * @return {Array} events
+ * @param {Event} event1
+ * @param {Event} event2
+ * @return {Boolean}
  */
-export default function distribute(events, canvas) {
-  function setStyle(column, nr, columns) {
-    const width = canvas.getContentWidth() / columns.length
-    column.forEach(event => {
-      const top = utils.minToY(event.start)
-      const height = utils.minToY(event.end) - top
-      event.setStyle({
-        width: width + 'px',
-        height: height + 'px',
-        top: top + 'px',
-        left: nr * width + 'px'
-      })
-    })
-  }
-
-  createGroups(events).forEach(function(group) {
-    createColumns(group).forEach(setStyle)
-  })
-
-  return events
+function collide(event1, event2) {
+  const startInside = event1.start >= event2.start && event1.start <= event2.end
+  const endInside = event1.end <= event2.end && event1.end > event2.start
+  return startInside || endInside
 }
 
 /**
@@ -48,7 +27,8 @@ function createGroups(events) {
   events.forEach(event => {
     let group = eventGroupMap[event.id]
     if (!group) {
-      group = eventGroupMap[event.id] = [event]
+      group = eventGroupMap[event.id]
+      group = [event]
       groups.push(group)
     }
 
@@ -79,7 +59,8 @@ function createColumns(group) {
   group.forEach(event => {
     let column = eventStackMap[event.id]
     if (!column) {
-      column = eventStackMap[event.id] = [event]
+      column = eventStackMap[event.id]
+      column = [event]
       columns.push(column)
     }
 
@@ -98,14 +79,35 @@ function createColumns(group) {
 }
 
 /**
- * Check if 2 events collide in time.
+ * Distribute events within canvas.
  *
- * @param {Event} event1
- * @param {Event} event2
- * @return {Boolean}
+ * - No events may visually overlap.
+ * - If two events collide in time, they MUST have the same width.
+ *   This is an invariant. Call this width W.
+ * - W should be the maximum value possible without breaking the previous invariant.
+ *
+ * @param {Array} events
+ * @param {Canvas} canvas
+ * @return {Array} events
  */
-function collide(event1, event2) {
-  const startInside = event1.start >= event2.start && event1.start <= event2.end
-  const endInside = event1.end <= event2.end && event1.end > event2.start
-  return startInside || endInside
+export default function distribute(events, canvas) {
+  function setStyle(column, nr, columns) {
+    const width = canvas.getContentWidth() / columns.length
+    column.forEach(event => {
+      const top = utils.minToY(event.start)
+      const height = utils.minToY(event.end) - top
+      event.setStyle({
+        width: `${width}px`,
+        height: `${height}px`,
+        top: `${top}px`,
+        left: `${nr * width}px`
+      })
+    })
+  }
+
+  createGroups(events).forEach(group => {
+    createColumns(group).forEach(setStyle)
+  })
+
+  return events
 }

@@ -1,6 +1,6 @@
 import conf from '../conf'
 
-export const rules = {
+export default {
   canvas: {
     flex: 1,
     position: 'relative',

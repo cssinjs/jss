@@ -1,7 +1,7 @@
 import jss from 'jss'
 import preset from 'jss-preset-default'
-import {getRandomColor, getRandomTransform} from './utils'
 import times from 'lodash/times'
+import {getRandomColor, getRandomTransform} from './utils'
 
 jss.setup(preset())
 
@@ -26,7 +26,7 @@ export const render = amount => {
   const styles = {}
 
   times(amount, i => {
-    styles['object-' + i] = {
+    styles[`object-${i}`] = {
       position: 'absolute',
       width: 50,
       height: 50,
@@ -42,7 +42,7 @@ export const render = amount => {
   ensureContainer()
   container.innerHTML = times(
     amount,
-    i => `<div class="${sheet.classes['object-' + i]}"></div>`
+    i => `<div class="${sheet.classes[`object-${i}`]}"></div>`
   ).join('')
 }
 

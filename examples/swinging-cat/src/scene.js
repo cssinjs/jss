@@ -3,12 +3,13 @@ import * as theme from './theme'
 import yarn from './yarn'
 import upperBody from './upperBody'
 import lowerBody from './lowerBody'
+import sheet from './globalStyles'
 
 const styles = {
   root: {
     width: '100%',
     height: '100%',
-    animation: `bob ${theme.duration} ${theme.easing} infinite both`
+    animation: `${sheet.keyframes.bob} ${theme.duration} ${theme.easing} infinite both`
   },
   scene: {
     top: '10rem',
@@ -17,7 +18,7 @@ const styles = {
     width: '5rem',
     height: '5rem',
     transformOrigin: 'center -20rem',
-    animation: `swing ${theme.duration} ${theme.easing} infinite both`,
+    animation: `${sheet.keyframes.swing} ${theme.duration} ${theme.easing} infinite both`,
     '&:before': {
       content: '""',
       height: '20rem',
@@ -33,7 +34,7 @@ const styles = {
     left: 'calc(50% - 45px)',
     width: 90,
     height: 130,
-    animation: `reverse-swing ${theme.duration} ${theme.easing} infinite both`,
+    animation: `${sheet.keyframes['reverse-swing']} ${theme.duration} ${theme.easing} infinite both`,
     transformOrigin: 'top center'
   },
   cat: {
@@ -42,7 +43,7 @@ const styles = {
     left: 0,
     width: '100%',
     height: '100%',
-    animation: `swing ${theme.duration} .2s infinite both`,
+    animation: `${sheet.keyframes.swing} ${theme.duration} .2s infinite both`,
     transformOrigin: 'top center'
   }
 }

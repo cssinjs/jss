@@ -1,10 +1,12 @@
 import React from 'react'
 
-export default ({onAdd, amount, classes, onChangeRenderer}) => (
+export default ({onAdd, amount, onChangeRenderer}) => (
   <div>
     <form style={{marginBottom: 10}}>
-      <label style={{marginRight: 10}}>Render using:</label>
-      <select onChange={onChangeRenderer} defaultValue="jss">
+      <label htmlFor="renderer" style={{marginRight: 10}}>
+        Render using:
+      </label>
+      <select id="renderer" onChange={onChangeRenderer} defaultValue="jss">
         <option value="jss">Pure JSS</option>
         <option value="react-jss">React-JSS</option>
         <option value="inline">React Inline Styles</option>
@@ -12,7 +14,9 @@ export default ({onAdd, amount, classes, onChangeRenderer}) => (
     </form>
     <form>
       <input readOnly value={`${amount} objects`} style={{marginRight: 10}} />
-      <button onClick={onAdd}>Render 30 more</button>
+      <button type="button" onClick={onAdd}>
+        Render 30 more
+      </button>
     </form>
   </div>
 )

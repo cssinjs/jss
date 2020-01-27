@@ -1,4 +1,6 @@
-var blockMar = 30
+import perdido from 'perdido'
+
+const blockMar = 30
 
 export default {
   '@global': {

@@ -1,30 +1,10 @@
+import {delay} from 'rxjs/operators'
 import jss from './jss'
-import {Observable} from 'rxjs'
 import * as theme from './theme'
 import yarn from './yarn'
 import upperBody from './upperBody'
 import lowerBody from './lowerBody'
-import {swingAnimation$, doAnimation$, translateY, getPercentValue} from './animation'
-
-const animationValues = [
-  {percent: 100, value: 0.4},
-  {percent: 93.75, value: -0.4},
-  {percent: 87.5, value: 0.4},
-  {percent: 81.25, value: -0.4},
-  {percent: 75, value: 0.4},
-  {percent: 68.75, value: -0.4},
-  {percent: 62.5, value: 0.4},
-  {percent: 56.25, value: -0.4},
-  {percent: 50, value: 0.4},
-  {percent: 43.75, value: -0.4},
-  {percent: 37.5, value: 0.4},
-  {percent: 31.25, value: -0.4},
-  {percent: 25, value: 0.4},
-  {percent: 18.75, value: -0.4},
-  {percent: 12.5, value: 0.4},
-  {percent: 6.25, value: -0.4},
-  {percent: 0, value: 0.4}
-]
+import {swingAnimation$} from './animation'
 
 const styles = {
   root: {
@@ -41,7 +21,7 @@ const styles = {
     height: '5rem',
     transformOrigin: 'center -20rem',
     transitionTimingFunction: theme.easing,
-    transform: swingAnimation$().delay(100),
+    transform: swingAnimation$().pipe(delay(100)),
     '&:before': {
       content: '""',
       height: '20rem',
@@ -66,7 +46,7 @@ const styles = {
     left: 0,
     width: '100%',
     height: '100%',
-    transform: swingAnimation$().delay(150),
+    transform: swingAnimation$().pipe(delay(150)),
     transformOrigin: 'top center'
   }
 }

@@ -52,4 +52,5 @@ const styles = {
   '@keyframes swing': keyframes.swing
 }
 
-jss.createStyleSheet(styles).attach()
+const sheet = jss.createStyleSheet(styles).attach()
+export default sheet

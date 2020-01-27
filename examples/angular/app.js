@@ -2,7 +2,7 @@ import jss from 'jss'
 import angular from 'angular'
 
 // Styles
-var styles = {
+const styles = {
   button1: {
     padding: '20px',
     background: 'blue',
@@ -15,11 +15,12 @@ var styles = {
 }
 
 // Application logic.
-var sheet = jss.createStyleSheet(styles).attach()
+const sheet = jss.createStyleSheet(styles).attach()
 
-angular.module('myApp', []).controller('myController', function MyController($scope) {
+angular.module('myApp', []).controller('myController', $scope => {
   $scope.classes = sheet.classes
-  $scope.showSource = function() {
+  $scope.showSource = () => {
+    // eslint-disable-next-line no-restricted-globals
     location.href = 'https://github.com/cssinjs/examples/tree/master/angular'
   }
 })

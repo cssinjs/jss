@@ -1,8 +1,9 @@
+import {delay} from 'rxjs/operators'
 import jss from './jss'
 import * as theme from './theme'
 import {swingAnimation$} from './animation'
 
-const transform = swingAnimation$(0.1).delay(200)
+const transform = swingAnimation$(0.1).pipe(delay(200))
 
 const styles = {
   catLowerLegPaw: {
@@ -14,9 +15,7 @@ const styles = {
     transform,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    backgroundImage: `linear-gradient(to right, #fff, ${theme.colorFurLight}, ${
-      theme.colorFurDark
-    })`
+    backgroundImage: `linear-gradient(to right, #fff, ${theme.colorFurLight}, ${theme.colorFurDark})`
   },
   catLegFirstNested: {
     bottom: 20
@@ -42,9 +41,7 @@ export default isFirstLeg => {
   if (isFirstLeg) {
     leg = `<div class="${classes.catLowerLegPaw} ${classes.catLegFirstNested}">`
   } else {
-    leg = `<div class="${classes.catLowerLegPaw} ${classes.catLegFirstNested} ${
-      classes.catLegSecond
-    }">`
+    leg = `<div class="${classes.catLowerLegPaw} ${classes.catLegFirstNested} ${classes.catLegSecond}">`
   }
   for (let t = 0; t <= 15; t++) {
     leg += `<div class="${classes.catLowerLegPaw} ${classes.catLegNested}">`

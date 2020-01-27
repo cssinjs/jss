@@ -1,4 +1,5 @@
-import {Observable} from 'rxjs'
+import {fromEvent} from 'rxjs'
+import {switchMap, map, takeUntil} from 'rxjs/operators'
 import jss from 'jss'
 import preset from 'jss-preset-default'
 
@@ -12,30 +13,31 @@ const renderBox = () => {
 
 const getPosition = box => {
   // Create event streams. Note no event listeners are created at this point.
-  const mousedown$ = Observable.fromEvent(box, 'mousedown')
-  const mousemove$ = Observable.fromEvent(box.ownerDocument, 'mousemove')
-  const mouseup$ = Observable.fromEvent(box, 'mouseup')
+  const mousedown$ = fromEvent(box, 'mousedown')
+  const mousemove$ = fromEvent(box.ownerDocument, 'mousemove')
+  const mouseup$ = fromEvent(box, 'mouseup')
 
   // Now mousedown event listener will be created.
-  return mousedown$.switchMap(md => {
-    const startX = md.clientX + window.scrollX
-    const startY = md.clientY + window.scrollY
-    const style = getComputedStyle(md.target)
-    const startLeft = parseInt(style.left, 10) || 0
-    const startTop = parseInt(style.top, 10) || 0
+  return mousedown$.pipe(
+    switchMap(md => {
+      const startX = md.clientX + window.scrollX
+      const startY = md.clientY + window.scrollY
+      const style = getComputedStyle(md.target)
+      const startLeft = parseInt(style.left, 10) || 0
+      const startTop = parseInt(style.top, 10) || 0
 
-    // Now mousemove event listener is will be created.
-    return (
-      mousemove$
+      // Now mousemove event listener is will be created.
+      return mousemove$.pipe(
         // Convert the event to object to a position object.
-        .map(mm => ({
+        map(mm => ({
           left: startLeft + mm.clientX - startX,
           top: startTop + mm.clientY - startY
-        }))
+        })),
         // As soon as mouseup event occurs, mousemove listener will be removed.
-        .takeUntil(mouseup$)
-    )
-  })
+        takeUntil(mouseup$)
+      )
+    })
+  )
 }
 
 const renderStyles = pos$ => {
@@ -53,8 +55,8 @@ const renderStyles = pos$ => {
           display: 'flex',
           'align-items': 'center',
           'justify-content': 'center',
-          top: pos$.map(pos => pos.top),
-          left: pos$.map(pos => pos.left)
+          top: pos$.pipe(map(pos => pos.top)),
+          left: pos$.pipe(map(pos => pos.left))
         }
         // Use option `link: true` in order to connect CSSStyleRule with the JSS StyleRule.
       },

@@ -1,4 +1,3 @@
-import injectSheet from 'react-jss'
 import React, {Component} from 'react'
 import reactJssRenderer from './reactJssRenderer'
 import reactInlineRenderer from './reactInlineRenderer'
@@ -23,7 +22,7 @@ class ReactAnimation extends Component {
     this.Renderer = this.getRenderer(nextProps)
   }
 
-  getRenderer({renderer, amount}) {
+  static getRenderer({renderer, amount}) {
     const createRenderer = renderer === 'inline' ? reactInlineRenderer : reactJssRenderer
     return createRenderer(amount)
   }
@@ -39,13 +38,13 @@ class JssAnimation extends Component {
     update = jssRenderer.update
   }
 
-  componentWillReceiveProps({amount}) {
-    jssRenderer.render(amount)
-  }
-
   componentWillMount() {
     update = jssRenderer.update
     jssRenderer.render(this.props.amount)
+  }
+
+  componentWillReceiveProps({amount}) {
+    jssRenderer.render(amount)
   }
 
   componentWillUnmount() {
@@ -69,7 +68,7 @@ export default class App extends Component {
 
   onAdd = e => {
     e.preventDefault()
-    this.setState({amount: this.state.amount + this.props.step})
+    this.setState(state => ({amount: state.amount + this.props.step}))
   }
 
   onChangeRenderer = e => {

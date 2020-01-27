@@ -1,7 +1,7 @@
-import conf from './components/conf"
-import Calendar from './components/calendar"
+import conf from './components/conf'
+import Calendar from './components/calendar'
 
-var calendar = new Calendar(conf).create()
+const calendar = new Calendar(conf).create()
 document.body.appendChild(calendar.element)
 calendar.renderDay([
   {
@@ -21,4 +21,3 @@ calendar.renderDay([
     end: 670
   }
 ])
-

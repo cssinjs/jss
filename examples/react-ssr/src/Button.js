@@ -8,7 +8,11 @@ const styles = {
 }
 
 function Button({classes}) {
-  return <button className={classes.button}>My Button</button>
+  return (
+    <button type="button" className={classes.button}>
+      My Button
+    </button>
+  )
 }
 
 export default injectSheet(styles)(Button)

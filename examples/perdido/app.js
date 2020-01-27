@@ -1,17 +1,16 @@
 import jss from 'jss'
 import jssPreset from 'jss-preset-default'
-import perdido from 'perdido'
 import styles from './styles'
 
 jss.setup(jssPreset())
 
 // Get the template
-var template = document.getElementById('template').innerHTML
+const template = document.getElementById('template').innerHTML
 
 // Attach the reset styles.
-var sheet = jss.createStyleSheet(styles).attach()
+const sheet = jss.createStyleSheet(styles).attach()
 
-var div = document.body.appendChild(document.createElement('div'))
+const div = document.body.appendChild(document.createElement('div'))
 // Replace the class names with the JSS generated ones.
 div.innerHTML = template
   .replace('{awesomeHeader}', sheet.classes.awesomeHeader)

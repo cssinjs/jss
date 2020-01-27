@@ -1,3 +1,4 @@
+import {delay} from 'rxjs/operators'
 import jss from './jss'
 import * as theme from './theme'
 import leg from './leg'
@@ -12,7 +13,7 @@ const styles = {
     width: 75,
     left: 'calc(50% - 37.5px)',
     transformOrigin: 'top center',
-    transform: swingAnimation$(-1).delay(100)
+    transform: swingAnimation$(-1).pipe(delay(100))
   },
   catLower: {
     position: 'absolute',
@@ -30,9 +31,7 @@ const styles = {
       width: '100%',
       height: '100%',
       borderRadius: 100,
-      backgroundImage: `radial-gradient(circle at 10px 50px, #ffffff, #ffffff 40%, ${
-        theme.colorFurLight
-      } 65%, ${theme.colorFurDark})`,
+      backgroundImage: `radial-gradient(circle at 10px 50px, #ffffff, #ffffff 40%, ${theme.colorFurLight} 65%, ${theme.colorFurDark})`,
       zIndex: 1
     }
   }

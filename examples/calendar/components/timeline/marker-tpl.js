@@ -5,7 +5,7 @@
  * @param {Object} data
  * @return {String}
  */
-export function compile(data) {
+export default function(data) {
   const {classes} = data
   const timeClass = classes[data.suffix ? 'timeWithSuffix' : 'time']
   let html = `<span class="${timeClass}">${data.time}</span>`
