@@ -1,8 +1,8 @@
 import jss from '../jss'
 import * as utils from '../utils'
-import * as style from './style'
+import style from './style'
 
-const sheet = jss.createStyleSheet(style.rules)
+const sheet = jss.createStyleSheet(style)
 
 export default class Canvas {
   /**

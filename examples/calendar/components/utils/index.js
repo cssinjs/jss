@@ -10,8 +10,8 @@ import conf from '../conf'
 export function createElement(name, attrs) {
   const element = document.createElement(name)
 
-  for (const attrName in attrs) {
-    element.setAttribute(attrName, attrs[name])
+  for (const attr in attrs) {
+    element.setAttribute(attr, attrs[attr])
   }
 
   return element

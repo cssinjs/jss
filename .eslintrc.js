@@ -25,7 +25,8 @@ module.exports = {
         'no-console': 'off',
         'jsx-a11y/label-has-associated-control': 'off',
         'jsx-a11y/label-has-for': 'off',
-        'react/no-multi-comp': 'off'
+        'react/no-multi-comp': 'off',
+        'import/prefer-default-export': 'off'
       }
     }
   ]

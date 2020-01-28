@@ -17,6 +17,7 @@ export default class Calendar {
     this.canvas = new Canvas()
     this.manager = new EventsManager(this.canvas)
     this.element = null
+    this.onResizeWindow = this.onResizeWindow.bind(this)
   }
 
   /**
