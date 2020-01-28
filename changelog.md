@@ -4,6 +4,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+## 10.0.4 (2020-1-28)
+
 ### Bug fixes
 
 - [react-jss] Add type alias for `WithStyles` ([1254](https://github.com/cssinjs/jss/pull/1254))
