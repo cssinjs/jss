@@ -33,7 +33,7 @@ export default class Calendar {
     this.canvas.create()
     this.element.appendChild(this.timeline.element)
     this.element.appendChild(this.canvas.element)
-    window.addEventListener('resize', debounce(::this.onResizeWindow, 50))
+    window.addEventListener('resize', debounce(this.onResizeWindow, 50))
     return this
   }
 

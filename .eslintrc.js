@@ -24,7 +24,8 @@ module.exports = {
         'react/prop-types': 'off',
         'no-console': 'off',
         'jsx-a11y/label-has-associated-control': 'off',
-        'jsx-a11y/label-has-for': 'off'
+        'jsx-a11y/label-has-for': 'off',
+        'react/no-multi-comp': 'off'
       }
     }
   ]

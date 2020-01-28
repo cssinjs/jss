@@ -11,20 +11,20 @@ tick(() => {
   if (update) update()
 })
 
+function getRenderer({renderer, amount}) {
+  const createRenderer = renderer === 'inline' ? reactInlineRenderer : reactJssRenderer
+  return createRenderer(amount)
+}
+
 class ReactAnimation extends Component {
   constructor(props) {
     super(props)
     update = this.forceUpdate.bind(this)
-    this.Renderer = this.getRenderer(props)
+    this.Renderer = getRenderer(props)
   }
 
   componentWillReceiveProps(nextProps) {
-    this.Renderer = this.getRenderer(nextProps)
-  }
-
-  static getRenderer({renderer, amount}) {
-    const createRenderer = renderer === 'inline' ? reactInlineRenderer : reactJssRenderer
-    return createRenderer(amount)
+    this.Renderer = getRenderer(nextProps)
   }
 
   render() {
