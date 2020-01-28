@@ -19,8 +19,4 @@ const sheet = jss.createStyleSheet(styles).attach()
 
 angular.module('myApp', []).controller('myController', $scope => {
   $scope.classes = sheet.classes
-  $scope.showSource = () => {
-    // eslint-disable-next-line no-restricted-globals
-    location.href = 'https://github.com/cssinjs/examples/tree/master/angular'
-  }
 })
