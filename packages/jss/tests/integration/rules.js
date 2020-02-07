@@ -259,7 +259,7 @@ describe('Integration: rules', () => {
     })
 
     describe('@font-face rule', () => {
-      function checkSingle() {
+      it('should return CSS', () => {
         const rule = jss.createRule('@font-face', {
           'font-family': 'MyHelvetica',
           src: 'local("Helvetica")'
@@ -272,23 +272,19 @@ describe('Integration: rules', () => {
             src: local("Helvetica");
           }
         `)
-      }
+      })
 
-      function checkMulti(options) {
-        const rule = jss.createRule(
-          '@font-face',
-          [
-            {
-              'font-family': 'MyHelvetica',
-              src: 'local("Helvetica")'
-            },
-            {
-              'font-family': 'MyComicSans',
-              src: 'local("ComicSans")'
-            }
-          ],
-          options
-        )
+      it('should handle when @font-face is an array', () => {
+        const rule = jss.createRule('@font-face', [
+          {
+            'font-family': 'MyHelvetica',
+            src: 'local("Helvetica")'
+          },
+          {
+            'font-family': 'MyComicSans',
+            src: 'local("ComicSans")'
+          }
+        ])
         expect(rule.type).to.be('font-face')
         expect(rule.key).to.be('@font-face')
         expect(rule.toString()).to.be(stripIndent`
@@ -301,14 +297,28 @@ describe('Integration: rules', () => {
             src: local("ComicSans");
           }
         `)
-      }
-
-      it('should return CSS', () => {
-        checkSingle()
       })
 
-      it('should handle multiple font-faces', () => {
-        checkMulti()
+      it('should handle multiple @font-face', () => {
+        const sheet = jss.createStyleSheet()
+        sheet.addRule('@font-face', {
+          'font-family': 'MyHelvetica',
+          src: 'local("Helvetica")'
+        })
+        sheet.addRule('@font-face', {
+          'font-family': 'MyComicSans',
+          src: 'local("ComicSans")'
+        })
+        expect(sheet.toString()).to.be(stripIndent`
+          @font-face {
+            font-family: MyHelvetica;
+            src: local("Helvetica");
+          }
+          @font-face {
+            font-family: MyComicSans;
+            src: local("ComicSans");
+          }
+        `)
       })
     })
 

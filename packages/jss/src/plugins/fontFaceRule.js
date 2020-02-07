@@ -30,18 +30,20 @@ export class FontFaceRule implements BaseRule {
     if (Array.isArray(this.style)) {
       let str = ''
       for (let index = 0; index < this.style.length; index++) {
-        str += toCss(this.key, this.style[index])
+        str += toCss(this.at, this.style[index])
         if (this.style[index + 1]) str += '\n'
       }
       return str
     }
 
-    return toCss(this.key, this.style, options)
+    return toCss(this.at, this.style, options)
   }
 }
 
+const keyRegExp = /@font-face/
+
 export default {
   onCreateRule(key: string, style: JssStyle, options: RuleOptions): FontFaceRule | null {
-    return key === '@font-face' ? new FontFaceRule(key, style, options) : null
+    return keyRegExp.test(key) ? new FontFaceRule(key, style, options) : null
   }
 }
