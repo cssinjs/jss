@@ -40,8 +40,10 @@ export class FontFaceRule implements BaseRule {
   }
 }
 
+const keyRegExp = /@font-face/
+
 export default {
   onCreateRule(key: string, style: JssStyle, options: RuleOptions): FontFaceRule | null {
-    return key === '@font-face' ? new FontFaceRule(key, style, options) : null
+    return keyRegExp.test(key) ? new FontFaceRule('@font-face', style, options) : null
   }
 }

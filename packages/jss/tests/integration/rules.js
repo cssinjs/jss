@@ -274,7 +274,7 @@ describe('Integration: rules', () => {
         `)
       }
 
-      function checkMulti(options) {
+      function checkArray(options) {
         const rule = jss.createRule(
           '@font-face',
           [
@@ -303,11 +303,37 @@ describe('Integration: rules', () => {
         `)
       }
 
+      function checkMulti() {
+        const sheet = jss.createStyleSheet()
+        sheet.addRule('@font-face', {
+          'font-family': 'MyHelvetica',
+          src: 'local("Helvetica")'
+        })
+        sheet.addRule('@font-face', {
+          'font-family': 'MyComicSans',
+          src: 'local("ComicSans")'
+        })
+        expect(sheet.toString()).to.be(stripIndent`
+          @font-face {
+            font-family: MyHelvetica;
+            src: local("Helvetica");
+          }
+          @font-face {
+            font-family: MyComicSans;
+            src: local("ComicSans");
+          }
+        `)
+      }
+
       it('should return CSS', () => {
         checkSingle()
       })
 
-      it('should handle multiple font-faces', () => {
+      it('should handle when @font-face is an array', () => {
+        checkArray()
+      })
+
+      it('should handle multiple @font-face', () => {
         checkMulti()
       })
     })
