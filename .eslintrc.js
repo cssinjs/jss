@@ -23,7 +23,10 @@ module.exports = {
         'import/no-unresolved': 'off',
         'react/prop-types': 'off',
         'no-console': 'off',
-        'import/prefer-default-export': 'off'
+        'import/extensions': 'off',
+        'import/prefer-default-export': 'off',
+        'jsx-a11y/label-has-for': 'off',
+        'jsx-a11y/label-has-associated-control': 'off'
       }
     }
   ]

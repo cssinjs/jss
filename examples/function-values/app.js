@@ -1,60 +1,14 @@
 import React, {Component} from 'react'
-import reactJssRenderer from './reactJssRenderer'
-import reactInlineRenderer from './reactInlineRenderer'
-import * as jssRenderer from './jssRenderer'
-import {tick} from './utils'
 import Controls from './Controls'
+import JssAnimation from './JssAnimation'
+import ReactAnimation from './ReactAnimation'
+import {tick} from './utils'
 
 let update
 
 tick(() => {
   if (update) update()
 })
-
-function getRenderer({renderer, amount}) {
-  const createRenderer = renderer === 'inline' ? reactInlineRenderer : reactJssRenderer
-  return createRenderer(amount)
-}
-
-class ReactAnimation extends Component {
-  constructor(props) {
-    super(props)
-    update = this.forceUpdate.bind(this)
-    this.Renderer = getRenderer(props)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.Renderer = getRenderer(nextProps)
-  }
-
-  render() {
-    return <this.Renderer />
-  }
-}
-
-class JssAnimation extends Component {
-  constructor(props) {
-    super(props)
-    update = jssRenderer.update
-  }
-
-  componentWillMount() {
-    update = jssRenderer.update
-    jssRenderer.render(this.props.amount)
-  }
-
-  componentWillReceiveProps({amount}) {
-    jssRenderer.render(amount)
-  }
-
-  componentWillUnmount() {
-    jssRenderer.destroy()
-  }
-
-  render() {
-    return null
-  }
-}
 
 export default class App extends Component {
   static defaultProps = {
@@ -75,6 +29,10 @@ export default class App extends Component {
     this.setState({renderer: e.target.value})
   }
 
+  setUpdate = fn => {
+    update = fn
+  }
+
   render() {
     const {amount, renderer} = this.state
     const Animation = renderer === 'jss' ? JssAnimation : ReactAnimation
@@ -82,7 +40,7 @@ export default class App extends Component {
     return (
       <div>
         <Controls onAdd={this.onAdd} amount={amount} onChangeRenderer={this.onChangeRenderer} />
-        <Animation renderer={renderer} amount={amount} />
+        <Animation setUpdate={this.setUpdate} renderer={renderer} amount={amount} />
       </div>
     )
   }
