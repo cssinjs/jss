@@ -1,4 +1,5 @@
 flow-typed/
 **/node_modules/**
 packages/**/dist/
+examples/**/static/
 *.ts
