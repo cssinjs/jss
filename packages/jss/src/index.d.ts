@@ -34,7 +34,7 @@ export type JssValue =
   | null
   | false
 
-export type InsertionPoint = string | HTMLElement
+export type InsertionPoint = string | HTMLElement | Comment
 
 export interface UpdateOptions {
   process?: boolean
