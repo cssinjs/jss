@@ -57,10 +57,12 @@ export default function functionPlugin() {
         // in case function rule returns a falsy value.
         styleRule.style = fnRule(data) || {}
 
-        for (const prop in styleRule.style) {
-          if (typeof styleRule.style[prop] === 'function') {
-            warning(false, '[JSS] Function values inside function rules are not supported.')
-            break
+        if (process.env.NODE_ENV === 'development') {
+          for (const prop in styleRule.style) {
+            if (typeof styleRule.style[prop] === 'function') {
+              warning(false, '[JSS] Function values inside function rules are not supported.')
+              break
+            }
           }
         }
       }

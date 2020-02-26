@@ -7,6 +7,7 @@ const lerna = require('./lerna.json')
 
 const plugins = [
   new webpack.DefinePlugin({
+    'process.env.NODE_ENV': JSON.stringify('development'),
     'process.env.VERSION': JSON.stringify(lerna.version)
   })
 ]
