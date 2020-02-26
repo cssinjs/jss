@@ -35,6 +35,8 @@ const styles = {
 }
 ```
 
+_Function values inside function rules are not supported._
+
 ### Support of "!important"
 
 To use the `!important` modifier with function values, you must use [array syntax](https://github.com/cssinjs/jss/blob/master/docs/jss-syntax.md#alternative-for-space-and-comma-separated-values):

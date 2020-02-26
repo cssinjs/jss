@@ -1,4 +1,5 @@
 /* @flow */
+import warning from 'tiny-warning'
 import {
   createRule,
   type Rule,
@@ -55,6 +56,15 @@ export default function functionPlugin() {
         // Empty object will remove all currently defined props
         // in case function rule returns a falsy value.
         styleRule.style = fnRule(data) || {}
+
+        if (process.env.NODE_ENV === 'development') {
+          for (const prop in styleRule.style) {
+            if (typeof styleRule.style[prop] === 'function') {
+              warning(false, '[JSS] Function values inside function rules are not supported.')
+              break
+            }
+          }
+        }
       }
 
       const fnValues = styleRule[fnValuesNs]

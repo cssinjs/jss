@@ -1,6 +1,7 @@
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import {create} from 'jss'
+import sinon from 'sinon'
 import functionPlugin from '.'
 
 const settings = {createGenerateId: () => rule => `${rule.key}-id`}
@@ -232,6 +233,42 @@ describe('jss-plugin-rule-value-function: Function rules', () => {
           }
         }
       `)
+    })
+  })
+
+  describe('function value inside', () => {
+    let sheet
+    let spy
+
+    beforeEach(() => {
+      sheet = jss
+        .createStyleSheet(
+          {
+            a: data => ({
+              color: () => data.color,
+              background: () => data.background
+            })
+          },
+          {link: true}
+        )
+        .attach()
+
+      spy = sinon.spy(console, 'warn')
+    })
+
+    afterEach(() => {
+      sheet.detach()
+      console.warn.restore()
+    })
+
+    it('should warn when a function value is inside a function rule', () => {
+      sheet.update({color: 'blue', background: 'green'})
+      expect(spy.callCount).to.be(1)
+      expect(
+        spy.calledWithExactly(
+          'Warning: [JSS] Function values inside function rules are not supported.'
+        )
+      ).to.be(true)
     })
   })
 })
