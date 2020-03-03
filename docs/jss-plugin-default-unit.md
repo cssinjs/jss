@@ -32,7 +32,8 @@ import defaultUnit from 'jss-plugin-default-unit'
 
 const options = {
   'line-height': 'rem',
-  'font-size': 'rem'
+  'font-size': 'rem',
+  width: val => `${val / 2}px`
 }
 
 jss.use(defaultUnit(options))
@@ -42,6 +43,7 @@ const styles = {
     'line-height': 3,
     'font-size': 1.7,
     height: 200,
+    width: 200,
     'z-index': 1
   }
 }
@@ -54,6 +56,7 @@ Compiles to:
   line-height: 3rem;
   font-size: 1.7rem;
   height: 200px;
+  width: 100px;
   z-index: 1;
 }
 ```
