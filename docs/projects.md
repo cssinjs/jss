@@ -66,4 +66,8 @@
 
 [VS Code snippets](https://marketplace.visualstudio.com/items?itemName=visioncan.vscode-jss-snippets) Snippets for Visual Studio Code
 
+[JSS Codemorphs](https://codemodsquad.github.io/jss-codemorphs/) Comprehensive CSS to JS styles converter
+
+[VS JSS Codemorphs](https://marketplace.visualstudio.com/items?itemName=vscodeshift.jss-codemorphs) Visual Studio Code command for converting CSS to JS styles
+
 [Atom CSS to JS converter](https://github.com/ansumanshah/css-in-js) Atom plugin for converting CSS to JS styles and vice versa
