@@ -363,4 +363,26 @@ describe('React-JSS: JssProvider', () => {
       expect(result1.length > 0).to.be(true)
     })
   })
+
+  describe('with id prop', () => {
+    describe('generateId prop', () => {
+      it('should forward from context', () => {
+        const generateId = () => 'a'
+        const id = {minify: true}
+        const MyComponent = withStyles({a: {color: 'red'}})()
+
+        TestRenderer.create(
+          <JssProvider registry={registry} generateId={generateId} id={id}>
+            <MyComponent />
+          </JssProvider>
+        )
+
+        expect(registry.toString()).to.be(stripIndent`
+          .a {
+            color: red;
+          }
+        `)
+      })
+    })
+  })
 })

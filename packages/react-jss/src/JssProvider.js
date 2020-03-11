@@ -74,9 +74,7 @@ export default class JssProvider extends Component<Props> {
 
     if (generateId !== undefined) {
       context.generateId = generateId
-    }
-
-    if (!context.generateId || !prevContext || context.id !== prevContext.id) {
+    } else if (!context.generateId || !prevContext || context.id !== prevContext.id) {
       context.generateId = createGenerateId(context.id)
     }
 
