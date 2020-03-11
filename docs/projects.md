@@ -62,7 +62,7 @@
 
 ## Editor integrations
 
-[Atom snippets](https://github.com/march213/jss-atom-snippets) Snippets for Atom
+[Atom snippets](https://atom.io/packages/jss-atom-snippets) Snippets for Atom
 
 [VS Code snippets](https://marketplace.visualstudio.com/items?itemName=visioncan.vscode-jss-snippets) Snippets for Visual Studio Code
 
@@ -70,4 +70,4 @@
 
 [VS JSS Codemorphs](https://marketplace.visualstudio.com/items?itemName=vscodeshift.jss-codemorphs) Visual Studio Code command for converting CSS to JS styles
 
-[Atom CSS to JS converter](https://github.com/ansumanshah/css-in-js) Atom plugin for converting CSS to JS styles and vice versa
+[Atom CSS to JS converter](https://atom.io/packages/css-in-js) Atom plugin for converting CSS to JS styles and vice versa
