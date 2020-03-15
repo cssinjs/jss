@@ -4,6 +4,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+## 10.1.0 (2020-3-15)
+
 ### Bug fixes
 
 - [jss] Fix multiple .addRule calls with font-face ([1280](https://github.com/cssinjs/jss/pull/1280))
