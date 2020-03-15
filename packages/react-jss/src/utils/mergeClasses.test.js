@@ -1,3 +1,4 @@
+// @flow
 import expect from 'expect.js'
 import compose from './mergeClasses'
 
