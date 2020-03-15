@@ -232,6 +232,24 @@ describe('React-JSS: JssProvider', () => {
 
         expect(registry.toString().substr(0, 2)).to.be('.N')
       })
+
+      it('should use generateId from context', () => {
+        const generateId = () => 'a'
+        const id = {minify: true}
+        const MyComponent = withStyles({a: {color: 'red'}})()
+
+        TestRenderer.create(
+          <JssProvider registry={registry} generateId={generateId} id={id}>
+            <MyComponent />
+          </JssProvider>
+        )
+
+        expect(registry.toString()).to.be(stripIndent`
+            .a {
+              color: red;
+            }
+          `)
+      })
     })
   })
 
