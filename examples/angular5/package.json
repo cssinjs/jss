@@ -1,0 +1,20 @@
+{
+  "name": "jss-angular-example",
+  "version": "1.0.0",
+  "license": "ISC",
+  "dependencies": {
+    "@angular/common": "5.0.5",
+    "@angular/compiler": "5.0.5",
+    "@angular/core": "5.0.5",
+    "@angular/platform-browser": "5.0.5",
+    "@angular/platform-browser-dynamic": "5.0.5",
+    "jss": "9.3.3",
+    "jss-preset-default": "4.0.1",
+    "rxjs": "6.5.4",
+    "rxjs-compat": "6.5.4",
+    "zone.js": "0.10.2"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.6.1"
+  }
+}

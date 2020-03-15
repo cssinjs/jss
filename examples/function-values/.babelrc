@@ -1,0 +1,23 @@
+{
+  "presets": [
+    "env",
+    "stage-0"
+  ],
+  "plugins": [
+    [
+      "transform-runtime",
+      {
+        "polyfill": false,
+        "regenerator": true
+      }
+    ],
+    "transform-object-rest-spread",
+    [
+      "transform-react-jsx",
+      {
+        "pragma": "React.createElement"
+      }
+    ]
+  ],
+  "parserOpts": {}
+}

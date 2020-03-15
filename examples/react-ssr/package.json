@@ -1,0 +1,26 @@
+{
+  "name": "jss-react-ssr-example",
+  "version": "1.0.0",
+  "license": "ISC",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "build": "parcel build client.js --no-source-maps -d static"
+  },
+  "dependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-react": "^7.8.3",
+    "@babel/register": "^7.8.3",
+    "express": "^4.17.1",
+    "jss": "^10.0.3",
+    "jss-preset-default": "^10.0.3",
+    "parcel-bundler": "^1.6.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-jss": "^10.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}

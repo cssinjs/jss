@@ -16,6 +16,18 @@ module.exports = {
       rules: {
         'no-console': 'off'
       }
+    },
+    {
+      files: ['examples/**/*.js'],
+      rules: {
+        'import/no-unresolved': 'off',
+        'react/prop-types': 'off',
+        'no-console': 'off',
+        'import/extensions': 'off',
+        'import/prefer-default-export': 'off',
+        'jsx-a11y/label-has-for': 'off',
+        'jsx-a11y/label-has-associated-control': 'off'
+      }
     }
   ]
 }
