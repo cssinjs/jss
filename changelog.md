@@ -14,6 +14,7 @@ Since you are interested in what happens next, in case, you work for a for-profi
 - [jss-plugin-rule-value-function] Add warning when using a function value inside a function rule ([1285](https://github.com/cssinjs/jss/pull/1285))
 - [react-jss] Typescript support for createUseStyles theme ([1294](https://github.com/cssinjs/jss/pull/1294))
 - [jss, react-jss] - `getDynamicStyles` utility function was originally exposed from `jss` package, but I don't think it was used externally, so I moved it to `react-jss` package and made it internal. If you have been using it as public API let me know, we will have to revert the change.
+- [examples] Migrate examples to monorepo ([1306](https://github.com/cssinjs/jss/pull/1306))
 
 ### Features
 
