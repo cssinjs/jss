@@ -4,6 +4,10 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+### Bug fixes
+
+- [jss, react-jss] revert `getDynamicStyles` migration introduced in 10.1.0
+
 ## 10.1.0 (2020-3-15)
 
 ### Bug fixes

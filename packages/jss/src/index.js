@@ -26,7 +26,6 @@ export type {
   JssValue,
   JssOptions,
   JssStyle,
-  JssStyles,
   Plugin,
   RuleListOptions,
   Rule,
@@ -55,6 +54,11 @@ export type {
  * https://developers.google.com/web/updates/2018/03/cssom
  */
 export const hasCSSTOMSupport = typeof CSS !== 'undefined' && CSS && 'number' in CSS
+
+/**
+ * Extracts a styles object with only rules that contain function values.
+ */
+export {default as getDynamicStyles} from './utils/getDynamicStyles'
 
 /**
  * Converts JSS array value to a CSS string.

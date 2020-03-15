@@ -1,4 +1,3 @@
-// @flow
 /* eslint-disable react/prop-types */
 import createUseStyles from './createUseStyles'
 import createBasicTests from '../test-utils/createBasicTests'

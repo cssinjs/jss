@@ -1,4 +1,5 @@
 /* eslint-disable global-require, react/prop-types */
+
 import expect from 'expect.js'
 import React from 'react'
 import {stripIndent} from 'common-tags'

@@ -437,6 +437,30 @@ import jss from 'jss'
 jss.setup({id: {minify: true}})
 ```
 
+## Extract dynamic styles
+
+`getDynamicStyles(styles)`
+
+Extracts a styles object with only props that contain function values. Useful when you want to share a static part between different elements and render only the dynamic styles separate for each element.
+
+```javascript
+import {getDynamicStyles} from 'jss'
+
+const dynamicStyles = getDynamicStyles({
+  button: {
+    fontSize: 12,
+    color: data => data.color
+  }
+})
+
+console.log(dynamicStyles)
+// {
+//   button: {
+//     color: data => data.color
+//   }
+// }
+```
+
 ## Plugins
 
 See [plugins](plugins.md) documentation.
