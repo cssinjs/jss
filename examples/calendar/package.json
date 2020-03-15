@@ -1,0 +1,17 @@
+{
+  "name": "jss-calendar-example",
+  "version": "1.0.0",
+  "license": "ISC",
+  "dependencies": {
+    "jss": "^10.0.3",
+    "jss-plugin-camel-case": "^10.0.3",
+    "jss-plugin-default-unit": "^10.0.3",
+    "jss-plugin-extend": "^10.0.3",
+    "jss-plugin-nested": "^10.0.3",
+    "jss-plugin-vendor-prefixer": "^10.0.3",
+    "lodash": "4.17.15"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.6.1"
+  }
+}

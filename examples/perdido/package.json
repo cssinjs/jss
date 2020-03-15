@@ -1,0 +1,13 @@
+{
+  "name": "jss-observables-example",
+  "version": "1.0.0",
+  "license": "ISC",
+  "dependencies": {
+    "jss": "^10.0.3",
+    "jss-preset-default": "^10.0.3",
+    "perdido": "^2.0.1"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.6.1"
+  }
+}

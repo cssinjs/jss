@@ -1,0 +1,15 @@
+{
+  "name": "jss-swinging-cat-rx-example",
+  "version": "1.0.0",
+  "license": "ISC",
+  "dependencies": {
+    "dynamics.js": "^1.1.5",
+    "hammerjs": "^2.0.8",
+    "jss": "^10.0.3",
+    "jss-preset-default": "^10.0.3",
+    "rxjs": "^6.5.4"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.6.1"
+  }
+}
