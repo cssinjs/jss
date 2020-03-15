@@ -58,8 +58,10 @@ interface WithStylesOptions extends BaseOptions {
 interface CreateUseStylesOptions extends BaseOptions {
   name?: string
 }
-
-declare function createUseStyles<Theme extends object, C extends string = string>(
+                   
+export interface DefaultTheme {}
+                   
+declare function createUseStyles<Theme = DefaultTheme, C extends string = string>(
   styles: Record<C, any> | ((theme: Theme) => Record<C, any>),
   options?: CreateUseStylesOptions
 ): (data?: unknown) => Classes<C>
