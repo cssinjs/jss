@@ -16,7 +16,7 @@ describe('jss-plugin-default-unit', () => {
   let jss
 
   beforeEach(() => {
-    jss = create(settings).use(defaultUnit({'min-width': 'pc'}))
+    jss = create(settings).use(defaultUnit({'min-width': 'pc', 'max-width': val => `${val / 2}px`}))
   })
 
   describe('unitless values', () => {
@@ -195,7 +195,8 @@ describe('jss-plugin-default-unit', () => {
     beforeEach(() => {
       sheet = jss.createStyleSheet({
         a: {
-          'min-width': 20
+          'min-width': 20,
+          'max-width': 20
         }
       })
     })
@@ -205,7 +206,7 @@ describe('jss-plugin-default-unit', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  min-width: 20pc;\n}')
+      expect(sheet.toString()).to.be('.a-id {\n  min-width: 20pc;\n  max-width: 10px;\n}')
     })
   })
 

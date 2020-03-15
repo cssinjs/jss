@@ -1,12 +1,12 @@
 {
   "dist/css-jss.js": {
-    "bundled": 58732,
-    "minified": 20779,
-    "gzipped": 7027
+    "bundled": 58673,
+    "minified": 20770,
+    "gzipped": 7025
   },
   "dist/css-jss.min.js": {
-    "bundled": 57681,
-    "minified": 20185,
+    "bundled": 57622,
+    "minified": 20176,
     "gzipped": 6756
   },
   "dist/css-jss.cjs.js": {

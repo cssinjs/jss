@@ -2,7 +2,7 @@
 import type {Plugin} from 'jss'
 import defaultUnits from './defaultUnits'
 
-export type Options = {[key: string]: string}
+export type Options = {[key: string]: string | ((val: number) => string)}
 
 /**
  * Clones the object and adds a camel cased property version.
@@ -41,14 +41,10 @@ function iterate(prop: string, value: any, options: Options) {
       }
     }
   } else if (typeof value === 'number') {
-    if (options[prop]) {
-      return `${value}${options[prop]}`
-    }
+    const unit = options[prop] || units[prop]
 
-    if (units[prop]) {
-      return typeof units[prop] === 'function'
-        ? units[prop](value).toString()
-        : `${value}${units[prop]}`
+    if (unit) {
+      return typeof unit === 'function' ? unit(value).toString() : `${value}${unit}`
     }
 
     return value.toString()
