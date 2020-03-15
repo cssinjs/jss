@@ -4,6 +4,10 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+### Improvements
+
+- [jss, react-jss] - `getDynamicStyles` utility function was originally exposed from `jss` package, but I don't think it was used externally, so I moved it to `react-jss` package and made it internal. If you have been using it as public API let me know, we will have to revert the change.
+
 ## 10.0.4 (2020-1-28)
 
 ### Bug fixes

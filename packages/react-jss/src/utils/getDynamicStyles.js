@@ -1,8 +1,10 @@
+// @flow
+import {type JssStyles} from 'jss'
 /**
  * Extracts a styles object with only props that contain function values.
  */
-export default function getDynamicStyles(styles: Object): Object | null {
-  let to = null
+const getDynamicStyles = (styles: JssStyles): JssStyles | void => {
+  let to
 
   for (const key in styles) {
     const value = styles[key]
@@ -22,3 +24,5 @@ export default function getDynamicStyles(styles: Object): Object | null {
 
   return to
 }
+
+export default getDynamicStyles

@@ -1,10 +1,8 @@
+// @flow
 import expect from 'expect.js'
-import getDynamicStyles from '../../src/utils/getDynamicStyles'
-import {resetSheets} from '../../../../tests/utils'
+import getDynamicStyles from './getDynamicStyles'
 
-describe('Unit: jss - getDynamicStyles', () => {
-  beforeEach(resetSheets())
-
+describe('react-jss: merge-classes', () => {
   it('should extract dynamic styles', () => {
     const color = data => data.color
     const styles = {
@@ -69,6 +67,6 @@ describe('Unit: jss - getDynamicStyles', () => {
         }
       }
     }
-    expect(getDynamicStyles(styles)).to.be(null)
+    expect(getDynamicStyles(styles)).to.be(undefined)
   })
 })
