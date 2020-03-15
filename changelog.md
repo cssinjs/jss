@@ -4,9 +4,20 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+### Bug fixes
+
+- [jss] Fix multiple .addRule calls with font-face ([1280](https://github.com/cssinjs/jss/pull/1280))
+- [jss] Allow a Comment node as insertion point ([1284](https://github.com/cssinjs/jss/pull/1284))
+
 ### Improvements
 
+- [jss-plugin-rule-value-function] Add warning when using a function value inside a function rule ([1285](https://github.com/cssinjs/jss/pull/1285))
+- [react-jss] Typescript support for createUseStyles theme ([1294](https://github.com/cssinjs/jss/pull/1294))
 - [jss, react-jss] - `getDynamicStyles` utility function was originally exposed from `jss` package, but I don't think it was used externally, so I moved it to `react-jss` package and made it internal. If you have been using it as public API let me know, we will have to revert the change.
+
+### Features
+
+- [jss-plugin-default-unit] Allow options to pass function transforms in ([1292](https://github.com/cssinjs/jss/pull/1292))
 
 ## 10.0.4 (2020-1-28)
 
