@@ -4,7 +4,7 @@ import type {StaticStyles} from '../types'
 
 type SheetMeta = {|
   styles: StaticStyles,
-  dynamicStyles: StaticStyles
+  dynamicStyles?: StaticStyles
 |}
 
 const sheetsMeta = new WeakMap<StyleSheet, SheetMeta>()
