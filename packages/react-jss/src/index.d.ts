@@ -10,6 +10,7 @@ import {
   Classes
 } from 'jss'
 import {createTheming, useTheme, withTheme, ThemeProvider, Theming} from 'theming'
+import {styled} from './styled'
 
 declare const jss: Jss
 
@@ -97,7 +98,8 @@ export {
   useTheme,
   JssContext,
   createUseStyles,
-  Styles
+  Styles,
+  styled
 }
 
 export default withStyles
