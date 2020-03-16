@@ -11,7 +11,7 @@ __Describe the bug:__
 A clear and concise description of what happened instead of the expected behavior.
 
 __Codesandbox link:__ 
-Please create a codesandbox.io with the issue. Make it as minimal as possible as this will help us find the bug quicker.
+Please create a [codesandbox.io](https://codesandbox.io/) with the issue. Make it as minimal as possible as this will help us find the bug quicker.
 
 __Versions (please complete the following information):__
  - jss:
