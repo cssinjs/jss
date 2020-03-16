@@ -1,0 +1,11 @@
+{
+  "name": "jss-plugin-isolate-example",
+  "license": "ISC",
+  "dependencies": {
+    "jss": "^10.0.3",
+    "jss-plugin-isolate": "10.1.1"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.6.1"
+  }
+}

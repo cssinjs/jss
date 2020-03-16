@@ -1,0 +1,11 @@
+{
+  "name": "jss-plugin-expand-example",
+  "license": "ISC",
+  "dependencies": {
+    "jss": "^10.0.3",
+    "jss-plugin-expand": "10.1.1"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.6.1"
+  }
+}
