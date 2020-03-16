@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.3.1",
-    "jss": "10.1.1"
+    "jss": "10.1.1",
+    "tiny-warning": "^1.0.2"
   }
 }
