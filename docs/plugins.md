@@ -22,7 +22,7 @@ In case you use any of the following plugins please bear in mind that they shoul
 1. [jss-plugin-props-sort](https://yarnpkg.com/en/package/jss-plugin-props-sort) - ensures alphabetical props order.
 1. [jss-plugin-isolate](https://yarnpkg.com/en/package/jss-plugin-isolate) - enables rules isolation through automatic properties reset.
 
-[jss-default-preset](https://yarnpkg.com/en/package/jss-preset-default) a preset that allows you to set up a predefined list of most useful plugins with one function call.
+[jss-preset-default](https://yarnpkg.com/en/package/jss-preset-default) a preset that allows you to set up a predefined list of most useful plugins with one function call.
 
 ## Authoring plugins
 
