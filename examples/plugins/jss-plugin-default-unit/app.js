@@ -3,7 +3,7 @@ import jssPluginDefaultUnit from 'jss-plugin-default-unit'
 
 const styles = {
   button: {
-    'font-size': 2,
+    'font-size': 20,
     'z-index': 1,
     'line-height': 2
   }

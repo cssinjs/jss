@@ -6,6 +6,7 @@ const styles = {
     float: 'left',
     width: '100px',
     height: '100px',
+    background: 'red',
     '&:hover': {
       background: 'yellow'
     },
@@ -23,4 +24,4 @@ const {classes} = jss.createStyleSheet(styles).attach()
 
 // Application logic.
 const div = document.body.appendChild(document.createElement('div'))
-div.innerHTML = `<button class="${classes.square}">Button</button>`
+div.innerHTML = `<div class="${classes.square}"><button>Button</button></div>`
