@@ -19,3 +19,7 @@ Compiles to:
   transform: -webkit-translateX(100px);
 }
 ```
+
+### Demo
+
+[CodeSandbox](//codesandbox.io/s/github/cssinjs/jss/tree/master/examples/plugins/jss-plugin-vendor-prefixer?fontsize=14)

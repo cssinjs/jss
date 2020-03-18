@@ -19,3 +19,7 @@ Compiles to:
   border-left: 1px solid red;
 }
 ```
+
+### Demo
+
+[CodeSandbox](//codesandbox.io/s/github/cssinjs/jss/tree/master/examples/plugins/jss-plugin-props-sort?fontsize=14)
