@@ -19,3 +19,7 @@ Compiles to:
   font-size: 12px;
 }
 ```
+
+### Demo
+
+[CodeSandbox](//codesandbox.io/s/github/cssinjs/jss/tree/master/examples/plugins/jss-plugin-camel-case?fontsize=14)
