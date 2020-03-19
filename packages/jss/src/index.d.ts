@@ -4,7 +4,7 @@ import * as css from 'csstype'
 type FnValue<R> = R | ((data: any) => R)
 
 type NormalCssProperties = css.Properties<string | number>
-type CssProperties = {[K in keyof NormalCssProperties]: FnValue<NormalCssProperties[K]>}
+type CssProperties = {[K in keyof NormalCssProperties]: FnValue<NormalCssProperties[K] | JssValue>}
 
 // Jss Style definitions
 type JssStyleP = {
