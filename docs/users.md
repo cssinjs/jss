@@ -40,3 +40,4 @@
 
 [SwissDev Jobs](https://swissdevjobs.ch/jobs/JavaScript/All)
 
+[Tradie Training](https://tt.edu.au)
