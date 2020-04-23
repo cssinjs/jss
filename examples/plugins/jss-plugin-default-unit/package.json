@@ -1,0 +1,11 @@
+{
+  "name": "jss-plugin-default-unit-example",
+  "license": "ISC",
+  "dependencies": {
+    "jss": "^10.0.3",
+    "jss-plugin-default-unit": "10.1.1"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.6.1"
+  }
+}

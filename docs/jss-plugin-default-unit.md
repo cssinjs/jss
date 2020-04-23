@@ -60,3 +60,7 @@ Compiles to:
   z-index: 1;
 }
 ```
+
+### Demo
+
+[CodeSandbox](//codesandbox.io/s/github/cssinjs/jss/tree/master/examples/plugins/jss-plugin-default-unit?fontsize=14)

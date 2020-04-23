@@ -66,3 +66,7 @@ const sheet = jss
 
 sheet.update({color: 'red'})
 ```
+
+### Demo
+
+[CodeSandbox](//codesandbox.io/s/github/cssinjs/jss/tree/master/examples/plugins/jss-plugin-rule-value-function?fontsize=14)

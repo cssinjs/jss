@@ -24,3 +24,7 @@ const styles = {
   }
 }
 ```
+
+### Demo
+
+[CodeSandbox](//codesandbox.io/s/github/cssinjs/jss/tree/master/examples/plugins/jss-plugin-template?fontsize=14)

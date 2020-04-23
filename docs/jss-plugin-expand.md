@@ -400,3 +400,7 @@ const styles = {
   }
 }
 ```
+
+### Demo
+
+[CodeSandbox](//codesandbox.io/s/github/cssinjs/jss/tree/master/examples/plugins/jss-plugin-expand?fontsize=14)

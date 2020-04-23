@@ -179,3 +179,7 @@ It renders to:
 - It doesn't work within [global Style Sheets](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-global).
 - It does not work inside of [nested rules](https://github.com/cssinjs/jss/tree/master/packages/jss-plugin-nested).
 - When composing local rules, they need to be defined first. Otherwise, you get wrong CSS selector order and specificity.
+
+### Demo
+
+[CodeSandbox](//codesandbox.io/s/github/cssinjs/jss/tree/master/examples/plugins/jss-plugin-compose?fontsize=14)

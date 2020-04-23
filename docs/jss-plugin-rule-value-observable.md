@@ -71,3 +71,7 @@ jss.setup(
   })
 )
 ```
+
+### Demo
+
+[CodeSandbox](//codesandbox.io/s/github/cssinjs/jss/tree/master/examples/plugins/jss-plugin-rule-value-observable?fontsize=14)

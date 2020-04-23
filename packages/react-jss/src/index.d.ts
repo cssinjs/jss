@@ -45,9 +45,11 @@ interface WithStylesProps<S extends Styles | ((theme: unknown) => Styles)> {
  */
 type WithStyles<S extends Styles | ((theme: unknown) => Styles)> = WithStylesProps<S>
 
-interface BaseOptions extends StyleSheetFactoryOptions {
+export interface DefaultTheme {}
+
+interface BaseOptions<Theme = DefaultTheme> extends StyleSheetFactoryOptions {
   index?: number
-  theming?: Theming<object>
+  theming?: Theming<Theme>
 }
 
 interface WithStylesOptions extends BaseOptions {
@@ -55,15 +57,13 @@ interface WithStylesOptions extends BaseOptions {
   jss?: Jss
 }
 
-interface CreateUseStylesOptions extends BaseOptions {
+interface CreateUseStylesOptions<Theme = DefaultTheme> extends BaseOptions<Theme> {
   name?: string
 }
 
-export interface DefaultTheme {}
-
 declare function createUseStyles<Theme = DefaultTheme, C extends string = string>(
   styles: Record<C, any> | ((theme: Theme) => Record<C, any>),
-  options?: CreateUseStylesOptions
+  options?: CreateUseStylesOptions<Theme>
 ): (data?: unknown) => Classes<C>
 
 declare function withStyles<
@@ -93,6 +93,7 @@ export {
   ThemeProvider,
   withTheme,
   createTheming,
+  Theming,
   useTheme,
   JssContext,
   createUseStyles,

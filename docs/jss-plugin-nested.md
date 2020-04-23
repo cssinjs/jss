@@ -142,3 +142,7 @@ Compiles to:
   background: red;
 }
 ```
+
+### Demo
+
+[CodeSandbox](//codesandbox.io/s/github/cssinjs/jss/tree/master/examples/plugins/jss-plugin-nested?fontsize=14)

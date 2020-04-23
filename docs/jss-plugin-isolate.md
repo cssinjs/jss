@@ -183,7 +183,7 @@ jss.use(
 
 ### Demo
 
-[Simple](http://cssinjs.github.io/examples/plugins/jss-plugin-isolate/simple/index.html)
+[CodeSandbox](//codesandbox.io/s/github/cssinjs/jss/tree/master/examples/plugins/jss-plugin-isolate?fontsize=14)
 
 ### Reseted properties
 
