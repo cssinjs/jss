@@ -20,6 +20,13 @@ const useEffectOrLayoutEffect = isInBrowser ? React.useLayoutEffect : React.useE
 
 const noTheme = {}
 
+const reducer = (prevState, action) => {
+  if (action.type === 'updateSheet') {
+    return action.payload
+  }
+  return prevState
+}
+
 const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions<Theme> = {}) => {
   const {index = getSheetIndex(), theming, name, ...sheetOptions} = options
   const ThemeContext = (theming && theming.context) || DefaultThemeContext
@@ -35,67 +42,101 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
     const context = React.useContext(JssContext)
     const theme = useTheme()
 
-    const [sheet, dynamicRules] = React.useMemo(
+    const [state, dispatch] = React.useReducer(reducer, null, () => {
+      const sheet = createStyleSheet({
+        context,
+        styles,
+        name,
+        theme,
+        index,
+        sheetOptions
+      })
+
+      let dynamicRules
+      let classes
+      if (sheet) {
+        if (context.registry) {
+          context.registry.add(sheet)
+        }
+        dynamicRules = addDynamicRules(sheet, data)
+        classes = getSheetClasses(sheet, dynamicRules)
+      }
+
+      return {
+        sheet,
+        dynamicRules,
+        classes: classes || {}
+      }
+    })
+    React.useMemo(
       () => {
-        const newSheet = createStyleSheet({
-          context,
-          styles,
-          name,
-          theme,
-          index,
-          sheetOptions
-        })
+        if (!isFirstMount.current) {
+          const newSheet = createStyleSheet({
+            context,
+            styles,
+            name,
+            theme,
+            index,
+            sheetOptions
+          })
+          const newDynamicRules = newSheet && addDynamicRules(newSheet, data)
+          const newClasses = newSheet ? getSheetClasses(newSheet, newDynamicRules) : {}
 
-        const newDynamicRules = newSheet ? addDynamicRules(newSheet, data) : null
-
-        if (newSheet) {
+          dispatch({
+            type: 'updateSheet',
+            payload: {
+              sheet: newSheet,
+              dynamicRules: newDynamicRules,
+              classes: newClasses
+            }
+          })
+        }
+      },
+      [theme, context]
+    )
+    useEffectOrLayoutEffect(
+      () => {
+        if (state.sheet) {
           manageSheet({
             index,
             context,
-            sheet: newSheet,
+            sheet: state.sheet,
             theme
           })
         }
 
-        return [newSheet, newDynamicRules]
+        return () => {
+          const {sheet, dynamicRules} = state
+
+          if (!sheet) return
+
+          unmanageSheet({
+            index,
+            context,
+            sheet,
+            theme
+          })
+
+          if (dynamicRules) {
+            removeDynamicRules(sheet, dynamicRules)
+          }
+        }
       },
-      [context, theme]
+      [state.sheet]
     )
 
     useEffectOrLayoutEffect(
       () => {
         // We only need to update the rules on a subsequent update and not in the first mount
-        if (sheet && dynamicRules && !isFirstMount.current) {
-          updateDynamicRules(data, sheet, dynamicRules)
+        if (state.sheet && state.dynamicRules && !isFirstMount.current) {
+          updateDynamicRules(data, state.sheet, state.dynamicRules)
         }
       },
       [data]
     )
 
-    useEffectOrLayoutEffect(
-      () =>
-        // cleanup only
-        () => {
-          if (sheet) {
-            unmanageSheet({
-              index,
-              context,
-              sheet,
-              theme
-            })
-          }
-
-          if (sheet && dynamicRules) {
-            removeDynamicRules(sheet, dynamicRules)
-          }
-        },
-      [sheet]
-    )
-
-    const classes = sheet && dynamicRules ? getSheetClasses(sheet, dynamicRules) : {}
-
     // $FlowFixMe
-    React.useDebugValue(classes)
+    React.useDebugValue(state.classes)
     // $FlowFixMe
     React.useDebugValue(theme === noTheme ? 'No theme' : theme)
 
@@ -103,7 +144,7 @@ const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions
       isFirstMount.current = false
     })
 
-    return classes
+    return state.classes
   }
 }
 
