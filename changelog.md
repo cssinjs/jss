@@ -4,6 +4,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+## 10.2.0 (2020-6-3)
+
 ### Improvements
 
 - [react-jss] TS fixes [1310](https://github.com/cssinjs/jss/pull/1310)

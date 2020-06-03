@@ -9,7 +9,7 @@
 
 > Default preset for JSS with selected plugins.
 
-See our website [jss-preset-default](https://cssinjs.org/jss-preset-default?v=v10.1.1) for more information.
+See our website [jss-preset-default](https://cssinjs.org/jss-preset-default?v=v10.2.0) for more information.
 
 ## Install
 
