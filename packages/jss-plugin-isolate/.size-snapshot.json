@@ -1,11 +1,11 @@
 {
   "dist/jss-plugin-isolate.js": {
-    "bundled": 14444,
+    "bundled": 14446,
     "minified": 9421,
     "gzipped": 2682
   },
   "dist/jss-plugin-isolate.min.js": {
-    "bundled": 14444,
+    "bundled": 14446,
     "minified": 9421,
     "gzipped": 2682
   },

@@ -1,11 +1,11 @@
 {
   "dist/jss-plugin-expand.js": {
-    "bundled": 10469,
+    "bundled": 10471,
     "minified": 4500,
     "gzipped": 1511
   },
   "dist/jss-plugin-expand.min.js": {
-    "bundled": 10469,
+    "bundled": 10471,
     "minified": 4500,
     "gzipped": 1511
   },

@@ -1,11 +1,11 @@
 {
   "dist/jss-plugin-template.js": {
-    "bundled": 1777,
+    "bundled": 1781,
     "minified": 730,
     "gzipped": 453
   },
   "dist/jss-plugin-template.min.js": {
-    "bundled": 1418,
+    "bundled": 1420,
     "minified": 564,
     "gzipped": 355
   },

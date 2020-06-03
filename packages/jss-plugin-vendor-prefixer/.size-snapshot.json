@@ -15,7 +15,7 @@
     "gzipped": 406
   },
   "dist/jss-plugin-vendor-prefixer.esm.js": {
-    "bundled": 1524,
+    "bundled": 1520,
     "minified": 650,
     "gzipped": 366,
     "treeshaked": {

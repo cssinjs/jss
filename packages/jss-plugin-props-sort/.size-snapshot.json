@@ -1,11 +1,11 @@
 {
   "dist/jss-plugin-props-sort.js": {
-    "bundled": 1019,
+    "bundled": 1021,
     "minified": 504,
     "gzipped": 320
   },
   "dist/jss-plugin-props-sort.min.js": {
-    "bundled": 1019,
+    "bundled": 1021,
     "minified": 504,
     "gzipped": 320
   },

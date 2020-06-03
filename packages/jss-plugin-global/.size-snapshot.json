@@ -1,11 +1,11 @@
 {
   "dist/jss-plugin-global.js": {
-    "bundled": 5105,
+    "bundled": 5107,
     "minified": 2229,
     "gzipped": 926
   },
   "dist/jss-plugin-global.min.js": {
-    "bundled": 5105,
+    "bundled": 5107,
     "minified": 2229,
     "gzipped": 926
   },

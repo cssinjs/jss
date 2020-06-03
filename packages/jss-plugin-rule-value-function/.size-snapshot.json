@@ -1,11 +1,11 @@
 {
   "dist/jss-plugin-rule-value-function.js": {
-    "bundled": 2920,
+    "bundled": 2924,
     "minified": 1002,
     "gzipped": 566
   },
   "dist/jss-plugin-rule-value-function.min.js": {
-    "bundled": 2343,
+    "bundled": 2345,
     "minified": 751,
     "gzipped": 440
   },
