@@ -4,9 +4,16 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+### Improvements
+
+- [react-jss] TS fixes [1310](https://github.com/cssinjs/jss/pull/1310)
+- [jss] TS fixes [1318](https://github.com/cssinjs/jss/pull/1318)
+- [examples] Convert plugin examples to codesandbox [1316](https://github.com/cssinjs/jss/pull/1316)
+
 ### Bug fixes
 
-- [jss-plugin-vendor-prefixer] Correct prefixing of writing-mode property
+- [jss-plugin-rule-value-function] Fixed missing dependency to tiny-warning [1315](https://github.com/cssinjs/jss/pull/1315)
+- [jss-plugin-vendor-prefixer] Correct prefixing of writing-mode property [1326](https://github.com/cssinjs/jss/pull/1326)
 
 ## 10.1.1 (2020-3-15)
 
