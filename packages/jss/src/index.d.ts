@@ -4,16 +4,14 @@ import * as css from 'csstype'
 type FnValue<R> = R | ((data: any) => R)
 
 type NormalCssProperties = css.Properties<string | number>
-type CssProperties = {[K in keyof NormalCssProperties]: FnValue<NormalCssProperties[K]>}
+type CssProperties = {[K in keyof NormalCssProperties]: FnValue<NormalCssProperties[K] | JssValue>}
 
 // Jss Style definitions
-type JssStyleP<S> = CssProperties & {
-  [key: string]: FnValue<JssValue | S>
+type JssStyleP = {
+  [key: string]: FnValue<JssValue | JssStyleP>
 }
 
-export type JssStyle = JssStyleP<
-  JssStyleP<JssStyleP<JssStyleP<JssStyleP<JssStyleP<JssStyleP<void>>>>>>
->
+export type JssStyle = CssProperties & JssStyleP;
 
 export type Styles<Name extends string | number | symbol = string> = Record<Name, JssStyle | string>
 export type Classes<Name extends string | number | symbol = string> = Record<Name, string>

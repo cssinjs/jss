@@ -4,6 +4,10 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+### Bug fixes
+
+- [jss-plugin-vendor-prefixer] Correct prefixing of writing-mode property
+
 ## 10.1.1 (2020-3-15)
 
 ### Bug fixes
