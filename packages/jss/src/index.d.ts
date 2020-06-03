@@ -11,7 +11,7 @@ type JssStyleP = {
   [key: string]: FnValue<JssValue | JssStyleP>
 }
 
-export type JssStyle = CssProperties & JssStyleP;
+export type JssStyle = CssProperties & JssStyleP
 
 export type Styles<Name extends string | number | symbol = string> = Record<Name, JssStyle | string>
 export type Classes<Name extends string | number | symbol = string> = Record<Name, string>
