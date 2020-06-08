@@ -34,6 +34,10 @@
 
 [jss-rtl](https://github.com/alitaheri/jss-rtl) JSS plugin to convert the layout from ltr to rtl.
 
+[jss-plugin-rem-em-to-px](https://github.com/JoeDuncko/jss-plugin-rem-em-to-px) JSS plugin for converting all em and rem values to px.
+
+[jss-plugin-all-important](https://github.com/JoeDuncko/jss-plugin-all-important) JSS plugin for making all possible values !important.
+
 ## Convenience
 
 [jss-simple](https://github.com/ashaffer/jss-simple) Thin wrapper around jss that simplifies its interface and restricts you to a single, global stylesheet.
