@@ -62,7 +62,7 @@ interface CreateUseStylesOptions<Theme = DefaultTheme> extends BaseOptions<Theme
 }
 
 declare function createUseStyles<Theme = DefaultTheme, C extends string = string>(
-  styles: Record<C, any> | ((theme: Theme) => Record<C, any>),
+  styles: Styles<C> | ((theme: Theme) => Styles<C>),
   options?: CreateUseStylesOptions<Theme>
 ): (data?: unknown) => Classes<C>
 
