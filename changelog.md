@@ -2,11 +2,11 @@
 
 Since you are interested in what happens next, in case, you work for a for-profit company that benefits from using the project, please consider supporting it on https://opencollective.com/jss.
 
+---
+
 ### Improvements
 
 - [jss, react-jss] TS fixes, allow autocomplete for CSS rules [1352](https://github.com/cssinjs/jss/pull/1352)
-
----
 
 ## 10.2.0 (2020-6-3)
 
