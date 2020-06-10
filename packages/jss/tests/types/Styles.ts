@@ -15,7 +15,7 @@ const styles: Styles = {
     textAlign: 'center',
     display: 'flex',
     width: '100%',
-    justifyContent: (props: Props) => (props.flag ? 'center' : 'left')
+    justifyContent: (props: Props) => (props.flag ? 'center' : undefined)
   },
   inner: {
     textAlign: 'center',
@@ -36,6 +36,7 @@ const styles: Styles = {
     position: 'relative',
     pointerEvents: props.flag ? 'none' : null
   }),
+  funcNull: (props: Props) => null,
   funcWithTerm: (props: Props) => ({
     width: props.flag ? 377 : 272,
     height: props.flag ? 330 : 400,

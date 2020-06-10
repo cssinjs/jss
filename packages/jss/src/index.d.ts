@@ -12,12 +12,12 @@ export type JssStyle = {
   [K in keyof NormalCssProperties | string]:
     | NormalCssValues<K>
     | JssStyle
-    | ((data: any) => NormalCssValues<K> | JssStyle)
+    | ((data: any) => NormalCssValues<K> | JssStyle | undefined)
 }
 
 export type Styles<Name extends string | number | symbol = string> = Record<
   Name,
-  FnValue<JssStyle | string>
+  FnValue<JssStyle | string | null>
 >
 export type Classes<Name extends string | number | symbol = string> = Record<Name, string>
 export type Keyframes<Name extends string = string> = Record<Name, string>
