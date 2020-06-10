@@ -4,6 +4,10 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+### Improvements
+
+- [react-jss] add properly react default props types calculation (https://github.com/cssinjs/jss/pull/1353)
+
 ## 10.2.0 (2020-6-3)
 
 ### Improvements
