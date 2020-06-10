@@ -1,7 +1,7 @@
 import * as css from 'csstype'
 
 // TODO: Type data better, currently typed as any for allowing to override it
-type FnValue<R> = R | ((data: any) => R)
+type Func<R> = ((data: any) => R)
 
 type NormalCssProperties = css.Properties<string | number>
 type NormalCssValues<K> = K extends keyof NormalCssProperties
@@ -12,12 +12,12 @@ export type JssStyle = {
   [K in keyof NormalCssProperties | string]:
     | NormalCssValues<K>
     | JssStyle
-    | ((data: any) => NormalCssValues<K> | JssStyle | undefined)
+    | Func<NormalCssValues<K> | JssStyle | undefined>
 }
 
 export type Styles<Name extends string | number | symbol = string> = Record<
   Name,
-  FnValue<JssStyle | string | null>
+  JssStyle | string | Func<JssStyle | string | null | undefined>
 >
 export type Classes<Name extends string | number | symbol = string> = Record<Name, string>
 export type Keyframes<Name extends string = string> = Record<Name, string>
