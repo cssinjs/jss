@@ -1,19 +1,24 @@
 import * as css from 'csstype'
 
 // TODO: Type data better, currently typed as any for allowing to override it
-type FnValue<R> = R | ((data: any) => R)
+type Func<R> = ((data: any) => R)
 
 type NormalCssProperties = css.Properties<string | number>
-type CssProperties = {[K in keyof NormalCssProperties]: FnValue<NormalCssProperties[K] | JssValue>}
+type NormalCssValues<K> = K extends keyof NormalCssProperties
+  ? NormalCssProperties[K] | JssValue
+  : JssValue
 
-// Jss Style definitions
-type JssStyleP = {
-  [key: string]: FnValue<JssValue | JssStyleP>
+export type JssStyle = {
+  [K in keyof NormalCssProperties | string]:
+    | NormalCssValues<K>
+    | JssStyle
+    | Func<NormalCssValues<K> | JssStyle | undefined>
 }
 
-export type JssStyle = CssProperties & JssStyleP
-
-export type Styles<Name extends string | number | symbol = string> = Record<Name, JssStyle | string>
+export type Styles<Name extends string | number | symbol = string> = Record<
+  Name,
+  JssStyle | string | Func<JssStyle | string | null | undefined>
+>
 export type Classes<Name extends string | number | symbol = string> = Record<Name, string>
 export type Keyframes<Name extends string = string> = Record<Name, string>
 

@@ -9,7 +9,7 @@
 
 > JSS plugin for classes composition
 
-See our website [jss-plugin-compose](https://cssinjs.org/jss-plugin-compose?v=v10.2.0) for more information.
+See our website [jss-plugin-compose](https://cssinjs.org/jss-plugin-compose?v=v10.3.0) for more information.
 
 ## Install
 

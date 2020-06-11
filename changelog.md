@@ -8,6 +8,12 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 - [react-jss] add properly react default props types calculation (https://github.com/cssinjs/jss/pull/1353)
 
+## 10.3.0 (2020-6-10)
+
+### Improvements
+
+- [jss, react-jss] TS fixes, allow autocomplete for CSS rules [1352](https://github.com/cssinjs/jss/pull/1352)
+
 ## 10.2.0 (2020-6-3)
 
 ### Improvements
