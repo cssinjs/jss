@@ -66,21 +66,19 @@ declare function createUseStyles<Theme = DefaultTheme, C extends string = string
   options?: CreateUseStylesOptions<Theme>
 ): (data?: unknown) => Classes<C>
 
+type GetProps<C> = C extends ComponentType<infer P> ? P : never
+
 declare function withStyles<
   ClassNames extends string | number | symbol,
   S extends Styles<ClassNames> | ((theme: any) => Styles<ClassNames>)
 >(
   styles: S,
   options?: WithStylesOptions
-): <
-  Props extends {
-    classes: S extends (theme: any) => Styles<ClassNames>
-      ? Classes<keyof ReturnType<S>>
-      : Classes<ClassNames>
-  }
->(
-  comp: ComponentType<Props>
-) => ComponentType<Omit<Props, 'classes'> & {classes?: Partial<Props['classes']>}>
+): <C>(
+  comp: C
+) => ComponentType<
+  JSX.LibraryManagedAttributes<C, Omit<GetProps<C>, 'classes'> & Partial<WithStylesProps<S>>>
+>
 
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 

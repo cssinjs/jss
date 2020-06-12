@@ -9,5 +9,5 @@
     "moduleResolution": "node",
     "jsx": "react"
   },
-  "include": ["packages/**/*.ts"]
+  "include": ["packages/**/*.ts", "packages/**/*.tsx"]
 }
