@@ -37,13 +37,13 @@ declare const JssContext: Context<{
   disableStylesGeneration: boolean
 }>
 
-interface WithStylesProps<S extends Styles | ((theme: unknown) => Styles)> {
-  classes: Classes<S extends ((theme: unknown) => Styles) ? keyof ReturnType<S> : keyof S>
+interface WithStylesProps<S extends Styles | ((theme: any) => Styles)> {
+  classes: Classes<S extends (theme: any) => Styles ? keyof ReturnType<S> : keyof S>
 }
 /**
  * @deprecated Please use `WithStylesProps` instead
  */
-type WithStyles<S extends Styles | ((theme: unknown) => Styles)> = WithStylesProps<S>
+type WithStyles<S extends Styles | ((theme: any) => Styles)> = WithStylesProps<S>
 
 export interface DefaultTheme {}
 
