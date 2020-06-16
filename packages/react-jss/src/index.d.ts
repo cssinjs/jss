@@ -37,13 +37,13 @@ declare const JssContext: Context<{
   disableStylesGeneration: boolean
 }>
 
-interface WithStylesProps<S extends Styles | ((theme: unknown) => Styles)> {
-  classes: Classes<S extends ((theme: unknown) => Styles) ? keyof ReturnType<S> : keyof S>
+interface WithStylesProps<S extends Styles | ((theme: any) => Styles)> {
+  classes: Classes<S extends (theme: any) => Styles ? keyof ReturnType<S> : keyof S>
 }
 /**
  * @deprecated Please use `WithStylesProps` instead
  */
-type WithStyles<S extends Styles | ((theme: unknown) => Styles)> = WithStylesProps<S>
+type WithStyles<S extends Styles | ((theme: any) => Styles)> = WithStylesProps<S>
 
 export interface DefaultTheme {}
 
@@ -62,9 +62,11 @@ interface CreateUseStylesOptions<Theme = DefaultTheme> extends BaseOptions<Theme
 }
 
 declare function createUseStyles<Theme = DefaultTheme, C extends string = string>(
-  styles: Record<C, any> | ((theme: Theme) => Record<C, any>),
+  styles: Styles<C> | ((theme: Theme) => Styles<C>),
   options?: CreateUseStylesOptions<Theme>
 ): (data?: unknown) => Classes<C>
+
+type GetProps<C> = C extends ComponentType<infer P> ? P : never
 
 declare function withStyles<
   ClassNames extends string | number | symbol,
@@ -72,15 +74,11 @@ declare function withStyles<
 >(
   styles: S,
   options?: WithStylesOptions
-): <
-  Props extends {
-    classes: S extends (theme: any) => Styles<ClassNames>
-      ? Classes<keyof ReturnType<S>>
-      : Classes<ClassNames>
-  }
->(
-  comp: ComponentType<Props>
-) => ComponentType<Omit<Props, 'classes'> & {classes?: Partial<Props['classes']>}>
+): <C>(
+  comp: C
+) => ComponentType<
+  JSX.LibraryManagedAttributes<C, Omit<GetProps<C>, 'classes'> & Partial<WithStylesProps<S>>>
+>
 
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 

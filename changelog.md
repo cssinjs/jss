@@ -4,6 +4,29 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+### Improvements
+
+- [react-jss] add properly react default props types calculation (https://github.com/cssinjs/jss/pull/1353)
+
+## 10.3.0 (2020-6-10)
+
+### Improvements
+
+- [jss, react-jss] TS fixes, allow autocomplete for CSS rules [1352](https://github.com/cssinjs/jss/pull/1352)
+
+## 10.2.0 (2020-6-3)
+
+### Improvements
+
+- [react-jss] TS fixes [1310](https://github.com/cssinjs/jss/pull/1310)
+- [jss] TS fixes [1318](https://github.com/cssinjs/jss/pull/1318)
+- [examples] Convert plugin examples to codesandbox [1316](https://github.com/cssinjs/jss/pull/1316)
+
+### Bug fixes
+
+- [jss-plugin-rule-value-function] Fixed missing dependency to tiny-warning [1315](https://github.com/cssinjs/jss/pull/1315)
+- [jss-plugin-vendor-prefixer] Correct prefixing of writing-mode property [1326](https://github.com/cssinjs/jss/pull/1326)
+
 ## 10.1.1 (2020-3-15)
 
 ### Bug fixes

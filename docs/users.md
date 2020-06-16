@@ -37,3 +37,5 @@
 [Onepixel](https://www.onepixel.com/)
 
 [React Admin](https://marmelab.com/react-admin/)
+
+[SwissDev Jobs](https://swissdevjobs.ch/jobs/JavaScript/All)

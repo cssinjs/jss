@@ -1,11 +1,11 @@
 {
   "dist/jss-plugin-cache.js": {
-    "bundled": 1087,
+    "bundled": 1089,
     "minified": 528,
     "gzipped": 339
   },
   "dist/jss-plugin-cache.min.js": {
-    "bundled": 1087,
+    "bundled": 1089,
     "minified": 528,
     "gzipped": 339
   },

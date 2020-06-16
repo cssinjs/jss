@@ -1,7 +1,7 @@
 {
   "name": "jss-plugin-compose",
   "description": "JSS plugin for classes composition",
-  "version": "10.1.1",
+  "version": "10.3.0",
   "license": "MIT",
   "homepage": "https://cssinjs.org/jss-compose",
   "main": "dist/jss-plugin-compose.cjs.js",
@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.3.1",
-    "jss": "10.1.1",
+    "jss": "^10.3.0",
     "tiny-warning": "^1.0.2"
   }
 }
