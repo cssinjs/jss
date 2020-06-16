@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, useRef} from 'react'
 
 import WithStyles from '.'
 
@@ -19,6 +19,19 @@ class TestComponent extends Component<Props> {
 const TestComponentWitStyles = WithStyles({})(TestComponent)
 
 function testRender() {
+  const ref = useRef<any>()
+
+  function refFunction(instance: any) {
+    // do smth with instance
+  }
+
   // component shouldn't ask to pass `testProp`
-  return <TestComponentWitStyles />
+  // component can accept innerRef prop
+  return (
+    <>
+      <TestComponentWitStyles />
+      <TestComponentWitStyles innerRef={ref} />
+      <TestComponentWitStyles innerRef={refFunction} />
+    </>
+  )
 }
