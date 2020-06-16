@@ -1,4 +1,4 @@
-import {ComponentType, ReactNode, Context} from 'react'
+import {ComponentType, ReactNode, Context, RefObject} from 'react'
 import {
   CreateGenerateId,
   GenerateId,
@@ -39,6 +39,7 @@ declare const JssContext: Context<{
 
 interface WithStylesProps<S extends Styles | ((theme: any) => Styles)> {
   classes: Classes<S extends (theme: any) => Styles ? keyof ReturnType<S> : keyof S>
+  innerRef?: RefObject<any> | ((instance: any) => void)
 }
 /**
  * @deprecated Please use `WithStylesProps` instead
