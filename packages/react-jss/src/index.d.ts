@@ -39,7 +39,6 @@ declare const JssContext: Context<{
 
 interface WithStylesProps<S extends Styles | ((theme: any) => Styles)> {
   classes: Classes<S extends (theme: any) => Styles ? keyof ReturnType<S> : keyof S>
-  innerRef?: RefObject<any> | ((instance: any) => void)
 }
 /**
  * @deprecated Please use `WithStylesProps` instead
@@ -78,10 +77,12 @@ declare function withStyles<
 ): <C>(
   comp: C
 ) => ComponentType<
-  JSX.LibraryManagedAttributes<C, Omit<GetProps<C>, 'classes'> & Partial<WithStylesProps<S>>>
+  JSX.LibraryManagedAttributes<
+    C,
+    Omit<GetProps<C>, 'classes'> &
+      Partial<WithStylesProps<S>> & {innerRef?: RefObject<any> | ((instance: any) => void)}
+  >
 >
-
-type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 
 export {
   SheetsRegistry,
