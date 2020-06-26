@@ -1,4 +1,4 @@
-import {ComponentType, ReactNode, Context} from 'react'
+import {ComponentType, ReactNode, Context, RefObject} from 'react'
 import {
   CreateGenerateId,
   GenerateId,
@@ -77,10 +77,12 @@ declare function withStyles<
 ): <C>(
   comp: C
 ) => ComponentType<
-  JSX.LibraryManagedAttributes<C, Omit<GetProps<C>, 'classes'> & Partial<WithStylesProps<S>>>
+  JSX.LibraryManagedAttributes<
+    C,
+    Omit<GetProps<C>, 'classes'> &
+      Partial<WithStylesProps<S>> & {innerRef?: RefObject<any> | ((instance: any) => void)}
+  >
 >
-
-type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 
 export {
   SheetsRegistry,
