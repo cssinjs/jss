@@ -11,18 +11,26 @@ class TestComponent extends Component<Props> {
     testProp: 'hello'
   }
 
+  state = {message: ''}
+
   render() {
-    return <div>{this.props.testProp}</div>
+    return (
+      <div>
+        <span>{this.props.testProp}</span>
+        <span>{this.state.message}</span>
+      </div>
+    )
   }
 }
-
+const cc = new TestComponent({testProp: ''})
+cc.render()
 const TestComponentWitStyles = WithStyles({})(TestComponent)
 
 function testRender() {
-  const ref = useRef<any>()
+  const ref = useRef<TestComponent>()
 
-  function refFunction(instance: any) {
-    // do smth with instance
+  function refFunction(instance: TestComponent) {
+    instance.setState({message: 'From ref'})
   }
 
   // component shouldn't ask to pass `testProp`
