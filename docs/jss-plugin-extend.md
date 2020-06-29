@@ -36,7 +36,7 @@ const styles = {
 }
 ```
 
-### Use an array of style objects
+### Use an array of style objects or rule names
 
 ```javascript
 const styles = {
@@ -52,8 +52,11 @@ const background = {background: 'red'}
 const color = {color: 'green'}
 
 const styles = {
+  basePadding: {
+    padding: '10px'
+  },
   button: {
-    extend: [background, color],
+    extend: [background, color, 'basePadding'],
     fontSize: '20px'
   }
 }

@@ -100,6 +100,67 @@ describe('jss-plugin-extend', () => {
     })
   })
 
+  describe('multi rule name extend', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet({
+        a: {float: 'left'},
+        b: {position: 'absolute'},
+        c: {
+          extend: ['a', 'b'],
+          width: '1px'
+        }
+      })
+    })
+
+    it('should have correct output', () => {
+      expect(sheet.getRule('c')).to.not.be(undefined)
+      expect(sheet.toString()).to.be(
+        '.a-id {\n' +
+          '  float: left;\n' +
+          '}\n' +
+          '.b-id {\n' +
+          '  position: absolute;\n' +
+          '}\n' +
+          '.c-id {\n' +
+          '  float: left;\n' +
+          '  width: 1px;\n' +
+          '  position: absolute;\n' +
+          '}'
+      )
+    })
+  })
+
+  describe('multi mixed rule name and style objects extend', () => {
+    let sheet
+
+    beforeEach(() => {
+      const a = {float: 'left'}
+      sheet = jss.createStyleSheet({
+        b: {position: 'absolute'},
+        c: {
+          extend: [a, 'b'],
+          width: '1px'
+        }
+      })
+    })
+
+    it('should have correct output', () => {
+      expect(sheet.getRule('c')).to.not.be(undefined)
+      expect(sheet.toString()).to.be(
+        '.b-id {\n' +
+          '  position: absolute;\n' +
+          '}\n' +
+          '.c-id {\n' +
+          '  float: left;\n' +
+          '  position: absolute;\n' +
+          '  width: 1px;\n' +
+          '}'
+      )
+    })
+  })
+
   describe('nested extend 1', () => {
     let sheet
 

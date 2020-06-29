@@ -25,10 +25,13 @@ function mergeExtend(style, rule, sheet, newStyle) {
     return
   }
 
-  // Extend using an array of objects.
+  // Extend using an array.
   if (Array.isArray(style.extend)) {
     for (let index = 0; index < style.extend.length; index++) {
-      extend(style.extend[index], rule, sheet, newStyle)
+      const singleExtend = style.extend[index]
+      const singleStyle =
+        typeof singleExtend === 'string' ? {...style, extend: singleExtend} : style.extend[index]
+      extend(singleStyle, rule, sheet, newStyle)
     }
     return
   }
