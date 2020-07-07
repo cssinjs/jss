@@ -11,7 +11,7 @@ export type CreateGenerateIdOptions = {|
 |}
 export type GenerateId = (rule: Rule, sheet?: StyleSheet) => string
 
-export type CreateGenerateId = (options: CreateGenerateIdOptions) => GenerateId
+export type CreateGenerateId = (options?: CreateGenerateIdOptions) => GenerateId
 
 /**
  * Returns a function which generates unique class names based on counters.
