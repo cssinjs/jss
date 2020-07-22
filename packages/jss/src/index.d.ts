@@ -151,6 +151,7 @@ interface StyleSheetOptions extends StyleSheetFactoryOptions {
 }
 
 declare class SheetsRegistry {
+  registry: StyleSheet[]
   readonly index: number
   add<RuleName extends string | number | symbol>(sheet: StyleSheet<RuleName>): void
   reset(): void
