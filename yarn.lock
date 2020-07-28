@@ -9131,10 +9131,10 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-theming@3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/theming/-/theming-3.2.0.tgz#237b13ae46e0596a7d1dc2ce4a31bcfce52cad8e"
-  integrity sha512-n0fSNYXkX63rcFBBeAthy14IcgPZLHp0OGkGZheaj64j7cBoP7INLd6+7HIXqWVjFn1M5cYSiZ1nszi+jo/Szg==
+theming@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/theming/-/theming-3.2.1.tgz#dc14b98d9f66303248cbbdba1d29cd44c5ac82ab"
+  integrity sha512-Lm7cv547nuulQQQHGLd2VmSiiXibkdjv414tyABZOW2XCeBhdLNBfOeVBgFHRp4hztUVoP+Nox1WTlUrqkpgkw==
   dependencies:
     hoist-non-react-statics "^3.3.0"
     prop-types "^15.5.8"
