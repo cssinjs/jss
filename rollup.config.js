@@ -31,7 +31,8 @@ Object.keys(pkg.peerDependencies || {}).forEach(key => {
   }
 })
 
-const external = id => !id.startsWith('.') && !id.startsWith('/')
+const external = id =>
+  !id.startsWith('.') && !id.startsWith(process.platform === 'win32' ? process.cwd() : '/')
 
 const getBabelOptions = ({useESModules}) => ({
   exclude: /node_modules/,
