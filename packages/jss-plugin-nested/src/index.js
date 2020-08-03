@@ -94,9 +94,14 @@ export default function jssNested(): Plugin {
         // Replace all $refs.
         selector = selector.replace(refRegExp, replaceRef)
 
+        // remove same rule before add
+        if (container.getRule(selector)) {
+          container.deleteRule(selector)
+        }
         container.addRule(selector, style[prop], {...options, selector})
       } else if (isNestedConditional) {
         // Place conditional right after the parent rule to ensure right ordering.
+        
         container
           .addRule(prop, {}, options)
           // Flow expects more options but they aren't required
