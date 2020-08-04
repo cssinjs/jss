@@ -39,3 +39,5 @@
 [React Admin](https://marmelab.com/react-admin/)
 
 [SwissDev Jobs](https://swissdevjobs.ch/jobs/JavaScript/All)
+
+[AstrumU](https://www.astrumu.com/)
