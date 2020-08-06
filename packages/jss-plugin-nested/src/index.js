@@ -94,15 +94,15 @@ export default function jssNested(): Plugin {
         // Replace all $refs.
         selector = selector.replace(refRegExp, replaceRef)
 
-        container.addRule(selector, style[prop], {...options, selector})
+        container.addRule(selector, style[prop], {...options, selector, safeReplace: true})
       } else if (isNestedConditional) {
         // Place conditional right after the parent rule to ensure right ordering.
         container
-          .addRule(prop, {}, options)
+          .addRule(prop, {}, {...options, safeReplace: true})
           // Flow expects more options but they aren't required
           // And flow doesn't know this will always be a StyleRule which has the addRule method
           // $FlowFixMe
-          .addRule(styleRule.key, style[prop], {selector: styleRule.selector})
+          .addRule(styleRule.key, style[prop], {selector: styleRule.selector, safeReplace: true})
       }
 
       delete style[prop]

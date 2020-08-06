@@ -112,6 +112,7 @@ export type RuleOptions = {
   selector?: string,
   scoped?: boolean,
   sheet?: StyleSheet,
+  safeReplace?: boolean,
   index?: number,
   parent?: ContainerRule | StyleSheet,
   classes: Classes,

@@ -71,11 +71,13 @@ export default class RuleList {
       ...ruleOptions
     }
 
+    const safeReplace = ruleOptions && ruleOptions.safeReplace
+
     // When user uses .createStyleSheet(), duplicate names are not possible, but
     // `sheet.addRule()` opens the door for any duplicate rule name. When this happens
     // we need to make the key unique within this RuleList instance scope.
     let key = name
-    if (name in this.raw) {
+    if (!safeReplace && name in this.raw) {
       key = `${name}-d${this.counter++}`
     }
 
