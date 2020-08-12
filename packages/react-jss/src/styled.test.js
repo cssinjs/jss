@@ -300,6 +300,7 @@ describe('React-JSS: styled', () => {
     })
   })
 
+  // $FlowIgnore
   it.skip('should target another styled component (not sure if we really need this)', () => {
     const Span = styled('span')({color: 'red'})
     const Div = styled('div')({
@@ -340,6 +341,7 @@ describe('React-JSS: styled', () => {
     `)
   })
 
+  // $FlowIgnore
   it.skip('should override theme over props', () => {})
 
   it('should render label', () => {

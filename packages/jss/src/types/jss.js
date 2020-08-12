@@ -111,7 +111,7 @@ export interface ContainerRule extends BaseRule {
 export type RuleOptions = {
   selector?: string,
   scoped?: boolean,
-  sheet?: StyleSheet,
+  sheet: StyleSheet,
   index?: number,
   parent?: ContainerRule | StyleSheet,
   classes: Classes,
@@ -177,7 +177,7 @@ export type StyleSheetFactoryOptions = {
   classNamePrefix?: string
 }
 
-export type StyleSheetOptions = {|
+export type StyleSheetOptions = {
   media?: string,
   meta?: string,
   link?: boolean,
@@ -188,9 +188,9 @@ export type StyleSheetOptions = {|
   Renderer?: Class<Renderer> | null,
   insertionPoint?: InsertionPoint,
   jss: Jss
-|}
+}
 
-export type InternalStyleSheetOptions = {|
+export type InternalStyleSheetOptions = {
   media?: string,
   meta?: string,
   link?: boolean,
@@ -205,4 +205,4 @@ export type InternalStyleSheetOptions = {|
   parent: ConditionalRule | KeyframesRule | StyleSheet,
   classes: Classes,
   keyframes: KeyframesMap
-|}
+}

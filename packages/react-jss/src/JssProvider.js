@@ -79,7 +79,7 @@ export default class JssProvider extends Component<Props> {
     }
 
     if (classNamePrefix) {
-      context.classNamePrefix += classNamePrefix
+      context.classNamePrefix = (context.classNamePrefix || '') + classNamePrefix
     }
 
     if (media !== undefined) {

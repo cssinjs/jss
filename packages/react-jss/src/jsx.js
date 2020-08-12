@@ -4,8 +4,7 @@ import React from 'react'
 import defaultCss, {type Css} from 'css-jss'
 
 export const create = (css: Css = defaultCss) =>
-  // $FlowIgnore we don't care about the types here, since this is going to be called by the build tool.
-  function createElement(type, props) {
+  function createElement(type: string, props: Object | null /* :: , ..._args: any */) {
     const args = arguments
     if (props && props.css) {
       const className = css(props.css)

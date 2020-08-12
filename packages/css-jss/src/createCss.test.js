@@ -10,7 +10,7 @@ describe('css-jss', () => {
 
   beforeEach(() => {
     const jss = createJss({createGenerateId})
-    css = createCss(jss)
+    css = ((createCss(jss): any): Function)
   })
 
   it('should accept a single style object argument', () => {

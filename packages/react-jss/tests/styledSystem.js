@@ -180,7 +180,8 @@ describe('React-JSS: styled-system', () => {
     expect(className).to.be('css-0 css-d0-1')
     expect(classes).to.be(undefined)
   })
-
+  // $FlowIgnore
   it.skip('should handle the propTypes/meta for validation from function rules', () => {})
+  // $FlowIgnore
   it.skip('should do compose() automatically', () => {})
 })

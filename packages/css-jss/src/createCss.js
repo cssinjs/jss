@@ -54,8 +54,9 @@ const createCss = (jss: Jss = defaultJss): Css => {
     const labels = []
 
     for (let i = 0; i < flatArgs.length; i++) {
-      let style = flatArgs[i]
+      const style = flatArgs[i]
       if (!style) continue
+      let styleObject = style
       // It can be a class name that css() has previously generated.
       if (typeof style === 'string') {
         // eslint-disable-next-line no-shadow
@@ -63,11 +64,12 @@ const createCss = (jss: Jss = defaultJss): Css => {
         if (cached) {
           // eslint-disable-next-line prefer-spread
           if (cached.labels.length) labels.push.apply(labels, cached.labels)
-          style = cached.style
+          styleObject = cached.style
         }
       }
-      if (style.label && labels.indexOf(style.label) === -1) labels.push(style.label)
-      Object.assign(mergedStyle, style)
+      if (styleObject.label && labels.indexOf(styleObject.label) === -1)
+        labels.push(styleObject.label)
+      Object.assign(mergedStyle, styleObject)
     }
     delete mergedStyle.label
     const label = labels.length === 0 ? 'css' : labels.join('-')
