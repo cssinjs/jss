@@ -13,17 +13,19 @@ import type {Theming} from 'theming'
 
 export type Managers = {[key: number]: SheetsManager}
 
-export type HookOptions<Theme> = StyleSheetFactoryOptions & {
+export type HookOptions<Theme> = {|
+  ...StyleSheetFactoryOptions,
   index?: number,
   name?: string,
   theming?: Theming<Theme>
-}
+|}
 
-export type HOCOptions<Theme> = StyleSheetFactoryOptions & {
+export type HOCOptions<Theme> = {|
+  ...StyleSheetFactoryOptions,
   index?: number,
   theming?: Theming<Theme>,
   injectTheme?: boolean
-}
+|}
 
 export type Context = {|
   jss?: Jss,

@@ -79,7 +79,7 @@ export default class Jss {
   /**
    * Create a Style Sheet.
    */
-  createStyleSheet(styles: Object, options: StyleSheetFactoryOptions = {}): StyleSheet {
+  createStyleSheet(styles: Object, options: StyleSheetFactoryOptions = ({}: any)): StyleSheet {
     let {index} = options
     if (typeof index !== 'number') {
       index = sheets.index === 0 ? 0 : sheets.index + 1

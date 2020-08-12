@@ -20,7 +20,10 @@ const useEffectOrLayoutEffect = isInBrowser ? React.useLayoutEffect : React.useE
 
 const noTheme = {}
 
-const createUseStyles = <Theme: {}>(styles: Styles<Theme>, options?: HookOptions<Theme> = {}) => {
+const createUseStyles = <Theme: {}>(
+  styles: Styles<Theme>,
+  options?: HookOptions<Theme> = ({}: any)
+) => {
   const {index = getSheetIndex(), theming, name, ...sheetOptions} = options
   const ThemeContext = (theming && theming.context) || DefaultThemeContext
   const useTheme =

@@ -18,11 +18,11 @@ export type Classes = {[string]: string}
 
 export type KeyframesMap = {[string]: string}
 
-export type ToCssOptions = {
+export type ToCssOptions = {|
   indent?: number,
   allowEmpty?: boolean,
   children?: boolean
-}
+|}
 
 export type UpdateOptions = {
   process?: boolean,
@@ -167,7 +167,7 @@ export type InternalJssOptions = {|
   Renderer?: Class<Renderer> | null
 |}
 
-export type StyleSheetFactoryOptions = {
+export type StyleSheetFactoryOptions = {|
   media?: string,
   meta?: string,
   index?: number,
@@ -175,9 +175,9 @@ export type StyleSheetFactoryOptions = {
   element?: HTMLStyleElement,
   generateId?: GenerateId,
   classNamePrefix?: string
-}
+|}
 
-export type StyleSheetOptions = {
+export type StyleSheetOptions = {|
   media?: string,
   meta?: string,
   link?: boolean,
@@ -188,7 +188,7 @@ export type StyleSheetOptions = {
   Renderer?: Class<Renderer> | null,
   insertionPoint?: InsertionPoint,
   jss: Jss
-}
+|}
 
 export type InternalStyleSheetOptions = {
   media?: string,

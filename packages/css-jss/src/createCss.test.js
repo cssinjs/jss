@@ -3,7 +3,7 @@ import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import {create as createJss, type StyleSheet} from 'jss'
 import {createGenerateId} from '../../../tests/utils'
-import {create as createCss, type Css} from './index'
+import {create as createCss} from './index'
 import {type StyleArg} from './types'
 
 type CssTestType = {|

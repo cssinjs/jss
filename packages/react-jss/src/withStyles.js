@@ -34,7 +34,7 @@ const noTheme = {}
  *
  * `withStyles(styles, [options])(Component)`
  */
-const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = {}) => {
+const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = ({}: any)) => {
   const {index = getSheetIndex(), theming, injectTheme, ...sheetOptions} = options
   const isThemingEnabled = typeof styles === 'function'
   const ThemeConsumer = (theming && theming.context.Consumer) || ThemeContext.Consumer
