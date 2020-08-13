@@ -79,10 +79,15 @@ export default class StyleSheet {
   }
 
   /**
-   * Add a rule to the current stylesheet.
+   * Add or replace a rule to the current stylesheet.
    * Will insert a rule also after the stylesheet has been rendered first time.
    */
-  addRule(name: string, decl: JssStyle, options?: RuleOptions): Rule | null {
+  addOrReplaceRule(
+    name: string,
+    decl: JssStyle,
+    isReplace: boolean,
+    options?: RuleOptions
+  ): Rule | null {
     const {queue} = this
 
     // Plugins can create rules.
@@ -90,7 +95,12 @@ export default class StyleSheet {
     // which happen after the first `rules.add()` call.
     if (this.attached && !queue) this.queue = []
 
-    const rule = this.rules.add(name, decl, options)
+    let rule
+    if (isReplace) {
+      rule = this.rules.replace(name, decl, options)
+    } else {
+      rule = this.rules.add(name, decl, options)
+    }
 
     if (!rule) return null
 
@@ -116,6 +126,17 @@ export default class StyleSheet {
     this.deployed = false
 
     return rule
+  }
+
+  addRule(name: string, decl: JssStyle, options?: RuleOptions): Rule | null {
+    return this.addOrReplaceRule(name, decl, false, options)
+  }
+
+  /**
+   * See issue https://github.com/cssinjs/jss/issues/1360
+   */
+  replaceRule(name: string, decl: JssStyle, options?: RuleOptions): Rule | null {
+    return this.addOrReplaceRule(name, decl, true, options)
   }
 
   /**

@@ -321,9 +321,9 @@ export default ({createStyledComponent}) => {
             color: red;
           }
         }
-          .container-d2-2 {  }
+          .container-d1-2 {  }
         @media (min-width: 0px) {
-          .container-d2-2 {
+          .container-d1-2 {
             color: green;
           }
         }
@@ -340,9 +340,9 @@ export default ({createStyledComponent}) => {
         @media (min-width: 0px) {
           .container-0 {  }
         }
-          .container-d4-3 {  }
+          .container-d2-3 {  }
         @media (min-width: 0px) {
-          .container-d4-3 {
+          .container-d2-3 {
             color: blue;
           }
         }

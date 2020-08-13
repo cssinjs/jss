@@ -55,6 +55,12 @@ class GlobalContainerRule implements ContainerRule {
     return rule
   }
 
+  replaceRule(name, style, options) {
+    const rule = this.rules.replace(name, style, options)
+    this.options.jss.plugins.onProcessRule(rule)
+    return rule
+  }
+
   /**
    * Get index of a rule.
    */

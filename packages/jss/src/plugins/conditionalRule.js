@@ -62,11 +62,29 @@ export class ConditionalRule implements ContainerRule {
   /**
    * Create and register rule, run plugins.
    */
-  addRule(name: string, style: JssStyle, options?: RuleOptions): Rule | null {
-    const rule = this.rules.add(name, style, options)
+  addOrReplaceRule(
+    name: string,
+    style: JssStyle,
+    isReplace: boolean,
+    options?: RuleOptions
+  ): Rule | null {
+    const rule = isReplace
+      ? this.rules.replace(name, style, options)
+      : this.rules.add(name, style, options)
     if (!rule) return null
     this.options.jss.plugins.onProcessRule(rule)
     return rule
+  }
+
+  addRule(name: string, style: JssStyle, options?: RuleOptions): Rule | null {
+    return this.addOrReplaceRule(name, style, false, options)
+  }
+
+  /**
+   * See issue https://github.com/cssinjs/jss/issues/1360
+   */
+  replaceRule(name: string, style: JssStyle, options?: RuleOptions): Rule | null {
+    return this.addOrReplaceRule(name, style, true, options)
   }
 
   /**

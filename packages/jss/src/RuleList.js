@@ -52,12 +52,28 @@ export default class RuleList {
     this.keyframes = options.keyframes
   }
 
+  add(name: string, decl: JssStyle, ruleOptions?: RuleOptions): Rule | null {
+    return this.addOrReplace(name, decl, false, ruleOptions)
+  }
+
+  /**
+   * See issue https://github.com/cssinjs/jss/issues/1360
+   */
+  replace(name: string, decl: JssStyle, ruleOptions?: RuleOptions): Rule | null {
+    return this.addOrReplace(name, decl, true, ruleOptions)
+  }
+
   /**
    * Create and register rule.
    *
    * Will not render after Style Sheet was rendered the first time.
    */
-  add(name: string, decl: JssStyle, ruleOptions?: RuleOptions): Rule | null {
+  addOrReplace(
+    name: string,
+    decl: JssStyle,
+    isReplace: boolean,
+    ruleOptions?: RuleOptions
+  ): Rule | null {
     const {parent, sheet, jss, Renderer, generateId, scoped} = this.options
     const options = {
       classes: this.classes,
@@ -71,13 +87,11 @@ export default class RuleList {
       ...ruleOptions
     }
 
-    const safeReplace = ruleOptions && ruleOptions.safeReplace
-
     // When user uses .createStyleSheet(), duplicate names are not possible, but
     // `sheet.addRule()` opens the door for any duplicate rule name. When this happens
     // we need to make the key unique within this RuleList instance scope.
     let key = name
-    if (!safeReplace && name in this.raw) {
+    if (!isReplace && name in this.raw) {
       key = `${name}-d${this.counter++}`
     }
 
