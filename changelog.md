@@ -4,6 +4,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+## 10.4.0 (2020-8-14)
+
 ### Bug fixes
 
 - [jss-plugin-extend] Fix can not extend rule name is array [1357](https://github.com/cssinjs/jss/pull/1357)

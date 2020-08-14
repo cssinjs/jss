@@ -9,7 +9,7 @@
 
 > JSS plugin that adds default custom unit to numeric values where needed
 
-See our website [jss-plugin-default-unit](https://cssinjs.org/jss-plugin-default-unit?v=v10.3.0) for more information.
+See our website [jss-plugin-default-unit](https://cssinjs.org/jss-plugin-default-unit?v=v10.4.0) for more information.
 
 ## Install
 

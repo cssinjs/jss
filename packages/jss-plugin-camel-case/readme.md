@@ -9,7 +9,7 @@
 
 > JSS plugin that allows to write camel cased rule properties
 
-See our website [jss-plugin-camel-case](https://cssinjs.org/jss-plugin-camel-case?v=v10.3.0) for more information.
+See our website [jss-plugin-camel-case](https://cssinjs.org/jss-plugin-camel-case?v=v10.4.0) for more information.
 
 ## Install
 
