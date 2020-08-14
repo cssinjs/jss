@@ -79,7 +79,7 @@ export default class Jss {
   /**
    * Create a Style Sheet.
    */
-  createStyleSheet(styles: Object, options: StyleSheetFactoryOptions = {}): StyleSheet {
+  createStyleSheet(styles: Object, options: StyleSheetFactoryOptions = ({}: any)): StyleSheet {
     let {index} = options
     if (typeof index !== 'number') {
       index = sheets.index === 0 ? 0 : sheets.index + 1
@@ -110,12 +110,14 @@ export default class Jss {
    * Create a rule without a Style Sheet.
    * [Deprecated] will be removed in the next major version.
    */
-  createRule(name?: string, style?: JssStyle = {}, options?: RuleFactoryOptions = {}): Rule | null {
+  createRule(name: string, style?: JssStyle = {}, options?: RuleFactoryOptions = {}): Rule | null {
     // Enable rule without name for inline styles.
     if (typeof name === 'object') {
+      // $FlowIgnore
       return this.createRule(undefined, name, style)
     }
 
+    // $FlowIgnore
     const ruleOptions: RuleOptions = {...options, name, jss: this, Renderer: this.options.Renderer}
 
     if (!ruleOptions.generateId) ruleOptions.generateId = this.generateId

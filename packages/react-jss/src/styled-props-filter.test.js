@@ -182,6 +182,7 @@ describe('React-JSS: styled props filter', () => {
     })
   })
 
+  // $FlowIgnore
   it.skip('no prop filtering on string tags started with upper case', () => {
     const Link = styled('SomeCustomLink')({color: 'green'})
 

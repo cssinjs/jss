@@ -68,6 +68,8 @@ export default class RuleList {
       generateId,
       scoped,
       name,
+      keyframes: this.keyframes,
+      selector: undefined,
       ...ruleOptions
     }
 

@@ -107,6 +107,7 @@ export default function jssExtend(): Plugin {
     if (typeof value === 'object') {
       // $FlowFixMe: This will be an object
       for (const key in value) {
+        // $FlowFixMe: This will be an object
         rule.prop(key, value[key])
       }
 

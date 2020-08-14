@@ -18,7 +18,7 @@ function indentStr(str: string, indent: number): string {
 export default function toCss(
   selector?: string,
   style: JssStyle,
-  options: ToCssOptions = {}
+  options: ToCssOptions = ({}: any)
 ): string {
   let result = ''
 

@@ -106,29 +106,30 @@ const getChildProps = (props, shouldForwardProp, isTag) => {
   return childProps
 }
 
-type StyledOptions<Theme> = HookOptions<Theme> & {
+type StyledOptions<Theme> = {|
+  ...HookOptions<Theme>,
   shouldForwardProp?: ShouldForwardProp
-}
+|}
 
 const configureStyled = <Theme: {}>(
   tagOrComponent: string | StatelessFunctionalComponent<StyledProps> | ComponentType<StyledProps>,
-  options?: StyledOptions<Theme> = {}
+  options?: StyledOptions<Theme> = ({}: any)
 ) => {
   const {theming} = options
   const isTag = typeof tagOrComponent === 'string'
   const ThemeContext = theming ? theming.context : DefaultThemeContext
   const shouldForwardProp = getShouldForwardProp(tagOrComponent, options)
+  const {shouldForwardProp: _, ...hookOptions} = options
 
   return function createStyledComponent(/* :: ...args: StyleArg<Theme>[] */): StatelessFunctionalComponent<
     StyledProps
   > {
     // eslint-disable-next-line prefer-rest-params
     const {styles, label} = parseStyles(arguments)
-    const useStyles = createUseStyles(styles, options)
+    const useStyles = createUseStyles(styles, hookOptions)
 
     const Styled = (props: StyledProps) => {
       const {as, className} = props
-      // $FlowFixMe theming ThemeContext types need to be fixed.
       const theme = React.useContext(ThemeContext)
       const propsWithTheme: StyledProps = Object.assign(({theme}: any), props)
       const classes = useStyles(propsWithTheme)

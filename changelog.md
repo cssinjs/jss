@@ -10,8 +10,10 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ### Improvements
 
-- [jss] Bump `csstype` to 3.0.2 (https://github.com/cssinjs/jss/pull/1379)
-- [react-jss] add properly react default props types calculation (https://github.com/cssinjs/jss/pull/1353)
+- [jss] Bump `csstype` to 3.0.2 [1379](https://github.com/cssinjs/jss/pull/1379)
+- [react-jss] Add properly react default props types calculation [1353](https://github.com/cssinjs/jss/pull/1353)
+- [react-jss] Upgrade Theming to 3.3.0 [1382](https://github.com/cssinjs/jss/pull/1382)
+- [*] Upgrade flowtype to 0.131.0 [1382](https://github.com/cssinjs/jss/pull/1382)
 
 ## 10.3.0 (2020-6-10)
 

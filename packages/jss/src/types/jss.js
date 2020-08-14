@@ -18,11 +18,11 @@ export type Classes = {[string]: string}
 
 export type KeyframesMap = {[string]: string}
 
-export type ToCssOptions = {
+export type ToCssOptions = {|
   indent?: number,
   allowEmpty?: boolean,
   children?: boolean
-}
+|}
 
 export type UpdateOptions = {
   process?: boolean,
@@ -111,7 +111,7 @@ export interface ContainerRule extends BaseRule {
 export type RuleOptions = {
   selector?: string,
   scoped?: boolean,
-  sheet?: StyleSheet,
+  sheet: StyleSheet,
   index?: number,
   parent?: ContainerRule | StyleSheet,
   classes: Classes,
@@ -167,7 +167,7 @@ export type InternalJssOptions = {|
   Renderer?: Class<Renderer> | null
 |}
 
-export type StyleSheetFactoryOptions = {
+export type StyleSheetFactoryOptions = {|
   media?: string,
   meta?: string,
   index?: number,
@@ -175,7 +175,7 @@ export type StyleSheetFactoryOptions = {
   element?: HTMLStyleElement,
   generateId?: GenerateId,
   classNamePrefix?: string
-}
+|}
 
 export type StyleSheetOptions = {|
   media?: string,
@@ -190,7 +190,7 @@ export type StyleSheetOptions = {|
   jss: Jss
 |}
 
-export type InternalStyleSheetOptions = {|
+export type InternalStyleSheetOptions = {
   media?: string,
   meta?: string,
   link?: boolean,
@@ -205,4 +205,4 @@ export type InternalStyleSheetOptions = {|
   parent: ConditionalRule | KeyframesRule | StyleSheet,
   classes: Classes,
   keyframes: KeyframesMap
-|}
+}

@@ -1,16 +1,16 @@
 // @flow
 import type {StyleSheet} from 'jss'
-import type {StaticStyles} from '../types'
+import type {StaticStyles, DynamicStyle} from '../types'
 
-type SheetMeta = {|
-  styles: StaticStyles,
-  dynamicStyles: StaticStyles
+type SheetMeta<Theme> = {|
+  styles: $ReadOnly<StaticStyles>,
+  dynamicStyles: $ReadOnly<{[key: string]: DynamicStyle<Theme>}>
 |}
 
-const sheetsMeta = new WeakMap<StyleSheet, SheetMeta>()
+const sheetsMeta = new WeakMap<StyleSheet, SheetMeta<any>>()
 
-export const getMeta = (sheet: StyleSheet): SheetMeta | void => sheetsMeta.get(sheet)
+export const getMeta = <Theme>(sheet: StyleSheet): SheetMeta<Theme> | void => sheetsMeta.get(sheet)
 
-export const addMeta = (sheet: StyleSheet, meta: SheetMeta) => {
+export const addMeta = <Theme>(sheet: StyleSheet, meta: SheetMeta<Theme>) => {
   sheetsMeta.set(sheet, meta)
 }
