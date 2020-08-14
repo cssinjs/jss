@@ -47,7 +47,7 @@
     "jss-preset-default": "^10.3.0",
     "prop-types": "^15.6.0",
     "shallow-equal": "^1.2.0",
-    "theming": "^3.2.1",
+    "theming": "^3.3.0",
     "tiny-warning": "^1.0.2"
   },
   "devDependencies": {

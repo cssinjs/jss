@@ -130,7 +130,6 @@ const configureStyled = <Theme: {}>(
 
     const Styled = (props: StyledProps) => {
       const {as, className} = props
-      // $FlowFixMe theming ThemeContext types need to be fixed.
       const theme = React.useContext(ThemeContext)
       const propsWithTheme: StyledProps = Object.assign(({theme}: any), props)
       const classes = useStyles(propsWithTheme)
