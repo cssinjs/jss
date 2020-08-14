@@ -7,10 +7,13 @@ Since you are interested in what happens next, in case, you work for a for-profi
 ### Bug fixes
 
 - [jss-plugin-extend] Fix can not extend rule name is array [1357](https://github.com/cssinjs/jss/pull/1357)
+- [*] Fix yarn build for windows [1376](https://github.com/cssinjs/jss/pull/1376)
 
 ### Improvements
 
 - [jss] Bump `csstype` to 3.0.2 [1379](https://github.com/cssinjs/jss/pull/1379)
+- [react-jss] TypeScript support for innerRef prop [1355](https://github.com/cssinjs/jss/pull/1355)
+- [react-jss] TypeScript fix theme types [1349](https://github.com/cssinjs/jss/pull/1349)
 - [react-jss] Add properly react default props types calculation [1353](https://github.com/cssinjs/jss/pull/1353)
 - [react-jss] Upgrade Theming to 3.3.0 [1382](https://github.com/cssinjs/jss/pull/1382)
 - [*] Upgrade flowtype to 0.131.0 [1382](https://github.com/cssinjs/jss/pull/1382)
