@@ -210,6 +210,24 @@ Compiles to:
 }
 ```
 
+## Basic at rules
+
+```javascript
+const styles = {
+  '@charset': '"utf-8"',
+  '@import': 'url(http://mysite.com/custom.css)',
+  '@namespace': 'url(http://mysite.com/xhtml)'
+}
+```
+
+Compiles to:
+
+```css
+@charset "utf-8";
+@import url(http://mysite.com/custom.css);
+@namespace url(http://mysite.com/xhtml);
+```
+
 ## Alternative syntax for space and comma separated values
 
 To describe space or comma separated CSS values in a JavaScript way, we introduced an array based syntax.
