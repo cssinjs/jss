@@ -99,7 +99,7 @@ const config = {
         use: [
           {
             loader: 'style-loader',
-            options: {attrs: {nonce: '{{ styleNonce }}'}}
+            options: {attributes: {nonce: '{{ styleNonce }}'}}
           },
           'css-loader'
         ]
@@ -109,7 +109,7 @@ const config = {
         use: [
           {
             loader: 'style-loader',
-            options: {attrs: {nonce: '{{ styleNonce }}'}}
+            options: {attributes: {nonce: '{{ styleNonce }}'}}
           },
           'css-loader',
           'sass-loader'
