@@ -48,6 +48,13 @@ export default function jssVendorPrefixer(): Plugin {
   function onChangeValue(value, prop) {
     return vendor.supportedValue(prop, toCssValue(value)) || value
   }
+  
+  function onUpdate(data, rule, sheet, options) {
+    // Prefix after value-function    
+    if (rule.style) {
+      prefixStyle(rule.style);
+    }
+  }
 
-  return {onProcessRule, onProcessStyle, onChangeValue}
+  return {onProcessRule, onProcessStyle, onChangeValue, onUpdate}
 }
