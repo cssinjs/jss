@@ -19,6 +19,7 @@ Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
 - [Install](#install)
 - [Basic](#basic)
 - [Dynamic Values](#dynamic-values)
+- [Prefix classname](#prefix-classname)
 - [Theming](#theming)
 - [Accessing the theme inside the styled component](#accessing-the-theme-inside-the-styled-component)
 - [Accessing the theme without styles](#accessing-the-theme-without-styles)
@@ -132,6 +133,66 @@ const useStyles = createUseStyles({
     fontStyle: props.fontStyle
   })
 })
+
+const Button = ({children, ...props}) => {
+  const classes = useStyles(props)
+  return (
+    <button className={classes.myButton}>
+      <span className={classes.myLabel}>{children}</span>
+    </button>
+  )
+}
+
+Button.defaultProps = {
+  spacing: 10,
+  fontWeight: 'bold',
+  labelColor: 'red'
+}
+
+const App = () => <Button fontStyle="italic">Submit</Button>
+```
+
+The above code will compile to
+
+```html
+<div id="root">
+  <button class="myButton-1-25">
+    <span class="myLabel-1-26">
+      Submit
+    </span>
+  </button>
+</div>
+```
+
+and
+
+```css
+.myButton-1-25 {
+  padding: 10px;
+}
+.myLabel-1-26 {
+  display: block;
+  color: red;
+  font-weight: bold;
+  font-style: italic;
+}
+```
+## Prefix classname
+```javascript
+import React from 'react'
+import {createUseStyles} from 'react-jss'
+
+const useStyles = createUseStyles({
+  myButton: {
+    padding: props => props.spacing
+  },
+  myLabel: props => ({
+    display: 'block',
+    color: props.labelColor,
+    fontWeight: props.fontWeight,
+    fontStyle: props.fontStyle
+  })
+}, {name: 'Button'})
 
 const Button = ({children, ...props}) => {
   const classes = useStyles(props)
