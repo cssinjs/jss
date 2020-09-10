@@ -19,6 +19,7 @@ Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
 - [Install](#install)
 - [Basic](#basic)
 - [Dynamic Values](#dynamic-values)
+- [Prefix classname](#prefix-classname)
 - [Theming](#theming)
 - [Accessing the theme inside the styled component](#accessing-the-theme-inside-the-styled-component)
 - [Accessing the theme without styles](#accessing-the-theme-without-styles)
@@ -176,7 +177,7 @@ and
   font-style: italic;
 }
 ```
-## Adding Component Prefix Option
+## Prefix classname
 ```javascript
 import React from 'react'
 import {createUseStyles} from 'react-jss'
