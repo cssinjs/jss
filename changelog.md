@@ -2,6 +2,10 @@
 
 Since you are interested in what happens next, in case, you work for a for-profit company that benefits from using the project, please consider supporting it on https://opencollective.com/jss.
 
+### Bug fixes
+
+- [jss] Restores TypeScript support for Observable styles [1402](https://github.com/cssinjs/jss/pull/1402)
+
 ---
 
 ## 10.4.0 (2020-8-14)

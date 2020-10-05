@@ -1,5 +1,12 @@
 import * as css from 'csstype'
 
+// Observable support is included as a plugin.  Including it here allows
+// TypeScript users to use Observables, which could be confusing if a user
+// hasn't installed that plugin.
+//
+// TODO: refactor to only include Observable types if plugin is installed.
+import {Observable} from 'indefinite-observable'
+
 // TODO: Type data better, currently typed as any for allowing to override it
 type Func<R> = ((data: any) => R)
 
@@ -13,11 +20,15 @@ export type JssStyle = {
     | NormalCssValues<K>
     | JssStyle
     | Func<NormalCssValues<K> | JssStyle | undefined>
+    | Observable<NormalCssValues<K> | JssStyle | undefined>
 }
 
 export type Styles<Name extends string | number | symbol = string> = Record<
   Name,
-  JssStyle | string | Func<JssStyle | string | null | undefined>
+  | JssStyle
+  | string
+  | Func<JssStyle | string | null | undefined>
+  | Observable<JssStyle | string | null | undefined>
 >
 export type Classes<Name extends string | number | symbol = string> = Record<Name, string>
 export type Keyframes<Name extends string = string> = Record<Name, string>
