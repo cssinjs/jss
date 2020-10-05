@@ -10,7 +10,7 @@ import {
 import {NextChannel} from 'indefinite-observable'
 
 const jss = createJSS().setup({createGenerateId})
-jss.use({}, {}) // $ExpectType JSS
+jss.use({}, {})
 
 const styleSheet = jss.createStyleSheet<string>(
   {
@@ -18,10 +18,6 @@ const styleSheet = jss.createStyleSheet<string>(
       subscribe: (observer: {next: NextChannel<JssStyle | string | null | undefined>}) => {
         const next = typeof observer === 'function' ? observer : observer.next
         next({background: 'blue', display: 'flex'})
-
-        // These tests are ported over from https://github.com/DefinitelyTyped/DefinitelyTyped/blob/de655960b603d6b47f7030674f084780c76e045f/types/jss/jss-tests.ts
-        // where there were $ExpectError cases; however, those don't seem to be
-        // enforced in JSS's current testing harness.
 
         return {
           unsubscribe() {}
@@ -49,11 +45,11 @@ const styleSheet = jss.createStyleSheet<string>(
 
 const attachedStyleSheet = styleSheet.attach()
 
-attachedStyleSheet.classes.container // $ExpectType string
-attachedStyleSheet.classes.ruleWithMockObservable // $ExpectType string
+attachedStyleSheet.classes.container
+attachedStyleSheet.classes.ruleWithMockObservable
 
 const rule = attachedStyleSheet.addRule('dynamicRule', {color: 'indigo'})
-attachedStyleSheet.classes.dynamicRule // $ExpectType string
+attachedStyleSheet.classes.dynamicRule
 
 attachedStyleSheet.deleteRule('dynamicRule')
 
@@ -89,7 +85,7 @@ const styleSheet2 = sharedInstance.createStyleSheet({
   }
 })
 
-styleSheet2.classes.container // $ExpectType string
+styleSheet2.classes.container
 // @ts-ignore
 styleSheet2.classes.notAValidKey
 
@@ -113,9 +109,9 @@ const secondStyleSheet = jss.createStyleSheet(
 sheetsRegistry.add(secondStyleSheet)
 sheetsRegistry.remove(secondStyleSheet)
 
-sheetsRegistry.index // $ExpectType number
-sheetsRegistry.toString() // $ExpectType string
+sheetsRegistry.index
+sheetsRegistry.toString()
 // With css options
-sheetsRegistry.toString({indent: 5}) // $ExpectType string
+sheetsRegistry.toString({indent: 5})
 
 sheetsRegistry.reset()
