@@ -1,12 +1,29 @@
 // API docs at http://cssinjs.org/js-api
 
-import {create as createJSS, createGenerateId, SheetsRegistry, default as sharedInstance} from 'jss'
+import {
+  create as createJSS,
+  createGenerateId,
+  JssStyle,
+  SheetsRegistry,
+  default as sharedInstance
+} from 'jss'
+import {NextChannel} from 'indefinite-observable'
 
 const jss = createJSS().setup({createGenerateId})
-jss.use({}, {}) // $ExpectType JSS
+jss.use({}, {})
 
 const styleSheet = jss.createStyleSheet<string>(
   {
+    ruleWithMockObservable: {
+      subscribe: (observer: {next: NextChannel<JssStyle | string | null | undefined>}) => {
+        const next = typeof observer === 'function' ? observer : observer.next
+        next({background: 'blue', display: 'flex'})
+
+        return {
+          unsubscribe() {}
+        }
+      }
+    },
     rule: {
       color: (data: {color: string}) => data.color,
 
@@ -28,10 +45,11 @@ const styleSheet = jss.createStyleSheet<string>(
 
 const attachedStyleSheet = styleSheet.attach()
 
-attachedStyleSheet.classes.container // $ExpectType string
+attachedStyleSheet.classes.container
+attachedStyleSheet.classes.ruleWithMockObservable
 
 const rule = attachedStyleSheet.addRule('dynamicRule', {color: 'indigo'})
-attachedStyleSheet.classes.dynamicRule // $ExpectType string
+attachedStyleSheet.classes.dynamicRule
 
 attachedStyleSheet.deleteRule('dynamicRule')
 
@@ -57,10 +75,17 @@ attachedStyleSheet.addRules({
 const styleSheet2 = sharedInstance.createStyleSheet({
   container: {
     background: '#000099'
+  },
+  ruleWithMockObservable: {
+    subscribe() {
+      return {
+        unsubscribe() {}
+      }
+    }
   }
 })
 
-styleSheet2.classes.container // $ExpectType string
+styleSheet2.classes.container
 // @ts-ignore
 styleSheet2.classes.notAValidKey
 
@@ -84,9 +109,9 @@ const secondStyleSheet = jss.createStyleSheet(
 sheetsRegistry.add(secondStyleSheet)
 sheetsRegistry.remove(secondStyleSheet)
 
-sheetsRegistry.index // $ExpectType number
-sheetsRegistry.toString() // $ExpectType string
+sheetsRegistry.index
+sheetsRegistry.toString()
 // With css options
-sheetsRegistry.toString({indent: 5}) // $ExpectType string
+sheetsRegistry.toString({indent: 5})
 
 sheetsRegistry.reset()

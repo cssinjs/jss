@@ -1,8 +1,15 @@
 import {Styles} from '../../src'
+import {Observable} from 'indefinite-observable'
 
 interface Props {
   flag?: boolean
 }
+
+declare const color$: Observable<'cyan'>
+declare const style$: Observable<{
+  backgroundColor: 'fuchsia'
+  transform: 'translate(0px, 205px)'
+}>
 
 const styles: Styles = {
   basic: {
@@ -50,6 +57,11 @@ const styles: Styles = {
       height: 288
     })
   }),
+  observable: style$,
+  observableRule: {
+    backgroundColor: color$,
+    color: 'lime'
+  },
   '@keyframes fadeIn': {
     from: {opacity: 0},
     to: {opacity: 1}
