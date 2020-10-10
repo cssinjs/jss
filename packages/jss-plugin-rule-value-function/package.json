@@ -17,6 +17,7 @@
     "url": "https://github.com/cssinjs/jss/issues/new?title=[jss-plugin-rule-value-function]"
   },
   "files": [
+    "!*.test.js",
     "dist",
     "src",
     "LICENSE"
