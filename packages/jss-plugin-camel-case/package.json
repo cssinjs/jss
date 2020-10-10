@@ -18,7 +18,7 @@
   },
   "files": [
     "dist",
-    "src/**/!(*.test).js",
+    "src/**/!(*.test.*)",
     "LICENSE"
   ],
   "keywords": [
