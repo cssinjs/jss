@@ -19,8 +19,7 @@
   "files": [
     "dist",
     "src",
-    "!*.test.*",
-    "LICENSE"
+    "!*.test.*"
   ],
   "keywords": [
     "cssinjs",
