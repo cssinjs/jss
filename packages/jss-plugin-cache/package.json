@@ -18,7 +18,8 @@
   },
   "files": [
     "dist",
-    "src/**/!(*.test.*)",
+    "src",
+    "!*.test.*",
     "LICENSE"
   ],
   "keywords": [
