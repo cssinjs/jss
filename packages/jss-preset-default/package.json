@@ -19,7 +19,7 @@
   "files": [
     "dist",
     "src",
-    "LICENSE"
+    "!*.test.*"
   ],
   "keywords": [
     "jss",
