@@ -1,13 +1,13 @@
 {
   "dist/jss-plugin-compose.js": {
-    "bundled": 2563,
-    "minified": 943,
-    "gzipped": 549
+    "bundled": 2454,
+    "minified": 942,
+    "gzipped": 545
   },
   "dist/jss-plugin-compose.min.js": {
-    "bundled": 2102,
-    "minified": 696,
-    "gzipped": 426
+    "bundled": 2281,
+    "minified": 814,
+    "gzipped": 479
   },
   "dist/jss-plugin-compose.cjs.js": {
     "bundled": 2131,

@@ -1,13 +1,13 @@
 {
   "dist/css-jss.js": {
-    "bundled": 59599,
-    "minified": 21252,
-    "gzipped": 7233
+    "bundled": 3429,
+    "minified": 1203,
+    "gzipped": 687
   },
   "dist/css-jss.min.js": {
-    "bundled": 58524,
-    "minified": 20657,
-    "gzipped": 6968
+    "bundled": 3429,
+    "minified": 1203,
+    "gzipped": 687
   },
   "dist/css-jss.cjs.js": {
     "bundled": 2968,
@@ -24,7 +24,7 @@
         "import_statements": 63
       },
       "webpack": {
-        "code": 1841
+        "code": 1843
       }
     }
   }
