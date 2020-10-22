@@ -99,6 +99,44 @@ describe('jss-plugin-default-unit', () => {
     })
   })
 
+  describe('0 values', () => {
+    it('should generate 0 when value is unitless', () => {
+      const sheet = jss.createStyleSheet({
+        a: {
+          zoom: 0
+        }
+      })
+      expect(sheet.toString()).to.be('.a-id {\n  zoom: 0;\n}')
+    })
+
+    it('should generate 0 instead of 0px when default unit is px', () => {
+      const sheet = jss.createStyleSheet({
+        a: {
+          width: 0
+        }
+      })
+      expect(sheet.toString()).to.be('.a-id {\n  width: 0;\n}')
+    })
+
+    it('should generate 0ms when default unit is ms', () => {
+      const sheet = jss.createStyleSheet({
+        a: {
+          'animation-duration': 0
+        }
+      })
+      expect(sheet.toString()).to.be('.a-id {\n  animation-duration: 0ms;\n}')
+    })
+
+    it('should generate 0% when default unit is %', () => {
+      const sheet = jss.createStyleSheet({
+        a: {
+          'transform-origin-x': 0
+        }
+      })
+      expect(sheet.toString()).to.be('.a-id {\n  transform-origin-x: 0%;\n}')
+    })
+  })
+
   describe('leave non-regular rules unchanged', () => {
     let sheet
 

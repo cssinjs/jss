@@ -1,6 +1,6 @@
 // @flow
 import type {Plugin} from 'jss'
-import defaultUnits from './defaultUnits'
+import defaultUnits, {px} from './defaultUnits'
 
 export type Options = {[key: string]: string | ((val: number) => string)}
 
@@ -24,7 +24,7 @@ const units = addCamelCasedVersion(defaultUnits)
  * Recursive deep style passing function
  */
 function iterate(prop: string, value: any, options: Options) {
-  if (!value) return value
+  if (value == null) return value
 
   if (Array.isArray(value)) {
     for (let i = 0; i < value.length; i++) {
@@ -43,7 +43,8 @@ function iterate(prop: string, value: any, options: Options) {
   } else if (typeof value === 'number') {
     const unit = options[prop] || units[prop]
 
-    if (unit) {
+    // Add the unit if available, except for the special case of 0px.
+    if (unit && !(value === 0 && unit === px)) {
       return typeof unit === 'function' ? unit(value).toString() : `${value}${unit}`
     }
 
