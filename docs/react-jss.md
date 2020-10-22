@@ -177,22 +177,27 @@ and
   font-style: italic;
 }
 ```
+
 ## Prefix classname
+
 ```javascript
 import React from 'react'
 import {createUseStyles} from 'react-jss'
 
-const useStyles = createUseStyles({
-  myButton: {
-    padding: props => props.spacing
+const useStyles = createUseStyles(
+  {
+    myButton: {
+      padding: props => props.spacing
+    },
+    myLabel: props => ({
+      display: 'block',
+      color: props.labelColor,
+      fontWeight: props.fontWeight,
+      fontStyle: props.fontStyle
+    })
   },
-  myLabel: props => ({
-    display: 'block',
-    color: props.labelColor,
-    fontWeight: props.fontWeight,
-    fontStyle: props.fontStyle
-  })
-}, {name: 'Button'})
+  {name: 'Button'}
+)
 
 const Button = ({children, ...props}) => {
   const classes = useStyles(props)
