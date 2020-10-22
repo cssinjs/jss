@@ -24,7 +24,7 @@ const units = addCamelCasedVersion(defaultUnits)
  * Recursive deep style passing function
  */
 function iterate(prop: string, value: any, options: Options) {
-  if (!value && value !== 0) return value
+  if (value == null) return value
 
   if (Array.isArray(value)) {
     for (let i = 0; i < value.length; i++) {
