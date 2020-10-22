@@ -5,7 +5,7 @@ Since you are interested in what happens next, in case, you work for a for-profi
 ### Bug fixes
 
 - [jss] Restores TypeScript support for Observable styles [1402](https://github.com/cssinjs/jss/pull/1402)
-- [jss-plugin-default-unit] Fix missing default unit bug for 0ms and 0% [1413](https://github.com/cssinjs/jss/pull/1413)
+- [jss-plugin-default-unit] Fix missing default unit for 0ms and 0% [1413](https://github.com/cssinjs/jss/pull/1413)
 
 ---
 
