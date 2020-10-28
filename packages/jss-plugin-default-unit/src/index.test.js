@@ -438,4 +438,24 @@ describe('jss-plugin-default-unit', () => {
       `)
     })
   })
+
+  describe('logical properties with px units', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet({
+        a: {
+          'margin-inline-start': 10
+        }
+      })
+    })
+
+    it('should add rule', () => {
+      expect(sheet.getRule('a')).to.not.be(undefined)
+    })
+
+    it('should generate correct CSS', () => {
+      expect(sheet.toString()).to.be('.a-id {\n  margin-inline-start: 10px;\n}')
+    })
+  })
 })
