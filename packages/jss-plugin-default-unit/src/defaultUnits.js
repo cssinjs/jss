@@ -122,6 +122,7 @@ export default {
   // Some random properties
   'shape-margin': px,
   size: px,
+  gap: px,
 
   // Grid properties
   grid: px,
