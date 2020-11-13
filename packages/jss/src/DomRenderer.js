@@ -260,15 +260,8 @@ const getNonce = memoize(
 const insertRule = (
   container: CSSStyleSheet | CSSMediaRule | CSSKeyframesRule,
   rule: string,
-  index?: number
+  index: number
 ): false | any => {
-  const maxIndex = container.cssRules.length
-  // In case previous insertion fails, passed index might be wrong
-  if (index === undefined || index > maxIndex) {
-    // eslint-disable-next-line no-param-reassign
-    index = maxIndex
-  }
-
   try {
     if ('insertRule' in container) {
       const c = ((container: any): CSSStyleSheet)
@@ -284,6 +277,19 @@ const insertRule = (
     return false
   }
   return container.cssRules[index]
+}
+
+const getValidRuleInsertionIndex = (
+  container: CSSStyleSheet | CSSMediaRule | CSSKeyframesRule,
+  index?: number
+): number => {
+  const maxIndex = container.cssRules.length
+  // In case previous insertion fails, passed index might be wrong
+  if (index === undefined || index > maxIndex) {
+    // eslint-disable-next-line no-param-reassign
+    return maxIndex
+  }
+  return index
 }
 
 const createStyle = (): HTMLElement => {
@@ -310,6 +316,10 @@ export default class DomRenderer {
   sheet: StyleSheet | void
 
   hasInsertedRules: boolean = false
+
+  // Will be empty if link: true option is not set, because
+  // it is only for use together with insertRule API.
+  cssRules: AnyCSSRule[] = []
 
   constructor(sheet?: StyleSheet) {
     // There is no sheet when the renderer is used from a standalone StyleRule.
@@ -386,8 +396,13 @@ export default class DomRenderer {
       const parent: ContainerRule = (rule: any)
       let latestNativeParent = nativeParent
       if (rule.type === 'conditional' || rule.type === 'keyframes') {
+        const insertionIndex = getValidRuleInsertionIndex(nativeParent, index)
         // We need to render the container without children first.
-        latestNativeParent = insertRule(nativeParent, parent.toString({children: false}), index)
+        latestNativeParent = insertRule(
+          nativeParent,
+          parent.toString({children: false}),
+          insertionIndex
+        )
         if (latestNativeParent === false) {
           return false
         }
@@ -407,13 +422,15 @@ export default class DomRenderer {
 
     if (!ruleStr) return false
 
-    const nativeRule = insertRule(nativeParent, ruleStr, index)
+    const insertionIndex = getValidRuleInsertionIndex(nativeParent, index)
+    const nativeRule = insertRule(nativeParent, ruleStr, insertionIndex)
     if (nativeRule === false) {
       return false
     }
 
     this.hasInsertedRules = true
     rule.renderable = nativeRule
+    this.cssRules[insertionIndex] = nativeRule
     return nativeRule
   }
 
@@ -425,6 +442,7 @@ export default class DomRenderer {
     const index = this.indexOf(cssRule)
     if (index === -1) return false
     sheet.deleteRule(index)
+    this.cssRules.splice(index, 1)
     return true
   }
 
@@ -432,11 +450,7 @@ export default class DomRenderer {
    * Get index of a CSS Rule.
    */
   indexOf(cssRule: AnyCSSRule): number {
-    const {cssRules} = this.element.sheet
-    for (let index = 0; index < cssRules.length; index++) {
-      if (cssRule === cssRules[index]) return index
-    }
-    return -1
+    return this.cssRules.indexOf(cssRule)
   }
 
   /**
@@ -448,6 +462,7 @@ export default class DomRenderer {
     const index = this.indexOf(cssRule)
     if (index === -1) return false
     this.element.sheet.deleteRule(index)
+    this.cssRules.splice(index, 1)
     return this.insertRule(rule, index)
   }
 

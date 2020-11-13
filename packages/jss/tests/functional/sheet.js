@@ -405,10 +405,11 @@ describe('Functional: sheet', () => {
   describe('.deleteRule()', () => {
     it('should delete a rule from the sheet and DOM', () => {
       const sheet = jss.createStyleSheet({a: {width: '1px'}}, {link: true}).attach()
-      expect(computeStyle(sheet.classes.a).width).to.be('1px')
+      const className = sheet.classes.a
+      expect(computeStyle(className).width).to.be('1px')
       expect(sheet.deleteRule('a')).to.be(true)
       expect(sheet.getRule('a')).to.be(undefined)
-      expect(computeStyle(sheet.classes.a).width).not.to.be('1px')
+      expect(computeStyle(className).width).not.to.be('1px')
       sheet.detach()
     })
   })
