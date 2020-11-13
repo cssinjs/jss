@@ -154,7 +154,14 @@ export default class StyleSheet {
   deleteRule(name: string | Rule): boolean {
     const rule = typeof name === 'object' ? name : this.rules.get(name)
 
-    if (!rule) return false
+    if (
+      !rule ||
+      // Style sheet was created without link: true and attached, in this case we
+      // won't be able to remove the CSS rule from the DOM.
+      (this.attached && !rule.renderable)
+    ) {
+      return false
+    }
 
     this.rules.remove(rule)
 
