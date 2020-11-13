@@ -95,23 +95,23 @@ export default function jssExtend(): Plugin {
 
     // Value is empty, remove properties set previously.
     if (value == null || value === false) {
-      // $FlowFixMe: Flow complains because there is no indexer property in StyleRule
+      // $FlowFixMe[prop-missing]
       for (const key in rule[valueNs]) {
         rule.prop(key, null)
       }
-      // $FlowFixMe: Flow complains because there is no indexer property in StyleRule
+      // $FlowFixMe[prop-missing] Flow complains because there is no indexer property in StyleRule
       rule[valueNs] = null
       return null
     }
 
     if (typeof value === 'object') {
-      // $FlowFixMe: This will be an object
+      // $FlowFixMe[invalid-in-rhs] This will be an object
       for (const key in value) {
-        // $FlowFixMe: This will be an object
+        // $FlowFixMe[incompatible-use] This will be an object
         rule.prop(key, value[key])
       }
 
-      // $FlowFixMe: Flow complains because there is no indexer property in StyleRule
+      // $FlowFixMe[prop-missing] Flow complains because there is no indexer property in StyleRule
       rule[valueNs] = value
     }
 

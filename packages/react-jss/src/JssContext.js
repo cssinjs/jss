@@ -1,8 +1,8 @@
 // @flow
-import React, {type Context} from 'react'
+import * as React from 'react'
 import type {Context as JssContextValue} from './types'
 
-const JssContext: Context<JssContextValue> = React.createContext({
+const JssContext: React.Context<JssContextValue> = React.createContext({
   classNamePrefix: '',
   disableStylesGeneration: false
 })

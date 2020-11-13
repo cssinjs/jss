@@ -57,6 +57,7 @@ export default function jssNested(): Plugin {
     // Options has been already created, now we only increase index.
     if (prevOptions) return {...prevOptions, index: prevOptions.index + 1}
 
+    // $FlowFixMe[prop-missing]
     let {nestingLevel} = rule.options
     nestingLevel = nestingLevel === undefined ? 1 : nestingLevel + 1
 
@@ -101,7 +102,8 @@ export default function jssNested(): Plugin {
           .addRule(prop, {}, options)
           // Flow expects more options but they aren't required
           // And flow doesn't know this will always be a StyleRule which has the addRule method
-          // $FlowFixMe
+          // $FlowFixMe[incompatible-use]
+          // $FlowFixMe[prop-missing]
           .addRule(styleRule.key, style[prop], {selector: styleRule.selector})
       }
 

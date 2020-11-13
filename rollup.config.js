@@ -59,7 +59,20 @@ const commonjsOptions = {
   // https://github.com/rollup/rollup-plugin-commonjs#custom-named-exports
   // https://github.com/reduxjs/react-redux/issues/643#issuecomment-285008041
   namedExports: {
-    react: ['Component', 'createContext']
+    react: [
+      'Component',
+      'Context',
+      'createContext',
+      'createElement',
+      'forwardRef',
+      'useLayoutEffect',
+      'useEffect',
+      'useContext',
+      'useRef',
+      'useDebug',
+      'useDebugValue',
+      'useMemo'
+    ]
   }
 }
 

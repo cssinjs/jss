@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react'
+import * as React from 'react'
 import isInBrowser from 'is-in-browser'
 import {ThemeContext as DefaultThemeContext} from 'theming'
 
@@ -12,7 +12,7 @@ import {
   removeDynamicRules
 } from './utils/sheets'
 import getSheetIndex from './utils/getSheetIndex'
-import type {HookOptions, Styles} from './types'
+import type {HookOptions, Styles, Classes} from './types'
 import {manageSheet, unmanageSheet} from './utils/managers'
 import getSheetClasses from './utils/getSheetClasses'
 
@@ -20,17 +20,16 @@ const useEffectOrLayoutEffect = isInBrowser ? React.useLayoutEffect : React.useE
 
 const noTheme = {}
 
-const createUseStyles = <Theme: {}>(
-  styles: Styles<Theme>,
-  options?: HookOptions<Theme> = ({}: any)
-) => {
+type CreateUseStyles = <Theme: {}>(Styles<Theme>, HookOptions<Theme> | void) => any => Classes
+
+const createUseStyles: CreateUseStyles = <Theme: {}>(styles, options = {}) => {
   const {index = getSheetIndex(), theming, name, ...sheetOptions} = options
   const ThemeContext = (theming && theming.context) || DefaultThemeContext
   const useTheme =
     typeof styles === 'function'
-      ? // $FlowFixMe
+      ? // $FlowFixMe[incompatible-return]
         (): Theme => React.useContext(ThemeContext) || noTheme
-      : // $FlowFixMe
+      : // $FlowFixMe[incompatible-return]
         (): Theme => noTheme
 
   return function useStyles(data: any) {
@@ -97,9 +96,8 @@ const createUseStyles = <Theme: {}>(
 
     const classes = sheet && dynamicRules ? getSheetClasses(sheet, dynamicRules) : {}
 
-    // $FlowFixMe
     React.useDebugValue(classes)
-    // $FlowFixMe
+
     React.useDebugValue(theme === noTheme ? 'No theme' : theme)
 
     React.useEffect(() => {

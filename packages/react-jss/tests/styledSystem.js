@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 
 import expect from 'expect.js'
-import React from 'react'
+import * as React from 'react'
 import TestRenderer from 'react-test-renderer'
 import {stripIndent} from 'common-tags'
 import {space, width, color, fontSize, fontWeight, lineHeight, compose} from 'styled-system'
@@ -180,8 +180,8 @@ describe('React-JSS: styled-system', () => {
     expect(className).to.be('css-0 css-d0-1')
     expect(classes).to.be(undefined)
   })
-  // $FlowIgnore
+  // $FlowFixMe[prop-missing]
   it.skip('should handle the propTypes/meta for validation from function rules', () => {})
-  // $FlowIgnore
+  // $FlowFixMe[prop-missing]
   it.skip('should do compose() automatically', () => {})
 })

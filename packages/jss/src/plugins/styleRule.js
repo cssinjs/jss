@@ -16,7 +16,7 @@ import type {
 } from '../types'
 
 export class BaseStyleRule implements BaseRule {
-  type = 'style'
+  type: string = 'style'
 
   key: string
 

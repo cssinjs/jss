@@ -15,6 +15,8 @@
  */
 let index = Number.MIN_SAFE_INTEGER || -1e9
 
-const getSheetIndex = () => index++
+type GetSheetIndex = () => number
+
+const getSheetIndex: GetSheetIndex = () => index++
 
 export default getSheetIndex

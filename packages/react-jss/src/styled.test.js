@@ -1,7 +1,7 @@
 // @flow
 /* eslint-disable react/prop-types */
 import expect from 'expect.js'
-import React, {type StatelessFunctionalComponent} from 'react'
+import * as React from 'react'
 import TestRenderer from 'react-test-renderer'
 import {stripIndent} from 'common-tags'
 import {styled, SheetsRegistry, JssProvider, ThemeProvider} from '.'
@@ -244,7 +244,7 @@ describe('React-JSS: styled', () => {
   })
 
   it('should not use "as" prop for tag name when component was passed', () => {
-    const Comp: StatelessFunctionalComponent<Props> = () => <div />
+    const Comp: React.StatelessFunctionalComponent<Props> = () => <div />
     const Div = styled(Comp)({color: 'red'})
     const {css, tree} = renderToJSON(
       <Div as="button">
@@ -281,7 +281,7 @@ describe('React-JSS: styled', () => {
   })
 
   it('should pass className to a user component', () => {
-    const BaseDiv: StatelessFunctionalComponent<Props> = ({className}: Props) => (
+    const BaseDiv: React.StatelessFunctionalComponent<Props> = ({className}: Props) => (
       <div className={className} />
     )
     const Div = styled(BaseDiv)({width: 10})
@@ -300,11 +300,11 @@ describe('React-JSS: styled', () => {
     })
   })
 
-  // $FlowIgnore
+  // $FlowFixMe[prop-missing]
   it.skip('should target another styled component (not sure if we really need this)', () => {
     const Span = styled('span')({color: 'red'})
     const Div = styled('div')({
-      // $FlowFixMe
+      // $FlowFixMe[invalid-computed-prop]
       [Span]: {
         color: 'green'
       }
@@ -341,7 +341,7 @@ describe('React-JSS: styled', () => {
     `)
   })
 
-  // $FlowIgnore
+  // $FlowFixMe[prop-missing]
   it.skip('should override theme over props', () => {})
 
   it('should render label', () => {

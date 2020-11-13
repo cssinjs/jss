@@ -10,7 +10,7 @@ import type {
 } from '../types'
 
 export class SimpleRule implements BaseRule {
-  type = 'simple'
+  type: string = 'simple'
 
   key: string
 

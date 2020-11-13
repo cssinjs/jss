@@ -23,7 +23,7 @@ const nameRegExp = /@keyframes\s+([\w-]+)/
  * Rule for @keyframes
  */
 export class KeyframesRule implements ContainerRule {
-  type = 'keyframes'
+  type: string = 'keyframes'
 
   at: string = '@keyframes'
 

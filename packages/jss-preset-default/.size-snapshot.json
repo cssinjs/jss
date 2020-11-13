@@ -1,22 +1,22 @@
 {
   "dist/jss-preset-default.js": {
-    "bundled": 57937,
+    "bundled": 58204,
     "minified": 21284,
-    "gzipped": 7027
+    "gzipped": 7031
   },
   "dist/jss-preset-default.min.js": {
-    "bundled": 56862,
+    "bundled": 57129,
     "minified": 20689,
-    "gzipped": 6757
+    "gzipped": 6759
   },
   "dist/jss-preset-default.cjs.js": {
-    "bundled": 1329,
-    "minified": 1116,
-    "gzipped": 389
+    "bundled": 1335,
+    "minified": 1118,
+    "gzipped": 388
   },
   "dist/jss-preset-default.esm.js": {
-    "bundled": 891,
-    "minified": 783,
+    "bundled": 897,
+    "minified": 785,
     "gzipped": 311,
     "treeshaked": {
       "rollup": {

@@ -1,4 +1,4 @@
-import React, {Component, useRef} from 'react'
+import * as React from 'react'
 
 import WithStyles from '.'
 
@@ -6,7 +6,7 @@ interface Props {
   testProp: string
 }
 
-class TestComponent extends Component<Props> {
+class TestComponent extends React.Component<Props> {
   static defaultProps: Props = {
     testProp: 'hello'
   }
@@ -27,7 +27,7 @@ cc.render()
 const TestComponentWitStyles = WithStyles({})(TestComponent)
 
 function testRender() {
-  const ref = useRef<TestComponent>()
+  const ref = React.useRef<TestComponent>()
 
   function refFunction(instance: TestComponent) {
     instance.setState({message: 'From ref'})

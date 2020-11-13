@@ -51,7 +51,7 @@ class GlobalContainerRule implements ContainerRule {
    */
   addRule(name, style, options) {
     const rule = this.rules.add(name, style, options)
-    this.options.jss.plugins.onProcessRule(rule)
+    if (rule) this.options.jss.plugins.onProcessRule(rule)
     return rule
   }
 
@@ -110,14 +110,14 @@ function addScope(selector, scope) {
   return scoped
 }
 
-function handleNestedGlobalContainerRule(rule) {
+function handleNestedGlobalContainerRule(rule, sheet) {
   const {options, style} = rule
   const rules = style ? style[at] : null
 
   if (!rules) return
 
   for (const name in rules) {
-    options.sheet.addRule(name, rules[name], {
+    sheet.addRule(name, rules[name], {
       ...options,
       selector: addScope(name, rule.selector)
     })
@@ -126,13 +126,13 @@ function handleNestedGlobalContainerRule(rule) {
   delete style[at]
 }
 
-function handlePrefixedGlobalRule(rule) {
+function handlePrefixedGlobalRule(rule, sheet) {
   const {options, style} = rule
   for (const prop in style) {
     if (prop[0] !== '@' || prop.substr(0, at.length) !== at) continue
 
     const selector = addScope(prop.substr(at.length), rule.selector)
-    options.sheet.addRule(selector, style[prop], {
+    sheet.addRule(selector, style[prop], {
       ...options,
       selector
     })
@@ -176,11 +176,11 @@ export default function jssGlobal(): Plugin {
     return null
   }
 
-  function onProcessRule(rule) {
-    if (rule.type !== 'style') return
+  function onProcessRule(rule, sheet) {
+    if (rule.type !== 'style' || !sheet) return
 
-    handleNestedGlobalContainerRule(((rule: any): StyleRule))
-    handlePrefixedGlobalRule(((rule: any): StyleRule))
+    handleNestedGlobalContainerRule(((rule: any): StyleRule), sheet)
+    handlePrefixedGlobalRule(((rule: any): StyleRule), sheet)
   }
 
   return {onCreateRule, onProcessRule}

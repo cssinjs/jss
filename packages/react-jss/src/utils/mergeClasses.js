@@ -1,7 +1,9 @@
 // @flow
 import type {Classes} from 'jss'
 
-function mergeClasses(baseClasses: Classes, additionalClasses: Classes) {
+type MergeClasses = (Classes, Classes) => Classes
+
+const mergeClasses: MergeClasses = (baseClasses, additionalClasses) => {
   const combinedClasses = {...baseClasses}
 
   for (const name in additionalClasses) {
