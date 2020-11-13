@@ -1,20 +1,20 @@
 {
-  "dist/jss-plugin-compose.js": {
-    "bundled": 2563,
-    "minified": 943,
-    "gzipped": 549
+  "jss-plugin-compose.js": {
+    "bundled": 2612,
+    "minified": 988,
+    "gzipped": 561
   },
-  "dist/jss-plugin-compose.min.js": {
-    "bundled": 2102,
-    "minified": 696,
-    "gzipped": 426
+  "jss-plugin-compose.min.js": {
+    "bundled": 2151,
+    "minified": 743,
+    "gzipped": 439
   },
-  "dist/jss-plugin-compose.cjs.js": {
-    "bundled": 2131,
-    "minified": 936,
-    "gzipped": 510
+  "jss-plugin-compose.cjs.js": {
+    "bundled": 2223,
+    "minified": 1013,
+    "gzipped": 528
   },
-  "dist/jss-plugin-compose.esm.js": {
+  "jss-plugin-compose.esm.js": {
     "bundled": 1913,
     "minified": 764,
     "gzipped": 426,

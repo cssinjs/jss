@@ -1,20 +1,20 @@
 {
-  "dist/jss-plugin-vendor-prefixer.js": {
-    "bundled": 19117,
-    "minified": 6424,
-    "gzipped": 2523
+  "jss-plugin-vendor-prefixer.js": {
+    "bundled": 19166,
+    "minified": 6308,
+    "gzipped": 2505
   },
-  "dist/jss-plugin-vendor-prefixer.min.js": {
-    "bundled": 19117,
-    "minified": 6424,
-    "gzipped": 2523
+  "jss-plugin-vendor-prefixer.min.js": {
+    "bundled": 19166,
+    "minified": 6308,
+    "gzipped": 2505
   },
-  "dist/jss-plugin-vendor-prefixer.cjs.js": {
+  "jss-plugin-vendor-prefixer.cjs.js": {
     "bundled": 1574,
     "minified": 703,
     "gzipped": 406
   },
-  "dist/jss-plugin-vendor-prefixer.esm.js": {
+  "jss-plugin-vendor-prefixer.esm.js": {
     "bundled": 1520,
     "minified": 650,
     "gzipped": 366,

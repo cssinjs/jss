@@ -1,20 +1,20 @@
 {
-  "dist/jss-plugin-global.js": {
-    "bundled": 5107,
-    "minified": 2229,
-    "gzipped": 926
+  "jss-plugin-global.js": {
+    "bundled": 5156,
+    "minified": 2287,
+    "gzipped": 943
   },
-  "dist/jss-plugin-global.min.js": {
-    "bundled": 5107,
-    "minified": 2229,
-    "gzipped": 926
+  "jss-plugin-global.min.js": {
+    "bundled": 5156,
+    "minified": 2287,
+    "gzipped": 943
   },
-  "dist/jss-plugin-global.cjs.js": {
-    "bundled": 4279,
-    "minified": 2300,
-    "gzipped": 894
+  "jss-plugin-global.cjs.js": {
+    "bundled": 4413,
+    "minified": 2413,
+    "gzipped": 915
   },
-  "dist/jss-plugin-global.esm.js": {
+  "jss-plugin-global.esm.js": {
     "bundled": 4067,
     "minified": 2139,
     "gzipped": 811,
