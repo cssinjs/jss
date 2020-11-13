@@ -13,6 +13,7 @@ Since you are interested in what happens next, in case, you work for a for-profi
 - [*] Remove test files from the package [1406](https://github.com/cssinjs/jss/pull/1406)
 - [jss-plugin-default-unit] aAdd gap unit [1403](https://github.com/cssinjs/jss/pull/1403)
 - [jss-plugin-default-unit] Add default units to logical properties [1415](https://github.com/cssinjs/jss/pull/1415)
+- [jss] Improve deleteRule() performance [1424](https://github.com/cssinjs/jss/pull/1424)
 
 ---
 
