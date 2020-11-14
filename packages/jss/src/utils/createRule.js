@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import warning from 'tiny-warning'
 import type {Rule, RuleOptions, JssStyle} from '../types'
 import cloneStyle from './cloneStyle'

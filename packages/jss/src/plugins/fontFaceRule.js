@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import toCss from '../utils/toCss'
 import type {CSSFontFaceRule, RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
 

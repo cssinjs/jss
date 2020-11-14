@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import type {
   CSSCharsetRule,
   CSSImportRule,

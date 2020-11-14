@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 /**
  * A better abstraction over CSS.
  *

@@ -39,7 +39,7 @@
   },
   "pre-commit": "pre-commit",
   "engines": {
-    "node": ">=8",
+    "node": ">=10",
     "yarn": ">=1.13"
   },
   "devDependencies": {

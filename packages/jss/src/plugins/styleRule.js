@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import warning from 'tiny-warning'
 import toCss from '../utils/toCss'
 import toCssValue from '../utils/toCssValue'

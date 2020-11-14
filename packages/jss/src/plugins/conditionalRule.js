@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import RuleList from '../RuleList'
 import type {CSSMediaRule, Rule, RuleOptions, ToCssOptions, JssStyle, ContainerRule} from '../types'
 

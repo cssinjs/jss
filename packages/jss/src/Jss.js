@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import isInBrowser from 'is-in-browser'
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'

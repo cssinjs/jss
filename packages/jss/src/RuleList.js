@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import createRule from './utils/createRule'
 import {StyleRule, KeyframesRule} from './plugins/index'
 import type {

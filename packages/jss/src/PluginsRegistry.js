@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import warning from 'tiny-warning'
 import type StyleSheet from './StyleSheet'
 import type {

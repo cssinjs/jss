@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import type {ToCssOptions} from './types'
 import type StyleSheet from './StyleSheet'
 

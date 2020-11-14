@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import type Jss from '../Jss'
 import type StyleSheet from '../StyleSheet'
 import type {ConditionalRule} from '../plugins/conditionalRule'
