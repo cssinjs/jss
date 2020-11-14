@@ -2,6 +2,7 @@
 import warning from 'tiny-warning'
 import {
   createRule,
+  RuleList,
   type Rule,
   type JssStyle,
   type RuleOptions,
@@ -22,7 +23,19 @@ export default function functionPlugin() {
     onCreateRule(name?: string, decl: JssStyle, options: RuleOptions): Rule | null {
       if (typeof decl !== 'function') return null
       const rule: StyleRuleWithRuleFunction = (createRule(name, {}, options): any)
-      rule[fnRuleNs] = decl
+      if (rule.type == 'global')
+        rule.updateFun = data => {
+          // compute styles
+          let styles = decl(data)
+          // Build a new RuleList that replaces the former one
+          rule.rules = new RuleList({
+            ...rule.options,
+            parent: rule
+          })
+          for (const selector in styles) rule.rules.add(selector, styles[selector])
+          rule.rules.process()
+        }
+      else rule[fnRuleNs] = decl
       return rule
     },
 

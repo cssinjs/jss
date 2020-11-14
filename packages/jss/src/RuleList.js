@@ -200,8 +200,13 @@ export default class RuleList {
       sheet
     } = this.options
 
+    // updateFun is a workaround to use together
+    // jss-plugin-rule-value-function and jss-plugin-global
+    const hasUpdateFun = typeof rule.updateFun == 'function'
+
     // It is a rules container like for e.g. ConditionalRule.
-    if (rule.rules instanceof RuleList) {
+    // Ignore if there is an updateFun
+    if (!hasUpdateFun && rule.rules instanceof RuleList) {
       rule.rules.update(data, options)
       return
     }
@@ -209,7 +214,8 @@ export default class RuleList {
     const styleRule: StyleRule = (rule: any)
     const {style} = styleRule
 
-    plugins.onUpdate(data, rule, sheet, options)
+    if (hasUpdateFun) rule.updateFun(data)
+    else plugins.onUpdate(data, rule, sheet, options)
 
     // We rely on a new `style` ref in case it was mutated during onUpdate hook.
     if (options.process && style && style !== styleRule.style) {
