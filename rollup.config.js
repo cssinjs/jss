@@ -1,9 +1,9 @@
 import fs from 'fs'
 import path from 'path'
-import nodeResolve from 'rollup-plugin-node-resolve'
-import commonjs from 'rollup-plugin-commonjs'
-import babel from 'rollup-plugin-babel'
-import replace from 'rollup-plugin-replace'
+import {nodeResolve} from '@rollup/plugin-node-resolve'
+import {babel} from '@rollup/plugin-babel'
+import commonjs from '@rollup/plugin-commonjs'
+import replace from '@rollup/plugin-replace'
 import {terser} from 'rollup-plugin-terser'
 import {sizeSnapshot} from 'rollup-plugin-size-snapshot'
 import camelCase from 'camelcase'
@@ -31,13 +31,13 @@ Object.keys(pkg.peerDependencies || {}).forEach(key => {
   }
 })
 
-const external = id =>
-  !id.startsWith('.') && !id.startsWith(process.platform === 'win32' ? process.cwd() : '/')
+const external = id => !id.startsWith('.') && !path.isAbsolute(id)
 
 const getBabelOptions = ({useESModules}) => ({
+  babelHelpers: 'runtime',
   exclude: /node_modules/,
   babelrc: false,
-  runtimeHelpers: true,
+  configFile: false,
   presets: [['@babel/env', {loose: true}], '@babel/flow', '@babel/react'],
   plugins: [
     ['@babel/proposal-class-properties', {loose: true}],
@@ -54,26 +54,7 @@ const commonjsOptions = {
     /\/node_modules\/react-display-name\//,
     /\/node_modules\/hoist-non-react-statics\//
   ],
-  ignoreGlobal: true,
-  // The CommonJS plugin can't resolve the exports in `react` automatically.
-  // https://github.com/rollup/rollup-plugin-commonjs#custom-named-exports
-  // https://github.com/reduxjs/react-redux/issues/643#issuecomment-285008041
-  namedExports: {
-    react: [
-      'Component',
-      'Context',
-      'createContext',
-      'createElement',
-      'forwardRef',
-      'useLayoutEffect',
-      'useEffect',
-      'useContext',
-      'useRef',
-      'useDebug',
-      'useDebugValue',
-      'useMemo'
-    ]
-  }
+  ignoreGlobal: true
 }
 
 const snapshotOptions = {

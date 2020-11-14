@@ -1,20 +1,20 @@
 {
-  "dist/jss-preset-default.js": {
-    "bundled": 58204,
-    "minified": 21284,
-    "gzipped": 7031
+  "jss-preset-default.js": {
+    "bundled": 58253,
+    "minified": 21106,
+    "gzipped": 7012
   },
-  "dist/jss-preset-default.min.js": {
-    "bundled": 57129,
-    "minified": 20689,
-    "gzipped": 6759
+  "jss-preset-default.min.js": {
+    "bundled": 57178,
+    "minified": 20483,
+    "gzipped": 6732
   },
-  "dist/jss-preset-default.cjs.js": {
-    "bundled": 1335,
-    "minified": 1118,
-    "gzipped": 388
+  "jss-preset-default.cjs.js": {
+    "bundled": 2222,
+    "minified": 1740,
+    "gzipped": 480
   },
-  "dist/jss-preset-default.esm.js": {
+  "jss-preset-default.esm.js": {
     "bundled": 897,
     "minified": 785,
     "gzipped": 311,
