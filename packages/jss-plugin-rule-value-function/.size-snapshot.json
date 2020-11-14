@@ -1,30 +1,30 @@
 {
   "jss-plugin-rule-value-function.js": {
-    "bundled": 2958,
-    "minified": 1046,
-    "gzipped": 579
+    "bundled": 3816,
+    "minified": 1409,
+    "gzipped": 750
   },
   "jss-plugin-rule-value-function.min.js": {
-    "bundled": 2379,
-    "minified": 795,
-    "gzipped": 455
+    "bundled": 3237,
+    "minified": 1158,
+    "gzipped": 631
   },
   "jss-plugin-rule-value-function.cjs.js": {
-    "bundled": 2526,
-    "minified": 1058,
-    "gzipped": 551
+    "bundled": 3100,
+    "minified": 1341,
+    "gzipped": 674
   },
   "jss-plugin-rule-value-function.esm.js": {
-    "bundled": 2240,
-    "minified": 835,
-    "gzipped": 452,
+    "bundled": 2731,
+    "minified": 1062,
+    "gzipped": 569,
     "treeshaked": {
       "rollup": {
-        "code": 33,
-        "import_statements": 33
+        "code": 76,
+        "import_statements": 76
       },
       "webpack": {
-        "code": 1071
+        "code": 1147
       }
     }
   }
