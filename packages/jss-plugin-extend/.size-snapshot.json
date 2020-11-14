@@ -1,20 +1,20 @@
 {
-  "dist/jss-plugin-extend.js": {
-    "bundled": 4730,
-    "minified": 1684,
-    "gzipped": 816
+  "jss-plugin-extend.js": {
+    "bundled": 4779,
+    "minified": 1728,
+    "gzipped": 832
   },
-  "dist/jss-plugin-extend.min.js": {
-    "bundled": 4356,
-    "minified": 1499,
-    "gzipped": 706
+  "jss-plugin-extend.min.js": {
+    "bundled": 4405,
+    "minified": 1544,
+    "gzipped": 724
   },
-  "dist/jss-plugin-extend.cjs.js": {
-    "bundled": 3813,
-    "minified": 1589,
-    "gzipped": 716
+  "jss-plugin-extend.cjs.js": {
+    "bundled": 3958,
+    "minified": 1699,
+    "gzipped": 745
   },
-  "dist/jss-plugin-extend.esm.js": {
+  "jss-plugin-extend.esm.js": {
     "bundled": 3579,
     "minified": 1410,
     "gzipped": 654,

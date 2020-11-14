@@ -1,20 +1,20 @@
 {
-  "dist/jss-plugin-isolate.js": {
-    "bundled": 14446,
-    "minified": 9421,
-    "gzipped": 2682
+  "jss-plugin-isolate.js": {
+    "bundled": 14495,
+    "minified": 9453,
+    "gzipped": 2697
   },
-  "dist/jss-plugin-isolate.min.js": {
-    "bundled": 14446,
-    "minified": 9421,
-    "gzipped": 2682
+  "jss-plugin-isolate.min.js": {
+    "bundled": 14495,
+    "minified": 9453,
+    "gzipped": 2697
   },
-  "dist/jss-plugin-isolate.cjs.js": {
-    "bundled": 3927,
-    "minified": 1621,
-    "gzipped": 755
+  "jss-plugin-isolate.cjs.js": {
+    "bundled": 4231,
+    "minified": 1858,
+    "gzipped": 795
   },
-  "dist/jss-plugin-isolate.esm.js": {
+  "jss-plugin-isolate.esm.js": {
     "bundled": 3673,
     "minified": 1427,
     "gzipped": 687,

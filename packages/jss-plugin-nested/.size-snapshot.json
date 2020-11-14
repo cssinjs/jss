@@ -1,20 +1,20 @@
 {
-  "dist/jss-plugin-nested.js": {
-    "bundled": 4661,
-    "minified": 1578,
-    "gzipped": 869
+  "jss-plugin-nested.js": {
+    "bundled": 4710,
+    "minified": 1622,
+    "gzipped": 885
   },
-  "dist/jss-plugin-nested.min.js": {
-    "bundled": 4221,
-    "minified": 1362,
-    "gzipped": 737
+  "jss-plugin-nested.min.js": {
+    "bundled": 4270,
+    "minified": 1406,
+    "gzipped": 757
   },
-  "dist/jss-plugin-nested.cjs.js": {
-    "bundled": 3784,
-    "minified": 1438,
-    "gzipped": 777
+  "jss-plugin-nested.cjs.js": {
+    "bundled": 3969,
+    "minified": 1582,
+    "gzipped": 811
   },
-  "dist/jss-plugin-nested.esm.js": {
+  "jss-plugin-nested.esm.js": {
     "bundled": 3550,
     "minified": 1259,
     "gzipped": 696,

@@ -1,20 +1,20 @@
 {
-  "dist/jss-plugin-props-sort.js": {
-    "bundled": 1021,
-    "minified": 504,
-    "gzipped": 320
+  "jss-plugin-props-sort.js": {
+    "bundled": 1070,
+    "minified": 548,
+    "gzipped": 337
   },
-  "dist/jss-plugin-props-sort.min.js": {
-    "bundled": 1021,
-    "minified": 504,
-    "gzipped": 320
+  "jss-plugin-props-sort.min.js": {
+    "bundled": 1070,
+    "minified": 548,
+    "gzipped": 337
   },
-  "dist/jss-plugin-props-sort.cjs.js": {
+  "jss-plugin-props-sort.cjs.js": {
     "bundled": 674,
     "minified": 345,
     "gzipped": 243
   },
-  "dist/jss-plugin-props-sort.esm.js": {
+  "jss-plugin-props-sort.esm.js": {
     "bundled": 592,
     "minified": 276,
     "gzipped": 202,

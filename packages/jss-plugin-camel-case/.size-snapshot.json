@@ -1,20 +1,20 @@
 {
-  "dist/jss-plugin-camel-case.js": {
-    "bundled": 2391,
-    "minified": 858,
-    "gzipped": 488
+  "jss-plugin-camel-case.js": {
+    "bundled": 2440,
+    "minified": 902,
+    "gzipped": 504
   },
-  "dist/jss-plugin-camel-case.min.js": {
-    "bundled": 2391,
-    "minified": 858,
-    "gzipped": 488
+  "jss-plugin-camel-case.min.js": {
+    "bundled": 2440,
+    "minified": 902,
+    "gzipped": 504
   },
-  "dist/jss-plugin-camel-case.cjs.js": {
-    "bundled": 1709,
-    "minified": 737,
-    "gzipped": 398
+  "jss-plugin-camel-case.cjs.js": {
+    "bundled": 1805,
+    "minified": 818,
+    "gzipped": 420
   },
-  "dist/jss-plugin-camel-case.esm.js": {
+  "jss-plugin-camel-case.esm.js": {
     "bundled": 1491,
     "minified": 565,
     "gzipped": 309,
