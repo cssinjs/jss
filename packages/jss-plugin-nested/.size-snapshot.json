@@ -1,21 +1,21 @@
 {
   "jss-plugin-nested.js": {
-    "bundled": 4710,
+    "bundled": 4525,
     "minified": 1622,
     "gzipped": 885
   },
   "jss-plugin-nested.min.js": {
-    "bundled": 4270,
+    "bundled": 4085,
     "minified": 1406,
     "gzipped": 757
   },
   "jss-plugin-nested.cjs.js": {
-    "bundled": 3969,
+    "bundled": 3790,
     "minified": 1582,
     "gzipped": 811
   },
   "jss-plugin-nested.esm.js": {
-    "bundled": 3550,
+    "bundled": 3371,
     "minified": 1259,
     "gzipped": 696,
     "treeshaked": {

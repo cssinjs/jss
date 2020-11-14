@@ -28,8 +28,7 @@ const createUseStyles = <Theme: {}>(
   const ThemeContext = (theming && theming.context) || DefaultThemeContext
   const useTheme =
     typeof styles === 'function'
-      ? // $FlowFixMe
-        (): Theme => React.useContext(ThemeContext) || noTheme
+      ? (): Theme => React.useContext(ThemeContext) || noTheme
       : // $FlowFixMe
         (): Theme => noTheme
 

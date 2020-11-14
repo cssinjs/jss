@@ -1,21 +1,21 @@
 {
   "jss-plugin-rule-value-function.js": {
-    "bundled": 2973,
+    "bundled": 2958,
     "minified": 1046,
     "gzipped": 579
   },
   "jss-plugin-rule-value-function.min.js": {
-    "bundled": 2394,
+    "bundled": 2379,
     "minified": 795,
     "gzipped": 455
   },
   "jss-plugin-rule-value-function.cjs.js": {
-    "bundled": 2541,
+    "bundled": 2526,
     "minified": 1058,
     "gzipped": 551
   },
   "jss-plugin-rule-value-function.esm.js": {
-    "bundled": 2255,
+    "bundled": 2240,
     "minified": 835,
     "gzipped": 452,
     "treeshaked": {

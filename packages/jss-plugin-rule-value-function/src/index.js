@@ -40,7 +40,6 @@ export default function functionPlugin() {
         delete style[prop]
         fnValues[prop] = value
       }
-      // $FlowFixMe
       rule[fnValuesNs] = fnValues
       return style
     },

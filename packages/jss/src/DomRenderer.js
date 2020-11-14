@@ -1,5 +1,6 @@
 /* @flow */
 import warning from 'tiny-warning'
+import StyleSheet from './StyleSheet'
 import sheets from './sheets'
 import toCssValue from './utils/toCssValue'
 import type {
@@ -13,8 +14,7 @@ import type {
   RuleList,
   ContainerRule,
   JssValue,
-  InsertionPoint,
-  StyleSheet
+  InsertionPoint
 } from './types'
 
 type PriorityOptions = {
@@ -359,6 +359,10 @@ export default class DomRenderer {
   detach(): void {
     const {parentNode} = this.element
     if (parentNode) parentNode.removeChild(this.element)
+    // In the most browsers, rules inserted using insertRule() API will be lost when style element is removed.
+    this.cssRules = []
+    // Though IE will keep them and we need a consistent behavior.
+    this.element.textContent = ''
   }
 
   /**
@@ -406,16 +410,10 @@ export default class DomRenderer {
         if (latestNativeParent === false) {
           return false
         }
+        this.refCssRule(rule, insertionIndex, latestNativeParent)
       }
       this.insertRules(parent.rules, latestNativeParent)
       return latestNativeParent
-    }
-
-    // IE keeps the CSSStyleSheet after style node has been reattached,
-    // so we need to check if the `renderable` reference the right style sheet and not
-    // rerender those rules.
-    if (rule.renderable && rule.renderable.parentStyleSheet === this.element.sheet) {
-      return rule.renderable
     }
 
     const ruleStr = rule.toString()
@@ -429,9 +427,18 @@ export default class DomRenderer {
     }
 
     this.hasInsertedRules = true
-    rule.renderable = nativeRule
-    this.cssRules[insertionIndex] = nativeRule
+    this.refCssRule(rule, insertionIndex, nativeRule)
+
     return nativeRule
+  }
+
+  refCssRule(rule: Rule, index: number, cssRule: any) {
+    rule.renderable = cssRule
+    // We only want to reference the top level rules, deleteRule API doesn't support removing nested rules
+    // like rules inside media queries or keyframes
+    if (rule.options.parent instanceof StyleSheet) {
+      this.cssRules[index] = cssRule
+    }
   }
 
   /**

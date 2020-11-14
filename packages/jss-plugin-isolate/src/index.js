@@ -47,7 +47,6 @@ const shouldIsolate = (rule: StyleRule, sheet, options) => {
   }
 
   let isolate = options.isolate == null ? true : options.isolate
-  // $FlowFixMe: isolate is only added as an option by this plugin which means we can't type it in jss
   if (sheet.options.isolate != null) isolate = sheet.options.isolate
   if (rule.style.isolate != null) {
     isolate = rule.style.isolate
