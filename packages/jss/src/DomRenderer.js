@@ -357,12 +357,15 @@ export default class DomRenderer {
    * Remove style element from render tree.
    */
   detach(): void {
+    if (!this.sheet) return
     const {parentNode} = this.element
     if (parentNode) parentNode.removeChild(this.element)
     // In the most browsers, rules inserted using insertRule() API will be lost when style element is removed.
-    this.cssRules = []
     // Though IE will keep them and we need a consistent behavior.
-    this.element.textContent = ''
+    if (this.sheet.options.link) {
+      this.cssRules = []
+      this.element.textContent = '\n'
+    }
   }
 
   /**
