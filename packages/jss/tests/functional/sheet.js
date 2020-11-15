@@ -403,12 +403,34 @@ describe('Functional: sheet', () => {
   })
 
   describe('.deleteRule()', () => {
-    it('should delete a rule from the sheet and DOM', () => {
+    it('should delete a style rule from the sheet and DOM', () => {
       const sheet = jss.createStyleSheet({a: {width: '1px'}}, {link: true}).attach()
       const className = sheet.classes.a
       expect(computeStyle(className).width).to.be('1px')
       expect(sheet.deleteRule('a')).to.be(true)
       expect(sheet.getRule('a')).to.be(undefined)
+      expect(computeStyle(className).width).not.to.be('1px')
+      sheet.detach()
+    })
+
+    it('should delete a media rule from the sheet and DOM', () => {
+      const sheet = jss
+        .createStyleSheet(
+          {
+            a: {
+              color: 'red'
+            },
+            '@media all': {
+              a: {width: '1px'}
+            }
+          },
+          {link: true}
+        )
+        .attach()
+      const className = sheet.classes.a
+      expect(computeStyle(className).width).to.be('1px')
+      expect(sheet.deleteRule('@media all')).to.be(true)
+      expect(sheet.getRule('@media all')).to.be(undefined)
       expect(computeStyle(className).width).not.to.be('1px')
       sheet.detach()
     })
