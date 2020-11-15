@@ -16,7 +16,7 @@
     "test": "karma start --single-run",
     "test:watch": "karma start",
     "test:bench": "cross-env BENCHMARK=true karma start --single-run",
-    "pre-commit": "yarn format:ci && lint-staged && yarn check:all",
+    "pre-commit": "lint-staged && yarn check:all",
     "---Release Scripts---": "",
     "version": "yarn build && yarn test && node ./scripts/update-changelog && node ./scripts/add-git-files",
     "prerelease": "yarn check:all && yarn format:ci",
