@@ -15,13 +15,17 @@ type NormalCssValues<K> = K extends keyof NormalCssProperties
   ? NormalCssProperties[K] | JssValue
   : JssValue
 
-export type JssStyle = {
-  [K in keyof NormalCssProperties | string]:
-    | NormalCssValues<K>
-    | JssStyle
-    | Func<NormalCssValues<K> | JssStyle | undefined>
-    | Observable<NormalCssValues<K> | JssStyle | undefined>
-}
+export type JssStyle =
+  | {
+      [K in keyof NormalCssProperties]:
+        | NormalCssValues<K>
+        | JssStyle
+        | Func<NormalCssValues<K> | JssStyle | undefined>
+        | Observable<NormalCssValues<K> | JssStyle | undefined>
+    }
+  | {
+      [K: string]: JssStyle | Func<JssStyle> | Observable<JssStyle | undefined>
+    }
 
 export type Styles<Name extends string | number | symbol = string> = Record<
   Name,
