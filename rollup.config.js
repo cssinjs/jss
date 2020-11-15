@@ -64,7 +64,7 @@ const snapshotOptions = {
 }
 
 const createFlowBundlePlugin = {
-  transformBundle(code, outputOptions) {
+  renderChunk(code, chunk, outputOptions) {
     const file = path.join(rootPath, `${outputOptions.file}.flow`)
     const content = "// @flow\n\nexport * from '../src';"
     fs.writeFileSync(file, content)

@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import toCssValue from './toCssValue'
 import type {ToCssOptions, JssStyle} from '../types'
 

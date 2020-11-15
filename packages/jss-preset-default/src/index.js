@@ -11,13 +11,16 @@ import defaultUnit, {type Options as DefaultUnitOptions} from 'jss-plugin-defaul
 import expand from 'jss-plugin-expand'
 import vendorPrefixer from 'jss-plugin-vendor-prefixer'
 import propsSort from 'jss-plugin-props-sort'
+import type {JssOptions} from 'jss'
 
-type Options = {
-  defaultUnit?: DefaultUnitOptions,
-  observable?: ObservableOptions
-}
+type Create = (
+  {|
+    defaultUnit?: DefaultUnitOptions,
+    observable?: ObservableOptions
+  |} | void
+) => JssOptions
 
-export default (options: Options = {}) => ({
+const create: Create = (options = {}) => ({
   plugins: [
     functions(),
     observable(options.observable),
@@ -33,3 +36,5 @@ export default (options: Options = {}) => ({
     propsSort()
   ]
 })
+
+export default create

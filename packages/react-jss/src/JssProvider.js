@@ -1,7 +1,7 @@
 // @flow
 /* eslint-disable react/require-default-props, react/no-unused-prop-types */
 
-import React, {Component, type Node} from 'react'
+import * as React from 'react'
 import PropTypes from 'prop-types'
 import {shallowEqualObjects} from 'shallow-equal'
 import defaultJss, {
@@ -22,12 +22,12 @@ type Props = {|
   disableStylesGeneration?: boolean,
   media?: string,
   id?: CreateGenerateIdOptions,
-  children: Node
+  children: React.Node
 |}
 
 const initialContext: Object = {}
 
-export default class JssProvider extends Component<Props> {
+class JssProvider extends React.Component<Props> {
   static propTypes = {
     registry: PropTypes.instanceOf(SheetsRegistry),
     jss: PropTypes.instanceOf(defaultJss.constructor),
@@ -41,7 +41,10 @@ export default class JssProvider extends Component<Props> {
 
   managers: Managers = {}
 
-  createContext = (parentContext: Context, prevContext?: Context = initialContext) => {
+  createContext: (Context, Context | void) => Context = (
+    parentContext,
+    prevContext = initialContext
+  ) => {
     const {
       registry,
       classNamePrefix,
@@ -107,14 +110,16 @@ export default class JssProvider extends Component<Props> {
 
   registry: ?SheetsRegistry
 
-  renderProvider = (parentContext: Context) => {
+  renderProvider: Context => React.Node = parentContext => {
     const {children} = this.props
     const context: Context = this.createContext(parentContext, this.prevContext)
     this.prevContext = context
     return <JssContext.Provider value={context}>{children}</JssContext.Provider>
   }
 
-  render() {
+  render(): React.Node {
     return <JssContext.Consumer>{this.renderProvider}</JssContext.Consumer>
   }
 }
+
+export default (JssProvider: typeof JssProvider)

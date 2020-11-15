@@ -56,7 +56,7 @@ export type DynamicRules = {
 }
 
 export type StaticStyle = {}
-export type DynamicStyle<Theme> = ({theme: Theme}) => StaticStyle
+export type DynamicStyle<Theme> = (theme: Theme) => StaticStyle
 
 export type StaticStyles = {[key: string]: StaticStyle}
 

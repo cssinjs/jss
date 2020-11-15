@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import SheetsRegistry from './SheetsRegistry'
 
 /**
@@ -7,4 +7,5 @@ import SheetsRegistry from './SheetsRegistry'
  * sheets to it, because you need to make sure to create a new registry for
  * each request in order to not leak sheets across requests.
  */
-export default new SheetsRegistry()
+const registry: SheetsRegistry = new SheetsRegistry()
+export default registry

@@ -1,5 +1,5 @@
 // @flow
-import React, {Component, type ComponentType, type Node} from 'react'
+import * as React from 'react'
 import hoistNonReactStatics from 'hoist-non-react-statics'
 import {type StyleSheet, type Classes} from 'jss'
 import {ThemeContext} from 'theming'
@@ -25,31 +25,34 @@ interface State {
   classes: {};
 }
 
-const NoRenderer = (props: {children?: Node}) => props.children || null
+const NoRenderer = (props: {children?: React.Node}) => props.children || null
 
 const noTheme = {}
+
+type CreateWithStyles = <Theme>(
+  Styles<Theme>,
+  HOCOptions<Theme> | void
+) => <Props: InnerProps>(React.ComponentType<Props>) => React.ComponentType<Props>
 
 /**
  * HOC creator function that wrapps the user component.
  *
  * `withStyles(styles, [options])(Component)`
  */
-const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = ({}: any)) => {
+const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
   const {index = getSheetIndex(), theming, injectTheme, ...sheetOptions} = options
   const isThemingEnabled = typeof styles === 'function'
   const ThemeConsumer = (theming && theming.context.Consumer) || ThemeContext.Consumer
 
-  return <Props: InnerProps>(
-    InnerComponent: ComponentType<Props> = NoRenderer
-  ): ComponentType<Props> => {
+  return <Props: InnerProps>(InnerComponent = NoRenderer) => {
     const displayName = getDisplayName(InnerComponent)
 
     const getTheme = (props): Theme => (isThemingEnabled ? props.theme : ((noTheme: any): Theme))
 
-    class WithStyles extends Component<HOCProps<Theme, Props>, State> {
+    class WithStyles extends React.Component<HOCProps<Theme, Props>, State> {
       static displayName = `WithStyles(${displayName})`
 
-      // $FlowFixMe
+      // $FlowFixMe[prop-missing]
       static defaultProps = {...InnerComponent.defaultProps}
 
       static createState(props) {
@@ -179,11 +182,11 @@ const withStyles = <Theme>(styles: Styles<Theme>, options?: HOCOptions<Theme> = 
     ))
 
     JssContextSubscriber.displayName = `JssContextSubscriber(${displayName})`
-    // $FlowFixMe - React's types should allow custom static properties on component.
+    // $FlowFixMe[prop-missing] - React's types should allow custom static properties on component.
     JssContextSubscriber.InnerComponent = InnerComponent
 
     return hoistNonReactStatics(JssContextSubscriber, InnerComponent)
   }
 }
 
-export default withStyles
+export default createWithStyles

@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import RuleList from '../RuleList'
 import type {CSSMediaRule, Rule, RuleOptions, ToCssOptions, JssStyle, ContainerRule} from '../types'
 
@@ -13,7 +13,7 @@ const atRegExp = /@([\w-]+)/
  * Conditional rule for @media, @supports
  */
 export class ConditionalRule implements ContainerRule {
-  type = 'conditional'
+  type: string = 'conditional'
 
   at: string
 
@@ -31,10 +31,10 @@ export class ConditionalRule implements ContainerRule {
 
   constructor(key: string, styles: Object, options: RuleOptions) {
     this.key = key
-    // Key might contain a unique suffix in case the `name` passed by user was duplicate.
-    this.query = options.name
     const atMatch = key.match(atRegExp)
     this.at = atMatch ? atMatch[1] : 'unknown'
+    // Key might contain a unique suffix in case the `name` passed by user was duplicate.
+    this.query = options.name || `@${this.at}`
     this.options = options
     this.rules = new RuleList({...options, parent: this})
 

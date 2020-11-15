@@ -1,3 +1,4 @@
+// @flow
 import pluginStyleRule, {StyleRule} from './styleRule'
 import pluginConditionalRule, {ConditionalRule} from './conditionalRule'
 import pluginKeyframesRule, {KeyframesRule} from './keyframesRule'

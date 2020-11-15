@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import warning from 'tiny-warning'
 import toCss from '../utils/toCss'
 import toCssValue from '../utils/toCssValue'
@@ -16,7 +16,7 @@ import type {
 } from '../types'
 
 export class BaseStyleRule implements BaseRule {
-  type = 'style'
+  type: string = 'style'
 
   key: string
 

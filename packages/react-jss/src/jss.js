@@ -1,5 +1,6 @@
 // @flow
-import {create} from 'jss'
+import {create, type Jss} from 'jss'
 import preset from 'jss-preset-default'
 
-export default create(preset())
+const jss: Jss = create(preset())
+export default jss

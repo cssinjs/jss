@@ -16,7 +16,10 @@ type Options<Theme> = {
   sheetOptions: $Diff<StyleSheetFactoryOptions, {index: number | void}>
 }
 
-const getStyles = <Theme>(options: Options<Theme>) => {
+type GetStyles = <Theme>(Options<Theme>) => Styles<Theme>
+
+// eslint-disable-next-line no-unused-vars
+const getStyles: GetStyles = <Theme>(options) => {
   const {styles} = options
   if (typeof styles !== 'function') {
     return styles
@@ -56,7 +59,10 @@ function getSheetOptions<Theme>(options: Options<Theme>, link: boolean) {
   }
 }
 
-export const createStyleSheet = <Theme>(options: Options<Theme>) => {
+type CreateStyleSheet = <Theme>(Options<Theme>) => StyleSheet | void
+
+// eslint-disable-next-line no-unused-vars
+export const createStyleSheet: CreateStyleSheet = <Theme>(options) => {
   if (options.context.disableStylesGeneration) {
     return undefined
   }
@@ -99,7 +105,7 @@ export const updateDynamicRules = (data: any, sheet: StyleSheet, rules: DynamicR
   }
 }
 
-export const addDynamicRules = (sheet: StyleSheet, data: any): ?DynamicRules => {
+export const addDynamicRules = (sheet: StyleSheet, data: any): DynamicRules | void => {
   const meta = getMeta(sheet)
 
   if (!meta) {

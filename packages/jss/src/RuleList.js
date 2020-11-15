@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import createRule from './utils/createRule'
 import {StyleRule, KeyframesRule} from './plugins/index'
 import type {
@@ -171,13 +171,13 @@ export default class RuleList {
 
     if (typeof args[0] === 'string') {
       name = args[0]
-      // $FlowFixMe
+      // $FlowFixMe[invalid-tuple-index]
       data = args[1]
-      // $FlowFixMe
+      // $FlowFixMe[invalid-tuple-index]
       options = args[2]
     } else {
       data = args[0]
-      // $FlowFixMe
+      // $FlowFixMe[invalid-tuple-index]
       options = args[1]
       name = null
     }

@@ -2,9 +2,9 @@
 
 import {hasCSSTOMSupport} from 'jss'
 
-export const px = hasCSSTOMSupport && CSS ? CSS.px : 'px'
-export const ms = hasCSSTOMSupport && CSS ? CSS.ms : 'ms'
-export const percent = hasCSSTOMSupport && CSS ? CSS.percent : '%'
+export const px: string | Function = hasCSSTOMSupport && CSS ? CSS.px : 'px'
+export const ms: string | Function = hasCSSTOMSupport && CSS ? CSS.ms : 'ms'
+export const percent: string | Function = hasCSSTOMSupport && CSS ? CSS.percent : '%'
 
 /**
  * Generated jss-plugin-default-unit CSS property units

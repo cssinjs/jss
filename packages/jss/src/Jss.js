@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import isInBrowser from 'is-in-browser'
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
@@ -22,11 +22,11 @@ import type {GenerateId} from './utils/createGenerateId'
 let instanceCounter = 0
 
 export default class Jss {
-  id = instanceCounter++
+  id: number = instanceCounter++
 
-  version = process.env.VERSION
+  version: string | void = process.env.VERSION
 
-  plugins = new PluginsRegistry()
+  plugins: PluginsRegistry = new PluginsRegistry()
 
   options: InternalJssOptions = {
     id: {minify: false},
@@ -113,11 +113,11 @@ export default class Jss {
   createRule(name: string, style?: JssStyle = {}, options?: RuleFactoryOptions = {}): Rule | null {
     // Enable rule without name for inline styles.
     if (typeof name === 'object') {
-      // $FlowIgnore
+      // $FlowFixMe[incompatible-call]
       return this.createRule(undefined, name, style)
     }
 
-    // $FlowIgnore
+    // $FlowFixMe[incompatible-type]
     const ruleOptions: RuleOptions = {...options, name, jss: this, Renderer: this.options.Renderer}
 
     if (!ruleOptions.generateId) ruleOptions.generateId = this.generateId

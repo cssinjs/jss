@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import warn from 'tiny-warning'
 import type StyleSheet from './StyleSheet'
 
@@ -7,15 +7,15 @@ import type StyleSheet from './StyleSheet'
  * instances and attach/detach automatically.
  */
 export default class SheetsManager {
-  length = 0
+  length: number = 0
 
-  sheets = new WeakMap<
+  sheets: WeakMap<
     Object,
     {
       refs: number,
       sheet: StyleSheet
     }
-  >()
+  > = new WeakMap()
 
   get size(): number {
     return this.length

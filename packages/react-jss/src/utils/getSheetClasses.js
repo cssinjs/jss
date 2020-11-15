@@ -1,10 +1,12 @@
 // @flow
 
 import type {StyleSheet} from 'jss'
-import type {DynamicRules} from '../types'
+import type {DynamicRules, Classes} from '../types'
 import {getMeta} from './sheetsMeta'
 
-const getSheetClasses = (sheet: StyleSheet, dynamicRules: ?DynamicRules) => {
+type GetSheetClasses = (StyleSheet, DynamicRules | void) => Classes
+
+const getSheetClasses: GetSheetClasses = (sheet, dynamicRules) => {
   if (!dynamicRules) {
     return sheet.classes
   }

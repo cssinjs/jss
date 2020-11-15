@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import warning from 'tiny-warning'
 import type StyleSheet from './StyleSheet'
 import type {
@@ -15,7 +15,7 @@ import type {
   OnChangeValue,
   OnUpdate
 } from './types'
-import type {StyleRule} from './plugins/styleRule'
+import type {StyleRule, BaseStyleRule} from './plugins/styleRule'
 
 type Registry = {
   onCreateRule: Array<OnCreateRule>,
@@ -40,7 +40,7 @@ export default class PluginsRegistry {
   /**
    * Call `onCreateRule` hooks and return an object if returned by a hook.
    */
-  onCreateRule(name?: string, decl: JssStyle, options: RuleOptions): Rule | null {
+  onCreateRule(name: string, decl: JssStyle, options: RuleOptions): Rule | null {
     for (let i = 0; i < this.registry.onCreateRule.length; i++) {
       const rule = this.registry.onCreateRule[i](name, decl, options)
       if (rule) return rule
@@ -69,7 +69,7 @@ export default class PluginsRegistry {
    */
   onProcessStyle(style: JssStyle, rule: Rule, sheet?: StyleSheet): void {
     for (let i = 0; i < this.registry.onProcessStyle.length; i++) {
-      // $FlowFixMe
+      // $FlowFixMe[prop-missing]
       rule.style = this.registry.onProcessStyle[i](rule.style, rule, sheet)
     }
   }
@@ -86,7 +86,7 @@ export default class PluginsRegistry {
   /**
    * Call `onUpdate` hooks.
    */
-  onUpdate(data: Object, rule: Rule, sheet: StyleSheet, options: UpdateOptions): void {
+  onUpdate(data: Object, rule: Rule, sheet?: StyleSheet, options: UpdateOptions): void {
     for (let i = 0; i < this.registry.onUpdate.length; i++) {
       this.registry.onUpdate[i](data, rule, sheet, options)
     }
@@ -95,7 +95,7 @@ export default class PluginsRegistry {
   /**
    * Call `onChangeValue` hooks.
    */
-  onChangeValue(value: JssValue, prop: string, rule: StyleRule): JssValue {
+  onChangeValue(value: JssValue, prop: string, rule: StyleRule | BaseStyleRule): JssValue {
     let processedValue = value
     for (let i = 0; i < this.registry.onChangeValue.length; i++) {
       processedValue = this.registry.onChangeValue[i](processedValue, prop, rule)

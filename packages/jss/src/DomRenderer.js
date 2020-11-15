@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import warning from 'tiny-warning'
 import StyleSheet from './StyleSheet'
 import sheets from './sheets'
@@ -33,13 +33,12 @@ const memoize = <Value>(fn: () => Value): (() => Value) => {
   }
 }
 
+type GetPropertyValue = (HTMLElementWithStyleMap | CSSStyleRule | CSSKeyframeRule, string) => string
+
 /**
  * Get a style property value.
  */
-function getPropertyValue(
-  cssRule: HTMLElementWithStyleMap | CSSStyleRule | CSSKeyframeRule,
-  prop: string
-): string {
+const getPropertyValue = (cssRule, prop) => {
   try {
     // Support CSSTOM.
     if (cssRule.attributeStyleMap) {
@@ -52,14 +51,16 @@ function getPropertyValue(
   }
 }
 
+type SetProperty = (
+  HTMLElementWithStyleMap | CSSStyleRule | CSSKeyframeRule,
+  string,
+  JssValue
+) => boolean
+
 /**
  * Set a style property.
  */
-function setProperty(
-  cssRule: HTMLElementWithStyleMap | CSSStyleRule | CSSKeyframeRule,
-  prop: string,
-  value: JssValue
-): boolean {
+const setProperty: SetProperty = (cssRule, prop, value) => {
   try {
     let cssValue = ((value: any): string)
 
@@ -85,13 +86,12 @@ function setProperty(
   return true
 }
 
+type RemoveProperty = (HTMLElementWithStyleMap | CSSStyleRule | CSSKeyframeRule, string) => void
+
 /**
  * Remove a style property.
  */
-function removeProperty(
-  cssRule: HTMLElementWithStyleMap | CSSStyleRule | CSSKeyframeRule,
-  prop: string
-) {
+const removeProperty: RemoveProperty = (cssRule, prop) => {
   try {
     // Support CSSTOM.
     if (cssRule.attributeStyleMap) {
@@ -107,10 +107,12 @@ function removeProperty(
   }
 }
 
+type SetSelector = (CSSStyleRule, string) => boolean
+
 /**
  * Set the selector.
  */
-function setSelector(cssRule: CSSStyleRule, selectorText: string): boolean {
+const setSelector: SetSelector = (cssRule, selectorText) => {
   cssRule.selectorText = selectorText
 
   // Return false if setter was not successful.
@@ -302,13 +304,13 @@ const createStyle = (): HTMLElement => {
 }
 
 export default class DomRenderer {
-  getPropertyValue = getPropertyValue
+  getPropertyValue: GetPropertyValue = getPropertyValue
 
-  setProperty = setProperty
+  setProperty: SetProperty = setProperty
 
-  removeProperty = removeProperty
+  removeProperty: RemoveProperty = removeProperty
 
-  setSelector = setSelector
+  setSelector: SetSelector = setSelector
 
   // HTMLStyleElement needs fixing https://github.com/facebook/flow/issues/2696
   element: any

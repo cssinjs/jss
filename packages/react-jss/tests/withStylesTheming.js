@@ -1,7 +1,7 @@
 /* eslint-disable global-require, react/prop-types */
 
 import expect from 'expect.js'
-import React from 'react'
+import * as React from 'react'
 import TestRenderer from 'react-test-renderer'
 
 import injectSheet, {createTheming, ThemeProvider, JssProvider, SheetsRegistry} from '../src'

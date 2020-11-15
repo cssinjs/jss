@@ -1,9 +1,9 @@
-/* @flow */
+// @flow
 import type Jss from '../Jss'
 import type StyleSheet from '../StyleSheet'
 import type {ConditionalRule} from '../plugins/conditionalRule'
 import type {KeyframesRule} from '../plugins/keyframesRule'
-import type {StyleRule} from '../plugins/styleRule'
+import type {StyleRule, BaseStyleRule} from '../plugins/styleRule'
 import type {ViewportRule} from '../plugins/viewportRule'
 import type {SimpleRule} from '../plugins/simpleRule'
 import type {FontFaceRule} from '../plugins/fontFaceRule'
@@ -111,7 +111,7 @@ export interface ContainerRule extends BaseRule {
 export type RuleOptions = {
   selector?: string,
   scoped?: boolean,
-  sheet: StyleSheet,
+  sheet?: StyleSheet,
   index?: number,
   parent?: ContainerRule | StyleSheet,
   classes: Classes,
@@ -119,7 +119,7 @@ export type RuleOptions = {
   jss: Jss,
   generateId: GenerateId,
   Renderer?: Class<Renderer> | null,
-  name: string
+  name?: string
 }
 
 export type RuleListOptions = {
@@ -129,16 +129,25 @@ export type RuleListOptions = {
   generateId: GenerateId,
   Renderer?: Class<Renderer> | null,
   jss: Jss,
-  sheet: StyleSheet,
+  sheet?: StyleSheet,
   parent: ContainerRule | StyleSheet
 }
 
-export type OnCreateRule = (name?: string, decl: JssStyle, options: RuleOptions) => BaseRule | null
+export type OnCreateRule = (name: string, decl: JssStyle, options: RuleOptions) => BaseRule | null
 export type OnProcessRule = (rule: Rule, sheet?: StyleSheet) => void
 export type OnProcessStyle = (style: JssStyle, rule: Rule, sheet?: StyleSheet) => JssStyle
 export type OnProcessSheet = (sheet?: StyleSheet) => void
-export type OnChangeValue = (value: JssValue, prop: string, rule: StyleRule) => JssValue
-export type OnUpdate = (data: Object, rule: Rule, sheet: StyleSheet, options: UpdateOptions) => void
+export type OnChangeValue = (
+  value: JssValue,
+  prop: string,
+  rule: StyleRule | BaseStyleRule
+) => JssValue
+export type OnUpdate = (
+  data: Object,
+  rule: Rule,
+  sheet?: StyleSheet,
+  options: UpdateOptions
+) => void
 
 export type Plugin = {|
   onCreateRule?: OnCreateRule,
@@ -206,3 +215,5 @@ export type InternalStyleSheetOptions = {
   classes: Classes,
   keyframes: KeyframesMap
 }
+
+export type FixMeAny = any

@@ -1,6 +1,6 @@
 // @flow
 import expect from 'expect.js'
-import React, {type StatelessFunctionalComponent} from 'react'
+import * as React from 'react'
 import TestRenderer from 'react-test-renderer'
 import {stripIndent} from 'common-tags'
 import {styled, JssProvider, SheetsRegistry} from '.'
@@ -44,7 +44,7 @@ describe('React-JSS: styled props filter', () => {
   })
 
   it('should enable custom shouldForwardProp', () => {
-    const Svg: StatelessFunctionalComponent<Props> = props => (
+    const Svg: React.StatelessFunctionalComponent<Props> = props => (
       <svg {...props}>
         <rect x="10" y="10" height="100" width="100" style={{stroke: '#ff0000'}} />
       </svg>
@@ -150,7 +150,7 @@ describe('React-JSS: styled props filter', () => {
 
   it('should not filter on non string tags', () => {
     // eslint-disable-next-line jsx-a11y/anchor-has-content
-    const Comp: StatelessFunctionalComponent<Props> = props => <a {...props} />
+    const Comp: React.StatelessFunctionalComponent<Props> = props => <a {...props} />
     const Link = styled(Comp)({color: 'green'})
 
     const {css, tree} = renderToJSON(
@@ -182,7 +182,7 @@ describe('React-JSS: styled props filter', () => {
     })
   })
 
-  // $FlowIgnore
+  // $FlowFixMe[prop-missing]
   it.skip('no prop filtering on string tags started with upper case', () => {
     const Link = styled('SomeCustomLink')({color: 'green'})
 

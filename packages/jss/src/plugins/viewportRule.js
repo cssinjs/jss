@@ -1,9 +1,9 @@
-/* @flow */
+// @flow
 import toCss from '../utils/toCss'
 import type {CSSViewportRule, RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
 
 export class ViewportRule implements BaseRule {
-  type = 'viewport'
+  type: string = 'viewport'
 
   at: string = '@viewport'
 

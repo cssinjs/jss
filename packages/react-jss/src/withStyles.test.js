@@ -1,7 +1,7 @@
 /* eslint-disable  react/prop-types */
 
 import expect from 'expect.js'
-import React from 'react'
+import * as React from 'react'
 import {spy} from 'sinon'
 import TestRenderer from 'react-test-renderer'
 

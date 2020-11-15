@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import toCss from '../utils/toCss'
 import type {JssStyle, RuleOptions, ToCssOptions, CSSKeyframeRule} from '../types'
 import {BaseStyleRule} from './styleRule'

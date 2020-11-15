@@ -1,7 +1,7 @@
 /* eslint-disable global-require, react/prop-types, react/no-find-dom-node, react/no-multi-comp, react/prefer-stateless-function */
 
 import expect from 'expect.js'
-import React from 'react'
+import * as React from 'react'
 import TestRenderer from 'react-test-renderer'
 import {stripIndent} from 'common-tags'
 

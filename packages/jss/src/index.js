@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 /**
  * A better abstraction over CSS.
  *
@@ -53,7 +53,7 @@ export type {
  * Export a constant indicating if this browser has CSSTOM support.
  * https://developers.google.com/web/updates/2018/03/cssom
  */
-export const hasCSSTOMSupport = typeof CSS !== 'undefined' && CSS && 'number' in CSS
+export const hasCSSTOMSupport: boolean = typeof CSS === 'object' && CSS != null && 'number' in CSS
 
 /**
  * Extracts a styles object with only rules that contain function values.
@@ -103,4 +103,5 @@ export const create = (options?: JssOptions): Jss => new Jss(options)
 /**
  * A global Jss instance.
  */
-export default create()
+const jss: Jss = create()
+export default jss

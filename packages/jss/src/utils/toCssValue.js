@@ -1,4 +1,6 @@
-/* @flow */
+// @flow
+
+import type {FixMeAny} from '../types'
 
 const join = (value, by) => {
   let result = ''
@@ -11,6 +13,8 @@ const join = (value, by) => {
   return result
 }
 
+type ToCssValue = (FixMeAny, boolean | void) => string
+
 /**
  * Converts array values to string.
  *
@@ -19,7 +23,7 @@ const join = (value, by) => {
  * `margin: [['5px', '10px'], '!important']` > `margin: 5px 10px !important;`
  * `color: ['red', !important]` > `color: red !important;`
  */
-export default function toCssValue(value: any, ignoreImportant: boolean = false) {
+const toCssValue: ToCssValue = (value, ignoreImportant = false) => {
   if (!Array.isArray(value)) return value
 
   let cssValue = ''
@@ -40,3 +44,5 @@ export default function toCssValue(value: any, ignoreImportant: boolean = false)
 
   return cssValue
 }
+
+export default toCssValue
