@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import $$observable from 'symbol-observable'
 import {
   createRule,
