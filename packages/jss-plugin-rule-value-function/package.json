@@ -1,7 +1,7 @@
 {
   "name": "jss-plugin-rule-value-function",
   "description": "JSS plugin for function value and rule syntax",
-  "version": "10.4.0",
+  "version": "10.5.0",
   "license": "MIT",
   "homepage": "https://cssinjs.org/",
   "main": "dist/jss-plugin-rule-value-function.cjs.js",
@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.3.1",
-    "jss": "10.4.0",
+    "jss": "10.5.0",
     "tiny-warning": "^1.0.2"
   }
 }

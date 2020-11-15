@@ -4,6 +4,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+## 10.5.0 (2020-11-15)
+
 ### Bug fixes
 
 - [jss] Restore TypeScript support for Observable styles [1402](https://github.com/cssinjs/jss/pull/1402)

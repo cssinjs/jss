@@ -1,7 +1,7 @@
 {
   "name": "jss-plugin-rule-value-observable",
   "description": "JSS plugin for TC39 Observables support",
-  "version": "10.4.0",
+  "version": "10.5.0",
   "license": "MIT",
   "homepage": "https://cssinjs.org/",
   "main": "dist/jss-plugin-rule-value-observable.cjs.js",
@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.3.1",
-    "jss": "10.4.0",
+    "jss": "10.5.0",
     "symbol-observable": "^1.2.0"
   }
 }
