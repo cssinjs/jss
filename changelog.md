@@ -11,6 +11,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 - [*] Improved docs [1384](https://github.com/cssinjs/jss/pull/1384), [1387](https://github.com/cssinjs/jss/pull/1387), [1391](https://github.com/cssinjs/jss/pull/1391),
 - [*] Remove test files from the package [1406](https://github.com/cssinjs/jss/pull/1406)
+- [*] Upgrade rollup [1426](https://github.com/cssinjs/jss/pull/1426)
+- [*] Upgrade flow to 0.138.0 [1425](https://github.com/cssinjs/jss/pull/1425)
 - [jss-plugin-default-unit] aAdd gap unit [1403](https://github.com/cssinjs/jss/pull/1403)
 - [jss-plugin-default-unit] Add default units to logical properties [1415](https://github.com/cssinjs/jss/pull/1415)
 - [jss] Improve deleteRule() performance [1424](https://github.com/cssinjs/jss/pull/1424)
