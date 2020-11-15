@@ -2,22 +2,22 @@
 
 Since you are interested in what happens next, in case, you work for a for-profit company that benefits from using the project, please consider supporting it on https://opencollective.com/jss.
 
+---
+
 ### Bug fixes
 
-- [jss] Restores TypeScript support for Observable styles [1402](https://github.com/cssinjs/jss/pull/1402)
+- [jss] Restore TypeScript support for Observable styles [1402](https://github.com/cssinjs/jss/pull/1402)
 - [jss-plugin-default-unit] Fix missing default unit for 0ms and 0% [1413](https://github.com/cssinjs/jss/pull/1413)
 
 ### Improvements
 
-- [*] Improved docs [1384](https://github.com/cssinjs/jss/pull/1384), [1387](https://github.com/cssinjs/jss/pull/1387), [1391](https://github.com/cssinjs/jss/pull/1391),
+- [*] Improve docs [1384](https://github.com/cssinjs/jss/pull/1384), [1387](https://github.com/cssinjs/jss/pull/1387), [1391](https://github.com/cssinjs/jss/pull/1391),
 - [*] Remove test files from the package [1406](https://github.com/cssinjs/jss/pull/1406)
 - [*] Upgrade rollup [1426](https://github.com/cssinjs/jss/pull/1426)
 - [*] Upgrade flow to 0.138.0 [1425](https://github.com/cssinjs/jss/pull/1425)
 - [jss-plugin-default-unit] aAdd gap unit [1403](https://github.com/cssinjs/jss/pull/1403)
 - [jss-plugin-default-unit] Add default units to logical properties [1415](https://github.com/cssinjs/jss/pull/1415)
 - [jss] Improve deleteRule() performance [1424](https://github.com/cssinjs/jss/pull/1424)
-
----
 
 ## 10.4.0 (2020-8-14)
 
