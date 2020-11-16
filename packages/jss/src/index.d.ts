@@ -24,7 +24,11 @@ export type JssStyle =
         | Observable<NormalCssValues<K> | JssStyle | undefined>
     }
   | {
-      [K: string]: JssStyle | Func<JssStyle> | Observable<JssStyle | undefined>
+      [K: string]:
+        | JssValue
+        | JssStyle
+        | Func<JssValue | JssStyle | undefined>
+        | Observable<JssValue | JssStyle | undefined>
     }
 
 export type Styles<Name extends string | number | symbol = string> = Record<
