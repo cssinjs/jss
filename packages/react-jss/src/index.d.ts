@@ -37,8 +37,12 @@ declare const JssContext: Context<{
   disableStylesGeneration: boolean
 }>
 
+type ClassesForStyles<S extends Styles | ((theme: any) => Styles)> = Classes<
+  S extends (theme: any) => Styles ? keyof ReturnType<S> : keyof S
+>
+
 interface WithStylesProps<S extends Styles | ((theme: any) => Styles)> {
-  classes: Classes<S extends (theme: any) => Styles ? keyof ReturnType<S> : keyof S>
+  classes: ClassesForStyles<S>
 }
 /**
  * @deprecated Please use `WithStylesProps` instead
@@ -79,8 +83,10 @@ declare function withStyles<
 ) => ComponentType<
   JSX.LibraryManagedAttributes<
     C,
-    Omit<GetProps<C>, 'classes'> &
-      Partial<WithStylesProps<S>> & {innerRef?: RefObject<any> | ((instance: any) => void)}
+    Omit<GetProps<C>, 'classes'> & {
+      classes?: Partial<ClassesForStyles<S>>
+      innerRef?: RefObject<any> | ((instance: any) => void)
+    }
   >
 >
 
