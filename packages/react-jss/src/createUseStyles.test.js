@@ -4,8 +4,8 @@ import expect from 'expect.js'
 import React from 'react'
 import TestRenderer from 'react-test-renderer'
 import {stripIndent} from 'common-tags'
-
 import {SheetsRegistry, JssProvider, ThemeProvider, createUseStyles} from '.'
+import createBasicTests from '../test-utils/createBasicTests'
 
 const createGenerateId = () => {
   let counter = 0
@@ -17,7 +17,18 @@ const theme: Object = {
   background2: 'red'
 }
 
+const createStyledComponent = (styles, options) => {
+  const useStyles = createUseStyles(styles, options)
+  const Comp = props => {
+    useStyles(props)
+    return null
+  }
+  return Comp
+}
+
 describe('React-JSS: createUseStyles', () => {
+  createBasicTests({createStyledComponent})
+  
   it('should render multiple elements with applied media query', () => {
     const registry = new SheetsRegistry()
     const useStyles = createUseStyles(themeObj => ({
