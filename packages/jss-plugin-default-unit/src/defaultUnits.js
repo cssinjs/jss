@@ -162,6 +162,7 @@ export default {
   // Grid properties
   grid: px,
   'grid-gap': px,
+  'row-gap': px,
   'grid-row-gap': px,
   'grid-column-gap': px,
   'grid-template-rows': px,
