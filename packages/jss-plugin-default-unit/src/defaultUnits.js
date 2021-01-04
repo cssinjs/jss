@@ -121,6 +121,7 @@ export default {
   'font-size': px,
   'font-size-delta': px,
   'letter-spacing': px,
+  'text-decoration-thickness': px,
   'text-indent': px,
   'text-stroke': px,
   'text-stroke-width': px,
