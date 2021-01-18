@@ -1,5 +1,7 @@
 /* eslint-disable global-require, react/prop-types, react/no-find-dom-node, react/no-multi-comp, react/prefer-stateless-function */
-
+/**
+ * This tests are testing a common behavior for dynamic styles between HOC and hooks interfaces.
+ */
 import expect from 'expect.js'
 import * as React from 'react'
 import TestRenderer from 'react-test-renderer'
