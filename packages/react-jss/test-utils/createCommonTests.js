@@ -1,4 +1,8 @@
 /* eslint-disable global-require, react/prop-types, no-underscore-dangle */
+/**
+ * This tests are testing a common behavior between HOC and hooks interfaces.
+ */
+
 import expect from 'expect.js'
 import * as React from 'react'
 import {spy} from 'sinon'

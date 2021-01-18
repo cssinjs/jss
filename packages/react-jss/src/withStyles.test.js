@@ -6,7 +6,7 @@ import {spy} from 'sinon'
 import TestRenderer from 'react-test-renderer'
 
 import {withStyles, JssProvider} from '.'
-import createBasicTests from '../test-utils/createBasicTests'
+import createCommonTests from '../test-utils/createCommonTests'
 
 const createGenerateId = () => {
   let counter = 0
@@ -20,7 +20,7 @@ const createStyledComponent = (styles, options = {}) => {
 }
 
 describe('React-JSS: withStyles', () => {
-  createBasicTests({createStyledComponent})
+  createCommonTests({createStyledComponent})
 
   describe('should merge the classes', () => {
     const styles = {
