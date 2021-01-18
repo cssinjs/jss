@@ -5,7 +5,7 @@ import * as React from 'react'
 import TestRenderer from 'react-test-renderer'
 import {stripIndent} from 'common-tags'
 
-import {JssProvider, SheetsRegistry} from '../src'
+import {JssProvider, SheetsRegistry, ThemeProvider} from '../src'
 
 const createGenerateId = () => {
   let counter = 0
@@ -561,6 +561,60 @@ export default ({createStyledComponent}) => {
 
       expect(passedProps.color).to.equal('rgb(255, 0, 0)')
       expect(passedProps.height).to.equal(20)
+    })
+
+    it('should render multiple elements with applied media query and theme function', () => {
+      const theme: Object = {
+        background: 'yellow',
+        background2: 'red'
+      }
+
+      const styles = themeObj => ({
+        wrapper: () => ({
+          padding: 40,
+          background: themeObj.background,
+          textAlign: 'left',
+          '@media (min-width: 1024px)': {
+            backgroundColor: themeObj.background2
+          }
+        })
+      })
+
+      MyComponent = createStyledComponent(styles)
+
+      const a = [1, 2]
+      TestRenderer.create(
+        <JssProvider registry={registry} generateId={createGenerateId()}>
+          <ThemeProvider theme={theme}>
+            {a.map(item => (
+              <MyComponent key={item} />
+            ))}
+          </ThemeProvider>
+        </JssProvider>
+      )
+      expect(registry.toString()).to.be(stripIndent`
+        .wrapper-0 {}
+        .wrapper-d0-1 {
+          padding: 40px;
+          background: yellow;
+          text-align: left;
+        }
+        @media (min-width: 1024px) {
+          .wrapper-d0-1 {
+            background-color: red;
+          }
+        }
+          .wrapper-d1-2 {
+            padding: 40px;
+            background: yellow;
+            text-align: left;
+          }
+        @media (min-width: 1024px) {
+          .wrapper-d1-2 {
+            background-color: red;
+          }
+        }
+      `)
     })
   })
 }
