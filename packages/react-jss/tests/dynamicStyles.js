@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import {createUseStyles, withStyles} from '../src'
-import createDynamicStylesTests from '../test-utils/createDynamicStylesTests'
+import createCommonDynamicStylesTests from '../test-utils/createCommonDynamicStylesTests'
 
 describe('React-JSS: dynamic styles', () => {
   describe('using createUseStyles', () => {
@@ -16,7 +16,7 @@ describe('React-JSS: dynamic styles', () => {
       return Comp
     }
 
-    createDynamicStylesTests({createStyledComponent})
+    createCommonDynamicStylesTests({createStyledComponent})
   })
 
   describe('using withStyles', () => {
@@ -29,6 +29,6 @@ describe('React-JSS: dynamic styles', () => {
       return withStyles(styles, options)(Comp)
     }
 
-    createDynamicStylesTests({createStyledComponent})
+    createCommonDynamicStylesTests({createStyledComponent})
   })
 })
