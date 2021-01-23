@@ -40,7 +40,7 @@ function iterate(prop: string, value: any, options: Options) {
         value[innerProp] = iterate(`${prop}-${innerProp}`, value[innerProp], options)
       }
     }
-  } else if (typeof value === 'number') {
+  } else if (typeof value === 'number' && !Number.isNaN(value)) {
     const unit = options[prop] || units[prop]
 
     // Add the unit if available, except for the special case of 0px.

@@ -255,7 +255,9 @@ describe('jss-plugin-default-unit', () => {
       sheet = jss.createStyleSheet({
         a: {
           padding: 10,
-          margin: null
+          margin: null,
+          width: undefined,
+          height: NaN
         }
       })
     })
@@ -265,7 +267,7 @@ describe('jss-plugin-default-unit', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  padding: 10px;\n}')
+      expect(sheet.toString()).to.be('.a-id {\n  padding: 10px;\n  height: NaN;\n}')
     })
   })
 
