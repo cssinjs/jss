@@ -4,6 +4,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+## 10.5.1 (2021-1-23)
+
 ## 10.5.0 (2020-11-15)
 
 ### Bug fixes

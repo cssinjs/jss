@@ -9,7 +9,7 @@
 
 > JSS plugin that gives you a better syntax than CSS.
 
-See our website [jss-plugin-expand](https://cssinjs.org/jss-plugin-expand?v=v10.5.0) for more information.
+See our website [jss-plugin-expand](https://cssinjs.org/jss-plugin-expand?v=v10.5.1) for more information.
 
 ## Install
 
