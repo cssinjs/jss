@@ -21,7 +21,7 @@ __Versions (please complete the following information):__
  - OS [e.g. Windows, macOS]:
 Feel free to add any additional versions which you may think are relevant to the bug.
 
-__Further hints:__
+__Managing expectations:__
 
 Maintainers will not be fixing the problem you have unless they have it too, if you want it to get fixed:
 
