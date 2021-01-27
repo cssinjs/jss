@@ -263,7 +263,8 @@ import React from 'react'
 import {createUseStyles, useTheme, ThemeProvider} from 'react-jss'
 
 // Using `theme` function is better when you have many theme dependant styles.
-let useStyles = createUseStyles(theme => ({
+// Note that in this case you don't need to use useTheme(), it subscribes to the them automatically
+const useStylesFromThemeFunction = createUseStyles(theme => ({
   button: {
     background: theme.colorPrimary
   },
@@ -272,9 +273,18 @@ let useStyles = createUseStyles(theme => ({
   }
 }))
 
+const Button1 = ({children, ...props}) => {
+  const classes = useStylesFromThemeFunction(props)
+  return (
+    <button className={classes.button}>
+      <span className={classes.label}>{children}</span>
+    </button>
+  )
+}
+
 // Using function values might be better if you have only few theme dependant styles
 // and also props or state is used for other values.
-useStyles = createUseStyles({
+const useStyles = createUseStyles({
   button: {
     background: ({theme}) => theme.colorPrimary
   },
@@ -283,7 +293,7 @@ useStyles = createUseStyles({
   }
 })
 
-const Button = ({children, ...props}) => {
+const Button2 = ({children, ...props}) => {
   const theme = useTheme()
   const classes = useStyles({...props, theme})
   return (
@@ -299,7 +309,8 @@ const theme = {
 
 const App = () => (
   <ThemeProvider theme={theme}>
-    <Button>I am a button with green background</Button>
+    <Button1>I am a button 1 with green background</Button1>
+    <Button2>I am a button 2 with green background</Button2>
   </ThemeProvider>
 )
 ```
