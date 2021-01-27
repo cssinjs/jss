@@ -4,6 +4,5 @@
 
 ## Todo
 
-- [ ] Add tests if possible
-- [ ] Add changelog if users should know about the change
-- [ ] Add documentation
+- [ ] Add test that verifies the modified behavior
+- [ ] Add documentation if it changes public API
