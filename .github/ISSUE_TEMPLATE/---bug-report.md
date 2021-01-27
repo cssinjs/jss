@@ -28,3 +28,5 @@ Maintainers will not be fixing the problem you have unless they have it too, if 
 1. Submit a PR with a failing test
 2. Discuss a solution
 3. Implement it
+
+You can also do the first step only and wait for someone else to work on a fix. Anything is much better than nothing.
