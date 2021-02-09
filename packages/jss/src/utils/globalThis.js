@@ -10,8 +10,6 @@
  *
  * https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
  */
-
-//
 export default (typeof globalThis !== 'undefined'
   ? globalThis
   : typeof window !== 'undefined' && window.Math === Math
