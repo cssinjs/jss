@@ -26,9 +26,9 @@ yarn build
 To lint, format, and type check the project run the following commands:
 
 ```bash
-yarn lint
+yarn check:lint
 yarn format
-yarn typecheck
+yarn check:ts
 ```
 
 ## Run tests
