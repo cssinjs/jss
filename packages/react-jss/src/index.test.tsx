@@ -1,6 +1,7 @@
 import * as React from 'react'
+import WithStyles, {createUseStyles} from '.'
 
-import WithStyles from '.'
+const expectType = <T extends any>(x: T): T => x
 
 interface Props {
   testProp: string
@@ -40,6 +41,42 @@ function testRender() {
       <TestComponentWitStyles />
       <TestComponentWitStyles innerRef={ref} />
       <TestComponentWitStyles innerRef={refFunction} />
+    </>
+  )
+}
+
+declare global {
+  namespace Jss {
+    export interface Theme {
+      themeColour: string
+      defaultFontSize: number
+    }
+  }
+}
+
+const useStyles = createUseStyles(theme => {
+  expectType<string>(theme.themeColour)
+  expectType<number>(theme.defaultFontSize)
+
+  return {
+    myDiv: {
+      color: theme.themeColour,
+      // @ts-expect-error typescript should error here since the theme property doesn't exist
+      border: theme.aPropertyThatDoesntExist
+    }
+  }
+})
+
+export function Component() {
+  const classes = useStyles()
+
+  expectType<string>(classes.myDiv)
+
+  return (
+    <>
+      <div className={classes.myDiv} />
+      {/* @ts-expect-error typescript should error here since the class is invalid */}
+      <div className={classes.thisClassDoesntExist} />
     </>
   )
 }

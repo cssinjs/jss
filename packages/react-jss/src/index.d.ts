@@ -45,7 +45,14 @@ interface WithStylesProps<S extends Styles | ((theme: any) => Styles)> {
  */
 type WithStyles<S extends Styles | ((theme: any) => Styles)> = WithStylesProps<S>
 
-export interface DefaultTheme {}
+declare global {
+  namespace Jss {
+    /** You can use the global `Jss.Theme` interface to define a project-wide default theme. */
+    export interface Theme {}
+  }
+}
+
+export type DefaultTheme = Jss.Theme
 
 interface BaseOptions<Theme = DefaultTheme> extends StyleSheetFactoryOptions {
   index?: number
