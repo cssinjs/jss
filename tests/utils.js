@@ -21,7 +21,14 @@ export function removeWhitespace(str) {
 }
 
 export function getRules(style) {
-  return [...style.sheet.cssRules]
+  const rulesArr = []
+  const {cssRules} = style.sheet
+  for (const key in cssRules) {
+    if ([].hasOwnProperty.call(cssRules, key)) {
+      rulesArr.push(cssRules[key])
+    }
+  }
+  return rulesArr
 }
 
 export function getStyle() {
