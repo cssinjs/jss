@@ -17,14 +17,11 @@ module.exports = config => {
     frameworks: ['mocha'],
     files: [
       'node_modules/@babel/polyfill/dist/polyfill.js',
-      'node_modules/raf/polyfill.js',
-
       './packages/*/tests/*.js',
       './packages/*/tests/**/*.js',
       './packages/*/src/**/*.test.js'
     ],
     preprocessors: {
-      'node_modules/raf/polyfill.js': ['webpack'],
       './packages/**/*.js': ['webpack', 'sourcemap']
     },
     webpack,

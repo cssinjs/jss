@@ -4,6 +4,7 @@
 
 const webpack = require('webpack')
 const lerna = require('./lerna.json')
+const {getBabelOptions} = require('./babelOptions')
 
 const plugins = [
   new webpack.DefinePlugin({
@@ -29,10 +30,7 @@ module.exports = {
         loader: 'babel-loader',
         test: /\.js$/,
         exclude: /node_modules/,
-        options: {
-          presets: ['@babel/react', '@babel/flow', '@babel/env'],
-          plugins: ['@babel/proposal-class-properties', '@babel/proposal-object-rest-spread']
-        }
+        options: getBabelOptions({useESModules: true})
       }
     ]
   },
