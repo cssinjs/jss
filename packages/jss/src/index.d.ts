@@ -50,8 +50,8 @@ export type CreateGenerateId = (options?: CreateGenerateIdOptions) => GenerateId
 export type GenerateId = (rule: Rule, sheet?: StyleSheet<string>) => string
 
 export type JssValue =
-  | string
-  | number
+  | (string & {})
+  | (number & {})
   | Array<string | number | Array<string | number> | '!important'>
   | null
   | false
