@@ -12,7 +12,7 @@ type Func<R> = ((data: any) => R)
 
 type NormalCssProperties = CSSProperties<string | number>
 type NormalCssValues<K> = K extends keyof NormalCssProperties
-  ? NormalCssProperties[K] | JssValue
+  ? NormalCssProperties[K]
   : JssValue
 
 export type JssStyle =
