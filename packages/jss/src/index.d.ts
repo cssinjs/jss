@@ -7,35 +7,36 @@ import {Properties as CSSProperties} from 'csstype'
 // TODO: refactor to only include Observable types if plugin is installed.
 import {Observable} from 'indefinite-observable'
 
-// TODO: Type data better, currently typed as any for allowing to override it
-type Func<R> = ((data: any) => R)
+type Func<P, T, R> = T extends undefined ? ((data: P) => R) : ((data: P & {theme: T}) => R)
 
 type NormalCssProperties = CSSProperties<string | number>
-type NormalCssValues<K> = K extends keyof NormalCssProperties
-  ? NormalCssProperties[K]
-  : JssValue
+type NormalCssValues<K> = K extends keyof NormalCssProperties ? NormalCssProperties[K] : JssValue
 
-export type JssStyle =
+export type JssStyle<Props = any, Theme = undefined> =
   | {
       [K in keyof NormalCssProperties]:
         | NormalCssValues<K>
-        | JssStyle
-        | Func<NormalCssValues<K> | JssStyle | undefined>
+        | JssStyle<Props, Theme>
+        | Func<Props, Theme, NormalCssValues<K> | JssStyle<undefined, undefined> | undefined>
         | Observable<NormalCssValues<K> | JssStyle | undefined>
     }
   | {
       [K: string]:
         | JssValue
-        | JssStyle
-        | Func<JssValue | JssStyle | undefined>
+        | JssStyle<Props, Theme>
+        | Func<Props, Theme, JssValue | JssStyle<undefined, undefined> | undefined>
         | Observable<JssValue | JssStyle | undefined>
     }
 
-export type Styles<Name extends string | number | symbol = string> = Record<
+export type Styles<
+  Name extends string | number | symbol = string,
+  Props = unknown,
+  Theme = undefined
+> = Record<
   Name,
-  | JssStyle
+  | JssStyle<Props, Theme>
   | string
-  | Func<JssStyle | string | null | undefined>
+  | Func<Props, Theme, JssStyle<undefined, undefined> | string | null | undefined>
   | Observable<JssStyle | string | null | undefined>
 >
 export type Classes<Name extends string | number | symbol = string> = Record<Name, string>
@@ -215,7 +216,10 @@ export interface StyleSheet<RuleName extends string | number | symbol = string |
    * Create and add rules.
    * Will render also after Style Sheet was rendered the first time.
    */
-  addRules(styles: Partial<Styles<RuleName>>, options?: Partial<RuleOptions>): Rule[]
+  addRules(
+    styles: Partial<Styles<RuleName, any, undefined>>,
+    options?: Partial<RuleOptions>
+  ): Rule[]
   /**
    * Get a rule by name.
    */
@@ -250,7 +254,7 @@ export interface JssOptions {
 
 export interface Jss {
   createStyleSheet<Name extends string | number | symbol>(
-    styles: Partial<Styles<Name>>,
+    styles: Partial<Styles<Name, any, undefined>>,
     options?: StyleSheetFactoryOptions
   ): StyleSheet<Name>
   removeStyleSheet(sheet: StyleSheet): this

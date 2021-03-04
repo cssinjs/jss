@@ -5,13 +5,18 @@ interface Props {
   flag?: boolean
 }
 
+interface Theme {
+  color: string
+}
+
 declare const color$: Observable<'cyan'>
 declare const style$: Observable<{
   backgroundColor: 'fuchsia'
   transform: 'translate(0px, 205px)'
 }>
 
-const styles: Styles = {
+// General Types Check
+const styles: Styles<string, Props> = {
   basic: {
     textAlign: 'center',
     display: 'flex',
@@ -22,7 +27,7 @@ const styles: Styles = {
     textAlign: 'center',
     display: 'flex',
     width: '100%',
-    justifyContent: (props: Props) => (props.flag ? 'center' : undefined)
+    justifyContent: props => (props.flag ? 'center' : undefined)
   },
   inner: {
     textAlign: 'center',
@@ -33,7 +38,7 @@ const styles: Styles = {
       fontSize: 12
     }
   },
-  func: (props: Props) => ({
+  func: props => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -43,8 +48,8 @@ const styles: Styles = {
     position: 'relative',
     pointerEvents: props.flag ? 'none' : null
   }),
-  funcNull: (props: Props) => null,
-  funcWithTerm: (props: Props) => ({
+  funcNull: props => null,
+  funcWithTerm: props => ({
     width: props.flag ? 377 : 272,
     height: props.flag ? 330 : 400,
     boxShadow: '0px 2px 20px rgba(0, 0, 0, 0.08)',
@@ -66,4 +71,31 @@ const styles: Styles = {
     from: {opacity: 0},
     to: {opacity: 1}
   }
+}
+
+// Test supplied Props and Theme
+// Verify that nested parameter declarations are banned
+const stylesPropsAndTheme: Styles<string, Props, Theme> = {
+  rootParamDeclaration: ({flag, theme}) => ({
+    fontWeight: 'bold',
+    // @ts-expect-error
+    nothingAllowed: ({flag, theme}) => ''
+  }),
+  anotherClass: {
+    color: 'red',
+    innerParamDeclaration1: ({flag, theme}) => '',
+    innerParamDeclaration2: ({flag, theme}) => ({
+      backgroundColor: 'blue',
+      // @ts-expect-error
+      nothingAllowed: ({flag, theme}) => ''
+    })
+  }
+}
+
+// Test the className types
+const stylesClassNames: Styles<number, unknown, unknown> = {
+  // @ts-expect-error
+  stringClassName: '',
+  [1]: '',
+  [2]: ''
 }
