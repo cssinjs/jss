@@ -16,12 +16,13 @@ module.exports = config => {
     browsers: ['Chrome'],
     frameworks: ['mocha'],
     files: [
-      'node_modules/@babel/polyfill/dist/polyfill.js',
+      './polyfills.js',
       './packages/*/tests/*.js',
       './packages/*/tests/**/*.js',
       './packages/*/src/**/*.test.js'
     ],
     preprocessors: {
+      './polyfills.js': ['webpack', 'sourcemap'],
       './packages/**/*.js': ['webpack', 'sourcemap']
     },
     webpack,
