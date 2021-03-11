@@ -3,7 +3,6 @@ exports.getBabelOptions = ({useESModules}) => ({
   plugins: [
     ['@babel/proposal-class-properties', {loose: true}],
     ['@babel/transform-runtime', {useESModules}],
-    ['@babel/plugin-proposal-export-namespace-from'],
     ['dev-expression']
   ]
 })
