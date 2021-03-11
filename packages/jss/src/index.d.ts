@@ -11,9 +11,7 @@ import {Observable} from 'indefinite-observable'
 type Func<R> = ((data: any) => R)
 
 type NormalCssProperties = CSSProperties<string | number>
-type NormalCssValues<K> = K extends keyof NormalCssProperties
-  ? NormalCssProperties[K]
-  : JssValue
+type NormalCssValues<K> = K extends keyof NormalCssProperties ? NormalCssProperties[K] : JssValue
 
 export type JssStyle =
   | {
