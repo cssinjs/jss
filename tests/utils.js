@@ -23,9 +23,9 @@ export function removeWhitespace(str) {
 export function getRules(style) {
   const rulesArr = []
   const {cssRules} = style.sheet
-  for (const key in cssRules) {
-    if ([].hasOwnProperty.call(cssRules, key)) {
-      rulesArr.push(cssRules[key])
+  for (let index = 0; index < cssRules.length; index++) {
+    if ([].hasOwnProperty.call(cssRules, index)) {
+      rulesArr.push(cssRules[index])
     }
   }
   return rulesArr
