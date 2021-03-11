@@ -11,3 +11,5 @@ import 'core-js/features/object/assign'
 // tests
 import 'core-js/features/typed-array'
 import 'core-js/features/string/includes'
+// examples
+import 'raf/polyfill'
