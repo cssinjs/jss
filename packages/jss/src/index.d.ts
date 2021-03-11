@@ -1,4 +1,4 @@
-import * as css from 'csstype'
+import {Properties as CSSProperties} from 'csstype'
 
 // Observable support is included as a plugin.  Including it here allows
 // TypeScript users to use Observables, which could be confusing if a user
@@ -10,9 +10,9 @@ import {Observable} from 'indefinite-observable'
 // TODO: Type data better, currently typed as any for allowing to override it
 type Func<R> = ((data: any) => R)
 
-type NormalCssProperties = css.Properties<string | number>
+type NormalCssProperties = CSSProperties<string | number>
 type NormalCssValues<K> = K extends keyof NormalCssProperties
-  ? NormalCssProperties[K] | JssValue
+  ? NormalCssProperties[K]
   : JssValue
 
 export type JssStyle =
@@ -50,8 +50,8 @@ export type CreateGenerateId = (options?: CreateGenerateIdOptions) => GenerateId
 export type GenerateId = (rule: Rule, sheet?: StyleSheet<string>) => string
 
 export type JssValue =
-  | string
-  | number
+  | (string & {})
+  | (number & {})
   | Array<string | number | Array<string | number> | '!important'>
   | null
   | false

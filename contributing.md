@@ -40,3 +40,17 @@ Using karma (real browsers will get launched).
 ```bash
 yarn test
 ```
+
+## IDEs
+
+If you are using VS Code, you'll need to do 2 things to get Flow type support:
+
+1. Install the [Flow Language Support extension](https://marketplace.visualstudio.com/items?itemName=flowtype.flow-for-vscode).
+2. If necessary, update your _local_ settings to disable JS file validation:
+
+```JSON
+// <PROJECT_ROOT>/.vscode/settings.json
+{
+  "javascript.validate.enable": false
+}
+```
