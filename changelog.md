@@ -4,7 +4,22 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+### Bug fixes
+
+### Improvements
+
 ## 10.5.1 (2021-1-23)
+
+### Bug fixes
+
+- [jss-plugin-default-unit] Fix crash in Chrome 88 when NaN is used by the user [1446](https://github.com/cssinjs/jss/pull/1446)
+- [jss] Fix TS intellisense suggestions [1423](https://github.com/cssinjs/jss/pull/1423)
+
+### Improvements
+
+- [jss-plugin-default-unit] Add px as default unit for text-decoration-thickness [1438](https://github.com/cssinjs/jss/pull/1438)
+- [jss-plugin-default-unit] Add px as default unit for row-gap [1436](https://github.com/cssinjs/jss/pull/1436)
+- [*] Allow project to be in a directory that contains spaces [1433](https://github.com/cssinjs/jss/pull/1433)
 
 ## 10.5.0 (2020-11-15)
 
