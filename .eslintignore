@@ -3,3 +3,4 @@ flow-typed/
 packages/**/dist/
 examples/**/static/
 *.ts
+*.tsx
