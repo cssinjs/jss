@@ -1,6 +1,6 @@
 import {Plugin} from 'jss'
 
-export type extendProperties = {
+export type ExtendProperties = {
   extends: string[]
 }
 
