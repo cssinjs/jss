@@ -11,32 +11,38 @@ import {Observable} from 'indefinite-observable'
 type Func<R> = ((data: any) => R)
 
 type NormalCssProperties = CSSProperties<string | number>
-type NormalCssValues<K> = K extends keyof NormalCssProperties
-  ? NormalCssProperties[K]
-  : JssValue
+type NormalCssValues<K> = K extends keyof NormalCssProperties ? NormalCssProperties[K] : JssValue
 
-export type JssStyle =
+export type JssStyle<
+  // ADDITIONAL_PROPERTIES
+  A extends Record<string, any> = {}
+> =
+  | A
   | {
       [K in keyof NormalCssProperties]:
         | NormalCssValues<K>
-        | JssStyle
-        | Func<NormalCssValues<K> | JssStyle | undefined>
-        | Observable<NormalCssValues<K> | JssStyle | undefined>
+        | JssStyle<A>
+        | Func<NormalCssValues<K> | JssStyle<A> | undefined>
+        | Observable<NormalCssValues<K> | JssStyle<A> | undefined>
     }
   | {
       [K: string]:
         | JssValue
-        | JssStyle
-        | Func<JssValue | JssStyle | undefined>
-        | Observable<JssValue | JssStyle | undefined>
+        | JssStyle<A>
+        | Func<JssValue | JssStyle<A> | undefined>
+        | Observable<JssValue | JssStyle<A> | undefined>
     }
 
-export type Styles<Name extends string | number | symbol = string> = Record<
+export type Styles<
+  Name extends string | number | symbol = string,
+  // ADDITIONAL_PROPERTIES
+  A extends Record<string, any> = {}
+> = Record<
   Name,
-  | JssStyle
+  | JssStyle<A>
   | string
-  | Func<JssStyle | string | null | undefined>
-  | Observable<JssStyle | string | null | undefined>
+  | Func<JssStyle<A> | string | null | undefined>
+  | Observable<JssStyle<A> | string | null | undefined>
 >
 export type Classes<Name extends string | number | symbol = string> = Record<Name, string>
 export type Keyframes<Name extends string = string> = Record<Name, string>
@@ -248,9 +254,9 @@ export interface JssOptions {
   id: CreateGenerateIdOptions
 }
 
-export interface Jss {
+export interface Jss<ADDITIONAL_PROPERTIES extends Record<string, any> = {}> {
   createStyleSheet<Name extends string | number | symbol>(
-    styles: Partial<Styles<Name>>,
+    styles: Partial<Styles<Name, ADDITIONAL_PROPERTIES>>,
     options?: StyleSheetFactoryOptions
   ): StyleSheet<Name>
   removeStyleSheet(sheet: StyleSheet): this
