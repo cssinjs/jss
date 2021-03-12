@@ -4,8 +4,6 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
-## 10.6.0 (2021-03-11)
-
 ### Improvements
 
 - [jss] `Styles` now supports `ClassNames`, `Props`/`Data`, and `Theme` as type parameters (eg. `Styles<Names, Data, Theme>`). [1460](https://github.com/cssinjs/jss/pull/1460)
@@ -17,11 +15,11 @@ Since you are interested in what happens next, in case, you work for a for-profi
 - [react-jss] `Theme` is no longer the first generic type parameter for `createUseStyles`. [1460](https://github.com/cssinjs/jss/pull/1460)
   - There are two main ways to tell TypeScript your `Theme`'s type without reaching over the other type parameters:
 
-Using the function argument. (Recommended)
+Using the function argument.
 
 ```typescript
 const useStyles = createUseStyles(theme: Theme => ({
-  className: { /* ... */ };
+  ruleName: { /* ... */ };
 }))
 ```
 
@@ -29,7 +27,7 @@ Using the object argument with a function. (You will only need to specify the `T
 
 ```typescript
 const useStyles = createUseStyles({
-  className: ({theme}: {theme: Theme}) => ({
+  ruleName: ({theme}: {theme: Theme}) => ({
     /* ... */
   })
 })
@@ -463,7 +461,3 @@ Republish of alpha 5 with properly building the code.
 - [jss-plugin-vendor-prefixer](https://github.com/cssinjs/jss-vendor-prefixer/blob/master/changelog.md)
 - [jss-preset-default](https://github.com/cssinjs/jss-preset-default/blob/master/changelog.md)
 - [react-jss](./docs/react-jss.md/blob/master/changelog.md)
-
-```
-
-```
