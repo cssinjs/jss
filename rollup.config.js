@@ -8,6 +8,7 @@ import {terser} from 'rollup-plugin-terser'
 import {sizeSnapshot} from 'rollup-plugin-size-snapshot'
 import camelCase from 'camelcase'
 
+const {getBabelOptions} = require('./babelOptions')
 const getPackageJson = require('./scripts/get-package-json')
 
 const pkg = getPackageJson()
@@ -33,18 +34,12 @@ Object.keys(pkg.peerDependencies || {}).forEach(key => {
 
 const external = id => !id.startsWith('.') && !path.isAbsolute(id)
 
-const getBabelOptions = ({useESModules}) => ({
+const getBabelConfig = ({useESModules}) => ({
   babelHelpers: 'runtime',
   exclude: /node_modules/,
   babelrc: false,
   configFile: false,
-  presets: [['@babel/env', {loose: true}], '@babel/flow', '@babel/react'],
-  plugins: [
-    ['@babel/proposal-class-properties', {loose: true}],
-    ['@babel/transform-runtime', {useESModules}],
-    ['@babel/plugin-proposal-export-namespace-from'],
-    ['dev-expression']
-  ]
+  ...getBabelOptions({useESModules})
 })
 
 const commonjsOptions = {
@@ -85,7 +80,7 @@ export default [
     external: Object.keys(globals),
     plugins: [
       nodeResolve(),
-      babel(getBabelOptions({useESModules: true})),
+      babel(getBabelConfig({useESModules: true})),
       commonjs(commonjsOptions),
       replace({
         'process.env.NODE_ENV': JSON.stringify('development'),
@@ -107,7 +102,7 @@ export default [
     external: Object.keys(globals),
     plugins: [
       nodeResolve(),
-      babel(getBabelOptions({useESModules: true})),
+      babel(getBabelConfig({useESModules: true})),
       commonjs(commonjsOptions),
       replace({
         'process.env.NODE_ENV': JSON.stringify('production'),
@@ -124,7 +119,7 @@ export default [
     external,
     plugins: [
       createFlowBundlePlugin,
-      babel(getBabelOptions({useESModules: false})),
+      babel(getBabelConfig({useESModules: false})),
       replace({'process.env.VERSION': JSON.stringify(pkg.version)}),
       sizeSnapshot(snapshotOptions)
     ]
@@ -135,7 +130,7 @@ export default [
     output: {file: pkg.module, format: 'esm'},
     external,
     plugins: [
-      babel(getBabelOptions({useESModules: true})),
+      babel(getBabelConfig({useESModules: true})),
       replace({'process.env.VERSION': JSON.stringify(pkg.version)}),
       sizeSnapshot(snapshotOptions)
     ]
@@ -146,7 +141,7 @@ export default [
     output: {file: pkg.unpkg, format: 'esm'},
     plugins: [
       nodeResolve(),
-      babel(getBabelOptions({useESModules: true})),
+      babel(getBabelConfig({useESModules: true})),
       commonjs(commonjsOptions),
       replace({
         'process.env.NODE_ENV': JSON.stringify('development'),

@@ -10,9 +10,7 @@ Alternatively, you can use [unpkg CDN](./cdn.md).
 
 ## Polyfills
 
-If you support browsers which do not have support for the following features, make sure you provide polyfills for them.
-
-- WeakMap
+Check out the [environment requirements](./environment-requirements.md) as well as our browsers support and required polyfills.
 
 ## Setup with the default preset
 
