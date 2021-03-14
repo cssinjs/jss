@@ -30,7 +30,7 @@ Try it out in the [playground](https://codesandbox.io/s/j3l06yyqpw).
 - [Custom setup](#custom-setup)
 - [Multi-tree setup](#multi-tree-setup)
 - [Injection order](#injection-order)
-- [TypeScript](#typescript)
+- [Usage with TypeScript](#usage-with-typescript)
 
 ## Install
 
@@ -585,6 +585,6 @@ const Button = () => {
 }
 ```
 
-## TypeScript
+## Usage with TypeScript
 
-TODO hooks support
+For help using TypeScript with React-JSS, go [here](react-jss-ts.md).
