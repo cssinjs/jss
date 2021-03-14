@@ -4,9 +4,34 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
-### Bug fixes
-
 ### Improvements
+
+- [jss] `Styles` now supports `ClassNames`, `Props`/`Data`, and `Theme` as type parameters (eg. `Styles<Names, Data, Theme>`). [1460](https://github.com/cssinjs/jss/pull/1460)
+- [react-jss] `withStyles` and `createUseStyles` now support `ClassNames`, `Props`, and `Theme` as type parameters (eg. `createUseStyles<Names, Props, Theme>`). [1460](https://github.com/cssinjs/jss/pull/1460)
+- [react-jss] `useStyles` finally expects the correct argument type: a `Props` object with an optional `Theme` property (both determined from `createUseStyles`). [1460](https://github.com/cssinjs/jss/pull/1460)
+
+### Breaking Changes
+
+- [react-jss] `Theme` is no longer the first generic type parameter for `createUseStyles`. [1460](https://github.com/cssinjs/jss/pull/1460)
+  - There are two main ways to tell TypeScript your `Theme`'s type without reaching over the other type parameters:
+
+Using the function argument.
+
+```typescript
+const useStyles = createUseStyles(theme: Theme => ({
+  ruleName: { /* ... */ };
+}))
+```
+
+Using the object argument with a function. (You will only need to specify the `Theme` type once.)
+
+```typescript
+const useStyles = createUseStyles({
+  ruleName: ({theme}: {theme: Theme}) => ({
+    /* ... */
+  })
+})
+```
 
 ## 10.5.1 (2021-1-23)
 
@@ -34,7 +59,7 @@ Since you are interested in what happens next, in case, you work for a for-profi
 - [*] Remove test files from the package [1406](https://github.com/cssinjs/jss/pull/1406)
 - [*] Upgrade rollup [1426](https://github.com/cssinjs/jss/pull/1426)
 - [*] Upgrade flow to 0.138.0 [1425](https://github.com/cssinjs/jss/pull/1425)
-- [jss-plugin-default-unit] aAdd gap unit [1403](https://github.com/cssinjs/jss/pull/1403)
+- [jss-plugin-default-unit] Add gap unit [1403](https://github.com/cssinjs/jss/pull/1403)
 - [jss-plugin-default-unit] Add default units to logical properties [1415](https://github.com/cssinjs/jss/pull/1415)
 - [jss] Improve deleteRule() performance [1424](https://github.com/cssinjs/jss/pull/1424)
 
