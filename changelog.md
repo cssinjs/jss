@@ -6,14 +6,19 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ### Improvements
 
-- [jss] `Styles` now supports `ClassNames`, `Props`/`Data`, and `Theme` as type parameters (eg. `Styles<Names, Data, Theme>`). [1460](https://github.com/cssinjs/jss/pull/1460)
-- [react-jss] `withStyles` and `createUseStyles` now support `ClassNames`, `Props`, and `Theme` as type parameters (eg. `createUseStyles<Names, Props, Theme>`). [1460](https://github.com/cssinjs/jss/pull/1460)
-- [react-jss] `useStyles` finally expects the correct argument type: a `Props` object with an optional `Theme` property (both determined from `createUseStyles`). [1460](https://github.com/cssinjs/jss/pull/1460)
+- [*] Define specific polyfills for specific packages that will be required and define a policy for adding polyfills. Makes sure we will notice if a polyfill is needed in a supported browser by failing the CI. [1456](https://github.com/cssinjs/jss/issues/1456)
+- [jss] Use `globalThis` to support secure version of JavaScript
+- [jss][ts] `Styles` now supports `ClassNames`, `Props`/`Data`, and `Theme` as type parameters (eg. `Styles<Names, Data, Theme>`). [1460](https://github.com/cssinjs/jss/pull/1460)
+  called SES [1449](https://github.com/cssinjs/jss/pull/1449)
+- [react-jss][ts] `withStyles` and `createUseStyles` now support `ClassNames`, `Props`, and `Theme` as type parameters (eg. `createUseStyles<Names, Props, Theme>`). [1460](https://github.com/cssinjs/jss/pull/1460)
+- [react-jss][ts] `useStyles` finally expects the correct argument type: a `Props` object with an optional `Theme` property (both determined from `createUseStyles`). [1460](https://github.com/cssinjs/jss/pull/1460)
+- [react-jss][ts] Support global TS theme definition [1453](https://github.com/cssinjs/jss/pull/1453)
+- [react-jss][ts] Allow partial `classes` prop in `withStyles()` [1428](https://github.com/cssinjs/jss/issues/1428)
 
 ### Breaking Changes
 
-- [react-jss] `Theme` is no longer the first generic type parameter for `createUseStyles`. [1460](https://github.com/cssinjs/jss/pull/1460)
-  - There are two main ways to tell TypeScript your `Theme`'s type without reaching over the other type parameters:
+- [react-jss][ts] `Theme` is no longer the first generic type parameter for `createUseStyles`. [1460](https://github.com/cssinjs/jss/pull/1460)
+  - There are two main ways to tell TS your `Theme`'s type without reaching over the other type parameters:
 
 Using the function argument.
 
@@ -38,7 +43,7 @@ const useStyles = createUseStyles({
 ### Bug fixes
 
 - [jss-plugin-default-unit] Fix crash in Chrome 88 when NaN is used by the user [1446](https://github.com/cssinjs/jss/pull/1446)
-- [jss] Fix TS intellisense suggestions [1423](https://github.com/cssinjs/jss/pull/1423)
+- [jss][ts] Fix intellisense suggestions [1423](https://github.com/cssinjs/jss/pull/1423)
 
 ### Improvements
 
@@ -50,7 +55,7 @@ const useStyles = createUseStyles({
 
 ### Bug fixes
 
-- [jss] Restore TypeScript support for Observable styles [1402](https://github.com/cssinjs/jss/pull/1402)
+- [jss][ts] Restore support for Observable styles [1402](https://github.com/cssinjs/jss/pull/1402)
 - [jss-plugin-default-unit] Fix missing default unit for 0ms and 0% [1413](https://github.com/cssinjs/jss/pull/1413)
 
 ### Improvements
@@ -61,7 +66,7 @@ const useStyles = createUseStyles({
 - [*] Upgrade flow to 0.138.0 [1425](https://github.com/cssinjs/jss/pull/1425)
 - [jss-plugin-default-unit] Add gap unit [1403](https://github.com/cssinjs/jss/pull/1403)
 - [jss-plugin-default-unit] Add default units to logical properties [1415](https://github.com/cssinjs/jss/pull/1415)
-- [jss] Improve deleteRule() performance [1424](https://github.com/cssinjs/jss/pull/1424)
+- [jss] Improve `deleteRule()` performance [1424](https://github.com/cssinjs/jss/pull/1424)
 
 ## 10.4.0 (2020-8-14)
 
@@ -72,10 +77,10 @@ const useStyles = createUseStyles({
 
 ### Improvements
 
-- [jss] Bump `csstype` to 3.0.2 [1379](https://github.com/cssinjs/jss/pull/1379)
-- [react-jss] TypeScript support for innerRef prop [1355](https://github.com/cssinjs/jss/pull/1355)
-- [react-jss] TypeScript fix theme types [1349](https://github.com/cssinjs/jss/pull/1349)
-- [react-jss] Add properly react default props types calculation [1353](https://github.com/cssinjs/jss/pull/1353)
+- [jss][ts] Bump `csstype` to 3.0.2 [1379](https://github.com/cssinjs/jss/pull/1379)
+- [react-jss][ts] TS support for innerRef prop [1355](https://github.com/cssinjs/jss/pull/1355)
+- [react-jss][ts] TS fix theme types [1349](https://github.com/cssinjs/jss/pull/1349)
+- [react-jss][ts] Add properly react default props types calculation [1353](https://github.com/cssinjs/jss/pull/1353)
 - [react-jss] Upgrade Theming to 3.3.0 [1382](https://github.com/cssinjs/jss/pull/1382)
 - [*] Upgrade flowtype to 0.131.0 [1382](https://github.com/cssinjs/jss/pull/1382)
 
@@ -83,14 +88,14 @@ const useStyles = createUseStyles({
 
 ### Improvements
 
-- [jss, react-jss] TS fixes, allow autocomplete for CSS rules [1352](https://github.com/cssinjs/jss/pull/1352)
+- [jss, react-jss][ts] ts fixes, allow autocomplete for CSS rules [1352](https://github.com/cssinjs/jss/pull/1352)
 
 ## 10.2.0 (2020-6-3)
 
 ### Improvements
 
-- [react-jss] TS fixes [1310](https://github.com/cssinjs/jss/pull/1310)
-- [jss] TS fixes [1318](https://github.com/cssinjs/jss/pull/1318)
+- [react-jss][ts] ts fixes [1310](https://github.com/cssinjs/jss/pull/1310)
+- [jss][ts] ts fixes [1318](https://github.com/cssinjs/jss/pull/1318)
 - [examples] Convert plugin examples to codesandbox [1316](https://github.com/cssinjs/jss/pull/1316)
 
 ### Bug fixes
@@ -114,7 +119,7 @@ const useStyles = createUseStyles({
 ### Improvements
 
 - [jss-plugin-rule-value-function] Add warning when using a function value inside a function rule ([1285](https://github.com/cssinjs/jss/pull/1285))
-- [react-jss] Typescript support for createUseStyles theme ([1294](https://github.com/cssinjs/jss/pull/1294))
+- [react-jss][ts] Typescript support for createUseStyles theme ([1294](https://github.com/cssinjs/jss/pull/1294))
 - [jss, react-jss] - `getDynamicStyles` utility function was originally exposed from `jss` package, but I don't think it was used externally, so I moved it to `react-jss` package and made it internal. If you have been using it as public API let me know, we will have to revert the change.
 - [examples] Migrate examples to monorepo ([1306](https://github.com/cssinjs/jss/pull/1306))
 
@@ -132,7 +137,7 @@ const useStyles = createUseStyles({
 
 ### Improvements
 
-- [css-jss] Add TypeScript type definitions ([1247](https://github.com/cssinjs/jss/pull/1247))
+- [css-jss][ts] Add TS type definitions ([1247](https://github.com/cssinjs/jss/pull/1247))
 - [react-jss] Accept options.generateId in useStyles() and withStyles() as an option ([1263](https://github.com/cssinjs/jss/pull/1263))
 
 ## 10.0.3 (2020-1-1)
@@ -145,7 +150,7 @@ const useStyles = createUseStyles({
 ### Bug fixes
 
 - [jss] Fix `create` definitions to allow `minify: boolean` ([1218](https://github.com/cssinjs/jss/pull/1218))
-- [jss] Fix `Name` Typescript constraint ([1218](https://github.com/cssinjs/jss/pull/1218))
+- [jss][ts] Fix `Name` Typescript constraint ([1218](https://github.com/cssinjs/jss/pull/1218))
 
 ## 10.0.2 (2019-12-30)
 
@@ -172,7 +177,7 @@ A higher level overview of v10 release.
 - [jss] Function values, function rules and observables apply plugins by default now, which means they can support all kinds of syntaxes: e.g. fallbacks, media queries, nesting, global styles.
 - [jss] Houdini Typed CSSOM Values are supported now.
 - [all] Each package supports ESM modules import, also possible directly from https://unpkg.com/.
-- [all] Added TypeScript type definitions to this repository.
+- [all][ts] Added TS type definitions to this repository.
 
 For more details please read the rest of the changelog.
 
@@ -209,7 +214,7 @@ For more details please read the rest of the changelog.
 
 ### Improvements
 
-- [react-jss] Improve TypeScript definitions and add missing definition for `createUseStyles` ([1155](https://github.com/cssinjs/jss/pull/1155))
+- [react-jss][ts] Improve TS definitions and add missing definition for `createUseStyles` ([1155](https://github.com/cssinjs/jss/pull/1155))
 - [jss-plugin-default-unit] Consistent usage of the CSS browser API ([1168](https://github.com/cssinjs/jss/pull/1168))
 
 ## 10.0.0-alpha.23 (2019-7-20)
@@ -263,8 +268,8 @@ For more details please read the rest of the changelog.
 ### Bug fixes
 
 - [jss] After attempting to insert an invalid rule, JSS is now able to insert a valid one ([#1123](https://github.com/cssinjs/jss/pull/1123))
-- [react-jss] Fix TS type optional `theming` property ([#1121](https://github.com/cssinjs/jss/pull/1121))
-- [react-jss] Export useTheme in TypeScript declaration ([#1124](https://github.com/cssinjs/jss/pull/1124))
+- [react-jss][ts] Fix type optional `theming` property ([#1121](https://github.com/cssinjs/jss/pull/1121))
+- [react-jss][ts] Export useTheme in TS declaration ([#1124](https://github.com/cssinjs/jss/pull/1124))
 
 ## 10.0.0-alpha.17 (2019-6-7)
 
@@ -326,7 +331,7 @@ For more details please read the rest of the changelog.
 ### Improvements
 
 - [all] All packages except of react-jss can now be used as ESM modules directly from unpkg.com ([1029](https://github.com/cssinjs/jss/pull/1029))
-- [jss] Improve TS typings ([#973](https://github.com/cssinjs/jss/pull/973))
+- [jss][ts] Improve typings ([#973](https://github.com/cssinjs/jss/pull/973))
 
 ## 10.0.0-alpha.10 (2019-2-9)
 
@@ -361,7 +366,7 @@ For more details please read the rest of the changelog.
 ### Bug fixes
 
 - [all] Fix npm repo urls ([#983](https://github.com/cssinjs/jss/pull/983))
-- [jss] Declare ES classes as TypeScript classes instead of interfaces ([#971](https://github.com/cssinjs/jss/pull/971))
+- [jss][ts] Declare ES classes as TS classes instead of interfaces ([#971](https://github.com/cssinjs/jss/pull/971))
 
 ### Improvements
 
@@ -433,7 +438,7 @@ Republish of alpha 5 with properly building the code.
 - [react-jss] Remove old lifecycle hooks ([#834](https://github.com/cssinjs/jss/pull/834))
 - [react-jss] Add flow types ([#818](https://github.com/cssinjs/jss/pull/818))
 - [all] Migrate to a monorepo using yarn workspaces and lerna ([#729](https://github.com/cssinjs/jss/pull/729))
-- [all] Add TypeScript definitions to all packages ([#889](https://github.com/cssinjs/jss/pull/889))
+- [all][ts] Add TS definitions to all packages ([#889](https://github.com/cssinjs/jss/pull/889))
 
 ### Breaking changes
 
