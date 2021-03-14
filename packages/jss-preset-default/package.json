@@ -1,7 +1,7 @@
 {
   "name": "jss-preset-default",
   "description": "Default preset for JSS with selected plugins.",
-  "version": "10.5.1",
+  "version": "10.6.0",
   "license": "MIT",
   "homepage": "https://cssinjs.org/jss-preset-default",
   "main": "dist/jss-preset-default.cjs.js",
@@ -32,18 +32,18 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.3.1",
-    "jss": "10.5.1",
-    "jss-plugin-camel-case": "10.5.1",
-    "jss-plugin-compose": "10.5.1",
-    "jss-plugin-default-unit": "10.5.1",
-    "jss-plugin-expand": "10.5.1",
-    "jss-plugin-extend": "10.5.1",
-    "jss-plugin-global": "10.5.1",
-    "jss-plugin-nested": "10.5.1",
-    "jss-plugin-props-sort": "10.5.1",
-    "jss-plugin-rule-value-function": "10.5.1",
-    "jss-plugin-rule-value-observable": "10.5.1",
-    "jss-plugin-template": "10.5.1",
-    "jss-plugin-vendor-prefixer": "10.5.1"
+    "jss": "10.6.0",
+    "jss-plugin-camel-case": "10.6.0",
+    "jss-plugin-compose": "10.6.0",
+    "jss-plugin-default-unit": "10.6.0",
+    "jss-plugin-expand": "10.6.0",
+    "jss-plugin-extend": "10.6.0",
+    "jss-plugin-global": "10.6.0",
+    "jss-plugin-nested": "10.6.0",
+    "jss-plugin-props-sort": "10.6.0",
+    "jss-plugin-rule-value-function": "10.6.0",
+    "jss-plugin-rule-value-observable": "10.6.0",
+    "jss-plugin-template": "10.6.0",
+    "jss-plugin-vendor-prefixer": "10.6.0"
   }
 }

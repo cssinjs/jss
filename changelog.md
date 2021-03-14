@@ -4,6 +4,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ---
 
+## 10.6.0 (2021-3-14)
+
 ### Improvements
 
 - [*] Define specific polyfills for specific packages that will be required and define a policy for adding polyfills. Makes sure we will notice if a polyfill is needed in a supported browser by failing the CI. [1456](https://github.com/cssinjs/jss/issues/1456)
