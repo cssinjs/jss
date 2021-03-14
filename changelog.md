@@ -9,9 +9,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 ### Improvements
 
 - [*] Define specific polyfills for specific packages that will be required and define a policy for adding polyfills. Makes sure we will notice if a polyfill is needed in a supported browser by failing the CI. [1456](https://github.com/cssinjs/jss/issues/1456)
-- [jss] Use `globalThis` to support secure version of JavaScript
+- [jss] Use `globalThis` to support secure version of JavaScript called SES [1449](https://github.com/cssinjs/jss/pull/1449)
 - [jss][ts] `Styles` now supports `ClassNames`, `Props`/`Data`, and `Theme` as type parameters (eg. `Styles<Names, Data, Theme>`). [1460](https://github.com/cssinjs/jss/pull/1460)
-  called SES [1449](https://github.com/cssinjs/jss/pull/1449)
 - [react-jss][ts] `withStyles` and `createUseStyles` now support `ClassNames`, `Props`, and `Theme` as type parameters (eg. `createUseStyles<Names, Props, Theme>`). [1460](https://github.com/cssinjs/jss/pull/1460)
 - [react-jss][ts] `useStyles` finally expects the correct argument type: a `Props` object with an optional `Theme` property (both determined from `createUseStyles`). [1460](https://github.com/cssinjs/jss/pull/1460)
 - [react-jss][ts] Support global TS theme definition [1453](https://github.com/cssinjs/jss/pull/1453)
