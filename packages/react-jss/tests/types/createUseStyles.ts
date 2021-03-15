@@ -39,7 +39,7 @@ const themeArg2ClassesFail2 = themeArg2({theme: expectedCustomTheme})
 const themeArg2ClassesPass = themeArg2({theme: expectedDefaultTheme})
 
 // Props declaration is allowed
-const themeArg3 = createUseStyles<string, MyProps>(theme => ({
+const themeArg3 = createUseStyles<MyProps>(theme => ({
   onlyPropsAllowed: ({...props}) => ({
     fontWeight: 'bold'
   })
@@ -52,7 +52,7 @@ const themeArg3ClassesPass = themeArg3(expectedCustomProps)
 const themeArg3ClassesPass2 = themeArg3({...expectedCustomProps, theme: expectedDefaultTheme})
 
 // Nested props declaration banned
-const themeArg4 = createUseStyles<string, MyProps>(theme => ({
+const themeArg4 = createUseStyles<MyProps>(theme => ({
   onlyPropsAllowed: ({...props}) => ({
     fontWeight: 'bold',
     // @ts-expect-error
@@ -61,7 +61,7 @@ const themeArg4 = createUseStyles<string, MyProps>(theme => ({
 }))
 
 // Supplied theme type is acknowledged
-const themeArg5 = createUseStyles<string, unknown, MyTheme>(theme => ({}))
+const themeArg5 = createUseStyles<unknown, MyTheme>(theme => ({}))
 // @ts-expect-error
 const themeArg5ClassesFail = themeArg5({theme: {}})
 // @ts-expect-error
@@ -129,7 +129,7 @@ const noThemeArg2ClassesFail2 = noThemeArg2({theme: expectedCustomTheme})
 const noThemeArg2ClassesPass = noThemeArg2({theme: expectedDefaultTheme})
 
 // Props declaration is allowed, but not nested props declaration
-const noThemeArg3 = createUseStyles<string, MyProps>({
+const noThemeArg3 = createUseStyles<MyProps>({
   propsAndTheme: ({property, theme}) => ({
     fontWeight: 'bold',
     // @ts-expect-error
@@ -149,7 +149,7 @@ const noThemeArg3ClassesPass = noThemeArg3(expectedCustomProps)
 const noThemeArg3ClassesPass2 = noThemeArg3({...expectedCustomProps, theme: expectedDefaultTheme})
 
 // Props and Theme types are properly acknowledged when supplied
-const noThemeArg4 = createUseStyles<string, MyProps, MyTheme>({
+const noThemeArg4 = createUseStyles<MyProps, MyTheme>({
   propsAndTheme: ({property, theme}) => ({
     fontWeight: 'bold',
     // @ts-expect-error
@@ -169,7 +169,7 @@ const noThemeArg4ClassesPass = noThemeArg4(expectedCustomProps)
 const noThemeArg4ClassesPass2 = noThemeArg4({...expectedCustomProps, theme: expectedCustomTheme})
 
 // Nested declarations are banned (single nest test)
-const noThemeArg5 = createUseStyles<string, MyProps, MyTheme>({
+const noThemeArg5 = createUseStyles<MyProps, MyTheme>({
   singleNest: {
     fontWeight: 'bold',
     singleValue: ({property, theme}) => '',
@@ -182,7 +182,7 @@ const noThemeArg5 = createUseStyles<string, MyProps, MyTheme>({
 })
 
 // Nested declarations are banned (double nest test)
-const noThemeArg6 = createUseStyles<string, MyProps, MyTheme>({
+const noThemeArg6 = createUseStyles<MyProps, MyTheme>({
   doubleNest: {
     fontWeight: 'bold',
     singleValue: ({property, theme}) => '',
@@ -199,7 +199,7 @@ const noThemeArg6 = createUseStyles<string, MyProps, MyTheme>({
 })
 
 // Nested declarations are banned (triple nest test)
-const noThemeArg7 = createUseStyles<string, MyProps, MyTheme>({
+const noThemeArg7 = createUseStyles<MyProps, MyTheme>({
   tripleNest: {
     fontWeight: 'bold',
     singleValue: ({property, theme}) => '',
