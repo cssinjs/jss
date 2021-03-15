@@ -76,7 +76,7 @@ interface CreateUseStylesOptions<Theme = DefaultTheme> extends BaseOptions<Theme
   name?: string
 }
 
-declare function createUseStyles<C extends string = string, Props = unknown, Theme = DefaultTheme>(
+declare function createUseStyles<Props = unknown, Theme = DefaultTheme, C extends string = string>(
   styles: Styles<C, Props, Theme> | ((theme: Theme) => Styles<C, Props, undefined>),
   options?: CreateUseStylesOptions<Theme>
 ): (data?: Props & {theme?: Theme}) => Classes<C>
