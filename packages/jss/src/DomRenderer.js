@@ -246,7 +246,7 @@ function insertStyle(style: HTMLElement, options: PriorityOptions) {
     return
   }
 
-  getHead().appendChild(style)
+  getHead()?.appendChild(style)
 }
 
 /**
