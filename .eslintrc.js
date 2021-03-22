@@ -14,7 +14,8 @@ module.exports = {
     {
       files: ['docs/*.md', 'docs/**/*.md'],
       rules: {
-        'no-console': 'off'
+        'no-console': 'off',
+        'func-names': 'off'
       }
     },
     {
