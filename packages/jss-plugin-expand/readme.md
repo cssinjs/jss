@@ -5,7 +5,6 @@
 [![Downlodas](https://img.shields.io/npm/dm/jss-plugin-expand.svg?style=flat)](https://npmjs.org/package/jss-plugin-expand)
 [![Size](https://img.shields.io/bundlephobia/minzip/jss-plugin-expand.svg?style=flat)](https://npmjs.org/package/jss-plugin-expand)
 [![Dependencies](https://img.shields.io/david/cssinjs/jss.svg?path=packages%2Fjss-plugin-expand&style=flat)](https://npmjs.org/package/jss-plugin-expand)
-[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 
 > JSS plugin that gives you a better syntax than CSS.
 

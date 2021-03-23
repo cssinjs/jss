@@ -5,7 +5,6 @@
 [![Downlodas](https://img.shields.io/npm/dm/jss-plugin-rule-value-function.svg?style=flat)](https://npmjs.org/package/jss-plugin-rule-value-function)
 [![Size](https://img.shields.io/bundlephobia/minzip/jss-plugin-rule-value-function.svg?style=flat)](https://npmjs.org/package/jss-plugin-rule-value-function)
 [![Dependencies](https://img.shields.io/david/cssinjs/jss.svg?path=packages%2Fjss-plugin-rule-value-function&style=flat)](https://npmjs.org/package/jss-plugin-rule-value-function)
-[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 
 > JSS plugin for function value and rule syntax
 

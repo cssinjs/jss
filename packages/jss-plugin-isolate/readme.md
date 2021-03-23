@@ -5,7 +5,6 @@
 [![Downlodas](https://img.shields.io/npm/dm/jss-plugin-isolate.svg?style=flat)](https://npmjs.org/package/jss-plugin-isolate)
 [![Size](https://img.shields.io/bundlephobia/minzip/jss-plugin-isolate.svg?style=flat)](https://npmjs.org/package/jss-plugin-isolate)
 [![Dependencies](https://img.shields.io/david/cssinjs/jss.svg?path=packages%2Fjss-plugin-isolate&style=flat)](https://npmjs.org/package/jss-plugin-isolate)
-[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 
 > True rules isolation through automatic properties reset.
 

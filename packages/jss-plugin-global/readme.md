@@ -5,7 +5,6 @@
 [![Downlodas](https://img.shields.io/npm/dm/jss-plugin-global.svg?style=flat)](https://npmjs.org/package/jss-plugin-global)
 [![Size](https://img.shields.io/bundlephobia/minzip/jss-plugin-global.svg?style=flat)](https://npmjs.org/package/jss-plugin-global)
 [![Dependencies](https://img.shields.io/david/cssinjs/jss.svg?path=packages%2Fjss-plugin-global&style=flat)](https://npmjs.org/package/jss-plugin-global)
-[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 
 > Global styles for JSS
 

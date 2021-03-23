@@ -28,7 +28,6 @@ const readmeContent = `# ${pkg.name}
 [![Dependencies](https://img.shields.io/david/cssinjs/jss.svg?path=packages%2F${
   pkg.name
 }&style=flat)](${npm})
-[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 
 > ${pkg.description}
 

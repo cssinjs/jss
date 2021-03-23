@@ -5,7 +5,6 @@
 [![Downlodas](https://img.shields.io/npm/dm/jss-plugin-template.svg?style=flat)](https://npmjs.org/package/jss-plugin-template)
 [![Size](https://img.shields.io/bundlephobia/minzip/jss-plugin-template.svg?style=flat)](https://npmjs.org/package/jss-plugin-template)
 [![Dependencies](https://img.shields.io/david/cssinjs/jss.svg?path=packages%2Fjss-plugin-template&style=flat)](https://npmjs.org/package/jss-plugin-template)
-[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 
 > JSS plugin enables string templates
 

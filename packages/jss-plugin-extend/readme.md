@@ -5,7 +5,6 @@
 [![Downlodas](https://img.shields.io/npm/dm/jss-plugin-extend.svg?style=flat)](https://npmjs.org/package/jss-plugin-extend)
 [![Size](https://img.shields.io/bundlephobia/minzip/jss-plugin-extend.svg?style=flat)](https://npmjs.org/package/jss-plugin-extend)
 [![Dependencies](https://img.shields.io/david/cssinjs/jss.svg?path=packages%2Fjss-plugin-extend&style=flat)](https://npmjs.org/package/jss-plugin-extend)
-[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 
 > JSS plugin that enables mixing in styles.
 

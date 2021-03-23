@@ -5,7 +5,6 @@
 [![Downlodas](https://img.shields.io/npm/dm/jss-plugin-compose.svg?style=flat)](https://npmjs.org/package/jss-plugin-compose)
 [![Size](https://img.shields.io/bundlephobia/minzip/jss-plugin-compose.svg?style=flat)](https://npmjs.org/package/jss-plugin-compose)
 [![Dependencies](https://img.shields.io/david/cssinjs/jss.svg?path=packages%2Fjss-plugin-compose&style=flat)](https://npmjs.org/package/jss-plugin-compose)
-[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 
 > JSS plugin for classes composition
 
