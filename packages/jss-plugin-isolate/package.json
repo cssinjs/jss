@@ -7,6 +7,7 @@
   "main": "dist/jss-plugin-isolate.cjs.js",
   "module": "dist/jss-plugin-isolate.esm.js",
   "unpkg": "dist/jss-plugin-isolate.bundle.js",
+  "sideEffects": false,
   "typings": "./src/index.d.ts",
   "author": "JSS Team",
   "repository": {

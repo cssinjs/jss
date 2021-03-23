@@ -7,6 +7,7 @@
   "module": "dist/react-jss.esm.js",
   "unpkg": "dist/react-jss.bundle.js",
   "homepage": "https://cssinjs.org/react-jss",
+  "sideEffects": false,
   "typings": "./src/index.d.ts",
   "author": "JSS Team",
   "repository": {

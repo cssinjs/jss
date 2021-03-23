@@ -7,6 +7,7 @@
   "main": "dist/jss-plugin-extend.cjs.js",
   "module": "dist/jss-plugin-extend.esm.js",
   "unpkg": "dist/jss-plugin-extend.bundle.js",
+  "sideEffects": false,
   "typings": "./src/index.d.ts",
   "author": "JSS Team",
   "repository": {

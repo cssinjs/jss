@@ -7,6 +7,7 @@
   "main": "dist/jss-plugin-props-sort.cjs.js",
   "module": "dist/jss-plugin-props-sort.esm.js",
   "unpkg": "dist/jss-plugin-props-sort.bundle.js",
+  "sideEffects": false,
   "typings": "./src/index.d.ts",
   "author": "JSS Team",
   "repository": {

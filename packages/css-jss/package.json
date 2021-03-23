@@ -7,6 +7,7 @@
   "main": "dist/css-jss.cjs.js",
   "module": "dist/css-jss.esm.js",
   "unpkg": "dist/css-jss.bundle.js",
+  "sideEffects": false,
   "typings": "./src/index.d.ts",
   "author": "JSS Team",
   "repository": {
