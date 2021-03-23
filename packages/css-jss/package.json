@@ -40,5 +40,6 @@
     "@babel/runtime": "^7.3.1",
     "jss": "10.6.0",
     "jss-preset-default": "10.6.0"
-  }
+  },
+  "sideEffects": false
 }

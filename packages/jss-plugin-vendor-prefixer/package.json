@@ -39,5 +39,6 @@
   },
   "devDependencies": {
     "jss-plugin-rule-value-function": "10.6.0"
-  }
+  },
+  "sideEffects": false
 }

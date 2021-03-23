@@ -45,5 +45,6 @@
     "jss-plugin-rule-value-observable": "10.6.0",
     "jss-plugin-template": "10.6.0",
     "jss-plugin-vendor-prefixer": "10.6.0"
-  }
+  },
+  "sideEffects": false
 }
