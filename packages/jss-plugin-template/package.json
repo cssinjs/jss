@@ -7,6 +7,7 @@
   "main": "dist/jss-plugin-template.cjs.js",
   "module": "dist/jss-plugin-template.esm.js",
   "unpkg": "dist/jss-plugin-template.bundle.js",
+  "sideEffects": false,
   "typings": "./src/index.d.ts",
   "author": "JSS Team",
   "repository": {
@@ -37,6 +38,5 @@
     "@babel/runtime": "^7.3.1",
     "jss": "10.6.0",
     "tiny-warning": "^1.0.2"
-  },
-  "sideEffects": false
+  }
 }

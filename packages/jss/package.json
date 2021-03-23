@@ -7,6 +7,7 @@
   "main": "dist/jss.cjs.js",
   "module": "dist/jss.esm.js",
   "unpkg": "dist/jss.bundle.js",
+  "sideEffects": false,
   "typings": "./src/index.d.ts",
   "author": "JSS Team",
   "repository": {
@@ -46,6 +47,5 @@
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/jss"
-  },
-  "sideEffects": false
+  }
 }

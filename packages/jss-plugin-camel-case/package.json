@@ -7,6 +7,7 @@
   "main": "dist/jss-plugin-camel-case.cjs.js",
   "module": "dist/jss-plugin-camel-case.esm.js",
   "unpkg": "dist/jss-plugin-camel-case.bundle.js",
+  "sideEffects": false,
   "typings": "./src/index.d.ts",
   "author": "JSS Team",
   "repository": {
@@ -40,6 +41,5 @@
     "@babel/runtime": "^7.3.1",
     "hyphenate-style-name": "^1.0.3",
     "jss": "10.6.0"
-  },
-  "sideEffects": false
+  }
 }

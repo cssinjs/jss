@@ -7,6 +7,7 @@
   "main": "dist/jss-starter-kit.cjs.js",
   "module": "dist/jss-starter-kit.esm.js",
   "unpkg": "dist/jss-starter-kit.bundle.js",
+  "sideEffects": false,
   "typings": "./src/index.d.ts",
   "author": "JSS Team",
   "repository": {
@@ -43,6 +44,5 @@
     "jss-plugin-isolate": "10.6.0",
     "jss-preset-default": "10.6.0",
     "react-jss": "10.6.0"
-  },
-  "sideEffects": false
+  }
 }

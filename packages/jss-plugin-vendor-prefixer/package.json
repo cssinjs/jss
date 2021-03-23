@@ -7,6 +7,7 @@
   "main": "dist/jss-plugin-vendor-prefixer.cjs.js",
   "module": "dist/jss-plugin-vendor-prefixer.esm.js",
   "unpkg": "dist/jss-plugin-vendor-prefixer.bundle.js",
+  "sideEffects": false,
   "typings": "./src/index.d.ts",
   "author": "JSS Team",
   "repository": {
@@ -39,6 +40,5 @@
   },
   "devDependencies": {
     "jss-plugin-rule-value-function": "10.6.0"
-  },
-  "sideEffects": false
+  }
 }
