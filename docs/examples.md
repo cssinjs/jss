@@ -1,7 +1,5 @@
 # Examples
 
-[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
-
 - [Documentation site](https://github.com/cssinjs/cssinjs/)
 - [Calendar](https://codesandbox.io/s/github/cssinjs/jss/tree/master/examples/calendar)
 - [Perdido Grid System](https://codesandbox.io/s/github/cssinjs/jss/tree/master/examples/perdido)

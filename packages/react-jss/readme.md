@@ -5,7 +5,6 @@
 [![Downlodas](https://img.shields.io/npm/dm/react-jss.svg?style=flat)](https://npmjs.org/package/react-jss)
 [![Size](https://img.shields.io/bundlephobia/minzip/react-jss.svg?style=flat)](https://npmjs.org/package/react-jss)
 [![Dependencies](https://img.shields.io/david/cssinjs/jss.svg?path=packages%2Freact-jss&style=flat)](https://npmjs.org/package/react-jss)
-[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 
 > JSS integration with React
 

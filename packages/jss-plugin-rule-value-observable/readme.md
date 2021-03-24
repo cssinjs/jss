@@ -5,7 +5,6 @@
 [![Downlodas](https://img.shields.io/npm/dm/jss-plugin-rule-value-observable.svg?style=flat)](https://npmjs.org/package/jss-plugin-rule-value-observable)
 [![Size](https://img.shields.io/bundlephobia/minzip/jss-plugin-rule-value-observable.svg?style=flat)](https://npmjs.org/package/jss-plugin-rule-value-observable)
 [![Dependencies](https://img.shields.io/david/cssinjs/jss.svg?path=packages%2Fjss-plugin-rule-value-observable&style=flat)](https://npmjs.org/package/jss-plugin-rule-value-observable)
-[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 
 > JSS plugin for TC39 Observables support
 

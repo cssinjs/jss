@@ -5,7 +5,6 @@
 [![Downlodas](https://img.shields.io/npm/dm/jss-preset-default.svg?style=flat)](https://npmjs.org/package/jss-preset-default)
 [![Size](https://img.shields.io/bundlephobia/minzip/jss-preset-default.svg?style=flat)](https://npmjs.org/package/jss-preset-default)
 [![Dependencies](https://img.shields.io/david/cssinjs/jss.svg?path=packages%2Fjss-preset-default&style=flat)](https://npmjs.org/package/jss-preset-default)
-[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 
 > Default preset for JSS with selected plugins.
 

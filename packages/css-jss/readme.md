@@ -5,7 +5,6 @@
 [![Downlodas](https://img.shields.io/npm/dm/css-jss.svg?style=flat)](https://npmjs.org/package/css-jss)
 [![Size](https://img.shields.io/bundlephobia/minzip/css-jss.svg?style=flat)](https://npmjs.org/package/css-jss)
 [![Dependencies](https://img.shields.io/david/cssinjs/jss.svg?path=packages%2Fcss-jss&style=flat)](https://npmjs.org/package/css-jss)
-[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 
 > Implements css() interface on top of JSS
 

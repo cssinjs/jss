@@ -5,7 +5,6 @@
 [![Downlodas](https://img.shields.io/npm/dm/jss-plugin-camel-case.svg?style=flat)](https://npmjs.org/package/jss-plugin-camel-case)
 [![Size](https://img.shields.io/bundlephobia/minzip/jss-plugin-camel-case.svg?style=flat)](https://npmjs.org/package/jss-plugin-camel-case)
 [![Dependencies](https://img.shields.io/david/cssinjs/jss.svg?path=packages%2Fjss-plugin-camel-case&style=flat)](https://npmjs.org/package/jss-plugin-camel-case)
-[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 
 > JSS plugin that allows to write camel cased rule properties
 

@@ -5,7 +5,6 @@
 [![Downlodas](https://img.shields.io/npm/dm/jss-plugin-cache.svg?style=flat)](https://npmjs.org/package/jss-plugin-cache)
 [![Size](https://img.shields.io/bundlephobia/minzip/jss-plugin-cache.svg?style=flat)](https://npmjs.org/package/jss-plugin-cache)
 [![Dependencies](https://img.shields.io/david/cssinjs/jss.svg?path=packages%2Fjss-plugin-cache&style=flat)](https://npmjs.org/package/jss-plugin-cache)
-[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/cssinjs/lobby)
 
 > JSS plugin that caches the rules and delivers insane performance.
 
