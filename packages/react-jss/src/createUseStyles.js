@@ -25,17 +25,20 @@ type CreateUseStyles = <Theme: {}>(Styles<Theme>, HookOptions<Theme> | void) => 
 const createUseStyles: CreateUseStyles = <Theme: {}>(styles, options = {}) => {
   const {index = getSheetIndex(), theming, name, ...sheetOptions} = options
   const ThemeContext = (theming && theming.context) || DefaultThemeContext
+
+  /* eslint-disable no-unused-vars */
   const useTheme =
     typeof styles === 'function'
       ? // $FlowFixMe[incompatible-return]
-        (): Theme => React.useContext(ThemeContext) || noTheme
+        (propsTheme?: Theme): Theme => propsTheme || React.useContext(ThemeContext) || noTheme
       : // $FlowFixMe[incompatible-return]
-        (): Theme => noTheme
+        (_?: Theme): Theme => noTheme
+  /* eslint-enable no-unused-vars */
 
   return function useStyles(data: any) {
     const isFirstMount = React.useRef(true)
     const context = React.useContext(JssContext)
-    const theme = useTheme()
+    const theme = useTheme(data.theme)
 
     const [sheet, dynamicRules] = React.useMemo(
       () => {
