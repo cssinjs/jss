@@ -62,14 +62,12 @@ export class BaseStyleRule implements BaseRule {
     if (isEmpty && !isDefined && !force) return this
 
     // We are going to remove this value.
-    const remove = isEmpty && isDefined
-
-    if (remove) delete this.style[name]
+    if (isEmpty) delete this.style[name]
     else this.style[name] = newValue
 
     // Renderable is defined if StyleSheet option `link` is true.
     if (this.renderable && this.renderer) {
-      if (remove) this.renderer.removeProperty(this.renderable, name)
+      if (isEmpty) this.renderer.removeProperty(this.renderable, name)
       else this.renderer.setProperty(this.renderable, name, newValue)
       return this
     }

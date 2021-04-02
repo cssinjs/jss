@@ -216,17 +216,6 @@ export default class RuleList {
       // We need to run the plugins in case new `style` relies on syntax plugins.
       plugins.onProcessStyle(styleRule.style, styleRule, sheet)
 
-      // Update and add props.
-      for (const prop in styleRule.style) {
-        const nextValue = styleRule.style[prop]
-        const prevValue = style[prop]
-        // We need to use `force: true` because `rule.style` has been updated during onUpdate hook, so `rule.prop()` will not update the CSSOM rule.
-        // We do this comparison to avoid unneeded `rule.prop()` calls, since we have the old `style` object here.
-        if (nextValue !== prevValue) {
-          styleRule.prop(prop, nextValue, forceUpdateOptions)
-        }
-      }
-
       // Remove props.
       for (const prop in style) {
         const nextValue = styleRule.style[prop]
@@ -235,6 +224,17 @@ export default class RuleList {
         // We do this comparison to avoid unneeded `rule.prop()` calls, since we have the old `style` object here.
         if (nextValue == null && nextValue !== prevValue) {
           styleRule.prop(prop, null, forceUpdateOptions)
+        }
+      }
+
+      // Update and add props.
+      for (const prop in styleRule.style) {
+        const nextValue = styleRule.style[prop]
+        const prevValue = style[prop]
+        // We need to use `force: true` because `rule.style` has been updated during onUpdate hook, so `rule.prop()` will not update the CSSOM rule.
+        // We do this comparison to avoid unneeded `rule.prop()` calls, since we have the old `style` object here.
+        if (nextValue !== prevValue) {
+          styleRule.prop(prop, nextValue, forceUpdateOptions)
         }
       }
     }
