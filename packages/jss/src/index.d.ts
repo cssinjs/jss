@@ -12,7 +12,9 @@ type Func<P, T, R> = T extends undefined ? ((data: P) => R) : ((data: P & {theme
 type NormalCssProperties = CSSProperties<string | number>
 type NormalCssValues<K> = K extends keyof NormalCssProperties ? NormalCssProperties[K] : JssValue
 
-export type JssStyle<Props = any, Theme = undefined> =
+export type JssStyle<Props = any, Theme = undefined> = {
+  fallbacks: JssStyle<Props, Theme> | (JssStyle<Props, Theme>[])
+} & (
   | {
       [K in keyof NormalCssProperties]:
         | NormalCssValues<K>
@@ -26,7 +28,7 @@ export type JssStyle<Props = any, Theme = undefined> =
         | JssStyle<Props, Theme>
         | Func<Props, Theme, JssValue | JssStyle<undefined, undefined> | undefined>
         | Observable<JssValue | JssStyle | undefined>
-    }
+    })
 
 export type Styles<
   Name extends string | number | symbol = string,
