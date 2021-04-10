@@ -17,7 +17,7 @@ type NormalCssProperties = CSSProperties<string | number>
 type NormalCssValues<K> = K extends keyof NormalCssProperties ? NormalCssProperties[K] : JssValue
 
 export type JssStyle<Props = any, Theme = undefined> = {
-  fallbacks: JssStyle<Props, Theme> | (JssStyle<Props, Theme>[])
+  fallbacks?: JssStyle<Props, Theme> | (JssStyle<Props, Theme>[])
 } & (
   | {
       [K in keyof NormalCssProperties]:
