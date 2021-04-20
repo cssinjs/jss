@@ -72,6 +72,31 @@ attachedStyleSheet.addRules({
   }
 })
 
+// fallbacks test
+attachedStyleSheet.addRules({
+  rule4: {
+    fallbacks: {
+      fontFamily: 'other',
+      color: '#black'
+    },
+    fontFamily: 'Roboto',
+    color: '#FFFFFF'
+  },
+  rule5: {
+    // @ts-expect-error
+    fallbacks: {
+      borderRadius: ['solid', 2],
+      fontSize: Symbol()
+    },
+    borderRadius: ['solid', 2],
+    fontSize: 17
+  },
+  rule6: {
+    // @ts-expect-error
+    fallbacks: Symbol()
+  }
+})
+
 const styleSheet2 = sharedInstance.createStyleSheet({
   container: {
     background: '#000099'
