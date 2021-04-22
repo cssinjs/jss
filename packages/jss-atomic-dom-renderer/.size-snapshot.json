@@ -1,0 +1,31 @@
+{
+  "jss-atomic-dom-renderer.js": {
+    "bundled": 987,
+    "minified": 533,
+    "gzipped": 324
+  },
+  "jss-atomic-dom-renderer.min.js": {
+    "bundled": 987,
+    "minified": 533,
+    "gzipped": 324
+  },
+  "jss-atomic-dom-renderer.cjs.js": {
+    "bundled": 690,
+    "minified": 490,
+    "gzipped": 284
+  },
+  "jss-atomic-dom-renderer.esm.js": {
+    "bundled": 395,
+    "minified": 258,
+    "gzipped": 179,
+    "treeshaked": {
+      "rollup": {
+        "code": 61,
+        "import_statements": 61
+      },
+      "webpack": {
+        "code": 1105
+      }
+    }
+  }
+}

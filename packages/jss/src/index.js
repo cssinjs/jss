@@ -90,6 +90,8 @@ export {default as RuleList} from './RuleList'
  */
 export {default as sheets} from './sheets'
 
+export {default as DomRenderer} from './DomRenderer'
+
 /**
  * Class name generator creator.
  */
