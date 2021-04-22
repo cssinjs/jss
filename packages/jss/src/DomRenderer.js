@@ -38,7 +38,7 @@ type GetPropertyValue = (HTMLElementWithStyleMap | CSSStyleRule | CSSKeyframeRul
 /**
  * Get a style property value.
  */
-const getPropertyValue = (cssRule, prop) => {
+const getPropertyValue: GetPropertyValue = (cssRule, prop) => {
   try {
     // Support CSSTOM.
     if (cssRule.attributeStyleMap) {
