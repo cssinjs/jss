@@ -21,7 +21,7 @@ export type CreateGenerateId = (options?: CreateGenerateIdOptions) => GenerateId
 const createGenerateId: CreateGenerateId = (options = {}) => {
   let ruleCounter = 0
 
-  return (rule: Rule, sheet?: StyleSheet): string => {
+  const generateId: GenerateId = (rule, sheet) => {
     ruleCounter += 1
 
     if (ruleCounter > maxRules) {
@@ -47,6 +47,8 @@ const createGenerateId: CreateGenerateId = (options = {}) => {
 
     return `${prefix + rule.key}-${moduleId}${jssId ? `-${jssId}` : ''}-${ruleCounter}`
   }
+
+  return generateId
 }
 
 export default createGenerateId
