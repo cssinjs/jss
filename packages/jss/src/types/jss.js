@@ -70,17 +70,14 @@ export type JssValue =
   | null
   | false
 
+type CSSRule = HTMLElementWithStyleMap | CSSStyleRule
 export interface Renderer {
   constructor(sheet?: StyleSheet): void;
   // HTMLStyleElement needs fixing https://github.com/facebook/flow/issues/2696
   element: any;
-  setProperty(
-    cssRule: HTMLElementWithStyleMap | CSSStyleRule,
-    prop: string,
-    value: JssValue
-  ): boolean;
-  getPropertyValue(cssRule: HTMLElementWithStyleMap | CSSStyleRule, prop: string): string;
-  removeProperty(cssRule: HTMLElementWithStyleMap | CSSStyleRule, prop: string): void;
+  setProperty(cssRule: CSSRule, prop: string, value: JssValue): boolean;
+  getPropertyValue(cssRule: CSSRule, prop: string): string;
+  removeProperty(cssRule: CSSRule, prop: string): void;
   setSelector(cssRule: CSSStyleRule, selectorText: string): boolean;
   attach(): void;
   detach(): void;
