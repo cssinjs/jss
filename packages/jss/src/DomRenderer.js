@@ -130,17 +130,14 @@ const getHead = memoize((): HTMLElement => (document.querySelector('head'): any)
  * Find attached sheet with an index higher than the passed one.
  */
 function findHigherSheet(registry: Array<StyleSheet>, options: PriorityOptions): StyleSheet | null {
-  for (let i = 0; i < registry.length; i++) {
-    const sheet = registry[i]
-    if (
-      sheet.attached &&
-      sheet.options.index > options.index &&
-      sheet.options.insertionPoint === options.insertionPoint
-    ) {
-      return sheet
-    }
-  }
-  return null
+  return (
+    registry.find(
+      sheet =>
+        sheet.attached &&
+        sheet.options.index > options.index &&
+        sheet.options.insertionPoint === options.insertionPoint
+    ) || null
+  )
 }
 
 /**
