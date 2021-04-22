@@ -33,7 +33,9 @@ const memoize = <Value>(fn: () => Value): (() => Value) => {
   }
 }
 
-type GetPropertyValue = (HTMLElementWithStyleMap | CSSStyleRule | CSSKeyframeRule, string) => string
+type CSSRule = HTMLElementWithStyleMap | CSSStyleRule | CSSKeyframeRule
+
+type GetPropertyValue = (CSSRule, string) => string
 
 /**
  * Get a style property value.
@@ -51,11 +53,7 @@ const getPropertyValue: GetPropertyValue = (cssRule, prop) => {
   }
 }
 
-type SetProperty = (
-  HTMLElementWithStyleMap | CSSStyleRule | CSSKeyframeRule,
-  string,
-  JssValue
-) => boolean
+type SetProperty = (CSSRule, string, JssValue) => boolean
 
 /**
  * Set a style property.
@@ -86,7 +84,7 @@ const setProperty: SetProperty = (cssRule, prop, value) => {
   return true
 }
 
-type RemoveProperty = (HTMLElementWithStyleMap | CSSStyleRule | CSSKeyframeRule, string) => void
+type RemoveProperty = (CSSRule, string) => void
 
 /**
  * Remove a style property.
