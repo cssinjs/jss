@@ -39,7 +39,7 @@ export default function toCss(
           const value = fallback[prop]
           if (value != null) {
             if (result) result += '\n'
-            result += `${indentStr(`${prop}: ${toCssValue(value)};`, indent)}`
+            result += indentStr(`${prop}: ${toCssValue(value)};`, indent)
           }
         }
       }
@@ -49,7 +49,7 @@ export default function toCss(
         const value = fallbacks[prop]
         if (value != null) {
           if (result) result += '\n'
-          result += `${indentStr(`${prop}: ${toCssValue(value)};`, indent)}`
+          result += indentStr(`${prop}: ${toCssValue(value)};`, indent)
         }
       }
     }
@@ -59,7 +59,7 @@ export default function toCss(
     const value = style[prop]
     if (value != null && prop !== 'fallbacks') {
       if (result) result += '\n'
-      result += `${indentStr(`${prop}: ${toCssValue(value)};`, indent)}`
+      result += indentStr(`${prop}: ${toCssValue(value)};`, indent)
     }
   }
 
