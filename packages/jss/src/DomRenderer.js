@@ -3,6 +3,7 @@ import warning from 'tiny-warning'
 import StyleSheet from './StyleSheet'
 import sheets from './sheets'
 import toCssValue from './utils/toCssValue'
+import memoize from './utils/memoize'
 import type {
   CSSStyleRule,
   CSSMediaRule,
@@ -20,17 +21,6 @@ import type {
 type PriorityOptions = {
   index: number,
   insertionPoint?: InsertionPoint
-}
-
-/**
- * Cache the value from the first time a function is called.
- */
-const memoize = <Value>(fn: () => Value): (() => Value) => {
-  let value
-  return () => {
-    if (!value) value = fn()
-    return value
-  }
 }
 
 type GetPropertyValue = (HTMLElementWithStyleMap | CSSStyleRule | CSSKeyframeRule, string) => string
