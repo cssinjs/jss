@@ -94,6 +94,10 @@ attachedStyleSheet.addRules({
   rule6: {
     // @ts-expect-error
     fallbacks: Symbol()
+  },
+  container: {
+    display: 'flex',
+    fallbacks: [{display: 'box'}, {display: 'flex-box'}]
   }
 })
 
