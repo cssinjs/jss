@@ -41,7 +41,7 @@ type CreateWithStyles = <Theme>(
  * `withStyles(styles, [options])(Component)`
  */
 const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
-  const {index, theming, injectTheme, ...sheetOptions} = options
+  const {index = getSheetIndex(), theming, injectTheme, ...sheetOptions} = options
   const isThemingEnabled = typeof styles === 'function'
   const ThemeConsumer = (theming && theming.context.Consumer) || ThemeContext.Consumer
 
@@ -55,59 +55,39 @@ const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
         classesProp ? mergeClasses(sheetClasses, classesProp) : sheetClasses
     )
 
-    const WithStyles = props => {
+    const WithStyles = React.forwardRef((props, ref) => {
       const useStyle = React.useMemo(
         () =>
           createUseStyles(styles, {
             theme: getTheme(props.theme),
             index,
             name: displayName,
-            context: props.jssContext,
             sheetOptions
           }),
-        [styles, props.theme, index, displayName, props.jssContext, sheetOptions]
+        [styles, props.theme, index, displayName, sheetOptions]
       )
 
       const sheetClasses = useStyle(props)
 
-      const {innerRef, jssContext, theme, classes, ...rest} = props
+      const {theme, classes, ...rest} = props
       const newProps = {
         ...rest,
         classes: mergeClassesProp(sheetClasses, classes)
       }
 
-      if (innerRef) props.ref = innerRef
+      if (ref) newProps.ref = ref
       if (injectTheme) newProps.theme = theme
+      else newProps.theme = noTheme
 
       return <InnerComponent {...newProps} />
-    }
+    })
 
     WithStyles.displayName = `WithStyles(${displayName})`
     WithStyles.defaultProps = {...InnerComponent.defaultProps}
 
-    const JssContextSubscriber = React.forwardRef((props, ref) => (
-      <JssContext.Consumer>
-        {context => {
-          if (isThemingEnabled || injectTheme) {
-            return (
-              <ThemeConsumer>
-                {theme => (
-                  <WithStyles innerRef={ref} theme={theme} {...props} jssContext={context} />
-                )}
-              </ThemeConsumer>
-            )
-          }
+    WithStyles.InnerComponent = InnerComponent
 
-          return <WithStyles innerRef={ref} {...props} jssContext={context} theme={noTheme} />
-        }}
-      </JssContext.Consumer>
-    ))
-
-    JssContextSubscriber.displayName = `JssContextSubscriber(${displayName})`
-    // $FlowFixMe[prop-missing] - React's types should allow custom static properties on component.
-    JssContextSubscriber.InnerComponent = InnerComponent
-
-    return hoistNonReactStatics(JssContextSubscriber, InnerComponent)
+    return WithStyles
   }
 }
 
