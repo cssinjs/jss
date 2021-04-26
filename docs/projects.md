@@ -1,4 +1,4 @@
-# All projects using JSS 
+# All projects using JSS
 
 ## Integrations
 
