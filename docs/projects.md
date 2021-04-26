@@ -1,4 +1,4 @@
-# All projects using JSS
+# All projects using JSS 
 
 ## Integrations
 
@@ -13,6 +13,8 @@
 [Aesthetic](https://github.com/milesj/aesthetic) - a React style abstraction layer with theme support.
 
 [CSSX](https://github.com/krasimir/cssx) CSS syntax which can use JSS for rendering.
+
+[vue-jss](https://github.com/BestVue3/vue-jss) - a JSS integration for Vue
 
 ## Examples
 
