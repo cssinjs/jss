@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react'
+import hoistNonReactStatics from 'hoist-non-react-statics'
 import {type StyleSheet, type Classes} from 'jss'
 import {ThemeContext} from 'theming'
 
@@ -76,7 +77,7 @@ const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
 
     WithStyles.InnerComponent = InnerComponent
 
-    return WithStyles
+    return hoistNonReactStatics(WithStyles, InnerComponent)
   }
 }
 
