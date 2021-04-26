@@ -32,6 +32,7 @@ type CreateWithStyles = <Theme>(
  */
 const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
   const {index = getSheetIndex(), theming, injectTheme, ...sheetOptions} = options
+  const isThemingEnabled = typeof styles === 'function'
   const CurrentTheme = theming || ThemeContext
 
   return <Props: InnerProps>(InnerComponent = NoRenderer) => {
@@ -48,7 +49,7 @@ const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
       const useStyle = React.useMemo(
         () =>
           createUseStyles(styles, {
-            theme,
+            theme: isThemingEnabled ? theme : noTheme,
             index,
             name: displayName,
             ...sheetOptions
@@ -65,7 +66,7 @@ const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
       }
 
       if (ref) newProps.ref = ref
-      if (injectTheme) newProps.theme = theme
+      if (injectTheme) newProps.theme = props.theme || theme
 
       return <InnerComponent {...newProps} />
     })
