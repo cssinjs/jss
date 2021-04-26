@@ -1,23 +1,13 @@
 // @flow
 import * as React from 'react'
-import hoistNonReactStatics from 'hoist-non-react-statics'
 import {type StyleSheet, type Classes} from 'jss'
 import {ThemeContext} from 'theming'
 
-import type {HOCProps, HOCOptions, Styles, InnerProps, DynamicRules} from './types'
+import type {HOCProps, HookOptions, HOCOptions, Styles, InnerProps, DynamicRules} from './types'
 import getDisplayName from './getDisplayName'
 import memoize from './utils/memoizeOne'
 import mergeClasses from './utils/mergeClasses'
-import JssContext from './JssContext'
 import getSheetIndex from './utils/getSheetIndex'
-import {
-  createStyleSheet,
-  updateDynamicRules,
-  addDynamicRules,
-  removeDynamicRules
-} from './utils/sheets'
-import {manageSheet, unmanageSheet} from './utils/managers'
-import getSheetClasses from './utils/getSheetClasses'
 import createUseStyles from './createUseStyles'
 
 interface State {
@@ -42,13 +32,10 @@ type CreateWithStyles = <Theme>(
  */
 const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
   const {index = getSheetIndex(), theming, injectTheme, ...sheetOptions} = options
-  const isThemingEnabled = typeof styles === 'function'
   const CurrentTheme = theming || ThemeContext
 
   return <Props: InnerProps>(InnerComponent = NoRenderer) => {
     const displayName = getDisplayName(InnerComponent)
-
-    const getTheme = (theme): Theme => (isThemingEnabled ? theme : ((noTheme: any): Theme))
 
     const mergeClassesProp = memoize(
       (sheetClasses, classesProp): Classes =>
@@ -61,10 +48,10 @@ const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
       const useStyle = React.useMemo(
         () =>
           createUseStyles(styles, {
-            theme: getTheme(theme),
+            theme,
             index,
             name: displayName,
-            sheetOptions
+            ...sheetOptions
           }),
         [styles, theme, index, displayName, sheetOptions]
       )
