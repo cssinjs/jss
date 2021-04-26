@@ -18,6 +18,7 @@ import {
 } from './utils/sheets'
 import {manageSheet, unmanageSheet} from './utils/managers'
 import getSheetClasses from './utils/getSheetClasses'
+import createUseStyles from './createUseStyles'
 
 interface State {
   dynamicRules: ?DynamicRules;
@@ -40,128 +41,49 @@ type CreateWithStyles = <Theme>(
  * `withStyles(styles, [options])(Component)`
  */
 const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
-  const {index = getSheetIndex(), theming, injectTheme, ...sheetOptions} = options
+  const {index, theming, injectTheme, ...sheetOptions} = options
   const isThemingEnabled = typeof styles === 'function'
   const ThemeConsumer = (theming && theming.context.Consumer) || ThemeContext.Consumer
 
   return <Props: InnerProps>(InnerComponent = NoRenderer) => {
     const displayName = getDisplayName(InnerComponent)
 
-    const getTheme = (props): Theme => (isThemingEnabled ? props.theme : ((noTheme: any): Theme))
+    const getTheme = (theme): Theme => (isThemingEnabled ? theme : ((noTheme: any): Theme))
 
-    class WithStyles extends React.Component<HOCProps<Theme, Props>, State> {
-      static displayName = `WithStyles(${displayName})`
+    const mergeClassesProp = memoize(
+      (sheetClasses, classesProp): Classes =>
+        classesProp ? mergeClasses(sheetClasses, classesProp) : sheetClasses
+    )
 
-      // $FlowFixMe[prop-missing]
-      static defaultProps = {...InnerComponent.defaultProps}
-
-      static createState(props) {
-        const sheet = createStyleSheet({
-          styles,
-          theme: getTheme(props),
-          index,
-          name: displayName,
-          context: props.jssContext,
-          sheetOptions
-        })
-
-        if (!sheet) {
-          return {classes: {}, dynamicRules: undefined, sheet: undefined}
-        }
-
-        const dynamicRules = addDynamicRules(sheet, props)
-
-        return {
-          sheet,
-          dynamicRules,
-          classes: getSheetClasses(sheet, dynamicRules)
-        }
-      }
-
-      static manage(props, state) {
-        const {sheet} = state
-        if (sheet) {
-          manageSheet({
-            sheet,
+    const WithStyles = props => {
+      const useStyle = React.useMemo(
+        () =>
+          createUseStyles(styles, {
+            theme: getTheme(props.theme),
             index,
+            name: displayName,
             context: props.jssContext,
-            theme: getTheme(props)
-          })
-        }
-      }
-
-      static unmanage(props, state) {
-        const {sheet, dynamicRules} = state
-
-        if (sheet) {
-          unmanageSheet({
-            context: props.jssContext,
-            index,
-            sheet,
-            theme: getTheme(props)
-          })
-
-          if (dynamicRules) {
-            removeDynamicRules(sheet, dynamicRules)
-          }
-        }
-      }
-
-      mergeClassesProp = memoize(
-        (sheetClasses, classesProp): Classes =>
-          classesProp ? mergeClasses(sheetClasses, classesProp) : sheetClasses
+            sheetOptions
+          }),
+        [styles, props.theme, index, displayName, props.jssContext, sheetOptions]
       )
 
-      constructor(props: HOCProps<Theme, Props>) {
-        super(props)
+      const sheetClasses = useStyle(props)
 
-        this.state = WithStyles.createState(props)
-        const {registry} = props.jssContext
-        const {sheet} = this.state
-        if (sheet && registry) {
-          registry.add(sheet)
-        }
+      const {innerRef, jssContext, theme, classes, ...rest} = props
+      const newProps = {
+        ...rest,
+        classes: mergeClassesProp(sheetClasses, classes)
       }
 
-      componentDidMount() {
-        const {props, state} = this
-        if (props && state) {
-          WithStyles.manage(props, state)
-        }
-      }
+      if (innerRef) props.ref = innerRef
+      if (injectTheme) newProps.theme = theme
 
-      componentDidUpdate(prevProps: HOCProps<Theme, Props>, prevState: State) {
-        if (isThemingEnabled && this.props.theme !== prevProps.theme) {
-          const newState = WithStyles.createState(this.props)
-          WithStyles.manage(this.props, newState)
-          WithStyles.unmanage(prevProps, prevState)
-
-          // eslint-disable-next-line react/no-did-update-set-state
-          this.setState(newState)
-        } else if (this.state.sheet && this.state.dynamicRules) {
-          // Only update the rules when we don't generate a new sheet
-          updateDynamicRules(this.props, this.state.sheet, this.state.dynamicRules)
-        }
-      }
-
-      componentWillUnmount() {
-        WithStyles.unmanage(this.props, this.state)
-      }
-
-      render() {
-        const {innerRef, jssContext, theme, classes, ...rest} = this.props
-        const {classes: sheetClasses} = this.state
-        const props = {
-          ...rest,
-          classes: this.mergeClassesProp(sheetClasses, classes)
-        }
-
-        if (innerRef) props.ref = innerRef
-        if (injectTheme) props.theme = theme
-
-        return <InnerComponent {...props} />
-      }
+      return <InnerComponent {...newProps} />
     }
+
+    WithStyles.displayName = `WithStyles(${displayName})`
+    WithStyles.defaultProps = {...InnerComponent.defaultProps}
 
     const JssContextSubscriber = React.forwardRef((props, ref) => (
       <JssContext.Consumer>
