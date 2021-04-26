@@ -10,6 +10,7 @@ import {
   Classes
 } from 'jss'
 import {createTheming, useTheme, withTheme, ThemeProvider, Theming} from 'theming'
+import {AdditionalProperties} from 'jss-preset-default'
 
 declare const jss: Jss
 
@@ -77,7 +78,9 @@ interface CreateUseStylesOptions<Theme = DefaultTheme> extends BaseOptions<Theme
 }
 
 declare function createUseStyles<C extends string = string, Props = unknown, Theme = DefaultTheme>(
-  styles: Styles<C, Props, Theme> | ((theme: Theme) => Styles<C, Props, undefined>),
+  styles:
+    | Styles<C, AdditionalProperties, Props, Theme>
+    | ((theme: Theme) => Styles<C, AdditionalProperties, Props, undefined>),
   options?: CreateUseStylesOptions<Theme>
 ): (data?: Props & {theme?: Theme}) => Classes<C>
 

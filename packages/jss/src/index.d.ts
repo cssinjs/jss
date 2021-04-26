@@ -12,33 +12,38 @@ type Func<P, T, R> = T extends undefined ? ((data: P) => R) : ((data: P & {theme
 type NormalCssProperties = CSSProperties<string | number>
 type NormalCssValues<K> = K extends keyof NormalCssProperties ? NormalCssProperties[K] : JssValue
 
-export type JssStyle<Props = any, Theme = undefined> =
+export type JssStyle<A extends Record<string, any> = {}, Props = any, Theme = undefined> =
+  // ADDITIONAL_PROPERTIES
+  | A
   | {
       [K in keyof NormalCssProperties]:
         | NormalCssValues<K>
-        | JssStyle<Props, Theme>
-        | Func<Props, Theme, NormalCssValues<K> | JssStyle<undefined, undefined> | undefined>
-        | Observable<NormalCssValues<K> | JssStyle | undefined>
+        | JssStyle<A, Props, Theme>
+        | Func<Props, Theme, NormalCssValues<K> | JssStyle<A, undefined, undefined> | undefined>
+        | Observable<NormalCssValues<K> | JssStyle<A> | undefined>
     }
   | {
       [K: string]:
         | JssValue
-        | JssStyle<Props, Theme>
-        | Func<Props, Theme, JssValue | JssStyle<undefined, undefined> | undefined>
-        | Observable<JssValue | JssStyle | undefined>
+        | JssStyle<A, Props, Theme>
+        | Func<Props, Theme, JssValue | JssStyle<A, undefined, undefined> | undefined>
+        | Observable<JssValue | JssStyle<A> | undefined>
     }
 
 export type Styles<
   Name extends string | number | symbol = string,
+  // ADDITIONAL_PROPERTIES
+  A extends Record<string, any> = {},
   Props = unknown,
   Theme = undefined
 > = Record<
   Name,
-  | JssStyle<Props, Theme>
+  | JssStyle<A, Props, Theme>
   | string
-  | Func<Props, Theme, JssStyle<undefined, undefined> | string | null | undefined>
-  | Observable<JssStyle | string | null | undefined>
+  | Func<Props, Theme, JssStyle<A, undefined, undefined> | string | null | undefined>
+  | Observable<JssStyle<A> | string | null | undefined>
 >
+
 export type Classes<Name extends string | number | symbol = string> = Record<Name, string>
 export type Keyframes<Name extends string = string> = Record<Name, string>
 
@@ -252,9 +257,9 @@ export interface JssOptions {
   id: CreateGenerateIdOptions
 }
 
-export interface Jss {
+export interface Jss<ADDITIONAL_PROPERTIES extends Record<string, any> = {}> {
   createStyleSheet<Name extends string | number | symbol>(
-    styles: Partial<Styles<Name, any, undefined>>,
+    styles: Partial<Styles<Name, ADDITIONAL_PROPERTIES, any, undefined>>,
     options?: StyleSheetFactoryOptions
   ): StyleSheet<Name>
   removeStyleSheet(sheet: StyleSheet): this
