@@ -43,7 +43,7 @@ type CreateWithStyles = <Theme>(
 const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
   const {index = getSheetIndex(), theming, injectTheme, ...sheetOptions} = options
   const isThemingEnabled = typeof styles === 'function'
-  const ThemeConsumer = (theming && theming.context.Consumer) || ThemeContext.Consumer
+  const CurrentTheme = theming || ThemeContext
 
   return <Props: InnerProps>(InnerComponent = NoRenderer) => {
     const displayName = getDisplayName(InnerComponent)
@@ -56,20 +56,22 @@ const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
     )
 
     const WithStyles = React.forwardRef((props, ref) => {
+      const theme = React.useContext(CurrentTheme)
+
       const useStyle = React.useMemo(
         () =>
           createUseStyles(styles, {
-            theme: getTheme(props.theme),
+            theme: getTheme(theme),
             index,
             name: displayName,
             sheetOptions
           }),
-        [styles, props.theme, index, displayName, sheetOptions]
+        [styles, theme, index, displayName, sheetOptions]
       )
 
       const sheetClasses = useStyle(props)
 
-      const {theme, classes, ...rest} = props
+      const {classes, ...rest} = props
       const newProps = {
         ...rest,
         classes: mergeClassesProp(sheetClasses, classes)
@@ -77,7 +79,6 @@ const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
 
       if (ref) newProps.ref = ref
       if (injectTheme) newProps.theme = theme
-      else newProps.theme = noTheme
 
       return <InnerComponent {...newProps} />
     })
