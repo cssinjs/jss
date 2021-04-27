@@ -44,7 +44,7 @@ const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
         classesProp ? mergeClasses(sheetClasses, classesProp) : sheetClasses
     )
 
-    const WithStyles = React.forwardRef((props, ref) => {
+    const WithStyles = React.forwardRef((props: HOCProps<Theme, Props>, ref) => {
       const theme = React.useContext(CurrentTheme)
 
       const useStyle = React.useMemo(
