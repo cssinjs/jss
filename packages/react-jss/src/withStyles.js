@@ -2,7 +2,7 @@
 import * as React from 'react'
 import hoistNonReactStatics from 'hoist-non-react-statics'
 import {type StyleSheet, type Classes} from 'jss'
-import {ThemeContext} from 'theming'
+import {ThemeContext as GlobalThemeContext} from 'theming'
 
 import type {HOCProps, HookOptions, HOCOptions, Styles, InnerProps, DynamicRules} from './types'
 import getDisplayName from './getDisplayName'
@@ -34,7 +34,7 @@ type CreateWithStyles = <Theme>(
 const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
   const {index = getSheetIndex(), theming, injectTheme, ...sheetOptions} = options
   const isThemingEnabled = typeof styles === 'function'
-  const CurrentTheme = theming || ThemeContext
+  const ThemeContext = theming ? theming.context : GlobalThemeContext
 
   return <Props: InnerProps>(InnerComponent = NoRenderer) => {
     const displayName = getDisplayName(InnerComponent)
@@ -45,7 +45,7 @@ const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
     )
 
     const WithStyles = React.forwardRef((props: HOCProps<Theme, Props>, ref) => {
-      const theme = React.useContext(CurrentTheme)
+      const theme = React.useContext(ThemeContext)
 
       const useStyle = React.useMemo(
         () =>
