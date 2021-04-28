@@ -2,7 +2,7 @@
 import * as React from 'react'
 import hoistNonReactStatics from 'hoist-non-react-statics'
 import {type StyleSheet, type Classes} from 'jss'
-import {ThemeContext as GlobalThemeContext} from 'theming'
+import {ThemeContext as DefaultThemeContext} from 'theming'
 
 import type {HOCProps, HOCOptions, Styles, InnerProps, DynamicRules} from './types'
 import getDisplayName from './getDisplayName'
