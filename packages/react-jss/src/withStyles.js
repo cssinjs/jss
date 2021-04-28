@@ -4,7 +4,7 @@ import hoistNonReactStatics from 'hoist-non-react-statics'
 import {type StyleSheet, type Classes} from 'jss'
 import {ThemeContext as GlobalThemeContext} from 'theming'
 
-import type {HOCProps, HookOptions, HOCOptions, Styles, InnerProps, DynamicRules} from './types'
+import type {HOCProps, HOCOptions, Styles, InnerProps, DynamicRules} from './types'
 import getDisplayName from './getDisplayName'
 import memoize from './utils/memoizeOne'
 import mergeClasses from './utils/mergeClasses'
