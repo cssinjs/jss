@@ -50,12 +50,12 @@ const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
       const useStyle = React.useMemo(
         () =>
           createUseStyles(styles, {
-            theme: isThemingEnabled ? theme : noTheme,
+            theming,
             index,
             name: displayName,
             ...sheetOptions
           }),
-        [styles, theme, index, displayName, sheetOptions]
+        [styles, theming, index, displayName, sheetOptions]
       )
 
       const sheetClasses = useStyle(props)
