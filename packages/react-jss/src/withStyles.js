@@ -19,8 +19,6 @@ interface State {
 
 const NoRenderer = (props: {children?: React.Node}) => props.children || null
 
-const noTheme = {}
-
 type CreateWithStyles = <Theme>(
   Styles<Theme>,
   HOCOptions<Theme> | void
