@@ -11,12 +11,6 @@ import mergeClasses from './utils/mergeClasses'
 import getSheetIndex from './utils/getSheetIndex'
 import createUseStyles from './createUseStyles'
 
-interface State {
-  dynamicRules: ?DynamicRules;
-  sheet: ?StyleSheet;
-  classes: {};
-}
-
 const NoRenderer = (props: {children?: React.Node}) => props.children || null
 
 type CreateWithStyles = <Theme>(
