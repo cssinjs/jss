@@ -1,0 +1,18 @@
+﻿// @flow
+import type StyleSheet from './StyleSheet'
+
+declare export default class SheetsManager {
+  length: number;
+  sheets: WeakMap<
+    Object,
+    {
+      refs: number,
+      sheet: StyleSheet
+    }
+  >;
+  size: number;
+  get(key: Object): ?StyleSheet;
+  add(key: Object, sheet: StyleSheet): void;
+  manage(key: Object): ?StyleSheet;
+  unmanage(key: Object): void;
+}
