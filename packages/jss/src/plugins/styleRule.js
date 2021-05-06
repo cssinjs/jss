@@ -24,7 +24,7 @@ export class BaseStyleRule implements BaseRule {
 
   style: JssStyle
 
-  renderer: RendererInterface | null
+  renderer: RendererInterface | void
 
   renderable: ?Object
 

@@ -2,16 +2,13 @@
 import type {
   Rule,
   RuleFactoryOptions,
-  RuleOptions,
   StyleSheetFactoryOptions,
   Plugin,
   JssOptions,
-  InternalJssOptions,
   JssStyle
 } from './types'
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
-import type {GenerateId} from './utils/createGenerateId'
 
 declare export default class Jss {
   id: number;

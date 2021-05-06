@@ -1,38 +1,7 @@
-// @flow
 import RuleList from './RuleList'
-import type {
-  InternalStyleSheetOptions,
-  Rule,
-  ToCssOptions,
-  RuleOptions,
-  StyleSheetOptions,
-  JssStyle,
-  Classes,
-  KeyframesMap,
-  JssStyles,
-  Renderer,
-  UpdateArguments,
-  UpdateOptions
-} from './types'
 
 export default class StyleSheet {
-  options: InternalStyleSheetOptions
-
-  deployed: boolean
-
-  attached: boolean
-
-  rules: RuleList
-
-  renderer: Renderer | null
-
-  classes: Classes
-
-  keyframes: KeyframesMap
-
-  queue: ?Array<Rule>
-
-  constructor(styles: JssStyles, options: StyleSheetOptions) {
+  constructor(styles, options) {
     this.attached = false
     this.deployed = false
     this.classes = {}
@@ -59,7 +28,7 @@ export default class StyleSheet {
   /**
    * Attach renderable to the render tree.
    */
-  attach(): this {
+  attach() {
     if (this.attached) return this
     if (this.renderer) this.renderer.attach()
     this.attached = true
@@ -71,7 +40,7 @@ export default class StyleSheet {
   /**
    * Remove renderable from render tree.
    */
-  detach(): this {
+  detach() {
     if (!this.attached) return this
     if (this.renderer) this.renderer.detach()
     this.attached = false
@@ -82,7 +51,7 @@ export default class StyleSheet {
    * Add a rule to the current stylesheet.
    * Will insert a rule also after the stylesheet has been rendered first time.
    */
-  addRule(name: string, decl: JssStyle, options?: RuleOptions): Rule | null {
+  addRule(name, decl, options) {
     const {queue} = this
 
     // Plugins can create rules.
@@ -121,7 +90,7 @@ export default class StyleSheet {
   /**
    * Insert rule into the StyleSheet
    */
-  insertRule(rule: Rule) {
+  insertRule(rule) {
     if (this.renderer) {
       this.renderer.insertRule(rule)
     }
@@ -131,7 +100,7 @@ export default class StyleSheet {
    * Create and add rules.
    * Will render also after Style Sheet was rendered the first time.
    */
-  addRules(styles: JssStyles, options?: RuleOptions): Array<Rule> {
+  addRules(styles, options) {
     const added = []
     for (const name in styles) {
       const rule = this.addRule(name, styles[name], options)
@@ -143,7 +112,7 @@ export default class StyleSheet {
   /**
    * Get a rule by name.
    */
-  getRule(name: string): Rule {
+  getRule(name) {
     return this.rules.get(name)
   }
 
@@ -151,7 +120,7 @@ export default class StyleSheet {
    * Delete a rule by name.
    * Returns `true`: if rule has been deleted from the DOM.
    */
-  deleteRule(name: string | Rule): boolean {
+  deleteRule(name) {
     const rule = typeof name === 'object' ? name : this.rules.get(name)
 
     if (
@@ -175,14 +144,14 @@ export default class StyleSheet {
   /**
    * Get index of a rule.
    */
-  indexOf(rule: Rule): number {
+  indexOf(rule) {
     return this.rules.indexOf(rule)
   }
 
   /**
    * Deploy pure CSS string to a renderable.
    */
-  deploy(): this {
+  deploy() {
     if (this.renderer) this.renderer.deploy()
     this.deployed = true
     return this
@@ -191,7 +160,7 @@ export default class StyleSheet {
   /**
    * Update the function values with a new data.
    */
-  update(...args: UpdateArguments): this {
+  update(...args) {
     this.rules.update(...args)
     return this
   }
@@ -199,7 +168,7 @@ export default class StyleSheet {
   /**
    * Updates a single rule.
    */
-  updateOne(rule: Rule, data: Object, options?: UpdateOptions): this {
+  updateOne(rule, data, options) {
     this.rules.updateOne(rule, data, options)
     return this
   }
@@ -207,7 +176,7 @@ export default class StyleSheet {
   /**
    * Convert rules to a CSS string.
    */
-  toString(options?: ToCssOptions): string {
+  toString(options) {
     return this.rules.toString(options)
   }
 }

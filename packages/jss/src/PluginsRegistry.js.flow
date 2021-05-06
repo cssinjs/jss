@@ -16,15 +16,6 @@ import type {
 import type StyleSheet from './StyleSheet'
 import type {StyleRule, BaseStyleRule} from './plugins/styleRule'
 
-type Registry = {
-  onCreateRule: Array<OnCreateRule>,
-  onProcessRule: Array<OnProcessRule>,
-  onProcessStyle: Array<OnProcessStyle>,
-  onProcessSheet: Array<OnProcessSheet>,
-  onChangeValue: Array<OnChangeValue>,
-  onUpdate: Array<OnUpdate>
-}
-
 declare export default class PluginsRegistry {
   use(newPlugin: Plugin, options?: {queue: 'internal' | 'external'}): void;
   onCreateRule(name: string, decl: JssStyle, options: RuleOptions): Rule | null;
