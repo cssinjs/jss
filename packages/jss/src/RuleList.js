@@ -1,17 +1,5 @@
-// @flow
 import createRule from './utils/createRule'
 import {StyleRule, KeyframesRule} from './plugins/index'
-import type {
-  RuleListOptions,
-  ToCssOptions,
-  Rule,
-  RuleOptions,
-  JssStyle,
-  Classes,
-  KeyframesMap,
-  UpdateArguments,
-  UpdateOptions
-} from './types'
 import escape from './utils/escape'
 
 const defaultUpdateOptions = {
@@ -30,23 +18,17 @@ const forceUpdateOptions = {
 export default class RuleList {
   // Rules registry for access by .get() method.
   // It contains the same rule registered by name and by selector.
-  map: {[key: string]: Rule} = {}
+  map = {}
 
   // Original styles object.
-  raw: {[key: string]: JssStyle} = {}
+  raw = {}
 
   // Used to ensure correct rules order.
-  index: Array<Rule> = []
+  index = []
 
-  counter: number = 0
+  counter = 0
 
-  options: RuleListOptions
-
-  classes: Classes
-
-  keyframes: KeyframesMap
-
-  constructor(options: RuleListOptions) {
+  constructor(options) {
     this.options = options
     this.classes = options.classes
     this.keyframes = options.keyframes
@@ -57,7 +39,7 @@ export default class RuleList {
    *
    * Will not render after Style Sheet was rendered the first time.
    */
-  add(name: string, decl: JssStyle, ruleOptions?: RuleOptions): Rule | null {
+  add(name, decl, ruleOptions) {
     const {parent, sheet, jss, Renderer, generateId, scoped} = this.options
     const options = {
       classes: this.classes,
@@ -105,14 +87,14 @@ export default class RuleList {
   /**
    * Get a rule.
    */
-  get(name: string): Rule {
+  get(name) {
     return this.map[name]
   }
 
   /**
    * Delete a rule.
    */
-  remove(rule: Rule): void {
+  remove(rule) {
     this.unregister(rule)
     delete this.raw[rule.key]
     this.index.splice(this.index.indexOf(rule), 1)
@@ -121,14 +103,14 @@ export default class RuleList {
   /**
    * Get index of a rule.
    */
-  indexOf(rule: Rule): number {
+  indexOf(rule) {
     return this.index.indexOf(rule)
   }
 
   /**
    * Run `onProcessRule()` plugins on every rule.
    */
-  process(): void {
+  process() {
     const {plugins} = this.options.jss
     // We need to clone array because if we modify the index somewhere else during a loop
     // we end up with very hard-to-track-down side effects.
@@ -138,7 +120,7 @@ export default class RuleList {
   /**
    * Register a rule in `.map`, `.classes` and `.keyframes` maps.
    */
-  register(rule: Rule): void {
+  register(rule) {
     this.map[rule.key] = rule
     if (rule instanceof StyleRule) {
       this.map[rule.selector] = rule
@@ -151,7 +133,7 @@ export default class RuleList {
   /**
    * Unregister a rule.
    */
-  unregister(rule: Rule): void {
+  unregister(rule) {
     delete this.map[rule.key]
     if (rule instanceof StyleRule) {
       delete this.map[rule.selector]
@@ -164,20 +146,17 @@ export default class RuleList {
   /**
    * Update the function values with a new data.
    */
-  update(...args: UpdateArguments): void {
+  update(...args) {
     let name
     let data
     let options
 
     if (typeof args[0] === 'string') {
       name = args[0]
-      // $FlowFixMe[invalid-tuple-index]
       data = args[1]
-      // $FlowFixMe[invalid-tuple-index]
       options = args[2]
     } else {
       data = args[0]
-      // $FlowFixMe[invalid-tuple-index]
       options = args[1]
       name = null
     }
@@ -194,7 +173,7 @@ export default class RuleList {
   /**
    * Execute plugins, update rule props.
    */
-  updateOne(rule: Rule, data: Object, options?: UpdateOptions = defaultUpdateOptions) {
+  updateOne(rule, data, options = defaultUpdateOptions) {
     const {
       jss: {plugins},
       sheet
@@ -243,7 +222,7 @@ export default class RuleList {
   /**
    * Convert rules to a CSS string.
    */
-  toString(options?: ToCssOptions): string {
+  toString(options) {
     let str = ''
     const {sheet} = this.options
     const link = sheet ? sheet.options.link : false
