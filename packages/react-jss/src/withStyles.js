@@ -1,10 +1,10 @@
 // @flow
 import * as React from 'react'
 import hoistNonReactStatics from 'hoist-non-react-statics'
-import {type StyleSheet, type Classes} from 'jss'
+import {type Classes} from 'jss'
 import {ThemeContext as DefaultThemeContext} from 'theming'
 
-import type {HOCProps, HOCOptions, Styles, InnerProps, DynamicRules} from './types'
+import type {HOCProps, HOCOptions, Styles, InnerProps} from './types'
 import getDisplayName from './getDisplayName'
 import memoize from './utils/memoizeOne'
 import mergeClasses from './utils/mergeClasses'
@@ -25,8 +25,7 @@ type CreateWithStyles = <Theme>(
  */
 const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
   const {index = getSheetIndex(), theming, injectTheme, ...sheetOptions} = options
-  const isThemingEnabled = typeof styles === 'function'
-  const ThemeContext = theming ? theming.context : GlobalThemeContext
+  const ThemeContext = theming ? theming.context : DefaultThemeContext
 
   return <Props: InnerProps>(InnerComponent = NoRenderer) => {
     const displayName = getDisplayName(InnerComponent)
