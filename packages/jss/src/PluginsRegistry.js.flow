@@ -26,11 +26,6 @@ type Registry = {
 }
 
 declare export default class PluginsRegistry {
-  plugins: {|
-    internal: Array<Plugin>,
-    externa: Array<Plugin>
-  |};
-  registry: Registry;
   use(newPlugin: Plugin, options?: {queue: 'internal' | 'external'}): void;
   onCreateRule(name: string, decl: JssStyle, options: RuleOptions): Rule | null;
   onProcessRule(rule: Rule): void;
