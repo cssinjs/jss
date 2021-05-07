@@ -1,31 +1,12 @@
-// @flow
 import warning from 'tiny-warning'
 import StyleSheet from './StyleSheet'
 import sheets from './sheets'
 import toCssValue from './utils/toCssValue'
-import type {
-  CSSStyleRule,
-  CSSMediaRule,
-  CSSKeyframesRule,
-  CSSKeyframeRule,
-  HTMLElementWithStyleMap,
-  AnyCSSRule,
-  Rule,
-  RuleList,
-  ContainerRule,
-  JssValue,
-  InsertionPoint
-} from './types'
-
-type PriorityOptions = {
-  index: number,
-  insertionPoint?: InsertionPoint
-}
 
 /**
  * Cache the value from the first time a function is called.
  */
-const memoize = <Value>(fn: () => Value): (() => Value) => {
+const memoize = fn => {
   let value
   return () => {
     if (!value) value = fn()
@@ -33,12 +14,10 @@ const memoize = <Value>(fn: () => Value): (() => Value) => {
   }
 }
 
-type GetPropertyValue = (HTMLElementWithStyleMap | CSSStyleRule | CSSKeyframeRule, string) => string
-
 /**
  * Get a style property value.
  */
-const getPropertyValue: GetPropertyValue = (cssRule, prop) => {
+const getPropertyValue = (cssRule, prop) => {
   try {
     // Support CSSTOM.
     if (cssRule.attributeStyleMap) {
@@ -51,18 +30,12 @@ const getPropertyValue: GetPropertyValue = (cssRule, prop) => {
   }
 }
 
-type SetProperty = (
-  HTMLElementWithStyleMap | CSSStyleRule | CSSKeyframeRule,
-  string,
-  JssValue
-) => boolean
-
 /**
  * Set a style property.
  */
-const setProperty: SetProperty = (cssRule, prop, value) => {
+const setProperty = (cssRule, prop, value) => {
   try {
-    let cssValue = ((value: any): string)
+    let cssValue = value
 
     if (Array.isArray(value)) {
       cssValue = toCssValue(value, true)
@@ -86,12 +59,10 @@ const setProperty: SetProperty = (cssRule, prop, value) => {
   return true
 }
 
-type RemoveProperty = (HTMLElementWithStyleMap | CSSStyleRule | CSSKeyframeRule, string) => void
-
 /**
  * Remove a style property.
  */
-const removeProperty: RemoveProperty = (cssRule, prop) => {
+const removeProperty = (cssRule, prop) => {
   try {
     // Support CSSTOM.
     if (cssRule.attributeStyleMap) {
@@ -107,12 +78,10 @@ const removeProperty: RemoveProperty = (cssRule, prop) => {
   }
 }
 
-type SetSelector = (CSSStyleRule, string) => boolean
-
 /**
  * Set the selector.
  */
-const setSelector: SetSelector = (cssRule, selectorText) => {
+const setSelector = (cssRule, selectorText) => {
   cssRule.selectorText = selectorText
 
   // Return false if setter was not successful.
@@ -124,12 +93,12 @@ const setSelector: SetSelector = (cssRule, selectorText) => {
  * Gets the `head` element upon the first call and caches it.
  * We assume it can't be null.
  */
-const getHead = memoize((): HTMLElement => (document.querySelector('head'): any))
+const getHead = memoize(() => document.querySelector('head'))
 
 /**
  * Find attached sheet with an index higher than the passed one.
  */
-function findHigherSheet(registry: Array<StyleSheet>, options: PriorityOptions): StyleSheet | null {
+function findHigherSheet(registry, options) {
   for (let i = 0; i < registry.length; i++) {
     const sheet = registry[i]
     if (
@@ -146,10 +115,7 @@ function findHigherSheet(registry: Array<StyleSheet>, options: PriorityOptions):
 /**
  * Find attached sheet with the highest index.
  */
-function findHighestSheet(
-  registry: Array<StyleSheet>,
-  options: PriorityOptions
-): StyleSheet | null {
+function findHighestSheet(registry, options) {
   for (let i = registry.length - 1; i >= 0; i--) {
     const sheet = registry[i]
     if (sheet.attached && sheet.options.insertionPoint === options.insertionPoint) {
@@ -162,7 +128,7 @@ function findHighestSheet(
 /**
  * Find a comment with "jss" inside.
  */
-function findCommentNode(text: string): Node | null {
+function findCommentNode(text) {
   const head = getHead()
   for (let i = 0; i < head.childNodes.length; i++) {
     const node = head.childNodes[i]
@@ -173,15 +139,10 @@ function findCommentNode(text: string): Node | null {
   return null
 }
 
-type PrevNode = {
-  parent: ?Node,
-  node: ?Node
-}
-
 /**
  * Find a node before which we can insert the sheet.
  */
-function findPrevNode(options: PriorityOptions): PrevNode | false {
+function findPrevNode(options) {
   const {registry} = sheets
 
   if (registry.length > 0) {
@@ -226,7 +187,7 @@ function findPrevNode(options: PriorityOptions): PrevNode | false {
 /**
  * Insert style element into the DOM.
  */
-function insertStyle(style: HTMLElement, options: PriorityOptions) {
+function insertStyle(style, options) {
   const {insertionPoint} = options
   const nextNode = findPrevNode(options)
 
@@ -238,8 +199,7 @@ function insertStyle(style: HTMLElement, options: PriorityOptions) {
 
   // Works with iframes and any node types.
   if (insertionPoint && typeof insertionPoint.nodeType === 'number') {
-    // https://stackoverflow.com/questions/41328728/force-casting-in-flow
-    const insertionPointElement: HTMLElement = (insertionPoint: any)
+    const insertionPointElement = insertionPoint
     const {parentNode} = insertionPointElement
     if (parentNode) parentNode.insertBefore(style, insertionPointElement.nextSibling)
     else warning(false, '[JSS] Insertion point is not in the DOM.')
@@ -252,27 +212,19 @@ function insertStyle(style: HTMLElement, options: PriorityOptions) {
 /**
  * Read jss nonce setting from the page if the user has set it.
  */
-const getNonce = memoize(
-  (): ?string => {
-    const node = document.querySelector('meta[property="csp-nonce"]')
-    return node ? node.getAttribute('content') : null
-  }
-)
+const getNonce = memoize(() => {
+  const node = document.querySelector('meta[property="csp-nonce"]')
+  return node ? node.getAttribute('content') : null
+})
 
-const insertRule = (
-  container: CSSStyleSheet | CSSMediaRule | CSSKeyframesRule,
-  rule: string,
-  index: number
-): false | any => {
+const insertRule = (container, rule, index) => {
   try {
     if ('insertRule' in container) {
-      const c = ((container: any): CSSStyleSheet)
-      c.insertRule(rule, index)
+      container.insertRule(rule, index)
     }
     // Keyframes rule.
     else if ('appendRule' in container) {
-      const c = ((container: any): CSSKeyframesRule)
-      c.appendRule(rule)
+      container.appendRule(rule)
     }
   } catch (err) {
     warning(false, `[JSS] ${err.message}`)
@@ -281,10 +233,7 @@ const insertRule = (
   return container.cssRules[index]
 }
 
-const getValidRuleInsertionIndex = (
-  container: CSSStyleSheet | CSSMediaRule | CSSKeyframesRule,
-  index?: number
-): number => {
+const getValidRuleInsertionIndex = (container, index) => {
   const maxIndex = container.cssRules.length
   // In case previous insertion fails, passed index might be wrong
   if (index === undefined || index > maxIndex) {
@@ -294,7 +243,7 @@ const getValidRuleInsertionIndex = (
   return index
 }
 
-const createStyle = (): HTMLElement => {
+const createStyle = () => {
   const el = document.createElement('style')
   // Without it, IE will have a broken source order specificity if we
   // insert rules after we insert the style tag.
@@ -304,26 +253,21 @@ const createStyle = (): HTMLElement => {
 }
 
 export default class DomRenderer {
-  getPropertyValue: GetPropertyValue = getPropertyValue
+  getPropertyValue = getPropertyValue
 
-  setProperty: SetProperty = setProperty
+  setProperty = setProperty
 
-  removeProperty: RemoveProperty = removeProperty
+  removeProperty = removeProperty
 
-  setSelector: SetSelector = setSelector
+  setSelector = setSelector
 
-  // HTMLStyleElement needs fixing https://github.com/facebook/flow/issues/2696
-  element: any
-
-  sheet: StyleSheet | void
-
-  hasInsertedRules: boolean = false
+  hasInsertedRules = false
 
   // Will be empty if link: true option is not set, because
   // it is only for use together with insertRule API.
-  cssRules: AnyCSSRule[] = []
+  cssRules = []
 
-  constructor(sheet?: StyleSheet) {
+  constructor(sheet) {
     // There is no sheet when the renderer is used from a standalone StyleRule.
     if (sheet) sheets.add(sheet)
 
@@ -340,7 +284,7 @@ export default class DomRenderer {
   /**
    * Insert style element into render tree.
    */
-  attach(): void {
+  attach() {
     // In the case the element node is external and it is already in the DOM.
     if (this.element.parentNode || !this.sheet) return
 
@@ -358,7 +302,7 @@ export default class DomRenderer {
   /**
    * Remove style element from render tree.
    */
-  detach(): void {
+  detach() {
     if (!this.sheet) return
     const {parentNode} = this.element
     if (parentNode) parentNode.removeChild(this.element)
@@ -373,7 +317,7 @@ export default class DomRenderer {
   /**
    * Inject CSS string into element.
    */
-  deploy(): void {
+  deploy() {
     const {sheet} = this
     if (!sheet) return
     if (sheet.options.link) {
@@ -387,7 +331,7 @@ export default class DomRenderer {
    * Insert RuleList into an element.
    */
 
-  insertRules(rules: RuleList, nativeParent?: CSSStyleSheet | CSSMediaRule | CSSKeyframesRule) {
+  insertRules(rules, nativeParent) {
     for (let i = 0; i < rules.index.length; i++) {
       this.insertRule(rules.index[i], i, nativeParent)
     }
@@ -396,13 +340,9 @@ export default class DomRenderer {
   /**
    * Insert a rule into element.
    */
-  insertRule(
-    rule: Rule,
-    index?: number,
-    nativeParent?: CSSStyleSheet | CSSMediaRule | CSSKeyframesRule = this.element.sheet
-  ): false | CSSStyleSheet | AnyCSSRule {
+  insertRule(rule, index, nativeParent = this.element.sheet) {
     if (rule.rules) {
-      const parent: ContainerRule = (rule: any)
+      const parent = rule
       let latestNativeParent = nativeParent
       if (rule.type === 'conditional' || rule.type === 'keyframes') {
         const insertionIndex = getValidRuleInsertionIndex(nativeParent, index)
@@ -437,7 +377,7 @@ export default class DomRenderer {
     return nativeRule
   }
 
-  refCssRule(rule: Rule, index: number, cssRule: any) {
+  refCssRule(rule, index, cssRule) {
     rule.renderable = cssRule
     // We only want to reference the top level rules, deleteRule API doesn't support removing nested rules
     // like rules inside media queries or keyframes
@@ -449,7 +389,7 @@ export default class DomRenderer {
   /**
    * Delete a rule.
    */
-  deleteRule(cssRule: AnyCSSRule): boolean {
+  deleteRule(cssRule) {
     const {sheet} = this.element
     const index = this.indexOf(cssRule)
     if (index === -1) return false
@@ -461,7 +401,7 @@ export default class DomRenderer {
   /**
    * Get index of a CSS Rule.
    */
-  indexOf(cssRule: AnyCSSRule): number {
+  indexOf(cssRule) {
     return this.cssRules.indexOf(cssRule)
   }
 
@@ -470,7 +410,7 @@ export default class DomRenderer {
    *
    * Only used for some old browsers because they can't set a selector.
    */
-  replaceRule(cssRule: AnyCSSRule, rule: Rule): false | CSSStyleSheet | AnyCSSRule {
+  replaceRule(cssRule, rule) {
     const index = this.indexOf(cssRule)
     if (index === -1) return false
     this.element.sheet.deleteRule(index)
@@ -481,7 +421,7 @@ export default class DomRenderer {
   /**
    * Get all rules elements.
    */
-  getRules(): CSSRuleList {
+  getRules() {
     return this.element.sheet.cssRules
   }
 }
