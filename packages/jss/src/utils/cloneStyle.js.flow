@@ -1,0 +1,4 @@
+﻿// @flow
+import type {JssStyle} from '../types'
+
+declare export default function cloneStyle(style: JssStyle): JssStyle

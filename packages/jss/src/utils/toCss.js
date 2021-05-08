@@ -1,6 +1,4 @@
-// @flow
 import toCssValue from './toCssValue'
-import type {ToCssOptions, JssStyle} from '../types'
 
 /**
  * Indent a string.
@@ -15,11 +13,7 @@ function indentStr(str: string, indent: number): string {
 /**
  * Converts a Rule to CSS string.
  */
-export default function toCss(
-  selector?: string,
-  style: JssStyle,
-  options: ToCssOptions = ({}: any)
-): string {
+export default function toCss(selector, style, options = {}) {
   let result = ''
 
   if (!style) return result

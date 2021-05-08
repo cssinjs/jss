@@ -1,16 +1,10 @@
-// @flow
 import warning from 'tiny-warning'
-import type {Rule, RuleOptions, JssStyle} from '../types'
 import cloneStyle from './cloneStyle'
 
 /**
  * Create a rule instance.
  */
-export default function createRule(
-  name: string = 'unnamed',
-  decl: JssStyle,
-  options: RuleOptions
-): Rule | null {
+export default function createRule(name = 'unnamed', decl, options) {
   const {jss} = options
   const declCopy = cloneStyle(decl)
 

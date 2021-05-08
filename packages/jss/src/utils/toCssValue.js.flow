@@ -1,0 +1,7 @@
+﻿// @flow
+
+import type {FixMeAny} from '../types'
+
+type ToCssValue = (FixMeAny, boolean | void) => string
+
+declare export default ToCssValue

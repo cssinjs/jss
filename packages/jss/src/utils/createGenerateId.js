@@ -1,27 +1,17 @@
-// @flow
 import warning from 'tiny-warning'
-import type {Rule} from '../types'
-import StyleSheet from '../StyleSheet'
 import moduleId from './moduleId'
 
 const maxRules = 1e10
-
-export type CreateGenerateIdOptions = {|
-  minify: boolean
-|}
-export type GenerateId = (rule: Rule, sheet?: StyleSheet) => string
-
-export type CreateGenerateId = (options?: CreateGenerateIdOptions) => GenerateId
 
 /**
  * Returns a function which generates unique class names based on counters.
  * When new generator function is created, rule counter is reseted.
  * We need to reset the rule counter for SSR for each request.
  */
-const createGenerateId: CreateGenerateId = (options = {}) => {
+const createGenerateId = (options = {}) => {
   let ruleCounter = 0
 
-  const generateId: GenerateId = (rule, sheet) => {
+  const generateId = (rule, sheet) => {
     ruleCounter += 1
 
     if (ruleCounter > maxRules) {

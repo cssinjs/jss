@@ -4,7 +4,7 @@ import type {StaticStyles, DynamicStyle} from '../types'
 
 type SheetMeta<Theme> = {|
   styles: $ReadOnly<StaticStyles>,
-  dynamicStyles: $ReadOnly<{[key: string]: DynamicStyle<Theme>}>
+  dynamicStyles: $ReadOnly<{[key: string]: DynamicStyle<Theme>}> | null
 |}
 
 const sheetsMeta = new WeakMap<StyleSheet, SheetMeta<any>>()

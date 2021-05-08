@@ -36,7 +36,11 @@ export type {
   BaseRule,
   ContainerRule
 } from './types'
-export type {GenerateId, CreateGenerateId, CreateGenerateIdOptions} from './utils/createGenerateId'
+export type {
+  GenerateId,
+  CreateGenerateId,
+  CreateGenerateIdOptions
+} from './utils/createGenerateId.js.flow'
 
 export type {
   Jss,
