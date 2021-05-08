@@ -2,15 +2,15 @@
 import type {StyleSheet} from 'jss'
 import type {StaticStyles, DynamicStyle} from '../types'
 
-type SheetMeta<Theme> = {|
+type SheetMeta<Data = {}> = {|
   styles: $ReadOnly<StaticStyles>,
-  dynamicStyles: $ReadOnly<{[key: string]: DynamicStyle<Theme>}> | null
+  dynamicStyles: $ReadOnly<{[key: string]: DynamicStyle<Data>}> | null
 |}
 
 const sheetsMeta = new WeakMap<StyleSheet, SheetMeta<any>>()
 
-export const getMeta = <Theme>(sheet: StyleSheet): SheetMeta<Theme> | void => sheetsMeta.get(sheet)
+export const getMeta = <Data>(sheet: StyleSheet): SheetMeta<Data> | void => sheetsMeta.get(sheet)
 
-export const addMeta = <Theme>(sheet: StyleSheet, meta: SheetMeta<Theme>) => {
+export const addMeta = <Data>(sheet: StyleSheet, meta: SheetMeta<Data>) => {
   sheetsMeta.set(sheet, meta)
 }

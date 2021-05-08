@@ -14,14 +14,17 @@ type StyledProps = {
   as?: string
 }
 
-type StyleArg<Theme> = StaticStyle | DynamicStyle<Theme> | null | void | ''
+type StyleArg<Data> = StaticStyle | DynamicStyle<Data> | null | void | ''
 
 type ShouldForwardProp = string => boolean
 
-type ParseStyles = <Theme>({[string]: StyleArg<Theme>}) => {|styles: Styles<Theme>, label: string|}
+type ParseStyles = <Theme, Data>({[string]: StyleArg<Data>}) => {|
+  styles: Styles<Theme>,
+  label: string
+|}
 
 // eslint-disable-next-line no-unused-vars
-const parseStyles: ParseStyles = <Theme>(args) => {
+const parseStyles: ParseStyles = <Theme, Data>(args) => {
   const dynamicStyles = []
   let staticStyle
   const labels = []
@@ -115,8 +118,8 @@ type StyledOptions<Theme> = {|
   shouldForwardProp?: ShouldForwardProp
 |}
 
-type CreateStyledComponent<Theme> = (
-  ...StyleArg<Theme>[]
+type CreateStyledComponent<Data = {}> = (
+  ...StyleArg<Data>[]
 ) => StatelessFunctionalComponent<StyledProps>
 
 type ConfigureStyled = <Theme: Object>(
