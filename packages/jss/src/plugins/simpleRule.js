@@ -1,28 +1,9 @@
-// @flow
-import type {
-  CSSCharsetRule,
-  CSSImportRule,
-  CSSNamespaceRule,
-  RuleOptions,
-  JssStyle,
-  ToCssOptions,
-  BaseRule
-} from '../types'
+export class SimpleRule {
+  type = 'simple'
 
-export class SimpleRule implements BaseRule {
-  type: string = 'simple'
+  isProcessed = false
 
-  key: string
-
-  value: string | Array<string>
-
-  options: RuleOptions
-
-  isProcessed: boolean = false
-
-  renderable: ?CSSCharsetRule | CSSImportRule | CSSNamespaceRule
-
-  constructor(key: string, value: string, options: RuleOptions) {
+  constructor(key, value, options) {
     this.key = key
     this.value = value
     this.options = options
@@ -32,7 +13,7 @@ export class SimpleRule implements BaseRule {
    * Generates a CSS string.
    */
   // eslint-disable-next-line no-unused-vars
-  toString(options?: ToCssOptions): string {
+  toString(options) {
     if (Array.isArray(this.value)) {
       let str = ''
       for (let index = 0; index < this.value.length; index++) {
@@ -53,7 +34,7 @@ const keysMap = {
 }
 
 export default {
-  onCreateRule(key: string, value: JssStyle, options: RuleOptions): SimpleRule | null {
+  onCreateRule(key, value, options) {
     return key in keysMap ? new SimpleRule(key, value, options) : null
   }
 }
