@@ -2,7 +2,7 @@
 import toCss from '../utils/toCss'
 import type {CSSViewportRule, RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
 
-export interface ViewportRule {
+declare export class ViewportRule implements BaseRule {
   type: string;
   at: string;
   key: string;
@@ -10,7 +10,7 @@ export interface ViewportRule {
   options: RuleOptions;
   isProcessed: boolean;
   renderable: ?CSSViewportRule;
-  constructor(key: string, style: JssStyle, options: RuleOptions): void;
+  constructor(key: string, style: JssStyle, options: RuleOptions): this;
   toString(options?: ToCssOptions): string;
 }
 

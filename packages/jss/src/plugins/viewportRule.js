@@ -1,6 +1,6 @@
 import toCss from '../utils/toCss'
 
-export class ViewportRule implements BaseRule {
+export class ViewportRule {
   type = 'viewport'
 
   at = '@viewport'

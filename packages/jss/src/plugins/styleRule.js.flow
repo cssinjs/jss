@@ -1,0 +1,43 @@
+﻿// @flow
+import warning from 'tiny-warning'
+import toCss from '../utils/toCss'
+import toCssValue from '../utils/toCssValue'
+import escape from '../utils/escape'
+import type {
+  CSSStyleRule,
+  HTMLElementWithStyleMap,
+  ToCssOptions,
+  RuleOptions,
+  UpdateOptions,
+  Renderer as RendererInterface,
+  JssStyle,
+  JssValue,
+  BaseRule
+} from '../types'
+
+declare export class BaseStyleRule implements BaseRule {
+  type: string;
+  key: string;
+  isProcessed: boolean;
+  style: JssStyle;
+  renderer: RendererInterface | void;
+  renderable: ?Object;
+  options: RuleOptions;
+  constructor(key: string, style: JssStyle, options: RuleOptions): this;
+  prop(name: string, value?: JssValue, options?: UpdateOptions): this | string;
+}
+
+declare export class StyleRule extends BaseStyleRule {
+  selectorText: string;
+  id: ?string;
+  renderable: ?CSSStyleRule;
+  constructor(key: string, style: JssStyle, options: RuleOptions): this;
+  selector: string;
+  applyTo(renderable: HTMLElementWithStyleMap): this;
+  toJSON(): Object;
+  toString(options?: ToCssOptions): string;
+}
+
+declare export default {
+  onCreateRule(name: string, style: JssStyle, options: RuleOptions): StyleRule | null
+}
