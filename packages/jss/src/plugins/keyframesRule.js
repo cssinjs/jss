@@ -81,7 +81,7 @@ const findReferencedKeyframe = (val, keyframes) => {
 /**
  * Replace the reference for a animation name.
  */
-const replaceRef = (style: JssStyle, prop: string, keyframes: KeyframesMap) => {
+const replaceRef = (style, prop, keyframes) => {
   const value = style[prop]
   const refKeyframe = findReferencedKeyframe(value, keyframes)
 

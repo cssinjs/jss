@@ -1,0 +1,12 @@
+﻿// @flow
+import type {JssStyle, RuleOptions, ToCssOptions, CSSKeyframeRule} from '../types'
+import {BaseStyleRule} from './styleRule'
+
+declare export class KeyframeRule extends BaseStyleRule {
+  renderable: ?CSSKeyframeRule;
+  toString(options?: ToCssOptions): string;
+}
+
+declare export default {
+  onCreateRule(key: string, style: JssStyle, options: RuleOptions): KeyframeRule | null
+}

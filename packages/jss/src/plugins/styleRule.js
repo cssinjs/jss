@@ -97,7 +97,7 @@ export class StyleRule extends BaseStyleRule {
   /**
    * Get selector string.
    */
-  get selector(): string {
+  get selector() {
     return this.selectorText
   }
 
@@ -142,10 +142,10 @@ export class StyleRule extends BaseStyleRule {
 }
 
 export default {
-  onCreateRule(name, style, options) {
-    if (name[0] === '@' || (options.parent && options.parent.type === 'keyframes')) {
+  onCreateRule(key, style, options) {
+    if (key[0] === '@' || (options.parent && options.parent.type === 'keyframes')) {
       return null
     }
-    return new StyleRule(name, style, options)
+    return new StyleRule(key, style, options)
   }
 }

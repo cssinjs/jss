@@ -1,0 +1,18 @@
+﻿// @flow
+import type {CSSFontFaceRule, RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
+
+declare export class FontFaceRule implements BaseRule {
+  type: string;
+  at: string;
+  key: string;
+  style: JssStyle;
+  options: RuleOptions;
+  isProcessed: boolean;
+  renderable: ?CSSFontFaceRule;
+  constructor(key: string, style: JssStyle, options: RuleOptions): this;
+  toString(options?: ToCssOptions): string;
+}
+
+declare export default {
+  onCreateRule(key: string, style: JssStyle, options: RuleOptions): FontFaceRule | null
+}
