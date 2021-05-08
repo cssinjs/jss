@@ -38,8 +38,9 @@ const parseStyles: ParseStyles = <Theme, Data>(args) => {
     } else {
       if (!staticStyle) staticStyle = {}
       Object.assign(staticStyle, style)
-      if (staticStyle.label) {
-        if (labels.indexOf(staticStyle.label) === -1) labels.push(staticStyle.label)
+      const {label} = staticStyle
+      if (label) {
+        if (labels.indexOf(label) === -1) labels.push(label)
       }
     }
   }

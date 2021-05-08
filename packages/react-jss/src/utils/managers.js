@@ -17,11 +17,12 @@ type GetManager = (Context, number) => SheetsManager
 export const getManager: GetManager = (context, managerId) => {
   // If `managers` map is present in the context, we use it in order to
   // let JssProvider reset them when new response has to render server-side.
-  if (context.managers) {
-    if (!context.managers[managerId]) {
-      context.managers[managerId] = new SheetsManager()
+  const {managers} = context
+  if (managers) {
+    if (!managers[managerId]) {
+      managers[managerId] = new SheetsManager()
     }
-    return context.managers[managerId]
+    return managers[managerId]
   }
 
   let manager = defaultManagers.get(managerId)

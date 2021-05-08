@@ -2,7 +2,7 @@
 import warning from 'tiny-warning'
 import {getDynamicStyles, type StyleSheetFactoryOptions} from 'jss'
 import type {StyleSheet} from 'jss'
-import type {Context, DynamicRules, Styles} from '../types'
+import type {Context, DynamicRules, Styles, StaticOrDynamicStyles} from '../types'
 import {getManager} from './managers'
 import defaultJss from '../jss'
 import {addMeta, getMeta} from './sheetsMeta'
@@ -16,10 +16,10 @@ type Options<Theme> = {
   sheetOptions?: $Diff<StyleSheetFactoryOptions, {index: number | void}>
 }
 
-type GetStyles = <Theme>(Options<Theme>) => Styles<Theme>
+type GetStyles = <Theme, Data>(Options<Theme>) => StaticOrDynamicStyles<Data>
 
 // eslint-disable-next-line no-unused-vars
-const getStyles: GetStyles = <Theme>(options) => {
+const getStyles: GetStyles = <Theme, Data>(options) => {
   const {styles} = options
   if (typeof styles !== 'function') {
     return styles

@@ -60,6 +60,8 @@ export type DynamicStyle<Data> = (data: Data) => StaticStyle
 
 export type StaticStyles = {[key: string]: StaticStyle}
 
+export type StaticOrDynamicStyles<Data> = {[key: string]: StaticStyle | DynamicStyle<Data>}
+
 export type ThemedStyles<Theme, Data = {}> = (
   theme: Theme
 ) => {[key: string]: StaticStyle | DynamicStyle<Data>}
