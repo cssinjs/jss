@@ -1,0 +1,19 @@
+﻿// @flow
+import toCss from '../utils/toCss'
+import type {CSSViewportRule, RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
+
+export interface ViewportRule {
+  type: string;
+  at: string;
+  key: string;
+  style: JssStyle;
+  options: RuleOptions;
+  isProcessed: boolean;
+  renderable: ?CSSViewportRule;
+  constructor(key: string, style: JssStyle, options: RuleOptions): void;
+  toString(options?: ToCssOptions): string;
+}
+
+declare export default {
+  onCreateRule(key: string, style: JssStyle, options: RuleOptions): ViewportRule | null
+}
