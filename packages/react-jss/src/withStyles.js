@@ -35,19 +35,24 @@ const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
         classesProp ? mergeClasses(sheetClasses, classesProp) : sheetClasses
     )
 
-    const useStyles = createUseStyles(styles, {
-      theming,
-      index,
-      name: displayName,
-      ...sheetOptions
-    })
+    const useStyles = createUseStyles(
+      (styles: any),
+      ({
+        theming,
+        index,
+        name: displayName,
+        ...sheetOptions
+      }: any)
+    )
 
     const WithStyles = React.forwardRef((props: HOCProps<Theme, Props>, ref) => {
       const theme = React.useContext(ThemeContext)
 
       const newProps = {...props}
 
-      if (injectTheme && newProps.theme == null) newProps.theme = theme
+      if (injectTheme && newProps.theme == null) {
+        ;(newProps: any).theme = theme
+      }
 
       const sheetClasses = useStyles(newProps)
 
@@ -57,8 +62,11 @@ const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
     })
 
     WithStyles.displayName = `WithStyles(${displayName})`
+
+    // $FlowFixMe[prop-missing]
     WithStyles.defaultProps = {...InnerComponent.defaultProps}
 
+    // $FlowFixMe[prop-missing]
     WithStyles.InnerComponent = InnerComponent
 
     return hoistNonReactStatics(WithStyles, InnerComponent)
