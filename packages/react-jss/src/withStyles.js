@@ -13,16 +13,14 @@ import createUseStyles from './createUseStyles'
 
 const NoRenderer = (props: {children?: React.Node}) => props.children || null
 
-type CreateWithStyles = <Theme>(
-  Styles<Theme>,
-  HOCOptions<Theme> | void
-) => <Props: InnerProps>(React.ComponentType<Props>) => React.ComponentType<Props>
+type CreateWithStyles = <Theme: {}>(Styles<Theme>, HOCOptions<Theme> | void) => any => Classes
 
 /**
  * HOC creator function that wrapps the user component.
  *
  * `withStyles(styles, [options])(Component)`
  */
+
 const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
   const {index = getSheetIndex(), theming, injectTheme, ...sheetOptions} = options
   const ThemeContext = theming ? theming.context : DefaultThemeContext
@@ -36,7 +34,7 @@ const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
     )
 
     const useStyles = createUseStyles(
-      (styles: any),
+      styles,
       ({
         theming,
         index,
