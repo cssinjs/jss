@@ -33,23 +33,21 @@ const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
         classesProp ? mergeClasses(sheetClasses, classesProp) : sheetClasses
     )
 
-    const useStyles = createUseStyles(
-      styles,
-      ({
-        theming,
-        index,
-        name: displayName,
-        ...sheetOptions
-      }: any)
-    )
+    const hookOptions = Object.assign((sheetOptions: any), {
+      theming,
+      index,
+      name: displayName
+    })
+
+    const useStyles = createUseStyles(styles, hookOptions)
 
     const WithStyles = React.forwardRef((props: HOCProps<Theme, Props>, ref) => {
       const theme = React.useContext(ThemeContext)
 
-      const newProps = {...props}
+      const newProps: Props & {theme: any} = {...props}
 
       if (injectTheme && newProps.theme == null) {
-        ;(newProps: any).theme = theme
+        newProps.theme = theme
       }
 
       const sheetClasses = useStyles(newProps)
