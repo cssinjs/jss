@@ -35,6 +35,7 @@ export type Styles<
 > = Record<
   Name,
   | JssStyle<Props, Theme>
+  | Array<JssStyle<Props, Theme>>
   | string
   | Func<Props, Theme, JssStyle<undefined, undefined> | string | null | undefined>
   | Observable<JssStyle | string | null | undefined>
