@@ -50,9 +50,23 @@ class GlobalContainerRule implements ContainerRule {
    * Create and register rule, run plugins.
    */
   addRule(name, style, options) {
+    return this.createRule(name, style, options)
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  prepareQueue() {
+    // NoOp
+  }
+
+  createRule(name, style, options) {
     const rule = this.rules.add(name, style, options)
     if (rule) this.options.jss.plugins.onProcessRule(rule)
     return rule
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  deployRule() {
+    // NoOp
   }
 
   /**

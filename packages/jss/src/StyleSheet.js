@@ -83,21 +83,39 @@ export default class StyleSheet {
    * Will insert a rule also after the stylesheet has been rendered first time.
    */
   addRule(name: string, decl: JssStyle, options?: RuleOptions): Rule | null {
+    const queue = this.prepareQueue()
+    const rule = this.createRule(name, decl, options)
+
+    if (!rule) return null
+
+    this.deployRule(rule, queue)
+
+    return rule
+  }
+
+  createRule(name: string, decl: JssStyle, options?: RuleOptions): Rule | null {
+    const rule = this.rules.add(name, decl, options)
+
+    if (!rule) return null
+
+    this.prepareQueue()
+    this.options.jss.plugins.onProcessRule(rule)
+    return rule
+  }
+
+  prepareQueue(): ?Array<Rule> {
     const {queue} = this
 
     // Plugins can create rules.
     // In order to preserve the right order, we need to queue all `.addRule` calls,
     // which happen after the first `rules.add()` call.
     if (this.attached && !queue) this.queue = []
+    return queue
+  }
 
-    const rule = this.rules.add(name, decl, options)
-
-    if (!rule) return null
-
-    this.options.jss.plugins.onProcessRule(rule)
-
+  deployRule(rule: Rule, queue: ?Array<Rule>): void {
     if (this.attached) {
-      if (!this.deployed) return rule
+      if (!this.deployed) return
       // Don't insert rule directly if there is no stringified version yet.
       // It will be inserted all together when .attach is called.
       if (queue) queue.push(rule)
@@ -108,14 +126,12 @@ export default class StyleSheet {
           this.queue = undefined
         }
       }
-      return rule
+      return
     }
 
     // We can't add rules to a detached style node.
     // We will redeploy the sheet once user will attach it.
     this.deployed = false
-
-    return rule
   }
 
   /**
