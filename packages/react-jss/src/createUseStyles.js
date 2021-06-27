@@ -18,24 +18,29 @@ import getSheetClasses from './utils/getSheetClasses'
 
 const useEffectOrLayoutEffect = isInBrowser ? React.useLayoutEffect : React.useEffect
 
-const noTheme = {}
+const noTheme: {} = {}
 
-type CreateUseStyles = <Theme: {}>(Styles<Theme>, HookOptions<Theme> | void) => any => Classes
+type CreateUseStyles = <Theme: typeof noTheme>(
+  Styles<Theme>,
+  HookOptions<Theme> | void
+) => any => Classes
 
-const createUseStyles: CreateUseStyles = <Theme: {}>(styles, options = {}) => {
+const createUseStyles: CreateUseStyles = <Theme: typeof noTheme>(styles, options = {}) => {
   const {index = getSheetIndex(), theming, name, ...sheetOptions} = options
   const ThemeContext = (theming && theming.context) || DefaultThemeContext
-  const useTheme =
-    typeof styles === 'function'
-      ? // $FlowFixMe[incompatible-return]
-        (): Theme => React.useContext(ThemeContext) || noTheme
-      : // $FlowFixMe[incompatible-return]
-        (): Theme => noTheme
+
+  const useTheme = (theme?: Theme): Theme | typeof noTheme => {
+    if (typeof styles === 'function') {
+      return theme || React.useContext(ThemeContext) || noTheme
+    }
+
+    return noTheme
+  }
 
   return function useStyles(data: any) {
     const isFirstMount = React.useRef(true)
     const context = React.useContext(JssContext)
-    const theme = useTheme()
+    const theme = useTheme(data.theme)
 
     const [sheet, dynamicRules] = React.useMemo(
       () => {
