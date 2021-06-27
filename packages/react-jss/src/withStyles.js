@@ -59,7 +59,7 @@ const createWithStyles: CreateWithStyles = <Theme>(styles, options = {}) => {
 
     WithStyles.displayName = `WithStyles(${displayName})`
 
-    // $FlowFixMe[prop-missing]
+    // $FlowFixMe[prop-missing] https://github.com/facebook/flow/issues/7467
     WithStyles.defaultProps = {...InnerComponent.defaultProps}
 
     // $FlowFixMe[prop-missing]
