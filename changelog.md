@@ -2,6 +2,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ## Next (version and date will be generated, add changes below)
 
+## 10.7.0 (2021-6-27)
+
 ### Improvements
 
 - [jss][ts] Improved style type [1521](https://github.com/cssinjs/jss/pull/1521)
