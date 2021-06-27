@@ -1,8 +1,12 @@
-## Next
-
 Since you are interested in what happens next, in case, you work for a for-profit company that benefits from using the project, please consider supporting it on https://opencollective.com/jss.
 
----
+## Next (version and date will be generated, add changes below)
+
+### Improvements
+
+- [jss][ts] Improved style type [1521](https://github.com/cssinjs/jss/pull/1521)
+- [react-jss] Refactored JssProvider to function component [1513](https://github.com/cssinjs/jss/pull/1513)
+- [react-jss] Refactored WithStyles to function component [1508](https://github.com/cssinjs/jss/pull/1508)
 
 ## 10.6.0 (2021-3-14)
 
