@@ -5,9 +5,9 @@ import {
   createGenerateId,
   JssStyle,
   SheetsRegistry,
-  default as sharedInstance
+  default as sharedInstance,
+  MinimalObservable
 } from 'jss'
-import {NextChannel} from 'indefinite-observable'
 
 const jss = createJSS().setup({createGenerateId})
 jss.use({}, {})
@@ -15,7 +15,7 @@ jss.use({}, {})
 const styleSheet = jss.createStyleSheet<string>(
   {
     ruleWithMockObservable: {
-      subscribe: (observer: {next: NextChannel<JssStyle | string | null | undefined>}) => {
+      subscribe: observer => {
         const next = typeof observer === 'function' ? observer : observer.next
         next({background: 'blue', display: 'flex'})
 
@@ -23,7 +23,7 @@ const styleSheet = jss.createStyleSheet<string>(
           unsubscribe() {}
         }
       }
-    },
+    } as MinimalObservable<JssStyle | string | null | undefined>,
     rule: {
       color: (data: {color: string}) => data.color,
 
