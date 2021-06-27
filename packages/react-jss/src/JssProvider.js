@@ -2,9 +2,8 @@
 /* eslint-disable react/require-default-props, react/no-unused-prop-types */
 
 import * as React from 'react'
-import PropTypes from 'prop-types'
 import {shallowEqualObjects} from 'shallow-equal'
-import defaultJss, {
+import {
   createGenerateId,
   type Jss,
   type GenerateId,
@@ -27,33 +26,16 @@ type Props = {|
 
 const initialContext: Object = {}
 
-class JssProvider extends React.Component<Props> {
-  static propTypes = {
-    registry: PropTypes.instanceOf(SheetsRegistry),
-    jss: PropTypes.instanceOf(defaultJss.constructor),
-    generateId: PropTypes.func,
-    classNamePrefix: PropTypes.string,
-    disableStylesGeneration: PropTypes.bool,
-    children: PropTypes.node.isRequired,
-    media: PropTypes.string,
-    id: PropTypes.shape({minify: PropTypes.bool})
-  }
+function JssProvider(props: Props): React.Node {
+  const managersRef = React.useRef<Managers>({})
+  const prevContextRef = React.useRef<Context | void>()
+  const registryRef = React.useRef<SheetsRegistry | null>(null)
 
-  managers: Managers = {}
-
-  createContext: (Context, Context | void) => Context = (
+  const createContext: (Context, Context | void) => Context = (
     parentContext,
     prevContext = initialContext
   ) => {
-    const {
-      registry,
-      classNamePrefix,
-      jss,
-      generateId,
-      disableStylesGeneration,
-      media,
-      id
-    } = this.props
+    const {registry, classNamePrefix, jss, generateId, disableStylesGeneration, media, id} = props
 
     const context = {...parentContext}
 
@@ -62,14 +44,14 @@ class JssProvider extends React.Component<Props> {
 
       // This way we identify a new request on the server, because user will create
       // a new Registry instance for each.
-      if (registry !== this.registry) {
+      if (registry !== registryRef.current) {
         // We reset managers because we have to regenerate all sheets for the new request.
-        this.managers = {}
-        this.registry = registry
+        managersRef.current = {}
+        registryRef.current = registry
       }
     }
 
-    context.managers = this.managers
+    context.managers = managersRef.current
 
     if (id !== undefined) {
       context.id = id
@@ -104,22 +86,14 @@ class JssProvider extends React.Component<Props> {
     return context
   }
 
-  prevContext: Context
-
-  generateId: ?GenerateId
-
-  registry: ?SheetsRegistry
-
-  renderProvider: Context => React.Node = parentContext => {
-    const {children} = this.props
-    const context: Context = this.createContext(parentContext, this.prevContext)
-    this.prevContext = context
+  const renderProvider: Context => React.Node = parentContext => {
+    const {children} = props
+    const context: Context = createContext(parentContext, prevContextRef.current)
+    prevContextRef.current = context
     return <JssContext.Provider value={context}>{children}</JssContext.Provider>
   }
 
-  render(): React.Node {
-    return <JssContext.Consumer>{this.renderProvider}</JssContext.Consumer>
-  }
+  return <JssContext.Consumer>{renderProvider}</JssContext.Consumer>
 }
 
 export default (JssProvider: typeof JssProvider)
