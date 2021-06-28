@@ -55,7 +55,10 @@ function getSheetOptions<Theme>(options: Options<Theme>, link: boolean) {
     meta,
     classNamePrefix,
     link,
-    generateId: options.sheetOptions ? options.sheetOptions.generateId : options.context.generateId
+    generateId:
+      options.sheetOptions && options.sheetOptions.generateId
+        ? options.sheetOptions.generateId
+        : options.context.generateId
   }
 }
 
