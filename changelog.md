@@ -2,6 +2,10 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ## Next (version and date will be generated, add changes below)
 
+### Bug fixes
+
+- [jss] Fixes regression from previous release where useStyles() without arguments would throw an error
+
 ## 10.7.0 (2021-6-27)
 
 ### Improvements
