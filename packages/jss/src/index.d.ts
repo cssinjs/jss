@@ -5,7 +5,11 @@ import {Properties as CSSProperties} from 'csstype'
 // hasn't installed that plugin.
 //
 // TODO: refactor to only include Observable types if plugin is installed.
-import {Observable} from 'indefinite-observable'
+export interface MinimalObservable<T> {
+  subscribe(
+    nextOrObserver: ((value: T) => void) | {next: (value: T) => void}
+  ): {unsubscribe: () => void}
+}
 
 type Func<P, T, R> = T extends undefined ? ((data: P) => R) : ((data: P & {theme: T}) => R)
 
@@ -18,14 +22,14 @@ export type JssStyle<Props = any, Theme = undefined> =
         | NormalCssValues<K>
         | JssStyle<Props, Theme>
         | Func<Props, Theme, NormalCssValues<K> | JssStyle<undefined, undefined> | undefined>
-        | Observable<NormalCssValues<K> | JssStyle | undefined>
+        | MinimalObservable<NormalCssValues<K> | JssStyle | undefined>
     }
   | {
       [K: string]:
         | JssValue
         | JssStyle<Props, Theme>
         | Func<Props, Theme, JssValue | JssStyle<undefined, undefined> | undefined>
-        | Observable<JssValue | JssStyle | undefined>
+        | MinimalObservable<JssValue | JssStyle | undefined>
     }
 
 export type Styles<
@@ -35,9 +39,10 @@ export type Styles<
 > = Record<
   Name,
   | JssStyle<Props, Theme>
+  | Array<JssStyle<Props, Theme>>
   | string
   | Func<Props, Theme, JssStyle<undefined, undefined> | string | null | undefined>
-  | Observable<JssStyle | string | null | undefined>
+  | MinimalObservable<JssStyle | string | null | undefined>
 >
 export type Classes<Name extends string | number | symbol = string> = Record<Name, string>
 export type Keyframes<Name extends string = string> = Record<Name, string>

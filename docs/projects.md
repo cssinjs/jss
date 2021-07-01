@@ -14,6 +14,8 @@
 
 [CSSX](https://github.com/krasimir/cssx) CSS syntax which can use JSS for rendering.
 
+[vue-jss](https://github.com/BestVue3/vue-jss) - a JSS integration for Vue
+
 ## Examples
 
 [Examples repository](https://github.com/cssinjs/examples)

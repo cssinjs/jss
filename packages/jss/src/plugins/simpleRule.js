@@ -14,7 +14,7 @@ export class SimpleRule implements BaseRule {
 
   key: string
 
-  value: string
+  value: string | Array<string>
 
   options: RuleOptions
 
@@ -54,6 +54,6 @@ const keysMap = {
 
 export default {
   onCreateRule(key: string, value: JssStyle, options: RuleOptions): SimpleRule | null {
-    return key in keysMap ? new SimpleRule(key, ((value: any): string), options) : null
+    return key in keysMap ? new SimpleRule(key, value, options) : null
   }
 }

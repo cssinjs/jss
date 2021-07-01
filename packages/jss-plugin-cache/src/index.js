@@ -19,7 +19,7 @@ export default function cachePlugin(): Plugin {
 
     const originalStyle = parent.rules.raw[rule.key]
 
-    if (!cache.get(originalStyle)) cache.set(originalStyle, rule)
+    if (!cache.has(originalStyle)) cache.set(originalStyle, rule)
   }
 
   return {onCreateRule, onProcessRule}

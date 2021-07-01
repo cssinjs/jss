@@ -1,5 +1,4 @@
-import {Styles} from '../../src'
-import {Observable} from 'indefinite-observable'
+import {MinimalObservable, Styles} from '../../src'
 
 interface Props {
   flag?: boolean
@@ -9,8 +8,8 @@ interface Theme {
   color: string
 }
 
-declare const color$: Observable<'cyan'>
-declare const style$: Observable<{
+declare const color$: MinimalObservable<'cyan'>
+declare const style$: MinimalObservable<{
   backgroundColor: 'fuchsia'
   transform: 'translate(0px, 205px)'
 }>

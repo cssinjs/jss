@@ -111,7 +111,7 @@ const getChildProps = (props, shouldForwardProp, isTag) => {
 }
 
 type StyledOptions<Theme> = {|
-  ...HookOptions<Theme>,
+  ...$Exact<HookOptions<Theme>>,
   shouldForwardProp?: ShouldForwardProp
 |}
 
@@ -119,10 +119,12 @@ type CreateStyledComponent<Theme> = (
   ...StyleArg<Theme>[]
 ) => StatelessFunctionalComponent<StyledProps>
 
-type ConfigureStyled = <Theme: {}>(
+type ConfigureStyled = <Theme: Object>(
   string | StatelessFunctionalComponent<StyledProps> | ComponentType<StyledProps>,
   StyledOptions<Theme> | void
 ) => CreateStyledComponent<Theme>
+
+type StyledPropsWithTheme<Theme> = StyledProps & {theme?: Theme}
 
 // eslint-disable-next-line no-unused-vars
 const configureStyled: ConfigureStyled = <Theme: {}>(tagOrComponent, options = {}) => {
@@ -141,7 +143,7 @@ const configureStyled: ConfigureStyled = <Theme: {}>(tagOrComponent, options = {
     const Styled = (props: StyledProps) => {
       const {as, className} = props
       const theme = React.useContext(ThemeContext)
-      const propsWithTheme: StyledProps = Object.assign(({theme}: any), props)
+      const propsWithTheme: StyledPropsWithTheme<Theme> = Object.assign(({theme}: any), props)
       const classes = useStyles(propsWithTheme)
       const childProps = getChildProps(props, shouldForwardProp, isTag)
 
