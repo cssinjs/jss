@@ -82,8 +82,8 @@ attachedStyleSheet.addRules({
     fontFamily: 'Roboto',
     color: '#FFFFFF'
   },
+  // @ts-expect-error
   rule5: {
-    // @ts-expect-error
     fallbacks: {
       borderRadius: ['solid', 2],
       fontSize: Symbol()
@@ -91,8 +91,8 @@ attachedStyleSheet.addRules({
     borderRadius: ['solid', 2],
     fontSize: 17
   },
+  // @ts-expect-error
   rule6: {
-    // @ts-expect-error
     fallbacks: Symbol()
   },
   container: {
