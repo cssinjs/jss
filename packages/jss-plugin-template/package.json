@@ -5,8 +5,14 @@
   "license": "MIT",
   "homepage": "https://cssinjs.org/jss-template",
   "main": "dist/jss-plugin-template.cjs.js",
-  "module": "dist/jss-plugin-template.esm.js",
+  "module": "dist/jss-plugin-template.esm.mjs",
   "unpkg": "dist/jss-plugin-template.bundle.js",
+  "exports": {
+    ".": {
+      "require": "./dist/jss-plugin-template.cjs.js",
+      "import": "./dist/jss-plugin-template.esm.mjs"
+    }
+  },
   "sideEffects": false,
   "typings": "./src/index.d.ts",
   "author": "JSS Team",
@@ -35,7 +41,7 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "dependencies": {
-    "@babel/runtime": "^7.3.1",
+    "@babel/runtime": "^7.12.0",
     "jss": "10.7.1",
     "tiny-warning": "^1.0.2"
   }

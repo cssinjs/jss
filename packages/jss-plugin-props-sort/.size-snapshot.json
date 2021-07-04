@@ -14,7 +14,7 @@
     "minified": 345,
     "gzipped": 243
   },
-  "jss-plugin-props-sort.esm.js": {
+  "jss-plugin-props-sort.esm.mjs": {
     "bundled": 592,
     "minified": 276,
     "gzipped": 202,

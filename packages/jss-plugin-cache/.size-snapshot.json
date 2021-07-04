@@ -14,7 +14,7 @@
     "minified": 371,
     "gzipped": 261
   },
-  "jss-plugin-cache.esm.js": {
+  "jss-plugin-cache.esm.mjs": {
     "bundled": 666,
     "minified": 302,
     "gzipped": 217,

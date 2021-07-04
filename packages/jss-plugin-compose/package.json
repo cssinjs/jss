@@ -5,8 +5,14 @@
   "license": "MIT",
   "homepage": "https://cssinjs.org/jss-compose",
   "main": "dist/jss-plugin-compose.cjs.js",
-  "module": "dist/jss-plugin-compose.esm.js",
+  "module": "dist/jss-plugin-compose.esm.mjs",
   "unpkg": "dist/jss-plugin-compose.bundle.js",
+  "exports": {
+    ".": {
+      "require": "./dist/jss-plugin-compose.cjs.js",
+      "import": "./dist/jss-plugin-compose.esm.mjs"
+    }
+  },
   "sideEffects": false,
   "typings": "./src/index.d.ts",
   "author": "JSS Team",
@@ -36,7 +42,7 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "dependencies": {
-    "@babel/runtime": "^7.3.1",
+    "@babel/runtime": "^7.12.0",
     "jss": "10.7.1",
     "tiny-warning": "^1.0.2"
   }

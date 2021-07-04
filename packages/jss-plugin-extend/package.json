@@ -5,8 +5,14 @@
   "license": "MIT",
   "homepage": "https://cssinjs.org/jss-extend",
   "main": "dist/jss-plugin-extend.cjs.js",
-  "module": "dist/jss-plugin-extend.esm.js",
+  "module": "dist/jss-plugin-extend.esm.mjs",
   "unpkg": "dist/jss-plugin-extend.bundle.js",
+  "exports": {
+    ".": {
+      "require": "./dist/jss-plugin-extend.cjs.js",
+      "import": "./dist/jss-plugin-extend.esm.mjs"
+    }
+  },
   "sideEffects": false,
   "typings": "./src/index.d.ts",
   "author": "JSS Team",
@@ -40,7 +46,7 @@
     "jss-plugin-rule-value-function": "10.7.1"
   },
   "dependencies": {
-    "@babel/runtime": "^7.3.1",
+    "@babel/runtime": "^7.12.0",
     "jss": "10.7.1",
     "tiny-warning": "^1.0.2"
   }

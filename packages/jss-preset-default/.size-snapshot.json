@@ -1,20 +1,20 @@
 {
   "jss-preset-default.js": {
-    "bundled": 56975,
-    "minified": 21052,
-    "gzipped": 7009
+    "bundled": 56925,
+    "minified": 21071,
+    "gzipped": 7017
   },
   "jss-preset-default.min.js": {
-    "bundled": 55900,
-    "minified": 20429,
-    "gzipped": 6731
+    "bundled": 55862,
+    "minified": 20448,
+    "gzipped": 6740
   },
   "jss-preset-default.cjs.js": {
     "bundled": 2222,
     "minified": 1740,
     "gzipped": 480
   },
-  "jss-preset-default.esm.js": {
+  "jss-preset-default.esm.mjs": {
     "bundled": 897,
     "minified": 785,
     "gzipped": 311,

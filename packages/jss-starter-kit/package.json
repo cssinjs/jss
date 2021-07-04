@@ -5,8 +5,14 @@
   "license": "MIT",
   "homepage": "https://cssinjs.org/",
   "main": "dist/jss-starter-kit.cjs.js",
-  "module": "dist/jss-starter-kit.esm.js",
+  "module": "dist/jss-starter-kit.esm.mjs",
   "unpkg": "dist/jss-starter-kit.bundle.js",
+  "exports": {
+    ".": {
+      "require": "./dist/jss-starter-kit.cjs.js",
+      "import": "./dist/jss-starter-kit.esm.mjs"
+    }
+  },
   "sideEffects": false,
   "typings": "./src/index.d.ts",
   "author": "JSS Team",

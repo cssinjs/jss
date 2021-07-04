@@ -1,6 +1,6 @@
 {
   "jss-plugin-compose.js": {
-    "bundled": 2517,
+    "bundled": 2515,
     "minified": 988,
     "gzipped": 561
   },
@@ -14,7 +14,7 @@
     "minified": 1013,
     "gzipped": 528
   },
-  "jss-plugin-compose.esm.js": {
+  "jss-plugin-compose.esm.mjs": {
     "bundled": 1826,
     "minified": 764,
     "gzipped": 426,
