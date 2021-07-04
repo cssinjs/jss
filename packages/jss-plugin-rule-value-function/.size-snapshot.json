@@ -1,6 +1,6 @@
 {
   "jss-plugin-rule-value-function.js": {
-    "bundled": 3068,
+    "bundled": 3067,
     "minified": 1046,
     "gzipped": 579
   },
@@ -14,7 +14,7 @@
     "minified": 1059,
     "gzipped": 551
   },
-  "jss-plugin-rule-value-function.esm.js": {
+  "jss-plugin-rule-value-function.esm.mjs": {
     "bundled": 2350,
     "minified": 836,
     "gzipped": 451,

@@ -5,8 +5,14 @@
   "license": "MIT",
   "homepage": "https://cssinjs.org/jss-plugin-isolate",
   "main": "dist/jss-plugin-isolate.cjs.js",
-  "module": "dist/jss-plugin-isolate.esm.js",
+  "module": "dist/jss-plugin-isolate.esm.mjs",
   "unpkg": "dist/jss-plugin-isolate.bundle.js",
+  "exports": {
+    ".": {
+      "require": "./dist/jss-plugin-isolate.cjs.js",
+      "import": "./dist/jss-plugin-isolate.esm.mjs"
+    }
+  },
   "sideEffects": false,
   "typings": "./src/index.d.ts",
   "author": "JSS Team",
@@ -36,7 +42,7 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "dependencies": {
-    "@babel/runtime": "^7.3.1",
+    "@babel/runtime": "^7.12.0",
     "css-initials": "^0.3.1",
     "jss": "10.7.1"
   }

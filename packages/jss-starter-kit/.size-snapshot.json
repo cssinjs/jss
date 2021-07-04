@@ -1,20 +1,20 @@
 {
   "jss-starter-kit.js": {
-    "bundled": 74529,
-    "minified": 31614,
-    "gzipped": 9665
+    "bundled": 74539,
+    "minified": 31675,
+    "gzipped": 9689
   },
   "jss-starter-kit.min.js": {
-    "bundled": 73454,
-    "minified": 31426,
-    "gzipped": 9442
+    "bundled": 73476,
+    "minified": 31487,
+    "gzipped": 9464
   },
   "jss-starter-kit.cjs.js": {
-    "bundled": 5647,
-    "minified": 4688,
-    "gzipped": 944
+    "bundled": 5707,
+    "minified": 4742,
+    "gzipped": 952
   },
-  "jss-starter-kit.esm.js": {
+  "jss-starter-kit.esm.mjs": {
     "bundled": 1435,
     "minified": 1317,
     "gzipped": 470,

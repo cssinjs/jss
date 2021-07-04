@@ -1,6 +1,6 @@
 {
   "jss-plugin-template.js": {
-    "bundled": 1846,
+    "bundled": 1845,
     "minified": 774,
     "gzipped": 467
   },
@@ -14,7 +14,7 @@
     "minified": 746,
     "gzipped": 443
   },
-  "jss-plugin-template.esm.js": {
+  "jss-plugin-template.esm.mjs": {
     "bundled": 1139,
     "minified": 518,
     "gzipped": 341,

@@ -14,7 +14,7 @@
     "minified": 3718,
     "gzipped": 1194
   },
-  "jss-plugin-default-unit.esm.js": {
+  "jss-plugin-default-unit.esm.mjs": {
     "bundled": 6070,
     "minified": 3652,
     "gzipped": 1137,

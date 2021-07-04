@@ -14,7 +14,7 @@
     "minified": 818,
     "gzipped": 420
   },
-  "jss-plugin-camel-case.esm.js": {
+  "jss-plugin-camel-case.esm.mjs": {
     "bundled": 1491,
     "minified": 565,
     "gzipped": 309,

@@ -14,7 +14,7 @@
     "minified": 844,
     "gzipped": 424
   },
-  "jss-plugin-rule-value-observable.esm.js": {
+  "jss-plugin-rule-value-observable.esm.mjs": {
     "bundled": 1519,
     "minified": 594,
     "gzipped": 320,
