@@ -100,7 +100,6 @@
     "sinon": "4.5.0",
     "typescript": "^3.7.0",
     "webpack": "^5.42.0",
-    "webpack-cli": "^4.7.2",
     "zen-observable": "^0.6.0"
   }
 }
