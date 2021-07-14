@@ -338,31 +338,6 @@ Compiles to:
 }
 ```
 
-## Specific selectors
-
-When extending third party libraries with high secificity selector it's often necessary to have also have a high specificity.
-
-```javascript
-
-const styles = {
-  button: {
-    '.button &': {
-      color: 'red'
-    }
-  }
-}    
-
-```
-
-Compiles to:
-
-```css
-.button .button-0 {
-  color: 'red'
-}
-```
-
-
 ## Working with colors
 
 You can use any color conversion tool, e.g. [this one](https://yarnpkg.com/en/package/color).
