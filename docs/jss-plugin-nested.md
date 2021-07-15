@@ -143,6 +143,28 @@ Compiles to:
 }
 ```
 
+## Increase specificity
+
+When extending third party libraries with high secificity selector it's often necessary to also have a high specificity selector.
+
+```javascript
+const styles = {
+  button: {
+    '.button &': {
+      color: 'red'
+    }
+  }
+}
+```
+
+Compiles to:
+
+```css
+.button .button-0 {
+  color: 'red';
+}
+```
+
 ### Demo
 
 [CodeSandbox](//codesandbox.io/s/github/cssinjs/jss/tree/master/examples/plugins/jss-plugin-nested?fontsize=14)
