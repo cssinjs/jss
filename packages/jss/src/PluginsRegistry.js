@@ -40,7 +40,6 @@ export default class PluginsRegistry {
    */
   onProcessStyle(style, rule, sheet) {
     for (let i = 0; i < this.registry.onProcessStyle.length; i++) {
-      // $FlowFixMe[prop-missing]
       rule.style = this.registry.onProcessStyle[i](rule.style, rule, sheet)
     }
   }

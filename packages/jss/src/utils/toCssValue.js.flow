@@ -1,6 +1,6 @@
 ﻿// @flow
 
-import type {FixMeAny} from '../types'
+import type {FixMeAny} from '../flow-types'
 
 type ToCssValue = (FixMeAny, boolean | void) => string
 

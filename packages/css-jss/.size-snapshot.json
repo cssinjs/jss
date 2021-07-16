@@ -1,11 +1,11 @@
 {
   "css-jss.js": {
-    "bundled": 60061,
+    "bundled": 59711,
     "minified": 21828,
     "gzipped": 7357
   },
   "css-jss.min.js": {
-    "bundled": 58986,
+    "bundled": 58636,
     "minified": 21205,
     "gzipped": 7078
   },

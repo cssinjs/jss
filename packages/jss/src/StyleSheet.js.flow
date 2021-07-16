@@ -13,7 +13,7 @@ import type {
   Renderer,
   UpdateArguments,
   UpdateOptions
-} from './types'
+} from './flow-types'
 
 declare export default class StyleSheet {
   options: InternalStyleSheetOptions;

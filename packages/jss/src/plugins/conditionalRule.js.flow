@@ -9,7 +9,7 @@ import type {
   // eslint doesn't understand usage with types
   // eslint-disable-next-line no-unused-vars
   ContainerRule
-} from '../types'
+} from '../flow-types'
 
 declare export class ConditionalRule implements ContainerRule {
   type: string;

@@ -1,5 +1,5 @@
 ﻿// @flow
-import type {ToCssOptions} from './types'
+import type {ToCssOptions} from './flow-types'
 import type StyleSheet from './StyleSheet'
 
 declare export default class SheetsRegistry {

@@ -1,21 +1,21 @@
 {
   "jss.js": {
-    "bundled": 61851,
+    "bundled": 61815,
     "minified": 22363,
     "gzipped": 6964
   },
   "jss.min.js": {
-    "bundled": 60455,
+    "bundled": 60419,
     "minified": 21595,
     "gzipped": 6619
   },
   "jss.cjs.js": {
-    "bundled": 57667,
+    "bundled": 57633,
     "minified": 25252,
     "gzipped": 7071
   },
   "jss.esm.js": {
-    "bundled": 56069,
+    "bundled": 56035,
     "minified": 23973,
     "gzipped": 6905,
     "treeshaked": {

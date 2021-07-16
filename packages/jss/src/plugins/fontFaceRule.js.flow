@@ -7,7 +7,7 @@ import type {
   // eslint doesn't understand usage with types
   // eslint-disable-next-line no-unused-vars
   BaseRule
-} from '../types'
+} from '../flow-types'
 
 declare export class FontFaceRule implements BaseRule {
   type: string;

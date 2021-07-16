@@ -25,7 +25,7 @@ export type {
   Classes,
   BaseRule,
   ContainerRule
-} from './types'
+} from './flow-types'
 export type {
   GenerateId,
   CreateGenerateId,

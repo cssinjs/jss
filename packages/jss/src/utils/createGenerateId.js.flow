@@ -1,5 +1,5 @@
 ﻿// @flow
-import type {Rule} from '../types'
+import type {Rule} from '../flow-types'
 import StyleSheet from '../StyleSheet'
 
 export type CreateGenerateIdOptions = {|

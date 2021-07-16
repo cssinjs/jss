@@ -6,7 +6,7 @@ import type {
   Plugin,
   JssOptions,
   JssStyle
-} from './types'
+} from './flow-types'
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 

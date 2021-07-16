@@ -1,5 +1,5 @@
 ﻿// @flow
-import type {Plugin, Rule, RuleOptions, UpdateOptions, JssStyle, JssValue} from './types'
+import type {Plugin, Rule, RuleOptions, UpdateOptions, JssStyle, JssValue} from './flow-types'
 import type StyleSheet from './StyleSheet'
 import type {StyleRule, BaseStyleRule} from './plugins/styleRule'
 

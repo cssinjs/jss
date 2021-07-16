@@ -9,7 +9,7 @@ import type {
   KeyframesMap,
   UpdateArguments,
   UpdateOptions
-} from './types'
+} from './flow-types'
 
 declare export default class RuleList {
   map: {[key: string]: Rule};

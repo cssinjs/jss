@@ -10,7 +10,7 @@ import type {
   ContainerRule,
   OnProcessStyle,
   OnChangeValue
-} from '../types'
+} from '../flow-types'
 
 declare export class KeyframesRule implements ContainerRule {
   type: string;
