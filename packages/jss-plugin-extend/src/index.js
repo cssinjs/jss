@@ -1,7 +1,5 @@
-// @flow
 /* eslint-disable no-use-before-define */
 import warning from 'tiny-warning'
-import type {Plugin} from 'jss'
 
 const isObject = obj => obj && typeof obj === 'object' && !Array.isArray(obj)
 const valueNs = `extendCurrValue${Date.now()}`
@@ -80,11 +78,8 @@ function extend(style, rule, sheet, newStyle = {}) {
 
 /**
  * Handle `extend` property.
- *
- * @param {Rule} rule
- * @api public
  */
-export default function jssExtend(): Plugin {
+export default function jssExtend() {
   function onProcessStyle(style, rule, sheet) {
     if ('extend' in style) return extend(style, rule, sheet)
     return style

@@ -1,21 +1,21 @@
 {
   "jss-plugin-camel-case.js": {
-    "bundled": 2440,
+    "bundled": 2357,
     "minified": 902,
     "gzipped": 504
   },
   "jss-plugin-camel-case.min.js": {
-    "bundled": 2440,
+    "bundled": 2357,
     "minified": 902,
     "gzipped": 504
   },
   "jss-plugin-camel-case.cjs.js": {
-    "bundled": 1805,
+    "bundled": 1732,
     "minified": 818,
     "gzipped": 420
   },
   "jss-plugin-camel-case.esm.js": {
-    "bundled": 1491,
+    "bundled": 1418,
     "minified": 565,
     "gzipped": 309,
     "treeshaked": {

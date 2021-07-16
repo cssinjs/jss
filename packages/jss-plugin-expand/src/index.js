@@ -1,10 +1,5 @@
-// @flow
 /* eslint-disable no-use-before-define */
-import type {Plugin, StyleRule, JssStyle} from 'jss'
 import {propArray, propArrayInObj, propObj, customPropObj} from './props'
-
-// TODO needs proper types for all supported formats
-type JssValue = Object
 
 /**
  * Map values by given prop.
@@ -14,14 +9,14 @@ type JssValue = Object
  * @param {String} original rule
  * @return {String} mapped values
  */
-function mapValuesByProp(value: JssValue, prop: string, rule: StyleRule) {
+function mapValuesByProp(value, prop, rule) {
   return value.map(item => objectToArray(item, prop, rule, false, true))
 }
 
 /**
  * Convert array to nested array, if needed
  */
-function processArray(value: JssValue, prop: string, scheme: typeof propArray, rule: StyleRule) {
+function processArray(value, prop, scheme, rule) {
   if (scheme[prop] == null) return value
   if (value.length === 0) return []
   if (Array.isArray(value[0])) return processArray(value[0], prop, scheme, rule)
@@ -35,13 +30,7 @@ function processArray(value: JssValue, prop: string, scheme: typeof propArray, r
 /**
  * Convert object to array.
  */
-function objectToArray(
-  value: JssValue,
-  prop: string,
-  rule: StyleRule,
-  isFallback?: boolean,
-  isInArray?: boolean
-) {
+function objectToArray(value, prop, rule, isFallback, isInArray) {
   if (!(propObj[prop] || customPropObj[prop])) return []
 
   const result = []
@@ -78,12 +67,7 @@ function objectToArray(
 /**
  * Convert custom properties values to styles adding them to rule directly
  */
-function customPropsToStyle(
-  value: JssValue,
-  rule: StyleRule,
-  customProps: {[string]: string},
-  isFallback?: boolean
-) {
+function customPropsToStyle(value, rule, customProps, isFallback) {
   for (const prop in customProps) {
     const propName = customProps[prop]
 
@@ -110,7 +94,7 @@ function customPropsToStyle(
 /**
  * Detect if a style needs to be converted.
  */
-function styleDetector(style: JssStyle, rule: StyleRule, isFallback?: boolean): JssStyle {
+function styleDetector(style, rule, isFallback) {
   for (const prop in style) {
     const value = style[prop]
 
@@ -149,19 +133,19 @@ function styleDetector(style: JssStyle, rule: StyleRule, isFallback?: boolean): 
 /**
  * Adds possibility to write expanded styles.
  */
-export default function jssExpand(): Plugin {
+export default function jssExpand() {
   function onProcessStyle(style, rule) {
     if (!style || rule.type !== 'style') return style
 
     if (Array.isArray(style)) {
       // Pass rules one by one and reformat them
       for (let index = 0; index < style.length; index++) {
-        style[index] = styleDetector(style[index], ((rule: any): StyleRule))
+        style[index] = styleDetector(style[index], rule)
       }
       return style
     }
 
-    return styleDetector(style, ((rule: any): StyleRule))
+    return styleDetector(style, rule)
   }
 
   return {onProcessStyle}

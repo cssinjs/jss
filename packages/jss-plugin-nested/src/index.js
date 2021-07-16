@@ -1,6 +1,4 @@
-// @flow
 import warning from 'tiny-warning'
-import type {Plugin, StyleRule, StyleSheet} from 'jss'
 
 const separatorRegExp = /\s*,\s*/g
 const parentRegExp = /&/g
@@ -8,18 +6,13 @@ const refRegExp = /\$([\w-]+)/g
 
 /**
  * Convert nested rules to separate, remove them from original styles.
- *
- * @param {Rule} rule
- * @api public
  */
-export default function jssNested(): Plugin {
+export default function jssNested() {
   // Get a function to be used for $ref replacement.
-  function getReplaceRef(container, sheet?: StyleSheet) {
+  function getReplaceRef(container, sheet) {
     return (match, key) => {
-      let rule = container.getRule(key) || (sheet && sheet.getRule(key))
+      const rule = container.getRule(key) || (sheet && sheet.getRule(key))
       if (rule) {
-        rule = ((rule: any): StyleRule)
-
         return rule.selector
       }
 
@@ -57,7 +50,6 @@ export default function jssNested(): Plugin {
     // Options has been already created, now we only increase index.
     if (prevOptions) return {...prevOptions, index: prevOptions.index + 1}
 
-    // $FlowFixMe[prop-missing]
     let {nestingLevel} = rule.options
     nestingLevel = nestingLevel === undefined ? 1 : nestingLevel + 1
 
@@ -71,12 +63,12 @@ export default function jssNested(): Plugin {
     return options
   }
 
-  function onProcessStyle(style, rule, sheet?: StyleSheet) {
+  function onProcessStyle(style, rule, sheet) {
     if (rule.type !== 'style') return style
 
-    const styleRule: StyleRule = (rule: any)
+    const styleRule = rule
 
-    const container: StyleSheet = (styleRule.options.parent: any)
+    const container = styleRule.options.parent
     let options
     let replaceRef
     for (const prop in style) {
@@ -100,10 +92,6 @@ export default function jssNested(): Plugin {
         // Place conditional right after the parent rule to ensure right ordering.
         container
           .addRule(prop, {}, options)
-          // Flow expects more options but they aren't required
-          // And flow doesn't know this will always be a StyleRule which has the addRule method
-          // $FlowFixMe[incompatible-use]
-          // $FlowFixMe[prop-missing]
           .addRule(styleRule.key, style[prop], {selector: styleRule.selector})
       }
 

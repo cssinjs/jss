@@ -1,0 +1,9 @@
+﻿// @flow
+import type {Plugin} from 'jss'
+
+type Options = {
+  isolate?: boolean | string,
+  reset?: 'all' | 'inherited' | Object | ['all' | 'inherited', Object]
+}
+
+declare export default (options?: Options) => Plugin

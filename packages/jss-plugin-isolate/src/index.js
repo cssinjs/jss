@@ -1,12 +1,5 @@
-// @flow
 import inheritedInitials from 'css-initials/inherited'
 import allInitials from 'css-initials/all'
-import type {Plugin, StyleRule} from 'jss'
-
-type Options = {
-  isolate?: boolean | string,
-  reset?: 'all' | 'inherited' | Object | ['all' | 'inherited', Object]
-}
 
 const resetSheetOptions = {
   meta: 'jss-plugin-isolate',
@@ -39,7 +32,7 @@ const getStyle = (option = 'inherited') => {
   return inheritedInitials
 }
 
-const shouldIsolate = (rule: StyleRule, sheet, options) => {
+const shouldIsolate = (rule, sheet, options) => {
   const {parent} = rule.options
 
   if (parent && (parent.type === 'keyframes' || parent.type === 'conditional')) {
@@ -47,7 +40,6 @@ const shouldIsolate = (rule: StyleRule, sheet, options) => {
   }
 
   let isolate = options.isolate == null ? true : options.isolate
-  // $FlowFixMe[prop-missing] isolate is only added as an option by this plugin which means we can't type it in jss
   if (sheet.options.isolate != null) isolate = sheet.options.isolate
   if (rule.style.isolate != null) {
     isolate = rule.style.isolate
@@ -80,11 +72,11 @@ const createDebounced = (fn, delay = 3) => {
   }
 }
 
-export default function jssIsolate(options: Options = {}): Plugin {
+export default function jssIsolate(options = {}) {
   let setSelectorDone = false
   const selectors = []
   let resetSheet
-  let resetRule: StyleRule
+  let resetRule
 
   const setSelector = () => {
     resetRule.selector = selectors.join(',\n')
@@ -96,14 +88,14 @@ export default function jssIsolate(options: Options = {}): Plugin {
     if (!sheet || sheet === resetSheet || rule.type !== 'style') return
 
     // Type it as a StyleRule
-    const styleRule: StyleRule = (rule: any)
+    const styleRule = rule
 
     if (!shouldIsolate(styleRule, sheet, options)) return
 
     // Create a reset Style Sheet once and use it for all rules.
     if (!resetRule) {
       resetSheet = rule.options.jss.createStyleSheet({}, resetSheetOptions)
-      resetRule = ((resetSheet.addRule('reset', getStyle(options.reset)): any): StyleRule)
+      resetRule = resetSheet.addRule('reset', getStyle(options.reset))
       resetSheet.attach()
     }
 
