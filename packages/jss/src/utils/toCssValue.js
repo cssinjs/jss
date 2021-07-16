@@ -10,7 +10,7 @@ const join = (value, by) => {
 }
 
 /**
- * Converts array values to string.
+ * Converts JSS array value to a CSS string.
  *
  * `margin: [['5px', '10px']]` > `margin: 5px 10px;`
  * `border: ['1px', '2px']` > `border: 1px, 2px;`

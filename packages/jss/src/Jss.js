@@ -16,7 +16,7 @@ export default class Jss {
 
   plugins = new PluginsRegistry()
 
-  options: InternalJssOptions = {
+  options = {
     id: {minify: false},
     createGenerateId: createGenerateIdDefault,
     Renderer: isInBrowser ? DomRenderer : null,

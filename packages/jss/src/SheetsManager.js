@@ -3,6 +3,7 @@ import warn from 'tiny-warning'
 /**
  * SheetsManager is like a WeakMap which is designed to count StyleSheet
  * instances and attach/detach automatically.
+ * Used in react-jss.
  */
 export default class SheetsManager {
   length = 0

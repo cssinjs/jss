@@ -6,7 +6,7 @@ export default class PluginsRegistry {
     external: []
   }
 
-  registry: {}
+  registry = {}
 
   /**
    * Call `onCreateRule` hooks and return an object if returned by a hook.

@@ -1,8 +1,4 @@
 ﻿// @flow
-import warning from 'tiny-warning'
-import toCss from '../utils/toCss'
-import toCssValue from '../utils/toCssValue'
-import escape from '../utils/escape'
 import type {
   CSSStyleRule,
   HTMLElementWithStyleMap,
@@ -12,6 +8,8 @@ import type {
   Renderer as RendererInterface,
   JssStyle,
   JssValue,
+  // eslint doesn't understand usage with types
+  // eslint-disable-next-line no-unused-vars
   BaseRule
 } from '../types'
 

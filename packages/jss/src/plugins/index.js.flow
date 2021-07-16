@@ -5,7 +5,7 @@ import PluginKeyframesRule, {KeyframesRule} from './keyframesRule'
 import PluginKeyframeRule, {KeyframeRule} from './keyframeRule'
 import PluginFontFaceRule, {FontFaceRule} from './fontFaceRule'
 import PluginViewportRule, {ViewportRule} from './viewportRule'
-import PluginSimpleRule, {SimpleRule} from './simpleRule.js'
+import PluginSimpleRule, {SimpleRule} from './simpleRule'
 
 export type plugins = [
   typeof PluginStyleRule,

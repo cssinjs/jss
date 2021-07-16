@@ -1,5 +1,13 @@
 ﻿// @flow
-import type {CSSFontFaceRule, RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
+import type {
+  CSSFontFaceRule,
+  RuleOptions,
+  JssStyle,
+  ToCssOptions,
+  // eslint doesn't understand usage with types
+  // eslint-disable-next-line no-unused-vars
+  BaseRule
+} from '../types'
 
 declare export class FontFaceRule implements BaseRule {
   type: string;

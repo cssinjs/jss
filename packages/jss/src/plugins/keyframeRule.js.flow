@@ -1,5 +1,7 @@
 ﻿// @flow
 import type {JssStyle, RuleOptions, ToCssOptions, CSSKeyframeRule} from '../types'
+// eslint doesn't understand usage with types
+// eslint-disable-next-line no-unused-vars
 import {BaseStyleRule} from './styleRule'
 
 declare export class KeyframeRule extends BaseStyleRule {

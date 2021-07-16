@@ -1,8 +1,8 @@
 /**
- * Sheets registry to access them all at one place.
+ * Sheets registry to access all instances in one place.
  */
 export default class SheetsRegistry {
-  registry: Array<StyleSheet> = []
+  registry = []
 
   /**
    * Current highest index number.

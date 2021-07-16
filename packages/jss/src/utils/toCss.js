@@ -4,7 +4,7 @@ import toCssValue from './toCssValue'
  * Indent a string.
  * http://jsperf.com/array-join-vs-for
  */
-function indentStr(str: string, indent: number): string {
+function indentStr(str, indent) {
   let result = ''
   for (let index = 0; index < indent; index++) result += '  '
   return result + str

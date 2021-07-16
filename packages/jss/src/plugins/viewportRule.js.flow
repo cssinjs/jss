@@ -1,5 +1,6 @@
 ﻿// @flow
-import toCss from '../utils/toCss'
+// eslint doesn't understand usage with types
+// eslint-disable-next-line no-unused-vars
 import type {CSSViewportRule, RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
 
 declare export class ViewportRule implements BaseRule {

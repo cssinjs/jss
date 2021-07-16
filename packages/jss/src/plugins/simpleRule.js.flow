@@ -6,6 +6,8 @@ import type {
   RuleOptions,
   JssStyle,
   ToCssOptions,
+  // eslint doesn't understand usage with types
+  // eslint-disable-next-line no-unused-vars
   BaseRule
 } from '../types'
 

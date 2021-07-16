@@ -5,9 +5,9 @@ import type {
   JssStyle,
   RuleOptions,
   ToCssOptions,
+  // eslint doesn't understand usage with types
+  // eslint-disable-next-line no-unused-vars
   ContainerRule,
-  KeyframesMap,
-  Plugin,
   OnProcessStyle,
   OnChangeValue
 } from '../types'

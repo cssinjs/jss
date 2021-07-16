@@ -6,5 +6,5 @@ import SheetsRegistry from './SheetsRegistry'
  * sheets to it, because you need to make sure to create a new registry for
  * each request in order to not leak sheets across requests.
  */
-const registry: SheetsRegistry = new SheetsRegistry()
+const registry = new SheetsRegistry()
 export default registry

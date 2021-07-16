@@ -1,0 +1,2 @@
+﻿// @flow
+declare export default boolean
