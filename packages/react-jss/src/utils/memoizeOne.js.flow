@@ -1,0 +1,8 @@
+﻿// @flow
+// TODO use generics
+type Result = any
+type Args = any
+type ComputeFn = (...args: Args) => Result
+type MemoFn = (...args: Args) => Result
+
+declare export default (ComputeFn) => MemoFn

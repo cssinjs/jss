@@ -1,0 +1,5 @@
+﻿// @flow
+
+type GetSheetIndex = () => number
+
+declare export default GetSheetIndex

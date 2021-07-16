@@ -1,15 +1,8 @@
-// @flow
-
-type Result = any
-type Args = any
-type ComputeFn = (...args: Args) => Result
-type MemoFn = (...args: Args) => Result
-
-const memoize = (fn: ComputeFn): MemoFn => {
+const memoize = fn => {
   let lastArgs
   let lastResult
 
-  return (...args: Args): Result => {
+  return (...args) => {
     if (Array.isArray(lastArgs) && args.length === lastArgs.length) {
       let isSame = true
 
