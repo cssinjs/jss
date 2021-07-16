@@ -10,7 +10,7 @@
     "check:flow": "flow check --max-warnings=0",
     "check:ts": "tsc",
     "check:snapshots": "lerna run check-snapshot",
-    "check:lint": "eslint scripts/ packages/ docs/ --ext js,md",
+    "check:lint": "eslint scripts/ packages/ docs/ --ext js,flow,md",
     "format": "prettier \"*.{js,md,json,ts}\" \"{docs,packages,scripts}/**/*.{js,md,json,ts}\" --write",
     "format:ci": "yarn format --list-different",
     "test": "karma start --single-run",
@@ -29,11 +29,11 @@
     "release:alpha:major": "yarn release premajor --dist-tag next --exact --force-publish='*'"
   },
   "lint-staged": {
-    "**/*.{js,md,json,ts}": [
+    "**/*.{js,md,json,ts,flow}": [
       "prettier --write",
       "git add"
     ],
-    "**/*.{js,md}": [
+    "**/*.{js,flow,md}": [
       "eslint"
     ]
   },
