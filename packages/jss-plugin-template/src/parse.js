@@ -1,10 +1,6 @@
-// @flow
 import warning from 'tiny-warning'
-import type {JssStyle} from 'jss'
 
 const semiWithNl = /;\n/
-
-type Parse = string => JssStyle
 
 /**
  * Naive CSS parser.
@@ -12,7 +8,7 @@ type Parse = string => JssStyle
  * - Requires semicolon and new line after the value (except of last line)
  * - No nested rules support
  */
-const parse: Parse = cssText => {
+const parse = cssText => {
   const style = {}
   const split = cssText.split(semiWithNl)
   for (let i = 0; i < split.length; i++) {
