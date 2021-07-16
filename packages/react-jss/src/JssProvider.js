@@ -1,40 +1,18 @@
-// @flow
-/* eslint-disable react/require-default-props, react/no-unused-prop-types */
+/* eslint-disable react/prop-types */
 
 import * as React from 'react'
 import {shallowEqualObjects} from 'shallow-equal'
-import {
-  createGenerateId,
-  type Jss,
-  type GenerateId,
-  SheetsRegistry,
-  type CreateGenerateIdOptions
-} from 'jss'
-import type {Context, Managers} from './types'
+import {createGenerateId} from 'jss'
 import JssContext from './JssContext'
 
-type Props = {|
-  jss?: Jss,
-  registry?: SheetsRegistry,
-  generateId?: GenerateId,
-  classNamePrefix?: string,
-  disableStylesGeneration?: boolean,
-  media?: string,
-  id?: CreateGenerateIdOptions,
-  children: React.Node
-|}
+const initialContext = {}
 
-const initialContext: Object = {}
+export default function JssProvider(props) {
+  const managersRef = React.useRef({})
+  const prevContextRef = React.useRef()
+  const registryRef = React.useRef(null)
 
-function JssProvider(props: Props): React.Node {
-  const managersRef = React.useRef<Managers>({})
-  const prevContextRef = React.useRef<Context | void>()
-  const registryRef = React.useRef<SheetsRegistry | null>(null)
-
-  const createContext: (Context, Context | void) => Context = (
-    parentContext,
-    prevContext = initialContext
-  ) => {
+  const createContext = (parentContext, prevContext = initialContext) => {
     const {registry, classNamePrefix, jss, generateId, disableStylesGeneration, media, id} = props
 
     const context = {...parentContext}
@@ -95,5 +73,3 @@ function JssProvider(props: Props): React.Node {
 
   return <JssContext.Consumer>{renderProvider}</JssContext.Consumer>
 }
-
-export default (JssProvider: typeof JssProvider)

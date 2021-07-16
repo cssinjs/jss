@@ -1,6 +1,6 @@
 ﻿// @flow
 import type {StyleSheet} from 'jss'
-import type {StaticStyles, DynamicStyle} from '../types'
+import type {StaticStyles, DynamicStyle} from '../flow-types'
 
 type SheetMeta<Data = {}> = {|
   styles: $ReadOnly<StaticStyles>,

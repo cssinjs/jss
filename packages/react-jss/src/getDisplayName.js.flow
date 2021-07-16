@@ -1,0 +1,6 @@
+// @flow
+import type {ComponentType} from 'react'
+
+type GetDisplayName = <Props>(ComponentType<Props>) => string
+
+declare export default GetDisplayName

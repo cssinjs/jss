@@ -1,30 +1,13 @@
-// @flow
 /* eslint-disable react/prop-types, react/require-default-props */
 
 import * as React from 'react'
 import isPropValid from '@emotion/is-prop-valid'
-import type {StatelessFunctionalComponent, ComponentType} from 'react'
 import {ThemeContext as DefaultThemeContext} from 'theming'
 
 import createUseStyles from './createUseStyles'
-import type {HookOptions, StaticStyle, DynamicStyle, Styles} from './types'
-
-type StyledProps = {
-  className?: string,
-  as?: string
-}
-
-type StyleArg<Data> = StaticStyle | DynamicStyle<Data> | null | void | ''
-
-type ShouldForwardProp = string => boolean
-
-type ParseStyles = <Theme, Data>({[string]: StyleArg<Data>}) => {|
-  styles: Styles<Theme>,
-  label: string
-|}
 
 // eslint-disable-next-line no-unused-vars
-const parseStyles: ParseStyles = <Theme, Data>(args) => {
+const parseStyles = args => {
   const dynamicStyles = []
   let staticStyle
   const labels = []
@@ -46,7 +29,7 @@ const parseStyles: ParseStyles = <Theme, Data>(args) => {
   }
 
   const styles = {}
-  const label: string = labels.length === 0 ? 'sc' : labels.join('-')
+  const label = labels.length === 0 ? 'sc' : labels.join('-')
 
   if (staticStyle) {
     // Label should not leak to the core.
@@ -56,13 +39,13 @@ const parseStyles: ParseStyles = <Theme, Data>(args) => {
 
   // When there is only one function rule, we don't need to wrap it.
   if (dynamicStyles.length === 1) {
-    styles[('scd': string)] = dynamicStyles[0]
+    styles.scd = dynamicStyles[0]
   }
 
   // We create a new function rule which will call all other function rules
   // and merge the styles they return.
   if (dynamicStyles.length > 1) {
-    styles[('scd': string)] = props => {
+    styles.scd = props => {
       const merged = {}
       for (let i = 0; i < dynamicStyles.length; i++) {
         const dynamicStyle = dynamicStyles[i](props)
@@ -77,11 +60,11 @@ const parseStyles: ParseStyles = <Theme, Data>(args) => {
 
 const shouldForwardPropSymbol = Symbol('react-jss-styled')
 
-const getShouldForwardProp = (tagOrComponent, options): ShouldForwardProp => {
+const getShouldForwardProp = (tagOrComponent, options) => {
   const {shouldForwardProp} = options
   // $FlowFixMe[invalid-computed-prop]
   // $FlowFixMe[incompatible-type]
-  const childShouldForwardProp: ShouldForwardProp = tagOrComponent[shouldForwardPropSymbol]
+  const childShouldForwardProp = tagOrComponent[shouldForwardPropSymbol]
   let finalShouldForwardProp = shouldForwardProp || childShouldForwardProp
   if (shouldForwardProp && childShouldForwardProp) {
     finalShouldForwardProp = prop => childShouldForwardProp(prop) && shouldForwardProp(prop)
@@ -90,7 +73,7 @@ const getShouldForwardProp = (tagOrComponent, options): ShouldForwardProp => {
 }
 
 const getChildProps = (props, shouldForwardProp, isTag) => {
-  const childProps: StyledProps = ({}: any)
+  const childProps = {}
 
   for (const prop in props) {
     if (shouldForwardProp) {
@@ -114,24 +97,8 @@ const getChildProps = (props, shouldForwardProp, isTag) => {
   return childProps
 }
 
-type StyledOptions<Theme> = {|
-  ...$Exact<HookOptions<Theme>>,
-  shouldForwardProp?: ShouldForwardProp
-|}
-
-type CreateStyledComponent<Data = {}> = (
-  ...StyleArg<Data>[]
-) => StatelessFunctionalComponent<StyledProps>
-
-type ConfigureStyled = <Theme: Object>(
-  string | StatelessFunctionalComponent<StyledProps> | ComponentType<StyledProps>,
-  StyledOptions<Theme> | void
-) => CreateStyledComponent<Theme>
-
-type StyledPropsWithTheme<Theme> = StyledProps & {theme?: Theme}
-
 // eslint-disable-next-line no-unused-vars
-const configureStyled: ConfigureStyled = <Theme: {}>(tagOrComponent, options = {}) => {
+const configureStyled = (tagOrComponent, options = {}) => {
   const {theming} = options
   const isTag = typeof tagOrComponent === 'string'
 
@@ -144,10 +111,10 @@ const configureStyled: ConfigureStyled = <Theme: {}>(tagOrComponent, options = {
     const {styles, label} = parseStyles(arguments)
     const useStyles = createUseStyles(styles, hookOptions)
 
-    const Styled = (props: StyledProps) => {
+    const Styled = props => {
       const {as, className} = props
       const theme = React.useContext(ThemeContext)
-      const propsWithTheme: StyledPropsWithTheme<Theme> = Object.assign(({theme}: any), props)
+      const propsWithTheme = Object.assign({theme}, props)
       const classes = useStyles(propsWithTheme)
       const childProps = getChildProps(props, shouldForwardProp, isTag)
 

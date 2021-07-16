@@ -1,4 +1,3 @@
-// @flow
 /** @jsx jsx */
 import expect from 'expect.js'
 import TestRenderer from 'react-test-renderer'

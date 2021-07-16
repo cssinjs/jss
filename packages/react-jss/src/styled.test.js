@@ -1,4 +1,3 @@
-// @flow
 /* eslint-disable react/prop-types */
 import expect from 'expect.js'
 import * as React from 'react'
@@ -300,11 +299,9 @@ describe('React-JSS: styled', () => {
     })
   })
 
-  // $FlowFixMe[prop-missing]
   it.skip('should target another styled component (not sure if we really need this)', () => {
     const Span = styled('span')({color: 'red'})
     const Div = styled('div')({
-      // $FlowFixMe[invalid-computed-prop]
       [Span]: {
         color: 'green'
       }

@@ -1,3 +1,4 @@
+// @flow
 import withStyles from './withStyles'
 
 export {ThemeProvider, withTheme, createTheming, useTheme} from 'theming'

@@ -1,0 +1,13 @@
+﻿// @flow
+import type {HookOptions, Styles, Classes} from './flow-types'
+
+type NoTheme = Object
+
+type Data<Theme> = {theme?: Theme} | void
+
+type UseStyles<Theme> = (data: Data<Theme>) => Classes
+
+declare export default function createUseStyles<Theme: NoTheme>(
+  styles: Styles<Theme>,
+  options?: HookOptions<Theme> | Object
+): UseStyles<Theme>

@@ -1,6 +1,6 @@
 ﻿// @flow
 import type {StyleSheet, SheetsManager} from 'jss'
-import type {Context} from '../types'
+import type {Context} from '../flow-types'
 
 type Options<Theme> = {
   sheet: StyleSheet,

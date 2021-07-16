@@ -1,0 +1,16 @@
+// @flow
+import * as React from 'react'
+import type {Jss, GenerateId, SheetsRegistry, CreateGenerateIdOptions} from 'jss'
+
+type Props = {|
+  jss?: Jss,
+  registry?: SheetsRegistry,
+  generateId?: GenerateId,
+  classNamePrefix?: string,
+  disableStylesGeneration?: boolean,
+  media?: string,
+  id?: CreateGenerateIdOptions,
+  children: React.Node
+|}
+
+declare export default function JssProvider(props: Props): React.Node
