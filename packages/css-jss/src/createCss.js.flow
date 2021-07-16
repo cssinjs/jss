@@ -1,0 +1,6 @@
+﻿// @flow
+import type {Jss} from 'jss'
+// eslint-disable-next-line no-unused-vars
+import type {Css, StyleArg} from './types.js.flow'
+
+declare export default (Jss) => Css

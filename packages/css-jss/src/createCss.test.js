@@ -1,22 +1,15 @@
-// @flow
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
-import {create as createJss, type StyleSheet} from 'jss'
+import {create as createJss} from 'jss'
 import {createGenerateId} from '../../../tests/utils'
 import {create as createCss} from './index'
-import {type StyleArg} from './types'
-
-type CssTestType = {|
-  (...args: StyleArg[]): string,
-  getSheet: () => StyleSheet
-|}
 
 describe('css-jss', () => {
   let css
 
   beforeEach(() => {
     const jss = createJss({createGenerateId})
-    css = (createCss(jss): CssTestType)
+    css = createCss(jss)
   })
 
   it('should accept a single style object argument', () => {
