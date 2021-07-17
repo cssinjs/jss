@@ -13,7 +13,7 @@ const createGenerateId = () => {
   return rule => `${rule.key}-${counter++}`
 }
 
-const theme: Object = {
+const theme = {
   fontSizes: [12, 14, 16, 24, 32, 48, 64, 96, 128],
   space: [
     // margin and padding

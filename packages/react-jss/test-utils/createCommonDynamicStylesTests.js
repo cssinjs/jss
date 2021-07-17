@@ -566,7 +566,7 @@ export default ({createStyledComponent}) => {
     })
 
     it('should render multiple elements with applied media query and theme function', () => {
-      const theme: Object = {
+      const theme = {
         background: 'yellow',
         background2: 'red'
       }
