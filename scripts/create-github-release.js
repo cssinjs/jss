@@ -4,7 +4,7 @@ const axios = require('axios')
 const log = require('npmlog/log')
 const {input} = require('@lerna/prompt')
 
-const lerna = require('../lerna')
+const lerna = require('../lerna.json')
 const {CHANGELOG_FILENAME} = require('./constants')
 
 function getChangelog() {

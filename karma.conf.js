@@ -1,5 +1,5 @@
-const webpack = require('./webpack.config')
-const browsers = require('./browsers')
+const webpackConfig = require('./webpack.config')
+const browsers = require('./browsers.json')
 
 const isBench = process.env.BENCHMARK === 'true'
 const useCloud = process.env.USE_CLOUD === 'true'
@@ -10,24 +10,39 @@ const travisBuildNumber = process.env.TRAVIS_BUILD_NUMBER
 const travisBuildId = process.env.TRAVIS_BUILD_ID
 const travisJobNumber = process.env.TRAVIS_JOB_NUMBER
 
+const getWepackConfig = () => {
+  delete webpackConfig.entry
+  delete webpackConfig.output
+  return webpackConfig
+}
+
 module.exports = config => {
   config.set({
     customLaunchers: browsers,
     browsers: ['Chrome'],
-    frameworks: ['mocha'],
+    frameworks: ['mocha', 'webpack'],
     files: [
       './polyfills.js',
       './packages/*/tests/*.js',
       './packages/*/tests/**/*.js',
       './packages/*/src/**/*.test.js'
     ],
+    plugins: [
+      'karma-webpack',
+      'karma-mocha',
+      'karma-sourcemap-loader',
+      'karma-mocha-reporter',
+      'karma-coverage',
+      'karma-chrome-launcher'
+    ],
     preprocessors: {
       './polyfills.js': ['webpack', 'sourcemap'],
       './packages/**/*.js': ['webpack', 'sourcemap']
     },
-    webpack,
+    webpack: getWepackConfig(),
     webpackMiddleware: {
-      stats: 'errors-only'
+      stats: 'errors-only',
+      noInfo: true
     },
     reporters: ['mocha', 'coverage'],
     coverageReporter: {

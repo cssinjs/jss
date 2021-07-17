@@ -13,8 +13,8 @@ const sheetMock = {
 
 describe('Unit: jss - createGenerateId', () => {
   beforeEach(() => {
-    resetSheets()
     resetModuleId()
+    resetSheets()
   })
 
   it('should return a function', () => {

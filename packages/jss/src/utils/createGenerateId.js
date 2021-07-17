@@ -1,5 +1,5 @@
 import warning from 'tiny-warning'
-import moduleId from './moduleId'
+import {getModuleId} from './moduleId'
 
 const maxRules = 1e10
 
@@ -12,6 +12,7 @@ const createGenerateId = (options = {}) => {
   let ruleCounter = 0
 
   const generateId = (rule, sheet) => {
+    const moduleId = getModuleId()
     ruleCounter += 1
 
     if (ruleCounter > maxRules) {
