@@ -48,7 +48,6 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.3.2",
     "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/preset-env": "^7.3.1",
-    "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@lerna/prompt": "^3.6.0",
     "@rollup/plugin-babel": "^5.2.1",
