@@ -64,9 +64,9 @@ export default function JssProvider(props) {
     return context
   }
 
-  const renderProvider: Context => React.Node = parentContext => {
+  const renderProvider = parentContext => {
     const {children} = props
-    const context: Context = createContext(parentContext, prevContextRef.current)
+    const context = createContext(parentContext, prevContextRef.current)
     prevContextRef.current = context
     return <JssContext.Provider value={context}>{children}</JssContext.Provider>
   }

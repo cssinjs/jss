@@ -19,7 +19,7 @@ const createCss = (jss = defaultJss) => {
     return sheet
   }
 
-  function css(/* :: ..._: StyleArg[] */): string {
+  function css() {
     // eslint-disable-next-line prefer-rest-params
     const args = arguments
 

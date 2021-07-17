@@ -97,7 +97,7 @@ export const addDynamicRules = (sheet, data) => {
     return undefined
   }
 
-  const rules: DynamicRules = {}
+  const rules = {}
 
   // Loop over each dynamic rule and add it to the stylesheet
   for (const key in meta.dynamicStyles) {

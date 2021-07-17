@@ -23,11 +23,11 @@ const createWithStyles = (styles, options = {}) => {
     const displayName = getDisplayName(InnerComponent)
 
     const mergeClassesProp = memoize(
-      (sheetClasses, classesProp): Classes =>
+      (sheetClasses, classesProp) =>
         classesProp ? mergeClasses(sheetClasses, classesProp) : sheetClasses
     )
 
-    const hookOptions = Object.assign((sheetOptions: any), {
+    const hookOptions = Object.assign(sheetOptions, {
       theming,
       index,
       name: displayName
