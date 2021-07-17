@@ -62,8 +62,6 @@ const shouldForwardPropSymbol = Symbol('react-jss-styled')
 
 const getShouldForwardProp = (tagOrComponent, options) => {
   const {shouldForwardProp} = options
-  // $FlowFixMe[invalid-computed-prop]
-  // $FlowFixMe[incompatible-type]
   const childShouldForwardProp = tagOrComponent[shouldForwardPropSymbol]
   let finalShouldForwardProp = shouldForwardProp || childShouldForwardProp
   if (shouldForwardProp && childShouldForwardProp) {
@@ -122,8 +120,6 @@ const configureStyled = (tagOrComponent, options = {}) => {
       childProps.className = className ? `${className} ${classNames}` : classNames
 
       if (!isTag && shouldForwardProp) {
-        // $FlowFixMe[invalid-computed-prop] we are not supposed to attach random properties to component functions.
-        // $FlowFixMe[incompatible-use]
         tagOrComponent[shouldForwardPropSymbol] = shouldForwardProp
       }
 

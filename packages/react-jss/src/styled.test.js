@@ -334,7 +334,6 @@ describe('React-JSS: styled', () => {
     `)
   })
 
-  // $FlowFixMe[prop-missing]
   it.skip('should override theme over props', () => {})
 
   it('should render label', () => {
