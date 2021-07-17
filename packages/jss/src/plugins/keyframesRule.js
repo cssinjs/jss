@@ -1,4 +1,5 @@
 import warning from 'tiny-warning'
+/* eslint-disable-next-line import/no-cycle */
 import RuleList from '../RuleList'
 import escape from '../utils/escape'
 import getWhitespaceSymbols from '../utils/getWhitespaceSymbols'
