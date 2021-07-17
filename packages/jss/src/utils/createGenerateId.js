@@ -2,7 +2,7 @@
 import warning from 'tiny-warning'
 import type {Rule} from '../types'
 import StyleSheet from '../StyleSheet'
-import moduleId from './moduleId'
+import {getModuleId} from './moduleId'
 
 const maxRules = 1e10
 
@@ -22,6 +22,7 @@ const createGenerateId: CreateGenerateId = (options = {}) => {
   let ruleCounter = 0
 
   const generateId: GenerateId = (rule, sheet) => {
+    const moduleId = getModuleId()
     ruleCounter += 1
 
     if (ruleCounter > maxRules) {

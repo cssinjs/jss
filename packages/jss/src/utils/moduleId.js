@@ -7,4 +7,9 @@ if (globalThis[ns] == null) globalThis[ns] = 0
 // the current version with just one short number and use it for classes generation
 // we use a counter. Also it is more accurate, because user can manually reevaluate
 // the module.
-export default globalThis[ns]++
+
+export const setVersion = (version: number) => {
+  globalThis[ns] = version
+}
+
+export const getModuleId = () => globalThis[ns]++

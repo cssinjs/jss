@@ -6,9 +6,9 @@ import type {
   JssStyle,
   RuleOptions,
   ToCssOptions,
-  ContainerRule,
   KeyframesMap,
-  Plugin
+  Plugin,
+  ContainerRule
 } from '../types'
 import escape from '../utils/escape'
 
