@@ -1,6 +1,7 @@
 // @flow
 import createRule from './utils/createRule'
-import {StyleRule, KeyframesRule} from './plugins'
+/* eslint-disable-next-line import/no-cycle */
+import {StyleRule, KeyframesRule} from './plugins/index'
 import type {
   RuleListOptions,
   ToCssOptions,

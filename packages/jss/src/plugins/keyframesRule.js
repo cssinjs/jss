@@ -1,5 +1,6 @@
 // @flow
 import warning from 'tiny-warning'
+/* eslint-disable-next-line import/no-cycle */
 import RuleList from '../RuleList'
 import type {
   CSSKeyframesRule,

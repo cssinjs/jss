@@ -2,7 +2,7 @@ import expect from 'expect.js'
 import {create, sheets} from 'jss'
 
 import nested from 'jss-plugin-nested'
-import isolate from './index'
+import isolate from '.'
 
 describe('jss-plugin-isolate', () => {
   let jss
