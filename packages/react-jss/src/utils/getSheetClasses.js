@@ -11,13 +11,13 @@ const getSheetClasses: GetSheetClasses = (sheet, dynamicRules) => {
     return sheet.classes
   }
 
-  const classes = {}
   const meta = getMeta(sheet)
 
   if (!meta) {
     return sheet.classes
   }
 
+  const classes = {}
   for (const key in meta.styles) {
     classes[key] = sheet.classes[key]
 
