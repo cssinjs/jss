@@ -1,6 +1,6 @@
 // @flow
 import * as vendor from 'css-vendor'
-import {toCssValue, type Plugin, type KeyframesRule} from 'jss'
+import {toCssValue, type Plugin, type KeyframesRule, type StyleRule} from 'jss'
 
 /**
  * Add vendor prefix to a property name when needed.
@@ -48,6 +48,13 @@ export default function jssVendorPrefixer(): Plugin {
   function onChangeValue(value, prop) {
     return vendor.supportedValue(prop, toCssValue(value)) || value
   }
+  
+  function onUpdate(data, rule, sheet, options) {
+    // Prefix after value-function    
+    if (rule.type === 'style') {
+      prefixStyle((rule: StyleRule).style);
+    }
+  }
 
-  return {onProcessRule, onProcessStyle, onChangeValue}
+  return {onProcessRule, onProcessStyle, onChangeValue, onUpdate}
 }
