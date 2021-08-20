@@ -6,28 +6,18 @@ type ComputeFn = (...args: Args) => Result
 type MemoFn = (...args: Args) => Result
 
 const memoize = (fn: ComputeFn): MemoFn => {
-  let lastArgs
-  let lastResult
+  const cache = new Map<string, Result>()
 
   return (...args: Args): Result => {
-    if (Array.isArray(lastArgs) && args.length === lastArgs.length) {
-      let isSame = true
-
-      for (let i = 0; i < args.length; i++) {
-        if (args[i] !== lastArgs[i]) {
-          isSame = false
-        }
-      }
-
-      if (isSame) {
-        return lastResult
-      }
+    const key: string = JSON.stringify(args)
+    if (cache.has(key)) {
+      return cache.get(key)
     }
 
-    lastArgs = args
-    lastResult = fn(...args)
+    const result: Result = fn(...args)
+    cache.set(key, result)
 
-    return lastResult
+    return result
   }
 }
 
