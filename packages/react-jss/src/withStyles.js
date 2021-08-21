@@ -6,7 +6,7 @@ import {ThemeContext as DefaultThemeContext} from 'theming'
 
 import type {HOCProps, HOCOptions, Styles, InnerProps} from './types'
 import getDisplayName from './getDisplayName'
-import memoize from './utils/memoizeOne'
+import memoize from './utils/memoize'
 import mergeClasses from './utils/mergeClasses'
 import getSheetIndex from './utils/getSheetIndex'
 import createUseStyles from './createUseStyles'
