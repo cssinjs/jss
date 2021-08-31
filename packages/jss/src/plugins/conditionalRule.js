@@ -1,6 +1,7 @@
 // @flow
 import RuleList from '../RuleList'
 import type {CSSMediaRule, Rule, RuleOptions, ToCssOptions, JssStyle, ContainerRule} from '../types'
+import getWhitespaceSymbols from '../utils/getWhitespaceSymbols'
 
 const defaultToStringOptions = {
   indent: 1,
@@ -73,14 +74,14 @@ export class ConditionalRule implements ContainerRule {
    * Generates a CSS string.
    */
   toString(options?: ToCssOptions = defaultToStringOptions): string {
+    const {linebreak} = getWhitespaceSymbols(options)
     if (options.indent == null) options.indent = defaultToStringOptions.indent
     if (options.children == null) options.children = defaultToStringOptions.children
     if (options.children === false) {
       return `${this.query} {}`
     }
     const children = this.rules.toString(options)
-    const lineBreak = options.uglify ? '' : '\n'
-    return children ? `${this.query} {${lineBreak}${children}${lineBreak}}` : ''
+    return children ? `${this.query} {${linebreak}${children}${linebreak}}` : ''
   }
 }
 

@@ -71,7 +71,7 @@ export interface UpdateOptions {
 
 export interface ToCssOptions {
   indent?: number
-  uglify?: boolean
+  format?: boolean
   allowEmpty?: boolean
 }
 

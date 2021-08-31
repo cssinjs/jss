@@ -1,6 +1,7 @@
 // @flow
 import toCss from '../utils/toCss'
 import type {CSSFontFaceRule, RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
+import getWhitespaceSymbols from '../utils/getWhitespaceSymbols'
 
 export class FontFaceRule implements BaseRule {
   type: string = 'font-face'
@@ -27,12 +28,12 @@ export class FontFaceRule implements BaseRule {
    * Generates a CSS string.
    */
   toString(options?: ToCssOptions): string {
-    const uglify = options ? options.uglify : false
+    const {linebreak} = getWhitespaceSymbols(options)
     if (Array.isArray(this.style)) {
       let str = ''
       for (let index = 0; index < this.style.length; index++) {
         str += toCss(this.at, this.style[index])
-        if (!uglify && this.style[index + 1]) str += '\n'
+        if (this.style[index + 1]) str += linebreak
       }
       return str
     }

@@ -11,6 +11,7 @@ import type {
   Plugin
 } from '../types'
 import escape from '../utils/escape'
+import getWhitespaceSymbols from '../utils/getWhitespaceSymbols'
 
 const defaultToStringOptions = {
   indent: 1,
@@ -69,13 +70,14 @@ export class KeyframesRule implements ContainerRule {
    * Generates a CSS string.
    */
   toString(options?: ToCssOptions = defaultToStringOptions): string {
+    const {linebreak} = getWhitespaceSymbols(options)
     if (options.indent == null) options.indent = defaultToStringOptions.indent
     if (options.children == null) options.children = defaultToStringOptions.children
     if (options.children === false) {
       return `${this.at} ${this.id} {}`
     }
     let children = this.rules.toString(options)
-    if (!options.uglify && children) children = `\n${children}\n`
+    if (children) children = `${linebreak}${children}${linebreak}`
     return `${this.at} ${this.id} {${children}}`
   }
 }
