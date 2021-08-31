@@ -94,6 +94,15 @@ describe('Integration: sheetsRegistry', () => {
         }
       `)
     })
+
+    it('should uglify all', () => {
+      const sheet1 = jss.createStyleSheet({a: {color: 'red'}})
+      const sheet2 = jss.createStyleSheet({a: {color: 'blue'}}).attach()
+      sheets.add(sheet1)
+      sheets.add(sheet2)
+      expect(sheets.toString({uglify: true})).to.be('.a-id {color: red;}.a-id {color: blue;}')
+    })
+
     it('should stringify detached sheets', () => {
       const sheet1 = jss.createStyleSheet({a: {color: 'red'}})
       const sheet2 = jss.createStyleSheet({a: {color: 'blue'}}).attach()

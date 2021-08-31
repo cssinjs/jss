@@ -388,6 +388,11 @@ describe('Integration: rules', () => {
         `)
       })
     })
+
+    it('should uglify CSS', () => {
+      const rule = jss.createRule('a', {float: 'left', width: '1px'})
+      expect(rule.toString({uglify: true})).to.be('.a-id {float: left;width: 1px;}')
+    })
   })
 
   describe('rule.toJSON()', () => {

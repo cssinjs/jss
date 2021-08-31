@@ -79,7 +79,8 @@ export class ConditionalRule implements ContainerRule {
       return `${this.query} {}`
     }
     const children = this.rules.toString(options)
-    return children ? `${this.query} {\n${children}\n}` : ''
+    const lineBreak = options.uglify ? '' : '\n'
+    return children ? `${this.query} {${lineBreak}${children}${lineBreak}}` : ''
   }
 }
 

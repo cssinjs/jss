@@ -247,6 +247,7 @@ export default class RuleList {
     let str = ''
     const {sheet} = this.options
     const link = sheet ? sheet.options.link : false
+    const uglify = options ? options.uglify : false
 
     for (let index = 0; index < this.index.length; index++) {
       const rule = this.index[index]
@@ -255,7 +256,7 @@ export default class RuleList {
       // No need to render an empty rule.
       if (!css && !link) continue
 
-      if (str) str += '\n'
+      if (!uglify && str) str += '\n'
       str += css
     }
 

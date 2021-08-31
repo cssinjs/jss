@@ -75,7 +75,7 @@ export class KeyframesRule implements ContainerRule {
       return `${this.at} ${this.id} {}`
     }
     let children = this.rules.toString(options)
-    if (children) children = `\n${children}\n`
+    if (!options.uglify && children) children = `\n${children}\n`
     return `${this.at} ${this.id} {${children}}`
   }
 }

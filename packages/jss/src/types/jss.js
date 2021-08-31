@@ -20,6 +20,7 @@ export type KeyframesMap = {[string]: string}
 
 export type ToCssOptions = {|
   indent?: number,
+  uglify?: boolean,
   allowEmpty?: boolean,
   children?: boolean
 |}

@@ -57,13 +57,14 @@ export default class SheetsRegistry {
    * Convert all attached sheets to a CSS string.
    */
   toString({attached, ...options}: {|attached?: boolean, ...ToCssOptions|} = {}): string {
+    const {uglify} = options
     let css = ''
     for (let i = 0; i < this.registry.length; i++) {
       const sheet = this.registry[i]
       if (attached != null && sheet.attached !== attached) {
         continue
       }
-      if (css) css += '\n'
+      if (!uglify && css) css += '\n'
       css += sheet.toString(options)
     }
     return css

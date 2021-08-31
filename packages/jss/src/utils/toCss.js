@@ -24,8 +24,11 @@ export default function toCss(
 
   if (!style) return result
 
+  const {uglify} = options
   let {indent = 0} = options
   const {fallbacks} = style
+
+  if (uglify) indent = -Infinity
 
   if (selector) indent++
 
@@ -38,7 +41,7 @@ export default function toCss(
         for (const prop in fallback) {
           const value = fallback[prop]
           if (value != null) {
-            if (result) result += '\n'
+            if (!uglify && result) result += '\n'
             result += indentStr(`${prop}: ${toCssValue(value)};`, indent)
           }
         }
@@ -48,7 +51,7 @@ export default function toCss(
       for (const prop in fallbacks) {
         const value = fallbacks[prop]
         if (value != null) {
-          if (result) result += '\n'
+          if (!uglify && result) result += '\n'
           result += indentStr(`${prop}: ${toCssValue(value)};`, indent)
         }
       }
@@ -58,7 +61,7 @@ export default function toCss(
   for (const prop in style) {
     const value = style[prop]
     if (value != null && prop !== 'fallbacks') {
-      if (result) result += '\n'
+      if (!uglify && result) result += '\n'
       result += indentStr(`${prop}: ${toCssValue(value)};`, indent)
     }
   }
@@ -71,7 +74,7 @@ export default function toCss(
 
   indent--
 
-  if (result) result = `\n${result}\n`
+  if (!uglify && result) result = `\n${result}\n`
 
   return indentStr(`${selector} {${result}`, indent) + indentStr('}', indent)
 }

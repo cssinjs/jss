@@ -27,11 +27,12 @@ export class FontFaceRule implements BaseRule {
    * Generates a CSS string.
    */
   toString(options?: ToCssOptions): string {
+    const uglify = options ? options.uglify : false
     if (Array.isArray(this.style)) {
       let str = ''
       for (let index = 0; index < this.style.length; index++) {
         str += toCss(this.at, this.style[index])
-        if (this.style[index + 1]) str += '\n'
+        if (!uglify && this.style[index + 1]) str += '\n'
       }
       return str
     }
