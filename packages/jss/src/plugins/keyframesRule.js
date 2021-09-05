@@ -1,6 +1,7 @@
 import warning from 'tiny-warning'
 import RuleList from '../RuleList'
 import escape from '../utils/escape'
+import getWhitespaceSymbols from '../utils/getWhitespaceSymbols'
 
 const defaultToStringOptions = {
   indent: 1,
@@ -47,13 +48,14 @@ export class KeyframesRule {
    * Generates a CSS string.
    */
   toString(options = defaultToStringOptions) {
+    const {linebreak} = getWhitespaceSymbols(options)
     if (options.indent == null) options.indent = defaultToStringOptions.indent
     if (options.children == null) options.children = defaultToStringOptions.children
     if (options.children === false) {
       return `${this.at} ${this.id} {}`
     }
     let children = this.rules.toString(options)
-    if (children) children = `\n${children}\n`
+    if (children) children = `${linebreak}${children}${linebreak}`
     return `${this.at} ${this.id} {${children}}`
   }
 }

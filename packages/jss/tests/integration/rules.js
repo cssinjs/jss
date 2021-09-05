@@ -388,6 +388,11 @@ describe('Integration: rules', () => {
         `)
       })
     })
+
+    it('should remove whitespaces', () => {
+      const rule = jss.createRule('a', {float: 'left', width: '1px'})
+      expect(rule.toString({format: false})).to.be('.a-id{float:left;width:1px;}')
+    })
   })
 
   describe('rule.toJSON()', () => {

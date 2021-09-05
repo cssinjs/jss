@@ -71,6 +71,7 @@ export interface UpdateOptions {
 
 export interface ToCssOptions {
   indent?: number
+  format?: boolean
   allowEmpty?: boolean
 }
 

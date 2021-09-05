@@ -1,4 +1,5 @@
 import RuleList from '../RuleList'
+import getWhitespaceSymbols from '../utils/getWhitespaceSymbols'
 
 const defaultToStringOptions = {
   indent: 1,
@@ -59,13 +60,14 @@ export class ConditionalRule {
    * Generates a CSS string.
    */
   toString(options = defaultToStringOptions) {
+    const {linebreak} = getWhitespaceSymbols(options)
     if (options.indent == null) options.indent = defaultToStringOptions.indent
     if (options.children == null) options.children = defaultToStringOptions.children
     if (options.children === false) {
       return `${this.query} {}`
     }
     const children = this.rules.toString(options)
-    return children ? `${this.query} {\n${children}\n}` : ''
+    return children ? `${this.query} {${linebreak}${children}${linebreak}}` : ''
   }
 }
 

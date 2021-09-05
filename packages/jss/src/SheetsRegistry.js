@@ -1,3 +1,4 @@
+import getWhitespaceSymbols from './utils/getWhitespaceSymbols'
 /**
  * Sheets registry to access all instances in one place.
  */
@@ -53,13 +54,14 @@ export default class SheetsRegistry {
    * Convert all attached sheets to a CSS string.
    */
   toString({attached, ...options} = {}) {
+    const {linebreak} = getWhitespaceSymbols(options)
     let css = ''
     for (let i = 0; i < this.registry.length; i++) {
       const sheet = this.registry[i]
       if (attached != null && sheet.attached !== attached) {
         continue
       }
-      if (css) css += '\n'
+      if (css) css += linebreak
       css += sheet.toString(options)
     }
     return css

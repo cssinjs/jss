@@ -1,4 +1,5 @@
 import toCssValue from './toCssValue'
+import getWhitespaceSymbols from './getWhitespaceSymbols'
 
 /**
  * Indent a string.
@@ -21,6 +22,11 @@ export default function toCss(selector, style, options = {}) {
   let {indent = 0} = options
   const {fallbacks} = style
 
+  if (options.format === false) {
+    indent = -Infinity
+  }
+  const {linebreak, space} = getWhitespaceSymbols(options)
+
   if (selector) indent++
 
   // Apply fallbacks first.
@@ -32,8 +38,8 @@ export default function toCss(selector, style, options = {}) {
         for (const prop in fallback) {
           const value = fallback[prop]
           if (value != null) {
-            if (result) result += '\n'
-            result += indentStr(`${prop}: ${toCssValue(value)};`, indent)
+            if (result) result += linebreak
+            result += indentStr(`${prop}:${space}${toCssValue(value)};`, indent)
           }
         }
       }
@@ -42,8 +48,8 @@ export default function toCss(selector, style, options = {}) {
       for (const prop in fallbacks) {
         const value = fallbacks[prop]
         if (value != null) {
-          if (result) result += '\n'
-          result += indentStr(`${prop}: ${toCssValue(value)};`, indent)
+          if (result) result += linebreak
+          result += indentStr(`${prop}:${space}${toCssValue(value)};`, indent)
         }
       }
     }
@@ -52,8 +58,8 @@ export default function toCss(selector, style, options = {}) {
   for (const prop in style) {
     const value = style[prop]
     if (value != null && prop !== 'fallbacks') {
-      if (result) result += '\n'
-      result += indentStr(`${prop}: ${toCssValue(value)};`, indent)
+      if (result) result += linebreak
+      result += indentStr(`${prop}:${space}${toCssValue(value)};`, indent)
     }
   }
 
@@ -65,7 +71,7 @@ export default function toCss(selector, style, options = {}) {
 
   indent--
 
-  if (result) result = `\n${result}\n`
+  if (result) result = `${linebreak}${result}${linebreak}`
 
-  return indentStr(`${selector} {${result}`, indent) + indentStr('}', indent)
+  return indentStr(`${selector}${space}{${result}`, indent) + indentStr('}', indent)
 }

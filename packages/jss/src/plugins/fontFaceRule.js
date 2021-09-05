@@ -1,4 +1,5 @@
 import toCss from '../utils/toCss'
+import getWhitespaceSymbols from '../utils/getWhitespaceSymbols'
 
 export class FontFaceRule {
   type = 'font-face'
@@ -17,11 +18,12 @@ export class FontFaceRule {
    * Generates a CSS string.
    */
   toString(options) {
+    const {linebreak} = getWhitespaceSymbols(options)
     if (Array.isArray(this.style)) {
       let str = ''
       for (let index = 0; index < this.style.length; index++) {
         str += toCss(this.at, this.style[index])
-        if (this.style[index + 1]) str += '\n'
+        if (this.style[index + 1]) str += linebreak
       }
       return str
     }

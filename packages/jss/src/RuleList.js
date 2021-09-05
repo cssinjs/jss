@@ -1,6 +1,7 @@
 import createRule from './utils/createRule'
 import {StyleRule, KeyframesRule} from './plugins/index'
 import escape from './utils/escape'
+import getWhitespaceSymbols from './utils/getWhitespaceSymbols'
 
 const defaultUpdateOptions = {
   process: true
@@ -225,6 +226,7 @@ export default class RuleList {
     let str = ''
     const {sheet} = this.options
     const link = sheet ? sheet.options.link : false
+    const {linebreak} = getWhitespaceSymbols(options)
 
     for (let index = 0; index < this.index.length; index++) {
       const rule = this.index[index]
@@ -233,7 +235,7 @@ export default class RuleList {
       // No need to render an empty rule.
       if (!css && !link) continue
 
-      if (str) str += '\n'
+      if (str) str += linebreak
       str += css
     }
 
