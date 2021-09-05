@@ -123,6 +123,8 @@ The `SheetsRegistry` class allows you to aggregate and stringify them. Read [mor
 
 In case you are using the `SheetsRegistry` in the browser and you want to get Style Sheets which are `attached` or `detached` only, you can use the option `attached`.
 
+If you want to remove whitespaces - use option `format`, which is `true` by default.
+
 ```javascript
 import jss, {SheetsRegistry} from 'jss'
 
@@ -132,6 +134,7 @@ sheets.add(sheet)
 sheets.toString() // Returns all Style Sheets as a CSS string.
 sheets.toString({attached: true}) // Returns all attached Style Sheets as a CSS string.
 sheets.toString({attached: false}) // Returns all detached Style Sheets as a CSS string.
+sheets.toStirng({format: false}) // Returns a CSS string without unnecessary whitespaces. Useful for SSR.
 ```
 
 ## Style Sheets Manager
