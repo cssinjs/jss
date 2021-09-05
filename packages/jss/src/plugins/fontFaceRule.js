@@ -1,24 +1,14 @@
-// @flow
 import toCss from '../utils/toCss'
-import type {CSSFontFaceRule, RuleOptions, JssStyle, ToCssOptions, BaseRule} from '../types'
 import getWhitespaceSymbols from '../utils/getWhitespaceSymbols'
 
-export class FontFaceRule implements BaseRule {
-  type: string = 'font-face'
+export class FontFaceRule {
+  type = 'font-face'
 
-  at: string = '@font-face'
+  at = '@font-face'
 
-  key: string
+  isProcessed = false
 
-  style: JssStyle
-
-  options: RuleOptions
-
-  isProcessed: boolean = false
-
-  renderable: ?CSSFontFaceRule
-
-  constructor(key: string, style: JssStyle, options: RuleOptions) {
+  constructor(key, style, options) {
     this.key = key
     this.style = style
     this.options = options
@@ -27,7 +17,7 @@ export class FontFaceRule implements BaseRule {
   /**
    * Generates a CSS string.
    */
-  toString(options?: ToCssOptions): string {
+  toString(options) {
     const {linebreak} = getWhitespaceSymbols(options)
     if (Array.isArray(this.style)) {
       let str = ''
@@ -45,7 +35,7 @@ export class FontFaceRule implements BaseRule {
 const keyRegExp = /@font-face/
 
 export default {
-  onCreateRule(key: string, style: JssStyle, options: RuleOptions): FontFaceRule | null {
+  onCreateRule(key, style, options) {
     return keyRegExp.test(key) ? new FontFaceRule(key, style, options) : null
   }
 }

@@ -1,10 +1,7 @@
-// @flow
-import type {Plugin} from 'jss'
-
 /**
  * Sort props by length.
  */
-export default function jssPropsSort(): Plugin {
+export default function jssPropsSort() {
   const sort = (prop0, prop1) => {
     if (prop0.length === prop1.length) {
       return prop0 > prop1 ? 1 : -1

@@ -1,0 +1,23 @@
+﻿// @flow
+import type {
+  Rule,
+  RuleFactoryOptions,
+  StyleSheetFactoryOptions,
+  Plugin,
+  JssOptions,
+  JssStyle
+} from './flow-types'
+import StyleSheet from './StyleSheet'
+import PluginsRegistry from './PluginsRegistry'
+
+declare export default class Jss {
+  id: number;
+  version: string;
+  plugins: PluginsRegistry;
+  constructor(options?: JssOptions): this;
+  setup(options?: JssOptions): this;
+  createStyleSheet(styles?: Object, options?: StyleSheetFactoryOptions): StyleSheet;
+  removeStyleSheet(sheet: StyleSheet): this;
+  createRule(name: string, style?: JssStyle, options?: RuleFactoryOptions): Rule | null;
+  use(...plugins: Array<Plugin>): this;
+}

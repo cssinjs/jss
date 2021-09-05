@@ -1,0 +1,28 @@
+// @flow
+import PluginStyleRule, {StyleRule} from './styleRule'
+import PluginConditionalRule, {ConditionalRule} from './conditionalRule'
+import PluginKeyframesRule, {KeyframesRule} from './keyframesRule'
+import PluginKeyframeRule, {KeyframeRule} from './keyframeRule'
+import PluginFontFaceRule, {FontFaceRule} from './fontFaceRule'
+import PluginViewportRule, {ViewportRule} from './viewportRule'
+import PluginSimpleRule, {SimpleRule} from './simpleRule'
+
+export type plugins = [
+  typeof PluginStyleRule,
+  typeof PluginConditionalRule,
+  typeof PluginKeyframesRule,
+  typeof PluginKeyframeRule,
+  typeof PluginFontFaceRule,
+  typeof PluginViewportRule,
+  typeof PluginSimpleRule
+]
+
+declare export {
+  StyleRule,
+  ConditionalRule,
+  KeyframesRule,
+  KeyframeRule,
+  FontFaceRule,
+  ViewportRule,
+  SimpleRule
+}

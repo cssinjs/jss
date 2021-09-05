@@ -1,12 +1,7 @@
-// @flow
-import type {Plugin} from 'jss'
 import hyphenate from 'hyphenate-style-name'
 
 /**
  * Convert camel cased property names to dash separated.
- *
- * @param {Object} style
- * @return {Object}
  */
 function convertCase(style) {
   const converted = {}
@@ -27,10 +22,8 @@ function convertCase(style) {
 
 /**
  * Allow camel cased property names by converting them back to dasherized.
- *
- * @param {Rule} rule
  */
-export default function camelCase(): Plugin {
+export default function camelCase() {
   function onProcessStyle(style) {
     if (Array.isArray(style)) {
       // Handle rules like @font-face, which can have multiple styles in an array

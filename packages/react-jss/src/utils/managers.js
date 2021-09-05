@@ -1,27 +1,16 @@
-// @flow
-
-import {SheetsManager, type StyleSheet} from 'jss'
-import type {Context} from '../types'
-
-type Options<Theme> = {
-  sheet: StyleSheet,
-  context: Context,
-  index: number,
-  theme: Theme
-}
+import {SheetsManager} from 'jss'
 
 const defaultManagers = new Map()
 
-type GetManager = (Context, number) => SheetsManager
-
-export const getManager: GetManager = (context, managerId) => {
+export const getManager = (context, managerId) => {
   // If `managers` map is present in the context, we use it in order to
   // let JssProvider reset them when new response has to render server-side.
-  if (context.managers) {
-    if (!context.managers[managerId]) {
-      context.managers[managerId] = new SheetsManager()
+  const {managers} = context
+  if (managers) {
+    if (!managers[managerId]) {
+      managers[managerId] = new SheetsManager()
     }
-    return context.managers[managerId]
+    return managers[managerId]
   }
 
   let manager = defaultManagers.get(managerId)
@@ -34,7 +23,7 @@ export const getManager: GetManager = (context, managerId) => {
   return manager
 }
 
-export const manageSheet = <Theme>(options: Options<Theme>) => {
+export const manageSheet = options => {
   const {sheet, context, index, theme} = options
   if (!sheet) {
     return
@@ -47,7 +36,7 @@ export const manageSheet = <Theme>(options: Options<Theme>) => {
   }
 }
 
-export const unmanageSheet = <Theme>(options: Options<Theme>) => {
+export const unmanageSheet = options => {
   if (!options.sheet) {
     return
   }

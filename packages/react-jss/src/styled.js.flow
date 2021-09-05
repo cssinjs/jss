@@ -1,0 +1,29 @@
+// @flow
+/* eslint-disable react/prop-types, react/require-default-props */
+import type {StatelessFunctionalComponent, ComponentType} from 'react'
+import type {HookOptions, StaticStyle, DynamicStyle} from './flow-types'
+
+type StyledProps = {
+  className?: string,
+  as?: string
+}
+
+type StyleArg<Data> = StaticStyle | DynamicStyle<Data> | null | void | ''
+
+type ShouldForwardProp = string => boolean
+
+type StyledOptions<Theme> = {|
+  ...$Exact<HookOptions<Theme>>,
+  shouldForwardProp?: ShouldForwardProp
+|}
+
+type CreateStyledComponent<Data = {}> = (
+  ...StyleArg<Data>[]
+) => StatelessFunctionalComponent<StyledProps>
+
+type ConfigureStyled = <Theme: Object>(
+  string | StatelessFunctionalComponent<StyledProps> | ComponentType<StyledProps>,
+  StyledOptions<Theme> | void
+) => CreateStyledComponent<Theme>
+
+declare export default ConfigureStyled

@@ -1,0 +1,7 @@
+// @flow
+import {type Classes} from 'jss'
+import type {HOCOptions, Styles} from './flow-types'
+
+type CreateWithStyles = <Theme: {}>(Styles<Theme>, HOCOptions<Theme> | void) => any => Classes
+
+declare export default CreateWithStyles

@@ -1,13 +1,11 @@
-// @flow
 import warning from 'tiny-warning'
-import type {Plugin, StyleSheet} from 'jss'
 
 /**
  * Set selector.
  *
- * @param {Object} original rule
- * @param {String} className class string
- * @return {Boolean} flag, indicating function was successfull or not
+ * @param original rule
+ * @param className class string
+ * @return flag indicating function was successfull or not
  */
 function registerClass(rule, className) {
   // Skip falsy values
@@ -28,7 +26,7 @@ function registerClass(rule, className) {
     return registerClass(rule, className.split(' '))
   }
 
-  const {parent} = ((rule.options: any): {parent: StyleSheet})
+  const {parent} = rule.options
 
   // It is a ref to a local rule.
   if (className[0] === '$') {
@@ -56,11 +54,8 @@ function registerClass(rule, className) {
 
 /**
  * Convert compose property to additional class, remove property from original styles.
- *
- * @param {Rule} rule
- * @api public
  */
-export default function jssCompose(): Plugin {
+export default function jssCompose() {
   function onProcessStyle(style, rule) {
     if (!('composes' in style)) return style
     registerClass(rule, style.composes)

@@ -1,13 +1,9 @@
-// @flow
 /* eslint-disable prefer-rest-params, prefer-spread */
 import * as React from 'react'
-import defaultCss, {type Css} from 'css-jss'
+import defaultCss from 'css-jss'
 
-type CreateElement = (type: string, props: Object | null /* :: , ..._args: any */) => React.Node
-type Create = (Css | void) => CreateElement
-
-export const create: Create = (css: Css = defaultCss) =>
-  function createElement(type: string, props: Object | null /* :: , ..._args: any */) {
+export const create = (css = defaultCss) =>
+  function createElement(type, props) {
     const args = arguments
     if (props && props.css) {
       const className = css(props.css)
@@ -16,8 +12,7 @@ export const create: Create = (css: Css = defaultCss) =>
       delete newProps.css
       args[1] = newProps
     }
-    // $FlowFixMe[missing-arg]
     return React.createElement.apply(undefined, args)
   }
-const createElement: CreateElement = create()
-export default createElement
+
+export default create()

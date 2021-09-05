@@ -1,13 +1,11 @@
-// @flow
 import toCssValue from './toCssValue'
-import type {ToCssOptions, JssStyle} from '../types'
 import getWhitespaceSymbols from './getWhitespaceSymbols'
 
 /**
  * Indent a string.
  * http://jsperf.com/array-join-vs-for
  */
-function indentStr(str: string, indent: number): string {
+function indentStr(str, indent) {
   let result = ''
   for (let index = 0; index < indent; index++) result += '  '
   return result + str
@@ -16,11 +14,7 @@ function indentStr(str: string, indent: number): string {
 /**
  * Converts a Rule to CSS string.
  */
-export default function toCss(
-  selector?: string,
-  style: JssStyle,
-  options: ToCssOptions = ({}: any)
-): string {
+export default function toCss(selector, style, options = {}) {
   let result = ''
 
   if (!style) return result

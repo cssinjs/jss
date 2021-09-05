@@ -1,11 +1,4 @@
-import type {ToCssOptions} from '../types'
-
-type WhitespaceSymbols = {
-  linebreak: string,
-  space: string
-}
-
-export default function getWhitespaceSymbols(options?: ToCssOptions): WhitespaceSymbols {
+export default function getWhitespaceSymbols(options) {
   if (options && options.format === false) {
     return {
       linebreak: '',

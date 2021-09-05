@@ -1,0 +1,6 @@
+﻿// @flow
+import type {Plugin, UpdateOptions} from 'jss'
+
+export type Options = UpdateOptions
+
+declare export default (Options | void) => Plugin

@@ -1,21 +1,21 @@
 {
   "jss-plugin-vendor-prefixer.js": {
-    "bundled": 19166,
+    "bundled": 19144,
     "minified": 6308,
     "gzipped": 2505
   },
   "jss-plugin-vendor-prefixer.min.js": {
-    "bundled": 19166,
+    "bundled": 19144,
     "minified": 6308,
     "gzipped": 2505
   },
   "jss-plugin-vendor-prefixer.cjs.js": {
-    "bundled": 1574,
+    "bundled": 1556,
     "minified": 703,
     "gzipped": 406
   },
   "jss-plugin-vendor-prefixer.esm.js": {
-    "bundled": 1520,
+    "bundled": 1502,
     "minified": 650,
     "gzipped": 366,
     "treeshaked": {

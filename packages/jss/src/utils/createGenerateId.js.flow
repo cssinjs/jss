@@ -1,0 +1,13 @@
+﻿// @flow
+import type {Rule} from '../flow-types'
+import StyleSheet from '../StyleSheet'
+
+export type CreateGenerateIdOptions = {|
+  minify: boolean
+|}
+
+export type GenerateId = (rule: Rule, sheet?: StyleSheet) => string
+
+export type CreateGenerateId = (options?: CreateGenerateIdOptions) => GenerateId
+
+declare export default CreateGenerateId

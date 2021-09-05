@@ -1,0 +1,33 @@
+﻿// @flow
+import RuleList from '../RuleList'
+import type {
+  CSSKeyframesRule,
+  JssStyle,
+  RuleOptions,
+  ToCssOptions,
+  // eslint doesn't understand usage with types
+  // eslint-disable-next-line no-unused-vars
+  ContainerRule,
+  OnProcessStyle,
+  OnChangeValue
+} from '../flow-types'
+
+declare export class KeyframesRule implements ContainerRule {
+  type: string;
+  at: string;
+  key: string;
+  name: string;
+  id: string;
+  rules: RuleList;
+  options: RuleOptions;
+  isProcessed: boolean;
+  renderable: ?CSSKeyframesRule;
+  constructor(key: string, frames: Object, options: RuleOptions): this;
+  toString(options?: ToCssOptions): string;
+}
+
+declare export default {
+  onCreateRule(key: string, frames: JssStyle, options: RuleOptions): KeyframesRule | null,
+  onProcessStyle: OnProcessStyle,
+  onChangeValue: OnChangeValue
+}

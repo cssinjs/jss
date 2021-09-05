@@ -1,8 +1,6 @@
-import type {JssStyle} from '../types'
-
 const plainObjectConstrurctor = {}.constructor
 
-export default function cloneStyle(style: JssStyle): JssStyle {
+export default function cloneStyle(style) {
   if (style == null || typeof style !== 'object') return style
   if (Array.isArray(style)) return style.map(cloneStyle)
   if (style.constructor !== plainObjectConstrurctor) return style

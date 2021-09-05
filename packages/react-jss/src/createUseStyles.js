@@ -1,5 +1,3 @@
-// @flow
-
 import * as React from 'react'
 import isInBrowser from 'is-in-browser'
 import {ThemeContext as DefaultThemeContext} from 'theming'
@@ -12,26 +10,18 @@ import {
   removeDynamicRules
 } from './utils/sheets'
 import getSheetIndex from './utils/getSheetIndex'
-import type {HookOptions, Styles, Classes} from './types'
 import {manageSheet, unmanageSheet} from './utils/managers'
 import getSheetClasses from './utils/getSheetClasses'
 
 const useEffectOrLayoutEffect = isInBrowser ? React.useLayoutEffect : React.useEffect
 
-const noTheme: Object = {}
+const noTheme = {}
 
-type Data<Theme> = {theme?: Theme} | void
-
-type UseStyles<Theme> = (data: Data<Theme>) => Classes
-
-const createUseStyles = <Theme: typeof noTheme>(
-  styles: Styles<Theme>,
-  options: HookOptions<Theme> | Object = {}
-): UseStyles<Theme> => {
+const createUseStyles = (styles, options = {}) => {
   const {index = getSheetIndex(), theming, name, ...sheetOptions} = options
   const ThemeContext = (theming && theming.context) || DefaultThemeContext
 
-  const useTheme = (theme?: Theme): Theme | typeof noTheme => {
+  const useTheme = theme => {
     if (typeof styles === 'function') {
       return theme || React.useContext(ThemeContext) || noTheme
     }
@@ -39,7 +29,7 @@ const createUseStyles = <Theme: typeof noTheme>(
     return noTheme
   }
 
-  return function useStyles(data?: Data<Theme>): Classes {
+  return function useStyles(data) {
     const isFirstMount = React.useRef(true)
     const context = React.useContext(JssContext)
     const theme = useTheme(data && data.theme)

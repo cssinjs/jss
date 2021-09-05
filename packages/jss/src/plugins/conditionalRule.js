@@ -1,6 +1,4 @@
-// @flow
 import RuleList from '../RuleList'
-import type {CSSMediaRule, Rule, RuleOptions, ToCssOptions, JssStyle, ContainerRule} from '../types'
 import getWhitespaceSymbols from '../utils/getWhitespaceSymbols'
 
 const defaultToStringOptions = {
@@ -13,24 +11,12 @@ const atRegExp = /@([\w-]+)/
 /**
  * Conditional rule for @media, @supports
  */
-export class ConditionalRule implements ContainerRule {
-  type: string = 'conditional'
+export class ConditionalRule {
+  type = 'conditional'
 
-  at: string
+  isProcessed = false
 
-  key: string
-
-  query: string
-
-  rules: RuleList
-
-  options: RuleOptions
-
-  isProcessed: boolean = false
-
-  renderable: ?CSSMediaRule
-
-  constructor(key: string, styles: Object, options: RuleOptions) {
+  constructor(key, styles, options) {
     this.key = key
     const atMatch = key.match(atRegExp)
     this.at = atMatch ? atMatch[1] : 'unknown'
@@ -49,21 +35,21 @@ export class ConditionalRule implements ContainerRule {
   /**
    * Get a rule.
    */
-  getRule(name: string): Rule {
+  getRule(name) {
     return this.rules.get(name)
   }
 
   /**
    * Get index of a rule.
    */
-  indexOf(rule: Rule): number {
+  indexOf(rule) {
     return this.rules.indexOf(rule)
   }
 
   /**
    * Create and register rule, run plugins.
    */
-  addRule(name: string, style: JssStyle, options?: RuleOptions): Rule | null {
+  addRule(name, style, options) {
     const rule = this.rules.add(name, style, options)
     if (!rule) return null
     this.options.jss.plugins.onProcessRule(rule)
@@ -73,7 +59,7 @@ export class ConditionalRule implements ContainerRule {
   /**
    * Generates a CSS string.
    */
-  toString(options?: ToCssOptions = defaultToStringOptions): string {
+  toString(options = defaultToStringOptions) {
     const {linebreak} = getWhitespaceSymbols(options)
     if (options.indent == null) options.indent = defaultToStringOptions.indent
     if (options.children == null) options.children = defaultToStringOptions.children
@@ -88,7 +74,7 @@ export class ConditionalRule implements ContainerRule {
 const keyRegExp = /@media|@supports\s+/
 
 export default {
-  onCreateRule(key: string, styles: JssStyle, options: RuleOptions): ConditionalRule | null {
+  onCreateRule(key, styles, options) {
     return keyRegExp.test(key) ? new ConditionalRule(key, styles, options) : null
   }
 }

@@ -1,0 +1,26 @@
+﻿// @flow
+import type {
+  CSSFontFaceRule,
+  RuleOptions,
+  JssStyle,
+  ToCssOptions,
+  // eslint doesn't understand usage with types
+  // eslint-disable-next-line no-unused-vars
+  BaseRule
+} from '../flow-types'
+
+declare export class FontFaceRule implements BaseRule {
+  type: string;
+  at: string;
+  key: string;
+  style: JssStyle;
+  options: RuleOptions;
+  isProcessed: boolean;
+  renderable: ?CSSFontFaceRule;
+  constructor(key: string, style: JssStyle, options: RuleOptions): this;
+  toString(options?: ToCssOptions): string;
+}
+
+declare export default {
+  onCreateRule(key: string, style: JssStyle, options: RuleOptions): FontFaceRule | null
+}

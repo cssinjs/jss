@@ -1,4 +1,3 @@
-// @flow
 import expect from 'expect.js'
 import css, {create} from './index'
 

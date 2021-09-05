@@ -1,0 +1,10 @@
+// @flow
+/* eslint-disable prefer-rest-params, prefer-spread */
+import * as React from 'react'
+import type {Css} from 'css-jss'
+
+type CreateElement = (type: string, props: Object | null /* :: , ..._args: any */) => React.Node
+
+declare export function create(css?: Css): CreateElement
+
+declare export default CreateElement

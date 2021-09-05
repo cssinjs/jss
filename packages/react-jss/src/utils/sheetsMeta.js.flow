@@ -1,0 +1,12 @@
+﻿// @flow
+import type {StyleSheet} from 'jss'
+import type {StaticStyles, DynamicStyle} from '../flow-types'
+
+type SheetMeta<Data = {}> = {|
+  styles: $ReadOnly<StaticStyles>,
+  dynamicStyles: $ReadOnly<{[key: string]: DynamicStyle<Data>}> | null
+|}
+
+declare export function getMeta<Data>(sheet: StyleSheet): SheetMeta<Data> | void
+
+declare export function addMeta<Data>(sheet: StyleSheet, meta: SheetMeta<Data>): void

@@ -1,0 +1,32 @@
+// @flow
+import RuleList from '../RuleList'
+import type {
+  CSSMediaRule,
+  Rule,
+  RuleOptions,
+  ToCssOptions,
+  JssStyle,
+  // eslint doesn't understand usage with types
+  // eslint-disable-next-line no-unused-vars
+  ContainerRule
+} from '../flow-types'
+
+declare export class ConditionalRule implements ContainerRule {
+  type: string;
+  at: string;
+  key: string;
+  query: string;
+  rules: RuleList;
+  options: RuleOptions;
+  isProcessed: boolean;
+  renderable: ?CSSMediaRule;
+  constructor(key: string, styles: Object, options: RuleOptions): this;
+  getRule(name: string): Rule;
+  indexOf(rule: Rule): number;
+  addRule(name: string, style: JssStyle, options?: RuleOptions): Rule | null;
+  toString(options?: ToCssOptions): string;
+}
+
+declare export default {
+  onCreateRule(key: string, styles: JssStyle, options: RuleOptions): ConditionalRule | null
+}

@@ -1,36 +1,14 @@
-// @flow
 import warning from 'tiny-warning'
 import toCss from '../utils/toCss'
 import toCssValue from '../utils/toCssValue'
 import escape from '../utils/escape'
-import type {
-  CSSStyleRule,
-  HTMLElementWithStyleMap,
-  ToCssOptions,
-  RuleOptions,
-  UpdateOptions,
-  Renderer as RendererInterface,
-  JssStyle,
-  JssValue,
-  BaseRule
-} from '../types'
 
-export class BaseStyleRule implements BaseRule {
-  type: string = 'style'
+export class BaseStyleRule {
+  type = 'style'
 
-  key: string
+  isProcessed = false
 
-  isProcessed: boolean = false
-
-  style: JssStyle
-
-  renderer: RendererInterface | null
-
-  renderable: ?Object
-
-  options: RuleOptions
-
-  constructor(key: string, style: JssStyle, options: RuleOptions) {
+  constructor(key, style, options) {
     const {sheet, Renderer} = options
     this.key = key
     this.options = options
@@ -42,7 +20,7 @@ export class BaseStyleRule implements BaseRule {
   /**
    * Get or set a style property.
    */
-  prop(name: string, value?: JssValue, options?: UpdateOptions): this | string {
+  prop(name, value, options) {
     // It's a getter.
     if (value === undefined) return this.style[name]
 
@@ -83,13 +61,7 @@ export class BaseStyleRule implements BaseRule {
 }
 
 export class StyleRule extends BaseStyleRule {
-  selectorText: string
-
-  id: ?string
-
-  renderable: ?CSSStyleRule
-
-  constructor(key: string, style: JssStyle, options: RuleOptions) {
+  constructor(key, style, options) {
     super(key, style, options)
     const {selector, scoped, sheet, generateId} = options
     if (selector) {
@@ -105,7 +77,7 @@ export class StyleRule extends BaseStyleRule {
    * Attention: use this with caution. Most browsers didn't implement
    * selectorText setter, so this may result in rerendering of entire Style Sheet.
    */
-  set selector(selector: string): void {
+  set selector(selector) {
     if (selector === this.selectorText) return
 
     this.selectorText = selector
@@ -125,14 +97,14 @@ export class StyleRule extends BaseStyleRule {
   /**
    * Get selector string.
    */
-  get selector(): string {
+  get selector() {
     return this.selectorText
   }
 
   /**
    * Apply rule to an element inline.
    */
-  applyTo(renderable: HTMLElementWithStyleMap): this {
+  applyTo(renderable) {
     const {renderer} = this
     if (renderer) {
       const json = this.toJSON()
@@ -148,7 +120,7 @@ export class StyleRule extends BaseStyleRule {
    * Fallbacks are not supported.
    * Useful for inline styles.
    */
-  toJSON(): Object {
+  toJSON() {
     const json = {}
     for (const prop in this.style) {
       const value = this.style[prop]
@@ -161,7 +133,7 @@ export class StyleRule extends BaseStyleRule {
   /**
    * Generates a CSS string.
    */
-  toString(options?: ToCssOptions): string {
+  toString(options) {
     const {sheet} = this.options
     const link = sheet ? sheet.options.link : false
     const opts = link ? {...options, allowEmpty: true} : options
@@ -170,10 +142,10 @@ export class StyleRule extends BaseStyleRule {
 }
 
 export default {
-  onCreateRule(name: string, style: JssStyle, options: RuleOptions): StyleRule | null {
-    if (name[0] === '@' || (options.parent && options.parent.type === 'keyframes')) {
+  onCreateRule(key, style, options) {
+    if (key[0] === '@' || (options.parent && options.parent.type === 'keyframes')) {
       return null
     }
-    return new StyleRule(name, style, options)
+    return new StyleRule(key, style, options)
   }
 }

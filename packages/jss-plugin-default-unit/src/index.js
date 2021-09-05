@@ -1,8 +1,4 @@
-// @flow
-import type {Plugin} from 'jss'
 import defaultUnits, {px} from './defaultUnits'
-
-export type Options = {[key: string]: string | ((val: number) => string)}
 
 /**
  * Clones the object and adds a camel cased property version.
@@ -23,7 +19,7 @@ const units = addCamelCasedVersion(defaultUnits)
 /**
  * Recursive deep style passing function
  */
-function iterate(prop: string, value: any, options: Options) {
+function iterate(prop, value, options) {
   if (value == null) return value
 
   if (Array.isArray(value)) {
@@ -58,7 +54,7 @@ function iterate(prop: string, value: any, options: Options) {
 /**
  * Add unit to numeric values.
  */
-export default function defaultUnit(options: Options = {}): Plugin {
+export default function defaultUnit(options = {}) {
   const camelCasedOptions = addCamelCasedVersion(options)
 
   function onProcessStyle(style, rule) {

@@ -1,0 +1,3 @@
+﻿// @flow
+
+declare export default function getDynamicStyles(styles: Object): Object | null

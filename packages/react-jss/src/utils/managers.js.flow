@@ -1,0 +1,16 @@
+﻿// @flow
+import type {StyleSheet, SheetsManager} from 'jss'
+import type {Context} from '../flow-types'
+
+type Options<Theme> = {
+  sheet: StyleSheet,
+  context: Context,
+  index: number,
+  theme: Theme
+}
+
+declare export function getManager(Context, number): SheetsManager
+
+declare export function manageSheet<Theme>(Options<Theme>): void
+
+declare export function unmanageSheet<Theme>(Options<Theme>): void

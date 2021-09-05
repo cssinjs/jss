@@ -1,0 +1,6 @@
+﻿// @flow
+import type {Plugin} from 'jss'
+
+export type Options = {[key: string]: string | ((val: number) => string)}
+
+declare export default (options?: Options) => Plugin

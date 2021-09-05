@@ -1,25 +1,10 @@
-// @flow
 import warning from 'tiny-warning'
-import {getDynamicStyles, type StyleSheetFactoryOptions} from 'jss'
-import type {StyleSheet} from 'jss'
-import type {Context, DynamicRules, Styles} from '../types'
+import {getDynamicStyles} from 'jss'
 import {getManager} from './managers'
 import defaultJss from '../jss'
 import {addMeta, getMeta} from './sheetsMeta'
 
-type Options<Theme> = {
-  context: Context,
-  theme: Theme,
-  name?: string,
-  index: number,
-  styles: Styles<Theme>,
-  sheetOptions?: $Diff<StyleSheetFactoryOptions, {index: number | void}>
-}
-
-type GetStyles = <Theme>(Options<Theme>) => Styles<Theme>
-
-// eslint-disable-next-line no-unused-vars
-const getStyles: GetStyles = <Theme>(options) => {
+const getStyles = options => {
   const {styles} = options
   if (typeof styles !== 'function') {
     return styles
@@ -34,7 +19,7 @@ const getStyles: GetStyles = <Theme>(options) => {
   return styles(options.theme)
 }
 
-function getSheetOptions<Theme>(options: Options<Theme>, link: boolean) {
+function getSheetOptions(options, link) {
   let minify
   if (options.context.id && options.context.id.minify != null) {
     minify = options.context.id.minify
@@ -62,10 +47,7 @@ function getSheetOptions<Theme>(options: Options<Theme>, link: boolean) {
   }
 }
 
-type CreateStyleSheet = <Theme>(Options<Theme>) => StyleSheet | void
-
-// eslint-disable-next-line no-unused-vars
-export const createStyleSheet: CreateStyleSheet = <Theme>(options) => {
+export const createStyleSheet = options => {
   if (options.context.disableStylesGeneration) {
     return undefined
   }
@@ -92,7 +74,7 @@ export const createStyleSheet: CreateStyleSheet = <Theme>(options) => {
   return sheet
 }
 
-export const removeDynamicRules = (sheet: StyleSheet, rules: DynamicRules) => {
+export const removeDynamicRules = (sheet, rules) => {
   // Loop over each dynamic rule and remove the dynamic rule
   // We can't just remove the whole sheet as this has all of the rules for every component instance
   for (const key in rules) {
@@ -100,7 +82,7 @@ export const removeDynamicRules = (sheet: StyleSheet, rules: DynamicRules) => {
   }
 }
 
-export const updateDynamicRules = (data: any, sheet: StyleSheet, rules: DynamicRules) => {
+export const updateDynamicRules = (data, sheet, rules) => {
   // Loop over each dynamic rule and update it
   // We can't just update the whole sheet as this has all of the rules for every component instance
   for (const key in rules) {
@@ -108,14 +90,14 @@ export const updateDynamicRules = (data: any, sheet: StyleSheet, rules: DynamicR
   }
 }
 
-export const addDynamicRules = (sheet: StyleSheet, data: any): DynamicRules | void => {
+export const addDynamicRules = (sheet, data) => {
   const meta = getMeta(sheet)
 
   if (!meta) {
     return undefined
   }
 
-  const rules: DynamicRules = {}
+  const rules = {}
 
   // Loop over each dynamic rule and add it to the stylesheet
   for (const key in meta.dynamicStyles) {

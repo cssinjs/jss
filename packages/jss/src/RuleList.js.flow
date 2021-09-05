@@ -1,0 +1,33 @@
+﻿// @flow
+import type {
+  RuleListOptions,
+  ToCssOptions,
+  Rule,
+  RuleOptions,
+  JssStyle,
+  Classes,
+  KeyframesMap,
+  UpdateArguments,
+  UpdateOptions
+} from './flow-types'
+
+declare export default class RuleList {
+  map: {[key: string]: Rule};
+  raw: {[key: string]: JssStyle};
+  index: Array<Rule>;
+  counter: number;
+  options: RuleListOptions;
+  classes: Classes;
+  keyframes: KeyframesMap;
+  constructor(options: RuleListOptions): this;
+  add(name: string, decl: JssStyle, ruleOptions?: RuleOptions): Rule | null;
+  get(name: string): Rule;
+  remove(rule: Rule): void;
+  indexOf(rule: Rule): number;
+  process(): void;
+  register(rule: Rule): void;
+  unregister(rule: Rule): void;
+  update(...args: UpdateArguments): void;
+  updateOne(rule: Rule, data: Object, options?: UpdateOptions): void;
+  toString(options?: ToCssOptions): string;
+}

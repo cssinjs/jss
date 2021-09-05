@@ -1,46 +1,17 @@
-// @flow
 import warning from 'tiny-warning'
-import type StyleSheet from './StyleSheet'
-import type {
-  Plugin,
-  Rule,
-  RuleOptions,
-  UpdateOptions,
-  JssStyle,
-  JssValue,
-  OnCreateRule,
-  OnProcessRule,
-  OnProcessStyle,
-  OnProcessSheet,
-  OnChangeValue,
-  OnUpdate
-} from './types'
-import type {StyleRule, BaseStyleRule} from './plugins/styleRule'
-
-type Registry = {
-  onCreateRule: Array<OnCreateRule>,
-  onProcessRule: Array<OnProcessRule>,
-  onProcessStyle: Array<OnProcessStyle>,
-  onProcessSheet: Array<OnProcessSheet>,
-  onChangeValue: Array<OnChangeValue>,
-  onUpdate: Array<OnUpdate>
-}
 
 export default class PluginsRegistry {
-  plugins: {
-    internal: Array<Plugin>,
-    external: Array<Plugin>
-  } = {
+  plugins = {
     internal: [],
     external: []
   }
 
-  registry: Registry
+  registry = {}
 
   /**
    * Call `onCreateRule` hooks and return an object if returned by a hook.
    */
-  onCreateRule(name: string, decl: JssStyle, options: RuleOptions): Rule | null {
+  onCreateRule(name, decl, options) {
     for (let i = 0; i < this.registry.onCreateRule.length; i++) {
       const rule = this.registry.onCreateRule[i](name, decl, options)
       if (rule) return rule
@@ -52,7 +23,7 @@ export default class PluginsRegistry {
   /**
    * Call `onProcessRule` hooks.
    */
-  onProcessRule(rule: Rule): void {
+  onProcessRule(rule) {
     if (rule.isProcessed) return
     const {sheet} = rule.options
     for (let i = 0; i < this.registry.onProcessRule.length; i++) {
@@ -67,9 +38,8 @@ export default class PluginsRegistry {
   /**
    * Call `onProcessStyle` hooks.
    */
-  onProcessStyle(style: JssStyle, rule: Rule, sheet?: StyleSheet): void {
+  onProcessStyle(style, rule, sheet) {
     for (let i = 0; i < this.registry.onProcessStyle.length; i++) {
-      // $FlowFixMe[prop-missing]
       rule.style = this.registry.onProcessStyle[i](rule.style, rule, sheet)
     }
   }
@@ -77,7 +47,7 @@ export default class PluginsRegistry {
   /**
    * Call `onProcessSheet` hooks.
    */
-  onProcessSheet(sheet: StyleSheet): void {
+  onProcessSheet(sheet) {
     for (let i = 0; i < this.registry.onProcessSheet.length; i++) {
       this.registry.onProcessSheet[i](sheet)
     }
@@ -86,7 +56,7 @@ export default class PluginsRegistry {
   /**
    * Call `onUpdate` hooks.
    */
-  onUpdate(data: Object, rule: Rule, sheet?: StyleSheet, options: UpdateOptions): void {
+  onUpdate(data, rule, sheet, options) {
     for (let i = 0; i < this.registry.onUpdate.length; i++) {
       this.registry.onUpdate[i](data, rule, sheet, options)
     }
@@ -95,7 +65,7 @@ export default class PluginsRegistry {
   /**
    * Call `onChangeValue` hooks.
    */
-  onChangeValue(value: JssValue, prop: string, rule: StyleRule | BaseStyleRule): JssValue {
+  onChangeValue(value, prop, rule) {
     let processedValue = value
     for (let i = 0; i < this.registry.onChangeValue.length; i++) {
       processedValue = this.registry.onChangeValue[i](processedValue, prop, rule)
@@ -106,7 +76,7 @@ export default class PluginsRegistry {
   /**
    * Register a plugin.
    */
-  use(newPlugin: Plugin, options: {queue: 'internal' | 'external'} = {queue: 'external'}): void {
+  use(newPlugin, options = {queue: 'external'}) {
     const plugins = this.plugins[options.queue]
 
     // Avoids applying same plugin twice, at least based on ref.
@@ -117,7 +87,7 @@ export default class PluginsRegistry {
     plugins.push(newPlugin)
 
     this.registry = [...this.plugins.external, ...this.plugins.internal].reduce(
-      (registry: Registry, plugin: Plugin) => {
+      (registry, plugin) => {
         for (const name in plugin) {
           if (name in registry) {
             registry[name].push(plugin[name])

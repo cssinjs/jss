@@ -1,0 +1,14 @@
+﻿// @flow
+import type {Plugin, Rule, RuleOptions, UpdateOptions, JssStyle, JssValue} from './flow-types'
+import type StyleSheet from './StyleSheet'
+import type {StyleRule, BaseStyleRule} from './plugins/styleRule'
+
+declare export default class PluginsRegistry {
+  use(newPlugin: Plugin, options?: {queue: 'internal' | 'external'}): void;
+  onCreateRule(name: string, decl: JssStyle, options: RuleOptions): Rule | null;
+  onProcessRule(rule: Rule): void;
+  onProcessSheet(sheet: StyleSheet): void;
+  onChangeValue(value: JssValue, prop: string, rule: StyleRule | BaseStyleRule): JssValue;
+  onProcessStyle(style: JssStyle, rule: Rule, sheet?: StyleSheet): void;
+  onUpdate(data: Object, rule: Rule, sheet?: StyleSheet, options: UpdateOptions): void;
+}

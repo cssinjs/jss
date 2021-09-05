@@ -1,9 +1,5 @@
-// @flow
 import {create as createJss} from 'jss'
 import preset from 'jss-preset-default'
-import type {Jss} from 'jss'
-// eslint-disable-next-line no-unused-vars
-import type {Css, StyleArg} from './types'
 
 // I have been trying to benchmark and I have seen a slow down after about 10k rules.
 // Since we are in a single sheet mode, user shouldn't care about this.
@@ -11,7 +7,7 @@ const MAX_RULES_PER_SHEET = 10000
 
 const defaultJss = createJss(preset())
 
-const createCss = (jss: Jss = defaultJss): Css => {
+const createCss = (jss = defaultJss) => {
   const cache = new Map()
   let ruleIndex = 0
   let sheet
@@ -23,7 +19,7 @@ const createCss = (jss: Jss = defaultJss): Css => {
     return sheet
   }
 
-  function css(/* :: ..._: StyleArg[] */): string {
+  function css() {
     // eslint-disable-next-line prefer-rest-params
     const args = arguments
 

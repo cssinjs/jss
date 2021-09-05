@@ -1,35 +1,19 @@
-// @flow
 import $$observable from 'symbol-observable'
-import {
-  createRule,
-  type StyleRule,
-  type Rule,
-  type RuleOptions,
-  type JssStyle,
-  type UpdateOptions,
-  type Plugin
-} from 'jss'
-import type {Observable} from './types'
+import {createRule} from 'jss'
 
 const isObservable = value => value && value[$$observable] && value === value[$$observable]()
 
-export type Options = UpdateOptions
-
-type ObservablePlugin = (Options | void) => Plugin
-
-const observablePlugin: ObservablePlugin = updateOptions => ({
-  onCreateRule(name?: string, decl: JssStyle, options: RuleOptions): Rule | null {
+const observablePlugin = updateOptions => ({
+  onCreateRule(name, decl, options) {
     if (!isObservable(decl)) return null
 
-    // Cast `decl` to `Observable`, since it passed the type guard.
-    const style$ = (decl: Observable<{[string]: string | number}>)
-
-    const rule = ((createRule(name, {}, options): any): StyleRule)
+    const style$ = decl
+    const rule = createRule(name, {}, options)
 
     // TODO
     // Call `stream.subscribe()` returns a subscription, which should be explicitly
     // unsubscribed from when we know this sheet is no longer needed.
-    style$.subscribe((style: JssStyle) => {
+    style$.subscribe(style => {
       for (const prop in style) {
         rule.prop(prop, style[prop], updateOptions)
       }
@@ -38,10 +22,10 @@ const observablePlugin: ObservablePlugin = updateOptions => ({
     return rule
   },
 
-  onProcessRule(rule: Rule) {
+  onProcessRule(rule) {
     if (rule && rule.type !== 'style') return
 
-    const styleRule = ((rule: any): StyleRule)
+    const styleRule = rule
     const {style} = styleRule
     for (const prop in style) {
       const value = style[prop]

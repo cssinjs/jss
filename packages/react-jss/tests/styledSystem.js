@@ -1,4 +1,3 @@
-// @flow
 /* eslint-disable react/prop-types */
 
 import expect from 'expect.js'
@@ -14,7 +13,7 @@ const createGenerateId = () => {
   return rule => `${rule.key}-${counter++}`
 }
 
-const theme: Object = {
+const theme = {
   fontSizes: [12, 14, 16, 24, 32, 48, 64, 96, 128],
   space: [
     // margin and padding
@@ -131,8 +130,7 @@ describe('React-JSS: styled-system', () => {
 
     const MyComponent = ({classes}) => <div className={classes.css} />
 
-    // TODO fix the types.
-    const MyStyledComponent: any = withStyles(styles, {injectTheme: true})(MyComponent)
+    const MyStyledComponent = withStyles(styles, {injectTheme: true})(MyComponent)
 
     const renderer = TestRenderer.create(
       <JssProvider registry={registry} generateId={createGenerateId()}>
@@ -180,8 +178,8 @@ describe('React-JSS: styled-system', () => {
     expect(className).to.be('css-0 css-d0-1')
     expect(classes).to.be(undefined)
   })
-  // $FlowFixMe[prop-missing]
+
   it.skip('should handle the propTypes/meta for validation from function rules', () => {})
-  // $FlowFixMe[prop-missing]
+
   it.skip('should do compose() automatically', () => {})
 })

@@ -1,0 +1,13 @@
+﻿// @flow
+import type {JssOptions} from 'jss'
+import {type Options as DefaultUnitOptions} from 'jss-plugin-default-unit'
+import {type Options as ObservableOptions} from 'jss-plugin-rule-value-observable'
+
+type Create = (
+  {|
+    defaultUnit?: DefaultUnitOptions,
+    observable?: ObservableOptions
+  |} | void
+) => JssOptions
+
+declare export default Create

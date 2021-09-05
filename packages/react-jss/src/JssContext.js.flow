@@ -1,0 +1,5 @@
+// @flow
+import * as React from 'react'
+import type {Context} from './flow-types'
+
+declare export default React.Context<Context>

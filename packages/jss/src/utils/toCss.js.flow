@@ -1,0 +1,6 @@
+﻿// @flow
+import type {ToCssOptions, JssStyle} from '../flow-types'
+
+type ToCss = (selector?: string, style: JssStyle, options?: ToCssOptions) => string
+
+declare export default ToCss

@@ -1,5 +1,3 @@
-// @flow
-
 /**
  * Global index counter to preserve source order.
  * As we create the style sheet during componentWillMount lifecycle,
@@ -15,8 +13,6 @@
  */
 let index = Number.MIN_SAFE_INTEGER || -1e9
 
-type GetSheetIndex = () => number
-
-const getSheetIndex: GetSheetIndex = () => index++
+const getSheetIndex = () => index++
 
 export default getSheetIndex

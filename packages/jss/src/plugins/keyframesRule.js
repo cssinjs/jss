@@ -1,15 +1,5 @@
-// @flow
 import warning from 'tiny-warning'
 import RuleList from '../RuleList'
-import type {
-  CSSKeyframesRule,
-  JssStyle,
-  RuleOptions,
-  ToCssOptions,
-  ContainerRule,
-  KeyframesMap,
-  Plugin
-} from '../types'
 import escape from '../utils/escape'
 import getWhitespaceSymbols from '../utils/getWhitespaceSymbols'
 
@@ -23,26 +13,14 @@ const nameRegExp = /@keyframes\s+([\w-]+)/
 /**
  * Rule for @keyframes
  */
-export class KeyframesRule implements ContainerRule {
-  type: string = 'keyframes'
+export class KeyframesRule {
+  type = 'keyframes'
 
-  at: string = '@keyframes'
+  at = '@keyframes'
 
-  key: string
+  isProcessed = false
 
-  name: string
-
-  id: string
-
-  rules: RuleList
-
-  options: RuleOptions
-
-  isProcessed: boolean = false
-
-  renderable: ?CSSKeyframesRule
-
-  constructor(key: string, frames: Object, options: RuleOptions) {
+  constructor(key, frames, options) {
     const nameMatch = key.match(nameRegExp)
     if (nameMatch && nameMatch[1]) {
       this.name = nameMatch[1]
@@ -69,7 +47,7 @@ export class KeyframesRule implements ContainerRule {
   /**
    * Generates a CSS string.
    */
-  toString(options?: ToCssOptions = defaultToStringOptions): string {
+  toString(options = defaultToStringOptions) {
     const {linebreak} = getWhitespaceSymbols(options)
     if (options.indent == null) options.indent = defaultToStringOptions.indent
     if (options.children == null) options.children = defaultToStringOptions.children
@@ -105,7 +83,7 @@ const findReferencedKeyframe = (val, keyframes) => {
 /**
  * Replace the reference for a animation name.
  */
-const replaceRef = (style: JssStyle, prop: string, keyframes: KeyframesMap) => {
+const replaceRef = (style, prop, keyframes) => {
   const value = style[prop]
   const refKeyframe = findReferencedKeyframe(value, keyframes)
 
@@ -114,7 +92,7 @@ const replaceRef = (style: JssStyle, prop: string, keyframes: KeyframesMap) => {
   }
 }
 
-const plugin: Plugin = {
+export default {
   onCreateRule(key, frames, options) {
     return typeof key === 'string' && keyRegExp.test(key)
       ? new KeyframesRule(key, frames, options)
@@ -147,5 +125,3 @@ const plugin: Plugin = {
     }
   }
 }
-
-export default plugin

@@ -1,30 +1,16 @@
-// @flow
-import {
-  RuleList,
-  type Plugin,
-  type RuleOptions,
-  type ContainerRule,
-  type StyleRule,
-  type BaseRule
-} from 'jss'
+import {RuleList} from 'jss'
 
 const at = '@global'
 const atPrefix = '@global '
 
-class GlobalContainerRule implements ContainerRule {
+class GlobalContainerRule {
   type = 'global'
 
-  at: string = at
+  at = at
 
-  rules: RuleList
+  isProcessed = false
 
-  options: RuleOptions
-
-  key: string
-
-  isProcessed: boolean = false
-
-  constructor(key, styles, options: RuleOptions) {
+  constructor(key, styles, options) {
     this.key = key
     this.options = options
     this.rules = new RuleList({
@@ -70,18 +56,12 @@ class GlobalContainerRule implements ContainerRule {
   }
 }
 
-class GlobalPrefixedRule implements BaseRule {
+class GlobalPrefixedRule {
   type = 'global'
 
-  at: string = at
+  at = at
 
-  options: RuleOptions
-
-  rule: BaseRule | null
-
-  isProcessed: boolean = false
-
-  key: string
+  isProcessed = false
 
   constructor(key, style, options) {
     this.key = key
@@ -142,11 +122,8 @@ function handlePrefixedGlobalRule(rule, sheet) {
 
 /**
  * Convert nested rules to separate, remove them from original styles.
- *
- * @param {Rule} rule
- * @api public
  */
-export default function jssGlobal(): Plugin {
+export default function jssGlobal() {
   function onCreateRule(name, styles, options) {
     if (!name) return null
 
@@ -179,8 +156,8 @@ export default function jssGlobal(): Plugin {
   function onProcessRule(rule, sheet) {
     if (rule.type !== 'style' || !sheet) return
 
-    handleNestedGlobalContainerRule(((rule: any): StyleRule), sheet)
-    handlePrefixedGlobalRule(((rule: any): StyleRule), sheet)
+    handleNestedGlobalContainerRule(rule, sheet)
+    handlePrefixedGlobalRule(rule, sheet)
   }
 
   return {onCreateRule, onProcessRule}

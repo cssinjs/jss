@@ -1,0 +1,7 @@
+﻿// @flow
+import type {StyleSheet} from 'jss'
+import type {DynamicRules, Classes} from '../flow-types'
+
+type GetSheetClasses = (StyleSheet, DynamicRules | void) => Classes
+
+declare export default GetSheetClasses

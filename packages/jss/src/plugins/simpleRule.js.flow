@@ -1,0 +1,27 @@
+﻿// @flow
+import type {
+  CSSCharsetRule,
+  CSSImportRule,
+  CSSNamespaceRule,
+  RuleOptions,
+  JssStyle,
+  ToCssOptions,
+  // eslint doesn't understand usage with types
+  // eslint-disable-next-line no-unused-vars
+  BaseRule
+} from '../flow-types'
+
+declare export class SimpleRule implements BaseRule {
+  type: string;
+  key: string;
+  value: string;
+  options: RuleOptions;
+  isProcessed: boolean;
+  renderable: ?CSSCharsetRule | CSSImportRule | CSSNamespaceRule;
+  constructor(key: string, value: string, options: RuleOptions): this;
+  toString(options?: ToCssOptions): string;
+}
+
+declare export default {
+  onCreateRule(key: string, value: JssStyle, options: RuleOptions): SimpleRule | null
+}

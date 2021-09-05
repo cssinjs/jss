@@ -1,17 +1,5 @@
-// @flow
 import createRule from './utils/createRule'
 import {StyleRule, KeyframesRule} from './plugins/index'
-import type {
-  RuleListOptions,
-  ToCssOptions,
-  Rule,
-  RuleOptions,
-  JssStyle,
-  Classes,
-  KeyframesMap,
-  UpdateArguments,
-  UpdateOptions
-} from './types'
 import escape from './utils/escape'
 import getWhitespaceSymbols from './utils/getWhitespaceSymbols'
 
@@ -31,23 +19,17 @@ const forceUpdateOptions = {
 export default class RuleList {
   // Rules registry for access by .get() method.
   // It contains the same rule registered by name and by selector.
-  map: {[key: string]: Rule} = {}
+  map = {}
 
   // Original styles object.
-  raw: {[key: string]: JssStyle} = {}
+  raw = {}
 
   // Used to ensure correct rules order.
-  index: Array<Rule> = []
+  index = []
 
-  counter: number = 0
+  counter = 0
 
-  options: RuleListOptions
-
-  classes: Classes
-
-  keyframes: KeyframesMap
-
-  constructor(options: RuleListOptions) {
+  constructor(options) {
     this.options = options
     this.classes = options.classes
     this.keyframes = options.keyframes
@@ -58,7 +40,7 @@ export default class RuleList {
    *
    * Will not render after Style Sheet was rendered the first time.
    */
-  add(name: string, decl: JssStyle, ruleOptions?: RuleOptions): Rule | null {
+  add(name, decl, ruleOptions) {
     const {parent, sheet, jss, Renderer, generateId, scoped} = this.options
     const options = {
       classes: this.classes,
@@ -106,14 +88,14 @@ export default class RuleList {
   /**
    * Get a rule.
    */
-  get(name: string): Rule {
+  get(name) {
     return this.map[name]
   }
 
   /**
    * Delete a rule.
    */
-  remove(rule: Rule): void {
+  remove(rule) {
     this.unregister(rule)
     delete this.raw[rule.key]
     this.index.splice(this.index.indexOf(rule), 1)
@@ -122,14 +104,14 @@ export default class RuleList {
   /**
    * Get index of a rule.
    */
-  indexOf(rule: Rule): number {
+  indexOf(rule) {
     return this.index.indexOf(rule)
   }
 
   /**
    * Run `onProcessRule()` plugins on every rule.
    */
-  process(): void {
+  process() {
     const {plugins} = this.options.jss
     // We need to clone array because if we modify the index somewhere else during a loop
     // we end up with very hard-to-track-down side effects.
@@ -139,7 +121,7 @@ export default class RuleList {
   /**
    * Register a rule in `.map`, `.classes` and `.keyframes` maps.
    */
-  register(rule: Rule): void {
+  register(rule) {
     this.map[rule.key] = rule
     if (rule instanceof StyleRule) {
       this.map[rule.selector] = rule
@@ -152,7 +134,7 @@ export default class RuleList {
   /**
    * Unregister a rule.
    */
-  unregister(rule: Rule): void {
+  unregister(rule) {
     delete this.map[rule.key]
     if (rule instanceof StyleRule) {
       delete this.map[rule.selector]
@@ -165,20 +147,17 @@ export default class RuleList {
   /**
    * Update the function values with a new data.
    */
-  update(...args: UpdateArguments): void {
+  update(...args) {
     let name
     let data
     let options
 
     if (typeof args[0] === 'string') {
       name = args[0]
-      // $FlowFixMe[invalid-tuple-index]
       data = args[1]
-      // $FlowFixMe[invalid-tuple-index]
       options = args[2]
     } else {
       data = args[0]
-      // $FlowFixMe[invalid-tuple-index]
       options = args[1]
       name = null
     }
@@ -195,7 +174,7 @@ export default class RuleList {
   /**
    * Execute plugins, update rule props.
    */
-  updateOne(rule: Rule, data: Object, options?: UpdateOptions = defaultUpdateOptions) {
+  updateOne(rule, data, options = defaultUpdateOptions) {
     const {
       jss: {plugins},
       sheet
@@ -207,35 +186,34 @@ export default class RuleList {
       return
     }
 
-    const styleRule: StyleRule = (rule: any)
-    const {style} = styleRule
+    const {style} = rule
 
     plugins.onUpdate(data, rule, sheet, options)
 
     // We rely on a new `style` ref in case it was mutated during onUpdate hook.
-    if (options.process && style && style !== styleRule.style) {
+    if (options.process && style && style !== rule.style) {
       // We need to run the plugins in case new `style` relies on syntax plugins.
-      plugins.onProcessStyle(styleRule.style, styleRule, sheet)
+      plugins.onProcessStyle(rule.style, rule, sheet)
 
       // Update and add props.
-      for (const prop in styleRule.style) {
-        const nextValue = styleRule.style[prop]
+      for (const prop in rule.style) {
+        const nextValue = rule.style[prop]
         const prevValue = style[prop]
         // We need to use `force: true` because `rule.style` has been updated during onUpdate hook, so `rule.prop()` will not update the CSSOM rule.
         // We do this comparison to avoid unneeded `rule.prop()` calls, since we have the old `style` object here.
         if (nextValue !== prevValue) {
-          styleRule.prop(prop, nextValue, forceUpdateOptions)
+          rule.prop(prop, nextValue, forceUpdateOptions)
         }
       }
 
       // Remove props.
       for (const prop in style) {
-        const nextValue = styleRule.style[prop]
+        const nextValue = rule.style[prop]
         const prevValue = style[prop]
         // We need to use `force: true` because `rule.style` has been updated during onUpdate hook, so `rule.prop()` will not update the CSSOM rule.
         // We do this comparison to avoid unneeded `rule.prop()` calls, since we have the old `style` object here.
         if (nextValue == null && nextValue !== prevValue) {
-          styleRule.prop(prop, null, forceUpdateOptions)
+          rule.prop(prop, null, forceUpdateOptions)
         }
       }
     }
@@ -244,7 +222,7 @@ export default class RuleList {
   /**
    * Convert rules to a CSS string.
    */
-  toString(options?: ToCssOptions): string {
+  toString(options) {
     let str = ''
     const {sheet} = this.options
     const link = sheet ? sheet.options.link : false

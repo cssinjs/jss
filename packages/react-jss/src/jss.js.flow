@@ -1,0 +1,4 @@
+// @flow
+import type {Jss} from 'jss'
+
+declare export default Jss

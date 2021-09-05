@@ -1,7 +1,4 @@
-// @flow
-import type {Plugin} from 'jss'
-
-export default function cachePlugin(): Plugin {
+export default function cachePlugin() {
   const cache = new WeakMap()
 
   function onCreateRule(name, decl, {parent}) {

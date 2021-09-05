@@ -1,32 +1,25 @@
-// @flow
 import warn from 'tiny-warning'
-import type StyleSheet from './StyleSheet'
 
 /**
  * SheetsManager is like a WeakMap which is designed to count StyleSheet
  * instances and attach/detach automatically.
+ * Used in react-jss.
  */
 export default class SheetsManager {
-  length: number = 0
+  length = 0
 
-  sheets: WeakMap<
-    Object,
-    {
-      refs: number,
-      sheet: StyleSheet
-    }
-  > = new WeakMap()
+  sheets = new WeakMap()
 
-  get size(): number {
+  get size() {
     return this.length
   }
 
-  get(key: Object): ?StyleSheet {
+  get(key) {
     const entry = this.sheets.get(key)
     return entry && entry.sheet
   }
 
-  add(key: Object, sheet: StyleSheet) {
+  add(key, sheet) {
     if (this.sheets.has(key)) return
 
     this.length++
@@ -37,7 +30,7 @@ export default class SheetsManager {
     })
   }
 
-  manage(key: Object): ?StyleSheet {
+  manage(key) {
     const entry = this.sheets.get(key)
 
     if (entry) {
@@ -55,7 +48,7 @@ export default class SheetsManager {
     return undefined
   }
 
-  unmanage(key: Object) {
+  unmanage(key) {
     const entry = this.sheets.get(key)
 
     if (entry) {

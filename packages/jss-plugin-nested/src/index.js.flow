@@ -1,0 +1,4 @@
+﻿// @flow
+import type {Plugin} from 'jss'
+
+declare export default () => Plugin

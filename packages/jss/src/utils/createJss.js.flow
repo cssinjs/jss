@@ -1,0 +1,5 @@
+﻿// @flow
+import type {JssOptions} from '../flow-types'
+import Jss from '../Jss'
+
+declare export default (options?: JssOptions) => Jss

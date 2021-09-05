@@ -1,0 +1,8 @@
+﻿// @flow
+import type {Rule, RuleOptions, JssStyle} from '../flow-types'
+
+declare export default function createRule(
+  name?: string,
+  decl: JssStyle,
+  options: RuleOptions
+): Rule | null

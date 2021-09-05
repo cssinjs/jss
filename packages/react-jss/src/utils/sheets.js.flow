@@ -1,0 +1,21 @@
+﻿// @flow
+import {type StyleSheetFactoryOptions} from 'jss'
+import type {StyleSheet} from 'jss'
+import type {Context, DynamicRules, Styles} from '../flow-types'
+
+type Options<Theme> = {
+  context: Context,
+  theme: Theme,
+  name?: string,
+  index: number,
+  styles: Styles<Theme>,
+  sheetOptions?: $Diff<StyleSheetFactoryOptions, {index: number | void}>
+}
+
+declare export function createStyleSheet<Theme>(Options<Theme>): StyleSheet | void
+
+declare export function removeDynamicRules(sheet: StyleSheet, rules: DynamicRules): void
+
+declare export function updateDynamicRules(data: any, sheet: StyleSheet, rules: DynamicRules): void
+
+declare export function addDynamicRules(sheet: StyleSheet, data: any): DynamicRules | void

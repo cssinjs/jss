@@ -1,4 +1,3 @@
-// @flow
 import isInBrowser from 'is-in-browser'
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
@@ -7,37 +6,26 @@ import {plugins as internalPlugins} from './plugins/index'
 import createGenerateIdDefault from './utils/createGenerateId'
 import createRule from './utils/createRule'
 import DomRenderer from './DomRenderer'
-import type {
-  Rule,
-  RuleFactoryOptions,
-  RuleOptions,
-  StyleSheetFactoryOptions,
-  Plugin,
-  JssOptions,
-  InternalJssOptions,
-  JssStyle
-} from './types'
-import type {GenerateId} from './utils/createGenerateId'
 
 let instanceCounter = 0
 
 export default class Jss {
-  id: number = instanceCounter++
+  id = instanceCounter++
 
-  version: string | void = process.env.VERSION
+  version = process.env.VERSION
 
-  plugins: PluginsRegistry = new PluginsRegistry()
+  plugins = new PluginsRegistry()
 
-  options: InternalJssOptions = {
+  options = {
     id: {minify: false},
     createGenerateId: createGenerateIdDefault,
     Renderer: isInBrowser ? DomRenderer : null,
     plugins: []
   }
 
-  generateId: GenerateId = createGenerateIdDefault({minify: false})
+  generateId = createGenerateIdDefault({minify: false})
 
-  constructor(options?: JssOptions) {
+  constructor(options) {
     for (let i = 0; i < internalPlugins.length; i++) {
       this.plugins.use(internalPlugins[i], {queue: 'internal'})
     }
@@ -49,7 +37,7 @@ export default class Jss {
    * Should not be used twice on the same instance, because there is no plugins
    * deduplication logic.
    */
-  setup(options?: JssOptions = {}): this {
+  setup(options = {}) {
     if (options.createGenerateId) {
       this.options.createGenerateId = options.createGenerateId
     }
@@ -79,7 +67,7 @@ export default class Jss {
   /**
    * Create a Style Sheet.
    */
-  createStyleSheet(styles: Object, options: StyleSheetFactoryOptions = ({}: any)): StyleSheet {
+  createStyleSheet(styles, options = {}) {
     let {index} = options
     if (typeof index !== 'number') {
       index = sheets.index === 0 ? 0 : sheets.index + 1
@@ -100,7 +88,7 @@ export default class Jss {
   /**
    * Detach the Style Sheet and remove it from the registry.
    */
-  removeStyleSheet(sheet: StyleSheet): this {
+  removeStyleSheet(sheet) {
     sheet.detach()
     sheets.remove(sheet)
     return this
@@ -110,15 +98,13 @@ export default class Jss {
    * Create a rule without a Style Sheet.
    * [Deprecated] will be removed in the next major version.
    */
-  createRule(name: string, style?: JssStyle = {}, options?: RuleFactoryOptions = {}): Rule | null {
+  createRule(name, style = {}, options = {}) {
     // Enable rule without name for inline styles.
     if (typeof name === 'object') {
-      // $FlowFixMe[incompatible-call]
       return this.createRule(undefined, name, style)
     }
 
-    // $FlowFixMe[incompatible-type]
-    const ruleOptions: RuleOptions = {...options, name, jss: this, Renderer: this.options.Renderer}
+    const ruleOptions = {...options, name, jss: this, Renderer: this.options.Renderer}
 
     if (!ruleOptions.generateId) ruleOptions.generateId = this.generateId
     if (!ruleOptions.classes) ruleOptions.classes = {}
@@ -134,7 +120,7 @@ export default class Jss {
   /**
    * Register plugin. Passed function will be invoked with a rule instance.
    */
-  use(...plugins: Array<Plugin>): this {
+  use(...plugins) {
     plugins.forEach(plugin => {
       this.plugins.use(plugin)
     })

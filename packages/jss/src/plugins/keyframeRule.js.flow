@@ -1,0 +1,14 @@
+﻿// @flow
+import type {JssStyle, RuleOptions, ToCssOptions, CSSKeyframeRule} from '../flow-types'
+// eslint doesn't understand usage with types
+// eslint-disable-next-line no-unused-vars
+import {BaseStyleRule} from './styleRule'
+
+declare export class KeyframeRule extends BaseStyleRule {
+  renderable: ?CSSKeyframeRule;
+  toString(options?: ToCssOptions): string;
+}
+
+declare export default {
+  onCreateRule(key: string, style: JssStyle, options: RuleOptions): KeyframeRule | null
+}
