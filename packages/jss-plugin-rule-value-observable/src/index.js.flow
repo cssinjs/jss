@@ -1,6 +1,28 @@
 ﻿// @flow
-import type {Plugin, UpdateOptions} from 'jss'
+import type {UpdateOptions, JssStyle, RuleOptions, Rule, BaseRule, StyleSheet} from 'jss'
 
 export type Options = UpdateOptions
 
-declare export default (Options | void) => Plugin
+export type NextChannel<T> = (value: T) => void
+export type Observer<T> = {
+  next: NextChannel<T>
+}
+export type Unsubscribe = () => void
+export type Subscription = {
+  unsubscribe: Unsubscribe
+}
+export type ObserverOrNext<T> = Observer<T> | NextChannel<T>
+export type Observable<T> = {
+  subscribe(observerOrNext: ObserverOrNext<T>): Subscription
+}
+
+declare export default (
+  Options | void
+) => {
+  onCreateRule: (
+    name: string,
+    decl: JssStyle | Observable<{[string]: string | number}>,
+    options: RuleOptions
+  ) => BaseRule | null,
+  onProcessRule: (rule: Rule, sheet?: StyleSheet) => void
+}
