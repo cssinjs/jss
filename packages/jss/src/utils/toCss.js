@@ -1,6 +1,7 @@
 // @flow
 import toCssValue from './toCssValue'
 import type {ToCssOptions, JssStyle} from '../types'
+import getWhitespaceSymbols from './getWhitespaceSymbols'
 
 /**
  * Indent a string.
@@ -27,6 +28,11 @@ export default function toCss(
   let {indent = 0} = options
   const {fallbacks} = style
 
+  if (options.format === false) {
+    indent = -Infinity
+  }
+  const {linebreak, space} = getWhitespaceSymbols(options)
+
   if (selector) indent++
 
   // Apply fallbacks first.
@@ -38,8 +44,8 @@ export default function toCss(
         for (const prop in fallback) {
           const value = fallback[prop]
           if (value != null) {
-            if (result) result += '\n'
-            result += indentStr(`${prop}: ${toCssValue(value)};`, indent)
+            if (result) result += linebreak
+            result += indentStr(`${prop}:${space}${toCssValue(value)};`, indent)
           }
         }
       }
@@ -48,8 +54,8 @@ export default function toCss(
       for (const prop in fallbacks) {
         const value = fallbacks[prop]
         if (value != null) {
-          if (result) result += '\n'
-          result += indentStr(`${prop}: ${toCssValue(value)};`, indent)
+          if (result) result += linebreak
+          result += indentStr(`${prop}:${space}${toCssValue(value)};`, indent)
         }
       }
     }
@@ -58,8 +64,8 @@ export default function toCss(
   for (const prop in style) {
     const value = style[prop]
     if (value != null && prop !== 'fallbacks') {
-      if (result) result += '\n'
-      result += indentStr(`${prop}: ${toCssValue(value)};`, indent)
+      if (result) result += linebreak
+      result += indentStr(`${prop}:${space}${toCssValue(value)};`, indent)
     }
   }
 
@@ -71,7 +77,7 @@ export default function toCss(
 
   indent--
 
-  if (result) result = `\n${result}\n`
+  if (result) result = `${linebreak}${result}${linebreak}`
 
-  return indentStr(`${selector} {${result}`, indent) + indentStr('}', indent)
+  return indentStr(`${selector}${space}{${result}`, indent) + indentStr('}', indent)
 }
