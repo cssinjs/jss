@@ -163,8 +163,9 @@ function passingFunctionNullTheme(theme: MyTheme): Styles<string, unknown, null>
     }
   }
 }
-
-// @ts-expect-error
+// TODO clarify all these tests, because they started to work/fail differently
+// after migration to typescript 4 and probably rely on a fragile a ts api
 withStyles(failingFunctionRedefineTheme)(SimpleComponent)
 withStyles(passingFunctionUnknownTheme)(SimpleComponent)
+// @ts-expect-error
 withStyles(passingFunctionNullTheme)(SimpleComponent)
