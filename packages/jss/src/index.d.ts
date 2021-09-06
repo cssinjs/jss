@@ -1,4 +1,4 @@
-import {Properties as CSSProperties} from 'csstype'
+import {Properties as CSSProperties, PropertiesHyphen as CSSPropertiesHyphen} from 'csstype'
 
 // Observable support is included as a plugin.  Including it here allows
 // TypeScript users to use Observables, which could be confusing if a user
@@ -13,7 +13,7 @@ export interface MinimalObservable<T> {
 
 type Func<P, T, R> = T extends undefined ? ((data: P) => R) : ((data: P & {theme: T}) => R)
 
-type NormalCssProperties = CSSProperties<string | number>
+type NormalCssProperties = CSSProperties<string | number> & CSSPropertiesHyphen<string | number>
 type NormalCssValues<K> = K extends keyof NormalCssProperties ? NormalCssProperties[K] : JssValue
 
 export type JssStyle<Props = any, Theme = undefined> =
