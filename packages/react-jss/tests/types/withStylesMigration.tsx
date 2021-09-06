@@ -1,5 +1,36 @@
 import React from 'react'
-import withStyles, {Styles} from '../../src'
+import {createUseStyles, useTheme, Styles} from 'react-jss'
+
+/* -------------------- Defined HOC for Docs -------------------- */
+type ReactJSSProps = {classes?: ReturnType<ReturnType<typeof createUseStyles>>}
+
+/**
+ * Creates a Higher Order Component that injects the CSS specified in `styles`.
+ * @param styles
+ */
+function withStyles<C extends string, Pr extends ReactJSSProps, T>(
+  styles: Styles<C, Pr, T> | ((theme: T) => Styles<C, Pr>)
+) {
+  return function<P extends Pr, S>(WrappedComponent: React.ComponentClass<P, S>): React.FC<P> {
+    const useStyles = createUseStyles<C, P, T>(styles)
+
+    const StyledComponent: React.FC<P> = (props: P) => {
+      const {classes, ...passThroughProps} = props
+      const theme = useTheme<T>()
+      const reactJssClasses = useStyles({...(passThroughProps as P), theme})
+
+      return <WrappedComponent {...passThroughProps as P} classes={reactJssClasses} />
+    }
+
+    StyledComponent.displayName = `withStyles(${WrappedComponent.name})`
+
+    return StyledComponent
+  }
+}
+
+export default withStyles
+
+/* ------------------------------ Tests for HOC (should mimic withStyles.tsx tests) ------------------------------ */
 
 // Note: Styles type is thoroughly tested in `jss/tests/types/Styles` and `react-jss/tests/types/createUseStyles`.
 // This is simply a test to make sure `withStyles` accepts and rejects the correct arguments.
@@ -8,6 +39,7 @@ import withStyles, {Styles} from '../../src'
 // always have to specify the theme anyway.
 
 interface MyProps {
+  classes?: Record<string, string>
   property: string
 }
 
@@ -139,15 +171,6 @@ ComponentTest = () => <ResultingComponent property="" />
 /* -------------------- Failing Cases -------------------- */
 
 // A function argument cannot provide another defined theme type conflicting with `undefined`
-function failingFunctionNullTheme(theme: MyTheme): Styles<string, unknown, null> {
-  return {
-    someClassName: '',
-    anotherClassName: {
-      fontWeight: 'bold'
-    }
-  }
-}
-
 function passingFunctionAnyTheme(theme: MyTheme): Styles<string, unknown, any> {
   return {
     someClassName: '',
@@ -166,7 +189,35 @@ function passingFunctionUnknownTheme(theme: MyTheme): Styles<string, unknown, un
   }
 }
 
+function failingFunctionNullTheme(theme: MyTheme): Styles<string, unknown, null> {
+  return {
+    someClassName: '',
+    anotherClassName: {
+      fontWeight: 'bold'
+    }
+  }
+}
+
 // @ts-expect-error
 withStyles(failingFunctionNullTheme)(SimpleComponent)
 withStyles(passingFunctionAnyTheme)(SimpleComponent)
 withStyles(passingFunctionUnknownTheme)(SimpleComponent)
+
+// A functional component cannot be passed to the HOC
+const SimpleFunctionComponent: React.FC = () => <div>This should fail</div>
+
+// @ts-expect-error
+withStyles({})(SimpleFunctionComponent)
+
+// Conflicting props are not allowed
+interface ConflictingProps {
+  classes?: Record<string, string>
+  invalidProp: number
+}
+
+const conflictingStyles: Styles<string, ConflictingProps> = {
+  someClassName: props => ({fontSize: props.invalidProp})
+}
+
+// @ts-expect-error
+withStyles(conflictingStyles)(SimpleComponent)
