@@ -1,5 +1,5 @@
 import warning from 'tiny-warning'
-import {getModuleId} from './moduleId'
+import moduleId from './moduleId'
 
 const maxRules = 1e10
 
@@ -12,7 +12,6 @@ const createGenerateId = (options = {}) => {
   let ruleCounter = 0
 
   const generateId = (rule, sheet) => {
-    const moduleId = getModuleId()
     ruleCounter += 1
 
     if (ruleCounter > maxRules) {
@@ -33,10 +32,10 @@ const createGenerateId = (options = {}) => {
 
     if (options.minify) {
       // Using "c" because a number can't be the first char in a class name.
-      return `${prefix || 'c'}${moduleId}${jssId}${ruleCounter}`
+      return `${prefix || 'c'}${moduleId.id}${jssId}${ruleCounter}`
     }
 
-    return `${prefix + rule.key}-${moduleId}${jssId ? `-${jssId}` : ''}-${ruleCounter}`
+    return `${prefix + rule.key}-${moduleId.id}${jssId ? `-${jssId}` : ''}-${ruleCounter}`
   }
 
   return generateId

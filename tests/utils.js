@@ -1,8 +1,8 @@
 import {sheets as defaultSheets} from 'jss'
-import {setVersion} from '../packages/jss/src/utils/moduleId'
+import moduleId from '../packages/jss/src/utils/moduleId'
 
 export function resetModuleId() {
-  setVersion(0)
+  moduleId.id = 0
 }
 
 export function resetSheets(sheets = defaultSheets) {

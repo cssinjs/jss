@@ -1,15 +1,11 @@
-import globalThis from './globalThis'
-
-const ns = '2f1acc6c3a606b082e5eef5e54414ffb'
-if (globalThis[ns] == null) globalThis[ns] = 0
-
 // Bundle may contain multiple JSS versions at the same time. In order to identify
 // the current version with just one short number and use it for classes generation
 // we use a counter. Also it is more accurate, because user can manually reevaluate
 // the module.
 
-export const setVersion = version => {
-  globalThis[ns] = version
-}
+import globalThis from './globalThis'
 
-export const getModuleId = () => globalThis[ns]++
+const ns = '2f1acc6c3a606b082e5eef5e54414ffb'
+if (globalThis[ns] == null) globalThis[ns] = 0
+
+export default {id: globalThis[ns]}
