@@ -1,13 +1,13 @@
 import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
-import {create, SheetsRegistry} from '../../src'
+import {create, SheetsRegistry, sheets as globalSheets} from '../../src'
 import {resetSheets, createGenerateId} from '../../../../tests/utils'
 
 describe('Integration: sheetsRegistry', () => {
   let jss
   let sheets
 
-  beforeEach(resetSheets())
+  beforeEach(resetSheets(globalSheets))
 
   beforeEach(() => {
     jss = create({createGenerateId})

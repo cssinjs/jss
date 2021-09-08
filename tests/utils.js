@@ -1,4 +1,4 @@
-import {sheets as defaultSheets} from '../packages/jss/src'
+import {sheets as defaultSheets} from 'jss'
 import {setVersion} from '../packages/jss/src/utils/moduleId'
 
 export function resetModuleId() {
@@ -7,6 +7,7 @@ export function resetModuleId() {
 
 export function resetSheets(sheets = defaultSheets) {
   return () => {
+    sheets.registry.forEach(sheet => sheet.detach())
     sheets.reset()
 
     const styles = document.head.querySelectorAll('[data-jss]')

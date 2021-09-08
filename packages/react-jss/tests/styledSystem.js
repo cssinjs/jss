@@ -7,6 +7,7 @@ import {stripIndent} from 'common-tags'
 import {space, width, color, fontSize, fontWeight, lineHeight, compose} from 'styled-system'
 
 import {withStyles, styled, SheetsRegistry, JssProvider, ThemeProvider} from '../src'
+import {resetSheets} from '../../../tests/utils'
 
 const createGenerateId = () => {
   let counter = 0
@@ -33,6 +34,8 @@ const theme = {
 }
 
 describe('React-JSS: styled-system', () => {
+  beforeEach(resetSheets())
+
   it('should reder basic spacing', () => {
     const registry = new SheetsRegistry()
     const Div = styled('div')(space)
@@ -58,16 +61,7 @@ describe('React-JSS: styled-system', () => {
 
   it('should render a number of composed style rules with styled API', () => {
     const registry = new SheetsRegistry()
-    const Div = styled('div')(
-      compose(
-        space,
-        color,
-        fontSize,
-        width,
-        fontWeight,
-        lineHeight
-      )
-    )
+    const Div = styled('div')(compose(space, color, fontSize, width, fontWeight, lineHeight))
     const renderer = TestRenderer.create(
       <JssProvider registry={registry} generateId={createGenerateId()}>
         <ThemeProvider theme={theme}>
@@ -118,14 +112,7 @@ describe('React-JSS: styled-system', () => {
   it('should render a number of composed style rules with withStyles API', () => {
     const registry = new SheetsRegistry()
     const styles = {
-      css: compose(
-        space,
-        color,
-        fontSize,
-        width,
-        fontWeight,
-        lineHeight
-      )
+      css: compose(space, color, fontSize, width, fontWeight, lineHeight)
     }
 
     const MyComponent = ({classes}) => <div className={classes.css} />

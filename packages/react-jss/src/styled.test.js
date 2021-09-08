@@ -4,6 +4,7 @@ import * as React from 'react'
 import TestRenderer from 'react-test-renderer'
 import {stripIndent} from 'common-tags'
 import {styled, SheetsRegistry, JssProvider, ThemeProvider} from '.'
+import {resetSheets} from '../../../tests/utils'
 
 const createGenerateId = () => {
   let counter = 0
@@ -23,6 +24,8 @@ const renderToJSON = children => {
 }
 
 describe('React-JSS: styled', () => {
+  beforeEach(resetSheets())
+
   it('should render static styles', () => {
     const Div = styled('div')({color: 'red'})
     const {css, tree} = renderToJSON(<Div />)
@@ -125,7 +128,10 @@ describe('React-JSS: styled', () => {
   })
 
   it('should accept multiple dynamic style rules', () => {
-    const Div = styled('div')(props => ({width: props.width}), props => ({height: props.height}))
+    const Div = styled('div')(
+      props => ({width: props.width}),
+      props => ({height: props.height})
+    )
     const {css, tree} = renderToJSON(<Div width={10} height={10} />)
     expect(css).to.be(stripIndent`
       .scd-0 {}
@@ -146,7 +152,12 @@ describe('React-JSS: styled', () => {
   })
 
   it('should filter empty values returned from dynamic rules', () => {
-    const Div = styled('div')(() => null, () => '', () => undefined, {color: 'red'})
+    const Div = styled('div')(
+      () => null,
+      () => '',
+      () => undefined,
+      {color: 'red'}
+    )
     const {css, tree} = renderToJSON(<Div />)
     expect(css).to.be(stripIndent`
       .sc-0 {

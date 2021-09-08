@@ -2,7 +2,7 @@
 
 import expect from 'expect.js'
 import sinon from 'sinon'
-import {create} from '../../src'
+import {create, sheets} from '../../src'
 import {resetSheets, computeStyle} from '../../../../tests/utils'
 
 describe('Functional: dom priority', () => {
@@ -16,7 +16,7 @@ describe('Functional: dom priority', () => {
     }
   }
 
-  beforeEach(resetSheets())
+  beforeEach(resetSheets(sheets))
 
   describe('enssure index and source order specificity', () => {
     let jss

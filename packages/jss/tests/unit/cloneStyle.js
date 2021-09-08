@@ -1,10 +1,7 @@
 import expect from 'expect.js'
 import cloneStyle from '../../src/utils/cloneStyle'
-import {resetSheets} from '../../../../tests/utils'
 
 describe('Unit: jss - cloneStyle', () => {
-  beforeEach(resetSheets())
-
   it('should return a cloned object', () => {
     const style = {color: 'red'}
     const clonedStyle = cloneStyle(style)

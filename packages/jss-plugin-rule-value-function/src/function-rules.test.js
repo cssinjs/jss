@@ -3,11 +3,14 @@ import {stripIndent} from 'common-tags'
 import {create} from 'jss'
 import sinon from 'sinon'
 import functionPlugin from '.'
+import {resetSheets} from '../../../tests/utils'
 
 const settings = {createGenerateId: () => rule => `${rule.key}-id`}
 
 describe('jss-plugin-rule-value-function: Function rules', () => {
   let jss
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     jss = create(settings).use(functionPlugin())

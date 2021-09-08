@@ -3,10 +3,13 @@
 import expect from 'expect.js'
 import * as React from 'react'
 import TestRenderer from 'react-test-renderer'
+import {resetSheets} from '../../../tests/utils'
 
 import injectSheet, {createTheming, ThemeProvider, JssProvider, SheetsRegistry} from '../src'
 
 describe('React-JSS: theming withStyles()', () => {
+  beforeEach(resetSheets())
+
   const themedStaticStyles = theme => ({
     rule: {
       color: theme.color

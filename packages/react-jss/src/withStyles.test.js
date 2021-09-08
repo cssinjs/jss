@@ -7,6 +7,7 @@ import TestRenderer from 'react-test-renderer'
 
 import {withStyles, JssProvider} from '.'
 import createCommonBaseTests from '../test-utils/createCommonBaseTests'
+import {resetSheets} from '../../../tests/utils'
 
 const createGenerateId = () => {
   let counter = 0
@@ -20,6 +21,8 @@ const createStyledComponent = (styles, options = {}) => {
 }
 
 describe('React-JSS: withStyles', () => {
+  beforeEach(resetSheets())
+
   createCommonBaseTests({createStyledComponent})
 
   describe('should merge the classes', () => {

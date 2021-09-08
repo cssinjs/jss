@@ -3,9 +3,12 @@ import {create, sheets} from 'jss'
 
 import nested from 'jss-plugin-nested'
 import isolate from '.'
+import {resetSheets} from '../../../tests/utils'
 
 describe('jss-plugin-isolate', () => {
   let jss
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     jss = create().use(isolate())

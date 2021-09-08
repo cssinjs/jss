@@ -1,9 +1,9 @@
 import expect from 'expect.js'
-import jss from '../../src'
+import jss, {sheets} from '../../src'
 import {resetSheets} from '../../../../tests/utils'
 
 describe('Functional: rules', () => {
-  beforeEach(resetSheets())
+  beforeEach(resetSheets(sheets))
 
   describe('rule.applyTo()', () => {
     it('should apply float: left', () => {

@@ -1,5 +1,6 @@
 import expect from 'expect.js'
 import {create} from 'jss'
+import {resetSheets} from '../../../tests/utils'
 
 import propsSort from './index'
 
@@ -9,6 +10,8 @@ const settings = {
 
 describe('jss-plugin-props-sort', () => {
   let jss
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     jss = create(settings).use(propsSort())

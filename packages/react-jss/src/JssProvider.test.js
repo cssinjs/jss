@@ -8,6 +8,7 @@ import TestRenderer from 'react-test-renderer'
 import preset from 'jss-preset-default'
 
 import {SheetsRegistry, JssProvider, withStyles} from '.'
+import {resetSheets} from '../../../tests/utils'
 
 const createGenerateId = () => {
   let counter = 0
@@ -16,7 +17,7 @@ const createGenerateId = () => {
 
 describe('React-JSS: JssProvider', () => {
   let registry
-
+  beforeEach(resetSheets())
   beforeEach(() => {
     registry = new SheetsRegistry()
   })

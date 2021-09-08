@@ -2,6 +2,7 @@ import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import {create} from 'jss'
 import functionPlugin from 'jss-plugin-rule-value-function'
+import {resetSheets} from '../../../tests/utils'
 
 import camelCase from './index'
 
@@ -13,6 +14,7 @@ describe('jss-plugin-camel-case', () => {
   let jss
 
   beforeEach(() => {
+    resetSheets()
     jss = create(settings).use(camelCase())
   })
 

@@ -6,6 +6,7 @@ import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import createCommonBaseTests from '../test-utils/createCommonBaseTests'
 import {createUseStyles, JssProvider, SheetsRegistry} from '.'
+import {resetSheets} from '../../../tests/utils'
 
 const createStyledComponent = (styles, options) => {
   const useStyles = createUseStyles(styles, options)
@@ -17,6 +18,7 @@ const createStyledComponent = (styles, options) => {
 }
 
 describe('React-JSS: createUseStyles', () => {
+  beforeEach(resetSheets())
   createCommonBaseTests({createStyledComponent})
 
   describe('theme prop', () => {

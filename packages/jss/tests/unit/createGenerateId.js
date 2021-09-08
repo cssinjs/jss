@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
 import expect from 'expect.js'
-import {createGenerateId} from '../../src'
+import {createGenerateId, sheets} from '../../src'
 import {resetSheets, resetModuleId} from '../../../../tests/utils'
 
 const sheetMock = {
@@ -12,8 +12,9 @@ const sheetMock = {
 }
 
 describe('Unit: jss - createGenerateId', () => {
+  beforeEach(resetSheets(sheets))
+
   beforeEach(() => {
-    resetSheets()
     resetModuleId()
   })
 

@@ -9,7 +9,7 @@ import {resetSheets} from '../../../../tests/utils'
 describe('Unit: jss', () => {
   let jss
 
-  beforeEach(resetSheets())
+  beforeEach(resetSheets(sheets))
 
   beforeEach(() => {
     jss = new Jss()

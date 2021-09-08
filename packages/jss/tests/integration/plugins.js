@@ -1,14 +1,14 @@
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import sinon from 'sinon'
-import {create} from '../../src'
+import {create, sheets} from '../../src'
 import StyleSheet from '../../src/StyleSheet'
 import {resetSheets, createGenerateId} from '../../../../tests/utils'
 
 describe('Integration: plugins', () => {
   let jss
 
-  beforeEach(resetSheets())
+  beforeEach(resetSheets(sheets))
 
   beforeEach(() => {
     jss = create({createGenerateId})

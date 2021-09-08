@@ -1,9 +1,13 @@
 /* eslint-disable react/prop-types */
 
+import {resetSheets} from '../../../tests/utils'
 import {createUseStyles, withStyles} from '../src'
 import createCommonDynamicStylesTests from '../test-utils/createCommonDynamicStylesTests'
 
 describe('React-JSS: dynamic styles', () => {
+  beforeEach(() => {
+    resetSheets()
+  })
   describe('using createUseStyles', () => {
     const createStyledComponent = (styles, options = {}) => {
       const useStyles = createUseStyles(styles, options)

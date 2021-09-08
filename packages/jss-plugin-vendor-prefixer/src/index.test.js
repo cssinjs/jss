@@ -6,6 +6,7 @@ import {stripIndent} from 'common-tags'
 import functionPlugin from 'jss-plugin-rule-value-function'
 
 import vendorPrefixer from './index'
+import {resetSheets} from '../../../tests/utils'
 
 const settings = {
   createGenerateId: () => rule => `${rule.key}-id`
@@ -16,6 +17,8 @@ const isIEorEdge = browser.name === 'edge' || browser.name === 'ie'
 
 describe('jss-plugin-vendor-prefixer', () => {
   let jss
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     jss = create(settings).use(vendorPrefixer())

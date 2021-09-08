@@ -4,7 +4,7 @@ import TestRenderer from 'react-test-renderer'
 import {create as createJss} from 'jss'
 import {create as createCss} from 'css-jss'
 import {create as createJsx} from './jsx'
-import {createGenerateId} from '../../../tests/utils'
+import {createGenerateId, resetSheets} from '../../../tests/utils'
 
 let currJsx
 
@@ -12,6 +12,7 @@ const jsx = (...args) => currJsx(...args)
 
 describe('React-JSS: jsx', () => {
   beforeEach(() => {
+    resetSheets()
     const jss = createJss({createGenerateId})
     const css = createCss(jss)
     currJsx = createJsx(css)

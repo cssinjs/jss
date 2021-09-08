@@ -6,11 +6,14 @@ import {create} from 'jss'
 import pluginDefaultUnit from 'jss-plugin-default-unit'
 import pluginCamelCase from 'jss-plugin-camel-case'
 import pluginObservable from '.'
+import {resetSheets} from '../../../tests/utils'
 
 const settings = {createGenerateId: () => rule => `${rule.key}-id`}
 
 describe('jss-plugin-rule-value-observable: rules', () => {
   let jss
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     jss = create(settings).use(pluginObservable())

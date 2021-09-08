@@ -3,6 +3,7 @@
 import expect from 'expect.js'
 import {create} from 'jss'
 import sinon from 'sinon'
+import {resetSheets} from '../../../tests/utils'
 import compose from '.'
 
 const settings = {createGenerateId: () => rule => `${rule.key}-id`}
@@ -10,6 +11,8 @@ const settings = {createGenerateId: () => rule => `${rule.key}-id`}
 describe('jss-plugin-compose', () => {
   let jss
   let spy
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     spy = sinon.spy(console, 'warn')
