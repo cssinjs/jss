@@ -4,6 +4,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ### Improvements
 
+- [all] Support exports-maps for consistent behaviour of esm imports in node and browser [1552](https://github.com/cssinjs/jss/pull/1552)
+
 - [jss] New option to remove whitespaces. Useful for SSR [1549](https://github.com/cssinjs/jss/pull/1549)
 
 - [all] Flow types are now moved from .js files to .flow type defs [1509](https://github.com/cssinjs/jss/pull/1509)
