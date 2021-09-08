@@ -6,9 +6,10 @@
   ],
   "scripts": {
     "build": "lerna run build",
-    "check:all": "yarn check:flow && yarn check:ts && yarn check:snapshots && yarn check:lint",
+    "check:all": "yarn check:types && yarn check:snapshots && yarn check:lint",
     "check:flow": "flow check --max-warnings=0",
     "check:ts": "tsc",
+    "check:types": "yarn check:flow && yarn check:ts",
     "check:snapshots": "lerna run check-snapshot",
     "check:lint": "eslint scripts/ packages/ docs/ --ext js,flow,md",
     "format": "prettier \"*.{js,md,json,ts}\" \"{docs,packages,scripts}/**/*.{js,md,json,ts}\" --write",
