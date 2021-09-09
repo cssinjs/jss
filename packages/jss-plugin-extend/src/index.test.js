@@ -19,8 +19,9 @@ describe('jss-plugin-extend', () => {
   let spy
   let jss
 
+  beforeEach(resetSheets())
+
   beforeEach(() => {
-    resetSheets()
     spy = sinon.spy(console, 'warn')
     jss = create(settings).use(functionPlugin(), extend(), nested(), expand())
   })

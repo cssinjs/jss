@@ -5,9 +5,8 @@ import {createUseStyles, withStyles} from '../src'
 import createCommonDynamicStylesTests from '../test-utils/createCommonDynamicStylesTests'
 
 describe('React-JSS: dynamic styles', () => {
-  beforeEach(() => {
-    resetSheets()
-  })
+  beforeEach(resetSheets())
+
   describe('using createUseStyles', () => {
     const createStyledComponent = (styles, options = {}) => {
       const useStyles = createUseStyles(styles, options)

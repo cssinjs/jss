@@ -13,8 +13,9 @@ const settings = {
 describe('jss-plugin-camel-case', () => {
   let jss
 
+  beforeEach(resetSheets())
+
   beforeEach(() => {
-    resetSheets()
     jss = create(settings).use(camelCase())
   })
 

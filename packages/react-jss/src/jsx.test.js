@@ -11,8 +11,9 @@ let currJsx
 const jsx = (...args) => currJsx(...args)
 
 describe('React-JSS: jsx', () => {
+  beforeEach(resetSheets())
+
   beforeEach(() => {
-    resetSheets()
     const jss = createJss({createGenerateId})
     const css = createCss(jss)
     currJsx = createJsx(css)

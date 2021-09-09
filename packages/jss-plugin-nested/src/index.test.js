@@ -17,8 +17,9 @@ describe('jss-plugin-nested', () => {
   let jss
   let spy
 
+  beforeEach(resetSheets())
+
   beforeEach(() => {
-    resetSheets()
     spy = sinon.spy(console, 'warn')
     jss = create(settings).use(nested())
   })
