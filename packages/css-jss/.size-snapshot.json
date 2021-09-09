@@ -1,20 +1,20 @@
 {
   "css-jss.js": {
-    "bundled": 59688,
-    "minified": 21828,
-    "gzipped": 7357
+    "bundled": 59642,
+    "minified": 21847,
+    "gzipped": 7367
   },
   "css-jss.min.js": {
-    "bundled": 58613,
-    "minified": 21205,
-    "gzipped": 7078
+    "bundled": 58579,
+    "minified": 21224,
+    "gzipped": 7091
   },
   "css-jss.cjs.js": {
     "bundled": 2949,
     "minified": 1189,
     "gzipped": 667
   },
-  "css-jss.esm.js": {
+  "css-jss.esm.mjs": {
     "bundled": 2665,
     "minified": 967,
     "gzipped": 576,

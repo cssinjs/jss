@@ -32,10 +32,10 @@ const createGenerateId = (options = {}) => {
 
     if (options.minify) {
       // Using "c" because a number can't be the first char in a class name.
-      return `${prefix || 'c'}${moduleId}${jssId}${ruleCounter}`
+      return `${prefix || 'c'}${moduleId.id}${jssId}${ruleCounter}`
     }
 
-    return `${prefix + rule.key}-${moduleId}${jssId ? `-${jssId}` : ''}-${ruleCounter}`
+    return `${prefix + rule.key}-${moduleId.id}${jssId ? `-${jssId}` : ''}-${ruleCounter}`
   }
 
   return generateId

@@ -5,11 +5,14 @@ import {create} from 'jss'
 
 import pluginDefaultUnit from 'jss-plugin-default-unit'
 import pluginObservable from '.'
+import {resetSheets} from '../../../tests/utils'
 
 const settings = {createGenerateId: () => rule => `${rule.key}-id`}
 
 describe('jss-plugin-rule-value-observable: values', () => {
   let jss
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     jss = create(settings).use(pluginObservable(), pluginDefaultUnit())

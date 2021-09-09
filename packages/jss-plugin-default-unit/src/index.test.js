@@ -5,7 +5,7 @@ import {stripIndent} from 'common-tags'
 import Observable from 'zen-observable'
 import observablePlugin from 'jss-plugin-rule-value-observable'
 import functionPlugin from 'jss-plugin-rule-value-function'
-
+import {resetSheets} from '../../../tests/utils'
 import defaultUnit from './index'
 
 const settings = {
@@ -14,6 +14,8 @@ const settings = {
 
 describe('jss-plugin-default-unit', () => {
   let jss
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     jss = create(settings).use(defaultUnit({'min-width': 'pc', 'max-width': val => `${val / 2}px`}))

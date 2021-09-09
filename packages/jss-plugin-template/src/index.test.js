@@ -5,6 +5,7 @@ import {stripIndent} from 'common-tags'
 import {create} from 'jss'
 import sinon from 'sinon'
 import template from '.'
+import {resetSheets} from '../../../tests/utils'
 
 const settings = {
   createGenerateId: () => rule => `${rule.key}-id`
@@ -13,6 +14,8 @@ const settings = {
 describe('jss-plugin-template', () => {
   let spy
   let jss
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     spy = sinon.spy(console, 'warn')

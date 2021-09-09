@@ -3,6 +3,7 @@
 import expect from 'expect.js'
 import * as React from 'react'
 import TestRenderer from 'react-test-renderer'
+import {resetSheets} from '../../../tests/utils'
 
 import {
   createUseStyles,
@@ -27,6 +28,8 @@ const createStyledComponent = (styles, options = {}) => {
 }
 
 describe('React-JSS: theming useStyles()', () => {
+  beforeEach(resetSheets())
+
   const themedStaticStyles = theme => ({
     rule: {
       color: theme.color

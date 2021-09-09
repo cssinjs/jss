@@ -5,8 +5,14 @@
   "license": "MIT",
   "homepage": "https://cssinjs.org/",
   "main": "dist/jss-plugin-rule-value-observable.cjs.js",
-  "module": "dist/jss-plugin-rule-value-observable.esm.js",
+  "module": "dist/jss-plugin-rule-value-observable.esm.mjs",
   "unpkg": "dist/jss-plugin-rule-value-observable.bundle.js",
+  "exports": {
+    ".": {
+      "require": "./dist/jss-plugin-rule-value-observable.cjs.js",
+      "import": "./dist/jss-plugin-rule-value-observable.esm.mjs"
+    }
+  },
   "sideEffects": false,
   "typings": "./src/index.d.ts",
   "author": "JSS Team",
@@ -41,7 +47,7 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "dependencies": {
-    "@babel/runtime": "^7.3.1",
+    "@babel/runtime": "^7.12.0",
     "jss": "10.7.1",
     "symbol-observable": "^1.2.0"
   }

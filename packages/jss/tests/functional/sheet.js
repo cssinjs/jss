@@ -4,7 +4,7 @@ import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
 import sinon from 'sinon'
 
-import {create} from '../../src'
+import {create, sheets} from '../../src'
 import {
   resetSheets,
   createGenerateId,
@@ -24,7 +24,7 @@ describe('Functional: sheet', () => {
   let jss
   let spy
 
-  beforeEach(resetSheets())
+  beforeEach(resetSheets(sheets))
 
   beforeEach(() => {
     spy = sinon.spy(console, 'warn')

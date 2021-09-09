@@ -3,11 +3,14 @@ import {stripIndent} from 'common-tags'
 import {create} from 'jss'
 import pluginGlobal from 'jss-plugin-global'
 import pluginFunction from '.'
+import {resetSheets} from '../../../tests/utils'
 
 const settings = {createGenerateId: () => rule => `${rule.key}-id`}
 
 describe('jss-plugin-rule-value-function: plugin-global', () => {
   let jss
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     jss = create(settings).use(pluginGlobal(), pluginFunction())

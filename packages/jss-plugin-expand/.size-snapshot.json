@@ -1,21 +1,21 @@
 {
   "jss-plugin-expand.js": {
-    "bundled": 10520,
+    "bundled": 10498,
     "minified": 4546,
     "gzipped": 1528
   },
   "jss-plugin-expand.min.js": {
-    "bundled": 10520,
+    "bundled": 10498,
     "minified": 4546,
     "gzipped": 1528
   },
   "jss-plugin-expand.cjs.js": {
-    "bundled": 9489,
+    "bundled": 9467,
     "minified": 4669,
     "gzipped": 1510
   },
-  "jss-plugin-expand.esm.js": {
-    "bundled": 9407,
+  "jss-plugin-expand.esm.mjs": {
+    "bundled": 9385,
     "minified": 4600,
     "gzipped": 1465,
     "treeshaked": {

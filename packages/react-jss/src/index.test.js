@@ -11,8 +11,11 @@ import {
   createUseStyles,
   useTheme
 } from '.'
+import {resetSheets} from '../../../tests/utils'
 
 describe('React-JSS: exports', () => {
+  beforeEach(resetSheets())
+
   it('should export withStyles', () => {
     expect(withStyles).to.be.a(Function)
   })

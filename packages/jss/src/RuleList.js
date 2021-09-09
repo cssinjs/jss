@@ -1,5 +1,4 @@
 import createRule from './utils/createRule'
-import {StyleRule, KeyframesRule} from './plugins/index'
 import escape from './utils/escape'
 import getWhitespaceSymbols from './utils/getWhitespaceSymbols'
 
@@ -123,10 +122,10 @@ export default class RuleList {
    */
   register(rule) {
     this.map[rule.key] = rule
-    if (rule instanceof StyleRule) {
+    if (rule.type === 'style') {
       this.map[rule.selector] = rule
       if (rule.id) this.classes[rule.key] = rule.id
-    } else if (rule instanceof KeyframesRule && this.keyframes) {
+    } else if (rule.type === 'keyframes' && this.keyframes) {
       this.keyframes[rule.name] = rule.id
     }
   }
@@ -136,10 +135,10 @@ export default class RuleList {
    */
   unregister(rule) {
     delete this.map[rule.key]
-    if (rule instanceof StyleRule) {
+    if (rule.type === 'style') {
       delete this.map[rule.selector]
       delete this.classes[rule.key]
-    } else if (rule instanceof KeyframesRule) {
+    } else if (rule.type === 'keyframes') {
       delete this.keyframes[rule.name]
     }
   }

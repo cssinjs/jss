@@ -1,12 +1,12 @@
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
-import {create, hasCSSTOMSupport} from '../../src'
+import {create, hasCSSTOMSupport, sheets} from '../../src'
 import {resetSheets, createGenerateId} from '../../../../tests/utils'
 
 describe('Integration: houdini', () => {
   if (!hasCSSTOMSupport) return
 
-  beforeEach(resetSheets())
+  beforeEach(resetSheets(sheets))
 
   let jss
 

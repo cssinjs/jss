@@ -8,6 +8,7 @@ import sinon from 'sinon'
 import functionPlugin from 'jss-plugin-rule-value-function'
 import {create} from 'jss'
 
+import {resetSheets} from '../../../tests/utils'
 import extend from './index'
 
 const settings = {
@@ -17,6 +18,8 @@ const settings = {
 describe('jss-plugin-extend', () => {
   let spy
   let jss
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     spy = sinon.spy(console, 'warn')

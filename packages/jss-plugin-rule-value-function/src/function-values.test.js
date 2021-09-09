@@ -5,11 +5,14 @@ import expect from 'expect.js'
 
 import {create} from 'jss'
 import functionPlugin from '.'
+import {resetSheets} from '../../../tests/utils'
 
 const settings = {createGenerateId: () => rule => `${rule.key}-id`}
 
 describe('jss-plugin-rule-value-function: Function values', () => {
   let jss
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     jss = create(settings).use(functionPlugin())

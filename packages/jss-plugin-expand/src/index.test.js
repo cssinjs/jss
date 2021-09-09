@@ -2,7 +2,7 @@ import expect from 'expect.js'
 import Observable from 'zen-observable'
 import {create} from 'jss'
 import observablePlugin from 'jss-plugin-rule-value-observable'
-
+import {resetSheets} from '../../../tests/utils'
 import expand from '.'
 
 const settings = {
@@ -11,6 +11,8 @@ const settings = {
 
 describe('jss-plugin-expand', () => {
   let jss
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     jss = create(settings).use(expand())
@@ -50,7 +52,10 @@ describe('jss-plugin-expand', () => {
     beforeEach(() => {
       sheet = jss.createStyleSheet({
         a: {
-          transition: [['opacity', 1, 'linear'], ['transform', 300, 'ease']]
+          transition: [
+            ['opacity', 1, 'linear'],
+            ['transform', 300, 'ease']
+          ]
         }
       })
     })

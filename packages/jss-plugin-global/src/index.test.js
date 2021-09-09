@@ -3,6 +3,7 @@ import expect from 'expect.js'
 import {create} from 'jss'
 import nested from 'jss-plugin-nested'
 
+import {resetSheets} from '../../../tests/utils'
 import global from './index'
 
 const settings = {
@@ -11,6 +12,8 @@ const settings = {
 
 describe('jss-plugin-global', () => {
   let jss
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     jss = create(settings).use(global())

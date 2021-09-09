@@ -3,11 +3,13 @@ import {stripIndent} from 'common-tags'
 import {create} from 'jss'
 import pluginNested from '../../jss-plugin-nested'
 import pluginFunction from '.'
+import {resetSheets} from '../../../tests/utils'
 
 const settings = {createGenerateId: () => rule => `${rule.key}-id`}
 
 describe('jss-plugin-rule-value-function: plugin-nested', () => {
   let jss
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     jss = create(settings).use(pluginNested(), pluginFunction())

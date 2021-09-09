@@ -6,6 +6,7 @@ import jssExtend from 'jss-plugin-extend'
 import {create} from 'jss'
 import sinon from 'sinon'
 import functionPlugin from 'jss-plugin-rule-value-function'
+import {resetSheets} from '../../../tests/utils'
 import nested from '.'
 
 const settings = {
@@ -15,6 +16,8 @@ const settings = {
 describe('jss-plugin-nested', () => {
   let jss
   let spy
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     spy = sinon.spy(console, 'warn')

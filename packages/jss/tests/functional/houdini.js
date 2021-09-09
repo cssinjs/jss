@@ -1,11 +1,11 @@
 import expect from 'expect.js'
-import {create, hasCSSTOMSupport} from '../../src'
+import {create, sheets, hasCSSTOMSupport} from '../../src'
 import {resetSheets, createGenerateId, computeStyle} from '../../../../tests/utils'
 
 describe('Functional: houdini', () => {
   if (!hasCSSTOMSupport) return
 
-  beforeEach(resetSheets())
+  beforeEach(resetSheets(sheets))
 
   let jss
 

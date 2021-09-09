@@ -2,11 +2,14 @@
 
 import expect from 'expect.js'
 import {create} from 'jss'
+import {resetSheets} from '../../../tests/utils'
 
 import cache from './index'
 
 describe('jss-plugin-cache', () => {
   let jss
+
+  beforeEach(resetSheets())
 
   beforeEach(() => {
     jss = create().use(cache())

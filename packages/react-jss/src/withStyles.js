@@ -22,9 +22,8 @@ const createWithStyles = (styles, options = {}) => {
   return (InnerComponent = NoRenderer) => {
     const displayName = getDisplayName(InnerComponent)
 
-    const mergeClassesProp = memoize(
-      (sheetClasses, classesProp) =>
-        classesProp ? mergeClasses(sheetClasses, classesProp) : sheetClasses
+    const mergeClassesProp = memoize((sheetClasses, classesProp) =>
+      classesProp ? mergeClasses(sheetClasses, classesProp) : sheetClasses
     )
 
     const hookOptions = Object.assign(sheetOptions, {
@@ -46,7 +45,7 @@ const createWithStyles = (styles, options = {}) => {
 
       const sheetClasses = useStyles(newProps)
 
-      const classes = mergeClassesProp(sheetClasses, props.classes)
+      const classes = mergeClassesProp(sheetClasses, newProps.classes)
 
       return <InnerComponent {...newProps} classes={classes} ref={ref} />
     })

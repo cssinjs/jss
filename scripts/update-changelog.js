@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const log = require('npmlog/log')
 
-const lerna = require('../lerna')
+const lerna = require('../lerna.json')
 const {CHANGELOG_FILENAME} = require('./constants')
 
 const changelogPath = path.join(process.cwd(), CHANGELOG_FILENAME)

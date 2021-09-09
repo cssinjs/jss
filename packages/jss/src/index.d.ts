@@ -11,7 +11,7 @@ export interface MinimalObservable<T> {
   ): {unsubscribe: () => void}
 }
 
-type Func<P, T, R> = T extends undefined ? ((data: P) => R) : ((data: P & {theme: T}) => R)
+type Func<P, T, R> = T extends undefined ? (data: P) => R : (data: P & {theme: T}) => R
 
 type NormalCssProperties = CSSProperties<string | number>
 type NormalCssValues<K> = K extends keyof NormalCssProperties ? NormalCssProperties[K] : JssValue
