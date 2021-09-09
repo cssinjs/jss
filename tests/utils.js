@@ -7,7 +7,6 @@ export function resetModuleId() {
 
 export function resetSheets(sheets = defaultSheets) {
   return () => {
-    sheets.registry.forEach(sheet => sheet.detach())
     sheets.reset()
 
     const styles = document.head.querySelectorAll('[data-jss]')
