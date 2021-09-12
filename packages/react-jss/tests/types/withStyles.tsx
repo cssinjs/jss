@@ -136,8 +136,7 @@ ComponentTest = () => <ResultingComponent property="" />
 
 /* -------------------- Failing Cases -------------------- */
 
-// A function argument cannot provide another defined theme type conflicting with `undefined`
-function failingFunctionRedefineTheme(theme: MyTheme): Styles<string, unknown, any> {
+function failingFunctionWrongTheme(theme: MyTheme): Styles<string, unknown, MyTheme> {
   return {
     someClassName: '',
     anotherClassName: {
@@ -146,7 +145,7 @@ function failingFunctionRedefineTheme(theme: MyTheme): Styles<string, unknown, a
   }
 }
 
-function passingFunctionUnknownTheme(theme: MyTheme): Styles<string, unknown, unknown> {
+function failingFunctionNullTheme(theme: MyTheme): Styles<string, unknown, null> {
   return {
     someClassName: '',
     anotherClassName: {
@@ -155,17 +154,7 @@ function passingFunctionUnknownTheme(theme: MyTheme): Styles<string, unknown, un
   }
 }
 
-function passingFunctionNullTheme(theme: MyTheme): Styles<string, unknown, null> {
-  return {
-    someClassName: '',
-    anotherClassName: {
-      fontWeight: 'bold'
-    }
-  }
-}
-// TODO clarify all these tests, because they started to work/fail differently
-// after migration to typescript 4 and probably rely on a fragile a ts api
-withStyles(failingFunctionRedefineTheme)(SimpleComponent)
-withStyles(passingFunctionUnknownTheme)(SimpleComponent)
-// @ts-expect-error
-withStyles(passingFunctionNullTheme)(SimpleComponent)
+// @ts-expect-error - can't use a wrong theme
+withStyles(failingFunctionWrongTheme)(SimpleComponent)
+// @ts-expect-error - can't use null as a theme
+withStyles(failingFunctionNullTheme)(SimpleComponent)
