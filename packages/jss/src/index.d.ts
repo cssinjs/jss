@@ -6,44 +6,45 @@ import {Properties as CSSProperties, PropertiesHyphen as CSSPropertiesHyphen} fr
 //
 // TODO: refactor to only include Observable types if plugin is installed.
 export interface MinimalObservable<T> {
-  subscribe(
-    nextOrObserver: ((value: T) => void) | {next: (value: T) => void}
-  ): {unsubscribe: () => void}
+  subscribe(nextOrObserver: ((value: T) => void) | {next: (value: T) => void}): {
+    unsubscribe: () => void
+  }
 }
 
-type Func<P, T, R> = T extends undefined ? ((data: P) => R) : ((data: P & {theme: T}) => R)
+type Func<Data, Theme, Style> = Theme extends undefined
+  ? (data: Data) => Style | null | undefined
+  : (data: Data & {theme: Theme}) => Style | null | undefined
 
 type NormalCssProperties = CSSProperties<string | number> & CSSPropertiesHyphen<string | number>
 type NormalCssValues<K> = K extends keyof NormalCssProperties ? NormalCssProperties[K] : JssValue
 
-export type JssStyle<Props = any, Theme = undefined> =
-  | {
-      [K in keyof NormalCssProperties]:
-        | NormalCssValues<K>
-        | JssStyle<Props, Theme>
-        | Func<Props, Theme, NormalCssValues<K> | JssStyle<undefined, undefined> | undefined>
-        | MinimalObservable<NormalCssValues<K> | JssStyle | undefined>
-    }
-  | {
-      [K: string]:
-        | JssValue
-        | JssStyle<Props, Theme>
-        | Func<Props, Theme, JssValue | JssStyle<undefined, undefined> | undefined>
-        | MinimalObservable<JssValue | JssStyle | undefined>
-    }
-
+export type JssStyle<Data = any, Theme = undefined> = {
+  [Key in keyof NormalCssProperties]:
+    | NormalCssValues<Key>
+    | JssStyle<Data, Theme>
+    | Func<Data, Theme, NormalCssValues<Key> | undefined>
+    | MinimalObservable<NormalCssValues<Key> | JssStyle | undefined>
+    | null
+    | undefined
+} & // nesting
+{
+  [Key: `${string}&${string}`]: JssStyle<Data, Theme> | null | undefined
+}
 export type Styles<
   Name extends string | number | symbol = string,
-  Props = unknown,
+  Data = unknown,
   Theme = undefined
-> = Record<
-  Name,
-  | JssStyle<Props, Theme>
-  | Array<JssStyle<Props, Theme>>
-  | string
-  | Func<Props, Theme, JssStyle<undefined, undefined> | string | null | undefined>
-  | MinimalObservable<JssStyle | string | null | undefined>
->
+> =
+  | Record<
+      Name,
+      | JssStyle<Data, Theme>
+      | Array<JssStyle<Data, Theme>>
+      | string
+      | Func<Data, Theme, JssStyle<undefined, undefined> | string | null | undefined>
+      | MinimalObservable<JssStyle | string | null | undefined>
+    >
+  | Record<`@keyframes ${string}`, Record<'from' | 'to' | `${number}%`, JssStyle<Data, Theme>>>
+
 export type Classes<Name extends string | number | symbol = string> = Record<Name, string>
 export type Keyframes<Name extends string = string> = Record<Name, string>
 

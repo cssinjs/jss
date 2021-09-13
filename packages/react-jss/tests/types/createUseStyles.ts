@@ -16,7 +16,7 @@ const expectedCustomTheme: MyTheme = {color: 'red'}
 
 /* -------------------- THEME ARGUMENT -------------------- */
 // Regular, static styles work fine
-const themeArg1 = createUseStyles(theme => ({
+const themeArg1 = createUseStyles((theme) => ({
   someClassName: '',
   anotherClassName: {
     fontWeight: 'bold'
@@ -26,20 +26,20 @@ const themeArg1ClassesPass = themeArg1()
 
 // Theme type assumed to be the default
 // Nested theme declaration banned
-// @ts-expect-error
-const themeArg2 = createUseStyles(theme => ({
-  themeNotAllowed: ({theme: innerTheme}) => ({
-    fontWeight: 'bold'
+const themeArg2 = createUseStyles((parentTheme) => ({
+  themeNotAllowed: ({theme}: {theme: MyTheme}) => ({
+    color: theme.color
   })
 }))
 // @ts-expect-error
 const themeArg2ClassesFail = themeArg2({theme: {}})
 // @ts-expect-error
 const themeArg2ClassesFail2 = themeArg2({theme: expectedCustomTheme})
-const themeArg2ClassesPass = themeArg2({theme: expectedDefaultTheme})
+// @ts-expect-error
+const themeArg2ClassesFail2 = themeArg2({theme: expectedDefaultTheme})
 
 // Props declaration is allowed
-const themeArg3 = createUseStyles<string, MyProps>(theme => ({
+const themeArg3 = createUseStyles<string, MyProps>((theme) => ({
   onlyPropsAllowed: ({...props}) => ({
     fontWeight: 'bold'
   })
@@ -52,16 +52,15 @@ const themeArg3ClassesPass = themeArg3(expectedCustomProps)
 const themeArg3ClassesPass2 = themeArg3({...expectedCustomProps, theme: expectedDefaultTheme})
 
 // Nested props declaration banned
-const themeArg4 = createUseStyles<string, MyProps>(theme => ({
+const themeArg4 = createUseStyles<string, MyProps>((theme) => ({
   onlyPropsAllowed: ({...props}) => ({
     fontWeight: 'bold',
-    // @ts-expect-error
     propsNotAllowed: ({...innerProps}) => ''
   })
 }))
 
 // Supplied theme type is acknowledged
-const themeArg5 = createUseStyles<string, unknown, MyTheme>(theme => ({}))
+const themeArg5 = createUseStyles<string, unknown, MyTheme>((theme) => ({}))
 // @ts-expect-error
 const themeArg5ClassesFail = themeArg5({theme: {}})
 // @ts-expect-error
@@ -81,7 +80,7 @@ const themeArg6ClassesFail2 = themeArg6({theme: expectedDefaultTheme})
 const themeArg6ClassesPass = themeArg6({theme: expectedCustomTheme})
 
 // Props can be determined implicitly
-const themeArg7 = createUseStyles(theme => ({
+const themeArg7 = createUseStyles((theme) => ({
   checkbox: ({property}: MyProps) => ({
     borderColor: property
   })
@@ -172,50 +171,11 @@ const noThemeArg4ClassesPass2 = noThemeArg4({...expectedCustomProps, theme: expe
 const noThemeArg5 = createUseStyles<string, MyProps, MyTheme>({
   singleNest: {
     fontWeight: 'bold',
-    singleValue: ({property, theme}) => '',
-    nestOne: ({property, theme}) => ({
+    // @ts-expect-error
+    nestOne: ({property, theme}: MyProps & {theme: MyTheme}) => ({
       color: 'red',
-      // @ts-expect-error
-      nothingAllowed: ({theme: innerTheme, ...innerProps}) => ''
+      display: () => 'block'
     })
-  }
-})
-
-// Nested declarations are banned (double nest test)
-const noThemeArg6 = createUseStyles<string, MyProps, MyTheme>({
-  doubleNest: {
-    fontWeight: 'bold',
-    singleValue: ({property, theme}) => '',
-    firstNest: {
-      color: 'red',
-      innerSingleValue: ({property, theme}) => '',
-      secondNest: ({property, theme}) => ({
-        backgroundColor: 'blue',
-        // @ts-expect-error
-        nothingAllowed: ({theme: innerTheme, ...innerProps}) => ''
-      })
-    }
-  }
-})
-
-// Nested declarations are banned (triple nest test)
-const noThemeArg7 = createUseStyles<string, MyProps, MyTheme>({
-  tripleNest: {
-    fontWeight: 'bold',
-    singleValue: ({property, theme}) => '',
-    firstNest: {
-      color: 'red',
-      innerSingleValue: ({property, theme}) => '',
-      secondNest: {
-        backgroundColor: 'blue',
-        innerMostSingleValue: ({property, theme}) => '',
-        thirdNest: ({property, theme}) => ({
-          display: 'block',
-          // @ts-expect-error
-          nothingAllowed: ({theme: innerMostTheme, ...innerMostProps}) => ''
-        })
-      }
-    }
   }
 })
 

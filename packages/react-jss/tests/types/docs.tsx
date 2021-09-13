@@ -8,12 +8,12 @@ type RuleNames = 'myButton' | 'myLabel'
 interface ButtonProps {
   children?: React.ReactNode
   spacing?: number
-  fontWeight?: string
-  labelColor?: string
+  fontWeight?: 'bold'
+  labelColor?: 'red'
 }
 
 interface CustomTheme {
-  background: string
+  background: 'gray'
 }
 
 const useStyles = createUseStyles<RuleNames, ButtonProps, CustomTheme>({
