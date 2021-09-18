@@ -4,7 +4,7 @@ import {create} from 'jss'
 import sinon from 'sinon'
 import functionPlugin from '.'
 
-const settings = {createGenerateId: () => rule => `${rule.key}-id`}
+const settings = {createGenerateId: () => (rule) => `${rule.key}-id`}
 
 describe('jss-plugin-rule-value-function: Function rules', () => {
   let jss
@@ -20,7 +20,7 @@ describe('jss-plugin-rule-value-function: Function rules', () => {
       sheet = jss
         .createStyleSheet(
           {
-            a: data => ({
+            a: (data) => ({
               color: data.color,
               display: 'block'
             })
@@ -52,7 +52,7 @@ describe('jss-plugin-rule-value-function: Function rules', () => {
       sheet = jss
         .createStyleSheet(
           {
-            a: data => {
+            a: (data) => {
               if (data.removeAll) {
                 return null
               }
@@ -114,7 +114,7 @@ describe('jss-plugin-rule-value-function: Function rules', () => {
       sheet = jss
         .createStyleSheet(
           {
-            a: data => ({
+            a: (data) => ({
               color: data.color,
               fallbacks: {
                 color: 'green'
@@ -180,7 +180,7 @@ describe('jss-plugin-rule-value-function: Function rules', () => {
 
     beforeEach(() => {
       sheet = jss.createStyleSheet(null, {link: true}).attach()
-      sheet.addRule('a', data => ({
+      sheet.addRule('a', (data) => ({
         color: data.primary ? 'black' : 'white'
       }))
     })
@@ -214,7 +214,7 @@ describe('jss-plugin-rule-value-function: Function rules', () => {
     beforeEach(() => {
       sheet = jss.createStyleSheet({}, {link: true}).attach()
       sheet.addRule('@media screen', {
-        b: data => ({
+        b: (data) => ({
           color: data.primary ? 'black' : 'white'
         })
       })
@@ -244,7 +244,7 @@ describe('jss-plugin-rule-value-function: Function rules', () => {
       sheet = jss
         .createStyleSheet(
           {
-            a: data => ({
+            a: (data) => ({
               color: () => data.color,
               background: () => data.background
             })

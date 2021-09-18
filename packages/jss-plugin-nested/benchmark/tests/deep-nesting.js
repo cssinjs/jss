@@ -15,8 +15,6 @@ suite('Deeply nested JSS', () => {
         }
       }
     }
-    create()
-      .use(nested())
-      .createStyleSheet(styles)
+    create().use(nested()).createStyleSheet(styles)
   })
 })

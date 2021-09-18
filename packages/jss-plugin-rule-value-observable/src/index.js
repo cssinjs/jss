@@ -1,9 +1,9 @@
 import $$observable from 'symbol-observable'
 import {createRule} from 'jss'
 
-const isObservable = value => value && value[$$observable] && value === value[$$observable]()
+const isObservable = (value) => value && value[$$observable] && value === value[$$observable]()
 
-const observablePlugin = updateOptions => ({
+const observablePlugin = (updateOptions) => ({
   onCreateRule(name, decl, options) {
     if (!isObservable(decl)) return null
 
@@ -13,7 +13,7 @@ const observablePlugin = updateOptions => ({
     // TODO
     // Call `stream.subscribe()` returns a subscription, which should be explicitly
     // unsubscribed from when we know this sheet is no longer needed.
-    style$.subscribe(style => {
+    style$.subscribe((style) => {
       for (const prop in style) {
         rule.prop(prop, style[prop], updateOptions)
       }
@@ -32,7 +32,7 @@ const observablePlugin = updateOptions => ({
       if (!isObservable(value)) continue
       delete style[prop]
       value.subscribe({
-        next: nextValue => {
+        next: (nextValue) => {
           styleRule.prop(prop, nextValue, updateOptions)
         }
       })

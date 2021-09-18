@@ -23,7 +23,7 @@ export const getManager = (context, managerId) => {
   return manager
 }
 
-export const manageSheet = options => {
+export const manageSheet = (options) => {
   const {sheet, context, index, theme} = options
   if (!sheet) {
     return
@@ -36,7 +36,7 @@ export const manageSheet = options => {
   }
 }
 
-export const unmanageSheet = options => {
+export const unmanageSheet = (options) => {
   if (!options.sheet) {
     return
   }

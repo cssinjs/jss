@@ -10,7 +10,7 @@ const content = fs.readFileSync(changelogPath, 'utf-8')
 
 const lines = content
   .split('\n')
-  .map(line => {
+  .map((line) => {
     if (line.startsWith('## Next')) {
       const today = new Date()
       const date = `${today.getUTCFullYear()}-${today.getUTCMonth() + 1}-${today.getUTCDate()}`
@@ -22,7 +22,7 @@ const lines = content
   })
   .join('\n')
 
-fs.writeFile(changelogPath, lines, 'utf-8', err => {
+fs.writeFile(changelogPath, lines, 'utf-8', (err) => {
   if (err) {
     log.error('jss', 'Error while updating changelog')
     process.exit(1)

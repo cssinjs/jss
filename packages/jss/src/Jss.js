@@ -121,7 +121,7 @@ export default class Jss {
    * Register plugin. Passed function will be invoked with a rule instance.
    */
   use(...plugins) {
-    plugins.forEach(plugin => {
+    plugins.forEach((plugin) => {
       this.plugins.use(plugin)
     })
 

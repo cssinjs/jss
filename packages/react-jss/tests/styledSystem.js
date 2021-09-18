@@ -10,21 +10,14 @@ import {withStyles, styled, SheetsRegistry, JssProvider, ThemeProvider} from '..
 
 const createGenerateId = () => {
   let counter = 0
-  return rule => `${rule.key}-${counter++}`
+  return (rule) => `${rule.key}-${counter++}`
 }
 
 const theme = {
   fontSizes: [12, 14, 16, 24, 32, 48, 64, 96, 128],
   space: [
     // margin and padding
-    0,
-    4,
-    8,
-    16,
-    32,
-    64,
-    128,
-    256
+    0, 4, 8, 16, 32, 64, 128, 256
   ],
   colors: {
     blue: '#07c',
@@ -58,16 +51,7 @@ describe('React-JSS: styled-system', () => {
 
   it('should render a number of composed style rules with styled API', () => {
     const registry = new SheetsRegistry()
-    const Div = styled('div')(
-      compose(
-        space,
-        color,
-        fontSize,
-        width,
-        fontWeight,
-        lineHeight
-      )
-    )
+    const Div = styled('div')(compose(space, color, fontSize, width, fontWeight, lineHeight))
     const renderer = TestRenderer.create(
       <JssProvider registry={registry} generateId={createGenerateId()}>
         <ThemeProvider theme={theme}>
@@ -118,14 +102,7 @@ describe('React-JSS: styled-system', () => {
   it('should render a number of composed style rules with withStyles API', () => {
     const registry = new SheetsRegistry()
     const styles = {
-      css: compose(
-        space,
-        color,
-        fontSize,
-        width,
-        fontWeight,
-        lineHeight
-      )
+      css: compose(space, color, fontSize, width, fontWeight, lineHeight)
     }
 
     const MyComponent = ({classes}) => <div className={classes.css} />

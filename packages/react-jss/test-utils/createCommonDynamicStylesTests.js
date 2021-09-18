@@ -11,7 +11,7 @@ import {JssProvider, SheetsRegistry, ThemeProvider} from '../src'
 
 const createGenerateId = () => {
   let counter = 0
-  return rule => `${rule.key}-${counter++}`
+  return (rule) => `${rule.key}-${counter++}`
 }
 
 export default ({createStyledComponent}) => {
@@ -40,7 +40,7 @@ export default ({createStyledComponent}) => {
         {name: 'NoRenderer'}
       )
       MyComponent.defaultProps = {
-        getClasses: cls => {
+        getClasses: (cls) => {
           classes = cls
         }
       }
@@ -291,7 +291,7 @@ export default ({createStyledComponent}) => {
 
       MyComponent = ({colors}) => (
         <>
-          {colors.map(color => (
+          {colors.map((color) => (
             <ListItem key={color} color={color} />
           ))}
         </>
@@ -363,7 +363,7 @@ export default ({createStyledComponent}) => {
 
       MyComponent = ({colors}) => (
         <>
-          {colors.map(color => (
+          {colors.map((color) => (
             <ListItem key={color} color={color} />
           ))}
         </>
@@ -434,7 +434,7 @@ export default ({createStyledComponent}) => {
         {name: 'NoRenderer'}
       )
       MyComponent.defaultProps = {
-        getClasses: cls => {
+        getClasses: (cls) => {
           classes = cls
         }
       }
@@ -571,7 +571,7 @@ export default ({createStyledComponent}) => {
         background2: 'red'
       }
 
-      const styles = themeObj => ({
+      const styles = (themeObj) => ({
         wrapper: () => ({
           padding: 40,
           background: themeObj.background,
@@ -588,7 +588,7 @@ export default ({createStyledComponent}) => {
       TestRenderer.create(
         <JssProvider registry={registry} generateId={createGenerateId()}>
           <ThemeProvider theme={theme}>
-            {a.map(item => (
+            {a.map((item) => (
               <MyComponent key={item} />
             ))}
           </ThemeProvider>

@@ -6,7 +6,7 @@ import observablePlugin from 'jss-plugin-rule-value-observable'
 import expand from '.'
 
 const settings = {
-  createGenerateId: () => rule => `${rule.key}-id`
+  createGenerateId: () => (rule) => `${rule.key}-id`
 }
 
 describe('jss-plugin-expand', () => {
@@ -50,7 +50,10 @@ describe('jss-plugin-expand', () => {
     beforeEach(() => {
       sheet = jss.createStyleSheet({
         a: {
-          transition: [['opacity', 1, 'linear'], ['transform', 300, 'ease']]
+          transition: [
+            ['opacity', 1, 'linear'],
+            ['transform', 300, 'ease']
+          ]
         }
       })
     })
@@ -381,7 +384,7 @@ describe('jss-plugin-expand', () => {
 
       sheet = jss.createStyleSheet({
         a: {
-          width: new Observable(observer => {
+          width: new Observable((observer) => {
             observer.next(1)
           })
         }

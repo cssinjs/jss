@@ -33,7 +33,7 @@ import defaultUnit from 'jss-plugin-default-unit'
 const options = {
   'line-height': 'rem',
   'font-size': 'rem',
-  width: val => `${val / 2}px`
+  width: (val) => `${val / 2}px`
 }
 
 jss.use(defaultUnit(options))

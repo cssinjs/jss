@@ -67,7 +67,7 @@ const useStyles = createUseStyles((theme: CustomTheme) => ({
   myButton: {
     padding: (props: ButtonProps) => props.spacing || 10
   },
-  myLabel: props => ({
+  myLabel: (props) => ({
     display: 'block',
     color: props.labelColor || 'red',
     fontWeight: props.fontWeight || 'bold',
@@ -87,7 +87,7 @@ const useStyles = createUseStyles({
     backgroundColor: theme.background || 'gray'
   }),
   myButton: {
-    padding: props => props.spacing || 10
+    padding: (props) => props.spacing || 10
   }
 })
 ```

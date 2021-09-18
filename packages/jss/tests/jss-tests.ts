@@ -15,7 +15,7 @@ jss.use({}, {})
 const styleSheet = jss.createStyleSheet<string>(
   {
     ruleWithMockObservable: {
-      subscribe: observer => {
+      subscribe: (observer) => {
         const next = typeof observer === 'function' ? observer : observer.next
         next({background: 'blue', display: 'flex'})
 

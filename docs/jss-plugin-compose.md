@@ -127,8 +127,12 @@ const button2 = (
 It renders to:
 
 ```html
-<button class="buttonActiveDisabled-123456 buttonActive-123456 button-123456">Active Disabled Button</button>
-<button class="buttonDisabled-123456 button-123456 active-123456 disabled-123456">Disabled Button with active state</button>
+<button class="buttonActiveDisabled-123456 buttonActive-123456 button-123456">
+  Active Disabled Button
+</button>
+<button class="buttonDisabled-123456 button-123456 active-123456 disabled-123456">
+  Disabled Button with active state
+</button>
 ```
 
 ### Mix global and local classes.

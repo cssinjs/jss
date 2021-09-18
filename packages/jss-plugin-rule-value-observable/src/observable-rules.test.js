@@ -7,7 +7,7 @@ import pluginDefaultUnit from 'jss-plugin-default-unit'
 import pluginCamelCase from 'jss-plugin-camel-case'
 import pluginObservable from '.'
 
-const settings = {createGenerateId: () => rule => `${rule.key}-id`}
+const settings = {createGenerateId: () => (rule) => `${rule.key}-id`}
 
 describe('jss-plugin-rule-value-observable: rules', () => {
   let jss
@@ -24,7 +24,7 @@ describe('jss-plugin-rule-value-observable: rules', () => {
       sheet = jss
         .createStyleSheet(
           {
-            div: new Observable(obs => {
+            div: new Observable((obs) => {
               observer = obs
             })
           },
@@ -67,10 +67,10 @@ describe('jss-plugin-rule-value-observable: rules', () => {
       sheet = jss
         .createStyleSheet(
           {
-            div: new Observable(obs => {
+            div: new Observable((obs) => {
               divObs = obs
             }),
-            button: new Observable(obs => {
+            button: new Observable((obs) => {
               buttonObs = obs
             })
           },
@@ -98,10 +98,10 @@ describe('jss-plugin-rule-value-observable: rules', () => {
       sheet = jss
         .createStyleSheet(
           {
-            div: new Observable(obs => {
+            div: new Observable((obs) => {
               divObs = obs
             }),
-            button: new Observable(obs => {
+            button: new Observable((obs) => {
               buttonObs = obs
             }),
             a: {
@@ -132,7 +132,7 @@ describe('jss-plugin-rule-value-observable: rules', () => {
       sheet = jss
         .createStyleSheet(
           {
-            div: new Observable(obs => {
+            div: new Observable((obs) => {
               obs.next({display: 'block'})
             })
           },
@@ -151,7 +151,7 @@ describe('jss-plugin-rule-value-observable: rules', () => {
       sheet = jss
         .createStyleSheet(
           {
-            a: new Observable(obs => {
+            a: new Observable((obs) => {
               obs.next({display: 'block'})
               observer = obs
             })
@@ -177,7 +177,7 @@ describe('jss-plugin-rule-value-observable: rules', () => {
       )
       sheet = jss.createStyleSheet(
         {
-          a: new Observable(obs => {
+          a: new Observable((obs) => {
             observer = obs
           })
         },
@@ -196,7 +196,7 @@ describe('jss-plugin-rule-value-observable: rules', () => {
       jss = create(settings).use(pluginObservable(), pluginDefaultUnit(), pluginCamelCase())
       sheet = jss.createStyleSheet(
         {
-          a: new Observable(obs => {
+          a: new Observable((obs) => {
             observer = obs
           })
         },
@@ -219,7 +219,7 @@ describe('jss-plugin-rule-value-observable: rules', () => {
       sheet = jss
         .createStyleSheet(
           {
-            div: new Observable(observer => {
+            div: new Observable((observer) => {
               observer.next({color: 'red'})
             })
           },

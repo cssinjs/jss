@@ -4,7 +4,7 @@ import {create} from 'jss'
 import pluginCompose from 'jss-plugin-compose'
 import pluginFunction from '.'
 
-const settings = {createGenerateId: () => rule => `${rule.key}-id`}
+const settings = {createGenerateId: () => (rule) => `${rule.key}-id`}
 
 describe('jss-plugin-rule-value-function: plugin-compose', () => {
   let jss

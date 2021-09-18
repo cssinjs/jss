@@ -10,7 +10,7 @@ const travisBuildNumber = process.env.TRAVIS_BUILD_NUMBER
 const travisBuildId = process.env.TRAVIS_BUILD_ID
 const travisJobNumber = process.env.TRAVIS_JOB_NUMBER
 
-module.exports = config => {
+module.exports = (config) => {
   config.set({
     customLaunchers: browsers,
     browsers: ['Chrome'],

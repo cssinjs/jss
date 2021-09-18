@@ -14,7 +14,7 @@ function getChangelog() {
   let hasFinished = false
 
   return lines
-    .filter(line => {
+    .filter((line) => {
       if (hasFinished) {
         return false
       }
@@ -33,13 +33,13 @@ function getChangelog() {
 }
 
 input('Github Username:')
-  .then(username =>
-    input('Github password:').then(password => ({
+  .then((username) =>
+    input('Github password:').then((password) => ({
       username,
       password
     }))
   )
-  .then(auth =>
+  .then((auth) =>
     axios.request({
       method: 'POST',
       url: `/repos/cssinjs/jss/releases`,
@@ -56,6 +56,6 @@ input('Github Username:')
   .then(() => {
     log.info('jss', 'Successfully created github release')
   })
-  .catch(err => {
+  .catch((err) => {
     log.error('jss', `Error while creating github release: ${err.message}`)
   })

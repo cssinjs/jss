@@ -6,12 +6,12 @@ import {Properties as CSSProperties} from 'csstype'
 //
 // TODO: refactor to only include Observable types if plugin is installed.
 export interface MinimalObservable<T> {
-  subscribe(
-    nextOrObserver: ((value: T) => void) | {next: (value: T) => void}
-  ): {unsubscribe: () => void}
+  subscribe(nextOrObserver: ((value: T) => void) | {next: (value: T) => void}): {
+    unsubscribe: () => void
+  }
 }
 
-type Func<P, T, R> = T extends undefined ? ((data: P) => R) : ((data: P & {theme: T}) => R)
+type Func<P, T, R> = T extends undefined ? (data: P) => R : (data: P & {theme: T}) => R
 
 type NormalCssProperties = CSSProperties<string | number>
 type NormalCssValues<K> = K extends keyof NormalCssProperties ? NormalCssProperties[K] : JssValue

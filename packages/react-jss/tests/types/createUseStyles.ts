@@ -16,7 +16,7 @@ const expectedCustomTheme: MyTheme = {color: 'red'}
 
 /* -------------------- THEME ARGUMENT -------------------- */
 // Regular, static styles work fine
-const themeArg1 = createUseStyles(theme => ({
+const themeArg1 = createUseStyles((theme) => ({
   someClassName: '',
   anotherClassName: {
     fontWeight: 'bold'
@@ -27,7 +27,7 @@ const themeArg1ClassesPass = themeArg1()
 // Theme type assumed to be the default
 // Nested theme declaration banned
 // @ts-expect-error
-const themeArg2 = createUseStyles(theme => ({
+const themeArg2 = createUseStyles((theme) => ({
   themeNotAllowed: ({theme: innerTheme}) => ({
     fontWeight: 'bold'
   })
@@ -39,7 +39,7 @@ const themeArg2ClassesFail2 = themeArg2({theme: expectedCustomTheme})
 const themeArg2ClassesPass = themeArg2({theme: expectedDefaultTheme})
 
 // Props declaration is allowed
-const themeArg3 = createUseStyles<string, MyProps>(theme => ({
+const themeArg3 = createUseStyles<string, MyProps>((theme) => ({
   onlyPropsAllowed: ({...props}) => ({
     fontWeight: 'bold'
   })
@@ -52,7 +52,7 @@ const themeArg3ClassesPass = themeArg3(expectedCustomProps)
 const themeArg3ClassesPass2 = themeArg3({...expectedCustomProps, theme: expectedDefaultTheme})
 
 // Nested props declaration banned
-const themeArg4 = createUseStyles<string, MyProps>(theme => ({
+const themeArg4 = createUseStyles<string, MyProps>((theme) => ({
   onlyPropsAllowed: ({...props}) => ({
     fontWeight: 'bold',
     // @ts-expect-error
@@ -61,7 +61,7 @@ const themeArg4 = createUseStyles<string, MyProps>(theme => ({
 }))
 
 // Supplied theme type is acknowledged
-const themeArg5 = createUseStyles<string, unknown, MyTheme>(theme => ({}))
+const themeArg5 = createUseStyles<string, unknown, MyTheme>((theme) => ({}))
 // @ts-expect-error
 const themeArg5ClassesFail = themeArg5({theme: {}})
 // @ts-expect-error
@@ -81,7 +81,7 @@ const themeArg6ClassesFail2 = themeArg6({theme: expectedDefaultTheme})
 const themeArg6ClassesPass = themeArg6({theme: expectedCustomTheme})
 
 // Props can be determined implicitly
-const themeArg7 = createUseStyles(theme => ({
+const themeArg7 = createUseStyles((theme) => ({
   checkbox: ({property}: MyProps) => ({
     borderColor: property
   })

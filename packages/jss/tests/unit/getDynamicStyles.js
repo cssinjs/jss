@@ -6,7 +6,7 @@ describe('Unit: jss - getDynamicStyles', () => {
   beforeEach(resetSheets())
 
   it('should extract dynamic styles', () => {
-    const color = data => data.color
+    const color = (data) => data.color
     const styles = {
       button: {
         float: 'left',

@@ -134,7 +134,7 @@ describe('Unit: jss', () => {
     const plugin = {}
 
     beforeEach(() => {
-      jss.plugins.use = receivedPlugin => {
+      jss.plugins.use = (receivedPlugin) => {
         used = receivedPlugin
       }
       jss.use(plugin)

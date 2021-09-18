@@ -10,10 +10,7 @@ suite('Batch mode vs. single', () => {
     '.textContent',
     function benchmark() {
       this.sheets = sheets
-      create()
-        .createStyleSheet(styles)
-        .attach()
-        .detach()
+      create().createStyleSheet(styles).attach().detach()
     },
     {teardown}
   )

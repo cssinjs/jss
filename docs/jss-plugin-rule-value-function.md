@@ -11,7 +11,7 @@ _Plugins are applied by default to function rules or values._
 ```javascript
 const styles = {
   button: {
-    color: data => data.color
+    color: (data) => data.color
   }
 }
 ```
@@ -28,7 +28,7 @@ Similar to function values, you can use a function to return a dynamic style obj
 
 ```javascript
 const styles = {
-  button: data => ({
+  button: (data) => ({
     display: 'flex',
     color: data.color
   })
@@ -44,7 +44,7 @@ To use the `!important` modifier with function values, you must use [array synta
 ```javascript
 const styles = {
   button: {
-    color: data => [[data.color], '!important']
+    color: (data) => [[data.color], '!important']
   }
 }
 ```

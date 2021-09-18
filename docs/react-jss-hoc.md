@@ -68,9 +68,7 @@ The above code will compile to
 ```html
 <div id="root">
   <button class="Button-myButton-1-25">
-    <span class="Button-myLabel-1-26">
-      Submit
-    </span>
+    <span class="Button-myLabel-1-26"> Submit </span>
   </button>
 </div>
 ```
@@ -109,7 +107,7 @@ const Button = ({classes, children, theme}) => (
   </button>
 )
 
-const styles = theme => ({
+const styles = (theme) => ({
   button: {
     background: theme.colorPrimary
   },
@@ -156,7 +154,7 @@ const StyledComponent = withStyles({})(InnerComponent)
 
 const App = (
   <StyledComponent
-    ref={ref => {
+    ref={(ref) => {
       console.log(ref)
     }}
   />

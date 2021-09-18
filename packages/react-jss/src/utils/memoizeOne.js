@@ -1,4 +1,4 @@
-const memoize = fn => {
+const memoize = (fn) => {
   let lastArgs
   let lastResult
 

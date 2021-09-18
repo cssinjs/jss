@@ -11,7 +11,7 @@ import {SheetsRegistry, JssProvider, withStyles} from '.'
 
 const createGenerateId = () => {
   let counter = 0
-  return rule => `${rule.key}-${counter++}`
+  return (rule) => `${rule.key}-${counter++}`
 }
 
 describe('React-JSS: JssProvider', () => {
@@ -351,7 +351,7 @@ describe('React-JSS: JssProvider', () => {
     it('should be idempotent', () => {
       const MyComponent = withStyles({
         button: {
-          color: props => props.color
+          color: (props) => props.color
         }
       })()
 

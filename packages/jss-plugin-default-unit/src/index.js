@@ -5,7 +5,7 @@ import defaultUnits, {px} from './defaultUnits'
  */
 function addCamelCasedVersion(obj) {
   const regExp = /(-[a-z])/g
-  const replace = str => str[1].toUpperCase()
+  const replace = (str) => str[1].toUpperCase()
   const newObj = {}
   for (const key in obj) {
     newObj[key] = obj[key]

@@ -15,7 +15,7 @@ import {
 
 const createStyledComponent = (styles, options = {}) => {
   const useStyles = createUseStyles(styles, options)
-  const Comp = props => {
+  const Comp = (props) => {
     useStyles(props)
 
     const theme = props.theme || (options.theming ? options.theming.useTheme() : useTheme())
@@ -27,15 +27,15 @@ const createStyledComponent = (styles, options = {}) => {
 }
 
 describe('React-JSS: theming useStyles()', () => {
-  const themedStaticStyles = theme => ({
+  const themedStaticStyles = (theme) => ({
     rule: {
       color: theme.color
     }
   })
-  const themedDynamicStyles = theme => ({
+  const themedDynamicStyles = (theme) => ({
     rule: {
       color: theme.color,
-      backgroundColor: props => props.backgroundColor
+      backgroundColor: (props) => props.backgroundColor
     }
   })
   const themeA = {color: '#aaa'}
@@ -49,7 +49,7 @@ describe('React-JSS: theming useStyles()', () => {
     let themeFromStylesFn
 
     const defaultProps = {
-      getTheme: theme => {
+      getTheme: (theme) => {
         themeFromUseTheme = theme
       }
     }
@@ -74,7 +74,7 @@ describe('React-JSS: theming useStyles()', () => {
     it('should warn when styles function has no arguments', () => {})
 
     it('should subscribe theme with useTheme and with useStyles', () => {
-      const StyledComponent = createStyledComponent(theme => {
+      const StyledComponent = createStyledComponent((theme) => {
         themeFromStylesFn = theme
         return {}
       })
@@ -374,22 +374,22 @@ describe('React-JSS: theming useStyles()', () => {
       let themeReceivedInComponentA
       let themeReceivedInComponentB
 
-      const stylesA = theme => {
+      const stylesA = (theme) => {
         colorReceivedInStylesA = theme.color
       }
-      const stylesB = theme => {
+      const stylesB = (theme) => {
         colorReceivedInStylesB = theme.color
       }
 
       const ComponentA = createStyledComponent(stylesA, {theming: themingA})
       ComponentA.defaultProps = {
-        getTheme: theme => {
+        getTheme: (theme) => {
           themeReceivedInComponentA = theme
         }
       }
       const ComponentB = createStyledComponent(stylesB, {theming: themingB})
       ComponentB.defaultProps = {
-        getTheme: theme => {
+        getTheme: (theme) => {
           themeReceivedInComponentB = theme
         }
       }

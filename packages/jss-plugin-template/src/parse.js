@@ -8,7 +8,7 @@ const semiWithNl = /;\n/
  * - Requires semicolon and new line after the value (except of last line)
  * - No nested rules support
  */
-const parse = cssText => {
+const parse = (cssText) => {
   const style = {}
   const split = cssText.split(semiWithNl)
   for (let i = 0; i < split.length; i++) {

@@ -49,9 +49,8 @@ interface WithStylesProps<
 /**
  * @deprecated Please use `WithStylesProps` instead
  */
-type WithStyles<
-  S extends Styles<any, any, any> | ((theme: any) => Styles<any, any, undefined>)
-> = WithStylesProps<S>
+type WithStyles<S extends Styles<any, any, any> | ((theme: any) => Styles<any, any, undefined>)> =
+  WithStylesProps<S>
 
 declare global {
   namespace Jss {
@@ -88,9 +87,7 @@ declare function withStyles<ClassNames extends string | number | symbol, Props, 
     | Styles<ClassNames, Props, Theme>
     | ((theme: Theme) => Styles<ClassNames, Props, undefined>),
   options?: WithStylesOptions
-): <C>(
-  comp: C
-) => ComponentType<
+): <C>(comp: C) => ComponentType<
   JSX.LibraryManagedAttributes<
     C,
     Omit<GetProps<C>, 'classes'> & {

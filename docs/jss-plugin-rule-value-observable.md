@@ -11,7 +11,7 @@ import {Observable} from 'rxjs'
 
 const styles = {
   button: {
-    color: new Observable(observer => {
+    color: new Observable((observer) => {
       observer.next('red')
     })
   }
@@ -32,7 +32,7 @@ Similar to observable values, you can declare "observable" rules. A stream shoul
 import {Observable} from 'rxjs'
 
 const styles = {
-  button: new Observable(observer => {
+  button: new Observable((observer) => {
     observer.next({
       color: 'red',
       opacity: 1

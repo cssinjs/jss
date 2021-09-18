@@ -21,7 +21,7 @@ const createUseStyles = (styles, options = {}) => {
   const {index = getSheetIndex(), theming, name, ...sheetOptions} = options
   const ThemeContext = (theming && theming.context) || DefaultThemeContext
 
-  const useTheme = theme => {
+  const useTheme = (theme) => {
     if (typeof styles === 'function') {
       return theme || React.useContext(ThemeContext) || noTheme
     }
@@ -34,42 +34,36 @@ const createUseStyles = (styles, options = {}) => {
     const context = React.useContext(JssContext)
     const theme = useTheme(data && data.theme)
 
-    const [sheet, dynamicRules] = React.useMemo(
-      () => {
-        const newSheet = createStyleSheet({
-          context,
-          styles,
-          name,
-          theme,
+    const [sheet, dynamicRules] = React.useMemo(() => {
+      const newSheet = createStyleSheet({
+        context,
+        styles,
+        name,
+        theme,
+        index,
+        sheetOptions
+      })
+
+      const newDynamicRules = newSheet ? addDynamicRules(newSheet, data) : null
+
+      if (newSheet) {
+        manageSheet({
           index,
-          sheetOptions
+          context,
+          sheet: newSheet,
+          theme
         })
+      }
 
-        const newDynamicRules = newSheet ? addDynamicRules(newSheet, data) : null
+      return [newSheet, newDynamicRules]
+    }, [context, theme])
 
-        if (newSheet) {
-          manageSheet({
-            index,
-            context,
-            sheet: newSheet,
-            theme
-          })
-        }
-
-        return [newSheet, newDynamicRules]
-      },
-      [context, theme]
-    )
-
-    useEffectOrLayoutEffect(
-      () => {
-        // We only need to update the rules on a subsequent update and not in the first mount
-        if (sheet && dynamicRules && !isFirstMount.current) {
-          updateDynamicRules(data, sheet, dynamicRules)
-        }
-      },
-      [data]
-    )
+    useEffectOrLayoutEffect(() => {
+      // We only need to update the rules on a subsequent update and not in the first mount
+      if (sheet && dynamicRules && !isFirstMount.current) {
+        updateDynamicRules(data, sheet, dynamicRules)
+      }
+    }, [data])
 
     useEffectOrLayoutEffect(
       () =>

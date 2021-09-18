@@ -26,7 +26,7 @@ const styles: Styles<string, Props> = {
     textAlign: 'center',
     display: 'flex',
     width: '100%',
-    justifyContent: props => (props.flag ? 'center' : undefined)
+    justifyContent: (props) => (props.flag ? 'center' : undefined)
   },
   inner: {
     textAlign: 'center',
@@ -37,7 +37,7 @@ const styles: Styles<string, Props> = {
       fontSize: 12
     }
   },
-  func: props => ({
+  func: (props) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -47,8 +47,8 @@ const styles: Styles<string, Props> = {
     position: 'relative',
     pointerEvents: props.flag ? 'none' : null
   }),
-  funcNull: props => null,
-  funcWithTerm: props => ({
+  funcNull: (props) => null,
+  funcWithTerm: (props) => ({
     width: props.flag ? 377 : 272,
     height: props.flag ? 330 : 400,
     boxShadow: '0px 2px 20px rgba(0, 0, 0, 0.08)',

@@ -20,14 +20,10 @@ const npm = `https://npmjs.org/package/${pkg.name}`
 const readmeContent = `# ${pkg.name}
 
 [![Version](https://img.shields.io/npm/v/${pkg.name}.svg?style=flat)](${npm})
-[![License](https://img.shields.io/npm/l/${
-  pkg.name
-}.svg?style=flat)](https://github.com/cssinjs/jss/blob/master/LICENSE)
+[![License](https://img.shields.io/npm/l/${pkg.name}.svg?style=flat)](https://github.com/cssinjs/jss/blob/master/LICENSE)
 [![Downlodas](https://img.shields.io/npm/dm/${pkg.name}.svg?style=flat)](${npm})
 [![Size](https://img.shields.io/bundlephobia/minzip/${pkg.name}.svg?style=flat)](${npm})
-[![Dependencies](https://img.shields.io/david/cssinjs/jss.svg?path=packages%2F${
-  pkg.name
-}&style=flat)](${npm})
+[![Dependencies](https://img.shields.io/david/cssinjs/jss.svg?path=packages%2F${pkg.name}&style=flat)](${npm})
 
 > ${pkg.description}
 

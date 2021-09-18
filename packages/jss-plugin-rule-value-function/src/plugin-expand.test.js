@@ -4,7 +4,7 @@ import {create} from 'jss'
 import pluginExpand from '../../jss-plugin-expand'
 import pluginFunction from '.'
 
-const settings = {createGenerateId: () => rule => `${rule.key}-id`}
+const settings = {createGenerateId: () => (rule) => `${rule.key}-id`}
 
 describe('jss-plugin-rule-value-function: plugin-expand', () => {
   let jss
@@ -21,7 +21,7 @@ describe('jss-plugin-rule-value-function: plugin-expand', () => {
         .createStyleSheet(
           {
             a: {
-              border: props => ({
+              border: (props) => ({
                 top: props.border,
                 bottom: props.border
               })
@@ -72,7 +72,7 @@ describe('jss-plugin-rule-value-function: plugin-expand', () => {
       sheet = jss
         .createStyleSheet(
           {
-            a: props => ({border: {color: props.color}})
+            a: (props) => ({border: {color: props.color}})
           },
           {link: true}
         )

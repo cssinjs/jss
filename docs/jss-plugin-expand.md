@@ -47,7 +47,10 @@ compiles to
 ```javascript
 const styles = {
   container: {
-    transition: [['opacity', '200ms'], ['width', '300ms']]
+    transition: [
+      ['opacity', '200ms'],
+      ['width', '300ms']
+    ]
   }
 }
 ```

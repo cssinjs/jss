@@ -3,9 +3,7 @@ function setup() {
   this.style.type = 'text/css'
   document.head.appendChild(this.style)
   this.getCss = () => `
-    .container-${Math.random()
-      .toString()
-      .substr(2)} {
+    .container-${Math.random().toString().substr(2)} {
       position:fixed;
       top:0;
       right:0;

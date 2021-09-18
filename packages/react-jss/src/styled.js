@@ -7,7 +7,7 @@ import {ThemeContext as DefaultThemeContext} from 'theming'
 import createUseStyles from './createUseStyles'
 
 // eslint-disable-next-line no-unused-vars
-const parseStyles = args => {
+const parseStyles = (args) => {
   const dynamicStyles = []
   let staticStyle
   const labels = []
@@ -45,7 +45,7 @@ const parseStyles = args => {
   // We create a new function rule which will call all other function rules
   // and merge the styles they return.
   if (dynamicStyles.length > 1) {
-    styles.scd = props => {
+    styles.scd = (props) => {
       const merged = {}
       for (let i = 0; i < dynamicStyles.length; i++) {
         const dynamicStyle = dynamicStyles[i](props)
@@ -65,7 +65,7 @@ const getShouldForwardProp = (tagOrComponent, options) => {
   const childShouldForwardProp = tagOrComponent[shouldForwardPropSymbol]
   let finalShouldForwardProp = shouldForwardProp || childShouldForwardProp
   if (shouldForwardProp && childShouldForwardProp) {
-    finalShouldForwardProp = prop => childShouldForwardProp(prop) && shouldForwardProp(prop)
+    finalShouldForwardProp = (prop) => childShouldForwardProp(prop) && shouldForwardProp(prop)
   }
   return finalShouldForwardProp
 }
@@ -109,7 +109,7 @@ const configureStyled = (tagOrComponent, options = {}) => {
     const {styles, label} = parseStyles(arguments)
     const useStyles = createUseStyles(styles, hookOptions)
 
-    const Styled = props => {
+    const Styled = (props) => {
       const {as, className} = props
       const theme = React.useContext(ThemeContext)
       const propsWithTheme = Object.assign({theme}, props)

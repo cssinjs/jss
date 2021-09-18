@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 import warning from 'tiny-warning'
 
-const isObject = obj => obj && typeof obj === 'object' && !Array.isArray(obj)
+const isObject = (obj) => obj && typeof obj === 'object' && !Array.isArray(obj)
 const valueNs = `extendCurrValue${Date.now()}`
 
 function mergeExtend(style, rule, sheet, newStyle) {

@@ -11,7 +11,7 @@ import {create} from 'jss'
 import extend from './index'
 
 const settings = {
-  createGenerateId: () => rule => `${rule.key}-id`
+  createGenerateId: () => (rule) => `${rule.key}-id`
 }
 
 describe('jss-plugin-extend', () => {
@@ -398,7 +398,7 @@ describe('jss-plugin-extend', () => {
 
     beforeEach(() => {
       const styles = {
-        a: data => ({
+        a: (data) => ({
           extend: data.redContainer,
           height: '200px'
         })
@@ -426,10 +426,10 @@ describe('jss-plugin-extend', () => {
       const b = {display: 'block'}
       sheet = jss.createStyleSheet({
         a: {
-          extend: data => data.block && b,
+          extend: (data) => data.block && b,
           color: 'red',
           '& span': {
-            extend: data => data.block && b,
+            extend: (data) => data.block && b,
             color: 'blue'
           }
         }

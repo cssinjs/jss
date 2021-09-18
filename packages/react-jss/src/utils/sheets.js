@@ -4,7 +4,7 @@ import {getManager} from './managers'
 import defaultJss from '../jss'
 import {addMeta, getMeta} from './sheetsMeta'
 
-const getStyles = options => {
+const getStyles = (options) => {
   const {styles} = options
   if (typeof styles !== 'function') {
     return styles
@@ -12,8 +12,9 @@ const getStyles = options => {
 
   warning(
     styles.length !== 0,
-    `[JSS] <${options.name ||
-      'Hook'} />'s styles function doesn't rely on the "theme" argument. We recommend declaring styles as an object instead.`
+    `[JSS] <${
+      options.name || 'Hook'
+    } />'s styles function doesn't rely on the "theme" argument. We recommend declaring styles as an object instead.`
   )
 
   return styles(options.theme)
@@ -47,7 +48,7 @@ function getSheetOptions(options, link) {
   }
 }
 
-export const createStyleSheet = options => {
+export const createStyleSheet = (options) => {
   if (options.context.disableStylesGeneration) {
     return undefined
   }

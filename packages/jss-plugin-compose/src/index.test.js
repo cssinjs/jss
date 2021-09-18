@@ -5,7 +5,7 @@ import {create} from 'jss'
 import sinon from 'sinon'
 import compose from '.'
 
-const settings = {createGenerateId: () => rule => `${rule.key}-id`}
+const settings = {createGenerateId: () => (rule) => `${rule.key}-id`}
 
 describe('jss-plugin-compose', () => {
   let jss

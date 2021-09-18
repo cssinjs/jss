@@ -4,7 +4,7 @@ import {create} from 'jss'
 import pluginGlobal from 'jss-plugin-global'
 import pluginFunction from '.'
 
-const settings = {createGenerateId: () => rule => `${rule.key}-id`}
+const settings = {createGenerateId: () => (rule) => `${rule.key}-id`}
 
 describe('jss-plugin-rule-value-function: plugin-global', () => {
   let jss
@@ -21,7 +21,7 @@ describe('jss-plugin-rule-value-function: plugin-global', () => {
         .createStyleSheet(
           {
             '@global': {
-              a: data => ({
+              a: (data) => ({
                 color: data.color
               }),
               '@media all': {
@@ -64,7 +64,7 @@ describe('jss-plugin-rule-value-function: plugin-global', () => {
           {
             '@global': {
               a: {
-                color: data => data.color
+                color: (data) => data.color
               }
             }
           },

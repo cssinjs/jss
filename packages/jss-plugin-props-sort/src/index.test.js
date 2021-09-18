@@ -4,7 +4,7 @@ import {create} from 'jss'
 import propsSort from './index'
 
 const settings = {
-  createGenerateId: () => rule => `${rule.key}-id`
+  createGenerateId: () => (rule) => `${rule.key}-id`
 }
 
 describe('jss-plugin-props-sort', () => {

@@ -10,7 +10,7 @@ import {propArray, propArrayInObj, propObj, customPropObj} from './props'
  * @return {String} mapped values
  */
 function mapValuesByProp(value, prop, rule) {
-  return value.map(item => objectToArray(item, prop, rule, false, true))
+  return value.map((item) => objectToArray(item, prop, rule, false, true))
 }
 
 /**

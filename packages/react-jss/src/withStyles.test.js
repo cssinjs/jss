@@ -10,7 +10,7 @@ import createCommonBaseTests from '../test-utils/createCommonBaseTests'
 
 const createGenerateId = () => {
   let counter = 0
-  return rule => `${rule.key}-${counter++}`
+  return (rule) => `${rule.key}-${counter++}`
 }
 
 const createStyledComponent = (styles, options = {}) => {

@@ -69,7 +69,7 @@ Nested `extend` inside of the function is not supported. Will override other pro
 ```javascript
 const styles = {
   button: {
-    extend: data => ({
+    extend: (data) => ({
       color: data.theme.color
     }),
     fontSize: '20px'

@@ -12,7 +12,7 @@ describe('jss-plugin-isolate', () => {
   })
 
   afterEach(() => {
-    sheets.registry.forEach(sheet => sheet.detach())
+    sheets.registry.forEach((sheet) => sheet.detach())
     sheets.reset()
   })
 

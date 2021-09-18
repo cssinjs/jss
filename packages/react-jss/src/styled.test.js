@@ -7,10 +7,10 @@ import {styled, SheetsRegistry, JssProvider, ThemeProvider} from '.'
 
 const createGenerateId = () => {
   let counter = 0
-  return rule => `${rule.key}-${counter++}`
+  return (rule) => `${rule.key}-${counter++}`
 }
 
-const renderToJSON = children => {
+const renderToJSON = (children) => {
   const registry = new SheetsRegistry()
   return {
     tree: TestRenderer.create(
@@ -41,7 +41,7 @@ describe('React-JSS: styled', () => {
   it('should render dynamic values', () => {
     const Div = styled('div')({
       color: 'red',
-      width: props => props.width
+      width: (props) => props.width
     })
     const {css, tree} = renderToJSON(<Div width={10} />)
 
@@ -65,7 +65,7 @@ describe('React-JSS: styled', () => {
   })
 
   it('should render dynamic rules', () => {
-    const Div = styled('div')(props => ({
+    const Div = styled('div')((props) => ({
       color: 'red',
       width: props.width
     }))
@@ -125,7 +125,10 @@ describe('React-JSS: styled', () => {
   })
 
   it('should accept multiple dynamic style rules', () => {
-    const Div = styled('div')(props => ({width: props.width}), props => ({height: props.height}))
+    const Div = styled('div')(
+      (props) => ({width: props.width}),
+      (props) => ({height: props.height})
+    )
     const {css, tree} = renderToJSON(<Div width={10} height={10} />)
     expect(css).to.be(stripIndent`
       .scd-0 {}
@@ -146,7 +149,12 @@ describe('React-JSS: styled', () => {
   })
 
   it('should filter empty values returned from dynamic rules', () => {
-    const Div = styled('div')(() => null, () => '', () => undefined, {color: 'red'})
+    const Div = styled('div')(
+      () => null,
+      () => '',
+      () => undefined,
+      {color: 'red'}
+    )
     const {css, tree} = renderToJSON(<Div />)
     expect(css).to.be(stripIndent`
       .sc-0 {
@@ -167,9 +175,9 @@ describe('React-JSS: styled', () => {
   it('should accept multiple dynamic and static style rules', () => {
     const Div = styled('div')(
       {color: 'red'},
-      props => ({width: props.width}),
+      (props) => ({width: props.width}),
       {border: '1px solid red'},
-      props => ({height: props.height})
+      (props) => ({height: props.height})
     )
     const {css, tree} = renderToJSON(<Div width={10} height={10} />)
     expect(css).to.be(stripIndent`
@@ -317,7 +325,7 @@ describe('React-JSS: styled', () => {
   it('should render theme', () => {
     const Div = styled('div')({
       color: 'red',
-      margin: props => props.theme.spacing
+      margin: (props) => props.theme.spacing
     })
     const {css} = renderToJSON(
       <ThemeProvider theme={{spacing: 10}}>

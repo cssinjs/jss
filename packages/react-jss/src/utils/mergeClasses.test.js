@@ -11,10 +11,7 @@ describe('react-jss: merge-classes', () => {
       b: 'b2',
       c: 'c'
     }
-    const composed = compose(
-      staticClasses,
-      dynamicClasses
-    )
+    const composed = compose(staticClasses, dynamicClasses)
     expect(composed).to.eql({
       a: 'a',
       b: 'b b2',

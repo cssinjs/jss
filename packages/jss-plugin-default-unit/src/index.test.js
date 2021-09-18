@@ -9,14 +9,16 @@ import functionPlugin from 'jss-plugin-rule-value-function'
 import defaultUnit from './index'
 
 const settings = {
-  createGenerateId: () => rule => `${rule.key}-id`
+  createGenerateId: () => (rule) => `${rule.key}-id`
 }
 
 describe('jss-plugin-default-unit', () => {
   let jss
 
   beforeEach(() => {
-    jss = create(settings).use(defaultUnit({'min-width': 'pc', 'max-width': val => `${val / 2}px`}))
+    jss = create(settings).use(
+      defaultUnit({'min-width': 'pc', 'max-width': (val) => `${val / 2}px`})
+    )
   })
 
   describe('unitless values', () => {
@@ -425,7 +427,7 @@ describe('jss-plugin-default-unit', () => {
 
       sheet = jss.createStyleSheet({
         a: {
-          width: new Observable(observer => {
+          width: new Observable((observer) => {
             observer.next(1)
           })
         }

@@ -6,10 +6,10 @@ import {styled, JssProvider, SheetsRegistry} from '.'
 
 const createGenerateId = () => {
   let counter = 0
-  return rule => `${rule.key}-${counter++}`
+  return (rule) => `${rule.key}-${counter++}`
 }
 
-const renderToJSON = children => {
+const renderToJSON = (children) => {
   const registry = new SheetsRegistry()
   return {
     tree: TestRenderer.create(
@@ -24,7 +24,7 @@ const renderToJSON = children => {
 describe('React-JSS: styled props filter', () => {
   it('should compose shouldForwardProp on composed styled components', () => {
     const StyledDiv = styled('div', {
-      shouldForwardProp: prop => prop === 'forwardMe'
+      shouldForwardProp: (prop) => prop === 'forwardMe'
     })()
 
     const ComposedDiv = styled(StyledDiv, {
@@ -41,14 +41,14 @@ describe('React-JSS: styled props filter', () => {
   })
 
   it('should enable custom shouldForwardProp', () => {
-    const Svg = props => (
+    const Svg = (props) => (
       <svg {...props}>
         <rect x="10" y="10" height="100" width="100" style={{stroke: '#ff0000'}} />
       </svg>
     )
 
     const StyledSvg = styled(Svg, {
-      shouldForwardProp: prop => ['className', 'width', 'height'].indexOf(prop) !== -1
+      shouldForwardProp: (prop) => ['className', 'width', 'height'].indexOf(prop) !== -1
     })({
       fill: ({color}) => color
     })
@@ -76,7 +76,7 @@ describe('React-JSS: styled props filter', () => {
 
   it('should inherit shouldForwardProp for wrapped styled components', () => {
     const Div1 = styled('div', {
-      shouldForwardProp: prop => prop !== 'color'
+      shouldForwardProp: (prop) => prop !== 'color'
     })({
       color: ({color}) => color
     })
@@ -147,7 +147,7 @@ describe('React-JSS: styled props filter', () => {
 
   it('should not filter on non string tags', () => {
     // eslint-disable-next-line jsx-a11y/anchor-has-content
-    const Comp = props => <a {...props} />
+    const Comp = (props) => <a {...props} />
     const Link = styled(Comp)({color: 'green'})
 
     const {css, tree} = renderToJSON(

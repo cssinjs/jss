@@ -76,7 +76,7 @@ You need to register a `plugin` only once per JSS instance. There are some hooks
     import jss from 'jss'
 
     jss.use({
-      onProcessSheet: sheet => {
+      onProcessSheet: (sheet) => {
         // Do something here.
       }
     })

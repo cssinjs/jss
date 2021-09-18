@@ -6,7 +6,7 @@ import {create} from 'jss'
 import pluginDefaultUnit from 'jss-plugin-default-unit'
 import pluginObservable from '.'
 
-const settings = {createGenerateId: () => rule => `${rule.key}-id`}
+const settings = {createGenerateId: () => (rule) => `${rule.key}-id`}
 
 describe('jss-plugin-rule-value-observable: values', () => {
   let jss
@@ -23,7 +23,7 @@ describe('jss-plugin-rule-value-observable: values', () => {
       sheet = jss.createStyleSheet(
         {
           a: {
-            height: new Observable(obs => {
+            height: new Observable((obs) => {
               observer = obs
             })
           }
@@ -67,7 +67,7 @@ describe('jss-plugin-rule-value-observable: values', () => {
       sheet = jss.createStyleSheet(
         {
           a: {
-            height: new Observable(obs => {
+            height: new Observable((obs) => {
               observer = obs
             })
           }
@@ -89,7 +89,7 @@ describe('jss-plugin-rule-value-observable: values', () => {
       sheet = jss.createStyleSheet(
         {
           a: {
-            height: new Observable(obs => {
+            height: new Observable((obs) => {
               observer = obs
             })
           }
@@ -110,7 +110,7 @@ describe('jss-plugin-rule-value-observable: values', () => {
   describe('.toJSON()', () => {
     it('should handle observable values', () => {
       const rule = jss.createRule({
-        color: new Observable(observer => {
+        color: new Observable((observer) => {
           observer.next('red')
         })
       })

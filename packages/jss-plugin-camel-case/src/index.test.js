@@ -6,7 +6,7 @@ import functionPlugin from 'jss-plugin-rule-value-function'
 import camelCase from './index'
 
 const settings = {
-  createGenerateId: () => rule => `${rule.key}-id`
+  createGenerateId: () => (rule) => `${rule.key}-id`
 }
 
 describe('jss-plugin-camel-case', () => {
@@ -184,7 +184,7 @@ describe('jss-plugin-camel-case', () => {
     it('with dynamic css variable', () => {
       const sheet = localJss.createStyleSheet({
         a: {
-          '--fontSize': size => size
+          '--fontSize': (size) => size
         }
       })
 

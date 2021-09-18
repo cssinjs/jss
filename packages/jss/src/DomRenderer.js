@@ -6,7 +6,7 @@ import toCssValue from './utils/toCssValue'
 /**
  * Cache the value from the first time a function is called.
  */
-const memoize = fn => {
+const memoize = (fn) => {
   let value
   return () => {
     if (!value) value = fn()

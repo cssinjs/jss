@@ -6,7 +6,7 @@ import expect from 'expect.js'
 import {create} from 'jss'
 import functionPlugin from '.'
 
-const settings = {createGenerateId: () => rule => `${rule.key}-id`}
+const settings = {createGenerateId: () => (rule) => `${rule.key}-id`}
 
 describe('jss-plugin-rule-value-function: Function values', () => {
   let jss
@@ -22,7 +22,7 @@ describe('jss-plugin-rule-value-function: Function values', () => {
       sheet = jss.createStyleSheet({}, {link: true}).attach()
       sheet.addRule('@media screen', {
         b: {
-          color: props => (props.primary ? 'black' : 'white')
+          color: (props) => (props.primary ? 'black' : 'white')
         }
       })
     })
@@ -71,7 +71,7 @@ describe('jss-plugin-rule-value-function: Function values', () => {
           if (rule.key === ruleName) return
 
           ruleSheet.addRule(ruleName, {
-            color: props => props.color
+            color: (props) => props.color
           })
         }
       })
@@ -84,7 +84,7 @@ describe('jss-plugin-rule-value-function: Function values', () => {
 
     it('should render color for rule by plugin', () => {
       sheet.addRule('rule', {
-        color: props => props.color
+        color: (props) => props.color
       })
       sheet.update({color: 'red'})
 
@@ -180,16 +180,16 @@ describe('jss-plugin-rule-value-function: Function values', () => {
 
     const styles = {
       a: {
-        color: theme => theme.color
+        color: (theme) => theme.color
       },
       '@media all': {
         b: {
-          color: theme => theme.color
+          color: (theme) => theme.color
         }
       },
       '@keyframes a': {
         '0%': {
-          color: theme => theme.color
+          color: (theme) => theme.color
         }
       }
     }
@@ -331,7 +331,7 @@ describe('jss-plugin-rule-value-function: Function values', () => {
         sheet = jss.createStyleSheet(
           {
             a: {
-              color: theme => theme.color
+              color: (theme) => theme.color
             }
           },
           {link: true}

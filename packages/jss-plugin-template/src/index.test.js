@@ -7,7 +7,7 @@ import sinon from 'sinon'
 import template from '.'
 
 const settings = {
-  createGenerateId: () => rule => `${rule.key}-id`
+  createGenerateId: () => (rule) => `${rule.key}-id`
 }
 
 describe('jss-plugin-template', () => {

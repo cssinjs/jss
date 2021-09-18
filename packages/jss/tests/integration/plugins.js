@@ -21,7 +21,7 @@ describe('Integration: plugins', () => {
       let processed = 0
       jss.use({
         onCreateRule: () => receivedRule,
-        onProcessRule: rule => {
+        onProcessRule: (rule) => {
           receivedRule = rule
           processed++
         }
@@ -34,7 +34,7 @@ describe('Integration: plugins', () => {
 
     it('should call hooks in the correct order', () => {
       jss.use({
-        onProcessRule: rule => {
+        onProcessRule: (rule) => {
           if (rule.key === 'a') {
             rule.options.sheet.addRule('b', {color: 'green'}, {index: 1})
           }
@@ -43,7 +43,7 @@ describe('Integration: plugins', () => {
 
       const selectors = []
       jss.use({
-        onProcessRule: rule => {
+        onProcessRule: (rule) => {
           selectors.push(rule.selector)
         }
       })
@@ -224,7 +224,7 @@ describe('Integration: plugins', () => {
 
     beforeEach(() => {
       jss.use({
-        onProcessSheet: sheet => {
+        onProcessSheet: (sheet) => {
           receivedSheet = sheet
           executed++
         }
@@ -250,7 +250,7 @@ describe('Integration: plugins', () => {
     beforeEach(() => {
       executed = 0
       jss.use({
-        onProcessRule: rule => {
+        onProcessRule: (rule) => {
           receivedRule = rule
           executed++
         }
@@ -284,12 +284,12 @@ describe('Integration: plugins', () => {
       let receivedRule1
       let receivedRule2
       const plugin1 = {
-        onProcessRule: rule => {
+        onProcessRule: (rule) => {
           receivedRule1 = rule
         }
       }
       const plugin2 = {
-        onProcessRule: rule => {
+        onProcessRule: (rule) => {
           receivedRule2 = rule
         }
       }
@@ -350,8 +350,8 @@ describe('Integration: plugins', () => {
     })
 
     it('should pass the new value to the next hook', () => {
-      jss.use({onChangeValue: value => `${value}-first`})
-      jss.use({onChangeValue: value => `${value}-second`})
+      jss.use({onChangeValue: (value) => `${value}-first`})
+      jss.use({onChangeValue: (value) => `${value}-second`})
       sheet.getRule('a').prop('color', 'green')
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
@@ -432,7 +432,7 @@ describe('Integration: plugins', () => {
     it('should pass the style object to the next hook', () => {
       let passedStyle
       jss.use({
-        onProcessStyle: style => {
+        onProcessStyle: (style) => {
           passedStyle = style
           return style
         }

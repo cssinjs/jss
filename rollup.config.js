@@ -26,13 +26,13 @@ const globals = {
   react: 'React'
 }
 
-Object.keys(pkg.peerDependencies || {}).forEach(key => {
+Object.keys(pkg.peerDependencies || {}).forEach((key) => {
   if (!(key in globals)) {
     throw new Error(`Missing peer dependency "${key}" in the globals map.`)
   }
 })
 
-const external = id => !id.startsWith('.') && !path.isAbsolute(id)
+const external = (id) => !id.startsWith('.') && !path.isAbsolute(id)
 
 const getBabelConfig = ({useESModules}) => ({
   babelHelpers: 'runtime',

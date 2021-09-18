@@ -64,7 +64,7 @@ export default function JssProvider(props) {
     return context
   }
 
-  const renderProvider = parentContext => {
+  const renderProvider = (parentContext) => {
     const {children} = props
     const context = createContext(parentContext, prevContextRef.current)
     prevContextRef.current = context

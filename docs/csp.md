@@ -59,10 +59,10 @@ To communicate the nonce value to JSS, we're going use some basic templating wit
 1.  First, create the template HTML file.
 
     ```html
-      <head>
-        <meta property="csp-nonce" content="{{ styleNonce }}">
-      </head>
-      ...
+    <head>
+      <meta property="csp-nonce" content="{{ styleNonce }}" />
+    </head>
+    ...
     ```
 
 1.  Now update the server to render the template with the `styleNonce` variable to be interpolated with the nonce generated from our middleware `res.locals.styleNonce`.

@@ -72,7 +72,7 @@ export default ({createStyledComponent}) => {
   it('should use passed options.generateId', () => {
     const registry = new SheetsRegistry()
     const options = {
-      generateId: rule => `ui-${rule.key}`
+      generateId: (rule) => `ui-${rule.key}`
     }
     const MyComponent = createStyledComponent(
       {
@@ -187,7 +187,7 @@ export default ({createStyledComponent}) => {
     })
 
     it('should not warn if themed styles _do use_ theme', () => {
-      const MyComponent = createStyledComponent(theme => ({})) // eslint-disable-line no-unused-vars
+      const MyComponent = createStyledComponent((theme) => ({})) // eslint-disable-line no-unused-vars
 
       TestRenderer.act(() => {
         TestRenderer.create(<MyComponent theme={{}} />)

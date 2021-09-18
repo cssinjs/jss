@@ -12,11 +12,7 @@ suite('Add rule', () => {
     '.insertRule()',
     function benchmark() {
       this.sheets = sheets
-      this.sheet =
-        this.sheet ||
-        create()
-          .createStyleSheet()
-          .attach()
+      this.sheet = this.sheet || create().createStyleSheet().attach()
       this.sheet.addRule('modal', styles.modal)
     },
     {teardown}

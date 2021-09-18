@@ -88,9 +88,7 @@ The above code will compile to
 ```html
 <div id="root">
   <button class="Button-myButton-1-25">
-    <span class="Button-myLabel-1-26">
-      Submit
-    </span>
+    <span class="Button-myLabel-1-26"> Submit </span>
   </button>
 </div>
 ```
@@ -124,9 +122,9 @@ import {createUseStyles} from 'react-jss'
 
 const useStyles = createUseStyles({
   myButton: {
-    padding: props => props.spacing
+    padding: (props) => props.spacing
   },
-  myLabel: props => ({
+  myLabel: (props) => ({
     display: 'block',
     color: props.labelColor,
     fontWeight: props.fontWeight,
@@ -157,9 +155,7 @@ The above code will compile to
 ```html
 <div id="root">
   <button class="myButton-1-25">
-    <span class="myLabel-1-26">
-      Submit
-    </span>
+    <span class="myLabel-1-26"> Submit </span>
   </button>
 </div>
 ```
@@ -187,9 +183,9 @@ import {createUseStyles} from 'react-jss'
 const useStyles = createUseStyles(
   {
     myButton: {
-      padding: props => props.spacing
+      padding: (props) => props.spacing
     },
-    myLabel: props => ({
+    myLabel: (props) => ({
       display: 'block',
       color: props.labelColor,
       fontWeight: props.fontWeight,
@@ -222,9 +218,7 @@ The above code will compile to
 ```html
 <div id="root">
   <button class="Button-myButton-1-25">
-    <span class="Button-myLabel-1-26">
-      Submit
-    </span>
+    <span class="Button-myLabel-1-26"> Submit </span>
   </button>
 </div>
 ```
@@ -264,7 +258,7 @@ import {createUseStyles, useTheme, ThemeProvider} from 'react-jss'
 
 // Using `theme` function is better when you have many theme dependant styles.
 // Note that in this case you don't need to use useTheme(), it subscribes to the them automatically
-const useStylesFromThemeFunction = createUseStyles(theme => ({
+const useStylesFromThemeFunction = createUseStyles((theme) => ({
   button: {
     background: theme.colorPrimary
   },

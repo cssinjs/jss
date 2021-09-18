@@ -7,7 +7,7 @@ import mergeClasses from './utils/mergeClasses'
 import getSheetIndex from './utils/getSheetIndex'
 import createUseStyles from './createUseStyles'
 
-const NoRenderer = props => props.children || null
+const NoRenderer = (props) => props.children || null
 
 /**
  * HOC creator function that wrapps the user component.
@@ -22,9 +22,8 @@ const createWithStyles = (styles, options = {}) => {
   return (InnerComponent = NoRenderer) => {
     const displayName = getDisplayName(InnerComponent)
 
-    const mergeClassesProp = memoize(
-      (sheetClasses, classesProp) =>
-        classesProp ? mergeClasses(sheetClasses, classesProp) : sheetClasses
+    const mergeClassesProp = memoize((sheetClasses, classesProp) =>
+      classesProp ? mergeClasses(sheetClasses, classesProp) : sheetClasses
     )
 
     const hookOptions = Object.assign(sheetOptions, {

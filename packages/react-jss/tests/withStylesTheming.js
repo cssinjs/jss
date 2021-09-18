@@ -7,15 +7,15 @@ import TestRenderer from 'react-test-renderer'
 import injectSheet, {createTheming, ThemeProvider, JssProvider, SheetsRegistry} from '../src'
 
 describe('React-JSS: theming withStyles()', () => {
-  const themedStaticStyles = theme => ({
+  const themedStaticStyles = (theme) => ({
     rule: {
       color: theme.color
     }
   })
-  const themedDynamicStyles = theme => ({
+  const themedDynamicStyles = (theme) => ({
     rule: {
       color: theme.color,
-      backgroundColor: props => props.backgroundColor
+      backgroundColor: (props) => props.backgroundColor
     }
   })
   const themeA = {color: '#aaa'}
@@ -362,10 +362,10 @@ describe('React-JSS: theming withStyles()', () => {
       let themeReceivedInComponentA
       let themeReceivedInComponentB
 
-      const styleA = theme => {
+      const styleA = (theme) => {
         colorReceivedInStyleA = theme.color
       }
-      const styleB = theme => {
+      const styleB = (theme) => {
         colorReceivedInStyleB = theme.color
       }
 
