@@ -26,7 +26,7 @@ const styles: Styles<string, Props> = {
     textAlign: 'center',
     display: 'flex',
     width: '100%',
-    justifyContent: props => (props.flag ? 'center' : undefined)
+    justifyContent: (props) => (props.flag ? 'center' : undefined)
   },
   inner: {
     textAlign: 'center',
@@ -37,7 +37,7 @@ const styles: Styles<string, Props> = {
       fontSize: 12
     }
   },
-  func: props => ({
+  func: (props) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -47,8 +47,8 @@ const styles: Styles<string, Props> = {
     position: 'relative',
     pointerEvents: props.flag ? 'none' : null
   }),
-  funcNull: props => null,
-  funcWithTerm: props => ({
+  funcNull: (props) => null,
+  funcWithTerm: (props) => ({
     width: props.flag ? 377 : 272,
     height: props.flag ? 330 : 400,
     boxShadow: '0px 2px 20px rgba(0, 0, 0, 0.08)',
@@ -68,27 +68,19 @@ const styles: Styles<string, Props> = {
   },
   '@keyframes fadeIn': {
     from: {opacity: 0},
-    to: {opacity: 1}
+    to: {opacity: 1},
+    '50%': {opacity: 0.5}
   }
 }
 
 // Test supplied Props and Theme
 // Verify that nested parameter declarations are banned
 const stylesPropsAndTheme: Styles<string, Props, Theme> = {
-  rootParamDeclaration: ({flag, theme}) => ({
+  // @ts-expect-error Did you mean to call this expression?
+  rootParamDeclaration: ({flag, theme}: Props & {theme: Theme}) => ({
     fontWeight: 'bold',
-    // @ts-expect-error
-    nothingAllowed: ({flag, theme}) => ''
-  }),
-  anotherClass: {
-    color: 'red',
-    innerParamDeclaration1: ({flag, theme}) => '',
-    innerParamDeclaration2: ({flag, theme}) => ({
-      backgroundColor: 'blue',
-      // @ts-expect-error
-      nothingAllowed: ({flag, theme}) => ''
-    })
-  }
+    color: ({flag, theme}: Props & {theme: Theme}) => 'red'
+  })
 }
 
 // Test the className types

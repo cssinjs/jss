@@ -31,7 +31,7 @@ function functionPlainObject(theme: MyTheme) {
     anotherClassName: {
       fontWeight: 'bold'
     }
-  }
+  } as const
 }
 ResultingComponent = withStyles(functionPlainObject)(SimpleComponent)
 ComponentTest = () => <ResultingComponent property="" />
@@ -80,7 +80,7 @@ const plainObject = {
   anotherClassName: {
     fontWeight: 'bold'
   }
-}
+} as const
 ResultingComponent = withStyles(plainObject)(SimpleComponent)
 ComponentTest = () => <ResultingComponent property="" />
 

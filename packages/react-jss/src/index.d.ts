@@ -49,9 +49,8 @@ interface WithStylesProps<
 /**
  * @deprecated Please use `WithStylesProps` instead
  */
-type WithStyles<
-  S extends Styles<any, any, any> | ((theme: any) => Styles<any, any, undefined>)
-> = WithStylesProps<S>
+type WithStyles<S extends Styles<any, any, any> | ((theme: any) => Styles<any, any, undefined>)> =
+  WithStylesProps<S>
 
 declare global {
   namespace Jss {
@@ -76,10 +75,10 @@ interface CreateUseStylesOptions<Theme = DefaultTheme> extends BaseOptions<Theme
   name?: string
 }
 
-declare function createUseStyles<C extends string = string, Props = unknown, Theme = DefaultTheme>(
-  styles: Styles<C, Props, Theme> | ((theme: Theme) => Styles<C, Props, undefined>),
+declare function createUseStyles<C extends string = string, Data = unknown, Theme = DefaultTheme>(
+  styles: Styles<C, Data, Theme> | ((theme: Theme) => Styles<C, Data, Theme>),
   options?: CreateUseStylesOptions<Theme>
-): (data?: Props & {theme?: Theme}) => Classes<C>
+): (data?: Data & {theme?: Theme}) => Classes<C>
 
 type GetProps<C> = C extends ComponentType<infer P> ? P : never
 
@@ -88,9 +87,7 @@ declare function withStyles<ClassNames extends string | number | symbol, Props, 
     | Styles<ClassNames, Props, Theme>
     | ((theme: Theme) => Styles<ClassNames, Props, undefined>),
   options?: WithStylesOptions
-): <C>(
-  comp: C
-) => ComponentType<
+): <C>(comp: C) => ComponentType<
   JSX.LibraryManagedAttributes<
     C,
     Omit<GetProps<C>, 'classes'> & {
