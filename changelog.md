@@ -8,6 +8,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 - [all] Flow types are now moved from .js files to .flow type defs [1509](https://github.com/cssinjs/jss/pull/1509)
 
+- [all] Upgrade typescript to 4.4.2 [1550](https://github.com/cssinjs/jss/pull/1550)
+
 ## 10.7.1 (2021-6-28)
 
 ### Bug fixes
