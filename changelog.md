@@ -2,6 +2,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ## Next (version and date will be generated, add changes below)
 
+## 10.8.0 (2021-9-18)
+
 ### Improvements
 
 - [jss] New option to remove whitespaces. Useful for SSR [1549](https://github.com/cssinjs/jss/pull/1549)
