@@ -154,7 +154,7 @@ function failingFunctionNullTheme(theme: MyTheme): Styles<string, unknown, null>
   }
 }
 
-// @ts-expect-error - can't use a wrong theme
+// @ts-expect-error - can't override `theme` argument
 withStyles(failingFunctionWrongTheme)(SimpleComponent)
 // @ts-expect-error - can't use null as a theme
 withStyles(failingFunctionNullTheme)(SimpleComponent)
