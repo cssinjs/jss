@@ -234,7 +234,7 @@ const insertRule = (container, rule, index) => {
 }
 
 const getValidRuleInsertionIndex = (container, index) => {
-  const maxIndex = container.cssRules.length
+  const maxIndex = container?.cssRules?.length
   // In case previous insertion fails, passed index might be wrong
   if (index === undefined || index > maxIndex) {
     // eslint-disable-next-line no-param-reassign
