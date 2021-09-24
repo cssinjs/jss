@@ -77,3 +77,8 @@
 [VS JSS Codemorphs](https://marketplace.visualstudio.com/items?itemName=vscodeshift.jss-codemorphs) Visual Studio Code command for converting CSS to JS styles
 
 [Atom CSS to JS converter](https://atom.io/packages/css-in-js) Atom plugin for converting CSS to JS styles and vice versa
+
+## Linters
+
+[ESLint plugin for React JSS](https://github.com/dashxhq/eslint-plugin-react-jss) ESLint plugin for React JSS
+
