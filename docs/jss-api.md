@@ -134,7 +134,7 @@ sheets.add(sheet)
 sheets.toString() // Returns all Style Sheets as a CSS string.
 sheets.toString({attached: true}) // Returns all attached Style Sheets as a CSS string.
 sheets.toString({attached: false}) // Returns all detached Style Sheets as a CSS string.
-sheets.toStirng({format: false}) // Returns a CSS string without unnecessary whitespaces. Useful for SSR.
+sheets.toString({format: false}) // Returns a CSS string without unnecessary whitespaces. Useful for SSR.
 ```
 
 ## Style Sheets Manager
