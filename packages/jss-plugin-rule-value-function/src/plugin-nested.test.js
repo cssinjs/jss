@@ -127,6 +127,55 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
       `)
     })
 
+    describe('should update', () => {
+      beforeEach(() => {
+        sheet.update({color: 'green'})
+      })
+
+      describe('first update', () => {
+        const expectedCSS = stripIndent`
+          .a-id {
+            color: red;
+          }
+          .a-id a {
+            color: green;
+          }
+        `
+        it('sheet', () => {
+          expect(sheet.toString()).to.be(expectedCSS)
+        })
+
+        it('DOM', () => {
+          const style = getStyle()
+          const css = getCss(style)
+          expect(css).to.be(removeWhitespace(expectedCSS))
+        })
+      })
+
+      describe('second update', () => {
+        beforeEach(() => {
+          sheet.update({color: 'yellow'})
+        })
+        const expectedCSS = stripIndent`
+          .a-id {
+            color: red;
+          }
+          .a-id a {
+            color: yellow;
+          }
+        `
+        it('sheet', () => {
+          expect(sheet.toString()).to.be(expectedCSS)
+        })
+
+        it('DOM', () => {
+          const style = getStyle()
+          const css = getCss(style)
+          expect(css).to.be(removeWhitespace(expectedCSS))
+        })
+      })
+    })
+
     describe('issue #1360: no memory leak', () => {
       beforeEach(() => {
         sheet.update({color: 'green'})
