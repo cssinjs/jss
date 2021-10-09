@@ -17,9 +17,9 @@ const forceUpdateOptions = {
  * Is used for e.g. by `StyleSheet` or `ConditionalRule`.
  */
 export default class RuleList {
-  // Rules registry for access by .get() method.
-  // It contains the same rule registered by name and by selector.
-  map = {}
+  nameMap = {}
+
+  selectorMap = {}
 
   // Original styles object.
   raw = {}
@@ -86,10 +86,68 @@ export default class RuleList {
   }
 
   /**
+   * Replace rule.
+   *
+   * Return [oldRule, newRule]
+   *
+   * Nothing happens if old rule doesn't exist.
+   *
+   * Create a new rule and remove old one instead of overwriting
+   * because we want to invoke onCreateRule hook to make plugins work.
+   */
+  replace(name, decl, ruleOptions) {
+    const {parent, sheet, jss, Renderer, generateId, scoped} = this.options
+    const options = {
+      classes: this.classes,
+      parent,
+      sheet,
+      jss,
+      Renderer,
+      generateId,
+      scoped,
+      name,
+      keyframes: this.keyframes,
+      selector: undefined,
+      ...ruleOptions
+    }
+
+    const oldRule = this.getByName(name)
+    const oldIndex = this.index.indexOf(oldRule)
+    if (!oldRule || oldIndex === -1) {
+      return [null, null]
+    }
+
+    // We need to save the original decl before creating the rule
+    // because cache plugin needs to use it as a key to return a cached rule.
+    const prevDecl = this.raw[name]
+    this.raw[name] = decl
+    const newRule = createRule(name, decl, options)
+    if (!newRule) {
+      this.raw[name] = prevDecl
+      return [null, null]
+    }
+    this.unregister(oldRule)
+    this.register(newRule)
+
+    this.index.splice(oldIndex, 1, newRule)
+
+    return [oldRule, newRule]
+  }
+
+  /**
    * Get a rule.
    */
-  get(name) {
-    return this.map[name]
+  get(nameOrSelector) {
+    const nameMatch = this.nameMap[nameOrSelector]
+    if (nameMatch) return nameMatch
+    return this.selectorMap[nameOrSelector]
+  }
+
+  /**
+   * Get a rule by name.
+   */
+  getByName(name) {
+    return this.nameMap[name]
   }
 
   /**
@@ -119,12 +177,12 @@ export default class RuleList {
   }
 
   /**
-   * Register a rule in `.map`, `.classes` and `.keyframes` maps.
+   * Register a rule in `.nameMap`, `selectorMap`, `.classes` and `.keyframes` maps.
    */
   register(rule) {
-    this.map[rule.key] = rule
+    this.nameMap[rule.key] = rule
     if (rule instanceof StyleRule) {
-      this.map[rule.selector] = rule
+      this.selectorMap[rule.selector] = rule
       if (rule.id) this.classes[rule.key] = rule.id
     } else if (rule instanceof KeyframesRule && this.keyframes) {
       this.keyframes[rule.name] = rule.id
@@ -135,9 +193,9 @@ export default class RuleList {
    * Unregister a rule.
    */
   unregister(rule) {
-    delete this.map[rule.key]
+    delete this.nameMap[rule.key]
     if (rule instanceof StyleRule) {
-      delete this.map[rule.selector]
+      delete this.selectorMap[rule.selector]
       delete this.classes[rule.key]
     } else if (rule instanceof KeyframesRule) {
       delete this.keyframes[rule.name]
@@ -163,7 +221,7 @@ export default class RuleList {
     }
 
     if (name) {
-      this.updateOne(this.map[name], data, options)
+      this.updateOne(this.get(name), data, options)
     } else {
       for (let index = 0; index < this.index.length; index++) {
         this.updateOne(this.index[index], data, options)

@@ -55,8 +55,8 @@ export default class StyleSheet {
     const {queue} = this
 
     // Plugins can create rules.
-    // In order to preserve the right order, we need to queue all `.addRule` calls,
-    // which happen after the first `rules.add()` call.
+    // In order to preserve the right order, we need to queue all `.addRule` / `.replaceRule` calls,
+    // which happen after the first `rules.add()` / `rules.replace()` call.
     if (this.attached && !queue) this.queue = []
 
     const rule = this.rules.add(name, decl, options)
@@ -88,6 +88,45 @@ export default class StyleSheet {
   }
 
   /**
+   * Replace a rule in the current stylesheet.
+   * Nothing happens if old rule doesn't exist.
+   */
+  replaceRule(name, decl, options) {
+    const [oldRule, newRule] = this.rules.replace(name, decl, options)
+
+    if (oldRule === null || newRule === null) return [null, null]
+
+    this.options.jss.plugins.onProcessRule(newRule)
+
+    if (this.attached) {
+      if (!this.deployed) return [oldRule, newRule]
+      // Don't replace rule directly if there is no stringified version yet.
+      // It will be inserted all together when .attach is called.
+      if (this.renderer && oldRule.renderable) {
+        this.renderer.replaceRule(oldRule.renderable, newRule)
+      }
+      return [oldRule, newRule]
+    }
+
+    // We can't replace rules to a detached style node.
+    // We will redeploy the sheet once user will attach it.
+    this.deployed = false
+
+    return [oldRule, newRule]
+  }
+
+  /**
+   * replaceRule if rule with same name exists
+   * or else, addRule
+   */
+  upsertRule(name, decl, options) {
+    if (this.getRuleByName(name)) {
+      return this.replaceRule(name, decl, options)
+    }
+    return [null, this.addRule(name, decl, options)]
+  }
+
+  /**
    * Insert rule into the StyleSheet
    */
   insertRule(rule) {
@@ -110,10 +149,17 @@ export default class StyleSheet {
   }
 
   /**
+   * Get a rule by name or selector.
+   */
+  getRule(nameOrSelector) {
+    return this.rules.get(nameOrSelector)
+  }
+
+  /**
    * Get a rule by name.
    */
-  getRule(name) {
-    return this.rules.get(name)
+  getRuleByName(name) {
+    return this.rules.getByName(name)
   }
 
   /**

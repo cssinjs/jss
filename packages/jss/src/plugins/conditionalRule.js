@@ -57,6 +57,25 @@ export class ConditionalRule {
   }
 
   /**
+   * Replace rule, run plugins.
+   */
+  replaceRule(name, style, options) {
+    const [oldRule, newRule] = this.rules.replace(name, style, options)
+    if (!oldRule || !newRule) return [null, null]
+    this.options.jss.plugins.onProcessRule(newRule)
+    return [oldRule, newRule]
+  }
+
+  /**
+   * replaceRule if rule with same name exists.
+   * Or else, addRule
+   */
+  upsertRule(name, style, options) {
+    if (this.getRule(name)) return this.replaceRule(name, style, options)
+    return [null, this.addRule(name, style, options)]
+  }
+
+  /**
    * Generates a CSS string.
    */
   toString(options = defaultToStringOptions) {

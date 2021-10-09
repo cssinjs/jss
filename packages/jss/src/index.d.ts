@@ -6,7 +6,9 @@ import {Properties as CSSProperties} from 'csstype'
 //
 // TODO: refactor to only include Observable types if plugin is installed.
 export interface MinimalObservable<T> {
-  subscribe(nextOrObserver: ((value: T) => void) | {next: (value: T) => void}): {
+  subscribe(
+    nextOrObserver: ((value: T) => void) | {next: (value: T) => void}
+  ): {
     unsubscribe: () => void
   }
 }
@@ -86,8 +88,10 @@ interface RuleListOptions {
 
 declare class RuleList {
   constructor(options: RuleListOptions)
-  add(name: string, decl: JssStyle, options?: RuleOptions): Rule
-  get(name: string): Rule
+  add(name: string, decl: JssStyle, options?: RuleOptions): [Rule | null]
+  replace(name: string, decl: JssStyle, options?: RuleOptions): [Rule | null, Rule | null]
+  get(nameOrSelector: string): Rule
+  getByName(name: string): Rule
   remove(rule: Rule): void
   indexOf(rule: Rule): number
   process(): void
@@ -215,7 +219,27 @@ export interface StyleSheet<RuleName extends string | number | symbol = string |
    * Will insert a rule also after the stylesheet has been rendered first time.
    */
   addRule(style: JssStyle, options?: Partial<RuleOptions>): Rule
-  addRule(name: RuleName, style: JssStyle, options?: Partial<RuleOptions>): Rule
+  addRule(name: RuleName, style: JssStyle, options?: Partial<RuleOptions>): Rule | null
+
+  /**
+   * Replace a rule in the current stylesheet.
+   * Nothing happens if old rule doesn't exist.
+   */
+  replaceRule(
+    name: RuleName,
+    style: JssStyle,
+    options?: Partial<RuleOptions>
+  ): [Rule | null, Rule | null]
+
+  /**
+   * replaceRule if rule with same name exists
+   * or else, addRule
+   */
+  upsertRule(
+    name: RuleName,
+    style: JssStyle,
+    options?: Partial<RuleOptions>
+  ): [Rule | null, Rule | null]
 
   insertRule(rule: Rule): void
   /**
@@ -226,6 +250,10 @@ export interface StyleSheet<RuleName extends string | number | symbol = string |
     styles: Partial<Styles<RuleName, any, undefined>>,
     options?: Partial<RuleOptions>
   ): Rule[]
+  /**
+   * Get a rule by name or selector.
+   */
+  getRule(nameOrSelector: RuleName | string): Rule
   /**
    * Get a rule by name.
    */

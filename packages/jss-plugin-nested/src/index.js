@@ -18,9 +18,8 @@ export default function jssNested() {
 
       warning(
         false,
-        `[JSS] Could not find the referenced rule "${key}" in "${
-          container.options.meta || container.toString()
-        }".`
+        `[JSS] Could not find the referenced rule "${key}" in "${container.options.meta ||
+          container.toString()}".`
       )
       return key
     }
@@ -88,7 +87,11 @@ export default function jssNested() {
         // Replace all $refs.
         selector = selector.replace(refRegExp, replaceRef)
 
-        container.addRule(selector, style[prop], {...options, selector})
+        let name = selector
+        if (name === styleRule.key) {
+          name = `${styleRule.key}-&`
+        }
+        container.upsertRule(name, style[prop], {...options, selector})
       } else if (isNestedConditional) {
         // Place conditional right after the parent rule to ensure right ordering.
         container
