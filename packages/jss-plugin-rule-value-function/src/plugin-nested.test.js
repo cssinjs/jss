@@ -1,10 +1,11 @@
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import {create} from 'jss'
+import {getCss, getStyle, removeWhitespace, resetSheets} from '../../../tests/utils'
 import pluginNested from '../../jss-plugin-nested'
 import pluginFunction from '.'
 
-const settings = {createGenerateId: () => (rule) => `${rule.key}-id`}
+const settings = {createGenerateId: () => rule => `${rule.key}-id`}
 
 describe('jss-plugin-rule-value-function: plugin-nested', () => {
   let jss
@@ -20,7 +21,7 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
       sheet = jss
         .createStyleSheet(
           {
-            a: (data) => ({
+            a: data => ({
               color: data.color,
               '@media all': {
                 color: 'green'
@@ -60,7 +61,7 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
           {
             a: {
               color: 'red',
-              '@media all': (data) => ({
+              '@media all': data => ({
                 color: data.color
               })
             }
@@ -92,6 +93,8 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
   describe('nested selector inside of a fn rule', () => {
     let sheet
 
+    beforeEach(resetSheets())
+
     beforeEach(() => {
       sheet = jss
         .createStyleSheet(
@@ -122,6 +125,33 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
           color: green;
         }
       `)
+    })
+
+    describe('issue #1360: no memory leak', () => {
+      beforeEach(() => {
+        sheet.update({color: 'green'})
+        sheet.update({color: 'red'})
+        sheet.update({color: 'yellow'})
+        sheet.update({color: 'green'})
+      })
+
+      const expectedCSS = stripIndent`
+        .a-id {
+          color: red;
+        }
+        .a-id a {
+          color: green;
+        }
+      `
+      it('sheet', () => {
+        expect(sheet.toString()).to.be(expectedCSS)
+      })
+
+      it('DOM', () => {
+        const style = getStyle()
+        const css = getCss(style)
+        expect(css).to.be(removeWhitespace(expectedCSS))
+      })
     })
   })
 
