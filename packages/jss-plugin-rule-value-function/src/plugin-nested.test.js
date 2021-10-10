@@ -221,20 +221,83 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
           {link: true}
         )
         .attach()
+
+      sheet.update({color: 'green'})
     })
 
     afterEach(() => {
       sheet.detach()
     })
 
-    it('should return correct .toString()', () => {
-      sheet.update({color: 'green'})
+    it('should return correct .toString() on first update', () => {
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
           color: red;
         }
         .a-id a {
           color: green;
+        }
+      `)
+    })
+
+    it('should return correct .toString() on second update', () => {
+      sheet.update({color: 'blue'})
+
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+        }
+        .a-id a {
+          color: blue;
+        }
+      `)
+    })
+  })
+
+  describe('nested identical selector as a fn rule', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss
+        .createStyleSheet(
+          {
+            a: {
+              color: 'red',
+              '&': ({width}) => ({
+                width
+              })
+            }
+          },
+          {link: true}
+        )
+        .attach()
+
+      sheet.update({width: '10px'})
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should return correct .toString() on first update', () => {
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+        }
+        .a-id {
+          width: 10px;
+        }
+      `)
+    })
+
+    it('should return correct .toString() on second update', () => {
+      sheet.update({width: '100px'})
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+        }
+        .a-id {
+          width: 100px;
         }
       `)
     })
@@ -256,7 +319,7 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
             c: {
               '&$a': {
                 '& $b': {
-                  margin: () => '10px'
+                  margin: ({margin}) => margin
                 }
               }
             }
@@ -264,14 +327,15 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
           {link: true}
         )
         .attach()
+
+      sheet.update({margin: '10px'})
     })
 
     afterEach(() => {
       sheet.detach()
     })
 
-    it('should return correct .toString()', () => {
-      sheet.update()
+    it('should return correct .toString() on first update', () => {
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
           padding: 5px;
@@ -283,6 +347,24 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
         .c-id.a-id {}
         .c-id.a-id .b-id {
           margin: 10px;
+        }
+      `)
+    })
+
+    it('should return correct .toString() on  update', () => {
+      sheet.update({margin: '99px'})
+
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          padding: 5px;
+        }
+        .b-id {
+          background: blue;
+        }
+        .c-id {}
+        .c-id.a-id {}
+        .c-id.a-id .b-id {
+          margin: 99px;
         }
       `)
     })
