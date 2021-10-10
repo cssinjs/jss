@@ -9,7 +9,7 @@ import functionPlugin from 'jss-plugin-rule-value-function'
 import nested from '.'
 
 const settings = {
-  createGenerateId: () => (rule) => `${rule.key}-id`
+  createGenerateId: () => rule => `${rule.key}-id`
 }
 
 describe('jss-plugin-nested', () => {
@@ -124,6 +124,85 @@ describe('jss-plugin-nested', () => {
       expect(sheet.toString()).to.be(
         '.a-id {\n  float: left;\n}\n.a-idb, .a-idc {\n  float: left;\n}'
       )
+    })
+  })
+
+  describe('identical nest', () => {
+    describe('single nest', () => {
+      let sheet
+
+      beforeEach(() => {
+        sheet = jss.createStyleSheet({
+          a: {
+            float: 'left',
+            '&': {color: 'blue'}
+          }
+        })
+      })
+
+      it('should add rule', () => {
+        expect(sheet.getRule('a')).to.not.be(undefined)
+      })
+
+      it('should generate correct CSS', () => {
+        expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          float: left;
+        }
+        .a-id {
+          color: blue;
+        }
+      `)
+      })
+    })
+
+    describe('deep nest', () => {
+      let sheet
+
+      beforeEach(() => {
+        sheet = jss.createStyleSheet({
+          a: {
+            float: 'left',
+            '&': {
+              color: 'blue',
+              '&': {
+                width: 0,
+                '&.b': {
+                  'z-index': 1,
+                  '&': {
+                    top: 0
+                  }
+                }
+              }
+            }
+          }
+        })
+      })
+
+      it('should add rules', () => {
+        expect(sheet.getRule('a')).to.not.be(undefined)
+        expect(sheet.getRule('.a-id.b')).to.not.be(undefined)
+      })
+
+      it('should generate correct CSS', () => {
+        expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          float: left;
+        }
+        .a-id {
+          color: blue;
+        }
+        .a-id {
+          width: 0;
+        }
+        .a-id.b {
+          z-index: 1;
+        }
+        .a-id.b {
+          top: 0;
+        }
+      `)
+      })
     })
   })
 
