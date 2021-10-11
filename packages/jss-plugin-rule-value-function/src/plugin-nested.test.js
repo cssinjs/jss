@@ -145,7 +145,7 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
           expect(sheet.toString()).to.be(expectedCSS)
         })
 
-        it('DOM', () => {
+        it('should render correct CSS to DOM', () => {
           const style = getStyle()
           const css = getCss(style)
           expect(css).to.be(removeWhitespace(expectedCSS))
