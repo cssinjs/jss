@@ -141,7 +141,7 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
             color: green;
           }
         `
-        it('sheet', () => {
+        it('should return correct .toString()', () => {
           expect(sheet.toString()).to.be(expectedCSS)
         })
 
