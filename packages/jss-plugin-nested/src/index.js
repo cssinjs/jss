@@ -91,7 +91,7 @@ export default function jssNested() {
         if (name === styleRule.key) {
           name = `${styleRule.key}-&`
         }
-        container.upsertRule(name, style[prop], {...options, selector})
+        container.replaceRule(name, style[prop], {...options, selector})
       } else if (isNestedConditional) {
         // Place conditional right after the parent rule to ensure right ordering.
         container

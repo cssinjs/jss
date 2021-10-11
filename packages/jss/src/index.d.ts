@@ -223,19 +223,8 @@ export interface StyleSheet<RuleName extends string | number | symbol = string |
 
   /**
    * Replace a rule in the current stylesheet.
-   * Nothing happens if old rule doesn't exist.
    */
   replaceRule(
-    name: RuleName,
-    style: JssStyle,
-    options?: Partial<RuleOptions>
-  ): [Rule | null, Rule | null]
-
-  /**
-   * replaceRule if rule with same name exists
-   * or else, addRule
-   */
-  upsertRule(
     name: RuleName,
     style: JssStyle,
     options?: Partial<RuleOptions>

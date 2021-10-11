@@ -51,15 +51,6 @@ class GlobalContainerRule {
   }
 
   /**
-   * replaceRule if rule with same name exists.
-   * Or else, addRule
-   */
-  upsertRule(name, style, options) {
-    if (this.getRule(name)) return this.replaceRule(name, style, options)
-    return [null, this.addRule(name, style, options)]
-  }
-
-  /**
    * Get index of a rule.
    */
   indexOf(rule) {

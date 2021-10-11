@@ -173,20 +173,24 @@ describe('Integration: sheet', () => {
       `)
     })
 
-    it('should do nothing with undefined name', () => {
+    it('should add rule with undefined name', () => {
       const sheet = jss.createStyleSheet({
         a: {color: 'red'}
       })
       sheet.replaceRule('b', {color: 'blue'})
       expect(sheet.classes).to.eql({
-        a: 'a-id'
+        a: 'a-id',
+        b: 'b-id'
       })
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
           color: red;
         }
+        .b-id {
+          color: blue;
+        }
       `)
-      expect(sheet.getRule('b')).to.be(undefined)
+      expect(sheet.getRule('b')).not.to.be(undefined)
     })
   })
 

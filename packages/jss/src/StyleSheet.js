@@ -55,8 +55,8 @@ export default class StyleSheet {
     const {queue} = this
 
     // Plugins can create rules.
-    // In order to preserve the right order, we need to queue all `.addRule` / `.replaceRule` calls,
-    // which happen after the first `rules.add()` / `rules.replace()` call.
+    // In order to preserve the right order, we need to queue all `.addRule` calls,
+    // which happen after the first `rules.add()` call.
     if (this.attached && !queue) this.queue = []
 
     const rule = this.rules.add(name, decl, options)
@@ -89,21 +89,27 @@ export default class StyleSheet {
 
   /**
    * Replace a rule in the current stylesheet.
-   * Nothing happens if old rule doesn't exist.
    */
   replaceRule(name, decl, options) {
-    const [oldRule, newRule] = this.rules.replace(name, decl, options)
+    const oldRule = this.getRuleByName(name)
+    if (!oldRule) return [oldRule, this.addRule(name, decl, options)]
 
-    if (oldRule === null || newRule === null) return [null, null]
+    const [, newRule] = this.rules.replace(name, decl, options)
 
-    this.options.jss.plugins.onProcessRule(newRule)
+    if (newRule) {
+      this.options.jss.plugins.onProcessRule(newRule)
+    }
 
     if (this.attached) {
       if (!this.deployed) return [oldRule, newRule]
-      // Don't replace rule directly if there is no stringified version yet.
+      // Don't replace / delete rule directly if there is no stringified version yet.
       // It will be inserted all together when .attach is called.
-      if (this.renderer && oldRule.renderable) {
-        this.renderer.replaceRule(oldRule.renderable, newRule)
+      if (this.renderer) {
+        if (!newRule) {
+          this.renderer.deleteRule(oldRule)
+        } else if (oldRule.renderable) {
+          this.renderer.replaceRule(oldRule.renderable, newRule)
+        }
       }
       return [oldRule, newRule]
     }
@@ -113,17 +119,6 @@ export default class StyleSheet {
     this.deployed = false
 
     return [oldRule, newRule]
-  }
-
-  /**
-   * replaceRule if rule with same name exists
-   * or else, addRule
-   */
-  upsertRule(name, decl, options) {
-    if (this.getRuleByName(name)) {
-      return this.replaceRule(name, decl, options)
-    }
-    return [null, this.addRule(name, decl, options)]
   }
 
   /**

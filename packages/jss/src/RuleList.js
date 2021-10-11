@@ -87,50 +87,21 @@ export default class RuleList {
 
   /**
    * Replace rule.
-   *
    * Return [oldRule, newRule]
-   *
-   * Nothing happens if old rule doesn't exist.
-   *
    * Create a new rule and remove old one instead of overwriting
    * because we want to invoke onCreateRule hook to make plugins work.
    */
   replace(name, decl, ruleOptions) {
-    const {parent, sheet, jss, Renderer, generateId, scoped} = this.options
-    const options = {
-      classes: this.classes,
-      parent,
-      sheet,
-      jss,
-      Renderer,
-      generateId,
-      scoped,
-      name,
-      keyframes: this.keyframes,
-      selector: undefined,
-      ...ruleOptions
-    }
-
     const oldRule = this.getByName(name)
     const oldIndex = this.index.indexOf(oldRule)
-    if (!oldRule || oldIndex === -1) {
-      return [null, null]
+    if (oldRule) {
+      this.remove(oldRule)
     }
-
-    // We need to save the original decl before creating the rule
-    // because cache plugin needs to use it as a key to return a cached rule.
-    const prevDecl = this.raw[name]
-    this.raw[name] = decl
-    const newRule = createRule(name, decl, options)
-    if (!newRule) {
-      this.raw[name] = prevDecl
-      return [null, null]
+    const options = {...ruleOptions}
+    if (oldIndex !== -1) {
+      options.index = oldIndex
     }
-    this.unregister(oldRule)
-    this.register(newRule)
-
-    this.index.splice(oldIndex, 1, newRule)
-
+    const newRule = this.add(name, decl, options)
     return [oldRule, newRule]
   }
 
