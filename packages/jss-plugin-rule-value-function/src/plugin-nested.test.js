@@ -164,11 +164,11 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
             color: yellow;
           }
         `
-        it('sheet', () => {
+        it('should return correct .toString()', () => {
           expect(sheet.toString()).to.be(expectedCSS)
         })
 
-        it('DOM', () => {
+        it('should render correct CSS to DOM', () => {
           const style = getStyle()
           const css = getCss(style)
           expect(css).to.be(removeWhitespace(expectedCSS))
@@ -176,7 +176,7 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
       })
     })
 
-    describe('issue #1360: no memory leak', () => {
+    describe('updates should replace rules, so that we prevent to generate more and more of them', () => {
       beforeEach(() => {
         sheet.update({color: 'green'})
         sheet.update({color: 'red'})
@@ -192,11 +192,11 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
           color: green;
         }
       `
-      it('sheet', () => {
+      it('should return correct .toString()', () => {
         expect(sheet.toString()).to.be(expectedCSS)
       })
 
-      it('DOM', () => {
+      it('should render correct CSS to DOM', () => {
         const style = getStyle()
         const css = getCss(style)
         expect(css).to.be(removeWhitespace(expectedCSS))
