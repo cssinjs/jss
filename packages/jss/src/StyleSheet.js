@@ -91,7 +91,7 @@ export default class StyleSheet {
    * Replace a rule in the current stylesheet.
    */
   replaceRule(name, decl, options) {
-    const oldRule = this.getRuleByName(name)
+    const oldRule = this.getRule(name)
     if (!oldRule) return [oldRule, this.addRule(name, decl, options)]
 
     const [, newRule] = this.rules.replace(name, decl, options)
@@ -148,13 +148,6 @@ export default class StyleSheet {
    */
   getRule(nameOrSelector) {
     return this.rules.get(nameOrSelector)
-  }
-
-  /**
-   * Get a rule by name.
-   */
-  getRuleByName(name) {
-    return this.rules.getByName(name)
   }
 
   /**

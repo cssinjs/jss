@@ -24,7 +24,6 @@ declare export default class RuleList {
   add(name: string, decl: JssStyle, ruleOptions?: RuleOptions): Rule | null;
   replace(name: string, decl: JssStyle, ruleOptions?: RuleOptions): [Rule | null, Rule | null];
   get(nameOrSelector: string): Rule;
-  getByName(name: string): Rule;
   remove(rule: Rule): void;
   indexOf(rule: Rule): number;
   process(): void;

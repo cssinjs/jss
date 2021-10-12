@@ -244,10 +244,6 @@ export interface StyleSheet<RuleName extends string | number | symbol = string |
    */
   getRule(nameOrSelector: RuleName | string): Rule
   /**
-   * Get a rule by name.
-   */
-  getRule(name: RuleName): Rule
-  /**
    * Delete a rule by name.
    * Returns `true`: if rule has been deleted from the DOM.
    */

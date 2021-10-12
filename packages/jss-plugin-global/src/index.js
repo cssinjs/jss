@@ -155,7 +155,7 @@ export default function jssGlobal() {
       }
     }
 
-    if (options.scoped === false) {
+    if (!options.selector && options.scoped === false) {
       options.selector = name
     }
 

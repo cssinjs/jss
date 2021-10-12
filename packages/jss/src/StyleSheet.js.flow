@@ -32,7 +32,6 @@ declare export default class StyleSheet {
   insertRule(rule: Rule): void;
   addRules(styles: JssStyles, options?: RuleOptions): Array<Rule>;
   getRule(nameOrSelector: string): Rule;
-  getRuleByName(name: string): Rule;
   deleteRule(name: string | Rule): boolean;
   indexOf(rule: Rule): number;
   deploy(): this;

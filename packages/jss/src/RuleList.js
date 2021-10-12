@@ -17,9 +17,9 @@ const forceUpdateOptions = {
  * Is used for e.g. by `StyleSheet` or `ConditionalRule`.
  */
 export default class RuleList {
-  nameMap = {}
-
-  selectorMap = {}
+  // Rules registry for access by .get() method.
+  // It contains the same rule registered by name and by selector.
+  map = {}
 
   // Original styles object.
   raw = {}
@@ -92,7 +92,7 @@ export default class RuleList {
    * because we want to invoke onCreateRule hook to make plugins work.
    */
   replace(name, decl, ruleOptions) {
-    const oldRule = this.getByName(name)
+    const oldRule = this.get(name)
     const oldIndex = this.index.indexOf(oldRule)
     if (oldRule) {
       this.remove(oldRule)
@@ -104,19 +104,10 @@ export default class RuleList {
   }
 
   /**
-   * Get a rule.
+   * Get a rule by name or selector.
    */
   get(nameOrSelector) {
-    const nameMatch = this.nameMap[nameOrSelector]
-    if (nameMatch) return nameMatch
-    return this.selectorMap[nameOrSelector]
-  }
-
-  /**
-   * Get a rule by name.
-   */
-  getByName(name) {
-    return this.nameMap[name]
+    return this.map[nameOrSelector]
   }
 
   /**
@@ -146,12 +137,12 @@ export default class RuleList {
   }
 
   /**
-   * Register a rule in `.nameMap`, `selectorMap`, `.classes` and `.keyframes` maps.
+   * Register a rule in `.map`, `.classes` and `.keyframes` maps.
    */
   register(rule) {
-    this.nameMap[rule.key] = rule
+    this.map[rule.key] = rule
     if (rule instanceof StyleRule) {
-      this.selectorMap[rule.selector] = rule
+      this.map[rule.selector] = rule
       if (rule.id) this.classes[rule.key] = rule.id
     } else if (rule instanceof KeyframesRule && this.keyframes) {
       this.keyframes[rule.name] = rule.id
@@ -162,9 +153,9 @@ export default class RuleList {
    * Unregister a rule.
    */
   unregister(rule) {
-    delete this.nameMap[rule.key]
+    delete this.map[rule.key]
     if (rule instanceof StyleRule) {
-      delete this.selectorMap[rule.selector]
+      delete this.map[rule.selector]
       delete this.classes[rule.key]
     } else if (rule instanceof KeyframesRule) {
       delete this.keyframes[rule.name]
