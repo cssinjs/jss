@@ -176,7 +176,7 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
       })
     })
 
-    describe('updates should replace rules, so that we prevent to generate more and more of them', () => {
+    describe('updates should replace rules, so that we dont generate more and more of them', () => {
       beforeEach(() => {
         sheet.update({color: 'green'})
         sheet.update({color: 'red'})
