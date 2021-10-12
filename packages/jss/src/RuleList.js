@@ -97,10 +97,8 @@ export default class RuleList {
     if (oldRule) {
       this.remove(oldRule)
     }
-    const options = {...ruleOptions}
-    if (oldIndex !== -1) {
-      options.index = oldIndex
-    }
+    let options = ruleOptions
+    if (oldIndex !== -1) options = {...ruleOptions, index: oldIndex}
     const newRule = this.add(name, decl, options)
     return [oldRule, newRule]
   }
