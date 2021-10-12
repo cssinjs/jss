@@ -145,7 +145,7 @@ describe('Integration: sheet', () => {
     it('should replace a rule with "selector" option', () => {
       const sheet = jss.createStyleSheet()
       sheet.addRule('a', {color: 'red'})
-      const [, rule] = sheet.replaceRule('a', {color: 'green'}, {selector: '.test'})
+      const rule = sheet.replaceRule('a', {color: 'green'}, {selector: '.test'})
       expect(rule.selector).to.be('.test')
       expect(sheet.getRule('a')).to.be(rule)
     })

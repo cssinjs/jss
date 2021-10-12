@@ -88,10 +88,9 @@ interface RuleListOptions {
 
 declare class RuleList {
   constructor(options: RuleListOptions)
-  add(name: string, decl: JssStyle, options?: RuleOptions): [Rule | null]
-  replace(name: string, decl: JssStyle, options?: RuleOptions): [Rule | null, Rule | null]
+  add(name: string, decl: JssStyle, options?: RuleOptions): Rule | null
+  replace(name: string, decl: JssStyle, options?: RuleOptions): Rule | null
   get(nameOrSelector: string): Rule
-  getByName(name: string): Rule
   remove(rule: Rule): void
   indexOf(rule: Rule): number
   process(): void

@@ -87,7 +87,6 @@ export default class RuleList {
 
   /**
    * Replace rule.
-   * Return [oldRule, newRule]
    * Create a new rule and remove old one instead of overwriting
    * because we want to invoke onCreateRule hook to make plugins work.
    */
@@ -99,8 +98,7 @@ export default class RuleList {
     }
     let options = ruleOptions
     if (oldIndex !== -1) options = {...ruleOptions, index: oldIndex}
-    const newRule = this.add(name, decl, options)
-    return [oldRule, newRule]
+    return this.add(name, decl, options)
   }
 
   /**

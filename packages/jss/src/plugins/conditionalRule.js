@@ -60,9 +60,9 @@ export class ConditionalRule {
    * Replace rule, run plugins.
    */
   replaceRule(name, style, options) {
-    const [oldRule, newRule] = this.rules.replace(name, style, options)
+    const newRule = this.rules.replace(name, style, options)
     if (newRule) this.options.jss.plugins.onProcessRule(newRule)
-    return [oldRule, newRule]
+    return newRule
   }
 
   /**

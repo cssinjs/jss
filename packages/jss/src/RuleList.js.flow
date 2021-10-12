@@ -22,7 +22,7 @@ declare export default class RuleList {
   keyframes: KeyframesMap;
   constructor(options: RuleListOptions): this;
   add(name: string, decl: JssStyle, ruleOptions?: RuleOptions): Rule | null;
-  replace(name: string, decl: JssStyle, ruleOptions?: RuleOptions): [Rule | null, Rule | null];
+  replace(name: string, decl: JssStyle, ruleOptions?: RuleOptions): Rule | null;
   get(nameOrSelector: string): Rule;
   remove(rule: Rule): void;
   indexOf(rule: Rule): number;

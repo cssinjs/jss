@@ -664,13 +664,13 @@ describe('Functional: sheet', () => {
 
     it('should register the rule', () => {
       expect(sheet.getRule('a')).not.to.be(rule)
-      expect(sheet.getRule('a')).to.be(replaceResult[1])
+      expect(sheet.getRule('a')).to.be(replaceResult)
     })
 
     it('should add a rule to a detached sheet', () => {
       sheet.detach()
       sheet.addRule('b', {display: 'block'})
-      const [, newRule] = sheet.replaceRule('b', {display: 'flex'})
+      const newRule = sheet.replaceRule('b', {display: 'flex'})
       sheet.attach()
       expect(sheet.getRule('b')).to.be(newRule)
     })
