@@ -6,7 +6,7 @@ import nested from 'jss-plugin-nested'
 import global from './index'
 
 const settings = {
-  createGenerateId: () => (rule) => `${rule.key}-id`
+  createGenerateId: () => rule => `${rule.key}-id`
 }
 
 describe('jss-plugin-global', () => {
@@ -413,6 +413,34 @@ describe('jss-plugin-global', () => {
           '    color: green;\n' +
           '  }\n' +
           '}'
+      )
+    })
+  })
+
+  describe('@global add prefixed rule with selector', () => {
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet()
+      sheet.addRule('@global bodyStyle', {color: 'red'}, {selector: 'body'})
+      sheet.addRule('@global bodyStyle', {fontSize: '16px'}, {selector: 'body'})
+      sheet.addRule('@global p', {color: 'black'})
+    })
+
+    it('should add rule', () => {
+      expect(sheet.getRule('@global bodyStyle')).to.not.be(undefined)
+      expect(sheet.getRule('body')).to.be(undefined)
+      expect(sheet.getRule('@global p')).to.not.be(undefined)
+    })
+
+    it('should get rules by name', () => {
+      const rules = sheet.rules.index.filter(rule => rule.options.name === '@global bodyStyle')
+      expect(rules.length).to.equal(2)
+    })
+
+    it('should generate correct CSS', () => {
+      expect(sheet.toString()).to.be(
+        'body {\n  color: red;\n}\nbody {\n  fontSize: 16px;\n}\np {\n  color: black;\n}'
       )
     })
   })

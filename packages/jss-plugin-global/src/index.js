@@ -66,7 +66,10 @@ class GlobalPrefixedRule {
   constructor(key, style, options) {
     this.key = key
     this.options = options
-    const selector = key.substr(atPrefix.length)
+    let selector = options.selector
+    if (selector === null || selector === undefined) {
+      selector = key.substr(atPrefix.length)
+    }
     this.rule = options.jss.createRule(selector, style, {
       ...options,
       parent: this
