@@ -81,4 +81,3 @@
 ## Linters
 
 [ESLint plugin for React JSS](https://github.com/dashxhq/eslint-plugin-react-jss) ESLint plugin for React JSS
-

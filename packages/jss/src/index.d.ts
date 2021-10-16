@@ -6,9 +6,7 @@ import {Properties as CSSProperties} from 'csstype'
 //
 // TODO: refactor to only include Observable types if plugin is installed.
 export interface MinimalObservable<T> {
-  subscribe(
-    nextOrObserver: ((value: T) => void) | {next: (value: T) => void}
-  ): {
+  subscribe(nextOrObserver: ((value: T) => void) | {next: (value: T) => void}): {
     unsubscribe: () => void
   }
 }

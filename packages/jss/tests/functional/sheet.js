@@ -211,7 +211,7 @@ describe('Functional: sheet', () => {
     })
 
     it('should be set by the options argument', () => {
-      ;[-50, 0, 50, 9999].forEach(n => {
+      ;[-50, 0, 50, 9999].forEach((n) => {
         const sheet2 = jss.createStyleSheet({}, {index: n})
         expect(sheet2.options.index).to.be(n)
       })
