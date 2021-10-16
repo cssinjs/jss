@@ -6,7 +6,9 @@ import {Properties as CSSProperties} from 'csstype'
 //
 // TODO: refactor to only include Observable types if plugin is installed.
 export interface MinimalObservable<T> {
-  subscribe(nextOrObserver: ((value: T) => void) | {next: (value: T) => void}): {
+  subscribe(
+    nextOrObserver: ((value: T) => void) | {next: (value: T) => void}
+  ): {
     unsubscribe: () => void
   }
 }
@@ -86,8 +88,9 @@ interface RuleListOptions {
 
 declare class RuleList {
   constructor(options: RuleListOptions)
-  add(name: string, decl: JssStyle, options?: RuleOptions): Rule
-  get(name: string): Rule
+  add(name: string, decl: JssStyle, options?: RuleOptions): Rule | null
+  replace(name: string, decl: JssStyle, options?: RuleOptions): Rule | null
+  get(nameOrSelector: string): Rule
   remove(rule: Rule): void
   indexOf(rule: Rule): number
   process(): void
@@ -215,7 +218,16 @@ export interface StyleSheet<RuleName extends string | number | symbol = string |
    * Will insert a rule also after the stylesheet has been rendered first time.
    */
   addRule(style: JssStyle, options?: Partial<RuleOptions>): Rule
-  addRule(name: RuleName, style: JssStyle, options?: Partial<RuleOptions>): Rule
+  addRule(name: RuleName, style: JssStyle, options?: Partial<RuleOptions>): Rule | null
+
+  /**
+   * Replace a rule in the current stylesheet.
+   */
+  replaceRule(
+    name: RuleName,
+    style: JssStyle,
+    options?: Partial<RuleOptions>
+  ): [Rule | null, Rule | null]
 
   insertRule(rule: Rule): void
   /**
@@ -227,9 +239,9 @@ export interface StyleSheet<RuleName extends string | number | symbol = string |
     options?: Partial<RuleOptions>
   ): Rule[]
   /**
-   * Get a rule by name.
+   * Get a rule by name or selector.
    */
-  getRule(name: RuleName): Rule
+  getRule(nameOrSelector: RuleName | string): Rule
   /**
    * Delete a rule by name.
    * Returns `true`: if rule has been deleted from the DOM.

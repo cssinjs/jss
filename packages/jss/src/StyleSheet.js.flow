@@ -28,9 +28,10 @@ declare export default class StyleSheet {
   attach(): this;
   detach(): this;
   addRule(name: string, decl: JssStyle, options?: RuleOptions): Rule | null;
+  replaceRule(name: string, decl: JssStyle, options?: RuleOptions): Rule | null;
   insertRule(rule: Rule): void;
   addRules(styles: JssStyles, options?: RuleOptions): Array<Rule>;
-  getRule(name: string): Rule;
+  getRule(nameOrSelector: string): Rule;
   deleteRule(name: string | Rule): boolean;
   indexOf(rule: Rule): number;
   deploy(): this;

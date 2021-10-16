@@ -68,7 +68,7 @@ describe('Integration: sheet', () => {
     it('should have no selector in stringified rule when id gnerator is called', () => {
       let css
       // Simulate cache based id generator.
-      const generateId = (rule) => {
+      const generateId = rule => {
         css = rule.toString()
         return css
       }
@@ -138,6 +138,59 @@ describe('Integration: sheet', () => {
           color: green;
         }
       `)
+    })
+  })
+
+  describe('sheet.replaceRule()', () => {
+    it('should replace a rule with "selector" option', () => {
+      const sheet = jss.createStyleSheet()
+      sheet.addRule('a', {color: 'red'})
+      const rule = sheet.replaceRule('a', {color: 'green'}, {selector: '.test'})
+      expect(rule.selector).to.be('.test')
+      expect(sheet.getRule('a')).to.be(rule)
+    })
+
+    it('should replace a rule in same index', () => {
+      const sheet = jss.createStyleSheet({
+        a: {color: 'red'},
+        b: {color: 'green'},
+        c: {color: 'blue'}
+      })
+      sheet.replaceRule('b', {color: 'yellow'})
+      expect(sheet.indexOf(sheet.getRule('a'))).to.be(0)
+      expect(sheet.indexOf(sheet.getRule('b'))).to.be(1)
+      expect(sheet.indexOf(sheet.getRule('c'))).to.be(2)
+      expect(sheet.toString()).to.equal(stripIndent`
+        .a-id {
+          color: red;
+        }
+        .b-id {
+          color: yellow;
+        }
+        .c-id {
+          color: blue;
+        }
+      `)
+    })
+
+    it('should add rule with undefined name', () => {
+      const sheet = jss.createStyleSheet({
+        a: {color: 'red'}
+      })
+      sheet.replaceRule('b', {color: 'blue'})
+      expect(sheet.classes).to.eql({
+        a: 'a-id',
+        b: 'b-id'
+      })
+      expect(sheet.toString()).to.be(stripIndent`
+        .a-id {
+          color: red;
+        }
+        .b-id {
+          color: blue;
+        }
+      `)
+      expect(sheet.getRule('b')).not.to.be(undefined)
     })
   })
 
@@ -249,7 +302,9 @@ describe('Integration: sheet', () => {
       let id
       const options = {
         generateId: () => {
-          id = `c${Math.random().toString().substr(2)}`
+          id = `c${Math.random()
+            .toString()
+            .substr(2)}`
           return id
         }
       }

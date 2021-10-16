@@ -42,6 +42,15 @@ class GlobalContainerRule {
   }
 
   /**
+   * Replace rule, run plugins.
+   */
+  replaceRule(name, style, options) {
+    const newRule = this.rules.replace(name, style, options)
+    if (newRule) this.options.jss.plugins.onProcessRule(newRule)
+    return newRule
+  }
+
+  /**
    * Get index of a rule.
    */
   indexOf(rule) {
@@ -146,7 +155,7 @@ export default function jssGlobal() {
       }
     }
 
-    if (options.scoped === false) {
+    if (!options.selector && options.scoped === false) {
       options.selector = name
     }
 

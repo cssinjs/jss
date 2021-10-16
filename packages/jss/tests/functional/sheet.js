@@ -211,7 +211,7 @@ describe('Functional: sheet', () => {
     })
 
     it('should be set by the options argument', () => {
-      ;[-50, 0, 50, 9999].forEach((n) => {
+      ;[-50, 0, 50, 9999].forEach(n => {
         const sheet2 = jss.createStyleSheet({}, {index: n})
         expect(sheet2.options.index).to.be(n)
       })
@@ -634,6 +634,150 @@ describe('Functional: sheet', () => {
       it('should apply selector to the DOM', () => {
         expect(computeStyle(sheet.classes['😅']).width).to.be('1px')
       })
+    })
+  })
+
+  describe('.replaceRule()', () => {
+    let sheet
+    let rule
+    let replaceResult
+    let style
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet().attach()
+      rule = sheet.addRule('a', {float: 'left'})
+      replaceResult = sheet.replaceRule('a', {float: 'right'})
+      style = getStyle()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should render only 1 rule', () => {
+      expect(getRules(style).length).to.be(1)
+    })
+
+    it('should render correct CSS', () => {
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+    })
+
+    it('should register the rule', () => {
+      expect(sheet.getRule('a')).not.to.be(rule)
+      expect(sheet.getRule('a')).to.be(replaceResult)
+    })
+
+    it('should add a rule to a detached sheet', () => {
+      sheet.detach()
+      sheet.addRule('b', {display: 'block'})
+      const newRule = sheet.replaceRule('b', {display: 'flex'})
+      sheet.attach()
+      expect(sheet.getRule('b')).to.be(newRule)
+    })
+
+    it('should link sheet in rules options', () => {
+      expect(sheet.getRule('a').options.sheet).to.be(sheet)
+    })
+
+    it('should not duplicate cssRules when adding replace to a detached sheet with link: true', () => {
+      sheet.detach()
+      sheet = jss.createStyleSheet(null, {link: true}).attach()
+      sheet.addRule('a', {float: 'left'})
+      sheet.detach()
+      sheet.addRule('b', {display: 'block'})
+      sheet.replaceRule('b', {display: 'flex'})
+      sheet.attach()
+      style = getStyle()
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+      expect(getCss(style)).to.be('.a-id{float:left;}.b-id{display:flex;}')
+    })
+  })
+
+  describe('.replaceRule() with @media and attached sheet', () => {
+    let style
+    let sheet
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet({}, {link: true}).attach()
+      sheet.addRule('a', {color: 'red'})
+      // It is important to use exactly this query, because
+      // IE will add "all" always when `cssRules.insertRule` is used,
+      // however all others will always remove "all" if query contains a second
+      // condition.
+      sheet.addRule('@media all', {
+        a: {color: 'green'}
+      })
+      sheet.replaceRule('@media all', {
+        a: {color: 'yellow'}
+      })
+      style = getStyle()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should render @media', () => {
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+    })
+
+    it('should render @media and replaced rule', () => {
+      sheet.replaceRule('a', {
+        color: 'red'
+      })
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+    })
+  })
+
+  describe('.replaceRule() with empty styles', () => {
+    let sheet
+    let style
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet().attach()
+      sheet.addRule('a', {zIndex: 1})
+      sheet.replaceRule('a', {})
+      style = getStyle()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should not render', () => {
+      expect(getCss(style)).to.be('')
+    })
+
+    it('should not warn', () => {
+      expect(spy.callCount).to.be(0)
+    })
+  })
+
+  describe('.replaceRule() with @keyframes and attached sheet', () => {
+    let style
+    let sheet
+
+    // We skip this test as keyframes are not supported by browser.
+    if (!isKeyframesSupported) return
+
+    beforeEach(() => {
+      sheet = jss.createStyleSheet().attach()
+      sheet.addRule('@keyframes a', {
+        '0%': {top: '0px'}
+      })
+      sheet.replaceRule('@keyframes a', {
+        '0%': {top: '10px'}
+      })
+      style = getStyle()
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should render @keyframes', () => {
+      const css = removeVendorPrefixes(getCss(style))
+      expect(css).to.be(removeWhitespace(sheet.toString()))
     })
   })
 })
