@@ -90,11 +90,11 @@ export default class StyleSheet {
   /**
    * Replace a rule in the current stylesheet.
    */
-  replaceRule(name, decl, options) {
-    const oldRule = this.getRule(name)
-    if (!oldRule) return this.addRule(name, decl, options)
+  replaceRule(nameOrSelector, decl, options) {
+    const oldRule = this.rules.get(nameOrSelector)
+    if (!oldRule) return this.addRule(nameOrSelector, decl, options)
 
-    const newRule = this.rules.replace(name, decl, options)
+    const newRule = this.rules.replace(nameOrSelector, decl, options)
 
     if (newRule) {
       this.options.jss.plugins.onProcessRule(newRule)
