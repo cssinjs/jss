@@ -8,7 +8,7 @@
 
 > True rules isolation through automatic properties reset.
 
-See our website [jss-plugin-isolate](https://cssinjs.org/jss-plugin-isolate?v=v10.8.0) for more information.
+See our website [jss-plugin-isolate](https://cssinjs.org/jss-plugin-isolate?v=v10.8.1) for more information.
 
 ## Install
 
