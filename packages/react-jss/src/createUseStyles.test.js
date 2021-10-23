@@ -11,7 +11,7 @@ import {createUseStyles, JssProvider, SheetsRegistry} from '.'
 
 const createStyledComponent = (styles, options) => {
   const useStyles = createUseStyles(styles, options)
-  const Comp = props => {
+  const Comp = (props) => {
     useStyles(props)
     return null
   }
@@ -25,7 +25,7 @@ describe('React-JSS: createUseStyles', () => {
     it('should pass theme from props priority', () => {
       const registry = new SheetsRegistry()
 
-      const styles = theme => ({
+      const styles = (theme) => ({
         button: {color: theme.exampleColor || 'green'}
       })
 
@@ -46,7 +46,7 @@ describe('React-JSS: createUseStyles', () => {
 
   describe('multiple components that share same hook', () => {
     const useStyles = createUseStyles({
-      item: props => ({
+      item: (props) => ({
         color: props.active ? 'red' : 'blue',
         '&:hover': {
           fontSize: 60
