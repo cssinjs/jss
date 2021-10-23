@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 
 import * as React from 'react'
-import TestRenderer from 'react-test-renderer'
 import {renderToString} from 'react-dom/server'
+import TestRenderer from 'react-test-renderer'
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import createCommonBaseTests from '../test-utils/createCommonBaseTests'
@@ -11,8 +11,11 @@ import {createUseStyles, JssProvider, SheetsRegistry} from '.'
 
 const createStyledComponent = (styles, options) => {
   const useStyles = createUseStyles(styles, options)
-  const Comp = (props) => {
-    useStyles(props)
+  const Comp = ({getClasses, ...restProps}) => {
+    const classes = useStyles(restProps)
+    if (getClasses) {
+      getClasses(classes)
+    }
     return null
   }
   return Comp
@@ -25,7 +28,7 @@ describe('React-JSS: createUseStyles', () => {
     it('should pass theme from props priority', () => {
       const registry = new SheetsRegistry()
 
-      const styles = (theme) => ({
+      const styles = theme => ({
         button: {color: theme.exampleColor || 'green'}
       })
 
@@ -46,7 +49,7 @@ describe('React-JSS: createUseStyles', () => {
 
   describe('multiple components that share same hook', () => {
     const useStyles = createUseStyles({
-      item: (props) => ({
+      item: props => ({
         color: props.active ? 'red' : 'blue',
         '&:hover': {
           fontSize: 60
@@ -176,6 +179,37 @@ describe('React-JSS: createUseStyles', () => {
           })
         })
       })
+    })
+  })
+
+  describe('empty object', () => {
+    it('should return same empty object when disableStylesGeneration is true', () => {
+      const MyComponent = createStyledComponent()
+
+      const classes = []
+
+      const getClasses = currentClasses => {
+        classes.push(currentClasses)
+      }
+
+      let root
+      TestRenderer.act(() => {
+        root = TestRenderer.create(
+          <JssProvider disableStylesGeneration>
+            <MyComponent getClasses={getClasses} />
+          </JssProvider>
+        )
+      })
+
+      TestRenderer.act(() => {
+        root.update(
+          <JssProvider disableStylesGeneration>
+            <MyComponent getClasses={getClasses} />
+          </JssProvider>
+        )
+      })
+
+      expect(classes[0]).to.be(classes[1])
     })
   })
 })
