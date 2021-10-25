@@ -2,6 +2,10 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ## Next (version and date will be generated, add changes below)
 
+### Bug fixes
+
+- Reverting [1563](https://github.com/cssinjs/jss/pull/1563) because of regression [1565](https://github.com/cssinjs/jss/issues/1565)
+
 ## 10.8.1 (2021-10-16)
 
 ### Bug fixes
