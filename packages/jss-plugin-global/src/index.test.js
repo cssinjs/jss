@@ -6,7 +6,7 @@ import nested from 'jss-plugin-nested'
 import global from './index'
 
 const settings = {
-  createGenerateId: () => (rule) => `${rule.key}-id`
+  createGenerateId: () => rule => `${rule.key}-id`
 }
 
 describe('jss-plugin-global', () => {
@@ -36,6 +36,10 @@ describe('jss-plugin-global', () => {
 
     it('should generate correct CSS', () => {
       expect(sheet.toString()).to.be('a {\n  color: red;\n}\nbody {\n  color: green;\n}')
+    })
+
+    it('should remove whitespaces', () => {
+      expect(sheet.toString({format: false})).to.be('a{color:red;}body{color:green;}')
     })
   })
 
