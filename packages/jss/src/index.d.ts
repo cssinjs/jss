@@ -86,9 +86,8 @@ interface RuleListOptions {
 
 declare class RuleList {
   constructor(options: RuleListOptions)
-  add(name: string, decl: JssStyle, options?: RuleOptions): Rule | null
-  replace(name: string, decl: JssStyle, options?: RuleOptions): Rule | null
-  get(nameOrSelector: string): Rule
+  add(name: string, decl: JssStyle, options?: RuleOptions): Rule
+  get(name: string): Rule
   remove(rule: Rule): void
   indexOf(rule: Rule): number
   process(): void
@@ -216,16 +215,7 @@ export interface StyleSheet<RuleName extends string | number | symbol = string |
    * Will insert a rule also after the stylesheet has been rendered first time.
    */
   addRule(style: JssStyle, options?: Partial<RuleOptions>): Rule
-  addRule(name: RuleName, style: JssStyle, options?: Partial<RuleOptions>): Rule | null
-
-  /**
-   * Replace a rule in the current stylesheet.
-   */
-  replaceRule(
-    name: RuleName,
-    style: JssStyle,
-    options?: Partial<RuleOptions>
-  ): [Rule | null, Rule | null]
+  addRule(name: RuleName, style: JssStyle, options?: Partial<RuleOptions>): Rule
 
   insertRule(rule: Rule): void
   /**
@@ -237,9 +227,9 @@ export interface StyleSheet<RuleName extends string | number | symbol = string |
     options?: Partial<RuleOptions>
   ): Rule[]
   /**
-   * Get a rule by name or selector.
+   * Get a rule by name.
    */
-  getRule(nameOrSelector: RuleName | string): Rule
+  getRule(name: RuleName): Rule
   /**
    * Delete a rule by name.
    * Returns `true`: if rule has been deleted from the DOM.

@@ -196,17 +196,11 @@ const sheet2 = jss.createStyleSheet({}, {index: 1, meta: 'sheet-2'}).attach()
 
 ## Add a rule to an existing Style Sheet
 
-`sheet.addRule(nameOrSelector, style, [options])`
+`sheet.addRule([name], style, [options])`
 
 This function will use [insertRule](https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/insertRule) API if your Style Sheet is already attached to the DOM. In this case **you will not see this CSS Rule in the "Elements" view of the dev tools**. You can always verify correct rendering by using the selector on some DOM Node and watch styles applied as well as in the "Styles" inspector.
 
 If you use `addRule()` before you call `attach()`, styles will be rendered in one batch using `textContent` API which will not have the above-described side effect.
-
-## Replace a rule in an existing Style Sheet
-
-`sheet.replaceRule(nameOrSelector, style, [options])`
-
-Same as `sheet.addRule(...)` but replaces a rule with the same name if found.
 
 ### Options
 

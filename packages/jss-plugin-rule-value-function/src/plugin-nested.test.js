@@ -1,7 +1,6 @@
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import {create} from 'jss'
-import {getCss, getStyle, removeWhitespace, resetSheets} from '../../../tests/utils'
 import pluginNested from '../../jss-plugin-nested'
 import pluginFunction from '.'
 
@@ -93,8 +92,6 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
   describe('nested selector inside of a fn rule', () => {
     let sheet
 
-    beforeEach(resetSheets())
-
     beforeEach(() => {
       sheet = jss
         .createStyleSheet(
@@ -126,82 +123,6 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
         }
       `)
     })
-
-    describe('should update', () => {
-      beforeEach(() => {
-        sheet.update({color: 'green'})
-      })
-
-      describe('first update', () => {
-        const expectedCSS = stripIndent`
-          .a-id {
-            color: red;
-          }
-          .a-id a {
-            color: green;
-          }
-        `
-        it('should return correct .toString()', () => {
-          expect(sheet.toString()).to.be(expectedCSS)
-        })
-
-        it('should render correct CSS to DOM', () => {
-          const style = getStyle()
-          const css = getCss(style)
-          expect(css).to.be(removeWhitespace(expectedCSS))
-        })
-      })
-
-      describe('second update', () => {
-        beforeEach(() => {
-          sheet.update({color: 'yellow'})
-        })
-        const expectedCSS = stripIndent`
-          .a-id {
-            color: red;
-          }
-          .a-id a {
-            color: yellow;
-          }
-        `
-        it('should return correct .toString()', () => {
-          expect(sheet.toString()).to.be(expectedCSS)
-        })
-
-        it('should render correct CSS to DOM', () => {
-          const style = getStyle()
-          const css = getCss(style)
-          expect(css).to.be(removeWhitespace(expectedCSS))
-        })
-      })
-    })
-
-    describe('updates should replace rules, so that we dont generate more and more of them', () => {
-      beforeEach(() => {
-        sheet.update({color: 'green'})
-        sheet.update({color: 'red'})
-        sheet.update({color: 'yellow'})
-        sheet.update({color: 'green'})
-      })
-
-      const expectedCSS = stripIndent`
-        .a-id {
-          color: red;
-        }
-        .a-id a {
-          color: green;
-        }
-      `
-      it('should return correct .toString()', () => {
-        expect(sheet.toString()).to.be(expectedCSS)
-      })
-
-      it('should render correct CSS to DOM', () => {
-        const style = getStyle()
-        const css = getCss(style)
-        expect(css).to.be(removeWhitespace(expectedCSS))
-      })
-    })
   })
 
   describe('nested selector as a fn rule', () => {
@@ -221,83 +142,20 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
           {link: true}
         )
         .attach()
-
-      sheet.update({color: 'green'})
     })
 
     afterEach(() => {
       sheet.detach()
     })
 
-    it('should return correct .toString() on first update', () => {
+    it('should return correct .toString()', () => {
+      sheet.update({color: 'green'})
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
           color: red;
         }
         .a-id a {
           color: green;
-        }
-      `)
-    })
-
-    it('should return correct .toString() on second update', () => {
-      sheet.update({color: 'blue'})
-
-      expect(sheet.toString()).to.be(stripIndent`
-        .a-id {
-          color: red;
-        }
-        .a-id a {
-          color: blue;
-        }
-      `)
-    })
-  })
-
-  describe('nested identical selector as a fn rule', () => {
-    let sheet
-
-    beforeEach(() => {
-      sheet = jss
-        .createStyleSheet(
-          {
-            a: {
-              color: 'red',
-              '&': ({width}) => ({
-                width
-              })
-            }
-          },
-          {link: true}
-        )
-        .attach()
-
-      sheet.update({width: '10px'})
-    })
-
-    afterEach(() => {
-      sheet.detach()
-    })
-
-    it('should return correct .toString() on first update', () => {
-      expect(sheet.toString()).to.be(stripIndent`
-        .a-id {
-          color: red;
-        }
-        .a-id {
-          width: 10px;
-        }
-      `)
-    })
-
-    it('should return correct .toString() on second update', () => {
-      sheet.update({width: '100px'})
-      expect(sheet.toString()).to.be(stripIndent`
-        .a-id {
-          color: red;
-        }
-        .a-id {
-          width: 100px;
         }
       `)
     })
@@ -319,7 +177,7 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
             c: {
               '&$a': {
                 '& $b': {
-                  margin: ({margin}) => margin
+                  margin: () => '10px'
                 }
               }
             }
@@ -327,15 +185,14 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
           {link: true}
         )
         .attach()
-
-      sheet.update({margin: '10px'})
     })
 
     afterEach(() => {
       sheet.detach()
     })
 
-    it('should return correct .toString() on first update', () => {
+    it('should return correct .toString()', () => {
+      sheet.update()
       expect(sheet.toString()).to.be(stripIndent`
         .a-id {
           padding: 5px;
@@ -347,24 +204,6 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
         .c-id.a-id {}
         .c-id.a-id .b-id {
           margin: 10px;
-        }
-      `)
-    })
-
-    it('should return correct .toString() on  update', () => {
-      sheet.update({margin: '99px'})
-
-      expect(sheet.toString()).to.be(stripIndent`
-        .a-id {
-          padding: 5px;
-        }
-        .b-id {
-          background: blue;
-        }
-        .c-id {}
-        .c-id.a-id {}
-        .c-id.a-id .b-id {
-          margin: 99px;
         }
       `)
     })

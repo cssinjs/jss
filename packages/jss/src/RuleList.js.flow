@@ -12,8 +12,7 @@ import type {
 } from './flow-types'
 
 declare export default class RuleList {
-  nameMap: {[key: string]: Rule};
-  selectorMap: {[key: string]: Rule};
+  map: {[key: string]: Rule};
   raw: {[key: string]: JssStyle};
   index: Array<Rule>;
   counter: number;
@@ -22,8 +21,7 @@ declare export default class RuleList {
   keyframes: KeyframesMap;
   constructor(options: RuleListOptions): this;
   add(name: string, decl: JssStyle, ruleOptions?: RuleOptions): Rule | null;
-  replace(name: string, decl: JssStyle, ruleOptions?: RuleOptions): Rule | null;
-  get(nameOrSelector: string): Rule;
+  get(name: string): Rule;
   remove(rule: Rule): void;
   indexOf(rule: Rule): number;
   process(): void;

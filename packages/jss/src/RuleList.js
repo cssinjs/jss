@@ -86,26 +86,10 @@ export default class RuleList {
   }
 
   /**
-   * Replace rule.
-   * Create a new rule and remove old one instead of overwriting
-   * because we want to invoke onCreateRule hook to make plugins work.
+   * Get a rule.
    */
-  replace(name, decl, ruleOptions) {
-    const oldRule = this.get(name)
-    const oldIndex = this.index.indexOf(oldRule)
-    if (oldRule) {
-      this.remove(oldRule)
-    }
-    let options = ruleOptions
-    if (oldIndex !== -1) options = {...ruleOptions, index: oldIndex}
-    return this.add(name, decl, options)
-  }
-
-  /**
-   * Get a rule by name or selector.
-   */
-  get(nameOrSelector) {
-    return this.map[nameOrSelector]
+  get(name) {
+    return this.map[name]
   }
 
   /**
@@ -179,7 +163,7 @@ export default class RuleList {
     }
 
     if (name) {
-      this.updateOne(this.get(name), data, options)
+      this.updateOne(this.map[name], data, options)
     } else {
       for (let index = 0; index < this.index.length; index++) {
         this.updateOne(this.index[index], data, options)

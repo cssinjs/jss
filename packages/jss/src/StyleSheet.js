@@ -88,40 +88,6 @@ export default class StyleSheet {
   }
 
   /**
-   * Replace a rule in the current stylesheet.
-   */
-  replaceRule(nameOrSelector, decl, options) {
-    const oldRule = this.rules.get(nameOrSelector)
-    if (!oldRule) return this.addRule(nameOrSelector, decl, options)
-
-    const newRule = this.rules.replace(nameOrSelector, decl, options)
-
-    if (newRule) {
-      this.options.jss.plugins.onProcessRule(newRule)
-    }
-
-    if (this.attached) {
-      if (!this.deployed) return newRule
-      // Don't replace / delete rule directly if there is no stringified version yet.
-      // It will be inserted all together when .attach is called.
-      if (this.renderer) {
-        if (!newRule) {
-          this.renderer.deleteRule(oldRule)
-        } else if (oldRule.renderable) {
-          this.renderer.replaceRule(oldRule.renderable, newRule)
-        }
-      }
-      return newRule
-    }
-
-    // We can't replace rules to a detached style node.
-    // We will redeploy the sheet once user will attach it.
-    this.deployed = false
-
-    return newRule
-  }
-
-  /**
    * Insert rule into the StyleSheet
    */
   insertRule(rule) {
@@ -144,10 +110,10 @@ export default class StyleSheet {
   }
 
   /**
-   * Get a rule by name or selector.
+   * Get a rule by name.
    */
-  getRule(nameOrSelector) {
-    return this.rules.get(nameOrSelector)
+  getRule(name) {
+    return this.rules.get(name)
   }
 
   /**
