@@ -1,7 +1,7 @@
 {
   "name": "jss-plugin-camel-case",
   "description": "JSS plugin that allows to write camel cased rule properties",
-  "version": "10.8.1",
+  "version": "10.8.2",
   "license": "MIT",
   "homepage": "https://cssinjs.org/jss-camel-case",
   "main": "dist/jss-plugin-camel-case.cjs.js",
@@ -35,11 +35,11 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
-    "jss-plugin-rule-value-function": "10.8.1"
+    "jss-plugin-rule-value-function": "10.8.2"
   },
   "dependencies": {
     "@babel/runtime": "^7.3.1",
     "hyphenate-style-name": "^1.0.3",
-    "jss": "10.8.1"
+    "jss": "10.8.2"
   }
 }
