@@ -12,6 +12,7 @@ import {
 import getSheetIndex from './utils/getSheetIndex'
 import {manageSheet, unmanageSheet} from './utils/managers'
 import getSheetClasses from './utils/getSheetClasses'
+import memoize from './utils/memoizeOne'
 
 const useEffectOrLayoutEffect = isInBrowser ? React.useLayoutEffect : React.useEffect
 
@@ -21,7 +22,7 @@ const createUseStyles = (styles, options = {}) => {
   const {index = getSheetIndex(), theming, name, ...sheetOptions} = options
   const ThemeContext = (theming && theming.context) || DefaultThemeContext
 
-  const useTheme = (theme) => {
+  const useTheme = theme => {
     if (typeof styles === 'function') {
       return theme || React.useContext(ThemeContext) || noTheme
     }
@@ -29,41 +30,49 @@ const createUseStyles = (styles, options = {}) => {
     return noTheme
   }
 
+  const memoizedGetSheetClasses = memoize(getSheetClasses)
+
   return function useStyles(data) {
     const isFirstMount = React.useRef(true)
     const context = React.useContext(JssContext)
     const theme = useTheme(data && data.theme)
 
-    const [sheet, dynamicRules] = React.useMemo(() => {
-      const newSheet = createStyleSheet({
-        context,
-        styles,
-        name,
-        theme,
-        index,
-        sheetOptions
-      })
-
-      const newDynamicRules = newSheet ? addDynamicRules(newSheet, data) : null
-
-      if (newSheet) {
-        manageSheet({
-          index,
+    const [sheet, dynamicRules] = React.useMemo(
+      () => {
+        const newSheet = createStyleSheet({
           context,
-          sheet: newSheet,
-          theme
+          styles,
+          name,
+          theme,
+          index,
+          sheetOptions
         })
-      }
 
-      return [newSheet, newDynamicRules]
-    }, [context, theme])
+        const newDynamicRules = newSheet ? addDynamicRules(newSheet, data) : null
 
-    useEffectOrLayoutEffect(() => {
-      // We only need to update the rules on a subsequent update and not in the first mount
-      if (sheet && dynamicRules && !isFirstMount.current) {
-        updateDynamicRules(data, sheet, dynamicRules)
-      }
-    }, [data])
+        if (newSheet) {
+          manageSheet({
+            index,
+            context,
+            sheet: newSheet,
+            theme
+          })
+        }
+
+        return [newSheet, newDynamicRules]
+      },
+      [context, theme]
+    )
+
+    useEffectOrLayoutEffect(
+      () => {
+        // We only need to update the rules on a subsequent update and not in the first mount
+        if (sheet && dynamicRules && !isFirstMount.current) {
+          updateDynamicRules(data, sheet, dynamicRules)
+        }
+      },
+      [data]
+    )
 
     useEffectOrLayoutEffect(
       () =>
@@ -85,7 +94,7 @@ const createUseStyles = (styles, options = {}) => {
       [sheet]
     )
 
-    const classes = sheet && dynamicRules ? getSheetClasses(sheet, dynamicRules) : {}
+    const classes = sheet && dynamicRules ? memoizedGetSheetClasses(sheet, dynamicRules) : {}
 
     React.useDebugValue(classes)
 
