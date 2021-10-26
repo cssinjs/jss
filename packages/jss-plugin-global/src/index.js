@@ -51,8 +51,8 @@ class GlobalContainerRule {
   /**
    * Generates a CSS string.
    */
-  toString() {
-    return this.rules.toString()
+  toString(options) {
+    return this.rules.toString(options)
   }
 }
 
