@@ -29,6 +29,8 @@ const createUseStyles = (styles, options = {}) => {
     return noTheme
   }
 
+  const emptyObject = {}
+
   return function useStyles(data) {
     const isFirstMount = React.useRef(true)
     const context = React.useContext(JssContext)
@@ -85,7 +87,7 @@ const createUseStyles = (styles, options = {}) => {
       [sheet]
     )
 
-    const classes = sheet && dynamicRules ? getSheetClasses(sheet, dynamicRules) : {}
+    const classes = sheet && dynamicRules ? getSheetClasses(sheet, dynamicRules) : emptyObject
 
     React.useDebugValue(classes)
 
