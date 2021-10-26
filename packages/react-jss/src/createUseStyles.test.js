@@ -11,18 +11,11 @@ import {createUseStyles, JssProvider, SheetsRegistry} from '.'
 
 const createStyledComponent = (styles, options) => {
   const useStyles = createUseStyles(styles, options)
-  const Comp = props => {
-    useStyles(props)
-    return null
-  }
-  return Comp
-}
-
-const createUnstyledComponent = () => {
-  const useStyles = createUseStyles()
-  const Comp = ({getClasses}) => {
-    const classes = useStyles()
-    getClasses(classes)
+  const Comp = ({getClasses, ...restProps}) => {
+    const classes = useStyles(restProps)
+    if (getClasses) {
+      getClasses(classes)
+    }
     return null
   }
   return Comp
@@ -56,7 +49,7 @@ describe('React-JSS: createUseStyles', () => {
 
   describe('multiple components that share same hook', () => {
     const useStyles = createUseStyles({
-      item: (props) => ({
+      item: props => ({
         color: props.active ? 'red' : 'blue',
         '&:hover': {
           fontSize: 60
@@ -191,7 +184,7 @@ describe('React-JSS: createUseStyles', () => {
 
   describe('undesirable re-render', () => {
     it("should return keep previous classes when sheet and dynamicRules haven't change", () => {
-      const MyComponent = createUnstyledComponent()
+      const MyComponent = createStyledComponent()
 
       const classes = []
 
