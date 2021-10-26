@@ -31,6 +31,7 @@ const createUseStyles = (styles, options = {}) => {
   }
 
   const memoizedGetSheetClasses = memoize(getSheetClasses)
+  const emptyObject = {}
 
   return function useStyles(data) {
     const isFirstMount = React.useRef(true)
@@ -94,7 +95,8 @@ const createUseStyles = (styles, options = {}) => {
       [sheet]
     )
 
-    const classes = sheet && dynamicRules ? memoizedGetSheetClasses(sheet, dynamicRules) : {}
+    const classes =
+      sheet && dynamicRules ? memoizedGetSheetClasses(sheet, dynamicRules) : emptyObject
 
     React.useDebugValue(classes)
 

@@ -182,6 +182,37 @@ describe('React-JSS: createUseStyles', () => {
     })
   })
 
+  describe('empty object', () => {
+    it('should return same empty object when disableStylesGeneration is true', () => {
+      const MyComponent = createStyledComponent()
+
+      const classes = []
+
+      const getClasses = currentClasses => {
+        classes.push(currentClasses)
+      }
+
+      let root
+      TestRenderer.act(() => {
+        root = TestRenderer.create(
+          <JssProvider disableStylesGeneration>
+            <MyComponent getClasses={getClasses} />
+          </JssProvider>
+        )
+      })
+
+      TestRenderer.act(() => {
+        root.update(
+          <JssProvider disableStylesGeneration>
+            <MyComponent getClasses={getClasses} />
+          </JssProvider>
+        )
+      })
+
+      expect(classes[0]).to.be(classes[1])
+    })
+  })
+
   describe('undesirable re-render', () => {
     it("should return keep previous classes when sheet and dynamicRules haven't change", () => {
       const MyComponent = createStyledComponent()
