@@ -10,21 +10,21 @@
     "gzipped": 13789
   },
   "react-jss.cjs.js": {
-    "bundled": 21449,
-    "minified": 9456,
-    "gzipped": 3166
+    "bundled": 21443,
+    "minified": 9467,
+    "gzipped": 3169
   },
   "react-jss.esm.js": {
-    "bundled": 19537,
-    "minified": 7962,
-    "gzipped": 2950,
+    "bundled": 19531,
+    "minified": 7973,
+    "gzipped": 2952,
     "treeshaked": {
       "rollup": {
         "code": 426,
         "import_statements": 368
       },
       "webpack": {
-        "code": 1945
+        "code": 2408
       }
     }
   }

@@ -1,6 +1,7 @@
 import {getMeta} from './sheetsMeta'
+import memoize from './memoizeOne'
 
-const getSheetClasses = (sheet, dynamicRules) => {
+const getSheetClasses = memoize((sheet, dynamicRules) => {
   if (!dynamicRules) {
     return sheet.classes
   }
@@ -21,6 +22,6 @@ const getSheetClasses = (sheet, dynamicRules) => {
   }
 
   return classes
-}
+})
 
 export default getSheetClasses

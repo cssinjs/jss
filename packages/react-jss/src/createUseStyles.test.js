@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 
 import * as React from 'react'
-import TestRenderer from 'react-test-renderer'
 import {renderToString} from 'react-dom/server'
+import TestRenderer from 'react-test-renderer'
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import createCommonBaseTests from '../test-utils/createCommonBaseTests'
@@ -11,8 +11,18 @@ import {createUseStyles, JssProvider, SheetsRegistry} from '.'
 
 const createStyledComponent = (styles, options) => {
   const useStyles = createUseStyles(styles, options)
-  const Comp = (props) => {
+  const Comp = props => {
     useStyles(props)
+    return null
+  }
+  return Comp
+}
+
+const createUnStyledComponent = () => {
+  const useStyles = createUseStyles()
+  const Comp = ({getClasses}) => {
+    const classes = useStyles()
+    getClasses(classes)
     return null
   }
   return Comp
@@ -25,7 +35,7 @@ describe('React-JSS: createUseStyles', () => {
     it('should pass theme from props priority', () => {
       const registry = new SheetsRegistry()
 
-      const styles = (theme) => ({
+      const styles = theme => ({
         button: {color: theme.exampleColor || 'green'}
       })
 
@@ -176,6 +186,34 @@ describe('React-JSS: createUseStyles', () => {
           })
         })
       })
+    })
+  })
+
+  describe('undesirable re-render', () => {
+    it("should return keep previous classes when sheet and dynamicRules haven't change", () => {
+      const MyComponent = createUnStyledComponent()
+
+      let firstRenderClasses
+      let secondRenderClasses
+
+      const getClasses = classes => {
+        if (firstRenderClasses) {
+          secondRenderClasses = classes
+        } else {
+          firstRenderClasses = classes
+        }
+      }
+
+      let root
+      TestRenderer.act(() => {
+        root = TestRenderer.create(<MyComponent getClasses={getClasses} />)
+      })
+
+      TestRenderer.act(() => {
+        root.update(<MyComponent getClasses={getClasses} />)
+      })
+
+      expect(firstRenderClasses).to.be(secondRenderClasses)
     })
   })
 })
