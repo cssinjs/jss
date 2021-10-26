@@ -18,7 +18,7 @@ const createStyledComponent = (styles, options) => {
   return Comp
 }
 
-const createUnStyledComponent = () => {
+const createUnstyledComponent = () => {
   const useStyles = createUseStyles()
   const Comp = ({getClasses}) => {
     const classes = useStyles()
@@ -191,17 +191,12 @@ describe('React-JSS: createUseStyles', () => {
 
   describe('undesirable re-render', () => {
     it("should return keep previous classes when sheet and dynamicRules haven't change", () => {
-      const MyComponent = createUnStyledComponent()
+      const MyComponent = createUnstyledComponent()
 
-      let firstRenderClasses
-      let secondRenderClasses
+      const classes = []
 
-      const getClasses = classes => {
-        if (firstRenderClasses) {
-          secondRenderClasses = classes
-        } else {
-          firstRenderClasses = classes
-        }
+      const getClasses = currentClasses => {
+        classes.push(currentClasses)
       }
 
       let root
@@ -213,7 +208,7 @@ describe('React-JSS: createUseStyles', () => {
         root.update(<MyComponent getClasses={getClasses} />)
       })
 
-      expect(firstRenderClasses).to.be(secondRenderClasses)
+      expect(classes[0]).to.be(classes[1])
     })
   })
 })
