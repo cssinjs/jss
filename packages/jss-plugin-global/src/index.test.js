@@ -41,6 +41,94 @@ describe('jss-plugin-global', () => {
     it('should remove whitespaces', () => {
       expect(sheet.toString({format: false})).to.be('a{color:red;}body{color:green;}')
     })
+
+    describe('addRule', () => {
+      let globalRule
+      beforeEach(() => {
+        globalRule = sheet.getRule('@global')
+        globalRule.addRule('button', {margin: 0})
+        globalRule.addRule('li', {float: 'left'})
+      })
+
+      it('should add rule', () => {
+        expect(globalRule.getRule('button')).to.not.be(undefined)
+        expect(globalRule.getRule('li')).to.not.be(undefined)
+      })
+
+      it('should generate correct CSS', () => {
+        expect(sheet.toString()).to.be(stripIndent`
+          a {
+            color: red;
+          }
+          body {
+            color: green;
+          }
+          button {
+            margin: 0;
+          }
+          li {
+            float: left;
+          }
+        `)
+      })
+    })
+
+    describe('replaceRule', () => {
+      let globalRule
+      let previousA
+      beforeEach(() => {
+        globalRule = sheet.getRule('@global')
+        previousA = globalRule.getRule('a')
+        globalRule.replaceRule('a', {color: 'yellow'})
+        globalRule.replaceRule('li', {float: 'left'})
+      })
+
+      it('should replace and add rule', () => {
+        expect(globalRule.getRule('a')).to.not.be(previousA)
+        expect(globalRule.getRule('li')).to.not.be(undefined)
+      })
+
+      it('should generate correct CSS', () => {
+        expect(sheet.toString()).to.be(stripIndent`
+          a {
+            color: yellow;
+          }
+          body {
+            color: green;
+          }
+          li {
+            float: left;
+          }
+        `)
+      })
+    })
+
+    describe('addRule / replaceRule with selector', () => {
+      let globalRule
+      beforeEach(() => {
+        globalRule = sheet.getRule('@global')
+        globalRule.addRule('arbitrary-name-1', {color: 'red'}, {selector: 'span'})
+        globalRule.replaceRule('arbitrary-name-2', {float: 'left'}, {selector: 'ul'})
+        globalRule.replaceRule('a', {display: 'block'}, {selector: 'div'})
+      })
+
+      it('should generate correct CSS', () => {
+        expect(sheet.toString()).to.be(stripIndent`
+          div {
+            display: block;
+          }
+          body {
+            color: green;
+          }
+          span {
+            color: red;
+          }
+          ul {
+            float: left;
+          }
+        `)
+      })
+    })
   })
 
   describe('@global linked', () => {

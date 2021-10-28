@@ -6,7 +6,7 @@ import toCssValue from './utils/toCssValue'
 /**
  * Cache the value from the first time a function is called.
  */
-const memoize = (fn) => {
+const memoize = fn => {
   let value
   return () => {
     if (!value) value = fn()
@@ -407,8 +407,6 @@ export default class DomRenderer {
 
   /**
    * Generate a new CSS rule and replace the existing one.
-   *
-   * Only used for some old browsers because they can't set a selector.
    */
   replaceRule(cssRule, rule) {
     const index = this.indexOf(cssRule)
