@@ -3,6 +3,7 @@ import type {ToCssOptions} from './flow-types'
 import type StyleSheet from './StyleSheet'
 
 declare export default class SheetsRegistry {
+  index: number;
   registry: Array<StyleSheet>;
   add(sheet: StyleSheet): void;
   reset(): void;
