@@ -88,7 +88,12 @@ export default function jssNested() {
         selector = selector.replace(refRegExp, replaceRef)
 
         const name = `${styleRule.key}-${prop}`
-        container.replaceRule(name, style[prop], {...options, selector})
+        if ('replaceRule' in container) {
+          // for backward compatibility
+          container.replaceRule(name, style[prop], {...options, selector})
+        } else {
+          container.addRule(name, style[prop], {...options, selector})
+        }
       } else if (isNestedConditional) {
         // Place conditional right after the parent rule to ensure right ordering.
         container
