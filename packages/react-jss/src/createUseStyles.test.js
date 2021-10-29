@@ -6,7 +6,6 @@ import TestRenderer from 'react-test-renderer'
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import createCommonBaseTests from '../test-utils/createCommonBaseTests'
-import {getCss, getStyle, removeWhitespace, resetSheets} from '../../../tests/utils'
 import {createUseStyles, JssProvider, SheetsRegistry} from '.'
 
 const createStyledComponent = (styles, options) => {
@@ -70,7 +69,7 @@ describe('React-JSS: createUseStyles', () => {
       const [activeKey, setActiveKey] = React.useState(1)
       return (
         <main>
-          {[1, 2].map(key => (
+          {[1, 2].map((key) => (
             <Item key={key} active={key === activeKey} onClick={() => setActiveKey(key)}>
               {key}
             </Item>
@@ -79,8 +78,6 @@ describe('React-JSS: createUseStyles', () => {
       )
     }
 
-    beforeEach(resetSheets())
-
     let registry
     let root
     beforeEach(() => {
@@ -88,97 +85,51 @@ describe('React-JSS: createUseStyles', () => {
 
       TestRenderer.act(() => {
         root = TestRenderer.create(
-          <JssProvider registry={registry} generateId={rule => `${rule.key}-id`}>
+          <JssProvider registry={registry} generateId={(rule) => `${rule.key}-id`}>
             <App />
           </JssProvider>
         )
       })
     })
 
-    describe('initial rendering', () => {
-      it('should return correct registry.toString', () => {
-        expect(registry.toString()).to.be(stripIndent`
-          .item-id {}
-          .item-d0-id {
-            color: red;
-          }
-          .item-d0-id:hover {
-            font-size: 60px;
-          }
-          .item-d1-id {
-            color: blue;
-          }
-          .item-d1-id:hover {
-            font-size: 60px;
-          }
-        `)
-      })
-
-      it('should render correct CSS in DOM', () => {
-        const style = getStyle()
-        expect(getCss(style)).to.be(
-          removeWhitespace(stripIndent`
-            .item-id {}
-            .item-d0-id {
-              color: red;
-            }
-            .item-d0-id:hover {
-              font-size: 60px;
-            }
-            .item-d1-id {
-              color: blue;
-            }
-            .item-d1-id:hover {
-              font-size: 60px;
-            }
-          `)
-        )
-      })
+    it('should return correct registry.toString at first render', () => {
+      expect(registry.toString()).to.be(stripIndent`
+        .item-id {}
+        .item-d0-id {
+          color: red;
+        }
+        .item-d0-id:hover {
+          font-size: 60px;
+        }
+        .item-d1-id {
+          color: blue;
+        }
+        .item-d1-id:hover {
+          font-size: 60px;
+        }
+      `)
     })
 
-    describe('update via click', () => {
-      beforeEach(() => {
-        TestRenderer.act(() => {
-          root.root.findAllByType('button')[1].props.onClick()
-        })
+    it('should return correct registry.toString after update via click', () => {
+      TestRenderer.act(() => {
+        root.root.findAllByType('button')[1].props.onClick()
       })
 
-      const eachRules = [
-        '.item-id {}',
-        stripIndent`
-          .item-d0-id {
-            color: blue;
-          }
-        `,
-        stripIndent`
-          .item-d0-id:hover {
-            font-size: 60px;
-          }
-        `,
-        stripIndent`
-          .item-d1-id {
-            color: red;
-          }
-        `,
-        stripIndent`
-          .item-d1-id:hover {
-            font-size: 60px;
-          }
-        `
-      ]
-
-      describe('check each rules', () => {
-        eachRules.forEach(rule => {
-          it(`should contain ${rule} in registry.toString()`, () => {
-            expect(registry.toString()).to.contain(rule)
-          })
-
-          it(`should render ${rule} in DOM`, () => {
-            const style = getStyle()
-            expect(getCss(style)).to.contain(removeWhitespace(rule))
-          })
-        })
-      })
+      expect(registry.toString()).to.be(stripIndent`
+        .item-id {}
+        .item-d0-id {
+          color: blue;
+        }
+        .item-d0-id:hover {
+          font-size: 60px;
+        }
+        .item-d1-id {
+          color: red;
+        }
+        .item-d1-id:hover {
+          font-size: 60px;
+        }
+      `)
     })
   })
 
