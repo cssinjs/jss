@@ -211,7 +211,7 @@ describe('Functional: sheet', () => {
     })
 
     it('should be set by the options argument', () => {
-      ;[-50, 0, 50, 9999].forEach(n => {
+      ;[-50, 0, 50, 9999].forEach((n) => {
         const sheet2 = jss.createStyleSheet({}, {index: n})
         expect(sheet2.options.index).to.be(n)
       })
@@ -778,6 +778,136 @@ describe('Functional: sheet', () => {
     it('should render @keyframes', () => {
       const css = removeVendorPrefixes(getCss(style))
       expect(css).to.be(removeWhitespace(sheet.toString()))
+    })
+  })
+
+  describe('replaceRule in sheet with many rules', () => {
+    let sheet
+    beforeEach(() => {
+      sheet = jss.createStyleSheet({}, {link: true}).attach()
+      sheet.addRule('a', {top: '0px'})
+      sheet.addRule('b', {color: 'blue'})
+      sheet.addRule('c', {margin: '10px'})
+      sheet.addRule('d', {display: 'block'})
+    })
+
+    afterEach(() => {
+      sheet.detach()
+    })
+
+    it('should replace rule a', () => {
+      sheet.replaceRule('a', {width: '1px'})
+      const style = getStyle()
+      expect(getCss(style)).to.be(
+        removeWhitespace(stripIndent`
+        .a-id {
+          width: 1px;
+        }
+        .b-id {
+          color: blue;
+        }
+        .c-id {
+          margin: 10px;
+        }
+        .d-id {
+          display: block;
+        }
+      `)
+      )
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+    })
+
+    it('should replace rule b', () => {
+      sheet.replaceRule('b', {float: 'left'})
+      const style = getStyle()
+      expect(getCss(style)).to.be(
+        removeWhitespace(stripIndent`
+        .a-id {
+          top: 0px;
+        }
+        .b-id {
+          float: left;
+        }
+        .c-id {
+          margin: 10px;
+        }
+        .d-id {
+          display: block;
+        }
+      `)
+      )
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+    })
+
+    it('should replace multiple rules', () => {
+      sheet.replaceRule('c', {background: 'green'})
+      sheet.replaceRule('d', {gap: '0px'})
+      const style = getStyle()
+      expect(getCss(style)).to.be(
+        removeWhitespace(stripIndent`
+        .a-id {
+          top: 0px;
+        }
+        .b-id {
+          color: blue;
+        }
+        .c-id {
+          background: green;
+        }
+        .d-id {
+          gap: 0px;
+        }
+      `)
+      )
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+    })
+
+    it('should replace rule multiple times', () => {
+      sheet.replaceRule('c', {background: 'green'})
+      sheet.replaceRule('c', {border: 'solid'})
+      const style = getStyle()
+      expect(getCss(style)).to.be(
+        removeWhitespace(stripIndent`
+        .a-id {
+          top: 0px;
+        }
+        .b-id {
+          color: blue;
+        }
+        .c-id {
+          border: solid;
+        }
+        .d-id {
+          display: block;
+        }
+      `)
+      )
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+    })
+
+    it("should add rule if name doesn't match any", () => {
+      sheet.replaceRule('e', {background: 'green'})
+      const style = getStyle()
+      expect(getCss(style)).to.be(
+        removeWhitespace(stripIndent`
+        .a-id {
+          top: 0px;
+        }
+        .b-id {
+          color: blue;
+        }
+        .c-id {
+          margin: 10px;
+        }
+        .d-id {
+          display: block;
+        }
+        .e-id {
+          background: green;
+        }
+      `)
+      )
+      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
     })
   })
 })
