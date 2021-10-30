@@ -679,7 +679,7 @@ describe('Functional: sheet', () => {
       expect(sheet.getRule('a').options.sheet).to.be(sheet)
     })
 
-    it('should not duplicate cssRules when adding replace to a detached sheet with link: true', () => {
+    it('should not duplicate cssRules when replacing a rule in a detached sheet with link: true', () => {
       sheet.detach()
       sheet = jss.createStyleSheet(null, {link: true}).attach()
       sheet.addRule('a', {float: 'left'})
