@@ -1,6 +1,7 @@
 import {stripIndent} from 'common-tags'
 import expect from 'expect.js'
 import {create} from 'jss'
+import {create as oldCreate} from 'jss-v10_8_0'
 import nested from 'jss-plugin-nested'
 
 import global from './index'
@@ -506,6 +507,35 @@ describe('jss-plugin-global', () => {
           '  }\n' +
           '}'
       )
+    })
+  })
+
+  describe('backward compatibility', () => {
+    let oldJss
+
+    beforeEach(() => { 
+      oldJss = oldCreate(settings).use(global())
+    })
+
+    it('should replace rule on replaceRule even if jss core doesn\'t implement replaceRule', () => { 
+      // this is because RuleList that plugin uses has same version with plugin according to dependency
+      // even if user accidentally use newer plugin with older jss-core
+
+      const sheet = oldJss.createStyleSheet({
+        '@global': {
+          a: {color: 'red'},
+          body: {top: '0px'},
+        }
+      })
+      sheet.getRule('@global').replaceRule('a', {color: 'blue'})
+      expect(sheet.toString()).to.be(stripIndent`
+        a {
+          color: blue;
+        }
+        body {
+          top: 0px;
+        }
+      `)
     })
   })
 })
