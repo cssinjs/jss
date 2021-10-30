@@ -36,7 +36,9 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
-    "jss-plugin-rule-value-function": "10.8.2"
+    "jss-plugin-rule-value-function": "10.8.2",
+    "jss-plugin-global": "10.8.2",
+    "jss-v10_8_0": "npm:jss@10.8.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.3.1",

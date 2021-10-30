@@ -36,7 +36,8 @@
     "check-snapshot": "node ../../scripts/match-snapshot.js"
   },
   "devDependencies": {
-    "jss-plugin-nested": "10.8.2"
+    "jss-plugin-nested": "10.8.2",
+    "jss-v10_8_0": "npm:jss@10.8.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.3.1",
