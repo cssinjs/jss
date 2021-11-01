@@ -563,7 +563,7 @@ const useButtonStyles = createUseStyles({
 // Will render styles first.
 const Label = ({children}) => {
   const classes = useLabelStyles()
-  return <label className={classes.button}>{children}</label>
+  return <label className={classes.label}>{children}</label>
 }
 
 const Button = () => {
