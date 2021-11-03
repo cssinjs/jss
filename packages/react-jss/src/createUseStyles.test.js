@@ -214,7 +214,7 @@ describe('React-JSS: createUseStyles', () => {
   })
 
   describe('undesirable re-render', () => {
-    it("should return keep previous classes when sheet and dynamicRules haven't change", () => {
+    it("should return previous classes when sheet and dynamicRules haven't change", () => {
       const MyComponent = createStyledComponent()
 
       const classes = []
