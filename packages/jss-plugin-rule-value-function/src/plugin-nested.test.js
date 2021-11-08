@@ -1,7 +1,6 @@
 import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import {create} from 'jss'
-import {getCss, getStyle, removeWhitespace, resetSheets} from '../../../tests/utils'
 import pluginNested from '../../jss-plugin-nested'
 import pluginFunction from '.'
 
@@ -93,8 +92,6 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
   describe('nested selector inside of a fn rule', () => {
     let sheet
 
-    beforeEach(resetSheets())
-
     beforeEach(() => {
       sheet = jss
         .createStyleSheet(
@@ -144,12 +141,6 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
         it('should return correct .toString()', () => {
           expect(sheet.toString()).to.be(expectedCSS)
         })
-
-        it('should render correct CSS to DOM', () => {
-          const style = getStyle()
-          const css = getCss(style)
-          expect(css).to.be(removeWhitespace(expectedCSS))
-        })
       })
 
       describe('second update', () => {
@@ -166,12 +157,6 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
         `
         it('should return correct .toString()', () => {
           expect(sheet.toString()).to.be(expectedCSS)
-        })
-
-        it('should render correct CSS to DOM', () => {
-          const style = getStyle()
-          const css = getCss(style)
-          expect(css).to.be(removeWhitespace(expectedCSS))
         })
       })
     })
@@ -194,12 +179,6 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
       `
       it('should return correct .toString()', () => {
         expect(sheet.toString()).to.be(expectedCSS)
-      })
-
-      it('should render correct CSS to DOM', () => {
-        const style = getStyle()
-        const css = getCss(style)
-        expect(css).to.be(removeWhitespace(expectedCSS))
       })
     })
   })
