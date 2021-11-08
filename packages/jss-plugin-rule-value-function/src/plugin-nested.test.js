@@ -5,7 +5,7 @@ import {getCss, getStyle, removeWhitespace, resetSheets} from '../../../tests/ut
 import pluginNested from '../../jss-plugin-nested'
 import pluginFunction from '.'
 
-const settings = {createGenerateId: () => rule => `${rule.key}-id`}
+const settings = {createGenerateId: () => (rule) => `${rule.key}-id`}
 
 describe('jss-plugin-rule-value-function: plugin-nested', () => {
   let jss
@@ -21,7 +21,7 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
       sheet = jss
         .createStyleSheet(
           {
-            a: data => ({
+            a: (data) => ({
               color: data.color,
               '@media all': {
                 color: 'green'
@@ -61,7 +61,7 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
           {
             a: {
               color: 'red',
-              '@media all': data => ({
+              '@media all': (data) => ({
                 color: data.color
               })
             }

@@ -279,11 +279,11 @@ import jss from 'jss'
 const styles = {
   container: {
     height: 200,
-    width: data => data.width
+    width: (data) => data.width
   },
   button: {
-    color: data => data.button.color,
-    padding: data => data.button.padding
+    color: (data) => data.button.color,
+    padding: (data) => data.button.padding
   }
 }
 
@@ -457,7 +457,7 @@ import {getDynamicStyles} from 'jss'
 const dynamicStyles = getDynamicStyles({
   button: {
     fontSize: 12,
-    color: data => data.color
+    color: (data) => data.color
   }
 })
 
