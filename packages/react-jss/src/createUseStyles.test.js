@@ -27,7 +27,7 @@ describe('React-JSS: createUseStyles', () => {
     it('should pass theme from props priority', () => {
       const registry = new SheetsRegistry()
 
-      const styles = theme => ({
+      const styles = (theme) => ({
         button: {color: theme.exampleColor || 'green'}
       })
 
@@ -48,7 +48,7 @@ describe('React-JSS: createUseStyles', () => {
 
   describe('multiple components that share same hook', () => {
     const useStyles = createUseStyles({
-      item: props => ({
+      item: (props) => ({
         color: props.active ? 'red' : 'blue',
         '&:hover': {
           fontSize: 60
@@ -139,7 +139,7 @@ describe('React-JSS: createUseStyles', () => {
 
       const classes = []
 
-      const getClasses = currentClasses => {
+      const getClasses = (currentClasses) => {
         classes.push(currentClasses)
       }
 
