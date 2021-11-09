@@ -68,7 +68,7 @@ describe('Integration: sheet', () => {
     it('should have no selector in stringified rule when id gnerator is called', () => {
       let css
       // Simulate cache based id generator.
-      const generateId = rule => {
+      const generateId = (rule) => {
         css = rule.toString()
         return css
       }
@@ -302,9 +302,7 @@ describe('Integration: sheet', () => {
       let id
       const options = {
         generateId: () => {
-          id = `c${Math.random()
-            .toString()
-            .substr(2)}`
+          id = `c${Math.random().toString().substr(2)}`
           return id
         }
       }
