@@ -87,7 +87,10 @@ const createUseStyles = (styles, options = {}) => {
       [sheet]
     )
 
-    const classes = sheet && dynamicRules ? getSheetClasses(sheet, dynamicRules) : emptyObject
+    const classes = React.useMemo(
+      () => (sheet && dynamicRules ? getSheetClasses(sheet, dynamicRules) : emptyObject),
+      [sheet, dynamicRules]
+    )
 
     React.useDebugValue(classes)
 

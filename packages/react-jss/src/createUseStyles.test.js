@@ -212,4 +212,27 @@ describe('React-JSS: createUseStyles', () => {
       expect(classes[0]).to.be(classes[1])
     })
   })
+
+  describe('undesirable re-render', () => {
+    it("should return previous classes when sheet and dynamicRules haven't change", () => {
+      const MyComponent = createStyledComponent()
+
+      const classes = []
+
+      const getClasses = currentClasses => {
+        classes.push(currentClasses)
+      }
+
+      let root
+      TestRenderer.act(() => {
+        root = TestRenderer.create(<MyComponent getClasses={getClasses} />)
+      })
+
+      TestRenderer.act(() => {
+        root.update(<MyComponent getClasses={getClasses} />)
+      })
+
+      expect(classes[0]).to.be(classes[1])
+    })
+  })
 })
