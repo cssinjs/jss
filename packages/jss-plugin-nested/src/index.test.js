@@ -4,10 +4,8 @@ import expect from 'expect.js'
 import {stripIndent} from 'common-tags'
 import jssExtend from 'jss-plugin-extend'
 import {create} from 'jss'
-import {create as oldCreate} from 'jss-v10_8_0'
 import sinon from 'sinon'
 import functionPlugin from 'jss-plugin-rule-value-function'
-import globalPlugin from 'jss-plugin-global'
 import nested from '.'
 
 const settings = {
@@ -745,67 +743,6 @@ describe('jss-plugin-nested', () => {
           }
         }
       `)
-    })
-  })
-
-  describe('backward compatibility', () => {
-    let localJss
-    let oldJss
-
-    beforeEach(() => {
-      localJss = create(settings).use(nested(), functionPlugin(), globalPlugin())
-      oldJss = oldCreate(settings).use(nested(), functionPlugin(), globalPlugin())
-    })
-
-    describe('nested function rule', () => {
-      const styles = {
-        a: ({color}) => ({
-          color,
-          '&:hover': {
-            color
-          }
-        }),
-        b: {
-          display: 'block'
-        }
-      }
-
-      it('should replace rules on update', () => {
-        const sheet = localJss.createStyleSheet(styles)
-        sheet.update({color: 'red'})
-        sheet.update({color: 'blue'})
-        expect(sheet.toString()).to.be(stripIndent`
-          .a-id {
-            color: blue;
-          }
-          .a-id:hover {
-            color: blue;
-          }
-          .b-id {
-            display: block;
-          }
-        `)
-      })
-
-      it("should add rules on update if jss core if jss core doesn't implement replaceRule", () => {
-        const sheet = oldJss.createStyleSheet(styles)
-        sheet.update({color: 'red'})
-        sheet.update({color: 'blue'})
-        expect(sheet.toString()).to.be(stripIndent`
-          .a-id {
-            color: blue;
-          }
-          .a-id:hover {
-            color: blue;
-          }
-          .a-id:hover {
-            color: red;
-          }
-          .b-id {
-            display: block;
-          }
-        `)
-      })
     })
   })
 })
