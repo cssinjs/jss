@@ -6,6 +6,10 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 - [jss, jss-plugin-global, jss-plugin-nested, jss-plugin-rule-value-function] Fixes a memory leak with nested function rules [1574](https://github.com/cssinjs/jss/pull/1574)
 
+### Improvements
+
+- Keep classes ref when sheet and dynamicRules have not any change [1573](https://github.com/cssinjs/jss/pull/1573)
+
 ## 10.8.2 (2021-10-25)
 
 ### Bug fixes
