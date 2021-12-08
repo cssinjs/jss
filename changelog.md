@@ -2,6 +2,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ## Next (version and date will be generated, add changes below)
 
+## 10.9.0 (2021-12-8)
+
 ### Bug fixes
 
 - [jss, jss-plugin-global, jss-plugin-nested, jss-plugin-rule-value-function] Fixes a memory leak with nested function rules [1574](https://github.com/cssinjs/jss/pull/1574)
