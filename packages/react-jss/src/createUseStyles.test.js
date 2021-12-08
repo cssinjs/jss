@@ -170,7 +170,7 @@ describe('React-JSS: createUseStyles', () => {
 
       const classes = []
 
-      const getClasses = currentClasses => {
+      const getClasses = (currentClasses) => {
         classes.push(currentClasses)
       }
 
