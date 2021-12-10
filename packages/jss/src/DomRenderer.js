@@ -393,7 +393,7 @@ export default class DomRenderer {
     const {sheet} = this.element
     const index = this.indexOf(cssRule)
     if (index === -1) return false
-    sheet.deleteRule(index)
+    sheet?.deleteRule(index)
     this.cssRules.splice(index, 1)
     return true
   }
@@ -411,7 +411,7 @@ export default class DomRenderer {
   replaceRule(cssRule, rule) {
     const index = this.indexOf(cssRule)
     if (index === -1) return false
-    this.element.sheet.deleteRule(index)
+    this.element.sheet?.deleteRule(index)
     this.cssRules.splice(index, 1)
     return this.insertRule(rule, index)
   }
@@ -420,6 +420,6 @@ export default class DomRenderer {
    * Get all rules elements.
    */
   getRules() {
-    return this.element.sheet.cssRules
+    return this.element?.sheet.cssRules
   }
 }
