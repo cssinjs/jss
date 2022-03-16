@@ -1,23 +1,23 @@
 {
   "react-jss.js": {
-    "bundled": 77930,
-    "minified": 29037,
-    "gzipped": 10153
+    "bundled": 77866,
+    "minified": 29021,
+    "gzipped": 10140
   },
   "react-jss.min.js": {
-    "bundled": 45677,
-    "minified": 19381,
-    "gzipped": 7427
+    "bundled": 45613,
+    "minified": 19365,
+    "gzipped": 7414
   },
   "react-jss.cjs.js": {
-    "bundled": 21680,
-    "minified": 9599,
-    "gzipped": 3203
+    "bundled": 21616,
+    "minified": 9583,
+    "gzipped": 3191
   },
   "react-jss.esm.js": {
-    "bundled": 19766,
-    "minified": 8102,
-    "gzipped": 2987,
+    "bundled": 19702,
+    "minified": 8086,
+    "gzipped": 2975,
     "treeshaked": {
       "rollup": {
         "code": 426,

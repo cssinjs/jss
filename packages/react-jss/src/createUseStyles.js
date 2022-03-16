@@ -47,7 +47,7 @@ const createUseStyles = (styles, options = {}) => {
           index,
           sheetOptions
         }),
-      [context, styles, name, theme, index, sheetOptions]
+      [context, theme]
     )
 
     useEffectOrLayoutEffect(() => {
@@ -59,7 +59,7 @@ const createUseStyles = (styles, options = {}) => {
           removeDynamicRules(sheet, newDynamicRules)
         }
       }
-    }, [sheet, data])
+    }, [sheet])
 
     useEffectOrLayoutEffect(() => {
       manageSheet({
@@ -79,7 +79,7 @@ const createUseStyles = (styles, options = {}) => {
           })
         }
       }
-    }, [index, context, sheet, theme])
+    }, [sheet])
 
     useEffectOrLayoutEffect(() => {
       // We only need to update the rules on a subsequent update and not in the first mount
