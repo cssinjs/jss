@@ -1,7 +1,7 @@
 {
   "name": "react-jss",
   "description": "JSS integration with React",
-  "version": "10.9.1-rc.0",
+  "version": "10.9.0",
   "license": "MIT",
   "main": "dist/react-jss.cjs.js",
   "module": "dist/react-jss.esm.js",
