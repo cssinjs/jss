@@ -86,7 +86,7 @@ const createUseStyles = (styles, options = {}) => {
       if (sheet && dynamicRules && !isFirstMount.current) {
         updateDynamicRules(data, sheet, dynamicRules)
       }
-    }, [data, sheet, dynamicRules, isFirstMount])
+    }, [data])
 
     const classes = React.useMemo(
       () => (sheet && dynamicRules ? getSheetClasses(sheet, dynamicRules) : emptyObject),
