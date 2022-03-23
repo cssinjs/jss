@@ -35,7 +35,6 @@ const createUseStyles = (styles, options = {}) => {
     const isFirstMount = React.useRef(true)
     const context = React.useContext(JssContext)
     const theme = useTheme(data && data.theme)
-    const [dynamicRules, setDynamicRules] = React.useState()
 
     const sheet = React.useMemo(
       () =>
@@ -50,7 +49,15 @@ const createUseStyles = (styles, options = {}) => {
       [context, theme]
     )
 
+    const [dynamicRules, setDynamicRules] = React.useState(() =>
+      sheet ? addDynamicRules(sheet, data) : null
+    )
+
     useEffectOrLayoutEffect(() => {
+      if (isFirstMount.current) {
+        return // set on mount by useState
+      }
+
       const newDynamicRules = sheet ? addDynamicRules(sheet, data) : null
       setDynamicRules(newDynamicRules)
 
