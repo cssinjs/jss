@@ -61,6 +61,7 @@ const createUseStyles = (styles, options = {}) => {
       const newDynamicRules = sheet ? addDynamicRules(sheet, data) : null
       setDynamicRules(newDynamicRules)
 
+      // eslint-disable-next-line consistent-return
       return () => {
         if (sheet && newDynamicRules) {
           removeDynamicRules(sheet, newDynamicRules)
