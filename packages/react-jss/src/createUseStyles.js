@@ -13,7 +13,10 @@ import getSheetIndex from './utils/getSheetIndex'
 import {manageSheet, unmanageSheet} from './utils/managers'
 import getSheetClasses from './utils/getSheetClasses'
 
-const useEffectOrLayoutEffect = isInBrowser ? React.useLayoutEffect : React.useEffect
+const useInsertionEffect = isInBrowser
+  ? React.useInsertionEffect || // React 18+ (https://github.com/reactwg/react-18/discussions/110)
+    React.useLayoutEffect
+  : React.useEffect
 
 const noTheme = {}
 
@@ -49,27 +52,9 @@ const createUseStyles = (styles, options = {}) => {
       [context, theme]
     )
 
-    const [dynamicRules, setDynamicRules] = React.useState(() =>
-      sheet ? addDynamicRules(sheet, data) : null
-    )
+    const dynamicRules = React.useMemo(() => (sheet ? addDynamicRules(sheet, data) : null), [sheet])
 
-    useEffectOrLayoutEffect(() => {
-      if (isFirstMount.current) {
-        return // set on mount by useState
-      }
-
-      const newDynamicRules = sheet ? addDynamicRules(sheet, data) : null
-      setDynamicRules(newDynamicRules)
-
-      // eslint-disable-next-line consistent-return
-      return () => {
-        if (sheet && newDynamicRules) {
-          removeDynamicRules(sheet, newDynamicRules)
-        }
-      }
-    }, [sheet])
-
-    useEffectOrLayoutEffect(() => {
+    useInsertionEffect(() => {
       manageSheet({
         index,
         context,
@@ -85,11 +70,16 @@ const createUseStyles = (styles, options = {}) => {
             sheet,
             theme
           })
+
+          // when sheet changes, remove related dynamic rules
+          if (dynamicRules) {
+            removeDynamicRules(sheet, dynamicRules)
+          }
         }
       }
     }, [sheet])
 
-    useEffectOrLayoutEffect(() => {
+    useInsertionEffect(() => {
       // We only need to update the rules on a subsequent update and not in the first mount
       if (sheet && dynamicRules && !isFirstMount.current) {
         updateDynamicRules(data, sheet, dynamicRules)
