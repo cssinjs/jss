@@ -13,7 +13,9 @@ import getSheetIndex from './utils/getSheetIndex'
 import {manageSheet, unmanageSheet} from './utils/managers'
 import getSheetClasses from './utils/getSheetClasses'
 
-const useEffectOrLayoutEffect = isInBrowser ? React.useLayoutEffect : React.useEffect
+const useEffectOrLayoutEffect = isInBrowser
+  ? React.useInsertionEffect || React.useLayoutEffect
+  : React.useEffect
 
 const noTheme = {}
 
