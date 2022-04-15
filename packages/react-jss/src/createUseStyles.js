@@ -63,6 +63,13 @@ const createUseStyles = (styles, options = {}) => {
 
     const dynamicRules = React.useMemo(() => (sheet ? addDynamicRules(sheet, data) : null), [sheet])
 
+    useInsertionEffect(() => {
+      // We only need to update the rules on a subsequent update and not in the first mount
+      if (sheet && dynamicRules && !isFirstMount.current) {
+        updateDynamicRules(data, sheet, dynamicRules)
+      }
+    }, [data])
+
     useInsertionEffect(
       () => () => {
         if (sheet) {
@@ -81,13 +88,6 @@ const createUseStyles = (styles, options = {}) => {
       },
       [sheet]
     )
-
-    useInsertionEffect(() => {
-      // We only need to update the rules on a subsequent update and not in the first mount
-      if (sheet && dynamicRules && !isFirstMount.current) {
-        updateDynamicRules(data, sheet, dynamicRules)
-      }
-    }, [data])
 
     const classes = React.useMemo(
       () => (sheet && dynamicRules ? getSheetClasses(sheet, dynamicRules) : emptyObject),
