@@ -39,7 +39,7 @@ const createUseStyles = (styles, options = {}) => {
     const context = React.useContext(JssContext)
     const theme = useTheme(data && data.theme)
 
-    const sheet = React.useMemo(() => {
+    const [sheet, dynamicRules] = React.useMemo(() => {
       const newSheet = createStyleSheet({
         context,
         styles,
@@ -58,10 +58,8 @@ const createUseStyles = (styles, options = {}) => {
         })
       }
 
-      return newSheet
+      return [newSheet, newSheet ? addDynamicRules(newSheet, data) : null]
     }, [context, theme])
-
-    const dynamicRules = React.useMemo(() => (sheet ? addDynamicRules(sheet, data) : null), [sheet])
 
     useInsertionEffect(() => {
       // We only need to update the rules on a subsequent update and not in the first mount
