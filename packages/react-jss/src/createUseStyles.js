@@ -13,7 +13,10 @@ import getSheetIndex from './utils/getSheetIndex'
 import {manageSheet, unmanageSheet} from './utils/managers'
 import getSheetClasses from './utils/getSheetClasses'
 
-const useEffectOrLayoutEffect = isInBrowser ? React.useLayoutEffect : React.useEffect
+const useInsertionEffect = isInBrowser
+  ? React.useInsertionEffect || // React 18+ (https://github.com/reactwg/react-18/discussions/110)
+    React.useLayoutEffect
+  : React.useEffect
 
 const noTheme = {}
 
@@ -36,56 +39,52 @@ const createUseStyles = (styles, options = {}) => {
     const context = React.useContext(JssContext)
     const theme = useTheme(data && data.theme)
 
-    const [sheet, dynamicRules] = React.useMemo(() => {
-      const newSheet = createStyleSheet({
-        context,
-        styles,
-        name,
-        theme,
+    const sheet = React.useMemo(
+      () =>
+        createStyleSheet({
+          context,
+          styles,
+          name,
+          theme,
+          index,
+          sheetOptions
+        }),
+      [context, theme]
+    )
+
+    const dynamicRules = React.useMemo(() => (sheet ? addDynamicRules(sheet, data) : null), [sheet])
+
+    useInsertionEffect(() => {
+      manageSheet({
         index,
-        sheetOptions
+        context,
+        sheet,
+        theme
       })
 
-      const newDynamicRules = newSheet ? addDynamicRules(newSheet, data) : null
+      return () => {
+        if (sheet) {
+          unmanageSheet({
+            index,
+            context,
+            sheet,
+            theme
+          })
 
-      if (newSheet) {
-        manageSheet({
-          index,
-          context,
-          sheet: newSheet,
-          theme
-        })
+          // when sheet changes, remove related dynamic rules
+          if (dynamicRules) {
+            removeDynamicRules(sheet, dynamicRules)
+          }
+        }
       }
+    }, [sheet])
 
-      return [newSheet, newDynamicRules]
-    }, [context, theme])
-
-    useEffectOrLayoutEffect(() => {
+    useInsertionEffect(() => {
       // We only need to update the rules on a subsequent update and not in the first mount
       if (sheet && dynamicRules && !isFirstMount.current) {
         updateDynamicRules(data, sheet, dynamicRules)
       }
     }, [data])
-
-    useEffectOrLayoutEffect(
-      () =>
-        // cleanup only
-        () => {
-          if (sheet) {
-            unmanageSheet({
-              index,
-              context,
-              sheet,
-              theme
-            })
-          }
-
-          if (sheet && dynamicRules) {
-            removeDynamicRules(sheet, dynamicRules)
-          }
-        },
-      [sheet]
-    )
 
     const classes = React.useMemo(
       () => (sheet && dynamicRules ? getSheetClasses(sheet, dynamicRules) : emptyObject),
