@@ -39,30 +39,37 @@ const createUseStyles = (styles, options = {}) => {
     const context = React.useContext(JssContext)
     const theme = useTheme(data && data.theme)
 
-    const sheet = React.useMemo(
-      () =>
-        createStyleSheet({
-          context,
-          styles,
-          name,
-          theme,
-          index,
-          sheetOptions
-        }),
-      [context, theme]
-    )
-
-    const dynamicRules = React.useMemo(() => (sheet ? addDynamicRules(sheet, data) : null), [sheet])
-
-    useInsertionEffect(() => {
-      manageSheet({
-        index,
+    const [sheet, dynamicRules] = React.useMemo(() => {
+      const newSheet = createStyleSheet({
         context,
-        sheet,
-        theme
+        styles,
+        name,
+        theme,
+        index,
+        sheetOptions
       })
 
-      return () => {
+      if (newSheet) {
+        manageSheet({
+          index,
+          context,
+          sheet: newSheet,
+          theme
+        })
+      }
+
+      return [newSheet, newSheet ? addDynamicRules(newSheet, data) : null]
+    }, [context, theme])
+
+    useInsertionEffect(() => {
+      // We only need to update the rules on a subsequent update and not in the first mount
+      if (sheet && dynamicRules && !isFirstMount.current) {
+        updateDynamicRules(data, sheet, dynamicRules)
+      }
+    }, [data])
+
+    useInsertionEffect(
+      () => () => {
         if (sheet) {
           unmanageSheet({
             index,
@@ -76,15 +83,9 @@ const createUseStyles = (styles, options = {}) => {
             removeDynamicRules(sheet, dynamicRules)
           }
         }
-      }
-    }, [sheet])
-
-    useInsertionEffect(() => {
-      // We only need to update the rules on a subsequent update and not in the first mount
-      if (sheet && dynamicRules && !isFirstMount.current) {
-        updateDynamicRules(data, sheet, dynamicRules)
-      }
-    }, [data])
+      },
+      [sheet]
+    )
 
     const classes = React.useMemo(
       () => (sheet && dynamicRules ? getSheetClasses(sheet, dynamicRules) : emptyObject),
