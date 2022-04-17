@@ -4,6 +4,10 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ## 10.9.1-alpha.0 (2022-4-16)
 
+### Improvements
+
+- [react-jss] Use useInsertionEffect [1608](https://github.com/cssinjs/jss/pull/1608), [1604](https://github.com/cssinjs/jss/pull/1604)
+
 ## 10.9.0 (2021-12-8)
 
 ### Bug fixes
