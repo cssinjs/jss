@@ -48,16 +48,6 @@ const createUseStyles = (styles, options = {}) => {
         index,
         sheetOptions
       })
-
-      if (newSheet) {
-        manageSheet({
-          index,
-          context,
-          sheet: newSheet,
-          theme
-        })
-      }
-
       return [newSheet, newSheet ? addDynamicRules(newSheet, data) : null]
     }, [context, theme])
 
@@ -68,8 +58,17 @@ const createUseStyles = (styles, options = {}) => {
       }
     }, [data])
 
-    useInsertionEffect(
-      () => () => {
+    useInsertionEffect(() => {
+      if (sheet) {
+        manageSheet({
+          index,
+          context,
+          sheet,
+          theme
+        })
+      }
+
+      return () => {
         if (sheet) {
           unmanageSheet({
             index,
@@ -83,9 +82,8 @@ const createUseStyles = (styles, options = {}) => {
             removeDynamicRules(sheet, dynamicRules)
           }
         }
-      },
-      [sheet]
-    )
+      }
+    }, [sheet])
 
     const classes = React.useMemo(
       () => (sheet && dynamicRules ? getSheetClasses(sheet, dynamicRules) : emptyObject),
