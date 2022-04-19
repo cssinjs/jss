@@ -48,6 +48,17 @@ const createUseStyles = (styles, options = {}) => {
         index,
         sheetOptions
       })
+
+      if (newSheet && !isInBrowser) {
+        // manage immediately during SSRs. browsers will manage the sheet through useInsertionEffect below
+        manageSheet({
+          index,
+          context,
+          sheet: newSheet,
+          theme
+        })
+      }
+
       return [newSheet, newSheet ? addDynamicRules(newSheet, data) : null]
     }, [context, theme])
 
