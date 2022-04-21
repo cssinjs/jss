@@ -13,7 +13,8 @@ export default function JssProvider(props) {
   const registryRef = React.useRef(null)
 
   const createContext = (parentContext, prevContext = initialContext) => {
-    const {registry, classNamePrefix, jss, generateId, disableStylesGeneration, media, id} = props
+    const {registry, classNamePrefix, jss, generateId, disableStylesGeneration, media, id, isSSR} =
+      props
 
     const context = {...parentContext}
 
@@ -55,6 +56,10 @@ export default function JssProvider(props) {
 
     if (disableStylesGeneration !== undefined) {
       context.disableStylesGeneration = disableStylesGeneration
+    }
+
+    if (isSSR !== undefined) {
+      context.isSSR = isSSR
     }
 
     if (prevContext && shallowEqualObjects(prevContext, context)) {

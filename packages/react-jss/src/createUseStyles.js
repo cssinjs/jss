@@ -1,5 +1,4 @@
 import * as React from 'react'
-import isInBrowser from 'is-in-browser'
 import {ThemeContext as DefaultThemeContext} from 'theming'
 
 import JssContext from './JssContext'
@@ -13,10 +12,12 @@ import getSheetIndex from './utils/getSheetIndex'
 import {manageSheet, unmanageSheet} from './utils/managers'
 import getSheetClasses from './utils/getSheetClasses'
 
-const useInsertionEffect = isInBrowser
-  ? React.useInsertionEffect || // React 18+ (https://github.com/reactwg/react-18/discussions/110)
-    React.useLayoutEffect
-  : React.useEffect
+function getUseInsertionEffect(isSSR) {
+  return isSSR
+    ? React.useEffect
+    : React.useInsertionEffect || // React 18+ (https://github.com/reactwg/react-18/discussions/110)
+        React.useLayoutEffect
+}
 
 const noTheme = {}
 
@@ -62,14 +63,14 @@ const createUseStyles = (styles, options = {}) => {
       return [newSheet, newSheet ? addDynamicRules(newSheet, data) : null]
     }, [context, theme])
 
-    useInsertionEffect(() => {
+    getUseInsertionEffect(context.isSSR)(() => {
       // We only need to update the rules on a subsequent update and not in the first mount
       if (sheet && dynamicRules && !isFirstMount.current) {
         updateDynamicRules(data, sheet, dynamicRules)
       }
     }, [data])
 
-    useInsertionEffect(() => {
+    getUseInsertionEffect(context.isSSR)(() => {
       if (sheet) {
         manageSheet({
           index,

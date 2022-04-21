@@ -57,7 +57,7 @@ export default ({createStyledComponent}) => {
     })
     const generateId = () => 'id'
     renderToString(
-      <JssProvider registry={registry} generateId={generateId}>
+      <JssProvider registry={registry} generateId={generateId} isSSR>
         <MyComponent />
       </JssProvider>
     )
@@ -81,7 +81,7 @@ export default ({createStyledComponent}) => {
       options
     )
     renderToString(
-      <JssProvider registry={registry}>
+      <JssProvider registry={registry} isSSR>
         <MyComponent />
       </JssProvider>
     )
