@@ -50,7 +50,7 @@ const createUseStyles = (styles, options = {}) => {
         sheetOptions
       })
 
-      if (newSheet && !isInBrowser) {
+      if (newSheet && context.isSSR) {
         // manage immediately during SSRs. browsers will manage the sheet through useInsertionEffect below
         manageSheet({
           index,
