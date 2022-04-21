@@ -36,6 +36,7 @@ export type Context = {|
   disableStylesGeneration?: boolean,
   media?: string,
   generateId?: GenerateId
+  isSSR?: boolean
 |}
 
 export type HOCProps<Theme, Props> = Props & {

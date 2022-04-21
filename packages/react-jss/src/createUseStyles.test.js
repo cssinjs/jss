@@ -34,7 +34,7 @@ describe('React-JSS: createUseStyles', () => {
       const MyComponent = createStyledComponent(styles)
 
       renderToString(
-        <JssProvider registry={registry} generateId={() => 'button'}>
+        <JssProvider registry={registry} generateId={() => 'button'} isSSR>
           <MyComponent theme={{exampleColor: 'blue'}} />
         </JssProvider>
       )
