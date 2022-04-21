@@ -50,7 +50,8 @@ const createUseStyles = (styles, options = {}) => {
         sheetOptions
       })
 
-      if (newSheet) {
+      if (newSheet && context.isSSR) {
+        // manage immediately during SSRs. browsers will manage the sheet through useInsertionEffect below
         manageSheet({
           index,
           context,
@@ -69,8 +70,17 @@ const createUseStyles = (styles, options = {}) => {
       }
     }, [data])
 
-    getUseInsertionEffect(context.isSSR)(
-      () => () => {
+    getUseInsertionEffect(context.isSSR)(() => {
+      if (sheet) {
+        manageSheet({
+          index,
+          context,
+          sheet,
+          theme
+        })
+      }
+
+      return () => {
         if (sheet) {
           unmanageSheet({
             index,
@@ -84,9 +94,8 @@ const createUseStyles = (styles, options = {}) => {
             removeDynamicRules(sheet, dynamicRules)
           }
         }
-      },
-      [sheet]
-    )
+      }
+    }, [sheet])
 
     const classes = React.useMemo(
       () => (sheet && dynamicRules ? getSheetClasses(sheet, dynamicRules) : emptyObject),
