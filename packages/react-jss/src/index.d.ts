@@ -23,6 +23,7 @@ declare const JssProvider: ComponentType<{
   disableStylesGeneration?: boolean
   children: ReactNode
   id?: CreateGenerateIdOptions
+  isSSR?: boolean
 }>
 
 interface Managers {
@@ -35,6 +36,7 @@ declare const JssContext: Context<{
   managers?: Managers
   sheetOptions: StyleSheetFactoryOptions
   disableStylesGeneration: boolean
+  isSSR: boolean
 }>
 
 type ClassesForStyles<
