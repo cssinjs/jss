@@ -2,6 +2,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ## Next (version and date will be generated, add changes below)
 
+## 10.9.1-alpha.1 (2022-4-23)
+
 ### Bug fixes
 
 - [react-jss] #1608 fixed the failing tests caused by #1604, but doing so reintroduced the original bug breaking React 18 support [1609](https://github.com/cssinjs/jss/pull/1609)
