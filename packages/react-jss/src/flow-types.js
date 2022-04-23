@@ -35,7 +35,7 @@ export type Context = {|
   classNamePrefix?: string,
   disableStylesGeneration?: boolean,
   media?: string,
-  generateId?: GenerateId
+  generateId?: GenerateId,
   isSSR?: boolean
 |}
 
