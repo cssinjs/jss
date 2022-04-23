@@ -13,6 +13,11 @@ A lib for generating Style Sheets with JavaScript.
 
 For documentation see our [docs](https://cssinjs.org).
 
+## Community
+
+- Join our [Discord](https://discord.gg/e79XhqmaDH)
+- Use [Discussions](https://github.com/cssinjs/jss/discussions) to discuss ideas or ask for help 
+
 ## Backers
 
 Support us with a monthly donation and help us continue our activities. [[Become a backer](https://opencollective.com/jss#backer)]
