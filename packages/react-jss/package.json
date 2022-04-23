@@ -44,7 +44,6 @@
     "@emotion/is-prop-valid": "^0.7.3",
     "css-jss": "10.9.1-alpha.1",
     "hoist-non-react-statics": "^3.2.0",
-    "is-in-browser": "^1.1.3",
     "jss": "10.9.1-alpha.1",
     "jss-preset-default": "10.9.1-alpha.1",
     "prop-types": "^15.6.0",

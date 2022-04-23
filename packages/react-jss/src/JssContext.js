@@ -1,5 +1,5 @@
 import * as React from 'react'
-import isInBrowser from 'is-in-browser'
+import isInBrowser from './utils/isInBrowser'
 
 export default React.createContext({
   classNamePrefix: '',

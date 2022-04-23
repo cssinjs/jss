@@ -1,4 +1,4 @@
-import isInBrowser from 'is-in-browser'
+import isInBrowser from './utils/isInBrowser'
 import StyleSheet from './StyleSheet'
 import PluginsRegistry from './PluginsRegistry'
 import sheets from './sheets'

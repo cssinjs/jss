@@ -1,0 +1,4 @@
+// @flow
+type isInBrowser = boolean
+
+declare export default isInBrowser
