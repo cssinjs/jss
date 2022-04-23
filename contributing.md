@@ -1,5 +1,9 @@
 # Contributing
 
+## Want to contribute but got stuck?
+
+Please reach out on [Discord](https://discord.gg/e79XhqmaDH)
+
 ## Prerequisites
 
 To install the development dependencies, you will at least need Node 8 installed.
