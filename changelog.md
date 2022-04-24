@@ -2,6 +2,10 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ## Next (version and date will be generated, add changes below)
 
+### Bug fixes
+
+- [jss] Update stylesheet if !important flag is set before and after the update [1612](https://github.com/cssinjs/jss/pull/1612)
+
 ## 10.9.1-alpha.1 (2022-4-23)
 
 ### Bug fixes

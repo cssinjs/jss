@@ -16,7 +16,7 @@ For documentation see our [docs](https://cssinjs.org).
 ## Community
 
 - Join our [Discord](https://discord.gg/e79XhqmaDH)
-- Use [Discussions](https://github.com/cssinjs/jss/discussions) to discuss ideas or ask for help 
+- Use [Discussions](https://github.com/cssinjs/jss/discussions) to discuss ideas or ask for help
 
 ## Backers
 
