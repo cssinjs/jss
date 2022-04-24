@@ -38,19 +38,23 @@ const setProperty = (cssRule, prop, value) => {
     let cssValue = value
 
     if (Array.isArray(value)) {
-      cssValue = toCssValue(value, true)
-
-      if (value[value.length - 1] === '!important') {
-        cssRule.style.setProperty(prop, cssValue, 'important')
-        return true
-      }
+      cssValue = toCssValue(value)
     }
 
     // Support CSSTOM.
     if (cssRule.attributeStyleMap) {
       cssRule.attributeStyleMap.set(prop, cssValue)
     } else {
-      cssRule.style.setProperty(prop, cssValue)
+      const indexOfImportantFlag = cssValue ? cssValue.indexOf('!important') : -1
+
+      const cssValueWithoutImportantFlag =
+        indexOfImportantFlag > -1 ? cssValue.substr(0, indexOfImportantFlag - 1) : cssValue
+
+      cssRule.style.setProperty(
+        prop,
+        cssValueWithoutImportantFlag,
+        indexOfImportantFlag > -1 ? 'important' : ''
+      )
     }
   } catch (err) {
     // IE may throw if property is unknown.

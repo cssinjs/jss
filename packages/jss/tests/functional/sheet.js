@@ -575,6 +575,31 @@ describe('Functional: sheet', () => {
     })
   })
 
+  describe('sheet.update() with !important', () => {
+    let sheet
+    beforeEach(() => {
+      const onUpdate = (data, rule) => {
+        rule.style = data
+      }
+      sheet = create()
+        .use({onUpdate})
+        .createStyleSheet({a: {color: 'rgb(255, 0, 0) !important'}}, {link: true})
+        .attach()
+
+      expect(computeStyle(sheet.classes.a).color).to.be('rgb(255, 0, 0)')
+    })
+
+    it('should return correct value by an array', () => {
+      sheet.update({color: ['rgb(0, 255, 0)', '!important']})
+      expect(computeStyle(sheet.classes.a).color).to.be('rgb(0, 255, 0)')
+    })
+
+    it('should return correct value by a string', () => {
+      sheet.update({color: 'rgb(0, 255, 0) !important'})
+      expect(computeStyle(sheet.classes.a).color).to.be('rgb(0, 255, 0)')
+    })
+  })
+
   describe('rule.selector', () => {
     let sheet
     let rule
