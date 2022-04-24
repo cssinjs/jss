@@ -41,15 +41,15 @@ const setProperty = (cssRule, prop, value) => {
       cssValue = toCssValue(value)
     }
 
-    const indexOfImportantFlag = cssValue ? cssValue.indexOf('!important') : -1
-
-    const cssValueWithoutImportantFlag =
-      indexOfImportantFlag > -1 ? cssValue.substr(0, indexOfImportantFlag - 1) : cssValue
-
     // Support CSSTOM.
     if (cssRule.attributeStyleMap) {
       cssRule.attributeStyleMap.set(prop, cssValue)
     } else {
+      const indexOfImportantFlag = cssValue ? cssValue.indexOf('!important') : -1
+
+      const cssValueWithoutImportantFlag =
+        indexOfImportantFlag > -1 ? cssValue.substr(0, indexOfImportantFlag - 1) : cssValue
+
       cssRule.style.setProperty(
         prop,
         cssValueWithoutImportantFlag,
