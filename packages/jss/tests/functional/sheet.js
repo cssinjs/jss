@@ -575,7 +575,7 @@ describe('Functional: sheet', () => {
     })
   })
 
-  describe('!important flag', () => {
+  describe('sheet.update() with !important', () => {
     let sheet
     beforeEach(() => {
       const onUpdate = (data, rule) => {
