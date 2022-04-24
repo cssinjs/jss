@@ -589,12 +589,12 @@ describe('Functional: sheet', () => {
       expect(computeStyle(sheet.classes.a).color).to.be('rgb(255, 0, 0)')
     })
 
-    it('change color by a Array', () => {
+    it('should return correct value by an array', () => {
       sheet.update({color: ['rgb(0, 255, 0)', '!important']})
       expect(computeStyle(sheet.classes.a).color).to.be('rgb(0, 255, 0)')
     })
 
-    it('change color by a String', () => {
+    it('should return correct value by a string', () => {
       sheet.update({color: 'rgb(0, 255, 0) !important'})
       expect(computeStyle(sheet.classes.a).color).to.be('rgb(0, 255, 0)')
     })
