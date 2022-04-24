@@ -8,7 +8,7 @@
 
 > JSS plugin for TC39 Observables support
 
-See our website [jss-plugin-rule-value-observable](https://cssinjs.org/jss-plugin-rule-value-observable?v=v10.9.1-alpha.1) for more information.
+See our website [jss-plugin-rule-value-observable](https://cssinjs.org/jss-plugin-rule-value-observable?v=v10.9.1-alpha.2) for more information.
 
 ## Install
 

@@ -8,7 +8,7 @@
 
 > JSS plugin that enables mixing in styles.
 
-See our website [jss-plugin-extend](https://cssinjs.org/jss-plugin-extend?v=v10.9.1-alpha.1) for more information.
+See our website [jss-plugin-extend](https://cssinjs.org/jss-plugin-extend?v=v10.9.1-alpha.2) for more information.
 
 ## Install
 
