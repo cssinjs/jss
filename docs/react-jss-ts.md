@@ -108,7 +108,7 @@ If `CustomTheme` is the same across your entire application, you can define a de
 
 declare global {
   namespace Jss {
-    export interface Thme {
+    export interface Theme {
       background: string
     }
   }
@@ -118,3 +118,18 @@ export {}
 ```
 
 This enables React-JSS to rely on a default `Theme` type, removing the need to explicitly provide a type to `createUseStyles`. This file does not need to be imported anywhere; it is automatically acknowledged by TypeScript and/or VSCode's TypeScript Server.
+
+
+## Using your Global Default Theme
+
+After defining your custom theme type in `global.d.ts`, as shown above, you can import and use the custom theme interface as follows:
+
+```typescript
+// theme.tsx
+
+import { DefaultTheme } from "react-jss";
+
+export const theme: DefaultTheme = {
+  "background": "#fafafa",
+};
+```
