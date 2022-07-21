@@ -2,6 +2,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ## Next (version and date will be generated, add changes below)
 
+## 10.9.1 (2022-7-21)
+
 ## 10.9.1-alpha.2 (2022-4-24)
 
 ### Bug fixes
