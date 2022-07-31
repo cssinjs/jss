@@ -8,7 +8,7 @@
 
 > A lib for generating Style Sheets with JavaScript.
 
-See our website [jss](https://cssinjs.org/setup?v=v10.9.1) for more information.
+See our website [jss](https://cssinjs.org/setup?v=v10.9.2) for more information.
 
 ## Install
 

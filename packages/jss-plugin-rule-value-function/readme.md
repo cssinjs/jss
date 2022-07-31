@@ -8,7 +8,7 @@
 
 > JSS plugin for function value and rule syntax
 
-See our website [jss-plugin-rule-value-function](https://cssinjs.org/jss-plugin-rule-value-function?v=v10.9.1) for more information.
+See our website [jss-plugin-rule-value-function](https://cssinjs.org/jss-plugin-rule-value-function?v=v10.9.2) for more information.
 
 ## Install
 

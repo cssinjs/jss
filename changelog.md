@@ -2,6 +2,8 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ## Next (version and date will be generated, add changes below)
 
+## 10.9.2 (2022-7-31)
+
 ### Bug fixes
 
 - [react-jss] Fix import useInsertionEffect [1627](https://github.com/cssinjs/jss/pull/1627)

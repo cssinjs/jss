@@ -2,12 +2,12 @@
   "jss.js": {
     "bundled": 64931,
     "minified": 23178,
-    "gzipped": 7204
+    "gzipped": 7205
   },
   "jss.min.js": {
     "bundled": 63535,
     "minified": 22409,
-    "gzipped": 6860
+    "gzipped": 6861
   },
   "jss.cjs.js": {
     "bundled": 60619,

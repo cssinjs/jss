@@ -8,7 +8,7 @@
 
 > JSS plugin that ensures style properties extend each other instead of override
 
-See our website [jss-plugin-props-sort](https://cssinjs.org/jss-plugin-props-sort?v=v10.9.1) for more information.
+See our website [jss-plugin-props-sort](https://cssinjs.org/jss-plugin-props-sort?v=v10.9.2) for more information.
 
 ## Install
 
