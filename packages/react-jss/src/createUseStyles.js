@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, {useEffect, useLayoutEffect, useContext, useRef, useMemo, useDebugValue} from 'react'
 import {ThemeContext as DefaultThemeContext} from 'theming'
 
 import JssContext from './JssContext'
@@ -14,9 +14,9 @@ import getSheetClasses from './utils/getSheetClasses'
 
 function getUseInsertionEffect(isSSR) {
   return isSSR
-    ? React.useEffect
+    ? useEffect
     : React.useInsertionEffect || // React 18+ (https://github.com/reactwg/react-18/discussions/110)
-        React.useLayoutEffect
+        useLayoutEffect
 }
 
 const noTheme = {}
@@ -27,7 +27,7 @@ const createUseStyles = (styles, options = {}) => {
 
   const useTheme = (theme) => {
     if (typeof styles === 'function') {
-      return theme || React.useContext(ThemeContext) || noTheme
+      return theme || useContext(ThemeContext) || noTheme
     }
 
     return noTheme
@@ -36,11 +36,11 @@ const createUseStyles = (styles, options = {}) => {
   const emptyObject = {}
 
   return function useStyles(data) {
-    const isFirstMount = React.useRef(true)
-    const context = React.useContext(JssContext)
+    const isFirstMount = useRef(true)
+    const context = useContext(JssContext)
     const theme = useTheme(data && data.theme)
 
-    const [sheet, dynamicRules] = React.useMemo(() => {
+    const [sheet, dynamicRules] = useMemo(() => {
       const newSheet = createStyleSheet({
         context,
         styles,
@@ -97,16 +97,16 @@ const createUseStyles = (styles, options = {}) => {
       }
     }, [sheet])
 
-    const classes = React.useMemo(
+    const classes = useMemo(
       () => (sheet && dynamicRules ? getSheetClasses(sheet, dynamicRules) : emptyObject),
       [sheet, dynamicRules]
     )
 
-    React.useDebugValue(classes)
+    useDebugValue(classes)
 
-    React.useDebugValue(theme === noTheme ? 'No theme' : theme)
+    useDebugValue(theme === noTheme ? 'No theme' : theme)
 
-    React.useEffect(() => {
+    useEffect(() => {
       isFirstMount.current = false
     })
 
