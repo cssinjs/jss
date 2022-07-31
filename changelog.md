@@ -2,7 +2,15 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ## Next (version and date will be generated, add changes below)
 
+### Bug fixes
+
+- [react-jss] Fix import useInsertionEffect [1627](https://github.com/cssinjs/jss/pull/1627)
+
 ## 10.9.1 (2022-7-21)
+
+### Bug fixes
+
+- [jss] Update stylesheet if !important flag is set before and after the update [1612](https://github.com/cssinjs/jss/pull/1612)
 
 ## 10.9.1-alpha.2 (2022-4-24)
 
