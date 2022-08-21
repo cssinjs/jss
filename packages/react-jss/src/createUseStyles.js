@@ -38,6 +38,7 @@ const createUseStyles = (styles, options = {}) => {
   return function useStyles(data) {
     const isFirstMount = useRef(true)
     const context = useContext(JssContext)
+    const insertionEffect = getUseInsertionEffect(context.isSSR)
     const theme = useTheme(data && data.theme)
 
     const [sheet, dynamicRules] = useMemo(() => {
@@ -63,14 +64,14 @@ const createUseStyles = (styles, options = {}) => {
       return [newSheet, newSheet ? addDynamicRules(newSheet, data) : null]
     }, [context, theme])
 
-    getUseInsertionEffect(context.isSSR)(() => {
+    insertionEffect(() => {
       // We only need to update the rules on a subsequent update and not in the first mount
       if (sheet && dynamicRules && !isFirstMount.current) {
         updateDynamicRules(data, sheet, dynamicRules)
       }
     }, [data])
 
-    getUseInsertionEffect(context.isSSR)(() => {
+    insertionEffect(() => {
       if (sheet) {
         manageSheet({
           index,
