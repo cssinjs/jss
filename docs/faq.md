@@ -20,7 +20,7 @@
 
    Yes.
 
-1. Does JSS has overhead?
+1. Does JSS have overhead?
 
    Yes, it is a JavaScript library, which you can use in the browser and Node. When used in the browser there is a cost regarding bundle size and runtime CSS generation. This cost usually doesn't become a problem though, because JSS is small and fast enough not to be a bottleneck of your application. Check out [tradeoffs](./tradeoffs.md) for more information.
 
