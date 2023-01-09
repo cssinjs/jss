@@ -344,6 +344,23 @@ describe('Integration: rules', () => {
       })
     })
 
+    it('should return CSS from @container rule', () => {
+      const rule = jss.createRule('@container ( min-width: 500px )', {
+        button: {
+          display: 'none'
+        }
+      })
+      expect(rule.type).to.be('conditional')
+      expect(rule.key).to.be('@container ( min-width: 500px )')
+      expect(rule.toString()).to.be(stripIndent`
+        @container ( min-width: 500px ) {
+          .button-id {
+            display: none;
+          }
+        }
+      `)
+    })
+
     it('should return CSS from @supports rule', () => {
       const rule = jss.createRule('@supports ( display: flexbox )', {
         button: {
