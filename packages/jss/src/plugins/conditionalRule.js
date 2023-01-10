@@ -80,7 +80,7 @@ export class ConditionalRule {
   }
 }
 
-const keyRegExp = /@media|@supports\s+/
+const keyRegExp = /@container|@media|@supports\s+/
 
 export default {
   onCreateRule(key, styles, options) {
