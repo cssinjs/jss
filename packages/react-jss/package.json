@@ -1,7 +1,7 @@
 {
   "name": "react-jss",
   "description": "JSS integration with React",
-  "version": "10.9.2",
+  "version": "10.10.0",
   "license": "MIT",
   "main": "dist/react-jss.cjs.js",
   "module": "dist/react-jss.esm.js",
@@ -42,11 +42,11 @@
   "dependencies": {
     "@babel/runtime": "^7.3.1",
     "@emotion/is-prop-valid": "^0.7.3",
-    "css-jss": "10.9.2",
+    "css-jss": "10.10.0",
     "hoist-non-react-statics": "^3.2.0",
     "is-in-browser": "^1.1.3",
-    "jss": "10.9.2",
-    "jss-preset-default": "10.9.2",
+    "jss": "10.10.0",
+    "jss-preset-default": "10.10.0",
     "prop-types": "^15.6.0",
     "shallow-equal": "^1.2.0",
     "theming": "^3.3.0",
