@@ -2,8 +2,6 @@ Since you are interested in what happens next, in case, you work for a for-profi
 
 ## Next (version and date will be generated, add changes below)
 
-## 10.10.0 (2023-2-8)
-
 ### Improvements
 
 - [jss] Added support for @container query [1637](https://github.com/cssinjs/jss/pull/1637)
