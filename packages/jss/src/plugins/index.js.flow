@@ -3,6 +3,7 @@ import PluginStyleRule, {StyleRule} from './styleRule'
 import PluginConditionalRule, {ConditionalRule} from './conditionalRule'
 import PluginKeyframesRule, {KeyframesRule} from './keyframesRule'
 import PluginKeyframeRule, {KeyframeRule} from './keyframeRule'
+import PluginLayerRule, {LayerRule} from './layerRule'
 import PluginFontFaceRule, {FontFaceRule} from './fontFaceRule'
 import PluginViewportRule, {ViewportRule} from './viewportRule'
 import PluginSimpleRule, {SimpleRule} from './simpleRule'
@@ -12,6 +13,7 @@ export type plugins = [
   typeof PluginConditionalRule,
   typeof PluginKeyframesRule,
   typeof PluginKeyframeRule,
+  typeof PluginLayerRule,
   typeof PluginFontFaceRule,
   typeof PluginViewportRule,
   typeof PluginSimpleRule
@@ -22,6 +24,7 @@ declare export {
   ConditionalRule,
   KeyframesRule,
   KeyframeRule,
+  LayerRule,
   FontFaceRule,
   ViewportRule,
   SimpleRule
