@@ -206,6 +206,34 @@ describe('Integration: rules', () => {
       `)
     })
 
+    describe('@layer rule', () => {
+      it('should return CSS', () => {
+        const rule = jss.createRule('@layer test', {
+          button: {
+            color: 'red'
+          }
+        })
+        expect(rule.type).to.be('layer')
+        expect(rule.key).to.be('@layer test')
+        expect(rule.toString()).to.be(stripIndent`
+          @layer test {
+            .button-id {
+              color: red;
+            }
+          }
+        `)
+      })
+
+      it('should return CSS without empty rule', () => {
+        const rule = jss.createRule('@layer test', {
+          button: {}
+        })
+        expect(rule.type).to.be('layer')
+        expect(rule.key).to.be('@layer test')
+        expect(rule.toString()).to.be('')
+      })
+    })
+
     describe('@media rule', () => {
       it('should return CSS', () => {
         const rule = jss.createRule('@media print', {a: {display: 'none'}})
