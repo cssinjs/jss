@@ -217,7 +217,7 @@ function insertStyle(style, options) {
  * Read jss nonce setting from the page if the user has set it.
  */
 const getNonce = memoize(() => {
-  const node = document.querySelector('meta[property="csp-nonce"]')
+  const node = document.querySelector('meta[property="csp-nonce"], meta[name="csp-nonce"]')
   return node ? node.getAttribute('content') : null
 })
 
