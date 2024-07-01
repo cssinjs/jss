@@ -136,11 +136,13 @@ export default function jssGlobal() {
   function onCreateRule(name, styles, options) {
     if (!name) return null
 
-    if (name === at) {
+    // The original name is used for validation as the system name can be `@global-X` which will throw error
+    const originName = options?.name || name;
+    if (originName === at) {
       return new GlobalContainerRule(name, styles, options)
     }
 
-    if (name[0] === '@' && name.substr(0, atPrefix.length) === atPrefix) {
+    if (originName[0] === '@' && originName.substr(0, atPrefix.length) === atPrefix) {
       return new GlobalPrefixedRule(name, styles, options)
     }
 
