@@ -3,6 +3,7 @@
  * All properties listed below will be transformed to a string separated by space.
  */
 export const propArray = {
+  background: true,
   'background-size': true,
   'background-position': true,
   border: true,
@@ -51,11 +52,16 @@ export const propObj = {
     left: 0
   },
   background: {
-    attachment: null,
-    color: null,
     image: null,
     position: null,
-    repeat: null
+    size: null,
+    repeat: null,
+    attachment: null,
+    origin: null,
+    clip: null,
+    color: null,
+    'blend-mode': null,
+    blendMode: null,
   },
   border: {
     width: null,
@@ -162,8 +168,9 @@ export const customPropObj = {
     color: 'border-right-color'
   },
   background: {
-    size: 'background-size',
-    image: 'background-image'
+    blendMode: "background-blend-mode",
+    "blend-mode": "background-blend-mode",
+    color: "background-color",
   },
   font: {
     style: 'font-style',
