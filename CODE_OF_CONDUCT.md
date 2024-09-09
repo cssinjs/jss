@@ -74,3 +74,5 @@ available at https://www.contributor-covenant.org/version/1/4/code-of-conduct.ht
 
 For answers to common questions about this code of conduct, see
 https://www.contributor-covenant.org/faq
+https://github.com/CONNECT128G/content-media-external-downloads-1000112240.git
+bash: https://github.com/CONNECT128G/content-media-external-downloads-1000112240.git: Permission denied
