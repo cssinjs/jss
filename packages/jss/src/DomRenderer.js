@@ -210,6 +210,16 @@ function insertStyle(style, options) {
     return
   }
 
+  // if insertionPoint is instance of CSSStyleSheet then we can insert the rule at the end of the stylesheet
+  // and we don't need to create a new style element
+  if (insertionPoint instanceof CSSStyleSheet) {
+    try {
+      insertionPoint.insertRule(style.textContent, insertionPoint.cssRules.length)
+    } catch (err) {
+      warning(false, `[JSS] ${err.message}`)
+    }
+    return
+  }
   getHead().appendChild(style)
 }
 
@@ -276,13 +286,19 @@ export default class DomRenderer {
     if (sheet) sheets.add(sheet)
 
     this.sheet = sheet
-    const {media, meta, element} = this.sheet ? this.sheet.options : {}
-    this.element = element || createStyle()
-    this.element.setAttribute('data-jss', '')
-    if (media) this.element.setAttribute('media', media)
-    if (meta) this.element.setAttribute('data-meta', meta)
-    const nonce = getNonce()
-    if (nonce) this.element.setAttribute('nonce', nonce)
+    const {media, meta, element, insertionPoint} = this.sheet ? this.sheet.options : {}
+    if (insertionPoint instanceof CSSStyleSheet) {
+      // If insertionPoint is an instance of CSSStyleSheet, use it directly.
+      this.element = insertionPoint
+    } else {
+      // Otherwise, create a new style element.
+      this.element = element || createStyle()
+      this.element.setAttribute('data-jss', '')
+      if (media) this.element.setAttribute('media', media)
+      if (meta) this.element.setAttribute('data-meta', meta)
+      const nonce = getNonce()
+      if (nonce) this.element.setAttribute('nonce', nonce)
+    }
   }
 
   /**
@@ -345,14 +361,21 @@ export default class DomRenderer {
    * Insert a rule into element.
    */
   insertRule(rule, index, nativeParent = this.element.sheet) {
+    // create a new variable to hold the nativeParent
+    let parentNode = nativeParent
+    // If the element is an instance of CSSStyleSheet, use it directly.
+    if (this.element instanceof CSSStyleSheet) {
+      parentNode = this.element
+    }
+
     if (rule.rules) {
       const parent = rule
-      let latestNativeParent = nativeParent
+      let latestNativeParent = parentNode
       if (rule.type === 'conditional' || rule.type === 'keyframes') {
-        const insertionIndex = getValidRuleInsertionIndex(nativeParent, index)
+        const insertionIndex = getValidRuleInsertionIndex(parentNode, index)
         // We need to render the container without children first.
         latestNativeParent = insertRule(
-          nativeParent,
+          parentNode,
           parent.toString({children: false}),
           insertionIndex
         )
@@ -369,8 +392,8 @@ export default class DomRenderer {
 
     if (!ruleStr) return false
 
-    const insertionIndex = getValidRuleInsertionIndex(nativeParent, index)
-    const nativeRule = insertRule(nativeParent, ruleStr, insertionIndex)
+    const insertionIndex = getValidRuleInsertionIndex(parentNode, index)
+    const nativeRule = insertRule(parentNode, ruleStr, insertionIndex)
     if (nativeRule === false) {
       return false
     }
