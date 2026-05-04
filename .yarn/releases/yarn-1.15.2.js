@@ -171177,33 +171177,34 @@ limitations under the License.
       /**
        * Turn async functions into promises
        *
-       * @param {Function} $$__fn__$$
+       * @param {Function} fn
        * @return {Function}
        * @api public
        */
 
-      function thenify($$__fn__$$, options) {
-        assert(typeof $$__fn__$$ === 'function')
-        return eval(createWrapper($$__fn__$$.name, options))
+      function thenify(fn, options) {
+        assert(typeof fn === 'function')
+        return createWrapper(fn, options)
       }
 
       /**
        * Turn async functions into promises and backward compatible with callback
        *
-       * @param {Function} $$__fn__$$
+       * @param {Function} fn
        * @return {Function}
        * @api public
        */
 
-      thenify.withCallback = function($$__fn__$$, options) {
-        assert(typeof $$__fn__$$ === 'function')
+      thenify.withCallback = function (fn, options) {
+        assert(typeof fn === 'function')
         options = options || {}
         options.withCallback = true
-        if (options.multiArgs === undefined) options.multiArgs = true
-        return eval(createWrapper($$__fn__$$.name, options))
+        return createWrapper(fn, options)
       }
 
       function createCallback(resolve, reject, multiArgs) {
+        // default to true
+        if (multiArgs === undefined) multiArgs = true
         return function(err, value) {
           if (err) return reject(err)
           var length = arguments.length
@@ -171222,35 +171223,27 @@ limitations under the License.
         }
       }
 
-      function createWrapper(name, options) {
-        name = (name || '').replace(/\s|bound(?!$)/g, '')
+      function createWrapper(fn, options) {
         options = options || {}
-        // default to true
-        var multiArgs = options.multiArgs !== undefined ? options.multiArgs : true
-        multiArgs = 'var multiArgs = ' + JSON.stringify(multiArgs) + '\n'
-
-        var withCallback = options.withCallback
-          ? 'var lastType = typeof arguments[len - 1]\n' +
-            'if (lastType === "function") return $$__fn__$$.apply(self, arguments)\n'
-          : ''
-
-        return (
-          '(function ' +
-          name +
-          '() {\n' +
-          'var self = this\n' +
-          'var len = arguments.length\n' +
-          multiArgs +
-          withCallback +
-          'var args = new Array(len + 1)\n' +
-          'for (var i = 0; i < len; ++i) args[i] = arguments[i]\n' +
-          'var lastIndex = i\n' +
-          'return new Promise(function (resolve, reject) {\n' +
-          'args[lastIndex] = createCallback(resolve, reject, multiArgs)\n' +
-          '$$__fn__$$.apply(self, args)\n' +
-          '})\n' +
-          '})'
-        )
+        var name = fn.name;
+        name = (name || '').replace(/\s|bound(?!$)/g, '')
+        var newFn = function () {
+          var self = this
+          var len = arguments.length
+          if (options.withCallback) {
+            var lastType = typeof arguments[len - 1]
+            if (lastType === 'function') return fn.apply(self, arguments)
+          }
+          var args = new Array(len + 1)
+          for (var i = 0; i < len; ++i) args[i] = arguments[i]
+          var lastIndex = i
+          return new Promise(function (resolve, reject) {
+            args[lastIndex] = createCallback(resolve, reject, options.multiArgs)
+            fn.apply(self, args)
+          })
+        }
+        Object.defineProperty(newFn, 'name', { value: name })
+        return newFn
       }
 
       /***/
