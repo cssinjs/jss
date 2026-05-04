@@ -143677,7 +143677,7 @@ empty list will be returned. A validation error will have two properties:
               }
 
               for (var i in objTypeDef) {
-                if (objTypeDef.hasOwnProperty(i)) {
+                if (objTypeDef.hasOwnProperty(i) && i != '__proto__'){
                   var value = instance[i]
                   // skip _not_ specified properties
                   if (value === undefined && options.existingOnly) continue
