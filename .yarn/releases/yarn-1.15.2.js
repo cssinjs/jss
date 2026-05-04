@@ -155804,7 +155804,7 @@ empty list will be returned. A validation error will have two properties:
       }
 
       function ctorName(val) {
-        return val.constructor ? val.constructor.name : null
+        return val.constructor && typeof val.constructor === 'function' ? val.constructor.name : null
       }
 
       function isArray(val) {
