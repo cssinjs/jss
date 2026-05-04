@@ -128943,6 +128943,12 @@ THE SOFTWARE.
           if (!match) return
           if (match[1] !== undefined) {
             section = unsafe(match[1])
+            if (section === '__proto__') {
+              // not allowed
+              // keep parsing the section, but don't attach it.
+              p = {}
+              return
+            }
             p = out[section] = out[section] || {}
             return
           }
@@ -128958,6 +128964,7 @@ THE SOFTWARE.
           // Convert keys with '[]' suffix to an array
           if (key.length > 2 && key.slice(-2) === '[]') {
             key = key.substring(0, key.length - 2)
+            if (key === '__proto__') return
             if (!p[key]) {
               p[key] = []
             } else if (!Array.isArray(p[key])) {
@@ -128988,6 +128995,7 @@ THE SOFTWARE.
             var l = parts.pop()
             var nl = l.replace(/\\\./g, '.')
             parts.forEach(function(part, _, __) {
+              if (part === '__proto__') return
               if (!p[part] || typeof p[part] !== 'object') p[part] = {}
               p = p[part]
             })
