@@ -1,5 +1,4 @@
-import {describe, it} from 'vitest'
-import expect from 'expect.js'
+import {describe, expect, it} from 'vitest'
 import getDynamicStyles from '../../src/utils/getDynamicStyles'
 
 describe('Unit: jss - getDynamicStyles', () => {
@@ -36,7 +35,7 @@ describe('Unit: jss - getDynamicStyles', () => {
         }
       }
     }
-    expect(getDynamicStyles(styles)).to.eql({
+    expect(getDynamicStyles(styles)).toEqual({
       button: {
         color,
         '@media print': {
@@ -67,6 +66,6 @@ describe('Unit: jss - getDynamicStyles', () => {
         }
       }
     }
-    expect(getDynamicStyles(styles)).to.be(null)
+    expect(getDynamicStyles(styles)).toBeNull()
   })
 })

@@ -1,13 +1,12 @@
-import {describe, it} from 'vitest'
-import expect from 'expect.js'
+import {describe, expect, it} from 'vitest'
 import cloneStyle from '../../src/utils/cloneStyle'
 
 describe('Unit: jss - cloneStyle', () => {
   it('should return a cloned object', () => {
     const style = {color: 'red'}
     const clonedStyle = cloneStyle(style)
-    expect(clonedStyle).not.to.be(style)
-    expect(clonedStyle).to.eql(style)
+    expect(clonedStyle).not.toBe(style)
+    expect(clonedStyle).toEqual(style)
   })
 
   it('should clone nested object', () => {
@@ -18,7 +17,7 @@ describe('Unit: jss - cloneStyle', () => {
       }
     }
     const clonedStyle = cloneStyle(style)
-    expect(clonedStyle).to.eql(style)
+    expect(clonedStyle).toEqual(style)
   })
 
   it('should clone array', () => {
@@ -33,22 +32,22 @@ describe('Unit: jss - cloneStyle', () => {
       }
     ]
     const clonedStyle = cloneStyle(style)
-    expect(clonedStyle).to.eql(style)
+    expect(clonedStyle).toEqual(style)
   })
 
   it('should accept number', () => {
-    expect(cloneStyle(1)).to.be(1)
+    expect(cloneStyle(1)).toBe(1)
   })
 
   it('should accept null', () => {
-    expect(cloneStyle(null)).to.be(null)
+    expect(cloneStyle(null)).toBeNull()
   })
 
   it('should accept undefined', () => {
-    expect(cloneStyle(undefined)).to.be(undefined)
+    expect(cloneStyle(undefined)).toBeUndefined()
   })
 
   it('should accept string for SimpleRule', () => {
-    expect(cloneStyle('something')).to.be('something')
+    expect(cloneStyle('something')).toBe('something')
   })
 })

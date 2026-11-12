@@ -1,5 +1,4 @@
-import {describe, it} from 'vitest'
-import expect from 'expect.js'
+import {describe, expect, it} from 'vitest'
 import compose from './mergeClasses'
 
 describe('react-jss: merge-classes', () => {
@@ -13,7 +12,7 @@ describe('react-jss: merge-classes', () => {
       c: 'c'
     }
     const composed = compose(staticClasses, dynamicClasses)
-    expect(composed).to.eql({
+    expect(composed).toEqual({
       a: 'a',
       b: 'b b2',
       c: 'c'

@@ -52,7 +52,7 @@ yarn test:unit:watch
 
 Name these tests `*.node.test.js`. Import test APIs from `vitest`; do not use DOM globals or
 browser-only helpers such as `tests/utils.js`. Vitest only discovers these files, and Karma
-excludes them. Existing `expect.js` assertions can still be used.
+excludes them. Use Vitest's built-in `expect` for assertions; `expect.js` remains for Karma tests.
 
 Browser tests still use Karma and launch real browsers. Rebuild packages after source changes:
 
