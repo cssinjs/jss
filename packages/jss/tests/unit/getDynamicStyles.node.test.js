@@ -1,10 +1,8 @@
+import {describe, it} from 'vitest'
 import expect from 'expect.js'
 import getDynamicStyles from '../../src/utils/getDynamicStyles'
-import {resetSheets} from '../../../../tests/utils'
 
 describe('Unit: jss - getDynamicStyles', () => {
-  beforeEach(resetSheets())
-
   it('should extract dynamic styles', () => {
     const color = (data) => data.color
     const styles = {
