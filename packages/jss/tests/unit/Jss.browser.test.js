@@ -1,4 +1,4 @@
-import expect from 'expect.js'
+import {beforeEach, describe, expect, it} from 'vitest'
 import Jss from '../../src/Jss'
 import StyleSheet from '../../src/StyleSheet'
 import PluginsRegistry from '../../src/PluginsRegistry'
@@ -17,30 +17,30 @@ describe('Unit: jss', () => {
 
   describe('Instance', () => {
     it('should be correct', () => {
-      expect(jss).to.be.a(Jss)
+      expect(jss).toBeInstanceOf(Jss)
     })
 
     it('should have an id', () => {
-      expect(jss.id).to.be.a('number')
+      expect(jss.id).toBeTypeOf('number')
     })
 
     it('should have .plugins registry instance', () => {
-      expect(jss.plugins).to.be.a(PluginsRegistry)
+      expect(jss.plugins).toBeInstanceOf(PluginsRegistry)
     })
 
     it('should provide .version prop', () => {
-      expect(jss.version).to.be.a('string')
+      expect(jss.version).toBeTypeOf('string')
     })
 
     it('should provide .generateId method', () => {
-      expect(jss.generateId).to.be.a(Function)
+      expect(jss.generateId).toBeInstanceOf(Function)
     })
 
     it('should have correct .options', () => {
-      expect(jss.options).to.be.an(Object)
-      expect(jss.options.createGenerateId).to.be.a(Function)
-      expect(jss.options.Renderer).to.be(DomRenderer)
-      expect(jss.options.plugins).to.be.an(Array)
+      expect(jss.options).toBeInstanceOf(Object)
+      expect(jss.options.createGenerateId).toBeInstanceOf(Function)
+      expect(jss.options.Renderer).toBe(DomRenderer)
+      expect(jss.options.plugins).toBeInstanceOf(Array)
     })
   })
 
@@ -49,24 +49,24 @@ describe('Unit: jss', () => {
       const generateId = () => null
       const createGenerateId = () => generateId
       jss.setup({createGenerateId})
-      expect(jss.options.createGenerateId).to.be(createGenerateId)
-      expect(jss.generateId).to.be(generateId)
+      expect(jss.options.createGenerateId).toBe(createGenerateId)
+      expect(jss.generateId).toBe(generateId)
     })
 
     it('should setup insertionPoint', () => {
       jss.setup({insertionPoint: 'test'})
-      expect(jss.options.insertionPoint).to.be('test')
+      expect(jss.options.insertionPoint).toBe('test')
     })
 
     it('should setup custom Renderer', () => {
       class Renderer {}
       jss.setup({Renderer})
-      expect(jss.options.Renderer).to.be(Renderer)
+      expect(jss.options.Renderer).toBe(Renderer)
     })
 
     it('should setup without Renderer', () => {
       jss.setup({Renderer: null})
-      expect(jss.options.Renderer).to.be(null)
+      expect(jss.options.Renderer).toBe(null)
     })
 
     it('should setup plugins', () => {
@@ -92,9 +92,9 @@ describe('Unit: jss', () => {
       })
 
       jss.createRule()
-      expect(p1).to.be(true)
-      expect(p2).to.be(true)
-      expect(c2).to.be(true)
+      expect(p1).toBe(true)
+      expect(p2).toBe(true)
+      expect(c2).toBe(true)
     })
 
     it('should apply same plugin only once by ref', () => {
@@ -106,13 +106,13 @@ describe('Unit: jss', () => {
       }
       jss.setup({plugins: [plugin, plugin]})
       jss.createRule()
-      expect(called).to.be(1)
+      expect(called).toBe(1)
     })
   })
 
   describe('.createStyleSheet()', () => {
     it('should create a sheet', () => {
-      expect(jss.createStyleSheet()).to.be.a(StyleSheet)
+      expect(jss.createStyleSheet()).toBeInstanceOf(StyleSheet)
     })
   })
 
@@ -124,8 +124,8 @@ describe('Unit: jss', () => {
         detached = true
       }
       jss.removeStyleSheet(sheet)
-      expect(detached).to.be(true)
-      expect(sheets.registry.indexOf(sheet)).to.be(-1)
+      expect(detached).toBe(true)
+      expect(sheets.registry.indexOf(sheet)).toBe(-1)
     })
   })
 
@@ -141,7 +141,7 @@ describe('Unit: jss', () => {
     })
 
     it('should use a plugin', () => {
-      expect(used).to.be(plugin)
+      expect(used).toBe(plugin)
     })
   })
 })

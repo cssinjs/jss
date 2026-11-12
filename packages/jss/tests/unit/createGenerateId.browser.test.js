@@ -1,8 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 
-import expect from 'expect.js'
+import {describe, expect, it, vi} from 'vitest'
 import {createGenerateId} from '../../src'
-import {resetSheets, resetModuleId} from '../../../../tests/utils'
+
+// Browser ESM exports are read-only. Keep IDs deterministic without mutating them.
+vi.mock('../../src/utils/moduleId', () => ({default: 0}))
 
 const sheetMock = {
   options: {
@@ -12,37 +14,32 @@ const sheetMock = {
 }
 
 describe('Unit: jss - createGenerateId', () => {
-  beforeEach(() => {
-    resetSheets()
-    resetModuleId()
-  })
-
   it('should return a function', () => {
-    expect(createGenerateId()).to.be.a(Function)
+    expect(createGenerateId()).toBeInstanceOf(Function)
   })
 
   it('should generate a non-production class name', () => {
     const generate = createGenerateId()
-    expect(generate({key: 'a'})).to.be('a-0-1')
+    expect(generate({key: 'a'})).toBe('a-0-1')
   })
 
   it('should add prefix a non-production class name', () => {
     const generate = createGenerateId()
-    expect(generate({key: 'a'}, sheetMock)).to.be('pa-0-0-1')
+    expect(generate({key: 'a'}, sheetMock)).toBe('pa-0-0-1')
   })
 
   it.skip('should increment jss lib version', () => {
     const generate = createGenerateId()
-    expect(generate({key: 'a'})).to.be('a-6-1')
+    expect(generate({key: 'a'})).toBe('a-6-1')
   })
 
   it('should generate a minified class name', () => {
     const generate = createGenerateId({minify: true})
-    expect(generate()).to.be('c01')
+    expect(generate()).toBe('c01')
   })
 
   it('should add prefix a minified class name', () => {
     const generate = createGenerateId({minify: true})
-    expect(generate({key: 'a'}, sheetMock)).to.be('p001')
+    expect(generate({key: 'a'}, sheetMock)).toBe('p001')
   })
 })

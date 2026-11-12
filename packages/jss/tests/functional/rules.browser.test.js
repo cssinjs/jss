@@ -1,4 +1,4 @@
-import expect from 'expect.js'
+import {beforeEach, describe, expect, it} from 'vitest'
 import jss from '../../src'
 import {resetSheets} from '../../../../tests/utils'
 
@@ -13,7 +13,7 @@ describe('Functional: rules', () => {
           float: 'left'
         })
         .applyTo(div)
-      expect(div.style.float).to.be('left')
+      expect(div.style.float).toBe('left')
     })
   })
 })

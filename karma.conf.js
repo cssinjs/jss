@@ -21,7 +21,7 @@ module.exports = (config) => {
       './packages/*/tests/**/*.js',
       './packages/*/src/**/*.test.js'
     ],
-    exclude: ['./packages/**/*.node.test.js'],
+    exclude: ['./packages/**/*.node.test.js', './packages/**/*.browser.test.js'],
     preprocessors: {
       './polyfills.js': ['webpack', 'sourcemap'],
       './packages/**/*.js': ['webpack', 'sourcemap']

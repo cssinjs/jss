@@ -1,9 +1,4 @@
 import {sheets as defaultSheets} from '../packages/jss/src'
-import * as moduleIdExports from '../packages/jss/src/utils/moduleId'
-
-export function resetModuleId() {
-  moduleIdExports.default = 0
-}
 
 export function resetSheets(sheets = defaultSheets) {
   return () => {
@@ -32,7 +27,7 @@ export function getRules(style) {
 }
 
 export function getStyle() {
-  return document.getElementsByTagName('style')[0]
+  return document.querySelectorAll('style[data-jss]')[0]
 }
 
 export function getCss(style) {
@@ -41,7 +36,7 @@ export function getCss(style) {
   // Others do not update .textContent result when `.addRule()` was used.
   const textContent = removeWhitespace(style.textContent)
   const cssText = getRules(style)
-    .map(rule => removeWhitespace(rule.cssText))
+    .map((rule) => removeWhitespace(rule.cssText))
     .join('')
   // We try to use the most complete version.
   // Potentially this is fragile too.
@@ -73,4 +68,4 @@ export function computeStyle(className) {
   return styleCopy
 }
 
-export const createGenerateId = () => rule => `${rule.key}-id`
+export const createGenerateId = () => (rule) => `${rule.key}-id`

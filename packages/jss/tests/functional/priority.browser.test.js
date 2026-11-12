@@ -1,7 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-import expect from 'expect.js'
-import sinon from 'sinon'
+import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest'
 import {create} from '../../src'
 import {resetSheets, computeStyle} from '../../../../tests/utils'
 
@@ -28,13 +27,13 @@ describe('Functional: dom priority', () => {
     it('should have correct specificity w/o linking', () => {
       const sheet1 = jss.createStyleSheet({a: {width: '5px'}}, {index: 1}).attach()
       const sheet2 = jss.createStyleSheet({b: {width: '2px'}}, {index: 0}).attach()
-      expect(computeStyle(`${sheet1.classes.a} ${sheet2.classes.b}`).width).to.be('5px')
+      expect(computeStyle(`${sheet1.classes.a} ${sheet2.classes.b}`).width).toBe('5px')
     })
 
     it('should have correct specificity w/ linking', () => {
       const sheet1 = jss.createStyleSheet({a: {width: '5px'}}, {index: 1, link: true}).attach()
       const sheet2 = jss.createStyleSheet({b: {width: '2px'}}, {index: 0, link: true}).attach()
-      expect(computeStyle(`${sheet1.classes.a} ${sheet2.classes.b}`).width).to.be('5px')
+      expect(computeStyle(`${sheet1.classes.a} ${sheet2.classes.b}`).width).toBe('5px')
     })
   })
 
@@ -53,18 +52,18 @@ describe('Functional: dom priority', () => {
       jss.createStyleSheet({}, {meta: 'sheet4', index: 75}).attach()
       jss.createStyleSheet({}, {meta: 'sheet5', index: 35}).attach()
 
-      const styleElements = document.head.getElementsByTagName('style')
+      const styleElements = document.head.querySelectorAll('style[data-jss]')
 
-      expect(styleElements.length).to.be(7)
+      expect(styleElements.length).toBe(7)
 
-      expect(styleElements[0].getAttribute('data-test-dummy')).to.be('dummy1')
-      expect(styleElements[1].getAttribute('data-test-dummy')).to.be('dummy2')
+      expect(styleElements[0].getAttribute('data-test-dummy')).toBe('dummy1')
+      expect(styleElements[1].getAttribute('data-test-dummy')).toBe('dummy2')
 
-      expect(styleElements[2].getAttribute('data-meta')).to.be('sheet2')
-      expect(styleElements[3].getAttribute('data-meta')).to.be('sheet5')
-      expect(styleElements[4].getAttribute('data-meta')).to.be('sheet3')
-      expect(styleElements[5].getAttribute('data-meta')).to.be('sheet1')
-      expect(styleElements[6].getAttribute('data-meta')).to.be('sheet4')
+      expect(styleElements[2].getAttribute('data-meta')).toBe('sheet2')
+      expect(styleElements[3].getAttribute('data-meta')).toBe('sheet5')
+      expect(styleElements[4].getAttribute('data-meta')).toBe('sheet3')
+      expect(styleElements[5].getAttribute('data-meta')).toBe('sheet1')
+      expect(styleElements[6].getAttribute('data-meta')).toBe('sheet4')
     })
   })
 
@@ -84,7 +83,7 @@ describe('Functional: dom priority', () => {
     it('should insert sheets before other stylesheets', () => {
       comment = document.createComment('jss')
 
-      document.head.insertBefore(comment, document.head.querySelector('style'))
+      document.head.insertBefore(comment, document.head.querySelector('style[data-jss]'))
 
       jss.createStyleSheet({}, {meta: 'sheet1', index: 50}).attach()
       jss.createStyleSheet({}, {meta: 'sheet2', index: 1}).attach()
@@ -92,17 +91,17 @@ describe('Functional: dom priority', () => {
       jss.createStyleSheet({}, {meta: 'sheet4', index: 75}).attach()
       jss.createStyleSheet({}, {meta: 'sheet5', index: 35}).attach()
 
-      const styleElements = document.head.getElementsByTagName('style')
+      const styleElements = document.head.querySelectorAll('style[data-jss]')
 
-      expect(styleElements.length).to.be(7)
+      expect(styleElements.length).toBe(7)
 
-      expect(styleElements[0].getAttribute('data-meta')).to.be('sheet2')
-      expect(styleElements[1].getAttribute('data-meta')).to.be('sheet5')
-      expect(styleElements[2].getAttribute('data-meta')).to.be('sheet3')
-      expect(styleElements[3].getAttribute('data-meta')).to.be('sheet1')
-      expect(styleElements[4].getAttribute('data-meta')).to.be('sheet4')
-      expect(styleElements[5].getAttribute('data-test-dummy')).to.be('dummy1')
-      expect(styleElements[6].getAttribute('data-test-dummy')).to.be('dummy2')
+      expect(styleElements[0].getAttribute('data-meta')).toBe('sheet2')
+      expect(styleElements[1].getAttribute('data-meta')).toBe('sheet5')
+      expect(styleElements[2].getAttribute('data-meta')).toBe('sheet3')
+      expect(styleElements[3].getAttribute('data-meta')).toBe('sheet1')
+      expect(styleElements[4].getAttribute('data-meta')).toBe('sheet4')
+      expect(styleElements[5].getAttribute('data-test-dummy')).toBe('dummy1')
+      expect(styleElements[6].getAttribute('data-test-dummy')).toBe('dummy2')
     })
 
     it('should insert sheets after other stylesheets', () => {
@@ -115,23 +114,23 @@ describe('Functional: dom priority', () => {
       jss.createStyleSheet({}, {meta: 'sheet4', index: 75}).attach()
       jss.createStyleSheet({}, {meta: 'sheet5', index: 35}).attach()
 
-      const styleElements = document.head.getElementsByTagName('style')
+      const styleElements = document.head.querySelectorAll('style[data-jss]')
 
-      expect(styleElements.length).to.be(7)
+      expect(styleElements.length).toBe(7)
 
-      expect(styleElements[0].getAttribute('data-test-dummy')).to.be('dummy1')
-      expect(styleElements[1].getAttribute('data-test-dummy')).to.be('dummy2')
+      expect(styleElements[0].getAttribute('data-test-dummy')).toBe('dummy1')
+      expect(styleElements[1].getAttribute('data-test-dummy')).toBe('dummy2')
 
-      expect(styleElements[2].getAttribute('data-meta')).to.be('sheet2')
-      expect(styleElements[3].getAttribute('data-meta')).to.be('sheet5')
-      expect(styleElements[4].getAttribute('data-meta')).to.be('sheet3')
-      expect(styleElements[5].getAttribute('data-meta')).to.be('sheet1')
-      expect(styleElements[6].getAttribute('data-meta')).to.be('sheet4')
+      expect(styleElements[2].getAttribute('data-meta')).toBe('sheet2')
+      expect(styleElements[3].getAttribute('data-meta')).toBe('sheet5')
+      expect(styleElements[4].getAttribute('data-meta')).toBe('sheet3')
+      expect(styleElements[5].getAttribute('data-meta')).toBe('sheet1')
+      expect(styleElements[6].getAttribute('data-meta')).toBe('sheet4')
     })
 
     it('should insert sheets between other stylesheets', () => {
       comment = document.createComment('jss')
-      document.head.insertBefore(comment, document.head.querySelectorAll('style')[1])
+      document.head.insertBefore(comment, document.head.querySelectorAll('style[data-jss]')[1])
 
       jss.createStyleSheet({}, {meta: 'sheet1', index: 50}).attach()
       jss.createStyleSheet({}, {meta: 'sheet2', index: 1}).attach()
@@ -139,19 +138,19 @@ describe('Functional: dom priority', () => {
       jss.createStyleSheet({}, {meta: 'sheet4', index: 75}).attach()
       jss.createStyleSheet({}, {meta: 'sheet5', index: 35}).attach()
 
-      const styleElements = document.head.getElementsByTagName('style')
+      const styleElements = document.head.querySelectorAll('style[data-jss]')
 
-      expect(styleElements.length).to.be(7)
+      expect(styleElements.length).toBe(7)
 
-      expect(styleElements[0].getAttribute('data-test-dummy')).to.be('dummy1')
+      expect(styleElements[0].getAttribute('data-test-dummy')).toBe('dummy1')
 
-      expect(styleElements[1].getAttribute('data-meta')).to.be('sheet2')
-      expect(styleElements[2].getAttribute('data-meta')).to.be('sheet5')
-      expect(styleElements[3].getAttribute('data-meta')).to.be('sheet3')
-      expect(styleElements[4].getAttribute('data-meta')).to.be('sheet1')
-      expect(styleElements[5].getAttribute('data-meta')).to.be('sheet4')
+      expect(styleElements[1].getAttribute('data-meta')).toBe('sheet2')
+      expect(styleElements[2].getAttribute('data-meta')).toBe('sheet5')
+      expect(styleElements[3].getAttribute('data-meta')).toBe('sheet3')
+      expect(styleElements[4].getAttribute('data-meta')).toBe('sheet1')
+      expect(styleElements[5].getAttribute('data-meta')).toBe('sheet4')
 
-      expect(styleElements[6].getAttribute('data-test-dummy')).to.be('dummy2')
+      expect(styleElements[6].getAttribute('data-test-dummy')).toBe('dummy2')
     })
   })
 
@@ -177,11 +176,11 @@ describe('Functional: dom priority', () => {
       jss2.createStyleSheet({}, {meta: 'sheet2'}).attach()
       jss1.createStyleSheet({}, {meta: 'sheet1'}).attach()
 
-      const styleElements = document.head.getElementsByTagName('style')
+      const styleElements = document.head.querySelectorAll('style[data-jss]')
 
-      expect(styleElements.length).to.be(2)
-      expect(styleElements[0].getAttribute('data-meta')).to.be('sheet1')
-      expect(styleElements[1].getAttribute('data-meta')).to.be('sheet2')
+      expect(styleElements.length).toBe(2)
+      expect(styleElements[0].getAttribute('data-meta')).toBe('sheet1')
+      expect(styleElements[1].getAttribute('data-meta')).toBe('sheet2')
     })
   })
 
@@ -189,29 +188,27 @@ describe('Functional: dom priority', () => {
     let spy
 
     beforeEach(() => {
-      spy = sinon.spy(console, 'warn')
+      spy = vi.spyOn(console, 'warn')
     })
 
     afterEach(() => {
-      console.warn.restore()
+      vi.restoreAllMocks()
     })
 
     it('should warn when string insertion point not found', () => {
       const jss = create({insertionPoint: 'something'})
       jss.createStyleSheet().attach()
 
-      expect(spy.callCount).to.be(1)
-      expect(spy.calledWithExactly('Warning: [JSS] Insertion point "something" not found.')).to.be(
-        true
-      )
+      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledWith('Warning: [JSS] Insertion point "something" not found.')
     })
 
     it('should warn when element insertion point not found', () => {
       const jss = create({insertionPoint: document.createElement('div')})
       jss.createStyleSheet().attach()
 
-      expect(spy.callCount).to.be(1)
-      expect(spy.calledWithExactly('Warning: [JSS] Insertion point is not in the DOM.')).to.be(true)
+      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledWith('Warning: [JSS] Insertion point is not in the DOM.')
     })
   })
 
@@ -236,12 +233,12 @@ describe('Functional: dom priority', () => {
     })
 
     it('should insert sheets in the correct order', () => {
-      const styleElements = document.body.getElementsByTagName('style')
+      const styleElements = document.body.querySelectorAll('style[data-jss]')
 
-      expect(styleElements.length).to.be(3)
-      expect(styleElements[0].getAttribute('data-meta')).to.be('sheet1')
-      expect(styleElements[1].getAttribute('data-meta')).to.be('sheet2')
-      expect(styleElements[2].getAttribute('data-meta')).to.be('sheet3')
+      expect(styleElements.length).toBe(3)
+      expect(styleElements[0].getAttribute('data-meta')).toBe('sheet1')
+      expect(styleElements[1].getAttribute('data-meta')).toBe('sheet2')
+      expect(styleElements[2].getAttribute('data-meta')).toBe('sheet3')
     })
   })
 
@@ -266,11 +263,11 @@ describe('Functional: dom priority', () => {
     })
 
     it('should insert sheets in the correct order', () => {
-      const styleElements = iDoc.getElementsByTagName('style')
+      const styleElements = iDoc.querySelectorAll('style[data-jss]')
 
-      expect(styleElements.length).to.be(2)
-      expect(styleElements[0].getAttribute('data-meta')).to.be('sheet1')
-      expect(styleElements[1].getAttribute('data-meta')).to.be('sheet2')
+      expect(styleElements.length).toBe(2)
+      expect(styleElements[0].getAttribute('data-meta')).toBe('sheet1')
+      expect(styleElements[1].getAttribute('data-meta')).toBe('sheet2')
     })
   })
 
@@ -285,12 +282,12 @@ describe('Functional: dom priority', () => {
       jss.createStyleSheet({}, {meta: 'sheet0'}).attach()
       jss.createStyleSheet({}, {meta: 'sheet1'}).attach()
 
-      const styleElements = document.head.getElementsByTagName('style')
+      const styleElements = document.head.querySelectorAll('style[data-jss]')
 
-      expect(styleElements.length).to.be(2)
+      expect(styleElements.length).toBe(2)
 
-      expect(styleElements[0].getAttribute('data-meta')).to.be('sheet0')
-      expect(styleElements[1].getAttribute('data-meta')).to.be('sheet1')
+      expect(styleElements[0].getAttribute('data-meta')).toBe('sheet0')
+      expect(styleElements[1].getAttribute('data-meta')).toBe('sheet1')
     })
   })
 
@@ -305,12 +302,12 @@ describe('Functional: dom priority', () => {
       jss.createStyleSheet({}, {meta: 'sheet0'}).attach()
       jss.createStyleSheet({}, {meta: 'sheet1'}).attach()
 
-      const styleElements = document.head.getElementsByTagName('style')
+      const styleElements = document.head.querySelectorAll('style[data-jss]')
 
-      expect(styleElements.length).to.be(2)
+      expect(styleElements.length).toBe(2)
 
-      expect(styleElements[0].getAttribute('data-meta')).to.be('sheet0')
-      expect(styleElements[1].getAttribute('data-meta')).to.be('sheet1')
+      expect(styleElements[0].getAttribute('data-meta')).toBe('sheet0')
+      expect(styleElements[1].getAttribute('data-meta')).toBe('sheet1')
     })
   })
 
@@ -328,15 +325,15 @@ describe('Functional: dom priority', () => {
       jss.createStyleSheet({}, {meta: 'sheet4', index: 3}).attach()
       jss.createStyleSheet({}, {meta: 'sheet5', index: 312}).attach()
 
-      const styleElements = document.head.getElementsByTagName('style')
+      const styleElements = document.head.querySelectorAll('style[data-jss]')
 
-      expect(styleElements.length).to.be(5)
+      expect(styleElements.length).toBe(5)
 
-      expect(styleElements[0].getAttribute('data-meta')).to.be('sheet3')
-      expect(styleElements[1].getAttribute('data-meta')).to.be('sheet2')
-      expect(styleElements[2].getAttribute('data-meta')).to.be('sheet1')
-      expect(styleElements[3].getAttribute('data-meta')).to.be('sheet4')
-      expect(styleElements[4].getAttribute('data-meta')).to.be('sheet5')
+      expect(styleElements[0].getAttribute('data-meta')).toBe('sheet3')
+      expect(styleElements[1].getAttribute('data-meta')).toBe('sheet2')
+      expect(styleElements[2].getAttribute('data-meta')).toBe('sheet1')
+      expect(styleElements[3].getAttribute('data-meta')).toBe('sheet4')
+      expect(styleElements[4].getAttribute('data-meta')).toBe('sheet5')
     })
   })
 
@@ -354,15 +351,15 @@ describe('Functional: dom priority', () => {
       jss.createStyleSheet({}, {meta: 'sheet4', index: 20}).attach()
       jss.createStyleSheet({}, {meta: 'sheet5', index: 40}).attach()
 
-      const styleElements = document.head.getElementsByTagName('style')
+      const styleElements = document.head.querySelectorAll('style[data-jss]')
 
-      expect(styleElements.length).to.be(5)
+      expect(styleElements.length).toBe(5)
 
-      expect(styleElements[0].getAttribute('data-meta')).to.be('sheet4')
-      expect(styleElements[1].getAttribute('data-meta')).to.be('sheet2')
-      expect(styleElements[2].getAttribute('data-meta')).to.be('sheet3')
-      expect(styleElements[3].getAttribute('data-meta')).to.be('sheet5')
-      expect(styleElements[4].getAttribute('data-meta')).to.be('sheet1')
+      expect(styleElements[0].getAttribute('data-meta')).toBe('sheet4')
+      expect(styleElements[1].getAttribute('data-meta')).toBe('sheet2')
+      expect(styleElements[2].getAttribute('data-meta')).toBe('sheet3')
+      expect(styleElements[3].getAttribute('data-meta')).toBe('sheet5')
+      expect(styleElements[4].getAttribute('data-meta')).toBe('sheet1')
     })
   })
 })

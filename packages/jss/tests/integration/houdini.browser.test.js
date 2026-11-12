@@ -1,4 +1,4 @@
-import expect from 'expect.js'
+import {beforeEach, describe, expect, it} from 'vitest'
 import {stripIndent} from 'common-tags'
 import {create, hasCSSTOMSupport} from '../../src'
 import {resetSheets, createGenerateId} from '../../../../tests/utils'
@@ -27,18 +27,18 @@ describe('Integration: houdini', () => {
     })
 
     it('should get value from .prop()', () => {
-      expect(sheet.getRule('a').prop('margin')).to.be(margin)
+      expect(sheet.getRule('a').prop('margin')).toBe(margin)
     })
 
     it('should set valid value with .prop()', () => {
       const width = CSS.px(10)
       const rule = sheet.getRule('a')
       rule.prop('width', width)
-      expect(rule.prop('width')).to.be(width)
+      expect(rule.prop('width')).toBe(width)
     })
 
     it('should return valid .toString()', () => {
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           margin: 42px;
         }

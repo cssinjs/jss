@@ -37,7 +37,7 @@ yarn check:ts
 
 ## Run tests
 
-Run all runtime tests (Vitest unit tests followed by Karma browser tests):
+Run all runtime tests (Vitest Node tests, Vitest JSS browser tests, then remaining Karma tests):
 
 ```bash
 yarn test
@@ -51,19 +51,35 @@ yarn test:unit:watch
 ```
 
 Name these tests `*.node.test.js`. Import test APIs from `vitest`; do not use DOM globals or
-browser-only helpers such as `tests/utils.js`. Vitest only discovers these files, and Karma
-excludes them. Use Vitest's built-in `expect` for assertions; `expect.js` remains for Karma tests.
+browser-only helpers such as `tests/utils.js`. The Node Vitest configuration only discovers
+these files, and Karma excludes them. Use Vitest's built-in `expect` for assertions; `expect.js` remains for Karma tests.
 
-Browser tests still use Karma and launch real browsers. Rebuild packages after source changes:
+JSS core browser tests use Vitest Browser Mode with Playwright's real Chromium browser.
+Install Chromium once, then run the tests directly against source (no build required):
+
+```bash
+yarn playwright install --with-deps chromium
+yarn test:browser:jss
+yarn test:browser:jss --coverage
+yarn test:browser:jss:watch
+```
+
+These tests live in `packages/jss/tests/` and are named `*.browser.test.js`. Import test APIs
+from `vitest`. Karma excludes these files. Coverage is written to `coverage/vitest-jss/`.
+
+Other packages still use Karma. Rebuild packages after source changes:
 
 ```bash
 yarn build
-yarn test:browser
+yarn test:browser:karma
 # For headless environments:
-yarn test:browser --browsers ChromeHeadless
-# Watch browser tests:
+yarn test:browser:karma --browsers ChromeHeadless
+# Watch remaining Karma tests:
 yarn test:watch
 ```
+
+`yarn test:browser` runs both browser suites. Pass runner-specific flags to the individual
+commands above.
 
 TypeScript/Flow checks, bundle-size snapshots, benchmarks, and packaged-consumer smoke tests
 remain separate from Vitest.
