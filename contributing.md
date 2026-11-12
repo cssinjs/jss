@@ -6,7 +6,7 @@ Please reach out on [Discord](https://discord.gg/e79XhqmaDH)
 
 ## Prerequisites
 
-To install the development dependencies, you will at least need Node 8 installed.
+Use the Node version specified in `.nvmrc` (Node 24) to install dependencies and run tests.
 
 ## Installation
 
@@ -37,13 +37,36 @@ yarn check:ts
 
 ## Run tests
 
-Using karma (real browsers will get launched).
-
-> Notice: When you change the source files of packages, you will need to rebuild the project.
+Run all runtime tests (Vitest unit tests followed by Karma browser tests):
 
 ```bash
 yarn test
 ```
+
+Browser-independent unit tests run in Node with Vitest, without a browser or a build:
+
+```bash
+yarn test:unit
+yarn test:unit:watch
+```
+
+Name these tests `*.node.test.js`. Import test APIs from `vitest`; do not use DOM globals or
+browser-only helpers such as `tests/utils.js`. Vitest only discovers these files, and Karma
+excludes them. Use Vitest's built-in `expect` for assertions; `expect.js` remains for Karma tests.
+
+Browser tests still use Karma and launch real browsers. Rebuild packages after source changes:
+
+```bash
+yarn build
+yarn test:browser
+# For headless environments:
+yarn test:browser --browsers ChromeHeadless
+# Watch browser tests:
+yarn test:watch
+```
+
+TypeScript/Flow checks, bundle-size snapshots, benchmarks, and packaged-consumer smoke tests
+remain separate from Vitest.
 
 ## IDEs
 

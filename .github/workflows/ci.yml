@@ -29,8 +29,10 @@ jobs:
         run: git ls-files -z '**/.size-snapshot.json' | xargs -0 git restore --
       - name: Run checks
         run: yarn check:all
-      - name: Run tests
-        run: yarn test --browsers ChromeHeadless
+      - name: Run unit tests
+        run: yarn test:unit
+      - name: Run browser tests
+        run: yarn test:browser --browsers ChromeHeadless
       - name: Pack Node 10 consumer
         id: pack
         run: node scripts/pack-node10-consumer.js
