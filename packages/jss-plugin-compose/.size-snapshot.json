@@ -2,7 +2,7 @@
   "jss-plugin-compose.js": {
     "bundled": 2517,
     "minified": 988,
-    "gzipped": 561
+    "gzipped": 563
   },
   "jss-plugin-compose.min.js": {
     "bundled": 2056,
@@ -12,12 +12,12 @@
   "jss-plugin-compose.cjs.js": {
     "bundled": 2136,
     "minified": 1013,
-    "gzipped": 528
+    "gzipped": 527
   },
   "jss-plugin-compose.esm.js": {
     "bundled": 1826,
     "minified": 764,
-    "gzipped": 426,
+    "gzipped": 428,
     "treeshaked": {
       "rollup": {
         "code": 21,

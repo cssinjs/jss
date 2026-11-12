@@ -2,22 +2,22 @@
   "jss-plugin-rule-value-observable.js": {
     "bundled": 2589,
     "minified": 1071,
-    "gzipped": 528
+    "gzipped": 531
   },
   "jss-plugin-rule-value-observable.min.js": {
     "bundled": 2589,
     "minified": 1071,
-    "gzipped": 528
+    "gzipped": 531
   },
   "jss-plugin-rule-value-observable.cjs.js": {
     "bundled": 1770,
     "minified": 844,
-    "gzipped": 424
+    "gzipped": 422
   },
   "jss-plugin-rule-value-observable.esm.js": {
     "bundled": 1454,
     "minified": 594,
-    "gzipped": 320,
+    "gzipped": 318,
     "treeshaked": {
       "rollup": {
         "code": 38,

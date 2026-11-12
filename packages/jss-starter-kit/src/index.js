@@ -10,7 +10,21 @@ jss.setup(preset())
 export {jss as default, preset}
 
 export * from 'jss'
-export * from 'react-jss'
+// SheetsRegistry and createGenerateId are already exported by jss. Avoid
+// overlapping wildcard re-exports, which redefine properties in CommonJS.
+export {
+  ThemeProvider,
+  withTheme,
+  createTheming,
+  useTheme,
+  createUseStyles,
+  JssProvider,
+  jss,
+  JssContext,
+  styled,
+  jsx,
+  createJsx
+} from 'react-jss'
 
 export {default as withStyles} from 'react-jss'
 
