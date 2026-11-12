@@ -1,5 +1,5 @@
-
 # Status
+
 JSS is in **maintenance mode**. Updates are limited to security fixes and critical bug fixes; no new features are planned.
 
 [I am](https://github.com/kof) working on a new tool called [Webstudio](https://github.com/webstudio-is/webstudio). It allows you to visually build and generate optimized CSS and React components along with a [Remix](https://remix.run/) app. Similar to Webflow, but open-source and goes beyond marketing sites.
