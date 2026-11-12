@@ -2,22 +2,22 @@
   "jss.js": {
     "bundled": 64943,
     "minified": 23190,
-    "gzipped": 7213
+    "gzipped": 7202
   },
   "jss.min.js": {
     "bundled": 63547,
     "minified": 22421,
-    "gzipped": 6867
+    "gzipped": 6863
   },
   "jss.cjs.js": {
     "bundled": 60631,
     "minified": 26218,
-    "gzipped": 7331
+    "gzipped": 7330
   },
   "jss.esm.js": {
     "bundled": 59003,
     "minified": 24912,
-    "gzipped": 7165,
+    "gzipped": 7162,
     "treeshaked": {
       "rollup": {
         "code": 20176,

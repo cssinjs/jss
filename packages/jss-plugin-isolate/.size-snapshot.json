@@ -2,22 +2,22 @@
   "jss-plugin-isolate.js": {
     "bundled": 14393,
     "minified": 9453,
-    "gzipped": 2697
+    "gzipped": 2686
   },
   "jss-plugin-isolate.min.js": {
     "bundled": 14393,
     "minified": 9453,
-    "gzipped": 2697
+    "gzipped": 2686
   },
   "jss-plugin-isolate.cjs.js": {
     "bundled": 4129,
     "minified": 1858,
-    "gzipped": 795
+    "gzipped": 798
   },
   "jss-plugin-isolate.esm.js": {
     "bundled": 3571,
     "minified": 1427,
-    "gzipped": 687,
+    "gzipped": 686,
     "treeshaked": {
       "rollup": {
         "code": 99,

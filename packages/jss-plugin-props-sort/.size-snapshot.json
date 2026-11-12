@@ -2,12 +2,12 @@
   "jss-plugin-props-sort.js": {
     "bundled": 1070,
     "minified": 548,
-    "gzipped": 337
+    "gzipped": 338
   },
   "jss-plugin-props-sort.min.js": {
     "bundled": 1070,
     "minified": 548,
-    "gzipped": 337
+    "gzipped": 338
   },
   "jss-plugin-props-sort.cjs.js": {
     "bundled": 674,
@@ -17,7 +17,7 @@
   "jss-plugin-props-sort.esm.js": {
     "bundled": 592,
     "minified": 276,
-    "gzipped": 202,
+    "gzipped": 203,
     "treeshaked": {
       "rollup": {
         "code": 0,

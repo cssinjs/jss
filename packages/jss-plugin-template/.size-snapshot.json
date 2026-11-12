@@ -2,22 +2,22 @@
   "jss-plugin-template.js": {
     "bundled": 1758,
     "minified": 774,
-    "gzipped": 467
+    "gzipped": 469
   },
   "jss-plugin-template.min.js": {
     "bundled": 1397,
     "minified": 608,
-    "gzipped": 370
+    "gzipped": 372
   },
   "jss-plugin-template.cjs.js": {
     "bundled": 1343,
     "minified": 746,
-    "gzipped": 443
+    "gzipped": 444
   },
   "jss-plugin-template.esm.js": {
     "bundled": 1053,
     "minified": 518,
-    "gzipped": 341,
+    "gzipped": 340,
     "treeshaked": {
       "rollup": {
         "code": 21,

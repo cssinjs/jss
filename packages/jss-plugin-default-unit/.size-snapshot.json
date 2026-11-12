@@ -2,17 +2,17 @@
   "jss-plugin-default-unit.js": {
     "bundled": 6944,
     "minified": 3634,
-    "gzipped": 1244
+    "gzipped": 1243
   },
   "jss-plugin-default-unit.min.js": {
     "bundled": 6944,
     "minified": 3634,
-    "gzipped": 1244
+    "gzipped": 1243
   },
   "jss-plugin-default-unit.cjs.js": {
     "bundled": 6127,
     "minified": 3718,
-    "gzipped": 1194
+    "gzipped": 1191
   },
   "jss-plugin-default-unit.esm.js": {
     "bundled": 6047,

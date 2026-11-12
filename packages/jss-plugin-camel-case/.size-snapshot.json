@@ -17,7 +17,7 @@
   "jss-plugin-camel-case.esm.js": {
     "bundled": 1418,
     "minified": 565,
-    "gzipped": 309,
+    "gzipped": 308,
     "treeshaked": {
       "rollup": {
         "code": 29,

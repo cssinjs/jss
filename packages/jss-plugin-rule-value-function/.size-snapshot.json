@@ -2,22 +2,22 @@
   "jss-plugin-rule-value-function.js": {
     "bundled": 2981,
     "minified": 1046,
-    "gzipped": 579
+    "gzipped": 580
   },
   "jss-plugin-rule-value-function.min.js": {
     "bundled": 2402,
     "minified": 795,
-    "gzipped": 455
+    "gzipped": 459
   },
   "jss-plugin-rule-value-function.cjs.js": {
     "bundled": 2549,
     "minified": 1059,
-    "gzipped": 551
+    "gzipped": 554
   },
   "jss-plugin-rule-value-function.esm.js": {
     "bundled": 2263,
     "minified": 836,
-    "gzipped": 451,
+    "gzipped": 452,
     "treeshaked": {
       "rollup": {
         "code": 33,

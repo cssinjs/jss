@@ -2,12 +2,12 @@
   "jss-plugin-extend.js": {
     "bundled": 4389,
     "minified": 1728,
-    "gzipped": 832
+    "gzipped": 825
   },
   "jss-plugin-extend.min.js": {
     "bundled": 4015,
     "minified": 1544,
-    "gzipped": 724
+    "gzipped": 720
   },
   "jss-plugin-extend.cjs.js": {
     "bundled": 3580,

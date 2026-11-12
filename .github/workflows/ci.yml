@@ -31,6 +31,21 @@ jobs:
         run: yarn check:all
       - name: Run tests
         run: yarn test --browsers ChromeHeadless
+      - name: Pack Node 10 consumer
+        id: pack
+        run: node scripts/pack-node10-consumer.js
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 10.24.1
+      - name: Install packaged consumer
+        working-directory: ${{ steps.pack.outputs.consumer }}
+        run: npm install --no-package-lock
+      - name: Smoke test packaged consumer (development)
+        working-directory: ${{ steps.pack.outputs.consumer }}
+        run: NODE_ENV=development node smoke.js
+      - name: Smoke test packaged consumer (production)
+        working-directory: ${{ steps.pack.outputs.consumer }}
+        run: NODE_ENV=production node smoke.js
       - name: Upload coverage
         uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5
         with:

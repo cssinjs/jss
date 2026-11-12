@@ -2,12 +2,12 @@
   "jss-plugin-global.js": {
     "bundled": 5308,
     "minified": 2315,
-    "gzipped": 934
+    "gzipped": 935
   },
   "jss-plugin-global.min.js": {
     "bundled": 5308,
     "minified": 2315,
-    "gzipped": 934
+    "gzipped": 935
   },
   "jss-plugin-global.cjs.js": {
     "bundled": 4565,
@@ -17,7 +17,7 @@
   "jss-plugin-global.esm.js": {
     "bundled": 4219,
     "minified": 2167,
-    "gzipped": 802,
+    "gzipped": 804,
     "treeshaked": {
       "rollup": {
         "code": 55,
