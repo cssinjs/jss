@@ -5,10 +5,10 @@ const isBench = process.env.BENCHMARK === 'true'
 const useCloud = process.env.USE_CLOUD === 'true'
 const browserStackUserName = process.env.BROWSER_STACK_USERNAME
 const browserStackAccessKey = process.env.BROWSER_STACK_ACCESS_KEY
-const isTravis = process.env.TRAVIS
-const travisBuildNumber = process.env.TRAVIS_BUILD_NUMBER
-const travisBuildId = process.env.TRAVIS_BUILD_ID
-const travisJobNumber = process.env.TRAVIS_JOB_NUMBER
+const isGitHubActions = process.env.GITHUB_ACTIONS === 'true'
+const gitHubRunNumber = process.env.GITHUB_RUN_NUMBER
+const gitHubRunId = process.env.GITHUB_RUN_ID
+const gitHubJob = process.env.GITHUB_JOB
 
 module.exports = (config) => {
   config.set({
@@ -65,10 +65,10 @@ module.exports = (config) => {
       captureTimeout: 30000
     }
 
-    if (isTravis) {
+    if (isGitHubActions) {
       Object.assign(config.browserStack, {
-        build: `TRAVIS #${travisBuildNumber} (${travisBuildId})`,
-        name: travisJobNumber
+        build: `GitHub Actions #${gitHubRunNumber} (${gitHubRunId})`,
+        name: gitHubJob
       })
     }
   }
