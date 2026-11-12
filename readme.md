@@ -11,7 +11,7 @@ This project is no longer maintained. [I am](https://github.com/kof) working on 
 [![Downlodas](https://img.shields.io/npm/dm/jss.svg?style=flat)](https://npmjs.org/package/jss)
 [![Size](https://img.shields.io/bundlephobia/minzip/jss.svg?style=flat)](https://npmjs.org/package/jss)
 [![Contributors](https://img.shields.io/github/contributors/cssinjs/jss.svg?style=flat)](https://github.com/cssinjs/jss/graphs/contributors)
-[![Build Status](https://travis-ci.org/cssinjs/jss.svg?branch=master)](https://travis-ci.org/cssinjs/jss)
+[![Build Status](https://github.com/cssinjs/jss/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/cssinjs/jss/actions/workflows/ci.yml)
 [![OpenCollective](https://opencollective.com/jss/backers/badge.svg)](#backers)
 [![OpenCollective](https://opencollective.com/jss/sponsors/badge.svg)](#sponsors)
 
