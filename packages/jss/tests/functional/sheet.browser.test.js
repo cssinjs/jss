@@ -1,8 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
 import {stripIndent} from 'common-tags'
-import expect from 'expect.js'
-import sinon from 'sinon'
+import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest'
 
 import {create} from '../../src'
 import {
@@ -27,19 +26,19 @@ describe('Functional: sheet', () => {
   beforeEach(resetSheets())
 
   beforeEach(() => {
-    spy = sinon.spy(console, 'warn')
+    spy = vi.spyOn(console, 'warn')
     jss = create(settings)
   })
 
   afterEach(() => {
-    console.warn.restore()
+    vi.restoreAllMocks()
   })
 
   describe('sheet.attach() CSS check from DOM', () => {
     function check(styles, options) {
       const sheet = jss.createStyleSheet(styles, options).attach()
       const style = getStyle()
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+      expect(getCss(style)).toBe(removeWhitespace(sheet.toString()))
       sheet.detach()
     }
 
@@ -75,19 +74,19 @@ describe('Functional: sheet', () => {
     })
 
     it('should have attached the sheet', () => {
-      expect(sheet.attached).to.be(true)
-      expect(style).to.be.an(Element)
-      expect(style.parentNode).to.be.an(Element)
+      expect(sheet.attached).toBe(true)
+      expect(style).toBeInstanceOf(Element)
+      expect(style.parentNode).toBeInstanceOf(Element)
     })
 
     it('should have rendered nothing inside', () => {
-      expect(style.innerHTML.trim()).to.be(sheet.toString().trim())
+      expect(style.innerHTML.trim()).toBe(sheet.toString().trim())
     })
 
     it('should detach sheet', () => {
       sheet.detach()
-      expect(sheet.attached).to.be(false)
-      expect(style.parentNode).to.be(null)
+      expect(sheet.attached).toBe(false)
+      expect(style.parentNode).toBe(null)
     })
   })
 
@@ -112,7 +111,7 @@ describe('Functional: sheet', () => {
     })
 
     it('should have a nonce attribute if nonce is found', () => {
-      expect(style.getAttribute('nonce')).to.be('test')
+      expect(style.getAttribute('nonce')).toBe('test')
     })
   })
 
@@ -130,13 +129,13 @@ describe('Functional: sheet', () => {
     })
 
     it('should have right options', () => {
-      expect(sheet.options.media).to.be('screen')
-      expect(sheet.options.meta).to.be('test')
+      expect(sheet.options.media).toBe('screen')
+      expect(sheet.options.meta).toBe('test')
     })
 
     it('should have rendered attributes', () => {
-      expect(style.getAttribute('media')).to.be('screen')
-      expect(style.getAttribute('data-meta')).to.be('test')
+      expect(style.getAttribute('media')).toBe('screen')
+      expect(style.getAttribute('data-meta')).toBe('test')
     })
   })
 
@@ -149,28 +148,28 @@ describe('Functional: sheet', () => {
 
     it('should link the DOM node', () => {
       sheet = jss.createStyleSheet({a: {float: 'left'}}, {link: true}).attach()
-      expect(sheet.getRule('a').renderable).to.be.a(CSSStyleRule)
+      expect(sheet.getRule('a').renderable).toBeInstanceOf(CSSStyleRule)
     })
 
     it('should link the DOM node to added rule', () => {
       sheet = jss.createStyleSheet(null, {link: true}).attach()
       sheet.addRule('a', {color: 'red'})
-      expect(sheet.getRule('a').renderable).to.be.a(CSSStyleRule)
+      expect(sheet.getRule('a').renderable).toBeInstanceOf(CSSStyleRule)
     })
 
     it('should link a rule with CSS escaped chars within selector', () => {
       sheet = jss.createStyleSheet(null, {link: true})
       const rule = sheet.addRule('a', {color: 'red'}, {selector: ':not(#\\20)'})
       sheet.attach()
-      expect(rule.renderable).to.not.be(undefined)
+      expect(rule.renderable).not.toBe(undefined)
     })
 
     it('should warn if added rule is invalid', () => {
       sheet = jss.createStyleSheet(null, {link: true})
       const rule = sheet.addRule('a', {color: 'red'}, {selector: ':wrong'})
       sheet.attach()
-      expect(spy.callCount).to.be(1)
-      expect(rule.renderable).to.be(undefined)
+      expect(spy).toHaveBeenCalledTimes(1)
+      expect(rule.renderable).toBe(undefined)
     })
 
     it('should insert a valid rule after an invalid one', () => {
@@ -178,8 +177,8 @@ describe('Functional: sheet', () => {
       sheet.addRule('a', {color: 'red'}, {selector: ':wrong'})
       const rule = sheet.addRule('b', {color: 'red'})
       sheet.attach()
-      expect(spy.callCount).to.be(1)
-      expect(rule.renderable).to.not.be(undefined)
+      expect(spy).toHaveBeenCalledTimes(1)
+      expect(rule.renderable).not.toBe(undefined)
     })
   })
 
@@ -188,7 +187,7 @@ describe('Functional: sheet', () => {
       const localJss = create({Renderer: null})
       const sheet = localJss.createStyleSheet({a: {float: 'left'}})
       sheet.attach()
-      expect(getStyle()).to.be(undefined)
+      expect(getStyle()).toBe(undefined)
       sheet.detach()
     })
   })
@@ -199,7 +198,7 @@ describe('Functional: sheet', () => {
       element.type = 'text/css'
       const sheet = jss.createStyleSheet({a: {float: 'left'}}, {element})
       sheet.attach()
-      expect(getCss(element)).to.be(removeWhitespace(sheet.toString()))
+      expect(getCss(element)).toBe(removeWhitespace(sheet.toString()))
       sheet.detach()
     })
   })
@@ -207,13 +206,13 @@ describe('Functional: sheet', () => {
   describe('Option: {index}', () => {
     it('should be 0 by default', () => {
       const sheet = jss.createStyleSheet({})
-      expect(sheet.options.index).to.be(0)
+      expect(sheet.options.index).toBe(0)
     })
 
     it('should be set by the options argument', () => {
       ;[-50, 0, 50, 9999].forEach((n) => {
         const sheet2 = jss.createStyleSheet({}, {index: n})
-        expect(sheet2.options.index).to.be(n)
+        expect(sheet2.options.index).toBe(n)
       })
     })
   })
@@ -234,26 +233,26 @@ describe('Functional: sheet', () => {
     })
 
     it('should render only 1 rule', () => {
-      expect(getRules(style).length).to.be(1)
+      expect(getRules(style).length).toBe(1)
     })
 
     it('should render correct CSS', () => {
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+      expect(getCss(style)).toBe(removeWhitespace(sheet.toString()))
     })
 
     it('should register the rule', () => {
-      expect(sheet.getRule('a')).to.be(rule)
+      expect(sheet.getRule('a')).toBe(rule)
     })
 
     it('should add a rule to a detached sheet', () => {
       sheet.detach()
       const newRule = sheet.addRule('b', {float: 'right'})
       sheet.attach()
-      expect(sheet.getRule('b')).to.be(newRule)
+      expect(sheet.getRule('b')).toBe(newRule)
     })
 
     it('should link sheet in rules options', () => {
-      expect(sheet.getRule('a').options.sheet).to.be(sheet)
+      expect(sheet.getRule('a').options.sheet).toBe(sheet)
     })
 
     it('should not duplicate cssRules when adding rules to a detached sheet with link: true', () => {
@@ -264,8 +263,8 @@ describe('Functional: sheet', () => {
       sheet.addRule('b', {float: 'right'})
       sheet.attach()
       style = getStyle()
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
-      expect(getCss(style)).to.be('.a-id{float:left;}.b-id{float:right;}')
+      expect(getCss(style)).toBe(removeWhitespace(sheet.toString()))
+      expect(getCss(style)).toBe('.a-id{float:left;}.b-id{float:right;}')
     })
   })
 
@@ -290,7 +289,7 @@ describe('Functional: sheet', () => {
     })
 
     it('should render rules in the right order', () => {
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+      expect(getCss(style)).toBe(removeWhitespace(sheet.toString()))
     })
   })
 
@@ -316,14 +315,14 @@ describe('Functional: sheet', () => {
     })
 
     it('should render @media', () => {
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+      expect(getCss(style)).toBe(removeWhitespace(sheet.toString()))
     })
 
     it('should render @media and added rule', () => {
       sheet.addRule('b', {
         color: 'red'
       })
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+      expect(getCss(style)).toBe(removeWhitespace(sheet.toString()))
     })
   })
 
@@ -342,11 +341,11 @@ describe('Functional: sheet', () => {
     })
 
     it('should not render', () => {
-      expect(getCss(style)).to.be('')
+      expect(getCss(style)).toBe('')
     })
 
     it('should not warn', () => {
-      expect(spy.callCount).to.be(0)
+      expect(spy).toHaveBeenCalledTimes(0)
     })
   })
 
@@ -371,7 +370,7 @@ describe('Functional: sheet', () => {
 
     it('should render @keyframes', () => {
       const css = removeVendorPrefixes(getCss(style))
-      expect(css).to.be(removeWhitespace(sheet.toString()))
+      expect(css).toBe(removeWhitespace(sheet.toString()))
     })
   })
 
@@ -391,14 +390,14 @@ describe('Functional: sheet', () => {
     })
 
     it('should add rules to an attached sheet', () => {
-      expect(computeStyle(sheet.classes.a).width).to.be('1px')
-      expect(computeStyle(sheet.classes.b).width).to.be('2px')
+      expect(computeStyle(sheet.classes.a).width).toBe('1px')
+      expect(computeStyle(sheet.classes.b).width).toBe('2px')
     })
 
     it('should keep the values after reattaching', () => {
       sheet.detach().attach()
-      expect(computeStyle(sheet.classes.a).width).to.be('1px')
-      expect(computeStyle(sheet.classes.b).width).to.be('2px')
+      expect(computeStyle(sheet.classes.a).width).toBe('1px')
+      expect(computeStyle(sheet.classes.b).width).toBe('2px')
     })
   })
 
@@ -406,10 +405,10 @@ describe('Functional: sheet', () => {
     it('should delete a style rule from the sheet and DOM', () => {
       const sheet = jss.createStyleSheet({a: {width: '1px'}}, {link: true}).attach()
       const className = sheet.classes.a
-      expect(computeStyle(className).width).to.be('1px')
-      expect(sheet.deleteRule('a')).to.be(true)
-      expect(sheet.getRule('a')).to.be(undefined)
-      expect(computeStyle(className).width).not.to.be('1px')
+      expect(computeStyle(className).width).toBe('1px')
+      expect(sheet.deleteRule('a')).toBe(true)
+      expect(sheet.getRule('a')).toBe(undefined)
+      expect(computeStyle(className).width).not.toBe('1px')
       sheet.detach()
     })
 
@@ -428,10 +427,10 @@ describe('Functional: sheet', () => {
         )
         .attach()
       const className = sheet.classes.a
-      expect(computeStyle(className).width).to.be('1px')
-      expect(sheet.deleteRule('@media all')).to.be(true)
-      expect(sheet.getRule('@media all')).to.be(undefined)
-      expect(computeStyle(className).width).not.to.be('1px')
+      expect(computeStyle(className).width).toBe('1px')
+      expect(sheet.deleteRule('@media all')).toBe(true)
+      expect(sheet.getRule('@media all')).toBe(undefined)
+      expect(computeStyle(className).width).not.toBe('1px')
       sheet.detach()
     })
   })
@@ -468,23 +467,23 @@ describe('Functional: sheet', () => {
     })
 
     it('should have initial color', () => {
-      expect(computeStyle(sheet.classes.a).width).to.be('10px')
+      expect(computeStyle(sheet.classes.a).width).toBe('10px')
     })
 
     it('should apply a style prop', () => {
       sheet.getRule('a').prop('width', '12px')
-      expect(computeStyle(sheet.classes.a).width).to.be('12px')
+      expect(computeStyle(sheet.classes.a).width).toBe('12px')
     })
 
     it('should set the new prop on style', () => {
       sheet.getRule('a').prop('color', 'red')
-      expect(sheet.getRule('a').style.color).to.be('red')
+      expect(sheet.getRule('a').style.color).toBe('red')
     })
 
     it('should apply a style prop in @media rule child', () => {
       const rule = sheet.getRule('@media all').rules.get('b')
       rule.prop('width', '12px')
-      expect(computeStyle(sheet.classes.b).width).to.be('12px')
+      expect(computeStyle(sheet.classes.b).width).toBe('12px')
     })
 
     it('should apply a style prop in @keyframes rule child', () => {
@@ -492,12 +491,12 @@ describe('Functional: sheet', () => {
       const rule = sheet.getRule('keyframes-a').rules.get('100%')
       rule.prop('opacity', 0)
       // We can't compute styles from keyframes.
-      expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
+      expect(removeVendorPrefixes(getCss(getStyle()))).toBe(removeWhitespace(sheet.toString()))
     })
 
     it('should return a new prop from toString()', () => {
       sheet.getRule('a').prop('display', 'block')
-      expect(sheet.getRule('a').toString()).to.be(stripIndent`
+      expect(sheet.getRule('a').toString()).toBe(stripIndent`
         .a-id {
           width: 10px;
           max-width: 50px;
@@ -509,7 +508,7 @@ describe('Functional: sheet', () => {
     it('should remove a prop in @media rule child when null value is passed', () => {
       const rule = sheet.getRule('@media all').rules.get('b')
       rule.prop('width', null)
-      expect(computeStyle(sheet.classes.b).width).to.be('50px')
+      expect(computeStyle(sheet.classes.b).width).toBe('50px')
     })
 
     it('should remove a prop in @keyframes rule child when null value is passed', () => {
@@ -517,7 +516,7 @@ describe('Functional: sheet', () => {
       const rule = sheet.getRule('keyframes-a').rules.get('100%')
       rule.prop('opacity', null)
       // We can't compute styles from keyframes.
-      expect(removeVendorPrefixes(getCss(getStyle()))).to.be(removeWhitespace(sheet.toString()))
+      expect(removeVendorPrefixes(getCss(getStyle()))).toBe(removeWhitespace(sheet.toString()))
     })
   })
 
@@ -525,23 +524,21 @@ describe('Functional: sheet', () => {
     it('should warn when sheet not linked but attached', () => {
       const sheet = jss.createStyleSheet({a: {color: 'green'}}).attach()
       sheet.getRule('a').prop('color', 'red')
-      expect(spy.callCount).to.be(1)
-      expect(
-        spy.calledWithExactly(
-          'Warning: [JSS] Rule is not linked. Missing sheet option "link: true".'
-        )
-      ).to.be(true)
+      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledWith(
+        'Warning: [JSS] Rule is not linked. Missing sheet option "link: true".'
+      )
     })
 
     it('should not warn when sheet is not linked but also not attached', () => {
       const sheet = jss.createStyleSheet({a: {color: 'green'}})
       sheet.getRule('a').prop('color', 'red')
-      expect(spy.callCount).to.be(0)
+      expect(spy).toHaveBeenCalledTimes(0)
     })
 
     it('should not warn when there is no sheet', () => {
       jss.createRule({color: 'green'}).prop('color', 'red')
-      expect(spy.callCount).to.be(0)
+      expect(spy).toHaveBeenCalledTimes(0)
     })
   })
 
@@ -556,22 +553,22 @@ describe('Functional: sheet', () => {
         .createStyleSheet({a: {display: 'inline'}}, {link: true})
         .attach()
 
-      expect(computeStyle(sheet.classes.a).display).to.be('inline')
+      expect(computeStyle(sheet.classes.a).display).toBe('inline')
     })
 
     it('should remove a prop when it is missing in a new rule.style', () => {
       sheet.update({})
-      expect(computeStyle(sheet.classes.a).display).to.be('block')
+      expect(computeStyle(sheet.classes.a).display).toBe('block')
     })
 
     it('should remove a prop when value is null in a new rule.style', () => {
       sheet.update({display: null})
-      expect(computeStyle(sheet.classes.a).display).to.be('block')
+      expect(computeStyle(sheet.classes.a).display).toBe('block')
     })
 
     it('should remove a prop when value is false in a new rule.style', () => {
       sheet.update({display: false})
-      expect(computeStyle(sheet.classes.a).display).to.be('block')
+      expect(computeStyle(sheet.classes.a).display).toBe('block')
     })
   })
 
@@ -586,17 +583,17 @@ describe('Functional: sheet', () => {
         .createStyleSheet({a: {color: 'rgb(255, 0, 0) !important'}}, {link: true})
         .attach()
 
-      expect(computeStyle(sheet.classes.a).color).to.be('rgb(255, 0, 0)')
+      expect(computeStyle(sheet.classes.a).color).toBe('rgb(255, 0, 0)')
     })
 
     it('should return correct value by an array', () => {
       sheet.update({color: ['rgb(0, 255, 0)', '!important']})
-      expect(computeStyle(sheet.classes.a).color).to.be('rgb(0, 255, 0)')
+      expect(computeStyle(sheet.classes.a).color).toBe('rgb(0, 255, 0)')
     })
 
     it('should return correct value by a string', () => {
       sheet.update({color: 'rgb(0, 255, 0) !important'})
-      expect(computeStyle(sheet.classes.a).color).to.be('rgb(0, 255, 0)')
+      expect(computeStyle(sheet.classes.a).color).toBe('rgb(0, 255, 0)')
     })
   })
 
@@ -615,16 +612,16 @@ describe('Functional: sheet', () => {
 
     it('should set the selector', () => {
       rule.selector = '.test'
-      expect(rule.selector).to.be('.test')
+      expect(rule.selector).toBe('.test')
     })
 
     it('should apply selector to the DOM', () => {
       rule.selector = '.test'
-      expect(computeStyle('test').width).to.be('1px')
+      expect(computeStyle('test').width).toBe('1px')
     })
 
     it('should register the class name in sheet.classes', () => {
-      expect(sheet.classes.a, 'test')
+      expect(sheet.classes.a).toBe('a-id')
     })
   })
 
@@ -641,7 +638,7 @@ describe('Functional: sheet', () => {
       })
 
       it('should apply selector to the DOM', () => {
-        expect(computeStyle(sheet.classes['test()']).width).to.be('1px')
+        expect(computeStyle(sheet.classes['test()']).width).toBe('1px')
       })
     })
 
@@ -657,7 +654,7 @@ describe('Functional: sheet', () => {
       })
 
       it('should apply selector to the DOM', () => {
-        expect(computeStyle(sheet.classes['😅']).width).to.be('1px')
+        expect(computeStyle(sheet.classes['😅']).width).toBe('1px')
       })
     })
   })
@@ -680,16 +677,16 @@ describe('Functional: sheet', () => {
     })
 
     it('should render only 1 rule', () => {
-      expect(getRules(style).length).to.be(1)
+      expect(getRules(style).length).toBe(1)
     })
 
     it('should render correct CSS', () => {
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+      expect(getCss(style)).toBe(removeWhitespace(sheet.toString()))
     })
 
     it('should register the rule', () => {
-      expect(sheet.getRule('a')).not.to.be(rule)
-      expect(sheet.getRule('a')).to.be(replaceResult)
+      expect(sheet.getRule('a')).not.toBe(rule)
+      expect(sheet.getRule('a')).toBe(replaceResult)
     })
 
     it('should add a rule to a detached sheet', () => {
@@ -697,11 +694,11 @@ describe('Functional: sheet', () => {
       sheet.addRule('b', {display: 'block'})
       const newRule = sheet.replaceRule('b', {display: 'flex'})
       sheet.attach()
-      expect(sheet.getRule('b')).to.be(newRule)
+      expect(sheet.getRule('b')).toBe(newRule)
     })
 
     it('should link sheet in rules options', () => {
-      expect(sheet.getRule('a').options.sheet).to.be(sheet)
+      expect(sheet.getRule('a').options.sheet).toBe(sheet)
     })
 
     it('should not duplicate cssRules when replacing a rule in a detached sheet with link: true', () => {
@@ -713,8 +710,8 @@ describe('Functional: sheet', () => {
       sheet.replaceRule('b', {display: 'flex'})
       sheet.attach()
       style = getStyle()
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
-      expect(getCss(style)).to.be('.a-id{float:left;}.b-id{display:flex;}')
+      expect(getCss(style)).toBe(removeWhitespace(sheet.toString()))
+      expect(getCss(style)).toBe('.a-id{float:left;}.b-id{display:flex;}')
     })
   })
 
@@ -743,14 +740,14 @@ describe('Functional: sheet', () => {
     })
 
     it('should render @media', () => {
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+      expect(getCss(style)).toBe(removeWhitespace(sheet.toString()))
     })
 
     it('should render @media and replaced rule', () => {
       sheet.replaceRule('a', {
         color: 'red'
       })
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+      expect(getCss(style)).toBe(removeWhitespace(sheet.toString()))
     })
   })
 
@@ -770,11 +767,11 @@ describe('Functional: sheet', () => {
     })
 
     it('should not render', () => {
-      expect(getCss(style)).to.be('')
+      expect(getCss(style)).toBe('')
     })
 
     it('should not warn', () => {
-      expect(spy.callCount).to.be(0)
+      expect(spy).toHaveBeenCalledTimes(0)
     })
   })
 
@@ -802,7 +799,7 @@ describe('Functional: sheet', () => {
 
     it('should render @keyframes', () => {
       const css = removeVendorPrefixes(getCss(style))
-      expect(css).to.be(removeWhitespace(sheet.toString()))
+      expect(css).toBe(removeWhitespace(sheet.toString()))
     })
   })
 
@@ -823,7 +820,7 @@ describe('Functional: sheet', () => {
     it('should replace rule a', () => {
       sheet.replaceRule('a', {width: '1px'})
       const style = getStyle()
-      expect(getCss(style)).to.be(
+      expect(getCss(style)).toBe(
         removeWhitespace(stripIndent`
         .a-id {
           width: 1px;
@@ -839,13 +836,13 @@ describe('Functional: sheet', () => {
         }
       `)
       )
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+      expect(getCss(style)).toBe(removeWhitespace(sheet.toString()))
     })
 
     it('should replace rule b', () => {
       sheet.replaceRule('b', {float: 'left'})
       const style = getStyle()
-      expect(getCss(style)).to.be(
+      expect(getCss(style)).toBe(
         removeWhitespace(stripIndent`
         .a-id {
           top: 0px;
@@ -861,14 +858,14 @@ describe('Functional: sheet', () => {
         }
       `)
       )
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+      expect(getCss(style)).toBe(removeWhitespace(sheet.toString()))
     })
 
     it('should replace multiple rules', () => {
       sheet.replaceRule('c', {background: 'green'})
       sheet.replaceRule('d', {gap: '0px'})
       const style = getStyle()
-      expect(getCss(style)).to.be(
+      expect(getCss(style)).toBe(
         removeWhitespace(stripIndent`
         .a-id {
           top: 0px;
@@ -884,14 +881,14 @@ describe('Functional: sheet', () => {
         }
       `)
       )
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+      expect(getCss(style)).toBe(removeWhitespace(sheet.toString()))
     })
 
     it('should replace rule multiple times', () => {
       sheet.replaceRule('c', {background: 'green'})
       sheet.replaceRule('c', {border: 'solid'})
       const style = getStyle()
-      expect(getCss(style)).to.be(
+      expect(getCss(style)).toBe(
         removeWhitespace(stripIndent`
         .a-id {
           top: 0px;
@@ -907,13 +904,13 @@ describe('Functional: sheet', () => {
         }
       `)
       )
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+      expect(getCss(style)).toBe(removeWhitespace(sheet.toString()))
     })
 
     it("should add rule if name doesn't match any", () => {
       sheet.replaceRule('e', {background: 'green'})
       const style = getStyle()
-      expect(getCss(style)).to.be(
+      expect(getCss(style)).toBe(
         removeWhitespace(stripIndent`
         .a-id {
           top: 0px;
@@ -932,7 +929,7 @@ describe('Functional: sheet', () => {
         }
       `)
       )
-      expect(getCss(style)).to.be(removeWhitespace(sheet.toString()))
+      expect(getCss(style)).toBe(removeWhitespace(sheet.toString()))
     })
   })
 })

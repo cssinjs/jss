@@ -1,6 +1,5 @@
-import expect from 'expect.js'
+import {beforeEach, describe, expect, it, vi} from 'vitest'
 import {stripIndent} from 'common-tags'
-import sinon from 'sinon'
 import {create} from '../../src'
 import StyleSheet from '../../src/StyleSheet'
 import {resetSheets, createGenerateId} from '../../../../tests/utils'
@@ -29,7 +28,7 @@ describe('Integration: plugins', () => {
       // Process rules once.
       jss.createStyleSheet(styles)
       jss.createStyleSheet(styles)
-      expect(processed).to.be(1)
+      expect(processed).toBe(1)
     })
 
     it('should call hooks in the correct order', () => {
@@ -53,10 +52,10 @@ describe('Integration: plugins', () => {
         c: {color: 'blue'}
       })
 
-      expect(sheet.indexOf(sheet.getRule('a'))).to.be(0)
-      expect(sheet.indexOf(sheet.getRule('b'))).to.be(1)
-      expect(sheet.indexOf(sheet.getRule('c'))).to.be(2)
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.indexOf(sheet.getRule('a'))).toBe(0)
+      expect(sheet.indexOf(sheet.getRule('b'))).toBe(1)
+      expect(sheet.indexOf(sheet.getRule('c'))).toBe(2)
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
         }
@@ -67,20 +66,20 @@ describe('Integration: plugins', () => {
           color: blue;
         }
       `)
-      expect(selectors).to.eql(['.b-id', '.a-id', '.c-id'])
+      expect(selectors).toEqual(['.b-id', '.a-id', '.c-id'])
     })
 
     it('should warn when unknown hook name is used', () => {
-      const spy = sinon.spy(console, 'warn')
+      const spy = vi.spyOn(console, 'warn')
 
       jss.use({
         unknownHook: () => null
       })
 
-      expect(spy.callCount).to.be(1)
-      expect(spy.calledWithExactly('Warning: [JSS] Unknown hook "unknownHook".')).to.be(true)
+      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledWith('Warning: [JSS] Unknown hook "unknownHook".')
 
-      console.warn.restore()
+      vi.restoreAllMocks()
     })
 
     it('should run user-defined plugins in .setup() first, internal second', () => {
@@ -107,7 +106,7 @@ describe('Integration: plugins', () => {
         }
       })
 
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         @keyframes keyframes-a-id {
           to {
             height: 100%;
@@ -138,7 +137,7 @@ describe('Integration: plugins', () => {
         }
       })
 
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         @keyframes keyframes-a-id {
           to {
             height: 100%;
@@ -171,12 +170,12 @@ describe('Integration: plugins', () => {
     })
 
     it('should be executed just once', () => {
-      expect(executed).to.be(1)
+      expect(executed).toBe(1)
     })
 
     it('should pass right arguments', () => {
-      expect(sheet).to.be(receivedSheet)
-      expect(sheet.getRule('a')).to.be(receivedRule)
+      expect(sheet).toBe(receivedSheet)
+      expect(sheet.getRule('a')).toBe(receivedRule)
     })
   })
 
@@ -204,17 +203,17 @@ describe('Integration: plugins', () => {
     })
 
     it('should be executed just once', () => {
-      expect(executed).to.be(1)
+      expect(executed).toBe(1)
     })
 
     it('should pass right arguments', () => {
-      expect(receivedName).to.be('a')
-      expect(receivedDecl).to.eql({float: 'left'})
-      expect(receivedOptions).to.be.an(Object)
+      expect(receivedName).toBe('a')
+      expect(receivedDecl).toEqual({float: 'left'})
+      expect(receivedOptions).toBeInstanceOf(Object)
     })
 
     it('should have referenced the raw decl before', () => {
-      expect(rawStyle).to.be(style)
+      expect(rawStyle).toBe(style)
     })
   })
 
@@ -235,11 +234,11 @@ describe('Integration: plugins', () => {
     })
 
     it('should be executed just once', () => {
-      expect(executed).to.be(1)
+      expect(executed).toBe(1)
     })
 
     it('should pass right arguments', () => {
-      expect(receivedSheet).to.be.a(StyleSheet)
+      expect(receivedSheet).toBeInstanceOf(StyleSheet)
     })
   })
 
@@ -259,16 +258,16 @@ describe('Integration: plugins', () => {
 
     it('should pass rule correctly', () => {
       const rule = jss.createRule()
-      expect(rule).to.be(receivedRule)
-      expect(executed).to.be(1)
+      expect(rule).toBe(receivedRule)
+      expect(executed).toBe(1)
     })
 
     it('should run plugins on @media rule', () => {
       const rule = jss.createRule('@media', {
         button: {float: 'left'}
       })
-      expect(rule).to.be(receivedRule)
-      expect(executed).to.be(2)
+      expect(rule).toBe(receivedRule)
+      expect(executed).toBe(2)
     })
 
     it('should run plugins on @keyframes rule', () => {
@@ -276,8 +275,8 @@ describe('Integration: plugins', () => {
         from: {top: 0},
         to: {top: 10}
       })
-      expect(rule).to.be(receivedRule)
-      expect(executed).to.be(3)
+      expect(rule).toBe(receivedRule)
+      expect(executed).toBe(3)
     })
 
     it('should accept multiple plugins', () => {
@@ -295,8 +294,8 @@ describe('Integration: plugins', () => {
       }
       jss.use(plugin1, plugin2)
       const rule = jss.createRule()
-      expect(receivedRule1).to.be(rule)
-      expect(receivedRule2).to.be(rule)
+      expect(receivedRule1).toBe(rule)
+      expect(receivedRule2).toBe(rule)
     })
   })
 
@@ -324,25 +323,25 @@ describe('Integration: plugins', () => {
 
     it('should be executed just once', () => {
       sheet.getRule('a').prop('color', 'green')
-      expect(executed).to.be(1)
+      expect(executed).toBe(1)
     })
 
     it('should receive correct arguments', () => {
       const rule = sheet.getRule('a')
       rule.prop('color', 'green')
-      expect(receivedValue).to.be('green')
-      expect(receivedProp).to.be('color')
-      expect(receivedRule).to.be(rule)
+      expect(receivedValue).toBe('green')
+      expect(receivedProp).toBe('color')
+      expect(receivedRule).toBe(rule)
     })
 
     it('should compile to correct CSS string', () => {
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
         }
       `)
       sheet.getRule('a').prop('color', 'green')
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: green;
         }
@@ -353,7 +352,7 @@ describe('Integration: plugins', () => {
       jss.use({onChangeValue: (value) => `${value}-first`})
       jss.use({onChangeValue: (value) => `${value}-second`})
       sheet.getRule('a').prop('color', 'green')
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: green-first-second;
         }
@@ -385,21 +384,21 @@ describe('Integration: plugins', () => {
     })
 
     it('should be executed just once', () => {
-      expect(executed).to.be(1)
+      expect(executed).toBe(1)
     })
 
     it('should receive correct arguments', () => {
-      expect(receivedStyle).to.eql({color: 'red'})
-      expect(receivedRule).to.be(sheet.getRule('a'))
-      expect(receivedSheet).to.be(sheet)
+      expect(receivedStyle).toEqual({color: 'red'})
+      expect(receivedRule).toBe(sheet.getRule('a'))
+      expect(receivedSheet).toBe(sheet)
     })
 
     it('should set the returned style', () => {
-      expect(sheet.getRule('a').style).to.be(newStyle)
+      expect(sheet.getRule('a').style).toBe(newStyle)
     })
 
     it('should compile to correct CSS string', () => {
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: green;
         }
@@ -423,10 +422,10 @@ describe('Integration: plugins', () => {
         }
       })
 
-      expect(receivedStyle).to.be(newStyle)
-      expect(receivedRule.type).to.be('style')
-      expect(receivedSheet).to.be(sheet)
-      expect(localExecuted).to.be(1)
+      expect(receivedStyle).toBe(newStyle)
+      expect(receivedRule.type).toBe('style')
+      expect(receivedSheet).toBe(sheet)
+      expect(localExecuted).toBe(1)
     })
 
     it('should pass the style object to the next hook', () => {
@@ -440,8 +439,8 @@ describe('Integration: plugins', () => {
       sheet = jss.createStyleSheet({
         a: {color: 'red'}
       })
-      expect(sheet.getRule('a').style).to.be(newStyle)
-      expect(passedStyle).to.be(newStyle)
+      expect(sheet.getRule('a').style).toBe(newStyle)
+      expect(passedStyle).toBe(newStyle)
     })
   })
 
@@ -470,22 +469,22 @@ describe('Integration: plugins', () => {
 
     it('should be executed just once', () => {
       sheet.update({})
-      expect(executed).to.be(1)
+      expect(executed).toBe(1)
     })
 
     it('should receive correct arguments', () => {
       const data = {color: 'green'}
       const rule = sheet.getRule('a')
       sheet.update(data)
-      expect(receivedData).to.be(data)
-      expect(receivedRule).to.be(rule)
-      expect(receivedSheet).to.be(sheet)
-      expect(rule.prop('color')).to.be('green')
+      expect(receivedData).toBe(data)
+      expect(receivedRule).toBe(rule)
+      expect(receivedSheet).toBe(sheet)
+      expect(rule.prop('color')).toBe('green')
     })
 
     it('should compile to correct CSS string', () => {
       sheet.update({color: 'green'})
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: green;
         }

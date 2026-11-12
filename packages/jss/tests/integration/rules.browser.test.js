@@ -1,8 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
 import {stripIndent} from 'common-tags'
-import expect from 'expect.js'
-import sinon from 'sinon'
+import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest'
 
 import {create} from '../../src'
 import {resetSheets, createGenerateId} from '../../../../tests/utils'
@@ -19,45 +18,45 @@ describe('Integration: rules', () => {
   describe('.createRule()', () => {
     it('should create a rule without args', () => {
       const rule = jss.createRule()
-      expect(rule.type).to.be('style')
-      expect(rule.selector).to.be('.unnamed-id')
+      expect(rule.type).toBe('style')
+      expect(rule.selector).toBe('.unnamed-id')
     })
 
     it('should accept styles only', () => {
       const style = {float: 'left'}
       const rule = jss.createRule(style)
-      expect(rule.style).to.eql(style)
-      expect(rule.type).to.be('style')
-      expect(rule.selector).to.be('.unnamed-id')
+      expect(rule.style).toEqual(style)
+      expect(rule.type).toBe('style')
+      expect(rule.selector).toBe('.unnamed-id')
     })
 
     it('should accept styles and options', () => {
       const style = {float: 'left'}
       const options = {something: true}
       const rule = jss.createRule(style, options)
-      expect(rule.style).to.eql(style)
-      expect(rule.type).to.be('style')
-      expect(rule.selector).to.be('.unnamed-id')
-      expect(rule.options.jss).to.be(jss)
-      expect(rule.options.something).to.be(true)
+      expect(rule.style).toEqual(style)
+      expect(rule.type).toBe('style')
+      expect(rule.selector).toBe('.unnamed-id')
+      expect(rule.options.jss).toBe(jss)
+      expect(rule.options.something).toBe(true)
     })
 
     it('should accept all params', () => {
       const style = {float: 'left'}
       const options = {someOption: true}
       const rule = jss.createRule('a', style, options)
-      expect(rule.style).to.eql(style)
-      expect(rule.type).to.be('style')
-      expect(rule.selector).to.be('.a-id')
-      expect(rule.options.someOption).to.be(true)
-      expect(rule.options.jss).to.be(jss)
+      expect(rule.style).toEqual(style)
+      expect(rule.type).toBe('style')
+      expect(rule.selector).toBe('.a-id')
+      expect(rule.options.someOption).toBe(true)
+      expect(rule.options.jss).toBe(jss)
     })
   })
 
   describe('rule.toString()', () => {
     it('should return CSS', () => {
       const rule = jss.createRule('a', {float: 'left', width: '1px'})
-      expect(rule.toString()).to.be(stripIndent`
+      expect(rule.toString()).toBe(stripIndent`
         .a-id {
           float: left;
           width: 1px;
@@ -70,7 +69,7 @@ describe('Integration: rules', () => {
         const rule = jss.createRule('a', {
           border: ['1px solid red', '1px solid blue']
         })
-        expect(rule.toString()).to.be(stripIndent`
+        expect(rule.toString()).toBe(stripIndent`
           .a-id {
             border: 1px solid red, 1px solid blue;
           }
@@ -81,7 +80,7 @@ describe('Integration: rules', () => {
         const rule = jss.createRule('a', {
           margin: [['5px', '10px']]
         })
-        expect(rule.toString()).to.be(stripIndent`
+        expect(rule.toString()).toBe(stripIndent`
           .a-id {
             margin: 5px 10px;
           }
@@ -95,7 +94,7 @@ describe('Integration: rules', () => {
           display: 'run-in',
           fallbacks: {display: 'inline'}
         })
-        expect(rule.toString()).to.be(stripIndent`
+        expect(rule.toString()).toBe(stripIndent`
           .a-id {
             display: inline;
             display: run-in;
@@ -108,7 +107,7 @@ describe('Integration: rules', () => {
           display: 'run-in',
           fallbacks: [{display: 'inline'}]
         })
-        expect(rule.toString()).to.be(stripIndent`
+        expect(rule.toString()).toBe(stripIndent`
           .a-id {
             display: inline;
             display: run-in;
@@ -122,7 +121,7 @@ describe('Integration: rules', () => {
             border: ['1px solid red', '1px solid blue']
           }
         })
-        expect(rule.toString()).to.be(stripIndent`
+        expect(rule.toString()).toBe(stripIndent`
           .a-id {
             border: 1px solid red, 1px solid blue;
           }
@@ -135,7 +134,7 @@ describe('Integration: rules', () => {
             }
           ]
         })
-        expect(rule.toString()).to.be(stripIndent`
+        expect(rule.toString()).toBe(stripIndent`
           .a-id {
             border: 1px solid red, 1px solid blue;
           }
@@ -145,30 +144,30 @@ describe('Integration: rules', () => {
 
     it('should return CSS from @charset rule', () => {
       const rule = jss.createRule('@charset', '"utf-8"')
-      expect(rule.type).to.be('simple')
-      expect(rule.key).to.be('@charset')
-      expect(rule.value).to.be('"utf-8"')
-      expect(rule.toString()).to.be('@charset "utf-8";')
+      expect(rule.type).toBe('simple')
+      expect(rule.key).toBe('@charset')
+      expect(rule.value).toBe('"utf-8"')
+      expect(rule.toString()).toBe('@charset "utf-8";')
     })
 
     describe('@import rule', () => {
       it('should return CSS from @import with single value', () => {
         let rule = jss.createRule('@import', '"something"')
-        expect(rule.type).to.be('simple')
-        expect(rule.key).to.be('@import')
-        expect(rule.value).to.be('"something"')
-        expect(rule.toString()).to.be('@import "something";')
+        expect(rule.type).toBe('simple')
+        expect(rule.key).toBe('@import')
+        expect(rule.value).toBe('"something"')
+        expect(rule.toString()).toBe('@import "something";')
         rule = jss.createRule('@import', 'url("something") print')
-        expect(rule.toString()).to.be('@import url("something") print;')
+        expect(rule.toString()).toBe('@import url("something") print;')
       })
 
       it('should return CSS from @import with array value', () => {
         const value = ['url("something") print', 'url("something") screen']
         const rule = jss.createRule('@import', value)
-        expect(rule.type).to.be('simple')
-        expect(rule.key).to.be('@import')
-        expect(rule.value).to.eql(value)
-        expect(rule.toString()).to.be(stripIndent`
+        expect(rule.type).toBe('simple')
+        expect(rule.key).toBe('@import')
+        expect(rule.value).toEqual(value)
+        expect(rule.toString()).toBe(stripIndent`
           @import url("something") print;
           @import url("something") screen;
         `)
@@ -177,10 +176,10 @@ describe('Integration: rules', () => {
 
     it('should return CSS from @namespace rule', () => {
       const rule = jss.createRule('@namespace', 'svg url(http://www.w3.org/2000/svg)')
-      expect(rule.type).to.be('simple')
-      expect(rule.key).to.be('@namespace')
-      expect(rule.value).to.be('svg url(http://www.w3.org/2000/svg)')
-      expect(rule.toString()).to.be('@namespace svg url(http://www.w3.org/2000/svg);')
+      expect(rule.type).toBe('simple')
+      expect(rule.key).toBe('@namespace')
+      expect(rule.value).toBe('svg url(http://www.w3.org/2000/svg)')
+      expect(rule.toString()).toBe('@namespace svg url(http://www.w3.org/2000/svg);')
     })
 
     it('should return CSS from @keyframes rule', () => {
@@ -189,9 +188,9 @@ describe('Integration: rules', () => {
         '30%': {top: 30},
         '60%, 70%': {top: 80}
       })
-      expect(rule.type).to.be('keyframes')
-      expect(rule.key).to.be('keyframes-a')
-      expect(rule.toString()).to.be(stripIndent`
+      expect(rule.type).toBe('keyframes')
+      expect(rule.key).toBe('keyframes-a')
+      expect(rule.toString()).toBe(stripIndent`
         @keyframes keyframes-a-id {
           from {
             top: 0;
@@ -209,9 +208,9 @@ describe('Integration: rules', () => {
     describe('@media rule', () => {
       it('should return CSS', () => {
         const rule = jss.createRule('@media print', {a: {display: 'none'}})
-        expect(rule.type).to.be('conditional')
-        expect(rule.key).to.be('@media print')
-        expect(rule.toString()).to.be(stripIndent`
+        expect(rule.type).toBe('conditional')
+        expect(rule.key).toBe('@media print')
+        expect(rule.toString()).toBe(stripIndent`
           @media print {
             .a-id {
               display: none;
@@ -224,9 +223,9 @@ describe('Integration: rules', () => {
         const rule = jss.createRule('@media print', {
           button: {display: 'none'}
         })
-        expect(rule.type).to.be('conditional')
-        expect(rule.key).to.be('@media print')
-        expect(rule.toString()).to.be(stripIndent`
+        expect(rule.type).toBe('conditional')
+        expect(rule.key).toBe('@media print')
+        expect(rule.toString()).toBe(stripIndent`
           @media print {
             .button-id {
               display: none;
@@ -239,9 +238,9 @@ describe('Integration: rules', () => {
         const rule = jss.createRule('@media(max-width: 715px)', {
           a: {color: 'red'}
         })
-        expect(rule.type).to.be('conditional')
-        expect(rule.key).to.be('@media(max-width: 715px)')
-        expect(rule.toString()).to.be(stripIndent`
+        expect(rule.type).toBe('conditional')
+        expect(rule.key).toBe('@media(max-width: 715px)')
+        expect(rule.toString()).toBe(stripIndent`
           @media(max-width: 715px) {
             .a-id {
               color: red;
@@ -252,9 +251,9 @@ describe('Integration: rules', () => {
 
       it('should return CSS without empty rule', () => {
         const rule = jss.createRule('@media print', {button: {}})
-        expect(rule.type).to.be('conditional')
-        expect(rule.key).to.be('@media print')
-        expect(rule.toString()).to.be('')
+        expect(rule.type).toBe('conditional')
+        expect(rule.key).toBe('@media print')
+        expect(rule.toString()).toBe('')
       })
     })
 
@@ -264,9 +263,9 @@ describe('Integration: rules', () => {
           'font-family': 'MyHelvetica',
           src: 'local("Helvetica")'
         })
-        expect(rule.type).to.be('font-face')
-        expect(rule.key).to.be('@font-face')
-        expect(rule.toString()).to.be(stripIndent`
+        expect(rule.type).toBe('font-face')
+        expect(rule.key).toBe('@font-face')
+        expect(rule.toString()).toBe(stripIndent`
           @font-face {
             font-family: MyHelvetica;
             src: local("Helvetica");
@@ -285,9 +284,9 @@ describe('Integration: rules', () => {
             src: 'local("ComicSans")'
           }
         ])
-        expect(rule.type).to.be('font-face')
-        expect(rule.key).to.be('@font-face')
-        expect(rule.toString()).to.be(stripIndent`
+        expect(rule.type).toBe('font-face')
+        expect(rule.key).toBe('@font-face')
+        expect(rule.toString()).toBe(stripIndent`
           @font-face {
             font-family: MyHelvetica;
             src: local("Helvetica");
@@ -309,7 +308,7 @@ describe('Integration: rules', () => {
           'font-family': 'MyComicSans',
           src: 'local("ComicSans")'
         })
-        expect(sheet.toString()).to.be(stripIndent`
+        expect(sheet.toString()).toBe(stripIndent`
           @font-face {
             font-family: MyHelvetica;
             src: local("Helvetica");
@@ -325,8 +324,8 @@ describe('Integration: rules', () => {
     describe('unknown at-rule', () => {
       let spy
 
-      before(() => {
-        spy = sinon.spy(console, 'warn')
+      beforeEach(() => {
+        spy = vi.spyOn(console, 'warn')
       })
 
       it('should warn', () => {
@@ -334,13 +333,13 @@ describe('Integration: rules', () => {
           color: 'red'
         })
 
-        expect(spy.callCount).to.be(1)
-        expect(spy.args[0].length).to.be(1)
-        expect(spy.args[0][0]).to.be('Warning: [JSS] Unknown rule @unknown')
+        expect(spy).toHaveBeenCalledTimes(1)
+        expect(spy.mock.calls[0].length).toBe(1)
+        expect(spy.mock.calls[0][0]).toBe('Warning: [JSS] Unknown rule @unknown')
       })
 
       afterEach(() => {
-        console.warn.restore()
+        vi.restoreAllMocks()
       })
     })
 
@@ -350,9 +349,9 @@ describe('Integration: rules', () => {
           display: 'none'
         }
       })
-      expect(rule.type).to.be('conditional')
-      expect(rule.key).to.be('@container ( min-width: 500px )')
-      expect(rule.toString()).to.be(stripIndent`
+      expect(rule.type).toBe('conditional')
+      expect(rule.key).toBe('@container ( min-width: 500px )')
+      expect(rule.toString()).toBe(stripIndent`
         @container ( min-width: 500px ) {
           .button-id {
             display: none;
@@ -367,9 +366,9 @@ describe('Integration: rules', () => {
           display: 'none'
         }
       })
-      expect(rule.type).to.be('conditional')
-      expect(rule.key).to.be('@supports ( display: flexbox )')
-      expect(rule.toString()).to.be(stripIndent`
+      expect(rule.type).toBe('conditional')
+      expect(rule.key).toBe('@supports ( display: flexbox )')
+      expect(rule.toString()).toBe(stripIndent`
         @supports ( display: flexbox ) {
           .button-id {
             display: none;
@@ -383,9 +382,9 @@ describe('Integration: rules', () => {
         const rule = jss.createRule('@viewport', {
           zoom: 1
         })
-        expect(rule.type).to.be('viewport')
-        expect(rule.key).to.be('@viewport')
-        expect(rule.toString()).to.be(stripIndent`
+        expect(rule.type).toBe('viewport')
+        expect(rule.key).toBe('@viewport')
+        expect(rule.toString()).toBe(stripIndent`
           @viewport {
             zoom: 1;
           }
@@ -396,9 +395,9 @@ describe('Integration: rules', () => {
         const rule = jss.createRule('@-ms-viewport', {
           zoom: 1
         })
-        expect(rule.type).to.be('viewport')
-        expect(rule.key).to.be('@-ms-viewport')
-        expect(rule.toString()).to.be(stripIndent`
+        expect(rule.type).toBe('viewport')
+        expect(rule.key).toBe('@-ms-viewport')
+        expect(rule.toString()).toBe(stripIndent`
           @-ms-viewport {
             zoom: 1;
           }
@@ -408,7 +407,7 @@ describe('Integration: rules', () => {
 
     it('should remove whitespaces', () => {
       const rule = jss.createRule('a', {float: 'left', width: '1px'})
-      expect(rule.toString({format: false})).to.be('.a-id{float:left;width:1px;}')
+      expect(rule.toString({format: false})).toBe('.a-id{float:left;width:1px;}')
     })
   })
 
@@ -416,13 +415,13 @@ describe('Integration: rules', () => {
     it('should return style', () => {
       const style = {color: 'red'}
       const rule = jss.createRule(style)
-      expect(rule.toJSON()).to.eql(style)
+      expect(rule.toJSON()).toEqual(style)
     })
 
     it('should skip nested rules', () => {
       const style = {color: 'red', '&:hover': {color: 'blue'}}
       const rule = jss.createRule(style)
-      expect(rule.toJSON()).to.eql({color: 'red'})
+      expect(rule.toJSON()).toEqual({color: 'red'})
     })
 
     it('should skip fallbacks', () => {
@@ -430,21 +429,21 @@ describe('Integration: rules', () => {
         display: 'run-in',
         fallbacks: {display: 'inline'}
       })
-      expect(rule.toJSON()).to.eql({display: 'run-in'})
+      expect(rule.toJSON()).toEqual({display: 'run-in'})
     })
 
     it('should have proper comma separated values', () => {
       const rule = jss.createRule({
         border: ['1px solid red', '1px solid blue']
       })
-      expect(rule.toJSON()).to.eql({border: '1px solid red, 1px solid blue'})
+      expect(rule.toJSON()).toEqual({border: '1px solid red, 1px solid blue'})
     })
 
     it('should have proper space separated values', () => {
       const rule = jss.createRule({
         margin: [['5px', '10px']]
       })
-      expect(rule.toJSON()).to.eql({margin: '5px 10px'})
+      expect(rule.toJSON()).toEqual({margin: '5px 10px'})
     })
   })
 
@@ -452,13 +451,13 @@ describe('Integration: rules', () => {
     describe('get and set prop', () => {
       it('should get a prop', () => {
         const rule = jss.createRule({color: 'red'})
-        expect(rule.prop('color')).to.be('red')
+        expect(rule.prop('color')).toBe('red')
       })
 
       it('should set a prop', () => {
         const rule = jss.createRule({color: 'red'})
         rule.prop('color', 'green')
-        expect(rule.prop('color')).to.be('green')
+        expect(rule.prop('color')).toBe('green')
       })
     })
 
@@ -466,19 +465,19 @@ describe('Integration: rules', () => {
       it("should ignore null when prop wasn't defined before", () => {
         const rule = jss.createRule()
         rule.prop('abc', null)
-        expect('abc' in rule.style).to.be(false)
+        expect('abc' in rule.style).toBe(false)
       })
 
       it("should ignore undefined when prop wasn't defined before", () => {
         const rule = jss.createRule()
         rule.prop('abc', undefined)
-        expect('abc' in rule.style).to.be(false)
+        expect('abc' in rule.style).toBe(false)
       })
 
       it('should remove prop when null was passed and prop was defined before', () => {
         const rule = jss.createRule({color: 'red'})
         rule.prop('color', null)
-        expect('color' in rule.style).to.be(false)
+        expect('color' in rule.style).toBe(false)
       })
     })
 
@@ -487,28 +486,28 @@ describe('Integration: rules', () => {
         jss.use({onChangeValue: () => null})
         const rule = jss.createRule()
         rule.prop('abc', 'red')
-        expect('abc' in rule.style).to.be(false)
+        expect('abc' in rule.style).toBe(false)
       })
 
       it("should not use undefined when prop wasn't defined before", () => {
         jss.use({onChangeValue: () => undefined})
         const rule = jss.createRule()
         rule.prop('abc', 'red')
-        expect('abc' in rule.style).to.be(false)
+        expect('abc' in rule.style).toBe(false)
       })
 
       it('should use null to remove the prop when it was defined before', () => {
         jss.use({onChangeValue: () => null})
         const rule = jss.createRule({color: 'red'})
         rule.prop('color', 'anything')
-        expect('color' in rule.style).to.be(false)
+        expect('color' in rule.style).toBe(false)
       })
 
       it('should use undefined to remove the prop when it was defined before', () => {
         jss.use({onChangeValue: () => undefined})
         const rule = jss.createRule({color: 'red'})
         rule.prop('color', 'anything')
-        expect('color' in rule.style).to.be(false)
+        expect('color' in rule.style).toBe(false)
       })
     })
   })

@@ -1,5 +1,5 @@
 import {stripIndent} from 'common-tags'
-import expect from 'expect.js'
+import {beforeEach, describe, expect, it} from 'vitest'
 import {create, SheetsRegistry} from '../../src'
 import {resetSheets, createGenerateId} from '../../../../tests/utils'
 
@@ -17,20 +17,20 @@ describe('Integration: sheetsRegistry', () => {
   describe('.add()', () => {
     it('should add first sheet', () => {
       sheets.add(jss.createStyleSheet())
-      expect(sheets.registry.length).to.be(1)
+      expect(sheets.registry.length).toBe(1)
     })
 
     it('should add 2 sheets', () => {
       sheets.add(jss.createStyleSheet())
       sheets.add(jss.createStyleSheet())
-      expect(sheets.registry.length).to.be(2)
+      expect(sheets.registry.length).toBe(2)
     })
 
     it('should not add duplicates', () => {
       const sheet = jss.createStyleSheet()
       sheets.add(sheet)
       sheets.add(sheet)
-      expect(sheets.registry.length).to.be(1)
+      expect(sheets.registry.length).toBe(1)
     })
 
     it('should add 2 sheets with specific index', () => {
@@ -38,8 +38,8 @@ describe('Integration: sheetsRegistry', () => {
       const sheet1 = jss.createStyleSheet(null, {index: 0})
       sheets.add(sheet0)
       sheets.add(sheet1)
-      expect(sheets.registry[0]).to.be(sheet1)
-      expect(sheets.registry[1]).to.be(sheet0)
+      expect(sheets.registry[0]).toBe(sheet1)
+      expect(sheets.registry[1]).toBe(sheet0)
     })
 
     it('should add a sheet with index between 2 others', () => {
@@ -49,9 +49,9 @@ describe('Integration: sheetsRegistry', () => {
       sheets.add(sheet0)
       sheets.add(sheet1)
       sheets.add(sheet2)
-      expect(sheets.registry[0]).to.be(sheet0)
-      expect(sheets.registry[1]).to.be(sheet2)
-      expect(sheets.registry[2]).to.be(sheet1)
+      expect(sheets.registry[0]).toBe(sheet0)
+      expect(sheets.registry[1]).toBe(sheet2)
+      expect(sheets.registry[2]).toBe(sheet1)
     })
   })
 
@@ -59,9 +59,9 @@ describe('Integration: sheetsRegistry', () => {
     it('should remove single sheet', () => {
       const sheet = jss.createStyleSheet()
       sheets.add(sheet)
-      expect(sheets.registry.length).to.be(1)
+      expect(sheets.registry.length).toBe(1)
       sheets.remove(sheet)
-      expect(sheets.registry.length).to.be(0)
+      expect(sheets.registry.length).toBe(0)
     })
 
     it('should remove first 2 sheets from 3', () => {
@@ -71,11 +71,11 @@ describe('Integration: sheetsRegistry', () => {
       sheets.add(sheet0)
       sheets.add(sheet1)
       sheets.add(sheet2)
-      expect(sheets.registry.length).to.be(3)
+      expect(sheets.registry.length).toBe(3)
       sheets.remove(sheet0)
       sheets.remove(sheet1)
-      expect(sheets.registry.length).to.be(1)
-      expect(sheets.registry[0]).to.be(sheet2)
+      expect(sheets.registry.length).toBe(1)
+      expect(sheets.registry[0]).toBe(sheet2)
     })
   })
 
@@ -85,7 +85,7 @@ describe('Integration: sheetsRegistry', () => {
       const sheet2 = jss.createStyleSheet({a: {color: 'blue'}}).attach()
       sheets.add(sheet1)
       sheets.add(sheet2)
-      expect(sheets.toString()).to.be(stripIndent`
+      expect(sheets.toString()).toBe(stripIndent`
         .a-id {
           color: red;
         }
@@ -100,7 +100,7 @@ describe('Integration: sheetsRegistry', () => {
       const sheet2 = jss.createStyleSheet({a: {color: 'blue'}}).attach()
       sheets.add(sheet1)
       sheets.add(sheet2)
-      expect(sheets.toString({format: false})).to.be('.a-id{color:red;}.a-id{color:blue;}')
+      expect(sheets.toString({format: false})).toBe('.a-id{color:red;}.a-id{color:blue;}')
     })
 
     it('should stringify detached sheets', () => {
@@ -108,7 +108,7 @@ describe('Integration: sheetsRegistry', () => {
       const sheet2 = jss.createStyleSheet({a: {color: 'blue'}}).attach()
       sheets.add(sheet1)
       sheets.add(sheet2)
-      expect(sheets.toString({attached: false})).to.be(stripIndent`
+      expect(sheets.toString({attached: false})).toBe(stripIndent`
         .a-id {
           color: red;
         }
@@ -120,7 +120,7 @@ describe('Integration: sheetsRegistry', () => {
       const sheet2 = jss.createStyleSheet({a: {color: 'blue'}})
       sheets.add(sheet1)
       sheets.add(sheet2)
-      expect(sheets.toString({attached: true})).to.be(stripIndent`
+      expect(sheets.toString({attached: true})).toBe(stripIndent`
         .a-id {
           color: red;
         }

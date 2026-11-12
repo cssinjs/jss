@@ -1,4 +1,4 @@
-import expect from 'expect.js'
+import {beforeEach, describe, expect, it} from 'vitest'
 import {create, hasCSSTOMSupport} from '../../src'
 import {resetSheets, createGenerateId, computeStyle} from '../../../../tests/utils'
 
@@ -30,12 +30,12 @@ describe('Functional: houdini', () => {
     })
 
     it('should render correctly', () => {
-      expect(computeStyle(sheet.classes.a).margin).to.be('42px')
+      expect(computeStyle(sheet.classes.a).margin).toBe('42px')
     })
 
     it('should delete property', () => {
       sheet.getRule('a').prop('margin', null)
-      expect(computeStyle(sheet.classes.a).margin).to.be('0px')
+      expect(computeStyle(sheet.classes.a).margin).toBe('0px')
     })
   })
 })

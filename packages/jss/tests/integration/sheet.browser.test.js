@@ -1,8 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
-import expect from 'expect.js'
+import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest'
 import {stripIndent} from 'common-tags'
-import sinon from 'sinon'
 import {create} from '../../src'
 import {StyleRule} from '../../src/plugins/styleRule'
 import {resetSheets, createGenerateId} from '../../../../tests/utils'
@@ -19,22 +18,22 @@ describe('Integration: sheet', () => {
   describe('.createStyleSheet()', () => {
     it('should create a sheet without args', () => {
       const sheet = jss.createStyleSheet()
-      expect(sheet.deployed).to.be(false)
-      expect(sheet.attached).to.be(false)
-      expect(sheet.classes).to.eql({})
-      expect(sheet.keyframes).to.eql({})
-      expect(sheet.options).to.be.an(Object)
-      expect(sheet.options.index).to.be(0)
-      expect(sheet.options.sheet).to.be(sheet)
-      expect(sheet.options.parent).to.be(sheet)
+      expect(sheet.deployed).toBe(false)
+      expect(sheet.attached).toBe(false)
+      expect(sheet.classes).toEqual({})
+      expect(sheet.keyframes).toEqual({})
+      expect(sheet.options).toBeInstanceOf(Object)
+      expect(sheet.options.index).toBe(0)
+      expect(sheet.options.sheet).toBe(sheet)
+      expect(sheet.options.parent).toBe(sheet)
     })
 
     it('should create a sheet with one rule', () => {
       const sheet = jss.createStyleSheet({a: {float: 'left'}})
       const rule = sheet.getRule('a')
-      expect(rule).to.be.a(StyleRule)
-      expect(sheet.classes.a).to.be('a-id')
-      expect(rule.selector).to.be('.a-id')
+      expect(rule).toBeInstanceOf(StyleRule)
+      expect(sheet.classes.a).toBe('a-id')
+      expect(rule.selector).toBe('.a-id')
     })
 
     it('should register a conditional child rule in classes', () => {
@@ -43,26 +42,26 @@ describe('Integration: sheet', () => {
           a: {float: 'left'}
         }
       })
-      expect(sheet.classes.a).to.be('a-id')
+      expect(sheet.classes.a).toBe('a-id')
     })
 
     it('should create rule classNames using the rule name', () => {
       const styles = {bar: {color: 'red'}}
       const sheet = jss.createStyleSheet(styles)
-      expect(sheet.classes.bar).to.be('bar-id')
+      expect(sheet.classes.bar).toBe('bar-id')
     })
 
     it('should ref original style object in RuleList#raw', () => {
       const styles = {a: {color: 'red'}}
       const sheet = jss.createStyleSheet(styles)
       // jss-plugin-cache relies on `a` being a ref to the original object.
-      expect(sheet.getRule('a').options.parent.rules.raw.a).to.be(styles.a)
+      expect(sheet.getRule('a').options.parent.rules.raw.a).toBe(styles.a)
     })
 
     it('should allow generateId override', () => {
       const generateId = () => {}
       const sheet = jss.createStyleSheet(null, {generateId})
-      expect(sheet.options.generateId).to.be(generateId)
+      expect(sheet.options.generateId).toBe(generateId)
     })
 
     it('should have no selector in stringified rule when id gnerator is called', () => {
@@ -73,7 +72,7 @@ describe('Integration: sheet', () => {
         return css
       }
       jss.createStyleSheet({a: {color: 'red', width: '10px'}}, {generateId})
-      expect(css).to.be(stripIndent`
+      expect(css).toBe(stripIndent`
         color: red;
         width: 10px;
       `)
@@ -86,9 +85,9 @@ describe('Integration: sheet', () => {
         a: {color: 'red'},
         b: {color: 'blue'}
       })
-      expect(sheet.indexOf(sheet.getRule('a'))).to.be(0)
-      expect(sheet.indexOf(sheet.getRule('b'))).to.be(1)
-      expect(sheet.indexOf(sheet.getRule('c'))).to.be(-1)
+      expect(sheet.indexOf(sheet.getRule('a'))).toBe(0)
+      expect(sheet.indexOf(sheet.getRule('b'))).toBe(1)
+      expect(sheet.indexOf(sheet.getRule('c'))).toBe(-1)
     })
   })
 
@@ -96,8 +95,8 @@ describe('Integration: sheet', () => {
     it('should add a rule with "selector" option', () => {
       const sheet = jss.createStyleSheet()
       const rule = sheet.addRule('a', {color: 'red'}, {selector: '.test'})
-      expect(rule.selector).to.be('.test')
-      expect(sheet.getRule('a')).to.be(rule)
+      expect(rule.selector).toBe('.test')
+      expect(sheet.getRule('a')).toBe(rule)
     })
 
     it('should add a rule with "index" in options', () => {
@@ -106,10 +105,10 @@ describe('Integration: sheet', () => {
         c: {color: 'blue'}
       })
       sheet.addRule('b', {color: 'green'}, {index: 1})
-      expect(sheet.indexOf(sheet.getRule('a'))).to.be(0)
-      expect(sheet.indexOf(sheet.getRule('b'))).to.be(1)
-      expect(sheet.indexOf(sheet.getRule('c'))).to.be(2)
-      expect(sheet.toString()).to.equal(stripIndent`
+      expect(sheet.indexOf(sheet.getRule('a'))).toBe(0)
+      expect(sheet.indexOf(sheet.getRule('b'))).toBe(1)
+      expect(sheet.indexOf(sheet.getRule('c'))).toBe(2)
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
         }
@@ -126,11 +125,11 @@ describe('Integration: sheet', () => {
       const sheet = jss.createStyleSheet()
       sheet.addRule('a', {color: 'red'})
       sheet.addRule('a', {color: 'green'})
-      expect(sheet.classes).to.eql({
+      expect(sheet.classes).toEqual({
         a: 'a-id',
         'a-d0': 'a-d0-id'
       })
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
         }
@@ -146,8 +145,8 @@ describe('Integration: sheet', () => {
       const sheet = jss.createStyleSheet()
       sheet.addRule('a', {color: 'red'})
       const rule = sheet.replaceRule('a', {color: 'green'}, {selector: '.test'})
-      expect(rule.selector).to.be('.test')
-      expect(sheet.getRule('a')).to.be(rule)
+      expect(rule.selector).toBe('.test')
+      expect(sheet.getRule('a')).toBe(rule)
     })
 
     it('should replace a rule in same index', () => {
@@ -157,10 +156,10 @@ describe('Integration: sheet', () => {
         c: {color: 'blue'}
       })
       sheet.replaceRule('b', {color: 'yellow'})
-      expect(sheet.indexOf(sheet.getRule('a'))).to.be(0)
-      expect(sheet.indexOf(sheet.getRule('b'))).to.be(1)
-      expect(sheet.indexOf(sheet.getRule('c'))).to.be(2)
-      expect(sheet.toString()).to.equal(stripIndent`
+      expect(sheet.indexOf(sheet.getRule('a'))).toBe(0)
+      expect(sheet.indexOf(sheet.getRule('b'))).toBe(1)
+      expect(sheet.indexOf(sheet.getRule('c'))).toBe(2)
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
         }
@@ -178,11 +177,11 @@ describe('Integration: sheet', () => {
         a: {color: 'red'}
       })
       sheet.replaceRule('b', {color: 'blue'})
-      expect(sheet.classes).to.eql({
+      expect(sheet.classes).toEqual({
         a: 'a-id',
         b: 'b-id'
       })
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
         }
@@ -190,15 +189,15 @@ describe('Integration: sheet', () => {
           color: blue;
         }
       `)
-      expect(sheet.getRule('b')).not.to.be(undefined)
+      expect(sheet.getRule('b')).not.toBe(undefined)
     })
   })
 
   describe('sheet.deleteRule()', () => {
     it('should delete a rule', () => {
       const sheet = jss.createStyleSheet({a: {color: 'red'}})
-      expect(sheet.deleteRule('a')).to.be(true)
-      expect(sheet.toString()).to.equal('')
+      expect(sheet.deleteRule('a')).toBe(true)
+      expect(sheet.toString()).toBe('')
     })
   })
 
@@ -228,7 +227,7 @@ describe('Integration: sheet', () => {
         }
       })
 
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         @charset "utf-8";
         @import bla;
         @namespace bla;
@@ -261,7 +260,7 @@ describe('Integration: sheet', () => {
       const sheet = jss.createStyleSheet({
         '@media (min-width: 1024px)': {a: {color: 'blue'}}
       })
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         @media (min-width: 1024px) {
           .a-id {
             color: blue;
@@ -276,7 +275,7 @@ describe('Integration: sheet', () => {
         '@media (min-width: 1024px)': {a: {color: 'blue'}},
         '@media (min-width: 1000px)': {a: {color: 'green'}}
       })
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
         }
@@ -295,7 +294,7 @@ describe('Integration: sheet', () => {
 
     it('should not throw when rule is undefined', () => {
       const sheet = jss.createStyleSheet({a: undefined})
-      expect(sheet.toString()).to.be('')
+      expect(sheet.toString()).toBe('')
     })
 
     describe('class names of conditional rules', () => {
@@ -317,7 +316,7 @@ describe('Integration: sheet', () => {
           },
           options
         )
-        expect(sheet.toString()).to.be(stripIndent`
+        expect(sheet.toString()).toBe(stripIndent`
           @media print {
             .${id} {
               float: left;
@@ -341,7 +340,7 @@ describe('Integration: sheet', () => {
           },
           options
         )
-        expect(sheet.toString()).to.be(stripIndent`
+        expect(sheet.toString()).toBe(stripIndent`
           @media print {
             .${id} {
               float: left;
@@ -364,7 +363,7 @@ describe('Integration: sheet', () => {
           c: {color: 'green'},
           d: {}
         })
-        expect(sheet.toString()).to.be(stripIndent`
+        expect(sheet.toString()).toBe(stripIndent`
           .a-id {
             color: red;
           }
@@ -381,7 +380,7 @@ describe('Integration: sheet', () => {
           c: {color: 'green'},
           '@font-face': {}
         })
-        expect(sheet.toString()).to.be(stripIndent`
+        expect(sheet.toString()).toBe(stripIndent`
           .a-id {
             color: red;
           }
@@ -396,7 +395,7 @@ describe('Integration: sheet', () => {
           a: {color: 'red'},
           '@media print': {}
         })
-        expect(sheet.toString()).to.be(stripIndent`
+        expect(sheet.toString()).toBe(stripIndent`
           .a-id {
             color: red;
           }
@@ -413,7 +412,7 @@ describe('Integration: sheet', () => {
           color: null
         }
       })
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           margin: 0;
         }
@@ -426,7 +425,7 @@ describe('Integration: sheet', () => {
           color: null
         }
       })
-      expect(sheet.toString()).to.be('')
+      expect(sheet.toString()).toBe('')
     })
   })
 
@@ -442,7 +441,7 @@ describe('Integration: sheet', () => {
     })
 
     it('should escape class name', () => {
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a\\(\\)-id {
           color: red;
         }
@@ -450,7 +449,7 @@ describe('Integration: sheet', () => {
     })
 
     it('should not escape class ref', () => {
-      expect(sheet.classes['a()']).to.be('a()-id')
+      expect(sheet.classes['a()']).toBe('a()-id')
     })
   })
 
@@ -458,11 +457,11 @@ describe('Integration: sheet', () => {
     let spy
 
     beforeEach(() => {
-      spy = sinon.spy(console, 'warn')
+      spy = vi.spyOn(console, 'warn')
     })
 
     afterEach(() => {
-      console.warn.restore()
+      vi.restoreAllMocks()
     })
 
     it('should warn when keyframes name is invalid', () => {
@@ -472,8 +471,8 @@ describe('Integration: sheet', () => {
         }
       })
 
-      expect(spy.callCount).to.be(1)
-      expect(spy.calledWithExactly('Warning: [JSS] Bad keyframes name @keyframes %&')).to.be(true)
+      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledWith('Warning: [JSS] Bad keyframes name @keyframes %&')
     })
 
     it('should register keyframes', () => {
@@ -483,7 +482,7 @@ describe('Integration: sheet', () => {
         }
       })
 
-      expect(sheet.keyframes).to.eql({a: 'keyframes-a-id'})
+      expect(sheet.keyframes).toEqual({a: 'keyframes-a-id'})
     })
 
     it('should replace a ref', () => {
@@ -497,7 +496,7 @@ describe('Integration: sheet', () => {
         }
       })
 
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         @keyframes keyframes-a-id {
           to {
             height: 100%;
@@ -520,10 +519,10 @@ describe('Integration: sheet', () => {
         }
       })
 
-      expect(spy.callCount).to.be(1)
-      expect(
-        spy.calledWithExactly('Warning: [JSS] Referenced keyframes rule "x" is not defined.')
-      ).to.be(true)
+      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledWith(
+        'Warning: [JSS] Referenced keyframes rule "x" is not defined.'
+      )
     })
 
     it('should warn when referenced in animation keyframes not found', () => {
@@ -536,10 +535,10 @@ describe('Integration: sheet', () => {
         }
       })
 
-      expect(spy.callCount).to.be(1)
-      expect(
-        spy.calledWithExactly('Warning: [JSS] Referenced keyframes rule "x" is not defined.')
-      ).to.be(true)
+      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledWith(
+        'Warning: [JSS] Referenced keyframes rule "x" is not defined.'
+      )
     })
 
     it('should leave global animation name untouched', () => {
@@ -552,9 +551,9 @@ describe('Integration: sheet', () => {
         }
       })
 
-      expect(spy.callCount).to.be(0)
+      expect(spy).toHaveBeenCalledTimes(0)
 
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         @keyframes keyframes-a-id {
           to {
             height: 100%;
@@ -579,9 +578,9 @@ describe('Integration: sheet', () => {
         }
       })
 
-      expect(spy.callCount).to.be(0)
+      expect(spy).toHaveBeenCalledTimes(0)
 
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         @keyframes keyframes-a-id {
           to {
             height: 100%;
@@ -616,7 +615,7 @@ describe('Integration: sheet', () => {
         {classNamePrefix: 'connect(A)'}
       )
 
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         @keyframes connect\\(A\\)-keyframes-a-id {
           to {
             height: 100%;
@@ -638,13 +637,13 @@ describe('Integration: sheet', () => {
         }
       })
       sheet.deleteRule('keyframes-a')
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .b-id {
           animation-name: x;
         }
       `)
-      expect(sheet.getRule('@keyframes keyframes-a')).to.be(undefined)
-      expect(sheet.keyframes).to.eql({})
+      expect(sheet.getRule('@keyframes keyframes-a')).toBe(undefined)
+      expect(sheet.keyframes).toEqual({})
     })
   })
 })
