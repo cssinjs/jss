@@ -1,4 +1,4 @@
-import expect from 'expect.js'
+import {beforeEach, describe, expect, it} from 'vitest'
 import {stripIndent} from 'common-tags'
 import Observable from 'zen-observable'
 
@@ -34,13 +34,13 @@ describe('jss-plugin-rule-value-observable: rules', () => {
     })
 
     it('should subscribe the observer', () => {
-      expect(observer).to.be.an(Object)
+      expect(observer).toBeInstanceOf(Object)
     })
 
     it('should update the value', () => {
       observer.next({opacity: '0', height: '5px'})
 
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .div-id {
           opacity: 0;
           height: 5px;
@@ -52,7 +52,7 @@ describe('jss-plugin-rule-value-observable: rules', () => {
       observer.next({opacity: '0', height: '5px'})
       observer.next({opacity: '1', height: '10px'})
 
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .div-id {
           opacity: 1;
           height: 10px;
@@ -81,7 +81,7 @@ describe('jss-plugin-rule-value-observable: rules', () => {
       divObs.next({display: 'block'})
       buttonObs.next({height: '3px'})
 
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .div-id {
           display: block;
         }
@@ -115,7 +115,7 @@ describe('jss-plugin-rule-value-observable: rules', () => {
       divObs.next({display: 'block'})
       buttonObs.next({height: '3px'})
 
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .div-id {
           display: block;
         }
@@ -140,7 +140,7 @@ describe('jss-plugin-rule-value-observable: rules', () => {
         )
         .attach()
 
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .div-id {
           display: block;
         }
@@ -162,7 +162,7 @@ describe('jss-plugin-rule-value-observable: rules', () => {
 
       observer.next({display: 'inline-block'})
 
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           display: inline-block;
         }
@@ -185,7 +185,7 @@ describe('jss-plugin-rule-value-observable: rules', () => {
       )
       observer.next({marginLeft: 20})
 
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           marginLeft: 20;
         }
@@ -205,7 +205,7 @@ describe('jss-plugin-rule-value-observable: rules', () => {
 
       observer.next({marginLeft: 20})
 
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           margin-left: 20px;
         }
@@ -230,7 +230,7 @@ describe('jss-plugin-rule-value-observable: rules', () => {
 
     it('should handle observable rules', () => {
       const rule = sheet.getRule('div')
-      expect(rule.toJSON()).to.eql({color: 'red'})
+      expect(rule.toJSON()).toEqual({color: 'red'})
     })
   })
 })

@@ -1,4 +1,4 @@
-import expect from 'expect.js'
+import {beforeEach, describe, expect, it} from 'vitest'
 import {create} from 'jss'
 
 import propsSort from './index'
@@ -27,11 +27,11 @@ describe('jss-plugin-props-sort', () => {
     })
 
     it('should have a rule', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  border: 3px;\n  border-left: 1px;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  border: 3px;\n  border-left: 1px;\n}')
     })
   })
 
@@ -49,7 +49,7 @@ describe('jss-plugin-props-sort', () => {
       })
 
       it('should generate correct CSS', () => {
-        expect(sheet.toString()).to.be(
+        expect(sheet.toString()).toBe(
           '@font-face {\n  font-family: MyHelvetica;\n  src: local("Helvetica");\n}'
         )
       })
@@ -70,7 +70,7 @@ describe('jss-plugin-props-sort', () => {
       })
 
       it('should generate correct CSS', () => {
-        expect(sheet.toString()).to.be(
+        expect(sheet.toString()).toBe(
           '@media print {\n  .a-id {\n    border: 3px;\n    border-left: 1px;\n  }\n}'
         )
       })

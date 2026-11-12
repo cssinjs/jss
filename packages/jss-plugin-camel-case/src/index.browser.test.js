@@ -1,4 +1,4 @@
-import expect from 'expect.js'
+import {beforeEach, describe, expect, it} from 'vitest'
 import {stripIndent} from 'common-tags'
 import {create} from 'jss'
 import functionPlugin from 'jss-plugin-rule-value-function'
@@ -30,7 +30,7 @@ describe('jss-plugin-camel-case', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '.a-id {\n  font-size: 20px;\n  z-index: 1;\n  line-height: 1.2;\n}'
       )
     })
@@ -55,7 +55,7 @@ describe('jss-plugin-camel-case', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '@font-face {\n' +
           '  font-family: Lato-Light;\n' +
           '  src: url("/fonts/Lato-Light.ttf") format("truetype");\n' +
@@ -83,7 +83,7 @@ describe('jss-plugin-camel-case', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '@font-face {\n' +
           '  font-family: MyWebFontFallback;\n' +
           '  font-family: MyWebFont;\n' +
@@ -105,7 +105,7 @@ describe('jss-plugin-camel-case', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '@font-face {\n' +
           '  font-family: MyWebFontFallback;\n' +
           '  font-family: MyWebFont;\n' +
@@ -131,7 +131,7 @@ describe('jss-plugin-camel-case', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '@font-face {\n' +
           '  font-family: MyWebFontFallback;\n' +
           '  font-family: MyWebFont;\n' +
@@ -154,7 +154,7 @@ describe('jss-plugin-camel-case', () => {
 
     it('should generate correct CSS', () => {
       sheet.update()
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           font-size: 12;
         }
@@ -174,7 +174,7 @@ describe('jss-plugin-camel-case', () => {
           '--fontSize': 12
         }
       })
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           --fontSize: 12;
         }
@@ -190,7 +190,7 @@ describe('jss-plugin-camel-case', () => {
 
       sheet.update(12)
 
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           --fontSize: 12;
         }
@@ -198,7 +198,7 @@ describe('jss-plugin-camel-case', () => {
 
       sheet.update(16)
 
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           --fontSize: 16;
         }

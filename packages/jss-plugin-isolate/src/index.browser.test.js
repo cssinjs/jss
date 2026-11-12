@@ -1,4 +1,4 @@
-import expect from 'expect.js'
+import {afterEach, beforeEach, describe, expect, it} from 'vitest'
 import {create, sheets} from 'jss'
 
 import nested from 'jss-plugin-nested'
@@ -22,7 +22,7 @@ describe('jss-plugin-isolate', () => {
     })
 
     it('should have no reset sheets in registry', () => {
-      expect(sheets.registry.length).to.be(1)
+      expect(sheets.registry.length).toBe(1)
     })
   })
 
@@ -44,7 +44,7 @@ describe('jss-plugin-isolate', () => {
     })
 
     it('should have no reset sheets in registry', () => {
-      expect(sheets.registry.length).to.be(1)
+      expect(sheets.registry.length).toBe(1)
     })
   })
 
@@ -64,14 +64,14 @@ describe('jss-plugin-isolate', () => {
 
     it('should add selectors to the reset rule', () => {
       const resetRule = sheets.registry[0].getRule('reset')
-      expect(resetRule.selector).to.contain(sheet.classes.linkItem)
-      expect(resetRule.selector).to.contain(sheet.classes.link)
+      expect(resetRule.selector).toContain(sheet.classes.linkItem)
+      expect(resetRule.selector).toContain(sheet.classes.link)
     })
 
     it('should have expected reset props', () => {
       const resetRule = sheets.registry[0].getRule('reset')
-      expect(resetRule.prop('border-collapse')).to.be('separate')
-      expect(resetRule.prop('font-family')).to.be('initial')
+      expect(resetRule.prop('border-collapse')).toBe('separate')
+      expect(resetRule.prop('font-family')).toBe('initial')
     })
   })
 
@@ -94,8 +94,8 @@ describe('jss-plugin-isolate', () => {
 
     it('should add selectors to the reset rule', () => {
       const resetRule = sheets.registry[0].getRule('reset')
-      expect(resetRule.selector).to.contain(sheet1.classes.link)
-      expect(resetRule.selector).to.contain(sheet2.classes.linkItem)
+      expect(resetRule.selector).toContain(sheet1.classes.link)
+      expect(resetRule.selector).toContain(sheet2.classes.linkItem)
     })
   })
 
@@ -115,7 +115,7 @@ describe('jss-plugin-isolate', () => {
     })
 
     it('should use global option', () => {
-      expect(sheets.registry[0].getRule('reset')).to.be(undefined)
+      expect(sheets.registry[0].getRule('reset')).toBe(undefined)
     })
   })
 
@@ -141,8 +141,8 @@ describe('jss-plugin-isolate', () => {
 
     it('should not add selectors to the reset rule', () => {
       const resetRule = sheets.registry[0].getRule('reset')
-      expect(resetRule.selector).to.contain(sheet1.classes.link)
-      expect(resetRule.selector).not.to.contain(sheet2.classes.linkItem)
+      expect(resetRule.selector).toContain(sheet1.classes.link)
+      expect(resetRule.selector).not.toContain(sheet2.classes.linkItem)
     })
   })
 
@@ -163,7 +163,7 @@ describe('jss-plugin-isolate', () => {
 
     it('should add selectors to the reset rule', () => {
       const resetRule = sheets.registry[0].getRule('reset')
-      expect(resetRule.selector).to.contain(sheet.classes.link)
+      expect(resetRule.selector).toContain(sheet.classes.link)
     })
   })
 
@@ -186,8 +186,8 @@ describe('jss-plugin-isolate', () => {
 
     it('should only isolate rules with matching name', () => {
       const resetRule = sheets.registry[0].getRule('reset')
-      expect(resetRule.selector).to.contain(sheet.classes.root)
-      expect(resetRule.selector).not.to.contain(sheet.classes.a)
+      expect(resetRule.selector).toContain(sheet.classes.root)
+      expect(resetRule.selector).not.toContain(sheet.classes.a)
     })
   })
 
@@ -208,12 +208,12 @@ describe('jss-plugin-isolate', () => {
 
     it('should add selectors to the reset rule', () => {
       const resetRule = sheets.registry[0].getRule('reset')
-      expect(resetRule.selector).to.contain(sheet.classes.link)
-      expect(resetRule.selector).not.to.contain(sheet.classes.linkItem)
+      expect(resetRule.selector).toContain(sheet.classes.link)
+      expect(resetRule.selector).not.toContain(sheet.classes.linkItem)
     })
 
     it('should have expected reset props', () => {
-      expect(sheet.getRule('linkItem').prop('isolate')).to.be(undefined)
+      expect(sheet.getRule('linkItem').prop('isolate')).toBe(undefined)
     })
   })
 
@@ -235,7 +235,7 @@ describe('jss-plugin-isolate', () => {
 
     it('should add selectors to the reset rule', () => {
       const resetRule = sheets.registry[0].getRule('reset')
-      expect(resetRule.selector).to.be(`.${sheet.classes.link}`)
+      expect(resetRule.selector).toBe(`.${sheet.classes.link}`)
     })
   })
 
@@ -258,7 +258,7 @@ describe('jss-plugin-isolate', () => {
 
     it('should add width prop to the reset rule', () => {
       const resetRule = sheets.registry[0].getRule('reset')
-      expect(resetRule.prop('width')).to.be('1px')
+      expect(resetRule.prop('width')).toBe('1px')
     })
   })
 
@@ -268,7 +268,7 @@ describe('jss-plugin-isolate', () => {
         color: 'red'
       })
 
-      expect(sheets.registry.length).to.be(0)
+      expect(sheets.registry.length).toBe(0)
     })
 
     it('should not throw', () => {
@@ -276,7 +276,7 @@ describe('jss-plugin-isolate', () => {
         jss.createRule({
           color: 'red'
         })
-      }).to.not.throwException()
+      }).not.toThrow()
     })
   })
 
@@ -297,7 +297,7 @@ describe('jss-plugin-isolate', () => {
 
     it('should add selectors to the reset rule', () => {
       const resetRule = sheets.registry[0].getRule('reset')
-      expect(resetRule.selector).to.contain(sheet.classes.link)
+      expect(resetRule.selector).toContain(sheet.classes.link)
     })
   })
 
@@ -317,7 +317,7 @@ describe('jss-plugin-isolate', () => {
 
     it('should not add selectors to the reset rule', () => {
       const resetRule = sheets.registry[0].getRule('reset')
-      expect(resetRule).to.be(undefined)
+      expect(resetRule).toBe(undefined)
     })
   })
 })

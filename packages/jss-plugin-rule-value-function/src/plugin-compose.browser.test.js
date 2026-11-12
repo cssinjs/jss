@@ -1,4 +1,4 @@
-import expect from 'expect.js'
+import {afterEach, beforeEach, describe, expect, it} from 'vitest'
 import {stripIndent} from 'common-tags'
 import {create} from 'jss'
 import pluginCompose from 'jss-plugin-compose'
@@ -39,7 +39,7 @@ describe('jss-plugin-rule-value-function: plugin-compose', () => {
 
     it('should return correct .toString()', () => {
       sheet.update()
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
         }
@@ -50,7 +50,7 @@ describe('jss-plugin-rule-value-function: plugin-compose', () => {
     })
 
     it('should have composed class names', () => {
-      expect(sheet.classes).to.eql({a: 'a-id', b: 'b-id a-id'})
+      expect(sheet.classes).toEqual({a: 'a-id', b: 'b-id a-id'})
     })
   })
 
@@ -80,7 +80,7 @@ describe('jss-plugin-rule-value-function: plugin-compose', () => {
 
     it('should return correct .toString()', () => {
       sheet.update()
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
         }
@@ -91,7 +91,7 @@ describe('jss-plugin-rule-value-function: plugin-compose', () => {
     })
 
     it('should have composed class names', () => {
-      expect(sheet.classes).to.eql({a: 'a-id', b: 'b-id a-id'})
+      expect(sheet.classes).toEqual({a: 'a-id', b: 'b-id a-id'})
     })
   })
 })

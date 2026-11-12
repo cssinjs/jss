@@ -1,4 +1,4 @@
-import expect from 'expect.js'
+import {afterEach, beforeEach, describe, expect, it} from 'vitest'
 import {stripIndent} from 'common-tags'
 import {create} from 'jss'
 import pluginGlobal from 'jss-plugin-global'
@@ -42,7 +42,7 @@ describe('jss-plugin-rule-value-function: plugin-global', () => {
 
     it('should return correct .toString()', () => {
       sheet.update({color: 'red'})
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         a {
           color: red;
         }
@@ -79,7 +79,7 @@ describe('jss-plugin-rule-value-function: plugin-global', () => {
 
     it('should return correct .toString()', () => {
       sheet.update({color: 'red'})
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         a {
           color: red;
         }

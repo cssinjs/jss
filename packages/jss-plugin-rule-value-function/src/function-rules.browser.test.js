@@ -1,7 +1,6 @@
-import expect from 'expect.js'
+import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest'
 import {stripIndent} from 'common-tags'
 import {create} from 'jss'
-import sinon from 'sinon'
 import functionPlugin from '.'
 
 const settings = {createGenerateId: () => (rule) => `${rule.key}-id`}
@@ -36,7 +35,7 @@ describe('jss-plugin-rule-value-function: Function rules', () => {
 
     it('should compile correctly', () => {
       sheet.update({color: 'red'})
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
           display: block;
@@ -76,7 +75,7 @@ describe('jss-plugin-rule-value-function: Function rules', () => {
 
     it('should compile with color and display', () => {
       sheet.update({color: 'red'})
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
           display: block;
@@ -87,7 +86,7 @@ describe('jss-plugin-rule-value-function: Function rules', () => {
     it('should compile with color', () => {
       sheet.update({color: 'red'})
       sheet.update({color: 'red', noDisplay: true})
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
         }
@@ -96,14 +95,14 @@ describe('jss-plugin-rule-value-function: Function rules', () => {
 
     it('should remove all props', () => {
       sheet.update({color: 'red'})
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
           display: block;
         }
       `)
       sheet.update({removeAll: true})
-      expect(sheet.toString()).to.be('.a-id {}')
+      expect(sheet.toString()).toBe('.a-id {}')
     })
   })
 
@@ -132,7 +131,7 @@ describe('jss-plugin-rule-value-function: Function rules', () => {
 
     it('should output with fallbacks', () => {
       sheet.update({color: 'red'})
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: green;
           color: red;
@@ -165,7 +164,7 @@ describe('jss-plugin-rule-value-function: Function rules', () => {
 
     it('should return correct .toString()', () => {
       sheet.update({color: 'red'})
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         @media all {
           .a-id {
             color: red;
@@ -191,7 +190,7 @@ describe('jss-plugin-rule-value-function: Function rules', () => {
 
     it('should compile correct CSS', () => {
       sheet.update({primary: true})
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: black;
         }
@@ -200,7 +199,7 @@ describe('jss-plugin-rule-value-function: Function rules', () => {
 
     it('should return correct .toString()', () => {
       sheet.update({primary: false})
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: white;
         }
@@ -226,7 +225,7 @@ describe('jss-plugin-rule-value-function: Function rules', () => {
 
     it('should return correct .toString()', () => {
       sheet.update({primary: true})
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         @media screen {
           .b-id {
             color: black;
@@ -253,22 +252,20 @@ describe('jss-plugin-rule-value-function: Function rules', () => {
         )
         .attach()
 
-      spy = sinon.spy(console, 'warn')
+      spy = vi.spyOn(console, 'warn')
     })
 
     afterEach(() => {
       sheet.detach()
-      console.warn.restore()
+      spy.mockRestore()
     })
 
     it('should warn when a function value is inside a function rule', () => {
       sheet.update({color: 'blue', background: 'green'})
-      expect(spy.callCount).to.be(1)
-      expect(
-        spy.calledWithExactly(
-          'Warning: [JSS] Function values inside function rules are not supported.'
-        )
-      ).to.be(true)
+      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledWith(
+        'Warning: [JSS] Function values inside function rules are not supported.'
+      )
     })
   })
 })

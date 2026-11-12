@@ -1,4 +1,4 @@
-import expect from 'expect.js'
+import {afterEach, beforeEach, describe, expect, it} from 'vitest'
 import {stripIndent} from 'common-tags'
 import {create} from 'jss'
 import pluginNested from '../../jss-plugin-nested'
@@ -38,7 +38,7 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
 
     it('should return correct .toString()', () => {
       sheet.update({color: 'red'})
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
         }
@@ -76,7 +76,7 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
 
     it('should return correct .toString()', () => {
       sheet.update({color: 'green'})
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
         }
@@ -114,7 +114,7 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
 
     it('should return correct .toString()', () => {
       sheet.update({color: 'green'})
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
         }
@@ -139,7 +139,7 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
           }
         `
         it('should return correct .toString()', () => {
-          expect(sheet.toString()).to.be(expectedCSS)
+          expect(sheet.toString()).toBe(expectedCSS)
         })
       })
 
@@ -156,7 +156,7 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
           }
         `
         it('should return correct .toString()', () => {
-          expect(sheet.toString()).to.be(expectedCSS)
+          expect(sheet.toString()).toBe(expectedCSS)
         })
       })
     })
@@ -178,7 +178,7 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
         }
       `
       it('should return correct .toString()', () => {
-        expect(sheet.toString()).to.be(expectedCSS)
+        expect(sheet.toString()).toBe(expectedCSS)
       })
     })
   })
@@ -209,7 +209,7 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
     })
 
     it('should return correct .toString() on first update', () => {
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
         }
@@ -222,7 +222,7 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
     it('should return correct .toString() on second update', () => {
       sheet.update({color: 'blue'})
 
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
         }
@@ -259,7 +259,7 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
     })
 
     it('should return correct .toString() on first update', () => {
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
         }
@@ -271,7 +271,7 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
 
     it('should return correct .toString() on second update', () => {
       sheet.update({width: '100px'})
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
         }
@@ -315,7 +315,7 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
     })
 
     it('should return correct .toString() on first update', () => {
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           padding: 5px;
         }
@@ -333,7 +333,7 @@ describe('jss-plugin-rule-value-function: plugin-nested', () => {
     it('should return correct .toString() on  update', () => {
       sheet.update({margin: '99px'})
 
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           padding: 5px;
         }

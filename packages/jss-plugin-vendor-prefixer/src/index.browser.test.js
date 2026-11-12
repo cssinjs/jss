@@ -1,4 +1,4 @@
-import expect from 'expect.js'
+import {beforeEach, describe, expect, it} from 'vitest'
 import {create} from 'jss'
 import * as cssVendor from 'css-vendor'
 import browser from 'detect-browser'
@@ -36,7 +36,7 @@ describe('jss-plugin-vendor-prefixer', () => {
 
     it('should generate correct CSS', () => {
       const prefixedProp = cssVendor.supportedProperty('animation')
-      expect(sheet.toString()).to.be(`.a-id {\n  ${prefixedProp}: yyy;\n}`)
+      expect(sheet.toString()).toBe(`.a-id {\n  ${prefixedProp}: yyy;\n}`)
     })
   })
 
@@ -51,11 +51,11 @@ describe('jss-plugin-vendor-prefixer', () => {
 
     it('should generate correct CSS', () => {
       if (isIEorEdge) {
-        expect(sheet.toString()).to.be('@keyframes keyframes-a-id {}')
+        expect(sheet.toString()).toBe('@keyframes keyframes-a-id {}')
         return
       }
       const prefixedKeyframes = `@${cssVendor.prefix.css}keyframes`
-      expect(sheet.toString()).to.be(`${prefixedKeyframes} keyframes-a-id {}`)
+      expect(sheet.toString()).toBe(`${prefixedKeyframes} keyframes-a-id {}`)
     })
   })
 
@@ -69,7 +69,7 @@ describe('jss-plugin-vendor-prefixer', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  xxx: block;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  xxx: block;\n}')
     })
   })
 
@@ -83,7 +83,7 @@ describe('jss-plugin-vendor-prefixer', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  display: yyy;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  display: yyy;\n}')
     })
   })
 
@@ -97,7 +97,7 @@ describe('jss-plugin-vendor-prefixer', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  xxx: yyy;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  xxx: yyy;\n}')
     })
   })
 
@@ -106,21 +106,21 @@ describe('jss-plugin-vendor-prefixer', () => {
       const sheet = jss.createStyleSheet({
         a: {border: ['red', 'green']}
       })
-      expect(sheet.toString()).to.be('.a-id {\n  border: red, green;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  border: red, green;\n}')
     })
 
     it('should generate correct margin', () => {
       const sheet = jss.createStyleSheet({
         a: {margin: [['10px', '20px']]}
       })
-      expect(sheet.toString()).to.be('.a-id {\n  margin: 10px 20px;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  margin: 10px 20px;\n}')
     })
 
     it('should generate correct important', () => {
       const sheet = jss.createStyleSheet({
         a: {margin: [['10px', '20px'], '!important']}
       })
-      expect(sheet.toString()).to.be('.a-id {\n  margin: 10px 20px !important;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  margin: 10px 20px !important;\n}')
     })
   })
 
@@ -139,7 +139,7 @@ describe('jss-plugin-vendor-prefixer', () => {
 
     it('should generate correct CSS', () => {
       const supportedValue = cssVendor.supportedValue('display', 'flex')
-      expect(sheet.toString()).to.be(`.a-id {\n  display: ${supportedValue};\n}`)
+      expect(sheet.toString()).toBe(`.a-id {\n  display: ${supportedValue};\n}`)
     })
   })
 
@@ -160,7 +160,7 @@ describe('jss-plugin-vendor-prefixer', () => {
 
     it('should generate correct CSS', () => {
       const supportedValue = cssVendor.supportedValue('display', 'flex')
-      expect(sheet.toString()).to.be(`.a-id {\n  display: ${supportedValue};\n}`)
+      expect(sheet.toString()).toBe(`.a-id {\n  display: ${supportedValue};\n}`)
     })
   })
 
@@ -172,7 +172,7 @@ describe('jss-plugin-vendor-prefixer', () => {
           fallbacks: [{display: 'inline'}]
         }
       })
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           display: inline;
           display: run-in;
@@ -187,7 +187,7 @@ describe('jss-plugin-vendor-prefixer', () => {
           fallbacks: {display: 'inline'}
         }
       })
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           display: inline;
           display: run-in;

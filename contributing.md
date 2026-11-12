@@ -37,7 +37,7 @@ yarn check:ts
 
 ## Run tests
 
-Run all runtime tests (Vitest Node tests, Vitest JSS browser tests, then remaining Karma tests):
+Run all runtime tests (Vitest Node tests, Vitest core and plugin browser tests, then remaining Karma tests):
 
 ```bash
 yarn test
@@ -54,18 +54,22 @@ Name these tests `*.node.test.js`. Import test APIs from `vitest`; do not use DO
 browser-only helpers such as `tests/utils.js`. The Node Vitest configuration only discovers
 these files, and Karma excludes them. Use Vitest's built-in `expect` for assertions; `expect.js` remains for Karma tests.
 
-JSS core browser tests use Vitest Browser Mode with Playwright's real Chromium browser.
+JSS core and all `jss-plugin-*` browser tests use Vitest Browser Mode with Playwright's real Chromium browser.
 Install Chromium once, then run the tests directly against source (no build required):
 
 ```bash
 yarn playwright install --with-deps chromium
+yarn test:browser:vitest
+yarn test:browser:vitest --coverage
+yarn test:browser:vitest:watch
+# Run only core or plugin tests:
 yarn test:browser:jss
-yarn test:browser:jss --coverage
-yarn test:browser:jss:watch
+yarn test:browser:plugins
 ```
 
-These tests live in `packages/jss/tests/` and are named `*.browser.test.js`. Import test APIs
-from `vitest`. Karma excludes these files. Coverage is written to `coverage/vitest-jss/`.
+These tests live in `packages/jss/tests/` and `packages/jss-plugin-*/src/` and are named
+`*.browser.test.js`. Import test APIs and assertions from `vitest`, and use `vi.spyOn` for spies.
+Karma excludes these files. Coverage is written to `coverage/vitest-browser/`.
 
 Other packages still use Karma. Rebuild packages after source changes:
 

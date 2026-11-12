@@ -1,4 +1,4 @@
-import expect from 'expect.js'
+import {beforeEach, describe, expect, it} from 'vitest'
 import Observable from 'zen-observable'
 import {create} from 'jss'
 import observablePlugin from 'jss-plugin-rule-value-observable'
@@ -30,11 +30,11 @@ describe('jss-plugin-expand', () => {
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '.a-id {\n' +
           '  padding: 20 10;\n' +
           '  background-size: 10 auto;\n' +
@@ -59,11 +59,11 @@ describe('jss-plugin-expand', () => {
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '.a-id {\n  transition: opacity 1 linear, transform 300 ease;\n}'
       )
     })
@@ -85,11 +85,11 @@ describe('jss-plugin-expand', () => {
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '.a-id {\n' +
           '  border-width: 1;\n' +
           '  border-style: solid;\n' +
@@ -122,11 +122,11 @@ describe('jss-plugin-expand', () => {
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  transition: all 5 linear 2, opacity 1;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  transition: all 5 linear 2, opacity 1;\n}')
     })
   })
 
@@ -147,11 +147,11 @@ describe('jss-plugin-expand', () => {
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '.a-id {\n' +
           '  background: #000 0 0 no-repeat;\n' +
           '  background-image: url(test.jpg);\n' +
@@ -181,11 +181,11 @@ describe('jss-plugin-expand', () => {
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '.a-id {\n' +
           '  background: white;\n' +
           '  padding: 20;\n' +
@@ -220,11 +220,11 @@ describe('jss-plugin-expand', () => {
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '.a-id {\n' +
           '  background: red;\n' +
           '  background: url(test.png) 0 0 no-repeat;\n' +
@@ -255,11 +255,11 @@ describe('jss-plugin-expand', () => {
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '.a-id {\n' +
           '  background-size: auto;\n' +
           '  background-image: url(gradient.png);\n' +
@@ -287,11 +287,11 @@ describe('jss-plugin-expand', () => {
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  transition: opacity 200ms linear 300ms;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  transition: opacity 200ms linear 300ms;\n}')
     })
   })
 
@@ -312,11 +312,11 @@ describe('jss-plugin-expand', () => {
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '.a-id {\n' +
           '  border-radius: 5px 10px;\n' +
           '  border-width: 2px 3px;\n' +
@@ -342,11 +342,11 @@ describe('jss-plugin-expand', () => {
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  border-radius: 10px;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  border-radius: 10px;\n}')
     })
   })
 
@@ -368,11 +368,11 @@ describe('jss-plugin-expand', () => {
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  margin: 0;\n  border-radius: 10px;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  margin: 0;\n  border-radius: 10px;\n}')
     })
   })
 
@@ -392,7 +392,7 @@ describe('jss-plugin-expand', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  width: 1;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  width: 1;\n}')
     })
   })
 })

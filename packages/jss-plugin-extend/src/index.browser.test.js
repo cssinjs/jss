@@ -1,10 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 
 import {stripIndent} from 'common-tags'
-import expect from 'expect.js'
+import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest'
 import nested from 'jss-plugin-nested'
 import expand from 'jss-plugin-expand'
-import sinon from 'sinon'
 import functionPlugin from 'jss-plugin-rule-value-function'
 import {create} from 'jss'
 
@@ -19,12 +18,12 @@ describe('jss-plugin-extend', () => {
   let jss
 
   beforeEach(() => {
-    spy = sinon.spy(console, 'warn')
+    spy = vi.spyOn(console, 'warn')
     jss = create(settings).use(functionPlugin(), extend(), nested(), expand())
   })
 
   afterEach(() => {
-    console.warn.restore()
+    spy.mockRestore()
   })
 
   describe('simple extend', () => {
@@ -42,9 +41,9 @@ describe('jss-plugin-extend', () => {
     })
 
     it('should extend', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
-      expect(sheet.getRule('b')).to.not.be(undefined)
-      expect(sheet.toString()).to.be(
+      expect(sheet.getRule('a')).not.toBe(undefined)
+      expect(sheet.getRule('b')).not.toBe(undefined)
+      expect(sheet.toString()).toBe(
         '.a-id {\n' +
           '  float: left;\n' +
           '}\n' +
@@ -73,8 +72,8 @@ describe('jss-plugin-extend', () => {
     })
 
     it('should have correct order', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
-      expect(sheet.toString()).to.be('.a-id {\n  float: right;\n  color: red;\n}')
+      expect(sheet.getRule('a')).not.toBe(undefined)
+      expect(sheet.toString()).toBe('.a-id {\n  float: right;\n  color: red;\n}')
     })
   })
 
@@ -93,8 +92,8 @@ describe('jss-plugin-extend', () => {
     })
 
     it('should have correct output', () => {
-      expect(sheet.getRule('c')).to.not.be(undefined)
-      expect(sheet.toString()).to.be(
+      expect(sheet.getRule('c')).not.toBe(undefined)
+      expect(sheet.toString()).toBe(
         '.c-id {\n  float: left;\n  position: absolute;\n  width: 1px;\n}'
       )
     })
@@ -115,8 +114,8 @@ describe('jss-plugin-extend', () => {
     })
 
     it('should have correct output', () => {
-      expect(sheet.getRule('c')).to.not.be(undefined)
-      expect(sheet.toString()).to.be(
+      expect(sheet.getRule('c')).not.toBe(undefined)
+      expect(sheet.toString()).toBe(
         '.a-id {\n' +
           '  float: left;\n' +
           '}\n' +
@@ -147,8 +146,8 @@ describe('jss-plugin-extend', () => {
     })
 
     it('should have correct output', () => {
-      expect(sheet.getRule('c')).to.not.be(undefined)
-      expect(sheet.toString()).to.be(
+      expect(sheet.getRule('c')).not.toBe(undefined)
+      expect(sheet.toString()).toBe(
         '.b-id {\n' +
           '  position: absolute;\n' +
           '}\n' +
@@ -176,8 +175,8 @@ describe('jss-plugin-extend', () => {
     })
 
     it('should should have correct output', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
-      expect(sheet.toString()).to.be('.a-id {\n  float: left;\n  display: none;\n  width: 1px;\n}')
+      expect(sheet.getRule('a')).not.toBe(undefined)
+      expect(sheet.toString()).toBe('.a-id {\n  float: left;\n  display: none;\n  width: 1px;\n}')
     })
   })
 
@@ -204,8 +203,8 @@ describe('jss-plugin-extend', () => {
     })
 
     it('should have correct output', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
-      expect(sheet.toString()).to.be(
+      expect(sheet.getRule('a')).not.toBe(undefined)
+      expect(sheet.toString()).toBe(
         '.a-id {\n' +
           '  width: 1px;\n' +
           '}\n' +
@@ -256,8 +255,8 @@ describe('jss-plugin-extend', () => {
     })
 
     it('should have correct output', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
-      expect(sheet.toString()).to.be(
+      expect(sheet.getRule('a')).not.toBe(undefined)
+      expect(sheet.toString()).toBe(
         '.a-id {\n' +
           '  width: 2px;\n' +
           '  border-width: 1px;\n' +
@@ -292,10 +291,10 @@ describe('jss-plugin-extend', () => {
     })
 
     it('should have correct output', () => {
-      expect(sheet.getRule('base')).to.not.be(undefined)
-      expect(sheet.getRule('child1')).to.not.be(undefined)
-      expect(sheet.getRule('child2')).to.not.be(undefined)
-      expect(sheet.toString()).to.be(
+      expect(sheet.getRule('base')).not.toBe(undefined)
+      expect(sheet.getRule('child1')).not.toBe(undefined)
+      expect(sheet.getRule('child2')).not.toBe(undefined)
+      expect(sheet.toString()).toBe(
         '.base-id:hover {\n' +
           '  width: 1px;\n' +
           '}\n' +
@@ -323,9 +322,9 @@ describe('jss-plugin-extend', () => {
     })
 
     it('should have correct output', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
-      expect(sheet.getRule('b')).to.not.be(undefined)
-      expect(sheet.toString()).to.be(
+      expect(sheet.getRule('a')).not.toBe(undefined)
+      expect(sheet.getRule('b')).not.toBe(undefined)
+      expect(sheet.toString()).toBe(
         '.a-id {\n' +
           '  float: left;\n' +
           '}\n' +
@@ -354,7 +353,7 @@ describe('jss-plugin-extend', () => {
     })
 
     it('should have correct output', () => {
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: green;
           color: blue;
@@ -381,15 +380,13 @@ describe('jss-plugin-extend', () => {
     })
 
     it('error if extend using same rule name', () => {
-      expect(spy.callCount).to.be(1)
-      expect(
-        spy.calledWithExactly(
-          'Warning: [JSS] A rule tries to extend itself \n.a-id {\n  extend: a;\n  width: 1px;\n}'
-        )
-      ).to.be(true)
+      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledWith(
+        'Warning: [JSS] A rule tries to extend itself \n.a-id {\n  extend: a;\n  width: 1px;\n}'
+      )
 
-      expect(sheet.getRule('a')).to.not.be(undefined)
-      expect(sheet.toString()).to.be('.a-id {\n  width: 1px;\n}')
+      expect(sheet.getRule('a')).not.toBe(undefined)
+      expect(sheet.toString()).toBe('.a-id {\n  width: 1px;\n}')
     })
   })
 
@@ -414,8 +411,8 @@ describe('jss-plugin-extend', () => {
     })
 
     it('should have correct output', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
-      expect(sheet.toString()).to.be('.a-id {\n  background: red;\n  height: 200px;\n}')
+      expect(sheet.getRule('a')).not.toBe(undefined)
+      expect(sheet.toString()).toBe('.a-id {\n  background: red;\n  height: 200px;\n}')
     })
   })
 
@@ -437,9 +434,9 @@ describe('jss-plugin-extend', () => {
     })
 
     it('should have correct output', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
       sheet.update({block: true})
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '.a-id {\n' +
           '  color: red;\n' +
           '  display: block;\n' +
@@ -452,7 +449,7 @@ describe('jss-plugin-extend', () => {
 
       sheet.update({block: false})
 
-      expect(sheet.toString()).to.be('.a-id {\n  color: red;\n}\n.a-id span {\n  color: blue;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  color: red;\n}\n.a-id span {\n  color: blue;\n}')
     })
   })
 })
