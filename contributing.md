@@ -47,7 +47,6 @@ Browser-independent unit tests run in Node with Vitest, without a browser or a b
 
 ```bash
 yarn test:unit
-yarn test:unit:watch
 ```
 
 Name these tests `*.node.test.js`. Import test APIs from `vitest`; do not use DOM globals or
@@ -61,15 +60,14 @@ Install Chromium once, then run the tests directly against source (no build requ
 yarn playwright install --with-deps chromium
 yarn test:browser:vitest
 yarn test:browser:vitest --coverage
-yarn test:browser:vitest:watch
-# Run only core or plugin tests:
-yarn test:browser:jss
-yarn test:browser:plugins
+# Optionally filter by path:
+yarn test:browser:vitest packages/jss/tests/
 ```
 
-These tests live in `packages/jss/tests/` and `packages/jss-plugin-*/src/` and are named
-`*.browser.test.js`. Import test APIs and assertions from `vitest`, and use `vi.spyOn` for spies.
-Karma excludes these files. Coverage is written to `coverage/vitest-browser/`.
+All `packages/**/*.browser.test.js` files run together in one Vitest run. Name migrated browser
+tests `*.browser.test.js` to include them automatically. Import test APIs and assertions from
+`vitest`, and use `vi.spyOn` for spies. Karma excludes these files. Coverage is written to
+`coverage/vitest-browser/`.
 
 Other packages still use Karma. Rebuild packages after source changes:
 
@@ -78,8 +76,6 @@ yarn build
 yarn test:browser:karma
 # For headless environments:
 yarn test:browser:karma --browsers ChromeHeadless
-# Watch remaining Karma tests:
-yarn test:watch
 ```
 
 `yarn test:browser` runs both browser suites. Pass runner-specific flags to the individual

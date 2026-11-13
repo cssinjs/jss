@@ -26,10 +26,7 @@ export default defineConfig({
     'process.env.VERSION': JSON.stringify(version)
   },
   test: {
-    include: [
-      'packages/jss/tests/**/*.browser.test.js',
-      'packages/jss-plugin-*/src/**/*.browser.test.js'
-    ],
+    include: ['packages/**/*.browser.test.js'],
     restoreMocks: true,
     browser: {
       enabled: true,
