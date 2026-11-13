@@ -1,8 +1,6 @@
-exports.getBabelOptions = ({useESModules}) => ({
-  presets: [['@babel/env', {loose: true}], '@babel/react'],
-  plugins: [
-    ['@babel/proposal-class-properties', {loose: true}],
-    ['@babel/transform-runtime', {useESModules}],
-    ['dev-expression']
-  ]
+// Only syntax Rolldown cannot parse and the warning/invariant rewrite belong
+// in the source pass. Preserve JSX and modern JavaScript for native transforms.
+exports.getBabelOptions = () => ({
+  parserOpts: {plugins: ['jsx', 'classProperties']},
+  plugins: ['@babel/transform-flow-strip-types', 'dev-expression']
 })

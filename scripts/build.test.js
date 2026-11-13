@@ -10,6 +10,7 @@ const {parse} = require('acorn')
 const jss = require('jss')
 const reactJss = require('react-jss')
 const React = require('react')
+const {renderToString} = require('react-dom/server')
 const jssPackage = require('../packages/jss/package.json')
 
 const root = path.resolve(__dirname, '..')
@@ -18,6 +19,22 @@ const exportNames = (value) =>
   Object.keys(value)
     .filter((key) => key !== '__esModule')
     .sort()
+
+// ESM necessarily retains import/export, but its implementation must be ES5 too.
+function parseLegacyEsm(code) {
+  const ast = parse(code, {ecmaVersion: 2015, sourceType: 'module'})
+  const implementation = ast.body.reduceRight((source, node) => {
+    if (
+      node.type === 'ImportDeclaration' ||
+      node.type === 'ExportAllDeclaration' ||
+      (node.type === 'ExportNamedDeclaration' && !node.declaration)
+    ) {
+      return source.slice(0, node.start) + source.slice(node.end)
+    }
+    return source
+  }, code)
+  parse(implementation, {ecmaVersion: 5})
+}
 
 fs.readdirSync(path.join(root, 'packages')).forEach((directory) => {
   const location = path.join(root, 'packages', directory)
@@ -30,7 +47,7 @@ fs.readdirSync(path.join(root, 'packages')).forEach((directory) => {
     const names = exportNames(cjs)
     const esm = read(pkg.module)
     parse(read(pkg.main), {ecmaVersion: 5})
-    parse(esm, {ecmaVersion: 2015, sourceType: 'module'})
+    parseLegacyEsm(esm)
     assert(!esm.includes('process.env.VERSION'))
     assert(!read(pkg.main).includes('process.env.VERSION'))
     assert.strictEqual(read(`${pkg.main}.flow`), "// @flow\n\nexport * from '../src';")
@@ -97,7 +114,7 @@ fs.readdirSync(path.join(root, 'packages')).forEach((directory) => {
     assert(map.sourcesContent.some((source) => source && source.includes('export')))
 
     const standalone = read(pkg.unpkg)
-    parse(standalone, {ecmaVersion: 2015, sourceType: 'module'})
+    parseLegacyEsm(standalone)
     assert(!standalone.includes('process.env.NODE_ENV'))
     assert(!standalone.includes('process.env.VERSION'))
     const bundle = new vm.SourceTextModule(standalone)
@@ -107,6 +124,31 @@ fs.readdirSync(path.join(root, 'packages')).forEach((directory) => {
     await bundle.evaluate()
     assert.deepStrictEqual(exportNames(bundle.namespace), names)
   })
+})
+
+test('built class fields and JSX retain initialization and prop forwarding', () => {
+  const first = new jss.SheetsRegistry()
+  const second = new jss.SheetsRegistry()
+  const sheet = jss.create().createStyleSheet({root: {color: 'red'}})
+  first.add(sheet)
+  assert.strictEqual(second.registry.length, 0)
+  assert(first.toString().includes('color: red;'))
+
+  const registry = new jss.SheetsRegistry()
+  // eslint-disable-next-line react/prop-types
+  const Component = ({classes, label}) =>
+    React.createElement('div', {className: classes.root}, label)
+  const Styled = reactJss.withStyles({root: {color: 'blue'}})(Component)
+  const html = renderToString(
+    React.createElement(
+      reactJss.JssProvider,
+      {registry},
+      React.createElement(Styled, {label: 'native JSX'})
+    )
+  )
+  assert(html.includes('native JSX'))
+  assert(/class="[^"]+"/.test(html))
+  assert(registry.toString().includes('color: blue;'))
 })
 
 test('react-jss: bundled dependency license notices survive minification', () => {

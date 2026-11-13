@@ -17,9 +17,9 @@ Object.keys(pkg.peerDependencies || {}).forEach((key) => {
 })
 
 const external = (id) => !id.startsWith('.') && !path.isAbsolute(id)
-// Transform Flow/JSX before Rolldown parses it, retaining the existing Babel
-// targets, loose transforms, dev-expression behavior and runtime helper imports.
-const babel = ({useESModules}) => ({
+// Strip Flow before Rolldown parses it, preserving JSX and modern JavaScript.
+// Babel also guards warning/invariant calls so production can remove them.
+const babel = () => ({
   name: 'babel',
   async transform(code, id) {
     if (!path.isAbsolute(id) || id.includes('/node_modules/') || !id.endsWith('.js')) {
@@ -31,13 +31,12 @@ const babel = ({useESModules}) => ({
       configFile: false,
       sourceMaps: true,
       caller: {name: 'rolldown', supportsStaticESM: true},
-      ...getBabelOptions({useESModules})
+      ...getBabelOptions()
     })
     return {code: result.code, map: result.map}
   },
   // Rolldown's runtime can contain ES2015 even with generatedCode: es5.
   async renderChunk(code, chunk, output) {
-    if (output.minify) return null
     const result = await transformAsync(code, {
       filename: chunk.fileName,
       babelrc: false,
@@ -79,14 +78,20 @@ const flowEntry = {
   }
 }
 
-function config({file, format, bundled = false, production = false, useESModules = true}) {
+function config({file, format, bundled = false, production = false}) {
   return {
     input,
     // Neutral avoids implicitly replacing NODE_ENV in the externalized builds.
     platform: bundled ? 'browser' : 'neutral',
-    // Keep generated bundler/minifier syntax compatible with legacy consumers.
+    // Source files use JSX in .js; the native transformer handles JSX and class
+    // fields. Babel's output pass handles the remaining ES2018 -> ES5 lowering.
+    moduleTypes: {'.js': 'jsx'},
     transform: {
-      target: 'es2015',
+      // Leave object spread/rest to the loose ES5 output pass: Oxc's spec-mode
+      // lowering adds runtime imports and changes the historical loose behavior.
+      target: 'es2018',
+      jsx: {runtime: 'classic'},
+      assumptions: {setPublicClassFields: true},
       define: {
         'process.env.VERSION': JSON.stringify(pkg.version),
         ...(bundled && {
@@ -108,14 +113,14 @@ function config({file, format, bundled = false, production = false, useESModules
       }),
       ...(format === 'cjs' && {exports: 'named'})
     },
-    plugins: [...(format === 'cjs' ? [flowEntry] : []), babel({useESModules})]
+    plugins: [...(format === 'cjs' ? [flowEntry] : []), babel()]
   }
 }
 
 export default [
   config({file: `dist/${pkg.name}.js`, format: 'umd', bundled: true}),
   config({file: `dist/${pkg.name}.min.js`, format: 'umd', bundled: true, production: true}),
-  config({file: pkg.main, format: 'cjs', useESModules: false}),
+  config({file: pkg.main, format: 'cjs'}),
   config({file: pkg.module, format: 'esm'}),
   config({file: pkg.unpkg, format: 'esm', bundled: true})
 ]
