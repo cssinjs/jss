@@ -43,6 +43,7 @@ jobs:
           fi
       - run: yarn format:ci
       - run: yarn build
+      - run: yarn test:build
       - run: yarn check:all
       - run: yarn test:unit
       - run: yarn test:release

@@ -7,8 +7,8 @@ shell.rm('-rf', './dist/')
 shell.cp(path.join(__dirname, '..', 'LICENSE'), './')
 createReadme()
 
-const rollup = path.join(__dirname, '../node_modules/.bin/rollup')
-const {code} = shell.exec(`"${rollup}" --config "../../rollup.config.js"`)
+const rolldown = path.join(__dirname, '../node_modules/.bin/rolldown')
+const {code} = shell.exec(`"${rolldown}" --config "../../rolldown.config.mjs"`)
 
 if (code !== 0) {
   shell.exit(code)

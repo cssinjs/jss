@@ -24,6 +24,8 @@ jobs:
         run: yarn format:ci
       - name: Build
         run: yarn build
+      - name: Test build artifacts
+        run: yarn test:build
       - name: Run checks
         run: yarn check:all
       - name: Run unit tests

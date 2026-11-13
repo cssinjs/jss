@@ -25,6 +25,21 @@ For building all of the packages run:
 yarn build
 ```
 
+The shared `rolldown.config.mjs` preserves each package's CommonJS, ESM, development and
+production UMD, and standalone ESM entry points. Babel handles Flow/JSX, runtime helpers,
+and legacy syntax; an output pass also lowers Rolldown's generated runtime and minifier
+syntax for ES5 consumers. Handwritten TypeScript declarations remain in `src/`.
+
+After building, verify the published artifacts:
+
+```bash
+yarn test:build
+```
+
+These checks cover all packages, UMD browser/CommonJS/AMD loading, ESM exports, standalone
+bundles, ES5 script syntax, Flow forwarding files, source maps, and environment/version
+replacement. CI and release validation run them after the build.
+
 ## Lint & Formatting & Typechecking
 
 To lint, format, and type check the project run the following commands:
