@@ -10,11 +10,12 @@ Use the Node version specified in `.nvmrc` (Node 24) to install dependencies and
 
 ## Installation
 
-We use Yarn as our package manager.
-It will install all dev dependencies and the dependencies in the actual packages.
+We use pnpm 10.34.0 as pinned in `package.json`. With Node 24 active, install it with
+`npm install --global pnpm@10.34.0`.
+It will install all dev dependencies and link the packages in the workspace.
 
 ```bash
-yarn
+pnpm install --frozen-lockfile
 ```
 
 ## Building
@@ -22,7 +23,7 @@ yarn
 For building all of the packages run:
 
 ```bash
-yarn build
+pnpm build
 ```
 
 The shared `rolldown.config.mjs` preserves each package's CommonJS, ESM, development and
@@ -37,7 +38,7 @@ declarations remain in `src/`.
 After building, verify the published artifacts:
 
 ```bash
-yarn test:build
+pnpm test:build
 ```
 
 These checks cover all packages, UMD browser/CommonJS/AMD loading, ESM exports, standalone
@@ -49,9 +50,9 @@ maps, and environment/version replacement. CI and release validation run them af
 To lint, format, and type check the project run the following commands:
 
 ```bash
-yarn check:lint
-yarn format
-yarn check:ts
+pnpm check:lint
+pnpm format
+pnpm check:ts
 ```
 
 ## Run tests
@@ -59,13 +60,13 @@ yarn check:ts
 Run all runtime tests (Vitest Node and browser tests):
 
 ```bash
-yarn test
+pnpm test
 ```
 
 Browser-independent unit tests run in Node with Vitest, without a browser or a build:
 
 ```bash
-yarn test:unit
+pnpm test:unit
 ```
 
 Name these tests `*.node.test.js`. Import test APIs from `vitest`; do not use DOM globals or
@@ -76,11 +77,11 @@ All browser tests, including React-JSS and CSS-JSS, use Vitest Browser Mode with
 Install Chromium once, then run the tests directly against source (no build required):
 
 ```bash
-yarn playwright install --with-deps chromium
-yarn test:browser
-yarn test:browser --coverage
+pnpm exec playwright install --with-deps chromium
+pnpm test:browser
+pnpm test:browser --coverage
 # Optionally filter by path:
-yarn test:browser packages/jss/tests/
+pnpm test:browser packages/jss/tests/
 ```
 
 All `packages/**/*.browser.test.js` files run together in one Vitest run. Name migrated browser
@@ -92,14 +93,14 @@ Benchmarks also run in Chromium with Vitest. Name them `*.bench.js` under a pack
 `benchmark/` directory and import `bench` and `describe` from `vitest`:
 
 ```bash
-yarn test:bench
+pnpm test:bench
 # Optionally filter by path:
-yarn test:bench packages/jss/benchmark/tests/add-rule.bench.js
+pnpm test:bench packages/jss/benchmark/tests/add-rule.bench.js
 ```
 
 Benchmark hooks use closures for state, not Benchmark.js's `this`. Use `setup`/`teardown`
 options for per-task setup/cleanup.
-Benchmarks run separately from `yarn test` and are not performance gates in CI.
+Benchmarks run separately from `pnpm test` and are not performance gates in CI.
 
 TypeScript/Flow checks, bundle-size budgets, and packaged-consumer smoke tests remain separate
 from Vitest.
@@ -109,11 +110,11 @@ from Vitest.
 Build all packages and check their size budgets:
 
 ```bash
-yarn size
+pnpm size
 ```
 
-If the packages are already built, run `yarn size-limit` directly. CI builds once before
-`yarn check:all`, which includes Size Limit without rebuilding.
+If the packages are already built, run `pnpm exec size-limit` directly. CI builds once before
+`pnpm check:all`, which includes Size Limit without rebuilding.
 
 The root `.size-limit.js` defines a separate gzip budget for every published production UMD
 artifact, measured without rebundling. Additional consumer checks bundle and tree-shake the

@@ -60,18 +60,20 @@ or GitHub password is needed by these workflows.
 ## Prepare and review
 
 Maintain the release notes under `## Next` in `changelog.md`. Prepare releases locally
-from a clean, up-to-date `master` using Node 24:
+from a clean, up-to-date `master` using Node 24 and pnpm 10.34.0:
 
 ```sh
-yarn install --frozen-lockfile
-yarn release:prepare patch
-yarn install --ignore-scripts --non-interactive
-yarn build
+pnpm install --frozen-lockfile
+pnpm release:prepare patch
+pnpm install --lockfile-only --ignore-scripts
+pnpm install --frozen-lockfile
+pnpm build
 ```
 
 Use `patch`, `minor`, or `major` for stable releases; `prepatch`, `preminor`, or `premajor`
 starts a prerelease sequence with the default `alpha` identifier, and `prerelease` advances it.
-Preparation runs Lerna without committing, tagging, or publishing.
+Preparation runs Lerna without committing, tagging, or publishing. Lerna uses its npm
+client for versioning; pnpm updates `pnpm-lock.yaml` afterward.
 
 Then format the changed files, create a release branch, and commit the version files,
 changelog, lockfile, and package READMEs. Open a normal PR for human review of versions,
@@ -99,8 +101,8 @@ update peer dependency ranges automatically; review them separately.
 A dry validation command is available without any credentials:
 
 ```sh
-yarn release:validate 10.10.0
-yarn test:release
+pnpm release:validate 10.10.0
+pnpm test:release
 ```
 
 Neither command publishes anything. There is no local publish command.

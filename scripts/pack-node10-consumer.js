@@ -23,11 +23,13 @@ fs.readdirSync(path.join(root, 'packages')).forEach((directory) => {
     if (!artifact) throw new Error(`Missing release artifact for ${pkg.name}`)
     fs.copyFileSync(path.join(artifactDirectory, artifact.filename), archive)
   } else {
-    xSync('yarn', ['pack', '--filename', archive], {
-      throwOnError: true,
-      nodePath: false,
-      nodeOptions: {cwd, stdio: 'inherit'}
-    })
+    const result = xSync(
+      'npm',
+      ['pack', '--json', '--ignore-scripts', '--pack-destination', consumer],
+      {throwOnError: true, nodePath: false, nodeOptions: {cwd}}
+    )
+    const [{filename}] = JSON.parse(result.stdout)
+    fs.renameSync(path.join(consumer, filename), archive)
   }
   dependencies[pkg.name] = `file:${archive}`
 })

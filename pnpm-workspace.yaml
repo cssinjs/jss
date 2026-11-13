@@ -1,0 +1,6 @@
+packages:
+  - packages/*
+
+linkWorkspacePackages: true
+# Yarn did not automatically install missing peers.
+autoInstallPeers: false

@@ -1,22 +1,23 @@
 {
   "name": "root",
   "private": true,
+  "packageManager": "pnpm@10.34.0",
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
-    "build": "lerna run build",
-    "size": "yarn build && size-limit",
-    "check:all": "yarn check:flow && yarn check:ts && yarn size-limit && yarn check:lint",
+    "build": "pnpm -r run build",
+    "size": "pnpm run build && size-limit",
+    "check:all": "pnpm run check:flow && pnpm run check:ts && pnpm exec size-limit && pnpm run check:lint",
     "check:flow": "flow check --max-warnings=0",
     "check:ts": "tsc",
     "check:lint": "eslint scripts/ packages/ docs/ --ext js,flow,md",
     "format": "prettier \"*.{js,mjs,md,json,ts}\" \"{docs,packages,scripts}/**/*.{js,md,json,ts}\" --write",
-    "format:ci": "yarn format --list-different",
-    "test": "yarn test:unit && yarn test:browser",
+    "format:ci": "pnpm run format --list-different",
+    "test": "pnpm run test:unit && pnpm run test:browser",
     "test:unit": "vitest run",
     "test:browser": "vitest run --config vitest.browser.config.mjs",
-    "test:browser:vitest": "yarn test:browser",
+    "test:browser:vitest": "pnpm run test:browser",
     "test:bench": "vitest bench --run --config vitest.bench.config.mjs",
     "test:release": "node --test scripts/release.test.js",
     "test:build": "node --experimental-vm-modules --test scripts/build.test.js",
@@ -31,11 +32,11 @@
     ]
   },
   "simple-git-hooks": {
-    "pre-commit": "yarn nano-staged"
+    "pre-commit": "pnpm exec nano-staged"
   },
   "engines": {
     "node": ">=24",
-    "yarn": ">=1.13"
+    "pnpm": "10.34.0"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",

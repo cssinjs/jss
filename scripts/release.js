@@ -100,8 +100,9 @@ function prepare(bump) {
     throw new Error('Prepare releases from master')
   if (run('git', ['status', '--porcelain'])) throw new Error('Working tree must be clean')
   run(
-    'yarn',
+    'pnpm',
     [
+      'exec',
       'lerna',
       'version',
       bump,

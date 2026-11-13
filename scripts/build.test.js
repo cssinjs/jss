@@ -1,4 +1,4 @@
-// Run after yarn build: these checks exercise published artifacts, not source aliases.
+// Run after pnpm build: these checks exercise published artifacts, not source aliases.
 const assert = require('assert').strict
 const fs = require('fs')
 const path = require('path')
