@@ -1,11 +1,10 @@
+import {describe, it, beforeEach, afterEach, expect, vi} from 'vitest'
 /* eslint-disable global-require, react/prop-types, no-underscore-dangle */
 /**
  * This tests are testing a base common behavior between HOC and hooks interfaces.
  */
 
-import expect from 'expect.js'
 import * as React from 'react'
-import {spy} from 'sinon'
 import TestRenderer from 'react-test-renderer'
 import {renderToString} from 'react-dom/server'
 import {stripIndent} from 'common-tags'
@@ -16,7 +15,7 @@ export default ({createStyledComponent}) => {
   it('should work in StrictMode without error on React 16.3+', () => {
     const MyComponent = createStyledComponent({})
 
-    spy(console, 'error')
+    vi.spyOn(console, 'error')
 
     TestRenderer.act(() => {
       TestRenderer.create(
@@ -26,9 +25,9 @@ export default ({createStyledComponent}) => {
       )
     })
 
-    expect(console.error.notCalled).to.be(true)
+    expect(console.error).not.toHaveBeenCalled()
 
-    console.error.restore()
+    console.error.mockRestore()
   })
 
   it('should reuse one static sheet for many elements and detach sheet', () => {
@@ -47,7 +46,7 @@ export default ({createStyledComponent}) => {
       )
     })
 
-    expect(registry.registry.length, 1)
+    expect(registry.registry).toHaveLength(1)
   })
 
   it('should register style sheets when `renderToString`', () => {
@@ -62,7 +61,7 @@ export default ({createStyledComponent}) => {
       </JssProvider>
     )
 
-    expect(registry.toString()).to.be(stripIndent`
+    expect(registry.toString()).toBe(stripIndent`
       .id {
         color: red;
       }
@@ -85,7 +84,7 @@ export default ({createStyledComponent}) => {
         <MyComponent />
       </JssProvider>
     )
-    expect(registry.toString()).to.be(stripIndent`
+    expect(registry.toString()).toBe(stripIndent`
       .ui-button {
         color: red;
       }
@@ -124,11 +123,11 @@ export default ({createStyledComponent}) => {
         )
       })
 
-      expect(registry.registry.length).to.equal(2)
+      expect(registry.registry.length).toBe(2)
       const indexA = registry.registry[0].options.index
       const indexB = registry.registry[1].options.index
 
-      expect(indexA).to.be.lessThan(indexB)
+      expect(indexA).toBeLessThan(indexB)
     })
 
     it('should not be affected by rendering order', () => {
@@ -141,11 +140,11 @@ export default ({createStyledComponent}) => {
         )
       })
 
-      expect(registry.registry.length).to.equal(2)
+      expect(registry.registry.length).toBe(2)
       const indexA = registry.registry[0].options.index
       const indexB = registry.registry[1].options.index
 
-      expect(indexA).to.be.lessThan(indexB)
+      expect(indexA).toBeLessThan(indexB)
     })
 
     it('should keep custom index', () => {
@@ -157,19 +156,19 @@ export default ({createStyledComponent}) => {
         )
       })
 
-      expect(registry.registry.length).to.equal(1)
+      expect(registry.registry.length).toBe(1)
       const indexC = registry.registry[0].options.index
-      expect(indexC).to.equal(1234)
+      expect(indexC).toBe(1234)
     })
   })
 
   describe('properly warn about themed styles misuse', () => {
     beforeEach(() => {
-      spy(console, 'warn')
+      vi.spyOn(console, 'warn')
     })
 
     afterEach(() => {
-      console.warn.restore()
+      console.warn.mockRestore()
     })
 
     it('warn if themed styles dont use theme', () => {
@@ -179,11 +178,9 @@ export default ({createStyledComponent}) => {
         TestRenderer.create(<MyComponent theme={{}} />)
       })
 
-      expect(
-        console.warn.calledWithExactly(
-          `Warning: [JSS] <Comp />'s styles function doesn't rely on the "theme" argument. We recommend declaring styles as an object instead.`
-        )
-      ).to.be(true)
+      expect(console.warn).toHaveBeenCalledExactlyOnceWith(
+        `Warning: [JSS] <Comp />'s styles function doesn't rely on the "theme" argument. We recommend declaring styles as an object instead.`
+      )
     })
 
     it('should not warn if themed styles _do use_ theme', () => {
@@ -193,7 +190,7 @@ export default ({createStyledComponent}) => {
         TestRenderer.create(<MyComponent theme={{}} />)
       })
 
-      expect(console.warn.called).to.be(false)
+      expect(console.warn).not.toHaveBeenCalled()
     })
   })
 
@@ -222,12 +219,12 @@ export default ({createStyledComponent}) => {
 
     it('should pass displayName as prefix', () => {
       renderTest()
-      expect(classNamePrefix).to.be('DisplayNameTest-')
+      expect(classNamePrefix).toBe('DisplayNameTest-')
     })
 
     it('should handle spaces correctly', () => {
       renderTest('Display Name Test')
-      expect(classNamePrefix).to.be('Display-Name-Test-')
+      expect(classNamePrefix).toBe('Display-Name-Test-')
     })
   })
 }

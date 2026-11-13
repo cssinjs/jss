@@ -1,6 +1,6 @@
 ## JavaScript Environment Requirements
 
-We run our tests against a [number of real browsers](../browsers.json) including IE9, but we do NOT include polyfills we rely on in the build. It is up to the user to include polyfills depending on what environment they need to support. Here is a [full list of polyfills](../polyfills.js) you will need if you support ALL browsers JSS does.
+The [historical browser support matrix](../browsers.json) includes IE9; the current automated browser tests run in Chromium using Vitest and Playwright. We do NOT include polyfills we rely on in the build. It is up to the user to include polyfills depending on what environment they need to support. Here is a [full list of polyfills](../polyfills.js) you will need if you support ALL browsers JSS does.
 
 We consider adding a requirement to a new polyfill - a breaking change and it will require a major version incrementation.
 
