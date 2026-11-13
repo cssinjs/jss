@@ -1,8 +1,8 @@
+import {describe, it, beforeEach, expect} from 'vitest'
 /* eslint-disable global-require, react/prop-types, react/no-find-dom-node, react/no-multi-comp, react/prefer-stateless-function */
 /**
  * This tests are testing a common behavior for dynamic styles between HOC and hooks interfaces.
  */
-import expect from 'expect.js'
 import * as React from 'react'
 import TestRenderer from 'react-test-renderer'
 import {stripIndent} from 'common-tags'
@@ -53,12 +53,12 @@ export default ({createStyledComponent}) => {
         </JssProvider>
       )
 
-      expect(registry.registry.length).to.equal(1)
-      expect(registry.registry[0].attached).to.equal(true)
+      expect(registry.registry.length).toBe(1)
+      expect(registry.registry[0].attached).toBe(true)
 
       renderer.unmount()
 
-      expect(registry.registry[0].attached).to.equal(false)
+      expect(registry.registry[0].attached).toBe(false)
     })
 
     it('should have correct meta attribute', () => {
@@ -68,7 +68,7 @@ export default ({createStyledComponent}) => {
         </JssProvider>
       )
 
-      expect(registry.registry[0].options.meta).to.equal('NoRenderer, Unthemed')
+      expect(registry.registry[0].options.meta).toBe('NoRenderer, Unthemed')
     })
 
     it('should reuse sheet between component instances', () => {
@@ -79,7 +79,7 @@ export default ({createStyledComponent}) => {
         </JssProvider>
       )
 
-      expect(registry.registry.length).to.equal(1)
+      expect(registry.registry.length).toBe(1)
     })
 
     it('should have dynamic and static styles', () => {
@@ -91,7 +91,7 @@ export default ({createStyledComponent}) => {
         )
       })
 
-      expect(classes.button).to.equal('button-0 button-d0-1')
+      expect(classes.button).toBe('button-0 button-d0-1')
     })
 
     it('should generate different dynamic values', () => {
@@ -102,7 +102,7 @@ export default ({createStyledComponent}) => {
         </JssProvider>
       )
 
-      expect(registry.toString()).to.equal(stripIndent`
+      expect(registry.toString()).toBe(stripIndent`
         .button-0 {
           color: rgb(255, 255, 255);
         }
@@ -135,7 +135,7 @@ export default ({createStyledComponent}) => {
 
       const renderer = TestRenderer.create(<Container height={10} />)
 
-      expect(registry.toString()).to.equal(stripIndent`
+      expect(registry.toString()).toBe(stripIndent`
         .button-0 {
           color: rgb(255, 255, 255);
         }
@@ -158,7 +158,7 @@ export default ({createStyledComponent}) => {
 
       renderer.update(<Container height={20} />)
 
-      expect(registry.toString()).to.equal(stripIndent`
+      expect(registry.toString()).toBe(stripIndent`
         .button-0 {
           color: rgb(255, 255, 255);
         }
@@ -198,7 +198,7 @@ export default ({createStyledComponent}) => {
 
       const renderer = TestRenderer.create(<Container height={10} />)
 
-      expect(registry.toString()).to.equal(stripIndent`
+      expect(registry.toString()).toBe(stripIndent`
         .button-0 {
           width: 10px;
         }
@@ -209,7 +209,7 @@ export default ({createStyledComponent}) => {
 
       renderer.update(<Container height={null} />)
 
-      expect(registry.toString()).to.equal(stripIndent`
+      expect(registry.toString()).toBe(stripIndent`
         .button-0 {
           width: 10px;
         }
@@ -236,7 +236,7 @@ export default ({createStyledComponent}) => {
 
       const renderer = TestRenderer.create(<Container height={10} />)
 
-      expect(registry.toString()).to.equal(stripIndent`
+      expect(registry.toString()).toBe(stripIndent`
         .button0-0 {
           width: 10px;
         }
@@ -248,7 +248,7 @@ export default ({createStyledComponent}) => {
 
       renderer.update(<Container height={null} />)
 
-      expect(registry.toString()).to.equal(stripIndent`
+      expect(registry.toString()).toBe(stripIndent`
         .button0-0 {
           width: 10px;
         }
@@ -276,8 +276,8 @@ export default ({createStyledComponent}) => {
 
       TestRenderer.create(<MyComponent height={20} />)
 
-      expect(passedProps.color).to.equal('rgb(255, 0, 0)')
-      expect(passedProps.height).to.equal(20)
+      expect(passedProps.color).toBe('rgb(255, 0, 0)')
+      expect(passedProps.height).toBe(20)
     })
     it('should update rules with a nested media query in a list', () => {
       const ListItem = createStyledComponent({
@@ -310,7 +310,7 @@ export default ({createStyledComponent}) => {
         renderer = TestRenderer.create(<Container colors={['red', 'green']} />)
       })
 
-      expect(registry.toString()).to.equal(stripIndent`
+      expect(registry.toString()).toBe(stripIndent`
         .container-0 {
           display: block;
         }
@@ -335,7 +335,7 @@ export default ({createStyledComponent}) => {
         renderer.update(<Container colors={['blue']} />)
       })
 
-      expect(registry.toString()).to.equal(stripIndent`
+      expect(registry.toString()).toBe(stripIndent`
         .container-0 {
           display: block;
         }
@@ -382,7 +382,7 @@ export default ({createStyledComponent}) => {
         renderer = TestRenderer.create(<Container colors={['red', 'green']} />)
       })
 
-      expect(registry.toString()).to.equal(stripIndent`
+      expect(registry.toString()).toBe(stripIndent`
         @media (min-width: 0px) {
           .container-0 {
             display: block;
@@ -404,7 +404,7 @@ export default ({createStyledComponent}) => {
         renderer.update(<Container colors={['blue']} />)
       })
 
-      expect(registry.toString()).to.equal(stripIndent`
+      expect(registry.toString()).toBe(stripIndent`
         @media (min-width: 0px) {
           .container-0 {
             display: block;
@@ -447,12 +447,12 @@ export default ({createStyledComponent}) => {
         </JssProvider>
       )
 
-      expect(registry.registry.length).to.equal(1)
-      expect(registry.registry[0].attached).to.equal(true)
+      expect(registry.registry.length).toBe(1)
+      expect(registry.registry[0].attached).toBe(true)
 
       renderer.unmount()
 
-      expect(registry.registry[0].attached).to.equal(false)
+      expect(registry.registry[0].attached).toBe(false)
     })
 
     it('should have correct meta attribute', () => {
@@ -462,7 +462,7 @@ export default ({createStyledComponent}) => {
         </JssProvider>
       )
 
-      expect(registry.registry[0].options.meta).to.equal('NoRenderer, Unthemed')
+      expect(registry.registry[0].options.meta).toBe('NoRenderer, Unthemed')
     })
 
     it('should reuse static sheet, but generate separate dynamic once', () => {
@@ -473,7 +473,7 @@ export default ({createStyledComponent}) => {
         </JssProvider>
       )
 
-      expect(registry.registry.length).to.equal(1)
+      expect(registry.registry.length).toBe(1)
     })
 
     it('should have dynamic and static styles', () => {
@@ -482,7 +482,7 @@ export default ({createStyledComponent}) => {
           <MyComponent />
         </JssProvider>
       )
-      expect(classes.button).to.equal('button-0 button-d0-1')
+      expect(classes.button).toBe('button-0 button-d0-1')
     })
 
     it('should generate different dynamic values', () => {
@@ -493,7 +493,7 @@ export default ({createStyledComponent}) => {
         </JssProvider>
       )
 
-      expect(registry.toString()).to.equal(stripIndent`
+      expect(registry.toString()).toBe(stripIndent`
         .button-0 {}
         .button-d0-1 {
           color: rgb(255, 255, 255);
@@ -519,7 +519,7 @@ export default ({createStyledComponent}) => {
 
       const renderer = TestRenderer.create(<Container height={10} />)
 
-      expect(registry.toString()).to.equal(stripIndent`
+      expect(registry.toString()).toBe(stripIndent`
         .button-0 {}
         .button-d0-1 {
           color: rgb(255, 255, 255);
@@ -532,7 +532,7 @@ export default ({createStyledComponent}) => {
       `)
       renderer.update(<Container height={20} />)
 
-      expect(registry.toString()).to.equal(stripIndent`
+      expect(registry.toString()).toBe(stripIndent`
         .button-0 {}
         .button-d0-1 {
           color: rgb(255, 255, 255);
@@ -561,8 +561,8 @@ export default ({createStyledComponent}) => {
       }
       TestRenderer.create(<MyComponent height={20} />)
 
-      expect(passedProps.color).to.equal('rgb(255, 0, 0)')
-      expect(passedProps.height).to.equal(20)
+      expect(passedProps.color).toBe('rgb(255, 0, 0)')
+      expect(passedProps.height).toBe(20)
     })
 
     it('should render multiple elements with applied media query and theme function', () => {
@@ -594,7 +594,7 @@ export default ({createStyledComponent}) => {
           </ThemeProvider>
         </JssProvider>
       )
-      expect(registry.toString()).to.be(stripIndent`
+      expect(registry.toString()).toBe(stripIndent`
         .wrapper-0 {}
         .wrapper-d0-1 {
           padding: 40px;
