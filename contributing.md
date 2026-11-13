@@ -108,6 +108,11 @@ never rewrite budgets. If a check fails, investigate the added code or dependenc
 For intentional growth, update only the affected budget in `.size-limit.js` and explain the
 size increase in the pull request. Do not automatically regenerate budgets during releases.
 
+## Releases
+
+See [the release guide](docs/releases.md) for GitHub Actions preparation, npm trusted
+publishing setup, approval, and recovery. Releases are no longer published from a maintainer's machine.
+
 ## IDEs
 
 If you are using VS Code, you'll need to do 2 things to get Flow type support:

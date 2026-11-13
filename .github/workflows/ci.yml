@@ -28,6 +28,8 @@ jobs:
         run: yarn check:all
       - name: Run unit tests
         run: yarn test:unit
+      - name: Test release tooling
+        run: yarn test:release
       - name: Install Chromium for Vitest
         run: yarn playwright install --with-deps chromium
       - name: Run browser tests

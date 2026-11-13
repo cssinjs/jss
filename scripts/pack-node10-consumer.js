@@ -8,12 +8,23 @@ const {execFileSync} = require('child_process')
 const root = path.resolve(__dirname, '..')
 const consumer = fs.mkdtempSync(path.join(os.tmpdir(), 'jss-node10-'))
 const dependencies = {react: '16.8.6', 'react-dom': '16.8.6'}
+// Release CI tests the exact npm tarballs that will be published, not a repack.
+const artifactDirectory = process.argv[2] && path.resolve(process.argv[2])
+const manifest =
+  artifactDirectory &&
+  JSON.parse(fs.readFileSync(path.join(artifactDirectory, 'manifest.json'), 'utf8'))
 
 fs.readdirSync(path.join(root, 'packages')).forEach((directory) => {
   const cwd = path.join(root, 'packages', directory)
   const pkg = JSON.parse(fs.readFileSync(path.join(cwd, 'package.json'), 'utf8'))
   const archive = path.join(consumer, `${pkg.name}.tgz`)
-  execFileSync('yarn', ['pack', '--filename', archive], {cwd, stdio: 'inherit'})
+  if (manifest) {
+    const artifact = manifest.packages.find((entry) => entry.name === pkg.name)
+    if (!artifact) throw new Error(`Missing release artifact for ${pkg.name}`)
+    fs.copyFileSync(path.join(artifactDirectory, artifact.filename), archive)
+  } else {
+    execFileSync('yarn', ['pack', '--filename', archive], {cwd, stdio: 'inherit'})
+  }
   dependencies[pkg.name] = `file:${archive}`
 })
 
