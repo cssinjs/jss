@@ -1,4 +1,7 @@
-﻿// react-jss, css-jss
+﻿// Reference imports for consumers supporting legacy browsers; not executed by this repository.
+/* eslint-disable import/no-unresolved */
+
+// react-jss, css-jss
 import 'core-js/features/map'
 import 'core-js/features/function/name'
 // jss, jss-plugin-cache
