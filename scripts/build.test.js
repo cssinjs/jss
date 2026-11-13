@@ -6,7 +6,7 @@ const vm = require('vm')
 const {createRequire} = require('module')
 const {test} = require('node:test') // eslint-disable-line import/no-unresolved
 const camelCase = require('camelcase')
-const {parse} = require('acorn')
+const {Linter} = require('eslint')
 const jss = require('jss')
 const reactJss = require('react-jss')
 const React = require('react')
@@ -19,6 +19,14 @@ const exportNames = (value) =>
   Object.keys(value)
     .filter((key) => key !== '__esModule')
     .sort()
+
+// Reuse ESLint's parser to enforce syntax targets without applying lint rules.
+function parse(code, parserOptions) {
+  const linter = new Linter()
+  const messages = linter.verify(code, {parserOptions}, {allowInlineConfig: false})
+  assert.deepStrictEqual(messages, [])
+  return linter.getSourceCode().ast
+}
 
 // ESM necessarily retains import/export, but its implementation must be ES5 too.
 function parseLegacyEsm(code) {
