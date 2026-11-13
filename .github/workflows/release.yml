@@ -127,8 +127,8 @@ jobs:
             echo "Release ${TAG} already exists"
             exit 0
           fi
-          FLAGS=(--latest)
-          if [[ "$VERSION" == *-* ]]; then
+          FLAGS=()
+          if [[ "${VERSION%%+*}" == *-* ]]; then
             FLAGS=(--prerelease --latest=false)
           fi
           gh release create "$TAG" --verify-tag --title "$TAG" \

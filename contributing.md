@@ -110,8 +110,9 @@ size increase in the pull request. Do not automatically regenerate budgets durin
 
 ## Releases
 
-See [the release guide](docs/releases.md) for GitHub Actions preparation, npm trusted
-publishing setup, approval, and recovery. Releases are no longer published from a maintainer's machine.
+See [the release guide](docs/releases.md) for local version preparation and a human-reviewed
+PR, followed by GitHub Actions publishing, npm trusted publishing setup, approval, and recovery.
+Releases are no longer published from a maintainer's machine.
 
 ## IDEs
 

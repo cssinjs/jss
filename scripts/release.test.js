@@ -6,6 +6,7 @@ const {test} = require('node:test') // eslint-disable-line import/no-unresolved
 const {xSync} = require('tinyexec')
 const {
   validate,
+  releaseTag,
   releaseNotes,
   integrity,
   checkArtifacts,
@@ -42,7 +43,27 @@ test('validates a synchronized release and extracts only its changelog section',
 
 test('rejects invalid input, unsynchronized versions, and missing changelog sections', (t) => {
   const {directory, write} = fixture(t)
-  assert.throws(() => validate('1.2.3; echo unsafe', directory), /stable version/)
+  ;[
+    undefined,
+    null,
+    123,
+    '',
+    'v1.2.3',
+    '=1.2.3',
+    ' 1.2.3',
+    '1.2.3 ',
+    '1.2.3\n',
+    '01.2.3',
+    '1.2',
+    '1.2.3-dev.01',
+    '1.2.3-dev.9007199254740992',
+    '1.2.3-dev.9007199254740993',
+    `1.2.3-dev.${'9'.repeat(100)}`,
+    '1.2.3; echo unsafe',
+    '1.2.3$(echo unsafe)'
+  ].forEach((version) => {
+    assert.throws(() => validate(version, directory), /canonical SemVer/)
+  })
   assert.throws(() => validate('1.2.4', directory), /lerna.json/)
   write('packages/b/package.json', {name: 'b', version: '1.2.2'})
   assert.throws(() => validate('1.2.3', directory), /b does not match/)
@@ -53,6 +74,28 @@ test('rejects invalid input, unsynchronized versions, and missing changelog sect
     () => releaseNotes('## 1.2.3 (today)\n## 1.2.3 (yesterday)', '1.2.3'),
     /exactly one/
   )
+})
+
+test('accepts arbitrary prereleases and distinguishes hyphens in build metadata', (t) => {
+  const {directory, write} = fixture(t)
+  ;[
+    '1.2.3-dev.0',
+    '1.2.3-dev.9007199254740991',
+    '1.2.3-dev.9007199254740993a',
+    '1.2.3-dev.1e16',
+    '1.2.3-preview.feature.10+build-1',
+    '1.2.3+build-with-hyphens'
+  ].forEach((version) => {
+    write('lerna.json', {version})
+    write('packages/a/package.json', {name: 'a', version, dependencies: {b: version}})
+    write('packages/b/package.json', {name: 'b', version})
+    write('changelog.md', `## ${version} (2026-01-01)\n\nRelease notes\n`)
+    assert.strictEqual(validate(version, directory).length, 2)
+    assert.strictEqual(
+      releaseTag(version),
+      version === '1.2.3+build-with-hyphens' ? 'latest' : 'next'
+    )
+  })
 })
 
 test('requires exact workspace dependencies but preserves peer ranges', (t) => {
@@ -174,32 +217,69 @@ test('never moves a newer npm tag backwards, including prereleases', () => {
   assertTagNotNewer(undefined, '1.2.3')
   assertTagNotNewer('1.2.3', '1.2.3')
   assertTagNotNewer('1.2.3-alpha.9', '1.2.3-alpha.10')
+  assertTagNotNewer('1.2.3-dev.9', '1.2.3-dev.10')
+  assertTagNotNewer('1.2.3-dev.feature.9', '1.2.3-dev.feature.10')
+  assertTagNotNewer('1.2.3+build-b', '1.2.3+build-a')
+  assertTagNotNewer('1.2.3-dev.0+build-b', '1.2.3-dev.0+build-a')
   assertTagNotNewer('1.2.3-rc.9', '1.2.3')
   assertTagNotNewer('1.2.3', '1.2.4-alpha.0')
   assert.throws(() => assertTagNotNewer('1.3.0', '1.2.9'), /backwards/)
   assert.throws(() => assertTagNotNewer('1.2.3', '1.2.3-alpha.0'), /backwards/)
   assert.throws(() => assertTagNotNewer('1.2.3-beta.0', '1.2.3-alpha.10'), /backwards/)
-  assert.throws(() => assertTagNotNewer('invalid', '1.2.3'), /Cannot compare/)
+  assert.throws(() => assertTagNotNewer('1.2.3-dev.10', '1.2.3-dev.9'), /backwards/)
+  ;['invalid', '', null, 123, 'v1.2.3', ' 1.2.3 ', '1.2.3; echo unsafe'].forEach((current) => {
+    assert.throws(() => assertTagNotNewer(current, '1.2.3'), /Cannot compare/)
+  })
 })
 
-test('runs with staged tinyexec without installing workspace dependencies', (t) => {
+test('fails closed on numeric prerelease identifiers beyond exact comparison', () => {
+  assert.throws(
+    () => assertTagNotNewer('1.2.3-dev.9007199254740993', '1.2.3-dev.9007199254740992'),
+    /Cannot compare/
+  )
+  assert.throws(() => assertTagNotNewer(`1.2.3-dev.${'9'.repeat(100)}`, '1.2.3'), /Cannot compare/)
+  assertTagNotNewer('1.2.3-dev.9007199254740990', '1.2.3-dev.9007199254740991')
+  assertTagNotNewer('1.2.3-dev.9007199254740991', '1.2.3-dev.9007199254740991')
+  assert.throws(
+    () => assertTagNotNewer('1.2.3-dev.9007199254740991', '1.2.3-dev.9007199254740990'),
+    /backwards/
+  )
+  assertTagNotNewer('1.2.3-dev.9007199254740993a', '1.2.3')
+  assertTagNotNewer('1.2.3-dev.1e16', '1.2.3')
+})
+
+test('runs with staged tinyexec and verkit without workspace dependencies', (t) => {
   const {directory} = fixture(t)
   const script = path.join(directory, 'scripts', 'release.js')
   fs.mkdirSync(path.dirname(script))
   fs.copyFileSync(path.join(__dirname, 'release.js'), script)
   const modules = path.join(directory, 'runtime', 'node_modules')
-  fs.cpSync(
-    path.dirname(require.resolve('tinyexec/package.json')),
-    path.join(modules, 'tinyexec'),
-    {
+  ;['tinyexec', 'verkit'].forEach((name) => {
+    fs.cpSync(path.dirname(require.resolve(`${name}/package.json`)), path.join(modules, name), {
       recursive: true
-    }
-  )
+    })
+  })
   const result = xSync(process.execPath, [script, 'validate', '1.2.3'], {
     throwOnError: true,
     nodeOptions: {cwd: directory, env: {NODE_PATH: modules}}
   })
   assert.strictEqual(result.exitCode, 0)
+  const comparison = xSync(
+    process.execPath,
+    [
+      '-e',
+      `const assert = require('assert')
+      for (const name of ['tinyexec', 'verkit']) {
+        assert.ok(require.resolve(name).startsWith(process.env.NODE_PATH))
+      }
+      const {assertTagNotNewer, releaseTag} = require('./scripts/release')
+      assertTagNotNewer('1.2.3-dev.9', '1.2.3-dev.10')
+      assert.throws(() => assertTagNotNewer('1.2.3', '1.2.3-dev.0'), /backwards/)
+      assert.strictEqual(releaseTag('1.2.3+build-with-hyphens'), 'latest')`
+    ],
+    {throwOnError: true, nodeOptions: {cwd: directory, env: {NODE_PATH: modules}}}
+  )
+  assert.strictEqual(comparison.exitCode, 0)
 })
 
 test('refuses local publication without GitHub OIDC', () => {

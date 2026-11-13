@@ -2,7 +2,11 @@
 
 Releases use reviewed version changes followed by GitHub Actions and npm trusted publishing.
 All 19 packages keep the same version and exact internal dependencies. Stable versions use
-`latest`; `alpha.N`, `beta.N`, and `rc.N` prereleases use `next`.
+`latest`; SemVer prereleases (for example `alpha.0` or `dev.0`) use `next`.
+Numeric prerelease identifiers must not exceed `Number.MAX_SAFE_INTEGER` (9007199254740991).
+Verkit 0.5.0 can round larger numeric identifiers during comparison, so validation and npm
+rollback checks deliberately reject them. Nonnumeric identifiers such as `1e16` or
+`9007199254740993a` remain supported.
 
 ## One-time setup
 
@@ -42,8 +46,7 @@ All 19 packages keep the same version and exact internal dependencies. Stable ve
    - `jss-starter-kit`
    - `react-jss`
 
-3. Allow GitHub Actions to create branches with the repository's `GITHUB_TOKEN`.
-   Keep normal branch protection and review requirements on `master`. Protect changes to
+3. Keep normal branch protection and review requirements on `master`. Protect changes to
    `.github/workflows/` and `scripts/release.js` with maintainer review.
 4. After the first successful trusted publication, revoke old npm publishing tokens and
    remove unused npm credentials from CI. In npm's publishing access settings, choose the
@@ -56,22 +59,8 @@ or GitHub password is needed by these workflows.
 
 ## Prepare and review
 
-1. Maintain the release notes under `## Next` in `changelog.md`.
-2. Run **Actions → Prepare release → Run workflow** on `master` and choose an increment:
-   - `patch`, `minor`, `major` for stable releases.
-   - `prepatch`, `preminor`, `premajor` to start an alpha sequence.
-   - `prerelease` to advance an alpha sequence.
-3. The workflow runs Lerna versioning **without committing, tagging, or publishing**,
-   updates the changelog and lockfile, rebuilds package READMEs, and pushes
-   `release/v<VERSION>`. It never force-pushes an existing branch.
-4. Follow the workflow summary's link and **open the PR manually**. Review versions,
-   dependency changes, and release notes; let CI pass, then merge normally.
-
-Opening the PR manually is intentional: branch pushes or PRs created by `GITHUB_TOKEN`
-do not normally trigger other workflows. A human opening the PR triggers normal PR CI
-without introducing an extra GitHub App credential.
-
-For local preparation, start from a clean, up-to-date `master` using Node 24:
+Maintain the release notes under `## Next` in `changelog.md`. Prepare releases locally
+from a clean, up-to-date `master` using Node 24:
 
 ```sh
 yarn install --frozen-lockfile
@@ -80,8 +69,14 @@ yarn install --ignore-scripts --non-interactive
 yarn build
 ```
 
-Then format, create a branch, and commit the version files, changelog, lockfile, and package
-READMEs. Lerna does not update peer dependency ranges automatically; review them separately.
+Use `patch`, `minor`, or `major` for stable releases; `prepatch`, `preminor`, or `premajor`
+starts a prerelease sequence with the default `alpha` identifier, and `prerelease` advances it.
+Preparation runs Lerna without committing, tagging, or publishing.
+
+Then format the changed files, create a release branch, and commit the version files,
+changelog, lockfile, and package READMEs. Open a normal PR for human review of versions,
+dependency changes, and release notes; let CI pass, then merge normally. Lerna does not
+update peer dependency ranges automatically; review them separately.
 
 ## Publish
 
@@ -92,13 +87,14 @@ READMEs. Lerna does not update peer dependency ranges automatically; review them
    that will be published.
 3. Inspect the `npm-release` artifact and approve the protected environment deployment.
 4. The publishing job installs no workspace dependencies and runs no lifecycle scripts.
-   Its only external runtime dependency, `tinyexec`, is included in the artifact from the
-   validation job's frozen-lockfile installation and resolved through `NODE_PATH`.
+   Its external runtime dependencies, `tinyexec` and `verkit`, are included in the artifact
+   from the validation job's frozen-lockfile installation and resolved through `NODE_PATH`.
    It checks the artifact's commit, version, package list, and SHA-512 hashes, then publishes
    each tarball with public access, the appropriate dist-tag, and provenance.
 5. Only after all packages are verified on npm does the final job create `v<VERSION>` and
    the GitHub Release from that version's changelog section. Prereleases are marked as such
-   and are not marked as the latest GitHub Release.
+   and explicitly excluded from latest selection. Stable releases omit `--latest`, leaving
+   latest selection to GitHub's native automatic behavior.
 
 A dry validation command is available without any credentials:
 
@@ -131,5 +127,10 @@ before the others. The workflow serializes publications and never cancels an act
 - Before retrying an older run, ensure no newer version has been released. The npm guard
   rejects moving a newer tag backwards.
 
-New public packages require their own npm trusted-publisher configuration before joining a
-release. Update the package list above whenever workspace membership changes.
+This workflow assumes all package names already exist on npm: its dist-tag lookup fails
+for missing names. An entirely new package name needs an initial authenticated maintainer
+publication before npm makes trusted-publisher configuration available. Bootstrap it
+separately, before the coordinated release, without pre-publishing a conflicting archive
+at the intended release version. Keep bootstrap credentials out of these workflows, then
+configure the new package's trusted publisher before it joins a release. Update the package
+list above whenever workspace membership changes.

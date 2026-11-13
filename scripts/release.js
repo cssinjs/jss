@@ -1,13 +1,28 @@
-// tinyexec is staged with the validated artifacts so the publishing job does
+// tinyexec and verkit are staged with the validated artifacts so the publishing job does
 // not need to install workspace dependencies while it has OIDC access.
 const fs = require('fs')
 const path = require('path')
 const crypto = require('crypto')
 const {xSync} = require('tinyexec')
+// The legacy ESLint resolver does not support verkit's package exports.
+const {isValid, normalizeFull, compare, isPrerelease, tryParse} = require('verkit') // eslint-disable-line import/no-unresolved
 
 const root = path.resolve(__dirname, '..')
 const registry = 'https://registry.npmjs.org/'
-const versionPattern = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(alpha|beta|rc)\.(0|[1-9]\d*))?$/
+
+function isReleaseVersion(version) {
+  // verkit accepts v prefixes and whitespace; releases require canonical spelling.
+  if (typeof version !== 'string' || !isValid(version) || normalizeFull(version) !== version)
+    return false
+  // verkit can round large numeric prerelease strings during comparison. Fail closed.
+  return (tryParse(version).prerelease || []).every(
+    (identifier) => !/^\d+$/.test(identifier) || Number.isSafeInteger(Number(identifier))
+  )
+}
+
+function releaseTag(version) {
+  return isPrerelease(version) ? 'next' : 'latest'
+}
 
 function run(command, args, options = {}) {
   return xSync(command, args, {
@@ -50,8 +65,10 @@ function releaseNotes(content, version) {
 }
 
 function validate(version, directory = root) {
-  if (!versionPattern.test(version))
-    throw new Error('Use a stable version or alpha.N, beta.N, rc.N prerelease')
+  if (!isReleaseVersion(version))
+    throw new Error(
+      'Use a canonical SemVer version with safe-integer numeric prerelease identifiers'
+    )
   if (readJson(path.join(directory, 'lerna.json')).version !== version) {
     throw new Error(`lerna.json does not match ${version}`)
   }
@@ -138,12 +155,14 @@ function pack(version, destination) {
       }
     })
   }
-  // Preserve the exact lockfile-installed, dependency-free tinyexec package.
-  fs.cpSync(
-    path.dirname(require.resolve('tinyexec/package.json')),
-    path.join(destination, 'node_modules', 'tinyexec'),
-    {recursive: true}
-  )
+  // Preserve both exact lockfile-installed, dependency-free runtime packages.
+  ;['tinyexec', 'verkit'].forEach((name) => {
+    fs.cpSync(
+      path.dirname(require.resolve(`${name}/package.json`)),
+      path.join(destination, 'node_modules', name),
+      {recursive: true}
+    )
+  })
   fs.writeFileSync(
     path.join(destination, 'manifest.json'),
     `${JSON.stringify(manifest, null, 2)}\n`
@@ -213,21 +232,9 @@ function publishArtifacts(manifest, lookup, upload) {
 }
 
 function assertTagNotNewer(current, version) {
-  if (!current) return
-  if (!versionPattern.test(current)) throw new Error(`Cannot compare existing npm tag ${current}`)
-  const components = (value) => {
-    const [stable, prerelease] = value.split('-')
-    return [
-      ...stable.split('.').map(Number),
-      prerelease ? 0 : 1,
-      prerelease ? ['alpha', 'beta', 'rc'].indexOf(prerelease.split('.')[0]) : 0,
-      prerelease ? Number(prerelease.split('.')[1]) : 0
-    ]
-  }
-  const previous = components(current)
-  const next = components(version)
-  const difference = previous.findIndex((value, index) => value !== next[index])
-  if (difference !== -1 && previous[difference] > next[difference]) {
+  if (current === undefined) return
+  if (!isReleaseVersion(current)) throw new Error(`Cannot compare existing npm tag ${current}`)
+  if (compare(current, version) > 0) {
     throw new Error(`Refusing to move npm tag backwards from ${current} to ${version}`)
   }
 }
@@ -239,7 +246,7 @@ function publish(version, destination) {
   const list = validate(version)
   const manifest = readJson(path.join(destination, 'manifest.json'))
   checkArtifacts(manifest, version, run('git', ['rev-parse', 'HEAD']), list, destination)
-  const tag = version.includes('-') ? 'next' : 'latest'
+  const tag = releaseTag(version)
   manifest.packages.forEach((pkg) => {
     const tags = JSON.parse(
       run('npm', ['view', pkg.name, 'dist-tags', '--json', '--registry', registry])
@@ -286,6 +293,7 @@ if (require.main === module) {
 
 module.exports = {
   validate,
+  releaseTag,
   releaseNotes,
   integrity,
   checkArtifacts,
