@@ -1,0 +1,135 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Exact version already merged into master (for example 10.10.1 or 11.0.0-alpha.0)
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+# Never cancel a partially completed npm publication.
+concurrency:
+  group: npm-release
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-22.04
+    env:
+      VERSION: ${{ inputs.version }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: .nvmrc
+          cache: yarn
+      - name: Pin npm with trusted publishing support
+        run: npm install --global npm@11.16.0
+      - run: yarn install --frozen-lockfile
+      - name: Validate version and existing tag
+        run: |
+          node scripts/release.js validate "$VERSION"
+          if git show-ref --verify --quiet "refs/tags/v${VERSION}"; then
+            test "$(git rev-parse "v${VERSION}^{commit}")" = "$GITHUB_SHA"
+          fi
+      - run: yarn format:ci
+      - run: yarn build
+      - run: yarn check:all
+      - run: yarn test:unit
+      - run: yarn test:release
+      - run: yarn playwright install --with-deps chromium
+      - run: yarn test:browser --coverage
+      - name: Pack release artifacts
+        run: node scripts/release.js pack "$VERSION" "$RUNNER_TEMP/release"
+      - name: Prepare Node 10 consumer with release artifacts
+        id: pack
+        run: node scripts/pack-node10-consumer.js "$RUNNER_TEMP/release"
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 10.24.1
+      - name: Install packaged consumer
+        working-directory: ${{ steps.pack.outputs.consumer }}
+        run: npm install --no-package-lock
+      - name: Smoke test packaged consumer (development)
+        working-directory: ${{ steps.pack.outputs.consumer }}
+        run: NODE_ENV=development node smoke.js
+      - name: Smoke test packaged consumer (production)
+        working-directory: ${{ steps.pack.outputs.consumer }}
+        run: NODE_ENV=production node smoke.js
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: npm-release
+          path: ${{ runner.temp }}/release/
+          retention-days: 30
+          if-no-files-found: error
+
+  publish:
+    needs: validate
+    runs-on: ubuntu-22.04
+    environment: npm-release
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: .nvmrc
+      - run: npm install --global npm@11.16.0
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: npm-release
+          path: ${{ runner.temp }}/release
+      # No dependency installation, build, or npm token in this job.
+      - name: Publish verified tarballs through npm OIDC
+        env:
+          VERSION: ${{ inputs.version }}
+          NODE_PATH: ${{ runner.temp }}/release/node_modules
+        run: node scripts/release.js publish "$VERSION" "$RUNNER_TEMP/release"
+
+  github-release:
+    needs: publish
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: npm-release
+          path: ${{ runner.temp }}/release
+      - name: Create tag and GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          TAG="v${VERSION}"
+          if git show-ref --verify --quiet "refs/tags/${TAG}"; then
+            test "$(git rev-parse "${TAG}^{commit}")" = "$GITHUB_SHA"
+          else
+            gh api "repos/${GITHUB_REPOSITORY}/git/refs" -f "ref=refs/tags/${TAG}" -f "sha=${GITHUB_SHA}"
+          fi
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            echo "Release ${TAG} already exists"
+            exit 0
+          fi
+          FLAGS=()
+          if [[ "${VERSION%%+*}" == *-* ]]; then
+            FLAGS=(--prerelease --latest=false)
+          fi
+          gh release create "$TAG" --verify-tag --title "$TAG" \
+            --notes-file "$RUNNER_TEMP/release/release-notes.md" "${FLAGS[@]}"
