@@ -24,9 +24,6 @@ jobs:
         run: yarn format:ci
       - name: Build
         run: yarn build
-      - name: Restore baseline size snapshots
-        # Build generates snapshots; checks must compare against committed values.
-        run: git ls-files -z '**/.size-snapshot.json' | xargs -0 git restore --
       - name: Run checks
         run: yarn check:all
       - name: Run unit tests

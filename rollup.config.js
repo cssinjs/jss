@@ -5,7 +5,6 @@ import {babel} from '@rollup/plugin-babel'
 import commonjs from '@rollup/plugin-commonjs'
 import replace from '@rollup/plugin-replace'
 import {terser} from 'rollup-plugin-terser'
-import {sizeSnapshot} from 'rollup-plugin-size-snapshot'
 import camelCase from 'camelcase'
 
 const {getBabelOptions} = require('./babelOptions')
@@ -13,8 +12,6 @@ const getPackageJson = require('./scripts/get-package-json')
 
 const pkg = getPackageJson()
 const rootPath = path.resolve('./')
-const matchSnapshot = process.env.MATCH_SNAPSHOT === 'true'
-const logSnapshot = process.env.LOG_SNAPSHOT === 'true'
 
 const input = path.join(rootPath, './src/index.js')
 
@@ -52,12 +49,6 @@ const commonjsOptions = {
   ignoreGlobal: true
 }
 
-const snapshotOptions = {
-  matchSnapshot,
-  printInfo: logSnapshot,
-  snapshotPath: './.size-snapshot.json'
-}
-
 const createFlowBundlePlugin = {
   renderChunk(code, chunk, outputOptions) {
     const file = path.join(rootPath, `${outputOptions.file}.flow`)
@@ -85,8 +76,7 @@ export default [
       replace({
         'process.env.NODE_ENV': JSON.stringify('development'),
         'process.env.VERSION': JSON.stringify(pkg.version)
-      }),
-      sizeSnapshot(snapshotOptions)
+      })
     ]
   },
 
@@ -108,7 +98,6 @@ export default [
         'process.env.NODE_ENV': JSON.stringify('production'),
         'process.env.VERSION': JSON.stringify(pkg.version)
       }),
-      sizeSnapshot(snapshotOptions),
       terser()
     ]
   },
@@ -120,8 +109,7 @@ export default [
     plugins: [
       createFlowBundlePlugin,
       babel(getBabelConfig({useESModules: false})),
-      replace({'process.env.VERSION': JSON.stringify(pkg.version)}),
-      sizeSnapshot(snapshotOptions)
+      replace({'process.env.VERSION': JSON.stringify(pkg.version)})
     ]
   },
 
@@ -131,8 +119,7 @@ export default [
     external,
     plugins: [
       babel(getBabelConfig({useESModules: true})),
-      replace({'process.env.VERSION': JSON.stringify(pkg.version)}),
-      sizeSnapshot(snapshotOptions)
+      replace({'process.env.VERSION': JSON.stringify(pkg.version)})
     ]
   },
 
@@ -147,8 +134,6 @@ export default [
         'process.env.NODE_ENV': JSON.stringify('development'),
         'process.env.VERSION': JSON.stringify(pkg.version)
       })
-      // size-snapshot is disabled until this is resolved:
-      // https://github.com/TrySound/rollup-plugin-size-snapshot/issues/24
     ]
   }
 ]

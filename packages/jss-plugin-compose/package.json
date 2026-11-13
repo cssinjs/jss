@@ -33,8 +33,7 @@
     "composition"
   ],
   "scripts": {
-    "build": "node ../../scripts/build.js",
-    "check-snapshot": "node ../../scripts/match-snapshot.js"
+    "build": "node ../../scripts/build.js"
   },
   "dependencies": {
     "@babel/runtime": "^7.3.1",

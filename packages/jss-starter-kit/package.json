@@ -35,8 +35,7 @@
     "css-in-js"
   ],
   "scripts": {
-    "build": "node ../../scripts/build.js",
-    "check-snapshot": "node ../../scripts/match-snapshot.js"
+    "build": "node ../../scripts/build.js"
   },
   "dependencies": {
     "css-jss": "10.10.0",
