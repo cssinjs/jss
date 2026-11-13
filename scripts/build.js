@@ -1,15 +1,16 @@
+const fs = require('fs')
 const path = require('path')
-const shell = require('shelljs')
+const {xSync} = require('tinyexec')
 
 const createReadme = require('./create-readme')
 
-shell.rm('-rf', './dist/')
-shell.cp(path.join(__dirname, '..', 'LICENSE'), './')
+fs.rmSync('./dist/', {recursive: true, force: true})
+fs.copyFileSync(path.join(__dirname, '..', 'LICENSE'), './LICENSE')
 createReadme()
 
 const rolldown = path.join(__dirname, '../node_modules/.bin/rolldown')
-const {code} = shell.exec(`"${rolldown}" --config "../../rolldown.config.mjs"`)
-
-if (code !== 0) {
-  shell.exit(code)
-}
+xSync(rolldown, ['--config', '../../rolldown.config.mjs'], {
+  throwOnError: true,
+  nodePath: false,
+  nodeOptions: {stdio: 'inherit'}
+})
