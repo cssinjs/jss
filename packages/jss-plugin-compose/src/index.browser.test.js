@@ -1,8 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
-import expect from 'expect.js'
+import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest'
 import {create} from 'jss'
-import sinon from 'sinon'
 import compose from '.'
 
 const settings = {createGenerateId: () => (rule) => `${rule.key}-id`}
@@ -12,12 +11,12 @@ describe('jss-plugin-compose', () => {
   let spy
 
   beforeEach(() => {
-    spy = sinon.spy(console, 'warn')
+    spy = vi.spyOn(console, 'warn')
     jss = create(settings).use(compose())
   })
 
   afterEach(() => {
-    console.warn.restore()
+    spy.mockRestore()
   })
 
   describe('Ref composition', () => {
@@ -36,20 +35,20 @@ describe('jss-plugin-compose', () => {
     })
 
     afterEach(() => {
-      expect(spy.callCount).to.be(0)
+      expect(spy).toHaveBeenCalledTimes(0)
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
-      expect(sheet.getRule('b')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
+      expect(sheet.getRule('b')).not.toBe(undefined)
     })
 
     it('should compose classes', () => {
-      expect(sheet.classes.b).to.be('b-id a-id')
+      expect(sheet.classes.b).toBe('b-id a-id')
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  float: left;\n}\n.b-id {\n  color: red;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  float: left;\n}\n.b-id {\n  color: red;\n}')
     })
   })
 
@@ -66,15 +65,15 @@ describe('jss-plugin-compose', () => {
     })
 
     afterEach(() => {
-      expect(spy.callCount).to.be(0)
+      expect(spy).toHaveBeenCalledTimes(0)
     })
 
     it('should compose classes', () => {
-      expect(sheet.classes.a).to.be('a-id b')
+      expect(sheet.classes.a).toBe('a-id b')
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  color: red;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  color: red;\n}')
     })
   })
 
@@ -108,26 +107,26 @@ describe('jss-plugin-compose', () => {
     })
 
     afterEach(() => {
-      expect(spy.callCount).to.be(0)
+      expect(spy).toHaveBeenCalledTimes(0)
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
-      expect(sheet.getRule('b')).to.not.be(undefined)
-      expect(sheet.getRule('c')).to.not.be(undefined)
-      expect(sheet.getRule('d')).to.not.be(undefined)
-      expect(sheet.getRule('e')).to.not.be(undefined)
-      expect(sheet.getRule('f')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
+      expect(sheet.getRule('b')).not.toBe(undefined)
+      expect(sheet.getRule('c')).not.toBe(undefined)
+      expect(sheet.getRule('d')).not.toBe(undefined)
+      expect(sheet.getRule('e')).not.toBe(undefined)
+      expect(sheet.getRule('f')).not.toBe(undefined)
     })
 
     it('should compose classes', () => {
-      expect(sheet.classes.d).to.be('d-id a-id b-id c-id')
-      expect(sheet.classes.e).to.be('e-id a-id b-id c-id')
-      expect(sheet.classes.f).to.be('f-id a-id b-id c-id')
+      expect(sheet.classes.d).toBe('d-id a-id b-id c-id')
+      expect(sheet.classes.e).toBe('e-id a-id b-id c-id')
+      expect(sheet.classes.f).toBe('f-id a-id b-id c-id')
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '.a-id {\n' +
           '  float: left;\n' +
           '}\n' +
@@ -170,22 +169,22 @@ describe('jss-plugin-compose', () => {
     })
 
     afterEach(() => {
-      expect(spy.callCount).to.be(0)
+      expect(spy).toHaveBeenCalledTimes(0)
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
-      expect(sheet.getRule('b')).to.not.be(undefined)
-      expect(sheet.getRule('e')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
+      expect(sheet.getRule('b')).not.toBe(undefined)
+      expect(sheet.getRule('e')).not.toBe(undefined)
     })
 
     it('should compose classes', () => {
-      expect(sheet.classes.b).to.be('b-id a-id c d')
-      expect(sheet.classes.e).to.be('e-id a-id c d')
+      expect(sheet.classes.b).toBe('b-id a-id c d')
+      expect(sheet.classes.e).toBe('e-id a-id c d')
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '.a-id {\n' +
           '  float: left;\n' +
           '}\n' +
@@ -219,22 +218,22 @@ describe('jss-plugin-compose', () => {
     })
 
     afterEach(() => {
-      expect(spy.callCount).to.be(0)
+      expect(spy).toHaveBeenCalledTimes(0)
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
-      expect(sheet.getRule('b')).to.not.be(undefined)
-      expect(sheet.getRule('c')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
+      expect(sheet.getRule('b')).not.toBe(undefined)
+      expect(sheet.getRule('c')).not.toBe(undefined)
     })
 
     it('should compose classes', () => {
-      expect(sheet.classes.b).to.be('b-id a-id d')
-      expect(sheet.classes.c).to.be('c-id b-id a-id d')
+      expect(sheet.classes.b).toBe('b-id a-id d')
+      expect(sheet.classes.c).toBe('c-id b-id a-id d')
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '.a-id {\n' +
           '  float: left;\n' +
           '}\n' +
@@ -257,16 +256,14 @@ describe('jss-plugin-compose', () => {
         }
       })
 
-      expect(spy.callCount).to.be(1)
-      expect(
-        spy.calledWithExactly(
-          'Warning: [JSS] Cyclic composition detected. \n' +
-            '.a-id {\n' +
-            '  composes: $a;\n' +
-            '  color: red;\n' +
-            '}'
-        )
-      ).to.be(true)
+      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledWith(
+        'Warning: [JSS] Cyclic composition detected. \n' +
+          '.a-id {\n' +
+          '  composes: $a;\n' +
+          '  color: red;\n' +
+          '}'
+      )
     })
 
     it("should warn when try to compose ref which can't be resolved", () => {
@@ -277,12 +274,10 @@ describe('jss-plugin-compose', () => {
         }
       })
 
-      expect(spy.callCount).to.be(1)
-      expect(
-        spy.calledWithExactly(
-          'Warning: [JSS] Referenced rule is not defined. \n.a-id {\n  composes: $b;\n  color: red;\n}'
-        )
-      ).to.be(true)
+      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledWith(
+        'Warning: [JSS] Referenced rule is not defined. \n.a-id {\n  composes: $b;\n  color: red;\n}'
+      )
     })
   })
 })

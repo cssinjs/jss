@@ -1,4 +1,4 @@
-import expect from 'expect.js'
+import {afterEach, beforeEach, describe, expect, it} from 'vitest'
 import {stripIndent} from 'common-tags'
 import {create} from 'jss'
 import pluginExpand from '../../jss-plugin-expand'
@@ -38,7 +38,7 @@ describe('jss-plugin-rule-value-function: plugin-expand', () => {
 
     it.skip('should return correct .toString()', () => {
       sheet.update({border: '1px'})
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           border-top: 1px;
           border-bottom: 1px;
@@ -48,7 +48,7 @@ describe('jss-plugin-rule-value-function: plugin-expand', () => {
 
     it.skip('should handle when updating multiple times', () => {
       sheet.update({border: '1px'})
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           border-top: 1px;
           border-bottom: 1px;
@@ -56,7 +56,7 @@ describe('jss-plugin-rule-value-function: plugin-expand', () => {
       `)
 
       sheet.update({border: '5px'})
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           border-top: 5px;
           border-bottom: 5px;
@@ -85,7 +85,7 @@ describe('jss-plugin-rule-value-function: plugin-expand', () => {
 
     it('should return correct .toString()', () => {
       sheet.update({color: 'red'})
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           border-color: red;
         }
@@ -94,14 +94,14 @@ describe('jss-plugin-rule-value-function: plugin-expand', () => {
 
     it('should handle updating multiple times', () => {
       sheet.update({color: 'red'})
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           border-color: red;
         }
       `)
 
       sheet.update({color: 'blue'})
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           border-color: blue;
         }

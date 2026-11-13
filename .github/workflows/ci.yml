@@ -33,8 +33,8 @@ jobs:
         run: yarn test:unit
       - name: Install Chromium for Vitest
         run: yarn playwright install --with-deps chromium
-      - name: Run JSS browser tests
-        run: yarn test:browser:jss --coverage
+      - name: Run JSS core and plugin browser tests
+        run: yarn test:browser:vitest --coverage
       - name: Run remaining Karma browser tests
         run: yarn test:browser:karma --browsers ChromeHeadless
       - name: Pack Node 10 consumer

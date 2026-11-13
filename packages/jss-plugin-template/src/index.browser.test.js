@@ -1,9 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 
-import expect from 'expect.js'
+import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest'
 import {stripIndent} from 'common-tags'
 import {create} from 'jss'
-import sinon from 'sinon'
 import template from '.'
 
 const settings = {
@@ -15,12 +14,12 @@ describe('jss-plugin-template', () => {
   let jss
 
   beforeEach(() => {
-    spy = sinon.spy(console, 'warn')
+    spy = vi.spyOn(console, 'warn')
     jss = create(settings).use(template())
   })
 
   afterEach(() => {
-    console.warn.restore()
+    spy.mockRestore()
   })
 
   describe('template literals', () => {
@@ -30,7 +29,7 @@ describe('jss-plugin-template', () => {
           color: red;
         `
       })
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
         }
@@ -44,13 +43,13 @@ describe('jss-plugin-template', () => {
           float: left;
         `
       })
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
           float: left;
         }
       `)
-      expect(spy.callCount).to.be(0)
+      expect(spy).toHaveBeenCalledTimes(0)
     })
 
     it('should warn when there is no colon found', () => {
@@ -58,8 +57,8 @@ describe('jss-plugin-template', () => {
         a: 'color red;'
       })
 
-      expect(spy.callCount).to.be(1)
-      expect(spy.calledWithExactly('Warning: [JSS] Malformed CSS string "color red;"')).to.be(true)
+      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledWith('Warning: [JSS] Malformed CSS string "color red;"')
     })
 
     it('should strip spaces', () => {
@@ -69,7 +68,7 @@ describe('jss-plugin-template', () => {
             float:   left   ;
         `
       })
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
           float: left;
@@ -84,7 +83,7 @@ describe('jss-plugin-template', () => {
           float: left
         `
       })
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           color: red;
           float: left;
@@ -98,7 +97,7 @@ describe('jss-plugin-template', () => {
           button: 'color: black'
         }
       })
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         @media print {
           .button-id {
             color: black;
@@ -114,7 +113,7 @@ describe('jss-plugin-template', () => {
           to: 'opacity: 1'
         }
       })
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         @keyframes keyframes-a-id {
           from {
             opacity: 0;

@@ -1,4 +1,4 @@
-import expect from 'expect.js'
+import {beforeEach, describe, expect, it} from 'vitest'
 import expand from 'jss-plugin-expand'
 import {create} from 'jss'
 import {stripIndent} from 'common-tags'
@@ -33,11 +33,11 @@ describe('jss-plugin-default-unit', () => {
     })
 
     it('should add rule', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  zoom: 1;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  zoom: 1;\n}')
     })
   })
 
@@ -53,11 +53,11 @@ describe('jss-plugin-default-unit', () => {
     })
 
     it('should add rule', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  width: 10px;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  width: 10px;\n}')
     })
   })
 
@@ -73,11 +73,11 @@ describe('jss-plugin-default-unit', () => {
     })
 
     it('should add rule', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  animation-duration: 200ms;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  animation-duration: 200ms;\n}')
     })
   })
 
@@ -93,11 +93,11 @@ describe('jss-plugin-default-unit', () => {
     })
 
     it('should add rule', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  transform-origin-x: 50%;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  transform-origin-x: 50%;\n}')
     })
   })
 
@@ -108,7 +108,7 @@ describe('jss-plugin-default-unit', () => {
           zoom: 0
         }
       })
-      expect(sheet.toString()).to.be('.a-id {\n  zoom: 0;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  zoom: 0;\n}')
     })
 
     it('should generate 0 instead of 0px when default unit is px', () => {
@@ -117,7 +117,7 @@ describe('jss-plugin-default-unit', () => {
           width: 0
         }
       })
-      expect(sheet.toString()).to.be('.a-id {\n  width: 0;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  width: 0;\n}')
     })
 
     it('should generate 0ms when default unit is ms', () => {
@@ -126,7 +126,7 @@ describe('jss-plugin-default-unit', () => {
           'animation-duration': 0
         }
       })
-      expect(sheet.toString()).to.be('.a-id {\n  animation-duration: 0ms;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  animation-duration: 0ms;\n}')
     })
 
     it('should generate 0% when default unit is %', () => {
@@ -135,7 +135,7 @@ describe('jss-plugin-default-unit', () => {
           'transform-origin-x': 0
         }
       })
-      expect(sheet.toString()).to.be('.a-id {\n  transform-origin-x: 0%;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  transform-origin-x: 0%;\n}')
     })
   })
 
@@ -163,7 +163,7 @@ describe('jss-plugin-default-unit', () => {
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '@font-face {\n' +
           '  font-family: MyHelvetica;\n' +
           '  src: local("Helvetica");\n' +
@@ -201,11 +201,11 @@ describe('jss-plugin-default-unit', () => {
     })
 
     it('should add rule', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  background-size: 10px, 15px;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  background-size: 10px, 15px;\n}')
     })
   })
 
@@ -221,11 +221,11 @@ describe('jss-plugin-default-unit', () => {
     })
 
     it('should add rule', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  background-size: 10px 5px;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  background-size: 10px 5px;\n}')
     })
   })
 
@@ -242,11 +242,11 @@ describe('jss-plugin-default-unit', () => {
     })
 
     it('should add rule', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  min-width: 20pc;\n  max-width: 10px;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  min-width: 20pc;\n  max-width: 10px;\n}')
     })
   })
 
@@ -265,11 +265,11 @@ describe('jss-plugin-default-unit', () => {
     })
 
     it('should add rule', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  padding: 10px;\n  height: NaN;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  padding: 10px;\n  height: NaN;\n}')
     })
   })
 
@@ -293,12 +293,12 @@ describe('jss-plugin-default-unit', () => {
     })
 
     it('should add rule', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
-      expect(sheet.getRule('b')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
+      expect(sheet.getRule('b')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '.a-id {\n' +
           '  padding: 5px;\n' +
           '  padding: 1px;\n' +
@@ -330,11 +330,11 @@ describe('jss-plugin-default-unit', () => {
     })
 
     it('should add rule', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  padding: 5rem 10px 15px 0;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  padding: 5rem 10px 15px 0;\n}')
     })
   })
 
@@ -363,11 +363,11 @@ describe('jss-plugin-default-unit', () => {
     })
 
     it('should add rule', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '.a-id {\n  transition: opacity 200ms linear 100ms, transform 300ms linear;\n}'
       )
     })
@@ -380,7 +380,7 @@ describe('jss-plugin-default-unit', () => {
           borderBottom: 10
         }
       })
-      expect(sheet.toString()).to.be('.a-id {\n  borderBottom: 10px;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  borderBottom: 10px;\n}')
     })
 
     it('should work with user units', () => {
@@ -392,7 +392,7 @@ describe('jss-plugin-default-unit', () => {
         }
       })
 
-      expect(sheet.toString()).to.be('.a-id {\n  borderBottom: 10pc;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  borderBottom: 10pc;\n}')
     })
   })
 
@@ -411,7 +411,7 @@ describe('jss-plugin-default-unit', () => {
     })
 
     it('should add default unit', () => {
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           width: 1px;
         }
@@ -435,7 +435,7 @@ describe('jss-plugin-default-unit', () => {
     })
 
     it('should add default unit', () => {
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         .a-id {
           width: 1px;
         }
@@ -455,11 +455,11 @@ describe('jss-plugin-default-unit', () => {
     })
 
     it('should add rule', () => {
-      expect(sheet.getRule('a')).to.not.be(undefined)
+      expect(sheet.getRule('a')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('.a-id {\n  margin-inline-start: 10px;\n}')
+      expect(sheet.toString()).toBe('.a-id {\n  margin-inline-start: 10px;\n}')
     })
   })
 })

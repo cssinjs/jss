@@ -37,7 +37,7 @@ yarn check:ts
 
 ## Run tests
 
-Run all runtime tests (Vitest Node tests, Vitest JSS browser tests, then remaining Karma tests):
+Run all runtime tests (Vitest Node tests, Vitest core and plugin browser tests, then remaining Karma tests):
 
 ```bash
 yarn test
@@ -47,25 +47,27 @@ Browser-independent unit tests run in Node with Vitest, without a browser or a b
 
 ```bash
 yarn test:unit
-yarn test:unit:watch
 ```
 
 Name these tests `*.node.test.js`. Import test APIs from `vitest`; do not use DOM globals or
 browser-only helpers such as `tests/utils.js`. The Node Vitest configuration only discovers
 these files, and Karma excludes them. Use Vitest's built-in `expect` for assertions; `expect.js` remains for Karma tests.
 
-JSS core browser tests use Vitest Browser Mode with Playwright's real Chromium browser.
+JSS core and all `jss-plugin-*` browser tests use Vitest Browser Mode with Playwright's real Chromium browser.
 Install Chromium once, then run the tests directly against source (no build required):
 
 ```bash
 yarn playwright install --with-deps chromium
-yarn test:browser:jss
-yarn test:browser:jss --coverage
-yarn test:browser:jss:watch
+yarn test:browser:vitest
+yarn test:browser:vitest --coverage
+# Optionally filter by path:
+yarn test:browser:vitest packages/jss/tests/
 ```
 
-These tests live in `packages/jss/tests/` and are named `*.browser.test.js`. Import test APIs
-from `vitest`. Karma excludes these files. Coverage is written to `coverage/vitest-jss/`.
+All `packages/**/*.browser.test.js` files run together in one Vitest run. Name migrated browser
+tests `*.browser.test.js` to include them automatically. Import test APIs and assertions from
+`vitest`, and use `vi.spyOn` for spies. Karma excludes these files. Coverage is written to
+`coverage/vitest-browser/`.
 
 Other packages still use Karma. Rebuild packages after source changes:
 
@@ -74,8 +76,6 @@ yarn build
 yarn test:browser:karma
 # For headless environments:
 yarn test:browser:karma --browsers ChromeHeadless
-# Watch remaining Karma tests:
-yarn test:watch
 ```
 
 `yarn test:browser` runs both browser suites. Pass runner-specific flags to the individual

@@ -1,5 +1,5 @@
 import {stripIndent} from 'common-tags'
-import expect from 'expect.js'
+import {afterEach, beforeEach, describe, expect, it} from 'vitest'
 import {create} from 'jss'
 import nested from 'jss-plugin-nested'
 
@@ -29,17 +29,17 @@ describe('jss-plugin-global', () => {
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('@global')).to.not.be(undefined)
-      expect(sheet.getRule('a')).to.be(undefined)
-      expect(sheet.getRule('body')).to.be(undefined)
+      expect(sheet.getRule('@global')).not.toBe(undefined)
+      expect(sheet.getRule('a')).toBe(undefined)
+      expect(sheet.getRule('body')).toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('a {\n  color: red;\n}\nbody {\n  color: green;\n}')
+      expect(sheet.toString()).toBe('a {\n  color: red;\n}\nbody {\n  color: green;\n}')
     })
 
     it('should remove whitespaces', () => {
-      expect(sheet.toString({format: false})).to.be('a{color:red;}body{color:green;}')
+      expect(sheet.toString({format: false})).toBe('a{color:red;}body{color:green;}')
     })
 
     describe('addRule', () => {
@@ -51,12 +51,12 @@ describe('jss-plugin-global', () => {
       })
 
       it('should add rule', () => {
-        expect(globalRule.getRule('button')).to.not.be(undefined)
-        expect(globalRule.getRule('li')).to.not.be(undefined)
+        expect(globalRule.getRule('button')).not.toBe(undefined)
+        expect(globalRule.getRule('li')).not.toBe(undefined)
       })
 
       it('should generate correct CSS', () => {
-        expect(sheet.toString()).to.be(stripIndent`
+        expect(sheet.toString()).toBe(stripIndent`
           a {
             color: red;
           }
@@ -84,12 +84,12 @@ describe('jss-plugin-global', () => {
       })
 
       it('should replace and add rule', () => {
-        expect(globalRule.getRule('a')).to.not.be(previousA)
-        expect(globalRule.getRule('li')).to.not.be(undefined)
+        expect(globalRule.getRule('a')).not.toBe(previousA)
+        expect(globalRule.getRule('li')).not.toBe(undefined)
       })
 
       it('should generate correct CSS', () => {
-        expect(sheet.toString()).to.be(stripIndent`
+        expect(sheet.toString()).toBe(stripIndent`
           a {
             color: yellow;
           }
@@ -113,7 +113,7 @@ describe('jss-plugin-global', () => {
       })
 
       it('should generate correct CSS', () => {
-        expect(sheet.toString()).to.be(stripIndent`
+        expect(sheet.toString()).toBe(stripIndent`
           div {
             display: block;
           }
@@ -157,11 +157,11 @@ describe('jss-plugin-global', () => {
     })
 
     it('should link inside container', () => {
-      expect(sheet.getRule('@global').getRule('a').renderable).to.not.be(undefined)
+      expect(sheet.getRule('@global').getRule('a').renderable).not.toBe(undefined)
     })
 
     it('should link with prefix', () => {
-      expect(sheet.getRule('@global b').renderable).to.not.be(undefined)
+      expect(sheet.getRule('@global b').renderable).not.toBe(undefined)
     })
   })
 
@@ -181,11 +181,11 @@ describe('jss-plugin-global', () => {
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('keyframes-a')).to.be(undefined)
+      expect(sheet.getRule('keyframes-a')).toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         @keyframes a {
           to {
             width: 100%;
@@ -207,11 +207,11 @@ describe('jss-plugin-global', () => {
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('body')).to.be(undefined)
+      expect(sheet.getRule('body')).toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be('body {\n  color: red;\n}')
+      expect(sheet.toString()).toBe('body {\n  color: red;\n}')
     })
   })
 
@@ -229,11 +229,11 @@ describe('jss-plugin-global', () => {
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('keyframes-a')).to.be(undefined)
+      expect(sheet.getRule('keyframes-a')).toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(stripIndent`
+      expect(sheet.toString()).toBe(stripIndent`
         @keyframes a {
           to {
             width: 100%;
@@ -258,12 +258,12 @@ describe('jss-plugin-global', () => {
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('button')).to.not.be(undefined)
-      expect(sheet.getRule('.button-id span')).to.not.be(undefined)
+      expect(sheet.getRule('button')).not.toBe(undefined)
+      expect(sheet.getRule('.button-id span')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '.button-id {\n' +
           '  float: left;\n' +
           '}\n' +
@@ -289,12 +289,12 @@ describe('jss-plugin-global', () => {
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('button')).to.not.be(undefined)
-      expect(sheet.getRule('.button-id a, .button-id b')).to.not.be(undefined)
+      expect(sheet.getRule('button')).not.toBe(undefined)
+      expect(sheet.getRule('.button-id a, .button-id b')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '.button-id {\n' +
           '  float: left;\n' +
           '}\n' +
@@ -320,12 +320,12 @@ describe('jss-plugin-global', () => {
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('button')).to.not.be(undefined)
-      expect(sheet.getRule('.button-id span')).to.not.be(undefined)
+      expect(sheet.getRule('button')).not.toBe(undefined)
+      expect(sheet.getRule('.button-id span')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '.button-id {\n' +
           '  float: left;\n' +
           '}\n' +
@@ -351,12 +351,12 @@ describe('jss-plugin-global', () => {
     })
 
     it('should add rules', () => {
-      expect(sheet.getRule('button')).to.not.be(undefined)
-      expect(sheet.getRule('.button-id a, .button-id b')).to.not.be(undefined)
+      expect(sheet.getRule('button')).not.toBe(undefined)
+      expect(sheet.getRule('.button-id a, .button-id b')).not.toBe(undefined)
     })
 
     it('should generate correct CSS', () => {
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '.button-id {\n' +
           '  float: left;\n' +
           '}\n' +
@@ -373,7 +373,7 @@ describe('jss-plugin-global', () => {
         '@global a': undefined,
         '@global b': null
       })
-      expect(sheet.toString()).to.be('')
+      expect(sheet.toString()).toBe('')
     })
 
     it('should generate correct CSS with @global container rule', () => {
@@ -383,7 +383,7 @@ describe('jss-plugin-global', () => {
           b: undefined
         }
       })
-      expect(sheet.toString()).to.be('')
+      expect(sheet.toString()).toBe('')
     })
   })
 
@@ -405,9 +405,7 @@ describe('jss-plugin-global', () => {
           }
         }
       })
-      expect(sheet.toString()).to.be(
-        'button {\n  color: red;\n}\nbutton span {\n  color: green;\n}'
-      )
+      expect(sheet.toString()).toBe('button {\n  color: red;\n}\nbutton span {\n  color: green;\n}')
     })
 
     it('should handle nested rules inside of a rule with comma separated selector', () => {
@@ -422,7 +420,7 @@ describe('jss-plugin-global', () => {
         }
       })
 
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         'button, a {\n' +
           '  color: red;\n' +
           '}\n' +
@@ -447,7 +445,7 @@ describe('jss-plugin-global', () => {
         }
       })
 
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         'button {\n' +
           '  color: red;\n' +
           '}\n' +
@@ -471,7 +469,7 @@ describe('jss-plugin-global', () => {
           }
         }
       })
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         'html {\n' +
           '  color: red;\n' +
           '}\n' +
@@ -496,7 +494,7 @@ describe('jss-plugin-global', () => {
           }
         }
       })
-      expect(sheet.toString()).to.be(
+      expect(sheet.toString()).toBe(
         '@media (max-width: 767px) {\n' +
           '  html {\n' +
           '    color: red;\n' +

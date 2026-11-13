@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-import expect from 'expect.js'
+import {beforeEach, describe, expect, it} from 'vitest'
 import {create} from 'jss'
 
 import cache from './index'
@@ -24,7 +24,7 @@ describe('jss-plugin-cache', () => {
         }
       })
       jss.createStyleSheet(styles)
-      expect(onCreateRuleCalled).to.be(false)
+      expect(onCreateRuleCalled).toBe(false)
     })
 
     it('should not call processors on a cached rule', () => {
@@ -38,7 +38,7 @@ describe('jss-plugin-cache', () => {
         }
       })
       jss.createStyleSheet(styles)
-      expect(onProcessRuleCalled).to.be(false)
+      expect(onProcessRuleCalled).toBe(false)
     })
   })
 
@@ -55,7 +55,7 @@ describe('jss-plugin-cache', () => {
         }
       })
       jss.createStyleSheet(styles, options)
-      expect(onCreateRuleCalled).to.be(true)
+      expect(onCreateRuleCalled).toBe(true)
     })
   })
 })
