@@ -26,8 +26,9 @@ yarn build
 ```
 
 The shared `rolldown.config.mjs` preserves each package's CommonJS, ESM, development and
-production UMD, and standalone ESM entry points. The source Babel pass only strips Flow
-and guards development warnings. Rolldown handles classic React JSX and loose class fields;
+production UMD, and standalone ESM entry points. The source Babel pass only guards
+development warnings. Flow declarations are separate from the runtime module graph and
+need no stripping. Rolldown handles classic React JSX and loose class fields;
 Babel lowers the bundled implementation and generated runtime to ES5, including a final
 pass after minification. Object spread/rest stays in the loose Babel output pass to retain
 its existing semantics without introducing Oxc runtime imports. Handwritten TypeScript

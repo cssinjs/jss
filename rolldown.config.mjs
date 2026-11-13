@@ -1,10 +1,8 @@
 import path from 'path'
 import {transformAsync} from '@babel/core'
 import camelCase from 'camelcase'
-import babelOptions from './babelOptions.js'
 import getPackageJson from './scripts/get-package-json.js'
 
-const {getBabelOptions} = babelOptions
 const pkg = getPackageJson()
 const input = path.resolve('src/index.js')
 const name = camelCase(pkg.name)
@@ -17,8 +15,8 @@ Object.keys(pkg.peerDependencies || {}).forEach((key) => {
 })
 
 const external = (id) => !id.startsWith('.') && !path.isAbsolute(id)
-// Strip Flow before Rolldown parses it, preserving JSX and modern JavaScript.
-// Babel also guards warning/invariant calls so production can remove them.
+// Guard warning/invariant calls so production can remove them, preserving JSX
+// and modern JavaScript for Rolldown. Flow declarations are separate files.
 const babel = () => ({
   name: 'babel',
   async transform(code, id) {
@@ -31,7 +29,8 @@ const babel = () => ({
       configFile: false,
       sourceMaps: true,
       caller: {name: 'rolldown', supportsStaticESM: true},
-      ...getBabelOptions()
+      parserOpts: {plugins: ['jsx', 'classProperties']},
+      plugins: ['dev-expression']
     })
     return {code: result.code, map: result.map}
   },
