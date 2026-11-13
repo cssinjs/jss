@@ -92,6 +92,8 @@ READMEs. Lerna does not update peer dependency ranges automatically; review them
    that will be published.
 3. Inspect the `npm-release` artifact and approve the protected environment deployment.
 4. The publishing job installs no workspace dependencies and runs no lifecycle scripts.
+   Its only external runtime dependency, `tinyexec`, is included in the artifact from the
+   validation job's frozen-lockfile installation and resolved through `NODE_PATH`.
    It checks the artifact's commit, version, package list, and SHA-512 hashes, then publishes
    each tarball with public access, the appropriate dist-tag, and provenance.
 5. Only after all packages are verified on npm does the final job create `v<VERSION>` and

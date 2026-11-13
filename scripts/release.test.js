@@ -3,7 +3,7 @@ const fs = require('fs')
 const os = require('os')
 const path = require('path')
 const {test} = require('node:test') // eslint-disable-line import/no-unresolved
-const {spawnSync} = require('child_process')
+const {xSync} = require('tinyexec')
 const {
   validate,
   releaseNotes,
@@ -182,15 +182,30 @@ test('never moves a newer npm tag backwards, including prereleases', () => {
   assert.throws(() => assertTagNotNewer('invalid', '1.2.3'), /Cannot compare/)
 })
 
-test('refuses local publication without GitHub OIDC', () => {
-  const result = spawnSync(
-    process.execPath,
-    [path.join(__dirname, 'release.js'), 'publish', '1.2.3'],
+test('runs with staged tinyexec without installing workspace dependencies', (t) => {
+  const {directory} = fixture(t)
+  const script = path.join(directory, 'scripts', 'release.js')
+  fs.mkdirSync(path.dirname(script))
+  fs.copyFileSync(path.join(__dirname, 'release.js'), script)
+  const modules = path.join(directory, 'runtime', 'node_modules')
+  fs.cpSync(
+    path.dirname(require.resolve('tinyexec/package.json')),
+    path.join(modules, 'tinyexec'),
     {
-      encoding: 'utf8',
-      env: {...process.env, GITHUB_ACTIONS: '', ACTIONS_ID_TOKEN_REQUEST_URL: ''}
+      recursive: true
     }
   )
-  assert.strictEqual(result.status, 1)
+  const result = xSync(process.execPath, [script, 'validate', '1.2.3'], {
+    throwOnError: true,
+    nodeOptions: {cwd: directory, env: {NODE_PATH: modules}}
+  })
+  assert.strictEqual(result.exitCode, 0)
+})
+
+test('refuses local publication without GitHub OIDC', () => {
+  const result = xSync(process.execPath, [path.join(__dirname, 'release.js'), 'publish', '1.2.3'], {
+    nodeOptions: {env: {GITHUB_ACTIONS: '', ACTIONS_ID_TOKEN_REQUEST_URL: ''}}
+  })
+  assert.strictEqual(result.exitCode, 1)
   assert.match(result.stderr, /only allowed in GitHub Actions/)
 })

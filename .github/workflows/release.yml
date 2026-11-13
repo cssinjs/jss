@@ -34,13 +34,13 @@ jobs:
           cache: yarn
       - name: Pin npm with trusted publishing support
         run: npm install --global npm@11.16.0
+      - run: yarn install --frozen-lockfile
       - name: Validate version and existing tag
         run: |
           node scripts/release.js validate "$VERSION"
           if git show-ref --verify --quiet "refs/tags/v${VERSION}"; then
             test "$(git rev-parse "v${VERSION}^{commit}")" = "$GITHUB_SHA"
           fi
-      - run: yarn install --frozen-lockfile
       - run: yarn format:ci
       - run: yarn build
       - run: yarn check:all
@@ -95,6 +95,7 @@ jobs:
       - name: Publish verified tarballs through npm OIDC
         env:
           VERSION: ${{ inputs.version }}
+          NODE_PATH: ${{ runner.temp }}/release/node_modules
         run: node scripts/release.js publish "$VERSION" "$RUNNER_TEMP/release"
 
   github-release:

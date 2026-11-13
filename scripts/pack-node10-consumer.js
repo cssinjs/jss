@@ -3,7 +3,7 @@
 const fs = require('fs')
 const os = require('os')
 const path = require('path')
-const {execFileSync} = require('child_process')
+const {xSync} = require('tinyexec')
 
 const root = path.resolve(__dirname, '..')
 const consumer = fs.mkdtempSync(path.join(os.tmpdir(), 'jss-node10-'))
@@ -23,7 +23,11 @@ fs.readdirSync(path.join(root, 'packages')).forEach((directory) => {
     if (!artifact) throw new Error(`Missing release artifact for ${pkg.name}`)
     fs.copyFileSync(path.join(artifactDirectory, artifact.filename), archive)
   } else {
-    execFileSync('yarn', ['pack', '--filename', archive], {cwd, stdio: 'inherit'})
+    xSync('yarn', ['pack', '--filename', archive], {
+      throwOnError: true,
+      nodePath: false,
+      nodeOptions: {cwd, stdio: 'inherit'}
+    })
   }
   dependencies[pkg.name] = `file:${archive}`
 })

@@ -1,17 +1,20 @@
-// Release tooling intentionally uses only Node built-ins so the publishing job
-// does not install or execute workspace dependencies while it has OIDC access.
+// tinyexec is staged with the validated artifacts so the publishing job does
+// not need to install workspace dependencies while it has OIDC access.
 const fs = require('fs')
 const path = require('path')
 const crypto = require('crypto')
-const {execFileSync, spawnSync} = require('child_process')
+const {xSync} = require('tinyexec')
 
 const root = path.resolve(__dirname, '..')
 const registry = 'https://registry.npmjs.org/'
 const versionPattern = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(alpha|beta|rc)\.(0|[1-9]\d*))?$/
 
 function run(command, args, options = {}) {
-  const output = execFileSync(command, args, {cwd: root, encoding: 'utf8', ...options})
-  return output ? output.trim() : ''
+  return xSync(command, args, {
+    throwOnError: true,
+    nodePath: false,
+    nodeOptions: {cwd: root, ...options}
+  }).stdout.trim()
 }
 
 function readJson(filename) {
@@ -135,6 +138,12 @@ function pack(version, destination) {
       }
     })
   }
+  // Preserve the exact lockfile-installed, dependency-free tinyexec package.
+  fs.cpSync(
+    path.dirname(require.resolve('tinyexec/package.json')),
+    path.join(destination, 'node_modules', 'tinyexec'),
+    {recursive: true}
+  )
   fs.writeFileSync(
     path.join(destination, 'manifest.json'),
     `${JSON.stringify(manifest, null, 2)}\n`
@@ -163,13 +172,12 @@ function checkArtifacts(manifest, version, commit, list, destination) {
 }
 
 function publishedIntegrity(name, version) {
-  const result = spawnSync(
+  const result = xSync(
     'npm',
     ['view', `${name}@${version}`, 'dist', '--json', '--registry', registry],
-    {encoding: 'utf8'}
+    {nodePath: false, nodeOptions: {cwd: root}}
   )
-  if (result.error) throw result.error
-  if (result.status !== 0) {
+  if (result.exitCode !== 0) {
     // Do not interpret network errors, authentication failures, etc. as an absent version.
     let error
     try {
