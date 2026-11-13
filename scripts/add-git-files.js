@@ -10,6 +10,5 @@ function addFiles(files) {
   }
 }
 
-addFiles('packages/*/.size-snapshot.json')
 addFiles(`packages/*/${README_FILENAME}`)
 addFiles(CHANGELOG_FILENAME)

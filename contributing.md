@@ -82,8 +82,31 @@ Benchmark hooks use closures for state, not Benchmark.js's `this`. Use `setup`/`
 options for per-task setup/cleanup.
 Benchmarks run separately from `yarn test` and are not performance gates in CI.
 
-TypeScript/Flow checks, bundle-size snapshots, and packaged-consumer smoke tests remain separate
+TypeScript/Flow checks, bundle-size budgets, and packaged-consumer smoke tests remain separate
 from Vitest.
+
+## Bundle size
+
+Build all packages and check their size budgets:
+
+```bash
+yarn size
+```
+
+If the packages are already built, run `yarn size-limit` directly. CI builds once before
+`yarn check:all`, which includes Size Limit without rebuilding.
+
+The root `.size-limit.js` defines a separate gzip budget for every published production UMD
+artifact, measured without rebundling. Additional consumer checks bundle and tree-shake the
+built ESM entry points for JSS core, JSS with the default preset, and React-JSS's
+`createUseStyles`. Consumer checks include runtime dependencies, excluding React as a peer.
+The default-preset consumer fixture lives in `scripts/size/default-preset.js`.
+
+Initial budgets use fresh measurements plus 10% headroom, rounded up to 10 bytes. These are
+ceilings, not exact snapshots: smaller bundles pass without updating anything, and builds
+never rewrite budgets. If a check fails, investigate the added code or dependencies first.
+For intentional growth, update only the affected budget in `.size-limit.js` and explain the
+size increase in the pull request. Do not automatically regenerate budgets during releases.
 
 ## IDEs
 

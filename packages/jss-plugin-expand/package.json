@@ -32,8 +32,7 @@
     "expand"
   ],
   "scripts": {
-    "build": "node ../../scripts/build.js",
-    "check-snapshot": "node ../../scripts/match-snapshot.js"
+    "build": "node ../../scripts/build.js"
   },
   "devDependencies": {
     "jss-plugin-rule-value-observable": "10.10.0"
