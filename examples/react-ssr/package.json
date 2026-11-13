@@ -14,7 +14,6 @@
     "@babel/register": "^7.8.3",
     "express": "^4.17.1",
     "jss": "^10.0.3",
-    "jss-preset-default": "^10.0.3",
     "parcel-bundler": "^1.6.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
