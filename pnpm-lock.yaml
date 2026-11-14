@@ -196,9 +196,6 @@ importers:
       common-tags:
         specifier: ^1.4.0
         version: 1.8.0
-      css-jss:
-        specifier: workspace:*
-        version: link:packages/css-jss
       detect-browser:
         specifier: ^1.5.0
         version: 1.12.0
@@ -217,9 +214,6 @@ importers:
       jss:
         specifier: workspace:*
         version: link:packages/jss
-      jss-plugin-cache:
-        specifier: workspace:*
-        version: link:packages/jss-plugin-cache
       jss-plugin-camel-case:
         specifier: workspace:*
         version: link:packages/jss-plugin-camel-case
@@ -262,9 +256,6 @@ importers:
       jss-preset-default:
         specifier: workspace:*
         version: link:packages/jss-preset-default
-      jss-starter-kit:
-        specifier: workspace:*
-        version: link:packages/jss-starter-kit
       lerna:
         specifier: ^3.8.0
         version: 3.10.5

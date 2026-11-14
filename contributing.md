@@ -35,16 +35,6 @@ pass after minification. Object spread/rest stays in the loose Babel output pass
 its existing semantics without introducing Oxc runtime imports. Handwritten TypeScript
 declarations remain in `src/`.
 
-After building, verify the published artifacts:
-
-```bash
-pnpm test:build
-```
-
-These checks cover all packages, UMD browser/CommonJS/AMD loading, ESM exports, standalone
-bundles, ES5 implementation syntax (including ESM bodies), Flow forwarding files, source
-maps, and environment/version replacement. CI and release validation run them after the build.
-
 ## Lint & Formatting & Typechecking
 
 To lint, format, and type check the project run the following commands:

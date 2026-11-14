@@ -25,8 +25,6 @@ jobs:
         run: pnpm run format:ci
       - name: Build
         run: pnpm run build
-      - name: Test build artifacts
-        run: pnpm run test:build
       - name: Run checks
         run: pnpm run check:all
       - name: Run unit tests

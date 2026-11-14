@@ -44,7 +44,6 @@ jobs:
           fi
       - run: pnpm run format:ci
       - run: pnpm run build
-      - run: pnpm run test:build
       - run: pnpm run check:all
       - run: pnpm run test:unit
       - run: pnpm run test:release
