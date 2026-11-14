@@ -145,9 +145,18 @@ function pack(version, destination) {
       if (!fs.existsSync(path.join(pkg.location, 'dist')))
         throw new Error(`Build ${pkg.name} first`)
       const result = JSON.parse(
-        run('npm', ['pack', '--json', '--ignore-scripts', '--pack-destination', destination], {
-          cwd: pkg.location
-        })
+        run(
+          'npm',
+          [
+            'pack',
+            '--json',
+            '--ignore-scripts',
+            '--workspaces=false',
+            '--pack-destination',
+            destination
+          ],
+          {cwd: pkg.location}
+        )
       )[0]
       return {
         name: pkg.name,
@@ -191,11 +200,11 @@ function checkArtifacts(manifest, version, commit, list, destination) {
   })
 }
 
-function publishedIntegrity(name, version) {
+function publishedIntegrity(name, version, destination) {
   const result = xSync(
     'npm',
     ['view', `${name}@${version}`, 'dist', '--json', '--registry', registry],
-    {nodePath: false, nodeOptions: {cwd: root}}
+    {nodePath: false, nodeOptions: {cwd: destination}}
   )
   if (result.exitCode !== 0) {
     // Do not interpret network errors, authentication failures, etc. as an absent version.
@@ -250,28 +259,34 @@ function publish(version, destination) {
   const tag = releaseTag(version)
   manifest.packages.forEach((pkg) => {
     const tags = JSON.parse(
-      run('npm', ['view', pkg.name, 'dist-tags', '--json', '--registry', registry])
+      run('npm', ['view', pkg.name, 'dist-tags', '--json', '--registry', registry], {
+        cwd: destination
+      })
     )
     assertTagNotNewer(tags[tag], version)
   })
-  publishArtifacts(manifest, publishedIntegrity, (pkg) => {
-    run(
-      'npm',
-      [
-        'publish',
-        path.join(destination, pkg.filename),
-        '--access',
-        'public',
-        '--tag',
-        tag,
-        '--provenance',
-        '--ignore-scripts',
-        '--registry',
-        registry
-      ],
-      {stdio: 'inherit'}
-    )
-  })
+  publishArtifacts(
+    manifest,
+    (name, value) => publishedIntegrity(name, value, destination),
+    (pkg) => {
+      run(
+        'npm',
+        [
+          'publish',
+          path.join(destination, pkg.filename),
+          '--access',
+          'public',
+          '--tag',
+          tag,
+          '--provenance',
+          '--ignore-scripts',
+          '--registry',
+          registry
+        ],
+        {cwd: destination, stdio: 'inherit'}
+      )
+    }
+  )
 }
 
 if (require.main === module) {

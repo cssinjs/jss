@@ -10,8 +10,8 @@ Use the Node version specified in `.nvmrc` (Node 24) to install dependencies and
 
 ## Installation
 
-We use pnpm 10.34.0 as pinned in `package.json`. With Node 24 active, install it with
-`npm install --global pnpm@10.34.0`.
+We use pnpm 12.18.0 as pinned in `package.json`. With Node 24 active, install it with
+`npm install --global pnpm@12.18.0`.
 It will install all dev dependencies and link the packages in the workspace.
 
 ```bash

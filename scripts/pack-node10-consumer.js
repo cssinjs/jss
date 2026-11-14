@@ -25,7 +25,7 @@ fs.readdirSync(path.join(root, 'packages')).forEach((directory) => {
   } else {
     const result = xSync(
       'npm',
-      ['pack', '--json', '--ignore-scripts', '--pack-destination', consumer],
+      ['pack', '--json', '--ignore-scripts', '--workspaces=false', '--pack-destination', consumer],
       {throwOnError: true, nodePath: false, nodeOptions: {cwd}}
     )
     const [{filename}] = JSON.parse(result.stdout)

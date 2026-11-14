@@ -60,7 +60,7 @@ or GitHub password is needed by these workflows.
 ## Prepare and review
 
 Maintain the release notes under `## Next` in `changelog.md`. Prepare releases locally
-from a clean, up-to-date `master` using Node 24 and pnpm 10.34.0:
+from a clean, up-to-date `master` using Node 24 and pnpm 12.18.0:
 
 ```sh
 pnpm install --frozen-lockfile
