@@ -1,25 +1,32 @@
 {
   "name": "root",
   "private": true,
+  "packageManager": "pnpm@12.18.0",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.18.0",
+      "onFail": "download"
+    }
+  },
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
-    "build": "lerna run build",
-    "size": "yarn build && size-limit",
-    "check:all": "yarn check:flow && yarn check:ts && yarn size-limit && yarn check:lint",
+    "build": "pnpm -r run build",
+    "size": "pnpm run build && size-limit",
+    "check:all": "pnpm run check:flow && pnpm run check:ts && pnpm exec size-limit && pnpm run check:lint",
     "check:flow": "flow check --max-warnings=0",
     "check:ts": "tsc",
     "check:lint": "eslint scripts/ packages/ docs/ --ext js,flow,md",
     "format": "prettier \"*.{js,mjs,md,json,ts}\" \"{docs,packages,scripts}/**/*.{js,md,json,ts}\" --write",
-    "format:ci": "yarn format --list-different",
-    "test": "yarn test:unit && yarn test:browser",
+    "format:ci": "pnpm run format --list-different",
+    "test": "pnpm run test:unit && pnpm run test:browser",
     "test:unit": "vitest run",
     "test:browser": "vitest run --config vitest.browser.config.mjs",
-    "test:browser:vitest": "yarn test:browser",
+    "test:browser:vitest": "pnpm run test:browser",
     "test:bench": "vitest bench --run --config vitest.bench.config.mjs",
     "test:release": "node --test scripts/release.test.js",
-    "test:build": "node --experimental-vm-modules --test scripts/build.test.js",
     "prepare": "simple-git-hooks",
     "release:prepare": "node scripts/release.js prepare",
     "release:validate": "node scripts/release.js validate"
@@ -31,11 +38,10 @@
     ]
   },
   "simple-git-hooks": {
-    "pre-commit": "yarn nano-staged"
+    "pre-commit": "pnpm exec nano-staged"
   },
   "engines": {
-    "node": ">=24",
-    "yarn": ">=1.13"
+    "node": ">=24"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -53,11 +59,28 @@
     "eslint-config-jss": "^5.0.1",
     "eslint-config-prettier": "^2.9.0",
     "flow-bin": "^0.150.1",
+    "jss": "workspace:*",
+    "jss-plugin-camel-case": "workspace:*",
+    "jss-plugin-compose": "workspace:*",
+    "jss-plugin-default-unit": "workspace:*",
+    "jss-plugin-expand": "workspace:*",
+    "jss-plugin-extend": "workspace:*",
+    "jss-plugin-global": "workspace:*",
+    "jss-plugin-isolate": "workspace:*",
+    "jss-plugin-nested": "workspace:*",
+    "jss-plugin-props-sort": "workspace:*",
+    "jss-plugin-rule-value-function": "workspace:*",
+    "jss-plugin-rule-value-observable": "workspace:*",
+    "jss-plugin-template": "workspace:*",
+    "jss-plugin-vendor-prefixer": "workspace:*",
+    "jss-preset-default": "workspace:*",
     "lerna": "^3.8.0",
     "nano-staged": "^1.0.2",
     "playwright": "^1.65.0",
     "prettier": "^2.4.1",
     "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-jss": "workspace:*",
     "react-test-renderer": "^16.8.6",
     "rolldown": "^1.3.2",
     "simple-git-hooks": "^2.14.0",

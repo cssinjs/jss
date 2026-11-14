@@ -14,28 +14,27 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version-file: .nvmrc
-          cache: yarn
+          cache: pnpm
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
       - name: Check formatting
-        run: yarn format:ci
+        run: pnpm run format:ci
       - name: Build
-        run: yarn build
-      - name: Test build artifacts
-        run: yarn test:build
+        run: pnpm run build
       - name: Run checks
-        run: yarn check:all
+        run: pnpm run check:all
       - name: Run unit tests
-        run: yarn test:unit
+        run: pnpm run test:unit
       - name: Test release tooling
-        run: yarn test:release
+        run: pnpm run test:release
       - name: Install Chromium for Vitest
-        run: yarn playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps chromium
       - name: Run browser tests
-        run: yarn test:browser --coverage
+        run: pnpm run test:browser --coverage
       - name: Pack Node 10 consumer
         id: pack
         run: node scripts/pack-node10-consumer.js

@@ -2,6 +2,7 @@ const assert = require('assert')
 const fs = require('fs')
 const os = require('os')
 const path = require('path')
+const vm = require('vm')
 const {test} = require('node:test') // eslint-disable-line import/no-unresolved
 const {xSync} = require('tinyexec')
 const {
@@ -262,6 +263,88 @@ test('runs with staged tinyexec and verkit without workspace dependencies', (t) 
     ],
     {throwOnError: true, nodeOptions: {cwd: directory, env: {NODE_PATH: modules}}}
   )
+})
+
+test('scopes all publishing npm calls to external artifacts, preserving upload flags', (t) => {
+  const {directory, write} = fixture(t)
+  write('package.json', {
+    devEngines: {packageManager: {name: 'pnpm', version: '12.18.0', onFail: 'download'}}
+  })
+  const destination = fs.mkdtempSync(path.join(os.tmpdir(), 'jss-publish-artifacts-'))
+  t.after(() => fs.rmSync(destination, {recursive: true, force: true}))
+  const manifest = {
+    version: '1.2.3',
+    commit: 'fixture-commit',
+    packages: ['a', 'b'].map((name) => {
+      const filename = `${name}.tgz`
+      fs.writeFileSync(path.join(destination, filename), `archive-${name}`)
+      return {name, filename, integrity: integrity(path.join(destination, filename))}
+    })
+  }
+  fs.writeFileSync(path.join(destination, 'manifest.json'), JSON.stringify(manifest))
+  const remote = new Map([['a', manifest.packages[0].integrity]])
+  const calls = []
+  const mockExec = (command, args, options) => {
+    if (command === 'git') {
+      assert.strictEqual(options.nodeOptions.cwd, directory)
+      assert.deepStrictEqual(Array.from(args), ['rev-parse', 'HEAD'])
+      return {stdout: manifest.commit}
+    }
+    assert.strictEqual(command, 'npm')
+    assert.strictEqual(options.nodeOptions.cwd, destination)
+    assert.strictEqual(options.nodePath, false)
+    calls.push(Array.from(args))
+    if (args[0] === 'publish') {
+      assert.deepStrictEqual(Array.from(args), [
+        'publish',
+        path.join(destination, 'b.tgz'),
+        '--access',
+        'public',
+        '--tag',
+        'latest',
+        '--provenance',
+        '--ignore-scripts',
+        '--registry',
+        'https://registry.npmjs.org/'
+      ])
+      assert.strictEqual(options.nodeOptions.stdio, 'inherit')
+      remote.set('b', manifest.packages[1].integrity)
+      return {stdout: ''}
+    }
+    assert.strictEqual(args[0], 'view')
+    assert.deepStrictEqual(Array.from(args).slice(3), [
+      '--json',
+      '--registry',
+      'https://registry.npmjs.org/'
+    ])
+    if (args[2] === 'dist-tags') return {stdout: '{"latest":"1.2.2"}'}
+    assert.strictEqual(args[2], 'dist')
+    const name = args[1].replace('@1.2.3', '')
+    const value = remote.get(name)
+    return {
+      exitCode: value ? 0 : 1,
+      stdout: JSON.stringify(value ? {integrity: value} : {error: {code: 'E404'}})
+    }
+  }
+  // Execute the real CLI with only tinyexec mocked: no command can reach npm or GitHub.
+  const scriptModule = {exports: {}}
+  const load = (name) => (name === 'tinyexec' ? {xSync: mockExec} : require(name)) // eslint-disable-line import/no-dynamic-require, global-require
+  load.main = scriptModule
+  const processStub = {
+    argv: ['node', 'release.js', 'publish', '1.2.3', destination],
+    env: {GITHUB_ACTIONS: 'true', ACTIONS_ID_TOKEN_REQUEST_URL: 'https://oidc.invalid'}
+  }
+  vm.runInNewContext(fs.readFileSync(path.join(__dirname, 'release.js'), 'utf8'), {
+    require: load,
+    module: scriptModule,
+    __dirname: path.join(directory, 'scripts'),
+    process: processStub,
+    console: {error: (message) => assert.fail(message)}
+  })
+  assert.strictEqual(processStub.exitCode, undefined)
+  assert.strictEqual(calls.filter((args) => args[0] === 'publish').length, 1)
+  assert.strictEqual(calls.filter((args) => args[2] === 'dist-tags').length, 2)
+  assert.strictEqual(calls.filter((args) => args[2] === 'dist').length, 4)
 })
 
 test('refuses local publication without GitHub OIDC', () => {

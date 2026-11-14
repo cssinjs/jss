@@ -1,0 +1,10 @@
+packages:
+  - packages/*
+
+linkWorkspacePackages: true
+# Yarn did not automatically install missing peers.
+autoInstallPeers: false
+
+# The root prepare script installs hooks; skip the dependency's redundant script.
+allowBuilds:
+  simple-git-hooks: false

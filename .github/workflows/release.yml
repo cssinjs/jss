@@ -28,27 +28,27 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version-file: .nvmrc
-          cache: yarn
+          cache: pnpm
       - name: Pin npm with trusted publishing support
         run: npm install --global npm@11.16.0
-      - run: yarn install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
       - name: Validate version and existing tag
         run: |
           node scripts/release.js validate "$VERSION"
           if git show-ref --verify --quiet "refs/tags/v${VERSION}"; then
             test "$(git rev-parse "v${VERSION}^{commit}")" = "$GITHUB_SHA"
           fi
-      - run: yarn format:ci
-      - run: yarn build
-      - run: yarn test:build
-      - run: yarn check:all
-      - run: yarn test:unit
-      - run: yarn test:release
-      - run: yarn playwright install --with-deps chromium
-      - run: yarn test:browser --coverage
+      - run: pnpm run format:ci
+      - run: pnpm run build
+      - run: pnpm run check:all
+      - run: pnpm run test:unit
+      - run: pnpm run test:release
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm run test:browser --coverage
       - name: Pack release artifacts
         run: node scripts/release.js pack "$VERSION" "$RUNNER_TEMP/release"
       - name: Prepare Node 10 consumer with release artifacts
