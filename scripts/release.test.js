@@ -6,6 +6,7 @@ const vm = require('vm')
 const {test} = require('node:test') // eslint-disable-line import/no-unresolved
 const {xSync} = require('tinyexec')
 const {
+  bumpVersion,
   validate,
   releaseTag,
   releaseNotes,
@@ -23,10 +24,10 @@ function fixture(t) {
     fs.mkdirSync(path.dirname(location), {recursive: true})
     fs.writeFileSync(location, typeof content === 'string' ? content : JSON.stringify(content))
   }
-  write('lerna.json', {version: '1.2.3'})
+  write('package.json', {private: true, version: '1.2.3'})
   write(
     'changelog.md',
-    '## Next\n\n## 1.2.3 (2026-01-01)\n\nRelease notes\n\n## 1.2.2 (2025-01-01)\nOld notes\n'
+    '## Next (version and date will be generated, add changes below)\n\n## 1.2.3 (2026-01-01)\n\nRelease notes\n\n## 1.2.2 (2025-01-01)\nOld notes\n'
   )
   write('packages/a/package.json', {name: 'a', version: '1.2.3', dependencies: {b: '1.2.3'}})
   write('packages/b/package.json', {name: 'b', version: '1.2.3'})
@@ -61,7 +62,7 @@ test('rejects invalid input, unsynchronized versions, and missing changelog sect
   ].forEach((version) => {
     assert.throws(() => validate(version, directory), /canonical SemVer/)
   })
-  assert.throws(() => validate('1.2.4', directory), /lerna.json/)
+  assert.throws(() => validate('1.2.4', directory), /Root package.json/)
   write('packages/b/package.json', {name: 'b', version: '1.2.2'})
   assert.throws(() => validate('1.2.3', directory), /b does not match/)
   write('packages/b/package.json', {name: 'b', version: '1.2.3'})
@@ -83,7 +84,7 @@ test('accepts arbitrary prereleases and distinguishes hyphens in build metadata'
     '1.2.3-preview.feature.10+build-1',
     '1.2.3+build-with-hyphens'
   ].forEach((version) => {
-    write('lerna.json', {version})
+    write('package.json', {private: true, version})
     write('packages/a/package.json', {name: 'a', version, dependencies: {b: version}})
     write('packages/b/package.json', {name: 'b', version})
     write('changelog.md', `## ${version} (2026-01-01)\n\nRelease notes\n`)
@@ -100,6 +101,40 @@ test('requires exact workspace dependencies but preserves peer ranges', (t) => {
   write('packages/a/package.json', {name: 'a', version: '1.2.3', dependencies: {b: '^1.2.3'}})
   assert.throws(() => validate('1.2.3', directory), /exact version/)
   write('packages/a/package.json', {name: 'a', version: '1.2.3', peerDependencies: {b: '^1.0.0'}})
+  assert.strictEqual(validate('1.2.3', directory).length, 2)
+})
+
+test('prepares synchronized versions, exact dependencies, notes, and README links', (t) => {
+  const {directory, write} = fixture(t)
+  write('packages/a/package.json', {
+    name: 'a',
+    version: '1.2.3',
+    dependencies: {b: '1.2.3', external: '^2.0.0'},
+    devDependencies: {b: '1.2.3'},
+    optionalDependencies: {b: '1.2.3'},
+    peerDependencies: {b: '^1.0.0'}
+  })
+  write('packages/a/readme.md', 'https://cssinjs.org/setup?v=v1.2.3')
+  assert.strictEqual(bumpVersion('patch', directory), '1.2.4')
+  const pkg = JSON.parse(fs.readFileSync(path.join(directory, 'packages/a/package.json')))
+  assert.strictEqual(pkg.version, '1.2.4')
+  ;['dependencies', 'devDependencies', 'optionalDependencies'].forEach((field) => {
+    assert.strictEqual(pkg[field].b, '1.2.4')
+  })
+  assert.strictEqual(pkg.dependencies.external, '^2.0.0')
+  assert.strictEqual(pkg.peerDependencies.b, '^1.0.0')
+  assert.match(fs.readFileSync(path.join(directory, 'packages/a/readme.md'), 'utf8'), /v1.2.4/)
+  assert.strictEqual(validate('1.2.4', directory).length, 2)
+  assert.strictEqual(bumpVersion('preminor', directory), '1.3.0-alpha.0')
+  assert.strictEqual(bumpVersion('prerelease', directory), '1.3.0-alpha.1')
+  assert.strictEqual(bumpVersion('minor', directory), '1.3.0')
+  assert.throws(() => bumpVersion('invalid', directory), /Unsupported/)
+})
+
+test('rejects invalid preparation before changing package versions', (t) => {
+  const {directory, write} = fixture(t)
+  write('changelog.md', '## 1.2.3 (today)\nNotes\n')
+  assert.throws(() => bumpVersion('patch', directory), /Next changelog/)
   assert.strictEqual(validate('1.2.3', directory).length, 2)
 })
 
@@ -268,6 +303,7 @@ test('runs with staged tinyexec and verkit without workspace dependencies', (t) 
 test('scopes all publishing npm calls to external artifacts, preserving upload flags', (t) => {
   const {directory, write} = fixture(t)
   write('package.json', {
+    version: '1.2.3',
     devEngines: {packageManager: {name: 'pnpm', version: '12.18.0', onFail: 'download'}}
   })
   const destination = fs.mkdtempSync(path.join(os.tmpdir(), 'jss-publish-artifacts-'))

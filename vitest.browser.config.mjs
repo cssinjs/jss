@@ -4,7 +4,7 @@ import {transformAsync} from '@babel/core'
 import {defineConfig} from 'vitest/config'
 import {playwright} from '@vitest/browser-playwright'
 
-const {version} = JSON.parse(readFileSync(new URL('./lerna.json', import.meta.url), 'utf8'))
+const {version} = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'))
 
 export default defineConfig({
   resolve: {

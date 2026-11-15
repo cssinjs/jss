@@ -5,7 +5,7 @@ const path = require('path')
 const crypto = require('crypto')
 const {xSync} = require('tinyexec')
 // The legacy ESLint resolver does not support verkit's package exports.
-const {isValid, normalizeFull, compare, isPrerelease, tryParse} = require('verkit') // eslint-disable-line import/no-unresolved
+const {isValid, normalizeFull, compare, isPrerelease, tryParse, increment} = require('verkit') // eslint-disable-line import/no-unresolved
 
 const root = path.resolve(__dirname, '..')
 const registry = 'https://registry.npmjs.org/'
@@ -69,8 +69,8 @@ function validate(version, directory = root) {
     throw new Error(
       'Use a canonical SemVer version with safe-integer numeric prerelease identifiers'
     )
-  if (readJson(path.join(directory, 'lerna.json')).version !== version) {
-    throw new Error(`lerna.json does not match ${version}`)
+  if (readJson(path.join(directory, 'package.json')).version !== version) {
+    throw new Error(`Root package.json does not match ${version}`)
   }
   const list = packages(directory)
   if (!list.length) throw new Error('No public packages found')
@@ -84,42 +84,46 @@ function validate(version, directory = root) {
         }
       })
     })
-    // Peer ranges are intentionally not rewritten by Lerna.
+    // Peer ranges are intentionally not rewritten during release preparation.
   })
   releaseNotes(fs.readFileSync(path.join(directory, 'changelog.md'), 'utf8'), version)
   return list
 }
 
-function prepare(bump) {
+function bumpVersion(bump, directory = root) {
   if (
     !['patch', 'minor', 'major', 'prerelease', 'prepatch', 'preminor', 'premajor'].includes(bump)
   ) {
     throw new Error('Unsupported version increment')
   }
-  if (run('git', ['branch', '--show-current']) !== 'master')
-    throw new Error('Prepare releases from master')
-  if (run('git', ['status', '--porcelain'])) throw new Error('Working tree must be clean')
-  run(
-    'pnpm',
-    [
-      'exec',
-      'lerna',
-      'version',
-      bump,
-      '--no-git-tag-version',
-      '--no-push',
-      '--exact',
-      '--force-publish=*',
-      '--preid=alpha',
-      '--yes'
-    ],
-    {stdio: 'inherit'}
-  )
-  const {version} = readJson(path.join(root, 'lerna.json'))
-  const filename = path.join(root, 'changelog.md')
+  const rootFilename = path.join(directory, 'package.json')
+  const manifest = readJson(rootFilename)
+  const list = validate(manifest.version, directory)
+  const version = increment(manifest.version, bump, {identifier: 'alpha'})
+  if (!isReleaseVersion(version)) throw new Error('Invalid incremented release version')
+  const filename = path.join(directory, 'changelog.md')
   const content = fs.readFileSync(filename, 'utf8')
   const heading = '## Next (version and date will be generated, add changes below)'
   if (content.split(heading).length !== 2) throw new Error('Expected one Next changelog heading')
+  const writeJson = (location, value) =>
+    fs.writeFileSync(location, `${JSON.stringify(value, null, 2)}\n`)
+  list.forEach(({location, ...pkg}) => {
+    pkg.version = version
+    ;['dependencies', 'devDependencies', 'optionalDependencies'].forEach((field) => {
+      Object.keys(pkg[field] || {}).forEach((name) => {
+        if (list.some((entry) => entry.name === name)) pkg[field][name] = version
+      })
+    })
+    writeJson(path.join(location, 'package.json'), pkg)
+    const readme = path.join(location, 'readme.md')
+    if (fs.existsSync(readme)) {
+      fs.writeFileSync(
+        readme,
+        fs.readFileSync(readme, 'utf8').split(`?v=v${manifest.version}`).join(`?v=v${version}`)
+      )
+    }
+  })
+  writeJson(rootFilename, {...manifest, version})
   fs.writeFileSync(
     filename,
     content.replace(
@@ -127,7 +131,15 @@ function prepare(bump) {
       `${heading}\n\n## ${version} (${new Date().toISOString().slice(0, 10)})`
     )
   )
-  validate(version)
+  validate(version, directory)
+  return version
+}
+
+function prepare(bump) {
+  if (run('git', ['branch', '--show-current']) !== 'master')
+    throw new Error('Prepare releases from master')
+  if (run('git', ['status', '--porcelain'])) throw new Error('Working tree must be clean')
+  bumpVersion(bump)
 }
 
 function integrity(filename) {
@@ -308,6 +320,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  bumpVersion,
   validate,
   releaseTag,
   releaseNotes,

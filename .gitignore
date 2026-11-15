@@ -8,7 +8,6 @@ dist
 coverage
 __screenshots__
 .vitest-attachments
-lerna-debug.log
 yarn-error.log
 .idea
 .vscode

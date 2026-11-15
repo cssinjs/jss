@@ -72,13 +72,14 @@ pnpm build
 
 Use `patch`, `minor`, or `major` for stable releases; `prepatch`, `preminor`, or `premajor`
 starts a prerelease sequence with the default `alpha` identifier, and `prerelease` advances it.
-Preparation runs Lerna without committing, tagging, or publishing. Lerna uses its npm
-client for versioning; pnpm updates `pnpm-lock.yaml` afterward.
+Preparation updates the root `package.json` version, all public workspace package versions,
+exact internal dependencies, README version links, and changelog without committing, tagging,
+or publishing. pnpm updates `pnpm-lock.yaml` afterward.
 
 Then format the changed files, create a release branch, and commit the version files,
 changelog, lockfile, and package READMEs. Open a normal PR for human review of versions,
-dependency changes, and release notes; let CI pass, then merge normally. Lerna does not
-update peer dependency ranges automatically; review them separately.
+dependency changes, and release notes; let CI pass, then merge normally. Preparation leaves
+peer dependency ranges unchanged; review them separately.
 
 ## Publish
 
