@@ -118,6 +118,48 @@ jss.setup({
 })
 ```
 
+## Using a `CSSStyleSheet` instance for secure style injection
+
+For environments with strict Content Security Policy (CSP) settings, JSS now supports injecting styles into a `CSSStyleSheet` instance. This approach is particularly useful when inline styles are restricted and a nonce value is unavailable or not exposed.
+
+### Example
+
+Create a `CSSStyleSheet` instance and pass it to JSS during setup:
+
+```javascript
+import jss from 'jss'
+
+const sheet = new CSSStyleSheet()
+document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet]
+
+jss.setup({
+  insertionPoint: sheet // Pass the CSSStyleSheet instance
+})
+
+// Create your style.
+const style = {
+  myButton: {
+    color: 'green'
+  }
+}
+
+// Compile styles, apply plugins.
+const jssSheet = jss.createStyleSheet(style)
+
+// Inject styles directly into the provided CSSStyleSheet.
+jssSheet.attach()
+```
+
+### Benefits
+
+- Enables secure style injection into a `CSSStyleSheet` instance, avoiding inline styles.
+- Works seamlessly in CSP-enabled applications where the nonce attribute cannot be used or accessed.
+
+### Notes
+
+- This feature is an alternative to nonce-based CSP compliance. Both approaches are supported.
+- Ensure the provided `CSSStyleSheet` instance is valid and adopted by the document where styles need to be applied.
+
 ## Configuring Content Security Policy
 
 You might need to set the `style-src` CSP directive, but do not want to set it to `unsafe-inline`. See [these instructions for configuring CSP](csp.md).
