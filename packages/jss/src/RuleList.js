@@ -114,7 +114,10 @@ export default class RuleList {
   remove(rule) {
     this.unregister(rule)
     delete this.raw[rule.key]
-    this.index.splice(this.index.indexOf(rule), 1)
+    const index = this.index.findIndex(v => v.key === rule.key);
+    if (index > -1) {
+        this.index.splice(index, 1)
+    }
   }
 
   /**
